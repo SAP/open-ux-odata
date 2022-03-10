@@ -1,38 +1,29 @@
-# Contributing
+# Contributing to Open UX OData
+## 📖 Content
 
-## Code of Conduct
+ * [Contributing Code](#how-to-contribute)
 
-All members of the project community must abide by the [Contributor Covenant, version 2.1](CODE_OF_CONDUCT.md).
-Only by respecting each other we can develop a productive, collaborative community.
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting [a project maintainer](.reuse/dep5).
+## 💻 Contributing Code
+### General Remarks
+You are welcome to contribute code to the Open UX OData in order to fix bugs or to implement new features.
 
-## Engaging in Our Project
+There are three important things to know:
 
-We use GitHub to manage reviews of pull requests.
+1. You must be aware of the Apache License (which describes contributions) and **accept the Developer Certificate of Origin**. This is common practice in major Open Source projects. To make this process as simple as possible, we are using *[CLA assistant](https://cla-assistant.io/)* for individual contributions. CLA assistant is an open source tool that integrates with GitHub very well and enables a one-click experience for accepting the CLA. For company contributors, special rules apply. See the respective section below for details.
+2. Follow our **[Development Conventions and Guidelines](/docs/Guidelines.md)**.
+3. **Not all proposed contributions can be accepted**. Some features may just fit a third-party add-on better. The code must match the overall direction of the Open UX OData and improve it. So there should be some "bang for the byte". For most bug fixes this is a given, but a major feature implementation first needs to be discussed with one of the committers. Possibly, one who touched the related code or module recently. The more effort you invest, the better you should clarify in advance whether the contribution will match the project's direction. The best way would be to just open an enhancement ticket in the issue tracker to discuss the feature you plan to implement (make it clear that you intend to contribute). We will then forward the proposal to the respective code owner. This avoids disappointment.
 
-* If you are a new contributor, see: [Steps to Contribute](#steps-to-contribute)
+## Developer Certificate of Origin (DCO)
 
-* Before implementing your change, create an issue that describes the problem you would like to solve or the code that should be enhanced. Please note that you are willing to work on that issue.
+Due to legal reasons, contributors will be asked to accept a DCO before they submit the first pull request to this projects, this happens in an automated fashion during the submission process. SAP uses [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
 
-* The team will review the issue and decide whether it should be implemented as a pull request. In that case, they will assign the issue to you. If the team decides against picking up the issue, the team will post a comment with an explanation.
-
-## Steps to Contribute
-
-Should you wish to work on an issue, please claim it first by commenting on the GitHub issue that you want to work on. This is to prevent duplicated efforts from other contributors on the same issue.
-
-If you have questions about one of the issues, please comment on them, and one of the maintainers will clarify.
-
-## Contributing Code or Documentation
-
-You are welcome to contribute code in order to fix a bug or to implement a new feature that is logged as an issue.
-
-The following rule governs code contributions:
-
-* Contributions must be licensed under the [Apache 2.0 License](./LICENSE)
-* Due to legal reasons, contributors will be asked to accept a Developer Certificate of Origin (DCO) when they create the first pull request to this project. This happens in an automated fashion during the submission process. SAP uses [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
-
-## Issues and Planning
-
-* We use GitHub issues to track bugs and enhancement requests.
-
-* Please provide as much context as possible when you open an issue. The information you provide must be comprehensive enough to reproduce that issue for the assignee.
+## How to Contribute
+1. Make sure the change is welcome (see [General Remarks](#general-remarks)).
+1. Create a branch by forking the relevant Open UX OData repository and apply your change.
+1. Commit and push your change on that branch.
+    - **Please follow our [Development Conventions and Guidelines](/docs/Guidelines.md).**
+1. Create a pull request in the Open UX OData repository.
+1. Follow the link posted by the CLA assistant to your pull request and accept it, as described above.
+1. Wait for our code review and approval, possibly enhancing your change on request.
+1. Once the change has been approved and merged, we will inform you in a comment.
+1. Celebrate!
