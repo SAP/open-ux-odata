@@ -1,12 +1,12 @@
 
 # Open UX OData
 
-[![Build status](https://github.com/SAP/open-ux-tools/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/SAP/open-ux-tools/actions/workflows/pipeline.yml?query=branch%3Amain)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-tools&metric=bugs)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-tools)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-tools&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-tools)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-tools&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-tools)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-tools&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-tools)
-[![REUSE status](https://api.reuse.software/badge/github.com/SAP/open-ux-tools)](https://api.reuse.software/info/github.com/SAP/open-ux-tools)
+[![Build status](https://github.com/SAP/open-ux-odata/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/SAP/open-ux-odata/actions/workflows/pipeline.yml?query=branch%3Amain)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-odata&metric=bugs)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-odata)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-odata&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-odata)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-odata&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-odata)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-odata&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-odata)
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP/open-ux-odata)](https://api.reuse.software/info/github.com/SAP/open-ux-odata)
 
 TBD
 
@@ -112,4 +112,4 @@ Everyone participating in this joint project is welcome as long as our [Code of 
 
 ## Licensing
 
-Copyright (2021) SAP SE and `open-ux-tools` contributors. Please see our [LICENSE](./LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available via the [REUSE tool](https://api.reuse.software/info/github.com/SAP/open-ux-odata).
+Copyright (2021) SAP SE and `open-ux-odata` contributors. Please see our [LICENSE](./LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available via the [REUSE tool](https://api.reuse.software/info/github.com/SAP/open-ux-odata).
