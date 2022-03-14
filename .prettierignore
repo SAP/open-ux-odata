@@ -1,0 +1,5 @@
+*.md
+dist/
+node_modules/
+typings/
+**/__snapshots__
