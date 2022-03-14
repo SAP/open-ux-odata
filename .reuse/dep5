@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Open-UX-Tools
+Upstream-Name: Open-UX-OData
 Upstream-Contact: sapfiorielements@sap.com
-Source: https://github.com/SAP/open-ux-tools
+Source: https://github.com/SAP/open-ux-odata
 Disclaimer: The code in this project may include calls to APIs (“API Calls”) of
  SAP or third-party products or services developed outside of this project
  (“External Products”).
