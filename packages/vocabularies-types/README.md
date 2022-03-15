@@ -18,26 +18,14 @@ pnpm
 
 ## Usage
 
+Add this to your project as a dev dependency and add it to the types section of your ts-config.json
 
-```Typescript
-import { generate } from '@sap-ux/fe-fpm-writer';
-import { join } from 'path';
-
-const projectDir = join(__dirname, 'test/test-input/basic-lrop');
-const fs = await generateCustomPage(
-    targetPath,
-    {
-        name: 'MyCustomPage',
-        entity: 'Booking',
-        navigation: {
-            sourceEntity: 'Travel',
-            sourcePage: 'TravelObjectPage',
-            navEntity: '_Booking'
-        }
-});
-
-fs.commit();
-
+```
+...
+"compilerOptions": {
+    "types": ["@sap-ux/vocabularies-types"]
+}
+...
 ```
 
 ## Keywords
