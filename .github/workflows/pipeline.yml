@@ -45,12 +45,12 @@ jobs:
               run: pnpm run lint
             - name: Run unit tests
               run: pnpm run test
-            - name: Run SonarCloud scan
-              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '12.x'
-              uses: sonarsource/sonarcloud-github-action@master
-              env:
-                  GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #            - name: Run SonarCloud scan
+    #              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '12.x'
+    #              uses: sonarsource/sonarcloud-github-action@master
+    #              env:
+    #                  GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+    #                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     version:
         # Run version job only on pushes to the main branch. The job depends on completion of the build job.
