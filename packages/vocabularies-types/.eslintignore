@@ -1,3 +1,5 @@
 src/vocabularies
 vocabularies
 index.d.ts
+BaseEdm.d.ts
+Edm.d.ts
