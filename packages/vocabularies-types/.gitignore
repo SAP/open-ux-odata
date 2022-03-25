@@ -1,1 +1,3 @@
-src/generated
+src/vocabularies
+vocabularies
+*.d.ts

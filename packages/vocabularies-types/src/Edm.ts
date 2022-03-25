@@ -1,7 +1,30 @@
 // PURE EDM Types
-import type { EntityType as _EntityType, Action as _Action, Property, NavigationProperty } from './Converter';
-import type { RecordAnnotations, TermAnnotations, AnnotationAnnotations } from './generated/Edm_Types';
-
+import type {
+    ActionAnnotations,
+    ActionImportAnnotations,
+    AnnotationAnnotations,
+    ComplexTypeAnnotations,
+    EntityContainerAnnotations,
+    EntitySetAnnotations,
+    EntityTypeAnnotations,
+    EnumTypeAnnotations,
+    FunctionAnnotations,
+    FunctionImportAnnotations,
+    IncludeAnnotations,
+    NavigationPropertyAnnotations,
+    ParameterAnnotations,
+    PropertyAnnotations,
+    ReferenceAnnotations,
+    ReturnTypeAnnotations,
+    SchemaAnnotations,
+    SingletonAnnotations,
+    TermAnnotations,
+    TypeDefinitionAnnotations,
+    PropertyValueAnnotations,
+    RecordAnnotations,
+    CollectionAnnotations
+} from './vocabularies/Edm_Types';
+import type { AnnotationList, FullyQualifiedName, SimpleIdentifier } from './BaseEdm';
 // Generated EDM Types for the converter
 
 export type PropertyPath = {
@@ -238,11 +261,272 @@ export type PrimitiveType =
 
 export type EnumValue<P> = P | PathAnnotationExpression<P> | ApplyAnnotationExpression<P> | IfAnnotationExpression<P>;
 
-export type ComplexType = {
-    annotations?: RecordAnnotations;
-};
-
 export type String = InstanceType<StringConstructor>;
 export type Boolean = InstanceType<BooleanConstructor>;
-export type EntityType = _EntityType;
-export type Action = _Action;
+
+export type AnyAnnotation =
+    | EnumTypeAnnotations
+    | PropertyValueAnnotations
+    | IncludeAnnotations
+    | ReferenceAnnotations
+    | ActionAnnotations
+    | FunctionImportAnnotations
+    | ActionImportAnnotations
+    | TypeDefinitionAnnotations
+    | SingletonAnnotations
+    | EntityContainerAnnotations
+    | FunctionAnnotations
+    | ReturnTypeAnnotations
+    | ParameterAnnotations
+    | ComplexTypeAnnotations
+    | TermAnnotations
+    | RecordAnnotations
+    | SchemaAnnotations
+    | AnnotationAnnotations
+    | EntitySetAnnotations
+    | EntityTypeAnnotations
+    | PropertyAnnotations
+    | NavigationPropertyAnnotations;
+
+export type Property = {
+    _type: 'Property';
+    name: SimpleIdentifier;
+    type: FullyQualifiedName;
+    fullyQualifiedName: FullyQualifiedName;
+    maxLength?: number;
+    precision?: number;
+    scale?: number;
+    nullable?: boolean;
+    defaultValue?: string | boolean | number;
+    unicode?: boolean;
+    annotations: PropertyAnnotations;
+    targetType?: ComplexType | TypeDefinition;
+    isKey: boolean;
+};
+
+export type ComplexType = {
+    _type: 'ComplexType';
+    name: SimpleIdentifier;
+    fullyQualifiedName: FullyQualifiedName;
+    properties: Property[];
+    navigationProperties: NavigationProperty[];
+    annotations: ComplexTypeAnnotations;
+};
+
+export type TypeDefinition = {
+    _type: 'TypeDefinition';
+    name: SimpleIdentifier;
+    fullyQualifiedName: FullyQualifiedName;
+    underlyingType: string;
+    annotations: TypeDefinitionAnnotations;
+};
+
+export type NavigationProperty = SingleNavigationProperty | MultipleNavigationProperty;
+
+export type ReferentialConstraint = {
+    sourceTypeName: FullyQualifiedName;
+    sourceProperty: SimpleIdentifier;
+    targetTypeName: FullyQualifiedName;
+    targetProperty: SimpleIdentifier;
+};
+
+export type BaseNavigationProperty = {
+    _type: 'NavigationProperty';
+    name: SimpleIdentifier;
+    partner: string;
+    fullyQualifiedName: FullyQualifiedName;
+    targetTypeName: FullyQualifiedName;
+    targetType: EntityType;
+    annotations: NavigationPropertyAnnotations;
+    isCollection: boolean;
+    containsTarget: boolean;
+    referentialConstraint?: ReferentialConstraint[];
+};
+export type SingleNavigationProperty = BaseNavigationProperty & {
+    isCollection: false;
+    annotations: NavigationPropertyAnnotations;
+};
+export type MultipleNavigationProperty = BaseNavigationProperty & {
+    isCollection: true;
+    annotations: NavigationPropertyAnnotations | CollectionAnnotations;
+};
+
+export type EntityType = {
+    _type: 'EntityType';
+    fullyQualifiedName: FullyQualifiedName;
+    entityProperties: Property[];
+    keys: Property[];
+    navigationProperties: NavigationProperty[];
+    actions: Record<string, Action>;
+    annotations: EntityTypeAnnotations;
+    name: SimpleIdentifier;
+    resolvePath(relativePath: string, includeVisitedObjects?: boolean): any;
+};
+
+export type EntitySet = {
+    _type: 'EntitySet';
+    name: SimpleIdentifier;
+    entityTypeName: FullyQualifiedName;
+    entityType: EntityType;
+    fullyQualifiedName: SimpleIdentifier;
+    navigationPropertyBinding: Record<string, EntitySet | Singleton>;
+    annotations: EntitySetAnnotations;
+};
+
+export type Singleton = {
+    _type: 'Singleton';
+    name: SimpleIdentifier;
+    entityTypeName: FullyQualifiedName;
+    fullyQualifiedName: SimpleIdentifier;
+    entityType: EntityType;
+    nullable: boolean;
+    navigationPropertyBinding: Record<string, Singleton | EntitySet>; //above for entity set?
+    annotations: SingletonAnnotations;
+};
+
+export type EntityContainer = {
+    _type: 'EntityContainer';
+    name?: string;
+    fullyQualifiedName?: string;
+    annotations: EntityContainerAnnotations;
+};
+
+export type ActionParameter = {
+    _type: 'ActionParameter';
+    isEntitySet: boolean;
+    name: string;
+    fullyQualifiedName: string;
+    type: string;
+    annotations: ParameterAnnotations;
+};
+export type Action = {
+    _type: 'Action';
+    name: SimpleIdentifier;
+    fullyQualifiedName: SimpleIdentifier;
+    isBound: boolean;
+    sourceType: string;
+    returnType: string;
+    isFunction: boolean;
+    sourceEntityType?: EntityType;
+    returnEntityType?: EntityType;
+    annotations: ActionAnnotations;
+    parameters: ActionParameter[];
+};
+
+export type ServiceObject =
+    | EntitySet
+    | EntityType
+    | Property
+    | ComplexType
+    | NavigationProperty
+    | Action
+    | EntityContainer;
+export type ServiceObjectAndAnnotation = ServiceObject | AnyAnnotation;
+
+export type ResolutionTarget<T> = {
+    target: null | T;
+    objectPath: ServiceObjectAndAnnotation[];
+};
+
+export type Reference = {
+    uri: string;
+    alias: string;
+    namespace: string;
+};
+
+export type ConvertedMetadata = {
+    version: string;
+    annotations: Record<string, AnnotationList[]>;
+    namespace: string;
+    actions: Action[];
+    entityContainer: EntityContainer;
+    complexTypes: ComplexType[];
+    typeDefinitions: TypeDefinition[];
+    entitySets: EntitySet[];
+    singletons: Singleton[];
+    entityTypes: EntityType[];
+    references: Reference[];
+    diagnostics: { message: string }[];
+    resolvePath: <T>(path: string) => ResolutionTarget<T>;
+};
+
+// All the Raw types are meant for usage when providing data to the converter
+
+// Removes things which will be provided by the converter, annotations, targetType and other things to improve usability
+type RemoveAnnotationAndType<T> = {
+    [K in keyof Omit<
+        T,
+        'annotations' | 'targetType' | 'isKey' | 'resolvePath' | 'entityType' | 'navigationProperties'
+    >]: T[K] extends object
+        ? T[K] extends Array<infer Item>
+            ? RemoveAnnotationAndType<Item>[]
+            : RemoveAnnotationAndType<T[K]>
+        : T[K];
+};
+export type RawMetadata = {
+    identification: string;
+    version: string;
+    schema: RawSchema;
+    references: Reference[];
+};
+export type RawAssociation = {
+    name: SimpleIdentifier;
+    fullyQualifiedName: FullyQualifiedName;
+    associationEnd: RawAssociationEnd[];
+    referentialConstraints: ReferentialConstraint[];
+};
+
+export type RawAssociationSet = {
+    name: SimpleIdentifier;
+    fullyQualifiedName: FullyQualifiedName;
+    association: string;
+    associationEnd: RawAssociationSetEnd[];
+};
+
+export type RawAssociationEnd = {
+    type: FullyQualifiedName;
+    role: SimpleIdentifier;
+    multiplicity: string;
+};
+
+export type RawAssociationSetEnd = {
+    entitySet: FullyQualifiedName;
+    role: SimpleIdentifier;
+};
+export type RawSchema = {
+    namespace: string;
+    associations: RawAssociation[];
+    associationSets: RawAssociationSet[];
+    annotations: { [id: string]: AnnotationList[] };
+    entitySets: RawEntitySet[];
+    singletons: RawSingleton[];
+    complexTypes: RawComplexType[];
+    typeDefinitions: RawTypeDefinition[];
+    entityContainer: RawEntityContainer;
+    actions: RawAction[];
+    entityTypes: RawEntityType[];
+};
+
+export type RawAction = RemoveAnnotationAndType<Action>;
+export type RawEntityType = RemoveAnnotationAndType<EntityType> & {
+    navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
+};
+export type RawEntitySet = RemoveAnnotationAndType<EntitySet>;
+export type RawProperty = RemoveAnnotationAndType<Property>;
+export type RawSingleton = RemoveAnnotationAndType<Singleton>;
+export type RawEntityContainer = RemoveAnnotationAndType<EntityContainer>;
+export type RawTypeDefinition = RemoveAnnotationAndType<TypeDefinition>;
+export type RawComplexType = RemoveAnnotationAndType<ComplexType> & {
+    navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
+};
+export type RawV2NavigationProperty = {
+    _type: 'NavigationProperty';
+    name: SimpleIdentifier;
+    fullyQualifiedName: FullyQualifiedName;
+    relationship: FullyQualifiedName;
+    toRole: SimpleIdentifier;
+    fromRole: SimpleIdentifier;
+    referentialConstraint?: ReferentialConstraint[];
+};
+
+export type RawV4NavigationProperty = RemoveAnnotationAndType<BaseNavigationProperty>;
