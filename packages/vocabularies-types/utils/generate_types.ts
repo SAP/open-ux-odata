@@ -578,7 +578,7 @@ async function generateTypes(targetFolder: string) {
     await writeFile(path.join(targetFolder, `TermToTypes.ts`), edmTermToTypes);
 }
 
-generateTypes(path.join(__dirname, '../src/generated'))
+generateTypes(path.join(__dirname, '../src/vocabularies'))
     .then(() => {
         console.log('File generated successfully');
     })
