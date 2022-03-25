@@ -1,0 +1,299 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2677"],
+        "archeType": "analytical"
+    },
+    "sap.app": {
+        "id": "scm.tm.freightbookingexecutionovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "TM-CF-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_FRTBKGEXECUTIONQUERY_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FRTBKGEXECUTIONQUERY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_FRTBKGEXECUTIONQUERY_CDS/metadata.xml",
+                    "annotations": ["C_FrtBkgExecutionQuery_CDS_VAN"]
+                }
+            },
+            "C_FrtBkgExecutionQuery_CDS_VAN": {
+                "uri": "localService/C_FRTBKGEXECUTIONQUERY_CDS/C_FrtBkgExecutionQuery_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_FRTBKGEXECUTIONQUERY_CDS/C_FrtBkgExecutionQuery_CDS_VAN.xml"
+                }
+            },
+            "C_FRTBKGEXECUTIONSTSQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FRTBKGEXECUTIONSTSQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_FRTBKGEXECUTIONSTSQ_CDS/metadata.xml",
+                    "annotations": ["C_FrtBkgExecutionStsQ_CDS_VAN"]
+                }
+            },
+            "C_FrtBkgExecutionStsQ_CDS_VAN": {
+                "uri": "localService/C_FRTBKGEXECUTIONSTSQ_CDS/C_FrtBkgExecutionStsQ_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_FRTBKGEXECUTIONSTSQ_CDS/C_FrtBkgExecutionStsQ_CDS_VAN.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "dependencies": {
+            "minUI5Version": "1.56.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.44.3"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_FRTBKGEXECUTIONQUERY_CDS": {
+                "preload": true,
+                "dataSource": "C_FRTBKGEXECUTIONQUERY_CDS",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "C_FRTBKGEXECUTIONSTSQ_CDS": {
+                "preload": true,
+                "dataSource": "C_FRTBKGEXECUTIONSTSQ_CDS",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        }
+    },
+
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "C_FRTBKGEXECUTIONQUERY_CDS",
+        "globalFilterEntityType": "C_FRTBKGEXECUTIONQUERYResult",
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "scm.tm.freightbookingexecutionovps1_card01": {
+                "model": "C_FRTBKGEXECUTIONSTSQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_torLCStatus_title}}",
+                    "subTitle": "{{card_List_torLCStatus_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONSTSQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfTransportationOrders",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TorLCStatusExecRelevant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TorLCStatus",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TorLCStatus",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card02": {
+                "model": "C_FRTBKGEXECUTIONSTSQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_torExecBlockRsn_title}}",
+                    "subTitle": "{{card_List_torExecBlockRsn_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONSTSQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfTransportationOrders",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TranspOrdExecutionIsBlocked",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TorExecBlockRsn",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TorExecBlockRsn",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card03": {
+                "model": "C_FRTBKGEXECUTIONSTSQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_torPlngBlockRsn_title}}",
+                    "subTitle": "{{card_List_torPlngBlockRsn_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONSTSQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfTransportationOrders",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TranspOrdPlanningBlocked",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TorPlngBlockRsn",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TorPlngBlockRsn",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card06": {
+                "model": "C_FRTBKGEXECUTIONSTSQ_CDS",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "addODataSelect": true,
+                    "title": "{{card_Stack_delayedInTransit_title}}",
+                    "entitySet": "C_FRTBKGEXECUTIONSTSQResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelayedInTransit",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#DelayedInTransitStack",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ALP",
+                    "objectStreamCardsSettings": {
+                        "title": "{{object_stream_cards_title}}",
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#DelayedInTransitStack",
+                        "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DelayedInTransitStack"
+                    }
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card07": {
+                "model": "C_FRTBKGEXECUTIONQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_blockingDiscr_title}}",
+                    "subTitle": "{{card_List_blockingDiscr_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfTranspOrdEvents",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TranspOrdIsDiscrepantBlock",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#BlockingDiscr",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfTranspOrdEvents",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Discrepancy",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card08": {
+                "model": "C_FRTBKGEXECUTIONQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_nonBlockingDiscr_title}}",
+                    "subTitle": "{{card_List_nonBlockingDiscr_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfTranspOrdEvents",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TranspOrdIsDscrptWthoutBlk",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#NonBlockingDiscr",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfTranspOrdEvents",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Discrepancy",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card09": {
+                "model": "C_FRTBKGEXECUTIONQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_carrierOnTime_title}}",
+                    "subTitle": "{{card_List_carrierOnTime_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "TransportationOrderOnTimeRatio",
+                    "sortOrder": "ascending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TranspOrdEventIsTimeRelevant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CarrierOnTime",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Carrier",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card10": {
+                "model": "C_FRTBKGEXECUTIONQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_locationOnTime_title}}",
+                    "subTitle": "{{card_List_locationOnTime_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "TransportationOrderOnTimeRatio",
+                    "sortOrder": "ascending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TranspOrdEventIsTimeRelevant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LocationOnTime",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Location",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card11": {
+                "model": "C_FRTBKGEXECUTIONQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_eventOnTime_title}}",
+                    "subTitle": "{{card_List_eventOnTime_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "TranspOrdEventOnTimeRatio",
+                    "sortOrder": "ascending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TranspOrdEventIsTimeRelevant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#EventOnTime",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TransportationActivity",
+                    "addODataSelect": true
+                }
+            },
+            "scm.tm.freightbookingexecutionovps1_card15": {
+                "model": "C_FRTBKGEXECUTIONQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_unexpectedEvents_title}}",
+                    "subTitle": "{{card_List_unexpectedEvents_subTitle}}",
+                    "entitySet": "C_FRTBKGEXECUTIONQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfTranspOrdEvents",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#UnexpectedEvents",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UnexpectedEvents",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfTranspOrdEvents",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#UnexpectedEvents",
+                    "addODataSelect": true
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/scm.tm.freightbookingexecutionovps1/webapp",
+        "_version": "1.1.0"
+    }
+}

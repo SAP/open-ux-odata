@@ -1,0 +1,856 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="../../../sap/odata_fm_cmtmt_actl_analyses_srv/$metadata">
+		<edmx:Include Namespace="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV" Alias="SAP"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="odata_fm_cmtmt_actl_ana_anno_mdl.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/FinancialManagementArea">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="Common.FilterDefaultValue" String="A000"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/Ledger">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations/>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecBudgetIsRelevant">
+				<Annotation Term="Common.FilterDefaultValue" Bool="true"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/LedgerFiscalYear">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/FiscalPeriod">
+				<Annotation Term="Common.IsFiscalPeriod"/>
+			</Annotations>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecBudgetCnsmpnFsclYear">
+				<Annotation Term="Common.IsFiscalYear"/>
+			</Annotations>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecBudgetCnsmpnFsclPeriod">
+				<Annotation Term="Common.IsFiscalPeriod"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/FiscalYearVariant">
+				<Annotation Term="Common.IsFiscalYearVariant"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/FundAuthznGrp">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/GrantAuthznGrp">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/BudgetPeriodAuthznGrp">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/ID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/Fund">
+				<Annotation Term="Common.SemanticObject" String="Fund"/>
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection>
+						<Record>
+							<PropertyValue Property="LocalProperty" PropertyPath="FinancialManagementArea"/>
+							<PropertyValue Property="SemanticObjectProperty" String="FinancialManagementArea"/>
+						</Record>
+						<Record>
+							<PropertyValue Property="LocalProperty" PropertyPath="Fund"/>
+							<PropertyValue Property="SemanticObjectProperty" String="Fund"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/BudgetPeriod">
+				<Annotation Term="Common.SemanticObject" String="BudgetPeriod"/>
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection>
+						<Record>
+							<PropertyValue Property="LocalProperty" PropertyPath="BudgetPeriod"/>
+							<PropertyValue Property="SemanticObjectProperty" String="BudgetPeriod"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/FunctionalArea">
+				<Annotation Term="Common.SemanticObject" String="FunctionalArea"/>
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection>
+						<Record>
+							<PropertyValue Property="LocalProperty" PropertyPath="FunctionalArea"/>
+							<PropertyValue Property="SemanticObjectProperty" String="FunctionalArea"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/GrantID">
+				<Annotation Term="Common.SemanticObject" String="Grant"/>
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection>
+						<Record>
+							<PropertyValue Property="LocalProperty" PropertyPath="GrantID"/>
+							<PropertyValue Property="SemanticObjectProperty" String="GrantID"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/AccountingDocument">
+				<Annotation Term="Common.SemanticObject" String="AccountingDocument"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/ReferenceDocument">
+				<Annotation Term="Common.SemanticObject" String="AccountingDocument"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PurchasingDocument">
+				<Annotation Term="Common.SemanticObject" String="PurchaseRequisition"/>
+			</Annotations>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/AmountInTransactionCurrency"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/AmountInCompanyCodeCurrency"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/AmountInGlobalCurrency"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecExpnCmtmtAmtInTransCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecExpnActlAmtInTransCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecRevnCmtmtAmtInTransCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecRevnActlAmtInTransCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecExpnCmtmtAmtInCoCodeCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecExpnActlAmtInCoCodeCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecRevnCmtmtAmtInCoCodeCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecRevnActlAmtInCoCodeCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecExpnCmtmtAmtInGlobalCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecExpnActlAmtInGlobalCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecRevnCmtmtAmtInGlobalCrcy"/>
+			<Annotations
+				Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType/PubSecRevnActlAmtInGlobalCrcy"/>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.C_PubSecCmtmtActlAnalysesType">
+				<Annotation Term="UI.Chart" Qualifier="FilterAmountByBudgetConsumptionType">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Amount By Budget Consumption Type"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>PubSecBudgetCnsmpnTypeText</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="PubSecBudgetCnsmpnTypeText"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>AmountInGlobalCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+									<PropertyValue Property="DataPoint"
+												   AnnotationPath="@UI.DataPoint#AmountInGlobalCurrency"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart" Qualifier="FilterAmountByCostCenter">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Amount By Cost Center"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>CostCenter</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="CostCenter"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>AmountInGlobalCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+									<PropertyValue Property="DataPoint"
+												   AnnotationPath="@UI.DataPoint#AmountInGlobalCurrency"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart" Qualifier="FilterAmountByFund">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Amount By Fund"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>Fund</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="Fund"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>AmountInGlobalCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+									<PropertyValue Property="DataPoint"
+												   AnnotationPath="@UI.DataPoint#AmountInGlobalCurrency"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart" Qualifier="FilterAmountByFiscalPeriod">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Amount By Fiscal Period"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Line"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>FiscalPeriod</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="FiscalPeriod"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>AmountInGlobalCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+									<PropertyValue Property="DataPoint"
+												   AnnotationPath="@UI.DataPoint#AmountInGlobalCurrency"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart" Qualifier="FilterAmountByFiscalYear">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Amount By Fiscal Year"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Line"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>FiscalYear</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="FiscalYear"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>AmountInGlobalCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+									<PropertyValue Property="DataPoint"
+												   AnnotationPath="@UI.DataPoint#AmountInGlobalCurrency"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart" Qualifier="Default">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Amount By Fund"/>
+						<PropertyValue Property="Description" String="Amount By Fund"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>Fund</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="Fund"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>AmountInGlobalCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+									<PropertyValue Property="DataPoint"
+												   AnnotationPath="@UI.DataPoint#AmountInGlobalCurrency"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.DataPoint" Qualifier="AmountInGlobalCurrency">
+					<Record>
+						<PropertyValue Property="Value" Path="AmountInGlobalCurrency"/>
+						<PropertyValue Property="Title" String="Amount in Global Currency"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.DataPoint" Qualifier="AmountInTransactionCurrency">
+					<Record>
+						<PropertyValue Property="Value" Path="AmountInTransactionCurrency"/>
+						<PropertyValue Property="Title" String="Amount in Transaction Currency"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="AccountAssignmentNames">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FundName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="BudgetPeriodName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FunctionalAreaName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="GrantName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="WBSDescription"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="GLAccountName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PartnerFunctionalArea"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PartnerFund"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PartnerGrant"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PartnerBudgetPeriod"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="AccountAssignments">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="Fund"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="BudgetPeriod"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FunctionalArea"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="GrantID"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="WBSElementExternalID"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetAccount"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="GeneralInformation">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetAccountCoCode"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CostCenter"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CostCenterName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="GLAccount"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="ReferenceDocument"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="ReferenceDocumentContext"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="ReferenceDocumentType"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="ReferenceDocumentTypeName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PurchasingDocument"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PurchasingDocumentItem"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="AccountingDocument"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="AccountingDocumentType"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="Organization">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FinancialManagementArea"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CompanyCode"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CompanyCodeName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FiscalYear"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FiscalPeriod"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="TransactionCurrency"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="AmountInTransactionCurrency"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CompanyCodeCurrency"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="AmountInCompanyCodeCurrency"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="GlobalCurrency"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="AmountInGlobalCurrency"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetCnsmpnAmtType"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBdgtCnsmpnAmtTypeText"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetCnsmpnType"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetCnsmpnTypeText"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetCnsmpnDate"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetCnsmpnFsclYear"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetCnsmpnFsclPeriod"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PubSecBudgetIsRelevant"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Commitment and Actual Items"/>
+						<PropertyValue Property="TypeNamePlural" String="Commitment and Actual Items"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem" Qualifier="Default">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="FiscalYear"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="Fund"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BudgetPeriod"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CostCenter"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="AmountInGlobalCurrency"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="AmountInTransactionCurrency"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="FilterAmountByBudgetConsumptionType">
+					<Record>
+						<PropertyValue Property="Text" String="Filter: Amt by Budget Consumption Type"/>
+						<PropertyValue Property="MaxItems" Int="3"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#FilterAmountByBudgetConsumptionType</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="FilterAmountByCostCenter">
+					<Record>
+						<PropertyValue Property="Text" String="Filter: Amount by Cost Center"/>
+						<PropertyValue Property="MaxItems" Int="3"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#FilterAmountByCostCenter</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="FilterAmountByFund">
+					<Record>
+						<PropertyValue Property="Text" String="Filter: Amount by Fund"/>
+						<PropertyValue Property="MaxItems" Int="3"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="AmountInGlobalCurrency"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#FilterAmountByFund</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="FilterAmountByFiscalPeriod">
+					<Record>
+						<PropertyValue Property="Text" String="Filter: Amount By Fiscal Period"/>
+						<PropertyValue Property="MaxItems" Int="3"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="FiscalPeriod"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#FilterAmountByFiscalPeriod</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="FilterAmountByFiscalYear">
+					<Record>
+						<PropertyValue Property="Text" String="Filter: Amount By Fiscal Year"/>
+						<PropertyValue Property="MaxItems" Int="3"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="FiscalYear"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#FilterAmountByFiscalYear</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="DefaultPresentationVariant">
+					<Record>
+						<PropertyValue Property="Text" String="Default"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="Fund"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="BudgetPeriod"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="FiscalYear"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="CostCenter"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.LineItem#Default</AnnotationPath>
+								<AnnotationPath>@UI.Chart#Default</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>CompanyCode</PropertyPath>
+						<PropertyPath>FiscalYear</PropertyPath>
+						<PropertyPath>Fund</PropertyPath>
+						<PropertyPath>BudgetPeriod</PropertyPath>
+						<PropertyPath>FunctionalArea</PropertyPath>
+						<PropertyPath>GrantID</PropertyPath>
+						<PropertyPath>PubSecBudgetCnsmpnType</PropertyPath>
+						<PropertyPath>WBSElementExternalID</PropertyPath>
+						<PropertyPath>CostCenter</PropertyPath>
+						<PropertyPath>PubSecBudgetAccount</PropertyPath>
+						<PropertyPath>FiscalPeriod</PropertyPath>
+						<PropertyPath>PubSecBudgetIsRelevant</PropertyPath>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.SelectionPresentationVariant" Qualifier="DefaultVariant">
+					<Record>
+						<PropertyValue Property="Text" String="Commitment and Actual Items"/>
+						<PropertyValue Property="SelectionVariant" Path="@UI.SelectionVariant#DefaultSelectionVariant"/>
+						<PropertyValue Property="PresentationVariant"
+									   Path="@UI.PresentationVariant#DefaultPresentationVariant"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessPartnerVHType/FormOfAddress">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessPartnerVHType/AuthorizationGroup">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessPartnerVHType/IsBusinessPurposeCompleted">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessUserVHType/PersonFullName">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessUserVHType/Building">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessUserVHType/RoomNumber">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessUserVHType/Department">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessUserVHType/IsBusinessPurposeCompleted">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessUserVHType/AuthorizationGroup">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_BusinessUserVHType">
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="LastName"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="FirstName"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_Customer_VHType/CustomerAccountGroup">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_Customer_VHType/AuthorizationGroup">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_Customer_VHType/IsBusinessPurposeCompleted">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_FndsMgmtFuncnlAreaStdVHType/FunctionalArea_Text">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_GrantType/ID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_GrantType/GrantTotalAmountInGrantCrcy"/>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_GrantStdVHType/GrantID_Text">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="ODATA_FM_CMTMT_ACTL_ANALYSES_SRV.I_PubSecBudgetAccountType/PubSecBudgetCnsmpnType">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

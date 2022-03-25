@@ -1,0 +1,213 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "LO-AB",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/UI_LO_SETMAN_PSDOC_MAN/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["UI_LO_SETMAN_PSDOC_MAN_VAN", "annotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "UI_LO_SETMAN_PSDOC_MAN_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='UI_LO_SETMAN_PSDOC_MAN_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/UI_LO_SETMAN_PSDOC_MAN_VAN.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "componentUsages": {
+            "ChangedocReuseComponent": {
+                "name": "sap.nw.core.changedocs.lib.reuse.changedocscomponent"
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                }
+            },
+            "components": {
+                "sap.nw.core.changedocs.lib.reuse": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|PersSettlmtDoc": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/PersSettlmtDoc/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|PersSettlmtDoc": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/PersSettlmtDoc/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ci.settleman.psdoc.manages1.ext.controller.CustomFiltersController"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ci.settleman.psdoc.manages1.ext.controller.OPController",
+                        "sap.ui.generic.app": {
+                            "PersSettlmtDoc": {
+                                "EntitySet": "PersSettlmtDoc",
+                                "Header": {
+                                    "Actions": {
+                                        "pressMoreDetails": {
+                                            "id": "BtnAccountAssignment",
+                                            "text": "{@i18n>BTN_ACCOUNT_ASSIGNMENT}",
+                                            "press": "handleShowAccountAssignment"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "objectPageHeaderType": "Dynamic",
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|PersSettlmtDoc": {
+                "entitySet": "PersSettlmtDoc",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|PersSettlmtDoc": {
+                        "entitySet": "PersSettlmtDoc",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": true,
+                                "showRelatedApps": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "changedoccomponent": {
+                                "id": "changedoccomponent",
+                                "componentUsage": "ChangedocReuseComponent",
+                                "title": "{{reuseTitle}}",
+                                "settings": {
+                                    "objectClass": ["AGENCY"],
+                                    "objectId": "{parts: [{path: 'ChangeDocObject'}], formatter: 'sap.nw.core.changedocs.lib.reuse.changedocscomponent.arrayFormatter'}",
+                                    "startDate": "{CreationDate}"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3808"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

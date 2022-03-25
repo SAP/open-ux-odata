@@ -1,0 +1,226 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "ui.s2p.mm.inventoryanalystovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "MM-FIO-IM-OVP",
+        "resources": "resources.json",
+        "dataSources": {
+            "MMIM_INVANALYST_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_INVANALYST_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MMIM_INVANALYST_OVP_SRV/metadata.xml",
+                    "annotations": ["annotationFilterBar", "annotationDeadStock", "annotationSlowOrNonMoving"]
+                }
+            },
+            "MMIM_BATRMNGSLORPRDTE_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_BATRMNGSLORPRDTE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MMIM_BATRMNGSLORPRDTE_SRV/metadata.xml",
+                    "annotations": ["annotationBatchLongestStoragePeriod", "annotationBatchShortestExpirationDate"]
+                }
+            },
+            "annotationFilterBar": {
+                "uri": "annotations/annotationFilterBar.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotationFilterBar.xml"
+                }
+            },
+            "annotationDeadStock": {
+                "uri": "annotations/annotationDeadStock.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotationDeadStock.xml"
+                }
+            },
+            "annotationSlowOrNonMoving": {
+                "uri": "annotations/annotationSlowOrNonMoving.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotationSlowOrNonMoving.xml"
+                }
+            },
+            "annotationBatchLongestStoragePeriod": {
+                "uri": "annotations/annotationBatchLongestStoragePeriod.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotationBatchLongestStoragePeriod.xml"
+                }
+            },
+            "annotationBatchShortestExpirationDate": {
+                "uri": "annotations/annotationBatchShortestExpirationDate.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotationBatchShortestExpirationDate.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "MMIM_INVANALYST_OVP_SRV": {
+                "preload": true,
+                "dataSource": "MMIM_INVANALYST_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "MMIM_BATRMNGSLORPRDTE_SRV": {
+                "preload": true,
+                "dataSource": "MMIM_BATRMNGSLORPRDTE_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "ui.s2p.mm.inventoryanalystovps1.ext.customFilter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3366"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "MMIM_INVANALYST_OVP_SRV",
+        "globalFilterEntityType": "C_MatAnaFilterBarOvrVwPgType",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "card00": {
+                "model": "MMIM_INVANALYST_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card00_title}}",
+                    "subTitle": "{{card00_subTitle}}",
+                    "valueSelectionInfo": "{{card00_valueSelectionInfo}}",
+                    "entitySet": "C_DeadStockMaterialYearQryResults",
+                    "customParams": "getLastYear",
+                    "addODataSelect": "true",
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DeadStockChart",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DeadStockDataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DeadStockSelection",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DeadStockPresentation",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DeadStockNavigation"
+                }
+            },
+            "card01": {
+                "model": "MMIM_INVANALYST_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card01_title}}",
+                    "subTitle": "{{card01_subTitle}}",
+                    "valueSelectionInfo": "{{card01_valueSelectionInfo}}",
+                    "entitySet": "C_SlowOrNonMvngMatlCurrQryResults",
+                    "customParams": "getReferenceDate",
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SlowNonMovingChart",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#SlowNonMovingDataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SlowNonMovingSelection",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SlowNonMovingPresentation",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SlowNonMovingNavigation"
+                }
+            },
+            "card03": {
+                "model": "MMIM_BATRMNGSLORPRDTE_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card03_title}}",
+                    "entitySet": "C_BatRmngShelfLifeOrProdnDte",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "customParams": "getBatchByProductionDate",
+                    "addODataSelect": "true",
+                    "defaultSpan": {
+                        "rows": 3,
+                        "cols": 1
+                    },
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#MonitorBatchLongList",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BLSPSelection",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MonitorBatchLongPresentation",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MonitorBatchLongNavigation"
+                }
+            },
+            "card04": {
+                "model": "MMIM_BATRMNGSLORPRDTE_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card04_title}}",
+                    "entitySet": "C_BatRmngShelfLifeOrProdnDte",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "customParams": "getBatchByExpirationDate",
+                    "addODataSelect": "true",
+                    "defaultSpan": {
+                        "rows": 3,
+                        "cols": 1
+                    },
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#MonitorBatchShortList",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BSEDSelection",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MonitorBatchShortPresentation",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MonitorBatchShortNavigation"
+                }
+            }
+        }
+    }
+}

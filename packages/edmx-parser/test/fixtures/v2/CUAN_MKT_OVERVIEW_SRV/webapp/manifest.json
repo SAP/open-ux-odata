@@ -1,0 +1,428 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CEC-MKT-OVP",
+        "resources": "resources.json",
+        "dataSources": {
+            "CUAN_MKT_OVERVIEW_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_MKT_OVERVIEW_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["CUAN_MKT_OVERVIEW_ANNO_MDL", "annotation"],
+                    "localUri": "localService/CUAN_MKT_OVERVIEW_SRV/metadata.xml"
+                }
+            },
+            "CUAN_MKT_OVERVIEW_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CUAN_MKT_OVERVIEW_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CUAN_MKT_OVERVIEW_SRV/CUAN_MKT_OVERVIEW_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CUAN_MKT_OVERVIEW_SRV/annotation.xml",
+                "settings": {
+                    "localUri": "localService/CUAN_MKT_OVERVIEW_SRV/annotation.xml"
+                }
+            },
+            "CUAN_MKT_OVP_IC_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_MKT_OVP_IC_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/CUAN_MKT_OVP_IC_SRV/metadata.xml",
+                    "annotations": ["CUAN_MKT_OVP_IC_ANNO_MDL", "annotation2"]
+                }
+            },
+            "CUAN_MKT_OVP_IC_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CUAN_MKT_OVP_IC_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CUAN_MKT_OVP_IC_SRV/CUAN_MKT_OVP_IC_ANNO_MDL.xml"
+                }
+            },
+            "annotation2": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CUAN_MKT_OVP_IC_SRV/annotation2.xml",
+                "settings": {
+                    "localUri": "localService/CUAN_MKT_OVP_IC_SRV/annotation2.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CUAN_MKT_OVERVIEW_SRV": {
+                "preload": true,
+                "dataSource": "CUAN_MKT_OVERVIEW_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CUAN_MKT_OVERVIEW_SRV_ANYTCL": {
+                "preload": true,
+                "dataSource": "CUAN_MKT_OVERVIEW_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "CUAN_MKT_OVP_IC_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_MKT_OVP_IC_SRV/",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "CUAN_MKT_OVP_IC_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "hpa.cei.marketingovp.ext.controller.CustomController"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.ovp.app.Main": {
+                        "SmartFilterBarControlConfigurationExtension|GlobalFilterType": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.marketingovp.ext.fragment.CustomFilter",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3817"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "CUAN_MKT_OVERVIEW_SRV",
+        "globalFilterEntityType": "GlobalFilterType",
+        "containerLayout": "resizable",
+        "smartVariantRequired": true,
+        "showDateInRelativeFormat": false,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "carda1_QuickLinks": {
+                "model": "CUAN_MKT_OVERVIEW_SRV",
+                "template": "hpa.cei.marketingovp.customcards.QuickLinksCard",
+                "settings": {
+                    "title": "{{QUICK_LINKS}}",
+                    "stopResizing": true
+                }
+            },
+            "cardb1_UpcomingCampaigns": {
+                "model": "CUAN_MKT_OVERVIEW_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{cardupcomingcpgn_title}}",
+                    "subTitle": "{{Upcomingcpgn_Subtitle}}",
+                    "stopResizing": false,
+                    "entitySet": "CampaignOverview",
+                    "listType": "condensed",
+                    "sortBy": "CampaignStartDate",
+                    "sortOrder": "ascending",
+                    "listFlavor": "standard",
+                    "imageSupported": true,
+                    "addODataSelect": false,
+                    "customParams": "UpcomingCampaigns",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ThisWeek",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{Within_This_Week}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Overdue",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{overdue}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ThisMonth",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{Within_This_Month}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NextMonth",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{Next_Month}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Next3Month",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{Next_3_Months}}"
+                        }
+                    ],
+                    "requireAppAuthorization": "#Initiative-manageCampaignFlow"
+                }
+            },
+
+            "cardc1_MarketingContent": {
+                "model": "CUAN_MKT_OVERVIEW_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{marketingContentTitle}}",
+                    "subTitle": "{{marketingContentSubTitle}}",
+                    "stopResizing": false,
+                    "entitySet": "RecentMarketingAsset",
+                    "listType": "condensed",
+                    "sortBy": "LastChangeDateTime",
+                    "sortOrder": "descending",
+                    "listFlavor": "standard",
+                    "imageSupported": true,
+                    "addODataSelect": false,
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#email",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultPresentationVariant",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{email}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#emailTemplate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultPresentationVariant",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{emailTemplate}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Confirmation",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultPresentationVariant",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{confirmation}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#textMessage",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultPresentationVariant",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{textMessage}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#mpn",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultPresentationVariant",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#default",
+                            "value": "{{mpn}}"
+                        }
+                    ],
+                    "requireAppAuthorization": "#MarketingContent-showList"
+                }
+            },
+
+            "cardd1_MKtPrograms": {
+                "model": "CUAN_MKT_OVERVIEW_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{MY_MKT_PROGRAMS}}",
+                    "subTitle": "{{PROGRAM_SUBTITLE}}",
+                    "entitySet": "ProgramResults",
+                    "addODataSelect": false,
+                    "showDateInRelativeFormat": false,
+                    "tabs": [
+                        {
+                            "value": "{{Latest_Estimate_GT_Planned_Spend}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LatestEstSpend",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#LatestEstSpendP",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#view2"
+                        },
+                        {
+                            "value": "{{No_Planned_Spend}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProposedSpend",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ProposedSpendP",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#view1"
+                        }
+                    ],
+                    "requireAppAuthorization": "#MarketingPlanner-managePrograms"
+                }
+            },
+
+            "carde1_CmpgnExeMntr": {
+                "model": "CUAN_MKT_OVERVIEW_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{cardCmpgnExeMonitorTitle}}",
+                    "stopResizing": false,
+                    "subTitle": "{{cardCmpgnExeMonitorSubTitle}}",
+                    "entitySet": "CampaignExecutionMonitors",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "imageSupported": true,
+                    "addODataSelect": false,
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultPresentationVariant",
+                    "requireAppAuthorization": "#Initiative-monitor"
+                }
+            },
+
+            "cardf1_EmailCmpgnPerf": {
+                "model": "CUAN_MKT_OVERVIEW_SRV_ANYTCL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Campaigns_Success_Email}}",
+                    "subTitle": "{{Campaigns_Success_Email_Subtitle}}",
+                    "stopResizing": false,
+                    "entitySet": "CampaignPerformance",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionEmailCampaign",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#aggrgdEmailOpenRate",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartOpenRateByCampaign",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationCampaignStartDate",
+                    "navigation": "noHeaderNav",
+                    "valueSelectionInfo": "{{last90Days}}",
+                    "staticParameters": {
+                        "Tab": "PERFORMANCE"
+                    },
+                    "requireAppAuthorization": "#Initiative-manageCampaignFlow"
+                }
+            },
+
+            "cardg1_PaidSocialCmpgnPerf": {
+                "model": "CUAN_MKT_OVERVIEW_SRV_ANYTCL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Campaigns_Success_PaidSocial}}",
+                    "subTitle": "{{Campaigns_Success_PaidSocial_Subtitle}}",
+                    "stopResizing": false,
+                    "entitySet": "PaidSocialCampaignPerformance",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionPaidSocial",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#aggrgdAdSrvgCost1000ImprsnInDC",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartCostPer1000ImprsnsByCampaign",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationCampaignStartDate",
+                    "navigation": "noHeaderNav",
+                    "valueSelectionInfo": "{{last90Days}}",
+                    "staticParameters": {
+                        "Tab": "PERFORMANCE"
+                    },
+                    "requireAppAuthorization": "#Initiative-manageCampaignFlow"
+                }
+            },
+
+            "cardh1_PaidSearchPerf": {
+                "model": "CUAN_MKT_OVERVIEW_SRV_ANYTCL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Cmpgn_Success_PaidSearch}}",
+                    "subTitle": "{{Campaigns_Success_PaidSocial_Subtitle}}",
+                    "stopResizing": false,
+                    "entitySet": "CampaignPaidSearch",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionPaidSearchCampaigns",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AggrgdAdSrvgCost1000ImprsnInDC",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartCostPer1000Imprsns",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationCampaignStartDate",
+                    "navigation": "noHeaderNav",
+                    "valueSelectionInfo": "{{last90Days}}",
+                    "staticParameters": {
+                        "Tab": "PERFORMANCE"
+                    },
+                    "requireAppAuthorization": "#Initiative-manageCampaignFlow"
+                }
+            },
+
+            "cardi1_DisplayAdsCmpgnPerf": {
+                "model": "CUAN_MKT_OVERVIEW_SRV_ANYTCL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Cmpgn_Success_DisplayAds}}",
+                    "subTitle": "{{Campaigns_Success_PaidSocial_Subtitle}}",
+                    "stopResizing": false,
+                    "entitySet": "CampaignDisplayAds",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionDisplayAds",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#mktgAggrdKPICPM1000",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartCostPer1000ImprsnsByCampaign",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationCampaignStartDate",
+                    "valueSelectionInfo": "{{last90Days}}",
+                    "staticParameters": {
+                        "Tab": "PERFORMANCE"
+                    },
+                    "navigation": "noHeaderNav",
+                    "requireAppAuthorization": "#Initiative-manageCampaignFlow"
+                }
+            },
+
+            "cardj1_DemandUnitProposals": {
+                "model": "CUAN_MKT_OVP_IC_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{PROPOSED_DEMAND_UNITS}}",
+                    "subTitle": "{{DEMAND_UNITS_SUBTITLE}}",
+                    "entitySet": "DemandUnitResults",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "stopResizing": false,
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultPresentationVariant",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionParameters",
+                    "requireAppAuthorization": "#DemandUnit-discover"
+                }
+            },
+
+            "cardk1_SearchAccounts": {
+                "model": "CUAN_MKT_OVP_IC_SRV",
+                "template": "hpa.cei.marketingovp.customcards.AccountBasedSearchCard",
+                "settings": {
+                    "title": "{{searchAccountCardTitle}}",
+                    "entitySet": "C_MKT_RecentCorporateAccountsQ",
+                    "stopResizing": true,
+                    "requireAppAuthorization": "#MarketingAccount-showList"
+                }
+            }
+        }
+    }
+}

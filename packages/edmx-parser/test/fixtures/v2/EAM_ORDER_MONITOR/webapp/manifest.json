@@ -1,0 +1,395 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{xtit.appTitle}}",
+        "description": "{{xtx.appDescription}}",
+        "ach": "PM-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "EAM_ORDER_MONITOR": {
+                "uri": "/sap/opu/odata/sap/EAM_ORDER_MONITOR/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EAM_ORDER_MONITOR_ANNO_MDL", "LOCAL"],
+                    "localUri": "localService/EAM_ORDER_MONITOR/metadata.xml"
+                }
+            },
+            "EAM_ORDER_MONITOR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EAM_ORDER_MONITOR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EAM_ORDER_MONITOR/EAM_ORDER_MONITOR_ANNO_MDL.xml"
+                }
+            },
+            "LOCAL": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.2.0",
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "EAM_ORDER_MONITOR": {
+                "preload": true,
+                "dataSource": "EAM_ORDER_MONITOR",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "EAM_ORDER_MONITOR_ANALYTICAL": {
+                "preload": true,
+                "dataSource": "EAM_ORDER_MONITOR",
+                "settings": {
+                    "defaultCountMode": "None",
+                    "tokenHandling": false
+                }
+            },
+            "EAM_ORDER_MONITOR_TRANSACTIONAL": {
+                "preload": true,
+                "dataSource": "EAM_ORDER_MONITOR",
+                "settings": {
+                    "defaultCountMode": "Inline",
+                    "tokenHandling": false
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "i2d.eam.maintenanceplanner.ovps1.controller.MainExtension"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.ovp.app.Main": {
+                        "SmartFilterBarControlConfigurationExtension|C_MaintPlanningOvwPgFiltersType": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.eam.maintenanceplanner.ovps1.view.GlobalFilterBarExtension",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2828"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "EAM_ORDER_MONITOR",
+        "globalFilterEntityType": "C_MaintPlanningOvwPgFiltersType",
+        "showDateInRelativeFormat": false,
+        "cards": {
+            "card_NotificationsForScreening": {
+                "model": "EAM_ORDER_MONITOR_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{xtit.notifsForScreening}}",
+                    "subTitle": "{{xtit.outstandingNotifsByUserStatus}}",
+                    "entitySet": "C_MaintNotifForScreeningQ",
+                    "customParams": "notifsForScreening",
+                    "staticParameters": {
+                        "scenario": "screening"
+                    },
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#NotifsForScreeningByPriority",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfOpenMaintNotifications",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#NotifsForScreeningPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NotifsForScreeningSelection",
+                            "value": "{{xtit.chartTabByPriority}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#NotifsForScreeningByActivityType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfOpenMaintNotifications",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#NotifsForScreeningPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NotifsForScreeningSelection",
+                            "value": "{{xtit.chartTabByActivity}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#NotifsForScreeningByNotificationType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfOpenMaintNotifications",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#NotifsForScreeningPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NotifsForScreeningSelection",
+                            "value": "{{xtit.chartTabByNotificationType}}"
+                        }
+                    ]
+                }
+            },
+            "card_OrdersForPlanning": {
+                "model": "EAM_ORDER_MONITOR_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{xtit.ordersForPlanning}}",
+                    "subTitle": "{{xtit.ordersNotReleased}}",
+                    "entitySet": "C_MaintOrdersForPlanningQ",
+                    "customParams": "ordersForPlanning",
+                    "staticParameters": {
+                        "scenario": "planning"
+                    },
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OrdersForPlanningByPriority",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfOutstandingMaintOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OrdersForPlanningPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OrdersForPlanningSelection",
+                            "value": "{{xtit.chartTabByPriority}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OrdersForPlanningByActivityType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfOutstandingMaintOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OrdersForPlanningPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OrdersForPlanningSelection",
+                            "value": "{{xtit.chartTabByActivity}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OrdersForPlanningByOrderType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfOutstandingMaintOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OrdersForPlanningPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OrdersForPlanningSelection",
+                            "value": "{{xtit.chartTabByOrderType}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OrdersForPlanningByUserStatus",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfOutstandingMaintOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OrdersForPlanningPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OrdersForPlanningSelection",
+                            "value": "{{xtit.chartTabByUserStatus}}"
+                        }
+                    ]
+                }
+            },
+            "card_MaintenanceBacklog": {
+                "model": "EAM_ORDER_MONITOR_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{xtit.maintenanceBacklog}}",
+                    "entitySet": "C_MaintPlngBcktOrderCube",
+                    "requireAppAuthorization": "#MaintenancePlanningBucket-manage",
+                    "navigation": "noHeaderNav",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#NumberOfOrdersChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#NumberOfOrdersPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NumberOfOrdersSelection",
+                            "value": "{{xtit.totalOrders}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#NumberOfOrdersByStatusChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#NumberOfOrdersPresentation",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NumberOfOrdersSelection",
+                            "value": "{{xtit.totalOrdersByStatus}}"
+                        }
+                    ]
+                }
+            },
+            "card_OverdueOrders": {
+                "model": "EAM_ORDER_MONITOR_TRANSACTIONAL",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{xtit.overdueOrders}}",
+                    "entitySet": "C_OverdueMaintenanceOrderQ",
+                    "listFlavor": "standard",
+                    "listType": "extended",
+                    "sortBy": "ReferenceDate",
+                    "sortOrder": "ascending",
+                    "customParams": "overdueOrders",
+                    "staticParameters": {
+                        "scenario": "overdueOrders"
+                    }
+                }
+            },
+            "card_MaterialMissingDelivery": {
+                "model": "EAM_ORDER_MONITOR_TRANSACTIONAL",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{xtit.materialMissingDelivery}}",
+                    "subTitle": "{{xtit.nonStockItems}}",
+                    "entitySet": "C_MaintOrdCompPurOrderQ",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#HeaderMissingComponents,com.sap.vocabularies.UI.v1.Identification#Card",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MaterialMissingDeliverySelection",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#MaterialMissingLineItem",
+                    "customParams": "materialMissingDelivery",
+                    "addODataSelect": true,
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#MaterialMissing"
+                    },
+                    "staticParameters": {
+                        "scenario": "missingComponents",
+                        "sourceApplication": "MaintenanceOrderMonitor"
+                    }
+                }
+            },
+            "card_PurchaseRequisitionNotConvertedToPurchaseOrder": {
+                "model": "EAM_ORDER_MONITOR_TRANSACTIONAL",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{xtit.purchaseRequisitionNotConvertedToPurchaseOrder}}",
+                    "subTitle": "{{xtit.nonStockItemsAndServices}}",
+                    "entitySet": "C_MaintOrdCompPurRequisitionQ",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#HeaderNotConverted,com.sap.vocabularies.UI.v1.Identification#Card",
+                    "customParams": "purchaseRequisitionsNotConvertedToPO",
+                    "staticParameters": {
+                        "scenario": "notConvertedToPO",
+                        "sourceApplication": "MaintenanceOrderMonitor"
+                    },
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PurchaseRequisitionNotConvertedToPurchaseOrderSelection"
+                }
+            },
+            "card_PurchaseRequisitionNotApproved": {
+                "model": "EAM_ORDER_MONITOR_TRANSACTIONAL",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{xtit.purchaseRequisitionNotApproved}}",
+                    "subTitle": "{{xtit.nonStockItemsAndServices}}",
+                    "entitySet": "C_MaintOrdCompPurRequisitionQ",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#HeaderNotApproved,com.sap.vocabularies.UI.v1.Identification#Card",
+                    "customParams": "purchaseRequisitionNotApproved",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PurchaseRequisitionNotApprovedSelection",
+                    "staticParameters": {
+                        "scenario": "notApproved",
+                        "sourceApplication": "MaintenanceOrderMonitor"
+                    }
+                }
+            },
+            "card_PurchaseOrderNotApproved": {
+                "model": "EAM_ORDER_MONITOR_TRANSACTIONAL",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{xtit.purchaseOrderNotApproved}}",
+                    "subTitle": "{{xtit.nonStockItemsAndServices}}",
+                    "entitySet": "C_MaintOrdCompPurOrderQ",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#HeaderNotApproved,com.sap.vocabularies.UI.v1.Identification#Card",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PurchaseOrderNotApprovedSelection",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "customParams": "purchaseOrderNotApproved",
+                    "addODataSelect": true,
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#NotApproved"
+                    },
+                    "staticParameters": {
+                        "scenario": "notApproved",
+                        "sourceApplication": "MaintenanceOrderMonitor"
+                    }
+                }
+            },
+            "card_QuickLinks": {
+                "model": "EAM_ORDER_MONITOR",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{xtit.quickLinks}}",
+                    "subTitle": "{{xtit.findRelevantApplications}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{xtit.findMaintenanceNotification}}",
+                            "imageUri": "sap-icon://notification-2",
+                            "imageAltText": "{{xtit.findMaintenanceNotification}}",
+                            "semanticObject": "MaintenanceNotification",
+                            "action": "displayFactSheet"
+                        },
+                        {
+                            "title": "{{xtit.findMaintenanceOrder}}",
+                            "imageUri": "sap-icon://eam-work-order",
+                            "imageAltText": "{{xtit.findMaintenanceOrder}}",
+                            "semanticObject": "MaintenanceOrder",
+                            "action": "displayFactSheet"
+                        },
+                        {
+                            "title": "{{xtit.displayOrderNotificationInfoCenter}}",
+                            "imageUri": "sap-icon://bo-strategy-management",
+                            "imageAltText": "{{xtit.displayOrderNotificationInfoCenter}}",
+                            "semanticObject": "MaintenanceInformationCenter",
+                            "action": "display_ordntf"
+                        },
+                        {
+                            "title": "{{xtit.displayMasterDataInfoCenter}}",
+                            "imageUri": "sap-icon://bo-strategy-management",
+                            "imageAltText": "{{xtit.displayMasterDataInfoCenter}}",
+                            "semanticObject": "MaintenanceInformationCenter",
+                            "action": "display_master_data"
+                        }
+                    ]
+                }
+            },
+
+            "card_OrdersForCompletion": {
+                "model": "EAM_ORDER_MONITOR_TRANSACTIONAL",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{xtit.ordersForCompletion}}",
+                    "entitySet": "C_MaintOrderForCompletionQ",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OrdersForCompletionPresentation",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OrdersForCompletionSelection",
+                    "objectStreamCardsSettings": {
+                        "showFirstActionInFooter": false,
+                        "customActions": [
+                            {
+                                "text": "{{xtit.completeTechnical}}",
+                                "press": "onTechnicalCompleteAction",
+                                "position": 3
+                            }
+                        ]
+                    },
+                    "customParams": "ordersForCompletion",
+                    "staticParameters": {
+                        "scenario": "completion"
+                    }
+                }
+            }
+        }
+    }
+}

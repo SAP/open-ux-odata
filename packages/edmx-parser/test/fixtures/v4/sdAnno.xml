@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+	<edmx:Reference Uri="/sap/opu/odata4/sap/c_salesordermanage_srv/srvd/sap/c_salesordermanage_sd/0001/$metadata">
+		<edmx:Include Alias="SalesOrder" Namespace="com.sap.gateway.srvd.c_salesordermanage_sd.v0001" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Alias="vCard" Namespace="com.sap.vocabularies.Communication.v1" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Core.V1.xml">
+		<edmx:Include Alias="Core" Namespace="Org.OData.Core.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Measures.V1.xml">
+		<edmx:Include Alias="CQP" Namespace="Org.OData.Measures.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Capabilities.V1.xml">
+		<edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1" />
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.annotations">
+			<Annotations Target="com.c_salesordermanage_sd.draftEdit(com.c_salesordermanage_sd.SalesOrderManage)">
+				<Annotation Term="Core.OperationAvailable" Path="in/editActionIsEnabled" />
+			</Annotations>
+			<Annotations Target="com.c_salesordermanage_sd.SalesOrderManage">
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataFieldForAction">
+							<PropertyValue Property="Label" String="Change Order Type" />
+							<PropertyValue Property="Action" String="com.c_salesordermanage_sd.CreateWithSalesOrderType" />
+						</Record>
+						<Record Type="UI.DataFieldForAction">
+							<PropertyValue Property="Label" String="Unbound Action" />
+							<PropertyValue Property="Action" String="com.c_salesordermanage_sd/UnboundAction" />
+						</Record>
+						<Record Type="UI.DataFieldForAction">
+							<PropertyValue Property="Label" String="Return In Process" />
+							<PropertyValue Property="Action" String="com.c_salesordermanage_sd/ReturnInProcess" />
+						</Record>
+						<Record Type="UI.DataFieldForIntentBasedNavigation">
+							<PropertyValue Property="SemanticObject" String="SalesOrder" />
+							<PropertyValue Property="Action" String="manageInline" />
+							<PropertyValue Property="Label" String="IBN" />
+							<PropertyValue Property="RequiresContext" Bool="false" />
+						</Record>
+						<Record Type="UI.DataFieldForIntentBasedNavigation">
+							<PropertyValue Property="SemanticObject" String="Action" />
+							<PropertyValue Property="Action" String="toappnavsampleParam" />
+							<PropertyValue Property="Label" String="IBN with context" />
+							<PropertyValue Property="RequiresContext" Bool="true" />
+							<PropertyValue Property="Mapping">
+								<Collection>
+									<Record>
+										<PropertyValue Property="LocalProperty" PropertyPath="Delivered" />
+										<PropertyValue Property="SemanticObjectProperty" String="Completed" />
+									</Record>
+								</Collection>
+							</PropertyValue>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ID" />
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ImageUrl" />
+						</Record>
+						<Record Type="UI.DataFieldForAnnotation">
+							<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#multipleActionFields" />
+							<PropertyValue Property="Label" String="Sold-To Party" />
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SalesOrderType" />
+							<Annotation Term="UI.Hidden" Path="_ShipToParty/isHidden" />
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="OverallSDProcessStatus" />
+							<PropertyValue Property="Criticality" Path="StatusCriticality" />
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="TotalNetAmount" />
+							<Annotation Term="UI.Hidden" Path="Delivered" />
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrder.SalesOrderManageType">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="Messages">
+					<Record>
+						<PropertyValue Property="SourceEntities">
+							<Collection>
+								<NavigationPropertyPath />
+								<NavigationPropertyPath>_ShipToParty</NavigationPropertyPath>
+								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SAP__Messages</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="SoldToChangeSalesAreaShipTo">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>SoldToParty</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SalesOrganization</PropertyPath>
+								<PropertyPath>DistributionChannel</PropertyPath>
+								<PropertyPath>OrganizationDivision</PropertyPath>
+								<PropertyPath>TransactionCurrency</PropertyPath>
+								<PropertyPath>TotalNetAmount</PropertyPath>
+								<PropertyPath>ShippingCondition</PropertyPath>
+								<PropertyPath>CustomerPaymentTerms</PropertyPath>
+								<PropertyPath>IncotermsClassification</PropertyPath>
+								<PropertyPath>IncotermsVersion</PropertyPath>
+								<PropertyPath>IncotermsLocation1</PropertyPath>
+								<PropertyPath>IncotermsLocation2</PropertyPath>
+								<PropertyPath>CompleteDeliveryIsDefined</PropertyPath>
+								<PropertyPath>SetBillingBlockIsHidden</PropertyPath>
+								<PropertyPath>SetDeliveryBlockIsHidden</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath />
+								<NavigationPropertyPath>_ShipToParty</NavigationPropertyPath>
+								<NavigationPropertyPath>_Partner</NavigationPropertyPath>
+								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+								<NavigationPropertyPath>_CreditLimitDetails</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="ItemCreationOrDeletion">
+					<Record>
+						<PropertyValue Property="SourceEntities">
+							<Collection>
+								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>TotalNetAmount</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="ItemUpdateAnyField">
+					<Record>
+						<PropertyValue Property="SourceEntities">
+							<Collection>
+								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>TotalNetAmount</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="ShipToPartyChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>_ShipToParty/BusinessPartner</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath>_ShipToParty</NavigationPropertyPath>
+								<NavigationPropertyPath>_Partner</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrder.SalesOrderItemType">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="Messages">
+					<Record>
+						<PropertyValue Property="SourceEntities">
+							<Collection>
+								<NavigationPropertyPath />
+								<NavigationPropertyPath>_ScheduleLine</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SAP__Messages</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="PricingDateChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>PricingDate</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>NetAmount</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="PlantChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>Plant</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>Plant</PropertyPath>
+								<PropertyPath>ShippingPoint</PropertyPath>
+								<PropertyPath>Route</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath>_ScheduleLine</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="StorageLocationChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>StorageLocation</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath>_ScheduleLine</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="ShippingPointChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>ShippingPoint</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>Route</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath>_ScheduleLine</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="RouteChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>Route</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath>_ScheduleLine</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="RequestedQuantityChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>RequestedQuantity</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath />
+								<NavigationPropertyPath>_ScheduleLine</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="RequestedDeliveryDateChange">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>RequestedDeliveryDate</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetEntities">
+							<Collection>
+								<NavigationPropertyPath>_ScheduleLine</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrder.SalesOrderItemType/NetAmount">
+				<Annotation Term="UI.DataFieldDefault">
+					<Record Type="UI.DataField">
+						<PropertyValue Property="Value" Path="NetAmount" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrder.SalesOrderItemType/RequestedQuantity">
+				<Annotation Term="UI.DataFieldDefault">
+					<Record Type="UI.DataField">
+						<PropertyValue Property="Value" Path="RequestedQuantity" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SetBillingBlock">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>HeaderBillingBlockReason</PropertyPath>
+								<PropertyPath>OverallBillingBlockStatus</PropertyPath>
+								<PropertyPath>RemoveBillingBlockIsHidden</PropertyPath>
+								<PropertyPath>BillingBlockCriticality</PropertyPath>
+								<PropertyPath>BillingBlockStatusCriticality</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RemoveBillingBlock">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>HeaderBillingBlockReason</PropertyPath>
+								<PropertyPath>OverallBillingBlockStatus</PropertyPath>
+								<PropertyPath>RemoveBillingBlockIsHidden</PropertyPath>
+								<PropertyPath>BillingBlockCriticality</PropertyPath>
+								<PropertyPath>BillingBlockStatusCriticality</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SetDeliveryBlock">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>DeliveryBlockReason</PropertyPath>
+								<PropertyPath>OverallDeliveryBlockStatus</PropertyPath>
+								<PropertyPath>RemoveDeliveryBlockIsHidden</PropertyPath>
+								<PropertyPath>DeliveryBlockCriticality</PropertyPath>
+								<PropertyPath>DeliveryBlockStatusCriticality</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RemoveDeliveryBlock">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>DeliveryBlockReason</PropertyPath>
+								<PropertyPath>OverallDeliveryBlockStatus</PropertyPath>
+								<PropertyPath>RemoveDeliveryBlockIsHidden</PropertyPath>
+								<PropertyPath>DeliveryBlockCriticality</PropertyPath>
+								<PropertyPath>DeliveryBlockStatusCriticality</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SetBillingBlockItem">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>ItemBillingBlockReason</PropertyPath>
+								<PropertyPath>BillingBlockStatus</PropertyPath>
+								<PropertyPath>RemoveBillingBlockIsHidden</PropertyPath>
+								<PropertyPath>BillingBlockCriticality</PropertyPath>
+								<PropertyPath>BillingBlockStatusCriticality</PropertyPath>
+								<PropertyPath>_SalesOrder/OverallBillingBlockStatus</PropertyPath>
+								<PropertyPath>_SalesOrder/BillingBlockStatusCriticality</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RemoveBillingBlockItem">
+				<Annotation Term="com.sap.vocabularies.Common.v1.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>ItemBillingBlockReason</PropertyPath>
+								<PropertyPath>BillingBlockStatus</PropertyPath>
+								<PropertyPath>RemoveBillingBlockIsHidden</PropertyPath>
+								<PropertyPath>BillingBlockCriticality</PropertyPath>
+								<PropertyPath>BillingBlockStatusCriticality</PropertyPath>
+								<PropertyPath>_SalesOrder/OverallBillingBlockStatus</PropertyPath>
+								<PropertyPath>_SalesOrder/BillingBlockStatusCriticality</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.c_salesordermanage_sd.EntityContainer/HeaderPartner">
+				<Annotation Term="Capabilities.InsertRestrictions">
+					<Record Type="Capabilities.InsertRestrictionsType">
+						<PropertyValue Property="Insertable" Path="owner/ReturnInProcess" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="com.c_salesordermanage_sd.EntityContainer/HeaderPartner">
+				<Annotation Term="Capabilities.DeleteRestrictions">
+					<Record Type="Capabilities.DeleteRestrictionsType">
+						<PropertyValue Property="Deletable" Path="owner/ReturnInProcess" />
+					</Record>
+				</Annotation>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

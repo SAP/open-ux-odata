@@ -1,0 +1,203 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "XX-CSC-CN-EFI",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FITAXCN_INPUT_VAT_TRANSF_LIST_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FITAXCN_INPUT_VAT_TRANS_ANNO_MDL", "localAnnotations", "visualFilterAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "BFService": {
+                "uri": "/sap/opu/odata/sap/FITAXCN_INPUT_BF_STATUS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0"
+                }
+            },
+            "FITAXCN_INPUT_VAT_TRANS_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FITAXCN_INPUT_VAT_TRANS_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FITAXCN_INPUT_VAT_TRANS_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "visualFilterAnnotations": {
+                "uri": "localService/annotations_visual.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/annotations_visual.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {}
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.generic.app": { "lazy": false },
+                "sap.ui.core": { "lazy": false },
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.uxap": { "lazy": false },
+                "sap.suite.ui.generic.template": { "lazy": false },
+                "sap.ui.table": { "lazy": false }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_CN_TaxTransferItemCube": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_CN_TaxTransferItemCube/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CN_TaxTransferItemCube": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CN_TaxTransferItemCube/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "BFService": {
+                "dataSource": "BFService",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "gs.fin.aptaxinvoice.transfer.alr.ext.controller.AnalyticalListPageExtension",
+                        "sap.ui.generic.app": {
+                            "C_CN_TaxTransferItemCube": {
+                                "EntitySet": "C_CN_TaxTransferItemCube",
+                                "Actions": {
+                                    "ActFileExport": {
+                                        "id": "ActFileExport",
+                                        "text": "{{XBUT_Export}}",
+                                        "press": "onActFileExportClick"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "AnalyticalTableColumnsExtension|C_CN_TaxTransferItemCube": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.aptaxinvoice.transfer.alr.ext.fragments.AnalyticalListPageInvoiceDocAnalyticalTableColumns",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_CN_TaxTransferItemCube",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": false,
+                        "defaultContentView": "table",
+                        "defaultFilterMode": "compact",
+                        "showAutoHide": true,
+                        "autoHide": false,
+                        "hideVisualFilter": false,
+                        "smartVariantManagement": false,
+                        "showGoButtonOnFilterBar": true,
+                        "condensedTableLayout": true,
+                        "keyPerformanceIndicators": {}
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2658"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

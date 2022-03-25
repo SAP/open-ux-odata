@@ -1,0 +1,214 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "IS-U-DM-MR",
+        "resources": "resources.json",
+        "dataSources": {
+            "ISU_MR_PERDC_OVP": {
+                "uri": "/sap/opu/odata/sap/ISU_MR_PERDC_OVP/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ISU_MR_PERDC_OVP_ANNO_MDL", "annotations"],
+                    "localUri": "localService/ISU_MR_PERDC_OVP/metadata.xml"
+                }
+            },
+            "ISU_MR_PERDC_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ISU_MR_PERDC_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ISU_MR_PERDC_OVP/ISU_MR_PERDC_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "ISU_MR_PERDC_OVP": {
+                "preload": true,
+                "dataSource": "ISU_MR_PERDC_OVP",
+                "settings": {}
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "isu.mr.periodicmroverviews1.ext.controller.customParameter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "ISU_MR_PERDC_OVP",
+        "globalFilterEntityType": "C_MeterRdngUnitSchedRecdOvwType",
+        "showDateInRelativeFormat": false,
+        "cards": {
+            "is_ut_card00": {
+                "model": "ISU_MR_PERDC_OVP",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{is_ut_card00_title}}",
+                    "entitySet": "C_MeterRdngUnitSchedRecdOvw",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#donut1",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#donut1",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMeterReadingDocuments",
+                    "ChartProperties": {
+                        "plotArea": {
+                            "dataLabel": {
+                                "type": "percentage"
+                            }
+                        }
+                    }
+                }
+            },
+            "is_ut_card01": {
+                "model": "ISU_MR_PERDC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{is_ut_card01_title}}",
+                    "subTitle": "{{is_ut_card01_subtitle}}",
+                    "listType": "condensed",
+                    "entitySet": "C_MeterRdngUnitSchedRecdOvw",
+                    "addODataSelect": "true",
+                    "listFlavor": "standard",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#listresults",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#listresults"
+                }
+            },
+            "is_ut_card02": {
+                "model": "ISU_MR_PERDC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{is_ut_card02_title}}",
+                    "subTitle": "{{is_ut_card02_subtitle}}",
+                    "listType": "condensed",
+                    "entitySet": "C_MtrRdngDocImplsblValdtn",
+                    "addODataSelect": "true",
+                    "listFlavor": "standard",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#validation",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#validation",
+                    "customParams": "MRAppParameter"
+                }
+            },
+            "is_ut_card03": {
+                "model": "ISU_MR_PERDC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{is_ut_card03_title}}",
+                    "subTitle": "{{is_ut_card03_subtitle}}",
+                    "listType": "condensed",
+                    "entitySet": "C_MtrRdngDocImplsblValdtn",
+                    "addODataSelect": "true",
+                    "listFlavor": "standard",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#portionmrunit",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#portionmrunit",
+                    "customParams": "MRAppParameter"
+                }
+            },
+            "is_ut_card04": {
+                "model": "ISU_MR_PERDC_OVP",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{is_ut_card04_title}}",
+                    "entitySet": "C_MtrRdngDocImplsblValdtn",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#donut2",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#donut2",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfImplausibleMtrRdngRslts",
+                    "customParams": "MRAppParameter",
+                    "ChartProperties": {
+                        "plotArea": {
+                            "dataLabel": {
+                                "type": "percentage"
+                            }
+                        }
+                    }
+                }
+            },
+            "is_ut_card05": {
+                "model": "ISU_MR_PERDC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{is_ut_card05_title}}",
+                    "subTitle": "{{is_ut_card05_subtitle}}",
+                    "listType": "condensed",
+                    "entitySet": "C_MeterReadingOrder",
+                    "addODataSelect": "true",
+                    "listFlavor": "standard",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#order",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#order"
+                }
+            },
+            "is_ut_card06": {
+                "model": "ISU_MR_PERDC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{is_ut_card06_title}}",
+                    "subTitle": "{{is_ut_card06_subtitle}}",
+                    "listType": "condensed",
+                    "entitySet": "C_MeterRdngUnitSchedRecdOvw",
+                    "addODataSelect": "true",
+                    "listFlavor": "standard",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#msngorders",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#msngorders"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2786"],
+        "archeType": "transactional"
+    }
+}

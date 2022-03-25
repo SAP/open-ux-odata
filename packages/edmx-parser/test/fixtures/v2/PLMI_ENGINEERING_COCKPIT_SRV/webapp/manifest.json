@@ -1,0 +1,241 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "PLM-CR",
+        "resources": "resources.json",
+        "dataSources": {
+            "PLMI_ENGINEERING_COCKPIT_SRV": {
+                "uri": "/sap/opu/odata/sap/PLMI_ENGINEERING_COCKPIT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PLMI_ENGINEERING_COC_ANNO_MDL_02"],
+                    "localUri": "localService/PLMI_ENGINEERING_COCKPIT_SRV/metadata.xml"
+                }
+            },
+            "PLMI_ENGINEERING_COC_ANNO_MDL_02": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PLMI_ENGINEERING_COC_ANNO_MDL_02',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PLMI_ENGINEERING_COCKPIT_SRV/PLMI_ENGINEERING_COC_ANNO_MDL_02.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "PLMI_ENGINEERING_COCKPIT_SRV": {
+                "preload": true,
+                "dataSource": "PLMI_ENGINEERING_COCKPIT_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3384"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "PLMI_ENGINEERING_COCKPIT_SRV",
+        "globalFilterEntityType": "C_ChangeRecordOvPgType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": false,
+        "showDateInRelativeFormat": true,
+        "cards": {
+            "i2d.plm.di.overview.pages1_card01": {
+                "model": "PLMI_ENGINEERING_COCKPIT_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{UrgentChangeRecords}}",
+                    "subTitle": "{{ByExpectedCompletionDate}}",
+                    "entitySet": "C_ChangeRecordOvPg",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#RecordInExpirationOrder",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#RecordsInExpirationSelVar",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecordsInExpirationPresVar"
+                }
+            },
+            "i2d.plm.di.overview.pages1_card02": {
+                "model": "PLMI_ENGINEERING_COCKPIT_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{ChangeRecordPerStatus}}",
+                    "valueSelectionInfo": "{{ChangeRecordsInTotal}}",
+                    "entitySet": "C_ChangeRecordOvPg",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecordPerStatus",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#RecordPerStatus4WeeksSelVar",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecordPerStatusPresVar",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfChangeRecords",
+                            "showFilterInHeader": false,
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{CreatedInLast4Weeks}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecordPerStatus",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#RecordPerStatus4MonthsSelVar",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecordPerStatusPresVar",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfChangeRecords",
+                            "showFilterInHeader": false,
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{CreatedInLast4Months}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecordPerStatus",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#RecordPerStatus4QuartersSelVar",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecordPerStatusPresVar",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfChangeRecords",
+                            "showFilterInHeader": false,
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{CreatedInLast4Quarters}}"
+                        }
+                    ]
+                }
+            },
+            "i2d.plm.di.overview.pages1_card03": {
+                "model": "PLMI_ENGINEERING_COCKPIT_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{ChangeRecordBurnDownStatus}}",
+                    "valueSelectionInfo": "{{NumberByStaus}}",
+                    "entitySet": "C_ChgRecdLfcycStChgDocOvPg",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#StatusChangeDocumentBy4Week",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterBy4Week",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortByWeek",
+                            "showFilterInHeader": false,
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{ChangedInLast4Weeks}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#StatusChangeDocumentBy4Month",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterBy4Month",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortByMonth",
+                            "showFilterInHeader": false,
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{ChangedInLast4Months}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#StatusChangeDocumentBy4Quater",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterBy4Quator",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortByQuarter",
+                            "showFilterInHeader": false,
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{ChangedInLast4Quarter}}"
+                        }
+                    ]
+                }
+            },
+            "i2d.plm.di.overview.pages1_card04": {
+                "model": "PLMI_ENGINEERING_COCKPIT_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{QuickLinks}}",
+                    "listFlavor": "standard",
+                    "headerAnnotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#none",
+                    "stopResizing": true,
+                    "staticContent": [
+                        {
+                            "title": "{{ManageEngineerChanges}}",
+                            "semanticObject": "ChangeRecord",
+                            "action": "manageChangeRecords",
+                            "imageUri": "sap-icon://crm-service-manager"
+                        },
+                        {
+                            "title": "{{ManageInbox}}",
+                            "semanticObject": "WorkflowTask",
+                            "action": "displayInbox",
+                            "imageUri": "sap-icon://inbox"
+                        },
+                        {
+                            "title": "{{ManageChangeMasters}}",
+                            "semanticObject": "ChangeMaster",
+                            "action": "manage",
+                            "imageUri": "sap-icon://database"
+                        },
+                        {
+                            "title": "{{ManageDocuments}}",
+                            "semanticObject": "DocumentInfoRecord",
+                            "action": "manage",
+                            "imageUri": "sap-icon://documents"
+                        }
+                    ]
+                }
+            },
+            "i2d.plm.di.overview.pages1_card05": {
+                "model": "PLMI_ENGINEERING_COCKPIT_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{ChangeMasterByEffectiveDate}}",
+                    "entitySet": "C_ChgMasterForChgRecordOvPg",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ChangeMaster",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortByEffectiveDate",
+                    "showFilterInHeader": false,
+                    "defaultSpan": {
+                        "cols": 2,
+                        "rows": 5
+                    }
+                }
+            }
+        }
+    }
+}

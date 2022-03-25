@@ -1,0 +1,270 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-CAX-INV-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/O2C_CI_CIT_DISPLAY_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["O2C_CI_CIT_DISPLAY_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "O2C_CI_CIT_DISPLAY_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='O2C_CI_CIT_DISPLAY_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/O2C_CI_CIT_DISPLAY_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "Default": {
+                    "semanticObject": "ConsumptionItem",
+                    "action": "display",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|_CIT": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/_CIT/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|_CIT": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/_CIT/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "cus.o2c.cit.display.s1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "_CIT": {
+                                "EntitySet": "_CIT",
+                                "Actions": {
+                                    "ListActionReverse": {
+                                        "id": "ListActionReverse",
+                                        "text": "{@i18n>TextReverse}",
+                                        "press": "onReversePress",
+                                        "requiresSelection": true,
+                                        "applicablePath": "_ACTION_CITREV"
+                                    },
+                                    "ListActionRating": {
+                                        "id": "ListActionRating",
+                                        "text": "{@i18n>TextRating}",
+                                        "press": "onRatingPress",
+                                        "requiresSelection": true,
+                                        "applicablePath": "_ACTION_RATING"
+                                    },
+                                    "ObjActionTransfer": {
+                                        "id": "ListActionTransfer",
+                                        "text": "{@i18n>TextTransfer}",
+                                        "press": "onTransferPress",
+                                        "requiresSelection": true,
+                                        "applicablePath": "_ACTION_TRANSFER"
+                                    },
+                                    "ListActionChangeMasterData": {
+                                        "id": "ListActionChangeMasterData",
+                                        "text": "{@i18n>changeMasterData}",
+                                        "press": "onChangeMasterDataPress",
+                                        "applicablePath": "_ACTION_MD_CHANGE",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "cus.o2c.cit.display.s1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "_CIT": {
+                                "EntitySet": "_CIT",
+                                "Header": {
+                                    "Actions": {
+                                        "ObjActionReverse": {
+                                            "id": "ObjActionReverse",
+                                            "text": "{@i18n>TextReverse}",
+                                            "press": "onReversePress",
+                                            "applicablePath": "_ACTION_CITREV"
+                                        },
+                                        "ObjActionRating": {
+                                            "id": "ObjActionRating",
+                                            "text": "{@i18n>TextRating}",
+                                            "press": "onRatingPress",
+                                            "applicablePath": "_ACTION_RATING"
+                                        },
+                                        "ObjActionTransfer": {
+                                            "id": "ObjActionTransfer",
+                                            "text": "{@i18n>TextTransfer}",
+                                            "press": "onTransferPress",
+                                            "applicablePath": "_ACTION_TRANSFER"
+                                        },
+                                        "ObjActionChangeMasterData": {
+                                            "id": "ObjActionChangeMasterData",
+                                            "text": "{@i18n>changeMasterData}",
+                                            "press": "onChangeMasterDataPress",
+                                            "applicablePath": "_ACTION_MD_CHANGE"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "LI_BIT": {
+                                        "id": "LI_BIT",
+                                        "Actions": {
+                                            "ActionOnClickBIT": {
+                                                "id": "ActionGotoBITbutton",
+                                                "text": "{@i18n>TextGotoBIT}",
+                                                "press": "onClickBIT",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "_CIT",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": false,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "_CIT",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "gridTable": false,
+                                "multiSelect": false,
+                                "smartVariantManagement": true,
+                                "showRelatedApps": true
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3410"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

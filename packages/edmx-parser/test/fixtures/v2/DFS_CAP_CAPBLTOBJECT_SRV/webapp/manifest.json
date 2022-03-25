@@ -1,0 +1,619 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-DFS-OF-CAP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/DFS_CAP_CAPBLTOBJECT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["DFS_CAP_CAPBLTOBJECT_ANNO_MDL", "annotation1"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "DFS_CAP_CAPBLTOBJECT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='DFS_CAP_CAPBLTOBJECT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/DFS_CAP_CAPBLTOBJECT_ANNO_MDL.xml"
+                }
+            },
+            "annotation1": {
+                "type": "ODataAnnotation",
+                "uri": "annotation1.xml",
+                "settings": {
+                    "localUri": "annotation1.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "CapabilityObject",
+                    "action": "manageCapObj"
+                }
+            },
+            "outbounds": {
+                "CapabilityHierarchy": {
+                    "semanticObject": "CapabilityObject",
+                    "action": "manageCapHierar"
+                },
+                "C_DfsCapabilityStmntTP": {
+                    "semanticObject": "CapabilityStatement",
+                    "action": "manageCapStmt",
+                    "parameters": {
+                        "DfsCapabilityStatementUUID": {
+                            "required": true
+                        },
+                        "IsActiveEntity": {
+                            "required": true
+                        },
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "CreateAssignmentCAPS": {
+                    "semanticObject": "CapabilityCodeAssignment",
+                    "action": "manageCAPS",
+                    "parameters": {
+                        "DfsCapabilityObjectID": {},
+                        "DfsCapabilityObjectUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentCAPS": {
+                    "semanticObject": "CapabilityCodeAssignment",
+                    "action": "manageCAPS",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentMETL": {
+                    "semanticObject": "CapabilityCodeAssignment",
+                    "action": "manageMETL",
+                    "parameters": {
+                        "DfsCapabilityObjectID": {},
+                        "DfsCapabilityObjectUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentMETL": {
+                    "semanticObject": "CapabilityCodeAssignment",
+                    "action": "manageMETL",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentCAP": {
+                    "semanticObject": "CapabilityCodeAssignment",
+                    "action": "manageCAP",
+                    "parameters": {
+                        "DfsCapabilityObjectID": {},
+                        "DfsCapabilityObjectUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentCAP": {
+                    "semanticObject": "CapabilityCodeAssignment",
+                    "action": "manageCAP",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.9.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.i2d.lo.lib.vchclf": {
+                    "minVersion": "11.12.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_DfsCapabilityObjectTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_DfsCapabilityObjectTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_DfsCapabilityObjectTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_DfsCapabilityObjectTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "sizeLimit": 1000,
+                    "refreshAfterChange": false
+                }
+            },
+            "CapabilityModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultOperationMode": "Client"
+                },
+                "preload": false
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_DfsCapabilityObjectTP": {
+                            "id": "SymbolCode",
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.cap.cruds1.ext.view.SymbolCode"
+                        },
+                        "ResponsiveTableCellsExtension|C_DfsCapabilityObjectTP": {
+                            "id": "SymbolCodeCell",
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.cap.cruds1.ext.view.SymbolCodeCell"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "NoImageExtensionFacet|C_DfsCapabilityObjectTP": {
+                            "id": "HeaderExtensionImage",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.cap.cruds1.ext.fragment.HeaderExtensionFacet",
+                            "type": "XML",
+                            "bVisibleOnEdit": false
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "s4dfs.cap.cruds1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_DfsCapabilityObjectTP": {
+                                "EntitySet": "C_DfsCapabilityObjectTP",
+                                "Header": {
+                                    "Actions": {}
+                                },
+                                "Sections": {
+                                    "to_DfsCapabilityStmntTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_DfsCapabilityStmntTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {}
+                                    },
+                                    "to_AssgmtCapbltObjToStmntLi::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtCapbltObjToStmntLi::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_RegularStatementCreate": {
+                                                "id": "AC_RegularStatementCreate",
+                                                "text": "{@i18n>regularStatementCreate}",
+                                                "press": "onRegularStatementCreatePress"
+                                            },
+                                            "AC_ASSGMT_CAPSRefresh": {
+                                                "id": "CAPS__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            },
+                                            "AC_ASSGMT_SUPDelimit": {
+                                                "id": "CAPS__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSCreate": {
+                                                "id": "CAPS__CreateAssignmentCAPS",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_CAPSDel": {
+                                                "id": "CAPS__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSApprove": {
+                                                "id": "CAPS__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSSubmit": {
+                                                "id": "CAPS__SUBMIT",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSReject": {
+                                                "id": "CAPS__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSActivate": {
+                                                "id": "CAPS__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSResubmit": {
+                                                "id": "CAPS__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSDeactivate": {
+                                                "id": "CAPS__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtCapbltObjMsnEsnlLi::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtCapbltObjMsnEsnlLi::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_METLRefresh": {
+                                                "id": "METL__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            },
+                                            "AC_ASSGMT_SUPDelimit": {
+                                                "id": "METL__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLCreate": {
+                                                "id": "METL__CreateAssignmentMETL",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_METLDel": {
+                                                "id": "METL__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLSubmit": {
+                                                "id": "METL__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLApprove": {
+                                                "id": "METL__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLRequest": {
+                                                "id": "METL__Request",
+                                                "text": "{@i18n>AC_GenRequest}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLReject": {
+                                                "id": "METL__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLActivate": {
+                                                "id": "METL__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLResubmit": {
+                                                "id": "METL__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtCapbltCapbltObjLi::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtCapbltCapbltObjLi::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_CAPRefresh": {
+                                                "id": "CAP__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            },
+                                            "AC_ASSGMT_SUPDelimit": {
+                                                "id": "CAP__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPCreate": {
+                                                "id": "CAP__CreateAssignmentCAP",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_CAPDel": {
+                                                "id": "CAP__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPSubmit": {
+                                                "id": "CAP__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPApprove": {
+                                                "id": "CAP__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPRequest": {
+                                                "id": "CAP__Request",
+                                                "text": "{@i18n>AC_GenRequest}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPReject": {
+                                                "id": "CAP__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPActivate": {
+                                                "id": "CAP__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPResubmit": {
+                                                "id": "CAP__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4dfs.cap.cruds1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_DfsCapabilityObjectTP": {
+                                "EntitySet": "C_DfsCapabilityObjectTP",
+                                "Actions": {
+                                    "ActionC_DfsCapabilityObjectTP2": {
+                                        "id": "ActionC_DfsCapabilityObjectTP2button",
+                                        "text": "{@i18n>ActionC_DfsCapabilityObjectTP2}",
+                                        "press": "onShowHierarchyPress"
+                                    },
+                                    "ActionC_DfsCapabilityObjectTP3": {
+                                        "id": "ActionC_DfsCapabilityObjectTP3button",
+                                        "text": "{@i18n>ActionC_DfsCapabilityObjectTP3}",
+                                        "press": "onCreateCapabilityCodePress"
+                                    },
+                                    "ActionC_DfsCapabilityObjectTP4": {
+                                        "id": "ActionC_DfsCapabilityObjectTP4button",
+                                        "text": "{@i18n>ActionC_DfsCapabilityObjectTP4}",
+                                        "press": "onCreateHierarchyNodePress"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "objectPageDynamicHeaderTitleWithVM": true
+        },
+        "pages": {
+            "ListReport|C_DfsCapabilityObjectTP": {
+                "entitySet": "C_DfsCapabilityObjectTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": false,
+                        "variantManagementHidden": false,
+                        "condensedTableLayout": true,
+                        "multiSelect": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_DfsCapabilityObjectTP": {
+                        "entitySet": "C_DfsCapabilityObjectTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": true,
+                                "allTableMultiSelect": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{Attachments}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "DFS_CAP_CO",
+                                    "objectKey": "{=${HasActiveEntity}&&!(${IsActiveEntity})?${ActiveUUID}:${DfsCapabilityObjectUUID}}",
+                                    "isGuid": true,
+                                    "flavor": "withDocType",
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "SOURCE": false
+                                        }
+                                    }
+                                }
+                            },
+                            "simple::classificationComponentContainer": {
+                                "id": "simple::classificationComponentContainer",
+                                "componentName": "sap.i2d.lo.lib.vchclf.components.classification",
+                                "title": "{{Classification}}",
+                                "settings": {
+                                    "uiMode": "{=( ${ui>/editable} && ${IsClassificationEnabled} !== 0 && ${IsClassificationEnabled} !== 1) ? (${ui>/createMode} ? 'Create' : 'Edit') : 'Display' }",
+                                    "semanticObject": "CapabilityObject",
+                                    "objectKey": "{DfsCapabilityObjectID}",
+                                    "technicalObject": "DFS_CAP_CO_CL",
+                                    "draftKey": "{DfsCapabilityObjectUUID}"
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|C_DfsCapabilityStmntTP": {
+                                "navigationProperty": "to_DfsCapabilityStmntTP",
+                                "entitySet": "C_DfsCapabilityStmntTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "smartVariantManagement": false,
+                                        "condensedTableLayout": true,
+                                        "gridTable": true
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_AssgmtCapbltObjToStmntLi": {
+                                "navigationProperty": "to_AssgmtCapbltObjToStmntLi",
+                                "entitySet": "C_DFS_AssgmtCapbltObjToStmntLi",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "smartVariantManagement": false,
+                                        "condensedTableLayout": true,
+                                        "gridTable": true
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_AssgmtCapbltObjMsnEsnlLi": {
+                                "navigationProperty": "to_AssgmtCapbltObjMsnEsnlLi",
+                                "entitySet": "C_DFS_AssgmtCapbltObjMsnEsnlLi",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "smartVariantManagement": false,
+                                        "condensedTableLayout": true,
+                                        "gridTable": true
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_AssgmtCapbltCapbltObjLi": {
+                                "navigationProperty": "to_AssgmtCapbltCapbltObjLi",
+                                "entitySet": "C_DFS_AssgmtCapbltCapbltObjLi",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "smartVariantManagement": false,
+                                        "condensedTableLayout": true,
+                                        "gridTable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4133"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

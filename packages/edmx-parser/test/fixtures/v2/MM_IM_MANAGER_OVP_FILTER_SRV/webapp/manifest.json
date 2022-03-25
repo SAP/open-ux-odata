@@ -1,0 +1,432 @@
+{
+    "_version": "1.5.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "_version": "1.1.0",
+        "id": "ui.s2p.mm.warehouseclerkovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "MM-FIO-IM-OVP",
+        "resources": "resources.json",
+        "dataSources": {
+            "MM_IM_MANAGER_OVP_FILTER_SRV": {
+                "uri": "/sap/opu/odata/sap/MM_IM_MANAGER_OVP_FILTER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MM_IM_MANAGER_OVP_FILTER_SRV/metadata.xml",
+                    "annotations": ["annotationC_MATMANFILTER"]
+                }
+            },
+            "annotationC_MATMANFILTER": {
+                "type": "ODataAnnotation",
+                "uri": "Annotations/annotationC_MATMANFILTER.xml",
+                "settings": {
+                    "localUri": "Annotations/annotationC_MATMANFILTER.xml"
+                }
+            },
+            "MM_IM_PHYS_INV_DOC_SRV": {
+                "uri": "/sap/opu/odata/sap/MM_IM_PHYS_INV_DOC_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/MM_IM_PHYS_INV_DOC_SRV/metadata.xml",
+                    "annotations": ["annotationRecentInventory"]
+                }
+            },
+            "annotationRecentInventory": {
+                "uri": "Annotations/annotationRecentInventory.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "Annotations/annotationRecentInventory.xml"
+                }
+            },
+            "MMIM_MATDOC_OV_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_MATDOC_OV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MMIM_MATDOC_OV_SRV/metadata.xml",
+                    "annotations": ["annotationMatericalDoc"]
+                }
+            },
+            "annotationMatericalDoc": {
+                "uri": "Annotations/annotationMatericalDoc.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "Annotations/annotationMatericalDoc.xml"
+                }
+            },
+            "MM_PRC_OVP": {
+                "uri": "/sap/opu/odata/sap/MM_PRC_OVP/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MM_PRC_OVP/metadata.xml",
+                    "annotations": ["annotationOverduePurchase"]
+                }
+            },
+            "annotationOverduePurchase": {
+                "uri": "Annotations/annotationOverduePurchase.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "Annotations/annotationOverduePurchase.xml"
+                }
+            },
+            "MMIM_OVERDUE_GRBLOCKED_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_OVERDUE_GRBLOCKED_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MMIM_OVERDUE_GRBLOCKED_SRV/metadata.xml",
+                    "annotations": ["annotationOverdueMaterial"]
+                }
+            },
+            "annotationOverdueMaterial": {
+                "uri": "Annotations/annotationOverdueMaterial.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "Annotations/annotationOverdueMaterial.xml"
+                }
+            },
+            "LE_SHP_WHSE_CLERK_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/LE_SHP_WHSE_CLERK_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/LE_SHP_WHSE_CLERK_OVP_SRV/metadata.xml",
+                    "annotations": ["annotationInboundDelivery", "annotationOutboundDelivery"]
+                }
+            },
+            "annotationInboundDelivery": {
+                "uri": "Annotations/annotationInboundDelivery.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "Annotations/annotationInboundDelivery.xml"
+                }
+            },
+            "annotationOutboundDelivery": {
+                "uri": "Annotations/annotationOutboundDelivery.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "Annotations/annotationOutboundDelivery.xml"
+                }
+            },
+            "MMIM_MULTIPLE_MATERIAL_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_MULTIPLE_MATERIAL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MMIM_MULTIPLE_MATERIAL_SRV/metadata.xml",
+                    "annotations": ["annotationStockQuantity"]
+                }
+            },
+            "annotationStockQuantity": {
+                "type": "ODataAnnotation",
+                "uri": "Annotations/annotationStockQuantity.xml",
+                "settings": {
+                    "localUri": "Annotations/annotationStockQuantity.xml"
+                }
+            },
+            "C_GDSMVTTHROUGHPUTQUERY_CDS": {
+                "uri": "/sap/opu/odata/sap/C_GDSMVTTHROUGHPUTQUERY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/C_GDSMVTTHROUGHPUTQUERY_CDS/metadata.xml",
+                    "annotations": ["annotationThroughHistory"]
+                }
+            },
+            "annotationThroughHistory": {
+                "type": "ODataAnnotation",
+                "uri": "Annotations/annotationThroughHistory.xml",
+                "settings": {
+                    "localUri": "Annotations/annotationThroughHistory.xml"
+                }
+            },
+            "MMIM_MATERIAL_OVERDUE_SIT_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_MATERIAL_OVERDUE_SIT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MMIM_MATERIAL_OVERDUE_SIT_SRV/metadata.xml",
+                    "annotations": ["annotationStockTransit"]
+                }
+            },
+            "annotationStockTransit": {
+                "type": "ODataAnnotation",
+                "uri": "Annotations/annotationStockTransit.xml",
+                "settings": {
+                    "localUri": "Annotations/annotationStockTransit.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "com.sap.webide.annotationmodeller.CreateAnnotationTemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2416"],
+        "archeType": "analytical"
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.32.0"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "MM_IM_PHYS_INV_DOC_SRV": {
+                "preload": true,
+                "dataSource": "MM_IM_PHYS_INV_DOC_SRV",
+                "settings": {}
+            },
+            "MMIM_MATDOC_OV_SRV": {
+                "preload": true,
+                "dataSource": "MMIM_MATDOC_OV_SRV",
+                "settings": {}
+            },
+            "MM_PRC_OVP": {
+                "preload": true,
+                "dataSource": "MM_PRC_OVP",
+                "settings": {}
+            },
+            "MMIM_OVERDUE_GRBLOCKED_SRV": {
+                "preload": true,
+                "dataSource": "MMIM_OVERDUE_GRBLOCKED_SRV",
+                "settings": {}
+            },
+            "LE_SHP_WHSE_CLERK_OVP_SRV": {
+                "preload": true,
+                "dataSource": "LE_SHP_WHSE_CLERK_OVP_SRV",
+                "settings": {}
+            },
+            "MMIM_MULTIPLE_MATERIAL_SRV": {
+                "preload": true,
+                "dataSource": "MMIM_MULTIPLE_MATERIAL_SRV",
+                "settings": {
+                    "defaultCountMode": "none"
+                }
+            },
+            "C_GDSMVTTHROUGHPUTQUERY_CDS": {
+                "preload": true,
+                "dataSource": "C_GDSMVTTHROUGHPUTQUERY_CDS",
+                "settings": {
+                    "defaultCountMode": "none"
+                }
+            },
+            "MMIM_MATERIAL_OVERDUE_SIT_SRV": {
+                "preload": true,
+                "dataSource": "MMIM_MATERIAL_OVERDUE_SIT_SRV",
+                "settings": {}
+            },
+            "MM_IM_MANAGER_OVP_FILTER_SRV": {
+                "preload": true,
+                "dataSource": "MM_IM_MANAGER_OVP_FILTER_SRV",
+                "settings": {
+                    "defaultCountMode": "none"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "component": "sap.ovp.app",
+            "minVersion": "1.32.0",
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "ui.s2p.mm.warehouseclerkovps1.ext.customFilter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "MM_IM_MANAGER_OVP_FILTER_SRV",
+        "globalFilterEntityType": "C_MatManFilterBarOvrVwPgType",
+        "showDateInRelativeFormat": false,
+        "enableLiveFilter": false,
+        "cards": {
+            "WarehouseClerk_card01": {
+                "model": "C_GDSMVTTHROUGHPUTQUERY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{WarehouseClerk_card01_title}}",
+                    "subTitle": "{{WarehouseClerk_card01_subTitle}}",
+                    "entitySet": "C_GDSMVTTHROUGHPUTQUERYResults",
+                    "addODataSelect": "true",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LastYearToDate",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartGoodsIssueRecip",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#GoodsIssueRecipQuaColumn",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfGoodsMovements",
+                    "idenfiticationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#columnchart"
+                }
+            },
+            "WarehouseClerk_card02": {
+                "model": "LE_SHP_WHSE_CLERK_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{WarehouseClerk_card07_title}}",
+                    "subTitle": "{{WarehouseClerk_card07_subTitle}}",
+                    "entitySet": "C_WhseClerkInbDeliv",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "DeliveryDate",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#InboundList",
+                    "customParams": "param1"
+                }
+            },
+            "WarehouseClerk_card03": {
+                "model": "LE_SHP_WHSE_CLERK_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{WarehouseClerk_card06_title}}",
+                    "subTitle": "{{WarehouseClerk_card06_subTitle}}",
+                    "entitySet": "C_WhseClerkOutbDeliv",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "PlannedGoodsIssueDate",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OutboundList",
+                    "customParams": "param1"
+                }
+            },
+            "WarehouseClerk_card04": {
+                "model": "MMIM_MATERIAL_OVERDUE_SIT_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{WarehouseClerk_card03_title}}",
+                    "subTitle": "{{WarehouseClerk_card031_subTitle}}",
+                    "entitySet": "C_MaterialOverdueSIT",
+                    "showFilterInHeader": false,
+                    "addODataSelect": "true",
+
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TransittimeBubble",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#TransittimeBubble",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TransittimeBubble",
+                    "staticParameters": {
+                        "IsCompletelyDelivered": "false"
+                    }
+                }
+            },
+            "WarehouseClerk_card05": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{WarehouseClerk_card04_title}}",
+                    "subTitle": "{{WarehouseClerk_card04_subTitle}}",
+                    "entitySet": "C_OverdueNotReleasedResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": "true",
+                    "tabs": [
+                        {
+                            "sortBy": "OpenPurchaseOrderNetAmount",
+                            "sortOrder": "descending",
+
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OverduePOParameter",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OverduePOList",
+                            "value": "{{card04_ovp_dropdown_value_overdue}}"
+                        },
+                        {
+                            "sortBy": "OpenPurchaseOrderNetAmount",
+                            "sortOrder": "descending",
+
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InApprovedPOParameter",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OverduePOList",
+                            "value": "{{card04_ovp_dropdown_value_inapproved}}"
+                        }
+                    ]
+                }
+            },
+            "WarehouseClerk_card06": {
+                "model": "MMIM_MATDOC_OV_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{WarehouseClerk_card02_title}}",
+                    "subTitle": "{{WarehouseClerk_card02_subTitle}}",
+                    "entitySet": "F_Mmim_Findmatdoc",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#MetarialDcomentsList",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MetarialDcomentsList",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MetarialDcomentsList"
+                }
+            },
+            "WarehouseClerk_card07": {
+                "model": "MMIM_OVERDUE_GRBLOCKED_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{WarehouseClerk_card05_title}}",
+                    "subTitle": "{{WarehouseClerk_card05_subTitle}}",
+                    "entitySet": "C_MaterialOverdueGRBlocked",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "NumbersOfDaysSinceGRPostg",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#GRblockedList"
+                }
+            },
+            "WarehouseClerk_card08": {
+                "model": "MM_IM_PHYS_INV_DOC_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{WarehouseClerk_card00_title}}",
+                    "subTitle": "{{WarehouseClerk_card00_subTitle}}",
+                    "entitySet": "C_PhysInvtryDocHdrObjPage",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "sortBy": "PhysicalInventoryLastCountDate",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PhysicsInventoryCountingList"
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/warehouseclerk/webapp",
+        "_version": "1.1.0"
+    }
+}

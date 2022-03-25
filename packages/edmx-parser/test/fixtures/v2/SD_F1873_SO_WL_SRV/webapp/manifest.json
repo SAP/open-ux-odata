@@ -1,0 +1,264 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "SD-SLS",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/SD_F1873_SO_WL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["SD_F1873_SO_WL_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "SD_F1873_SO_WL_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='SD_F1873_SO_WL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/SD_F1873_SO_WL_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "copilot.intent",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "displaySalesOrder": {
+                    "semanticObject": "SalesOrder",
+                    "action": "display"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://Fiori2/F0021",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.cus.sd.lib.processflow": {
+                    "lazy": true
+                },
+                "cus.sd.lib.worklist": {
+                    "lazy": false
+                }
+            },
+            "components": {
+                "sap.cus.sd.lib.processflow.component.sales": { "lazy": true }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_SalesOrderWl_F1873": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_SalesOrderWl_F1873/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SalesOrderWl_F1873": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SalesOrderWl_F1873/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_SalesOrderWl_F1873": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.salesorders.manage.ext.fragments.CustomFilter",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_SalesOrderWl_F1873": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.salesorders.manage.ext.fragments.StatusTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SalesOrderWl_F1873": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.salesorders.manage.ext.fragments.StatusTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "cus.sd.salesorders.manage.ext.controllers.CustomLogic",
+                        "sap.ui.generic.app": {
+                            "C_SalesOrderWl_F1873": {
+                                "EntitySet": "C_SalesOrderWl_F1873",
+                                "Actions": {
+                                    "create": {
+                                        "id": "CreateSalesOrder",
+                                        "text": "{{createSalesOrder}}",
+                                        "press": "onPressCreate"
+                                    },
+                                    "createNew": {
+                                        "id": "NewCreateSalesOrder",
+                                        "text": "{{newCreateSalesOrder}}",
+                                        "press": "onPressNewCreate"
+                                    },
+                                    "rejectAllItems": {
+                                        "id": "rejectAllItems",
+                                        "text": "{{rejectAllItems}}",
+                                        "press": "onRejectAllItems",
+                                        "requiresSelection": "true"
+                                    },
+                                    "setDeliveryBlock": {
+                                        "id": "setDeliveryBlock",
+                                        "text": "{{SetDeliveryBlock}}",
+                                        "press": "onSetDeliveryBlock",
+                                        "requiresSelection": "true"
+                                    },
+                                    "removeDeliveryBlock": {
+                                        "id": "removeDeliveryBlock",
+                                        "text": "{{RemoveDeliveryBlock}}",
+                                        "press": "onRemoveDeliveryBlock",
+                                        "requiresSelection": "true"
+                                    },
+                                    "setBillingBlock": {
+                                        "id": "setBillingBlock",
+                                        "text": "{{setBillingBlock}}",
+                                        "press": "onSetBillingBlock",
+                                        "requiresSelection": "true"
+                                    },
+                                    "removeBillingBlock": {
+                                        "id": "removeBillingBlock",
+                                        "text": "{{removeBillingBlock}}",
+                                        "press": "onRemoveBillingBlock",
+                                        "requiresSelection": "true"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.2.0",
+        "pages": [
+            {
+                "entitySet": "C_SalesOrderWl_F1873",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_SalesOrderWl_F1873",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.app.crossNavigation.outbounds",
+                                "target": "displaySalesOrder"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1873"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "digitalAssistant": {
+            "intentDefinition": {
+                "ManageSalesOrdersSkill": {
+                    "uri": "/copilot/ManageSalesOrdersSkill.xml",
+                    "dataSources": ["mainService"],
+                    "i18n": "/copilot/i18n/i18n.properties"
+                }
+            }
+        }
+    }
+}

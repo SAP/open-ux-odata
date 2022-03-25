@@ -1,0 +1,280 @@
+{
+    "_version": "1.8.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "i2d.plm.recipe.overview.pages1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "PLM-FIO-RCP",
+        "resources": "resources.json",
+        "dataSources": {
+            "PLMI_RECIPE_OVP": {
+                "uri": "/sap/opu/odata/sap/PLMI_RECIPE_OVP/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PLMI_RECIPE_OVP_ANNO_MDL", "annotation"],
+                    "localUri": "localService/PLMI_RECIPE_OVP/metadata.xml"
+                }
+            },
+            "PLMI_RECIPE_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PLMI_RECIPE_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PLMI_RECIPE_OVP/PLMI_RECIPE_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "PLMI_RECIPE_OVP": {
+                "dataSource": "PLMI_RECIPE_OVP",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "i2d.plm.recipe.overview.pages1.ext.customParams"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3109"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "PLMI_RECIPE_OVP",
+        "globalFilterEntityType": "C_RecipeOverviewType",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": false,
+        "containerLayout": "resizable",
+        "showDateInRelativeFormat": true,
+        "cards": {
+            "i2d.plm.recipe.overview.pages1_card00": {
+                "model": "PLMI_RECIPE_OVP",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.plm.recipe.overview.pages1_card00_title}}",
+                    "entitySet": "C_RecipeOverview",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#StatusChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#StatusChartPresVar",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "i2d.plm.recipe.overview.pages1_card01": {
+                "model": "PLMI_RECIPE_OVP",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{i2d.plm.recipe.overview.pages1_card01_title}}",
+                    "entitySet": "C_RecipeOverview",
+                    "listFlavor": "standard",
+                    "headerAnnotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#none",
+                    "stopResizing": true,
+                    "defaultSpan": {
+                        "rows": 27,
+                        "cols": 1
+                    },
+                    "customParams": "CreatedByMe",
+                    "staticContent": [
+                        {
+                            "title": "{{linkList_Create_Recipe_title}}",
+                            "imageUri": "sap-icon://add",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "Recipe",
+                            "action": "create"
+                        },
+                        {
+                            "title": "{{linkList_Manage_Recipe_title}}",
+                            "imageUri": "sap-icon://activity-items",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "Recipe",
+                            "action": "manage"
+                        },
+                        {
+                            "title": "{{linkList_Recipe_Finder_title}}",
+                            "imageUri": "sap-icon://sys-find",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "Recipe",
+                            "action": "findRecipe"
+                        },
+                        {
+                            "title": "{{linkList_Multi_Formula_Editor_title}}",
+                            "imageUri": "sap-icon://dimension",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "Recipe",
+                            "action": "displayMultiple"
+                        },
+                        {
+                            "title": "{{linkList_Manage_Raw_Substances_title}}",
+                            "imageUri": "sap-icon://puzzle",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "RawSubstance",
+                            "action": "manage"
+                        },
+                        {
+                            "title": "{{linkList_Manage_Real_Substances_title}}",
+                            "imageUri": "sap-icon://org-chart",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "RealSubstance",
+                            "action": "manage"
+                        },
+                        {
+                            "title": "{{linkList_Manage_Stream_Substances_title}}",
+                            "imageUri": "sap-icon://toaster-down",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "StreamSubstance",
+                            "action": "manage"
+                        },
+                        {
+                            "title": "{{linkList_IPD_Collaboration_title}}",
+                            "imageUri": "sap-icon://company-view",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "CommunicationArrangement",
+                            "action": "openWithCommunicationScenario",
+                            "params": {
+                                "CommunicationScenario": "SAP_COM_0291",
+                                "Outbound": "0001"
+                            }
+                        },
+                        {
+                            "title": "{{linkList_IPD_Collaboration_title}}",
+                            "imageUri": "sap-icon://company-view",
+                            "imageAltText": "{{card30_icon_so_man}}",
+                            "semanticObject": "CommunicationArrangement",
+                            "action": "openWithSystemAlias"
+                        }
+                    ]
+                }
+            },
+            "i2d.plm.recipe.overview.pages1_card02": {
+                "model": "PLMI_RECIPE_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.plm.recipe.overview.pages1_card02_title}}",
+                    "subTitle": "{{i2d.plm.recipe.overview.pages1_card02_subTitle}}",
+                    "entitySet": "C_RcpOvwPageCreatedByCurUsr",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CreatedByListCardItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#CreatedByUserPresVar",
+                    "customParams": "CreatedByMe"
+                }
+            },
+            "i2d.plm.recipe.overview.pages1_card03": {
+                "model": "PLMI_RECIPE_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.plm.recipe.overview.pages1_card03_title}}",
+                    "subTitle": "{{i2d.plm.recipe.overview.pages1_card03_subTitle}}",
+                    "entitySet": "C_RcpOvwPageLastChgdByCurUsr",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "requestAtLeastFields": "RecipeUUID, SessionUser",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LastChangedByListCardItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#LastChangedByUserPresVar",
+                    "customParams": "LastChanged"
+                }
+            },
+            "i2d.plm.recipe.overview.pages1_card04": {
+                "model": "PLMI_RECIPE_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.plm.recipe.overview.pages1_card04_title}}",
+                    "subTitle": "{{i2d.plm.recipe.overview.pages1_card04_subTitle}}",
+                    "entitySet": "C_RcpOvwPageValidSoon",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ValidSoonListCardItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ValidSoonPresVar",
+                    "customParams": "ValidSoon"
+                }
+            },
+            "i2d_plm_recipe_overview_pages1_card05": {
+                "model": "PLMI_RECIPE_OVP",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d_plm_recipe_overview_pages1_card05_title}}",
+                    "entitySet": "C_RecipeOverview",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ValidChartSelVar",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ValidChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ValidChartPresVar",
+                    "navigation": "headerNav"
+                }
+            },
+            "i2d_plm_recipe_overview_pages1_card06": {
+                "model": "PLMI_RECIPE_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d_plm_recipe_overview_pages1_card06_title}}",
+                    "subTitle": "{{i2d_plm_recipe_overview_pages1_card06_subTitle}}",
+                    "entitySet": "C_RcpOvwPageLastAccByCurUsr",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LastAccessedListCardItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#LastAccessedPresVar",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#none"
+                }
+            }
+        }
+    }
+}

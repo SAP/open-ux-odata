@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+		   xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+		   xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.UI.v1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.Communication.v1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="vCard"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='Measures.V1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="CQP"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='Core.V1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.Common.v1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="C_SUPPLIERACTIVITY_FS_SRV" Alias="C_SUPPLIERACTIVITY_FS_SRV"/>
+	</edmx:Reference>
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="C_SUPPLIERACTIVITY_FS_SRV" xml:lang="en" sap:schema-version="1"
+				xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="C_SuplrActyEmplRespValueHelpType" sap:label="Employee Responsible for Activity"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="UserID"/>
+				</Key>
+				<Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase"
+						  sap:text="FullName" sap:label="User ID"/>
+				<Property Name="FullName" Type="Edm.String" MaxLength="80" sap:label="Full Name"
+						  sap:quickinfo="Full Name of Person"/>
+				<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name"
+						  sap:quickinfo="First Name of Business Partner (Person)"/>
+				<Property Name="FamilyName" Type="Edm.String" MaxLength="40" sap:label="Last Name"
+						  sap:quickinfo="Last Name of Business Partner (Person)"/>
+			</EntityType>
+			<EntityType Name="C_SuplrActyStatValueHelpType" sap:label="Status of Activity" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="SuplrActyLifecycleStatus"/>
+				</Key>
+				<Property Name="SuplrActyLifecycleStatus" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="UpperCase" sap:text="SuplrActyLifecycleStatusName"
+						  sap:label="Lifecycle Status" sap:quickinfo="Lifecycle Status Code for Activities"/>
+				<Property Name="SuplrActyLifecycleStatusName" Type="Edm.String" MaxLength="60" sap:label="Status"/>
+			</EntityType>
+			<EntityType Name="C_SupplierActivityFsType" sap:label="Procurement-Related Activity"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="SuplrActyUUID"/>
+				</Key>
+				<Property Name="SuplrActyUUID" Type="Edm.String" Nullable="false" MaxLength="32"/>
+				<Property Name="SupplierActivity" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase"
+						  sap:text="to_SupplierActivityValueHelp/SuplrActyName" sap:label="Activity"
+						  sap:value-list="standard"/>
+				<Property Name="PurchasingCategory" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase"
+						  sap:text="PurgCatDescription" sap:label="Purchasing Category"
+						  sap:quickinfo="Purchasing Category ID" sap:value-list="standard"/>
+				<Property Name="PurgCatDescription" Type="Edm.String" MaxLength="60" sap:label="Purchasing Category"
+						  sap:quickinfo="Name of Purchasing Category"/>
+				<Property Name="PurgCatName" Type="Edm.String" MaxLength="60" sap:label="Purchasing Category"
+						  sap:quickinfo="Name of Purchasing Category"/>
+				<Property Name="Name" Type="Edm.String" MaxLength="60" sap:label="Purg Cat. Desc"
+						  sap:quickinfo="Description of Purchasing Category"/>
+				<Property Name="PurgCatUUID" Type="Edm.String" MaxLength="32"/>
+				<Property Name="StartDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Start Date"/>
+				<Property Name="EndDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="End Date"/>
+				<Property Name="CreatedByUser" Type="Edm.String" MaxLength="60" sap:text="CreatedByUserFullName"
+						  sap:label="Created By" sap:quickinfo="Created-By Name"/>
+				<Property Name="CreatedByUserFullName" Type="Edm.String" MaxLength="80" sap:label="Created By"
+						  sap:quickinfo="Created-by Name"/>
+				<Property Name="CreatedByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Created By"
+						  sap:quickinfo="Created-by Name"/>
+				<Property Name="LastChangedByUser" Type="Edm.String" MaxLength="60" sap:text="LastChangedByUserFullName"
+						  sap:label="Changed By" sap:quickinfo="Changed-By Name"/>
+				<Property Name="LastChangedByUserFullName" Type="Edm.String" MaxLength="80" sap:label="Changed By"
+						  sap:quickinfo="Changed-by Name"/>
+				<Property Name="LastChangedByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Changed By"
+						  sap:quickinfo="Changed-by Name"/>
+				<Property Name="Language" Type="Edm.String" MaxLength="2" sap:semantics="fixed-values"
+						  sap:text="to_Language/Language_Text" sap:label="Language" sap:value-list="fixed-values"/>
+				<Property Name="SuplrActyType" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:semantics="fixed-values" sap:text="to_SupplierActivityType/SuplrActyType_Text"
+						  sap:label="Activity Type" sap:quickinfo="Activity type" sap:value-list="fixed-values"/>
+				<Property Name="PurchaserResponsible" Type="Edm.String" MaxLength="100"
+						  sap:text="to_SuplrActyEmplRespValueHelp/FullName" sap:label="Responsible"
+						  sap:quickinfo="Purchaser Responsible Full Name" sap:value-list="standard"/>
+				<Property Name="CreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Created On"/>
+				<Property Name="LastChangeDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Last Changed On"/>
+				<Property Name="SuplrActyLifecycleStatus" Type="Edm.String" MaxLength="2" sap:semantics="fixed-values"
+						  sap:text="to_SuplrActLifecycleStatus/SuplrActyLifecycleStatusName" sap:label="Status"
+						  sap:quickinfo="General Data Element for Status Codes" sap:value-list="fixed-values"/>
+				<Property Name="CriticalityCode" Type="Edm.Byte" sap:label="INT1"
+						  sap:quickinfo="1 Byte Unsigned Integer"/>
+				<Property Name="SuplrActyPriority" Type="Edm.String" MaxLength="1" sap:display-format="NonNegative"
+						  sap:semantics="fixed-values" sap:text="to_SupplierActivityPriority/SuplrActyPriority_Text"
+						  sap:label="Priority" sap:quickinfo="Priority of an activity" sap:value-list="fixed-values"/>
+				<NavigationProperty Name="to_Language"
+									Relationship="C_SUPPLIERACTIVITY_FS_SRV.assoc_0476555A8B5EB0D8A21C8967B2A9B13F"
+									FromRole="FromRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F"
+									ToRole="ToRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F"/>
+				<NavigationProperty Name="to_PurchasingCategoryValueHelp"
+									Relationship="C_SUPPLIERACTIVITY_FS_SRV.assoc_301BE956411B12C1F78B5B0D31CFAE63"
+									FromRole="FromRole_assoc_301BE956411B12C1F78B5B0D31CFAE63"
+									ToRole="ToRole_assoc_301BE956411B12C1F78B5B0D31CFAE63"/>
+				<NavigationProperty Name="to_SuplrActLifecycleStatus"
+									Relationship="C_SUPPLIERACTIVITY_FS_SRV.assoc_4A92FA0CF83FD65B7B3A9262195BC922"
+									FromRole="FromRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922"
+									ToRole="ToRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922"/>
+				<NavigationProperty Name="to_SuplrActyEmplRespValueHelp"
+									Relationship="C_SUPPLIERACTIVITY_FS_SRV.assoc_4042E83B612F38476BBBB363A9F725F5"
+									FromRole="FromRole_assoc_4042E83B612F38476BBBB363A9F725F5"
+									ToRole="ToRole_assoc_4042E83B612F38476BBBB363A9F725F5"/>
+				<NavigationProperty Name="to_SupplierActivityPriority"
+									Relationship="C_SUPPLIERACTIVITY_FS_SRV.assoc_608402D05B3AB7E847D1DE7CF607B10A"
+									FromRole="FromRole_assoc_608402D05B3AB7E847D1DE7CF607B10A"
+									ToRole="ToRole_assoc_608402D05B3AB7E847D1DE7CF607B10A"/>
+				<NavigationProperty Name="to_SupplierActivityType"
+									Relationship="C_SUPPLIERACTIVITY_FS_SRV.assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"
+									FromRole="FromRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"
+									ToRole="ToRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"/>
+				<NavigationProperty Name="to_SupplierActivityValueHelp"
+									Relationship="C_SUPPLIERACTIVITY_FS_SRV.assoc_8F782E1A1D97EF6B470109421F708DE1"
+									FromRole="FromRole_assoc_8F782E1A1D97EF6B470109421F708DE1"
+									ToRole="ToRole_assoc_8F782E1A1D97EF6B470109421F708DE1"/>
+			</EntityType>
+			<EntityType Name="I_LanguageType" sap:label="Language" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="Language"/>
+				</Key>
+				<Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:text="Language_Text"
+						  sap:label="Language Key"/>
+				<Property Name="Language_Text" Type="Edm.String" MaxLength="16" sap:label="Name"
+						  sap:quickinfo="Name of Language" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="LanguageISOCode" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Language Code" sap:quickinfo="2-Character SAP Language Code"/>
+			</EntityType>
+			<EntityType Name="I_PurchasingCategoryValueHelpType" sap:label="Purchasing Category"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="PurchasingCategory"/>
+				</Key>
+				<Property Name="PurchasingCategory" Type="Edm.String" Nullable="false" MaxLength="20"
+						  sap:display-format="UpperCase" sap:text="PurgCatName" sap:label="ID"/>
+				<Property Name="PurgCatName" Type="Edm.String" MaxLength="60" sap:label="Name"
+						  sap:quickinfo="Medium-Size Name"/>
+				<Property Name="PurgCatDescription" Type="Edm.String" MaxLength="101" sap:label="Description"/>
+			</EntityType>
+			<EntityType Name="I_SupplierActivityPriorityType" sap:label="Supplier Activity Priority"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="SuplrActyPriority"/>
+				</Key>
+				<Property Name="SuplrActyPriority" Type="Edm.String" Nullable="false" MaxLength="1"
+						  sap:display-format="NonNegative" sap:text="SuplrActyPriority_Text" sap:label="Priority"
+						  sap:quickinfo="Priority of an activity"/>
+				<Property Name="SuplrActyPriority_Text" Type="Edm.String" MaxLength="60" sap:label="Short Descript."
+						  sap:quickinfo="Short Text for Fixed Values" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_SupplierActivityTypeType" sap:label="Supplier Activity Type" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="SuplrActyType"/>
+				</Key>
+				<Property Name="SuplrActyType" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="UpperCase" sap:text="SuplrActyType_Text" sap:label="Activity Type"
+						  sap:quickinfo="Activity type"/>
+				<Property Name="SuplrActyType_Text" Type="Edm.String" MaxLength="60" sap:label="Description"
+						  sap:quickinfo="Activity Type Description" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_SupplierActivityValueHelpType" sap:label="Activity (Procurement)"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="SupplierActivity"/>
+				</Key>
+				<Property Name="SupplierActivity" Type="Edm.String" Nullable="false" MaxLength="20"
+						  sap:display-format="UpperCase" sap:text="SuplrActyName" sap:label="ID"/>
+				<Property Name="SuplrActyName" Type="Edm.String" MaxLength="60" sap:label="Name"
+						  sap:quickinfo="Medium-Size Name"/>
+			</EntityType>
+			<Association Name="assoc_301BE956411B12C1F78B5B0D31CFAE63" sap:content-version="1">
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType" Multiplicity="1"
+					 Role="FromRole_assoc_301BE956411B12C1F78B5B0D31CFAE63"/>
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.I_PurchasingCategoryValueHelpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_301BE956411B12C1F78B5B0D31CFAE63"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_301BE956411B12C1F78B5B0D31CFAE63">
+						<PropertyRef Name="PurchasingCategory"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_301BE956411B12C1F78B5B0D31CFAE63">
+						<PropertyRef Name="PurchasingCategory"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_4A92FA0CF83FD65B7B3A9262195BC922" sap:content-version="1">
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType" Multiplicity="1"
+					 Role="FromRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922"/>
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SuplrActyStatValueHelpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922">
+						<PropertyRef Name="SuplrActyLifecycleStatus"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922">
+						<PropertyRef Name="SuplrActyLifecycleStatus"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_4042E83B612F38476BBBB363A9F725F5" sap:content-version="1">
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType" Multiplicity="1"
+					 Role="FromRole_assoc_4042E83B612F38476BBBB363A9F725F5"/>
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SuplrActyEmplRespValueHelpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_4042E83B612F38476BBBB363A9F725F5"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_4042E83B612F38476BBBB363A9F725F5">
+						<PropertyRef Name="UserID"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_4042E83B612F38476BBBB363A9F725F5">
+						<PropertyRef Name="PurchaserResponsible"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_608402D05B3AB7E847D1DE7CF607B10A" sap:content-version="1">
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType" Multiplicity="1"
+					 Role="FromRole_assoc_608402D05B3AB7E847D1DE7CF607B10A"/>
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.I_SupplierActivityPriorityType" Multiplicity="0..1"
+					 Role="ToRole_assoc_608402D05B3AB7E847D1DE7CF607B10A"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_608402D05B3AB7E847D1DE7CF607B10A">
+						<PropertyRef Name="SuplrActyPriority"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_608402D05B3AB7E847D1DE7CF607B10A">
+						<PropertyRef Name="SuplrActyPriority"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_AFFA2130249BB8BCDB418F3FAF03EF4D" sap:content-version="1">
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType" Multiplicity="1"
+					 Role="FromRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"/>
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.I_SupplierActivityTypeType" Multiplicity="0..1"
+					 Role="ToRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D">
+						<PropertyRef Name="SuplrActyType"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D">
+						<PropertyRef Name="SuplrActyType"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_8F782E1A1D97EF6B470109421F708DE1" sap:content-version="1">
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType" Multiplicity="1"
+					 Role="FromRole_assoc_8F782E1A1D97EF6B470109421F708DE1"/>
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.I_SupplierActivityValueHelpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_8F782E1A1D97EF6B470109421F708DE1"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_8F782E1A1D97EF6B470109421F708DE1">
+						<PropertyRef Name="SupplierActivity"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_8F782E1A1D97EF6B470109421F708DE1">
+						<PropertyRef Name="SupplierActivity"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_0476555A8B5EB0D8A21C8967B2A9B13F" sap:content-version="1">
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType" Multiplicity="1"
+					 Role="FromRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F"/>
+				<End Type="C_SUPPLIERACTIVITY_FS_SRV.I_LanguageType" Multiplicity="0..1"
+					 Role="ToRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F">
+						<PropertyRef Name="Language"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F">
+						<PropertyRef Name="Language"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<EntityContainer Name="C_SUPPLIERACTIVITY_FS_SRV_Entities" m:IsDefaultEntityContainer="true"
+							 sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+				<EntitySet Name="C_SuplrActyEmplRespValueHelp"
+						   EntityType="C_SUPPLIERACTIVITY_FS_SRV.C_SuplrActyEmplRespValueHelpType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<EntitySet Name="C_SuplrActyStatValueHelp"
+						   EntityType="C_SUPPLIERACTIVITY_FS_SRV.C_SuplrActyStatValueHelpType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_SupplierActivityFs" EntityType="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType"
+						   sap:creatable="false" sap:updatable="false" sap:searchable="true" sap:content-version="1"/>
+				<EntitySet Name="I_Language" EntityType="C_SUPPLIERACTIVITY_FS_SRV.I_LanguageType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<EntitySet Name="I_PurchasingCategoryValueHelp"
+						   EntityType="C_SUPPLIERACTIVITY_FS_SRV.I_PurchasingCategoryValueHelpType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<EntitySet Name="I_SupplierActivityPriority"
+						   EntityType="C_SUPPLIERACTIVITY_FS_SRV.I_SupplierActivityPriorityType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_SupplierActivityType"
+						   EntityType="C_SUPPLIERACTIVITY_FS_SRV.I_SupplierActivityTypeType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_SupplierActivityValueHelp"
+						   EntityType="C_SUPPLIERACTIVITY_FS_SRV.I_SupplierActivityValueHelpType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<AssociationSet Name="assoc_8F782E1A1D97EF6B470109421F708DE1"
+								Association="C_SUPPLIERACTIVITY_FS_SRV.assoc_8F782E1A1D97EF6B470109421F708DE1"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_SupplierActivityFs" Role="FromRole_assoc_8F782E1A1D97EF6B470109421F708DE1"/>
+					<End EntitySet="I_SupplierActivityValueHelp" Role="ToRole_assoc_8F782E1A1D97EF6B470109421F708DE1"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_301BE956411B12C1F78B5B0D31CFAE63"
+								Association="C_SUPPLIERACTIVITY_FS_SRV.assoc_301BE956411B12C1F78B5B0D31CFAE63"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_SupplierActivityFs" Role="FromRole_assoc_301BE956411B12C1F78B5B0D31CFAE63"/>
+					<End EntitySet="I_PurchasingCategoryValueHelp"
+						 Role="ToRole_assoc_301BE956411B12C1F78B5B0D31CFAE63"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_0476555A8B5EB0D8A21C8967B2A9B13F"
+								Association="C_SUPPLIERACTIVITY_FS_SRV.assoc_0476555A8B5EB0D8A21C8967B2A9B13F"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_SupplierActivityFs" Role="FromRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F"/>
+					<End EntitySet="I_Language" Role="ToRole_assoc_0476555A8B5EB0D8A21C8967B2A9B13F"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_4A92FA0CF83FD65B7B3A9262195BC922"
+								Association="C_SUPPLIERACTIVITY_FS_SRV.assoc_4A92FA0CF83FD65B7B3A9262195BC922"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_SupplierActivityFs" Role="FromRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922"/>
+					<End EntitySet="C_SuplrActyStatValueHelp" Role="ToRole_assoc_4A92FA0CF83FD65B7B3A9262195BC922"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_608402D05B3AB7E847D1DE7CF607B10A"
+								Association="C_SUPPLIERACTIVITY_FS_SRV.assoc_608402D05B3AB7E847D1DE7CF607B10A"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_SupplierActivityFs" Role="FromRole_assoc_608402D05B3AB7E847D1DE7CF607B10A"/>
+					<End EntitySet="I_SupplierActivityPriority" Role="ToRole_assoc_608402D05B3AB7E847D1DE7CF607B10A"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"
+								Association="C_SUPPLIERACTIVITY_FS_SRV.assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_SupplierActivityFs" Role="FromRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"/>
+					<End EntitySet="I_SupplierActivityType" Role="ToRole_assoc_AFFA2130249BB8BCDB418F3FAF03EF4D"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_4042E83B612F38476BBBB363A9F725F5"
+								Association="C_SUPPLIERACTIVITY_FS_SRV.assoc_4042E83B612F38476BBBB363A9F725F5"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_SupplierActivityFs" Role="FromRole_assoc_4042E83B612F38476BBBB363A9F725F5"/>
+					<End EntitySet="C_SuplrActyEmplRespValueHelp" Role="ToRole_assoc_4042E83B612F38476BBBB363A9F725F5"/>
+				</AssociationSet>
+			</EntityContainer>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType/SupplierActivity"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Activity (Procurement)"/>
+						<PropertyValue Property="CollectionPath" String="I_SupplierActivityValueHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SupplierActivity"/>
+									<PropertyValue Property="ValueListProperty" String="SupplierActivity"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="SuplrActyName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType/PurchasingCategory"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Purchasing Category"/>
+						<PropertyValue Property="CollectionPath" String="I_PurchasingCategoryValueHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="PurchasingCategory"/>
+									<PropertyValue Property="ValueListProperty" String="PurchasingCategory"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="PurgCatName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="PurgCatDescription"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType/Language"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Language"/>
+						<PropertyValue Property="CollectionPath" String="I_Language"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Language"/>
+									<PropertyValue Property="ValueListProperty" String="Language"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Language_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType/SuplrActyType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Supplier Activity Type"/>
+						<PropertyValue Property="CollectionPath" String="I_SupplierActivityType"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SuplrActyType"/>
+									<PropertyValue Property="ValueListProperty" String="SuplrActyType"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="SuplrActyType_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType/PurchaserResponsible"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Employee Responsible for Activity"/>
+						<PropertyValue Property="CollectionPath" String="C_SuplrActyEmplRespValueHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="PurchaserResponsible"/>
+									<PropertyValue Property="ValueListProperty" String="UserID"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="FullName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="FirstName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="FamilyName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType/SuplrActyLifecycleStatus"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Status of Activity"/>
+						<PropertyValue Property="CollectionPath" String="C_SuplrActyStatValueHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty"
+												   PropertyPath="SuplrActyLifecycleStatus"/>
+									<PropertyValue Property="ValueListProperty" String="SuplrActyLifecycleStatus"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="SuplrActyLifecycleStatusName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType/SuplrActyPriority"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Supplier Activity Priority"/>
+						<PropertyValue Property="CollectionPath" String="I_SupplierActivityPriority"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SuplrActyPriority"/>
+									<PropertyValue Property="ValueListProperty" String="SuplrActyPriority"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="SuplrActyPriority_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SUPPLIERACTIVITY_FS_SRV_Entities"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+				<Annotation Term="Aggregation.ApplySupported">
+					<Record>
+						<PropertyValue Property="Transformations">
+							<Collection>
+								<String>aggregate</String>
+								<String>groupby</String>
+								<String>filter</String>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Rollup" EnumMember="None"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_SUPPLIERACTIVITY_FS_SRV.C_SupplierActivityFsType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataFieldWithUrl">
+							<PropertyValue Property="Url">
+								<Apply Function="odata.fillUriTemplate">
+									<String>#SupplierActivity-change?SupplierActivity={RSP}</String>
+									<LabeledElement Name="RSP" Path="SupplierActivity"/>
+								</Apply>
+							</PropertyValue>
+							<PropertyValue Property="Value" Path="SupplierActivity"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SuplrActyType"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SuplrActyLifecycleStatus"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataFieldWithUrl">
+							<PropertyValue Property="Url">
+								<Apply Function="odata.fillUriTemplate">
+									<String>#PurchasingCategory-displayFactSheet?PurchasingCategory={RSP}</String>
+									<LabeledElement Name="RSP" Path="PurchasingCategory"/>
+								</Apply>
+							</PropertyValue>
+							<PropertyValue Property="Value" Path="PurchasingCategory"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PurchaserResponsible"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SuplrActyPriority"/>
+							<PropertyValue Property="Criticality" Path="CriticalityCode"/>
+							<PropertyValue Property="CriticalityRepresentation"
+										   EnumMember="UI.CriticalityRepresentationType/WithoutIcon"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="StartDate"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="EndDate"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataFieldForIntentBasedNavigation">
+							<PropertyValue Property="Label" String="Copy"/>
+							<PropertyValue Property="SemanticObject" String="SupplierActivity"/>
+							<PropertyValue Property="Action" String="copy"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record>
+									<PropertyValue Property="Property" PropertyPath="SuplrActyLifecycleStatus"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+								<Record>
+									<PropertyValue Property="Property" PropertyPath="LastChangeDate"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<atom:link rel="self"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_SUPPLIERACTIVITY_FS_SRV/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+			<atom:link rel="latest-version"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_SUPPLIERACTIVITY_FS_SRV/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

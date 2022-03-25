@@ -1,0 +1,1207 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "_version": "1.3.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "LO-MD-MM",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MD_C_PRODUCT_MAINTAIN_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["mainAnnotations", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "mainAnnotations": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MD_C_PRODUCT_MAINTAIN_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MD_C_PRODUCT_MAINTAIN_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "purchasingInfo": {
+                    "semanticObject": "PurchasingInfoRecord",
+                    "action": "maintain",
+                    "parameters": {
+                        "Material": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayArticle": {
+                    "semanticObject": "Article",
+                    "action": "display",
+                    "parameters": {
+                        "MATNR": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayChangeDocs": {
+                    "semanticObject": "Material",
+                    "action": "displayChangeDocs",
+                    "parameters": {
+                        "MATNR": {
+                            "required": true
+                        }
+                    }
+                },
+                "salesPriceCalculation": {
+                    "semanticObject": "RetailSalesPricePlan",
+                    "action": "simulateSalesPriceCalculation",
+                    "parameters": {
+                        "MATNR": {
+                            "required": true
+                        },
+                        "VKORG": {
+                            "required": true
+                        }
+                    }
+                },
+                "massListing": {
+                    "semanticObject": "Assortment",
+                    "action": "createMassListings",
+                    "parameters": {
+                        "MATNR": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayProductFactSheet": {
+                    "semanticObject": "Material",
+                    "action": "displayFactSheet",
+                    "parameters": {
+                        "Material": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayApplicationLog": {
+                    "semanticObject": "ApplicationLog",
+                    "action": "showList",
+                    "parameters": {
+                        "Material": {
+                            "required": true
+                        },
+                        "LogObjectId": {
+                            "required": true
+                        },
+                        "LogExternalId": {
+                            "required": true
+                        },
+                        "LogObjectSubId": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayProductHierarchy": {
+                    "semanticObject": "MasterDataHierarchy",
+                    "action": "manage",
+                    "parameters": {
+                        "product": {
+                            "required": true
+                        },
+                        "hierarchy_id": {
+                            "required": true
+                        }
+                    }
+                },
+                "displaySiteFactSheet": {
+                    "semanticObject": "Site",
+                    "action": "displayFactSheet",
+                    "parameters": {
+                        "Site": {
+                            "required": true
+                        }
+                    }
+                },
+                "manageListing": {
+                    "semanticObject": "Article",
+                    "action": "manageListing",
+                    "parameters": {
+                        "Product": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayArticleChangeDocs": {
+                    "semanticObject": "Article",
+                    "action": "displayChangeDocuments",
+                    "parameters": {
+                        "Material": {
+                            "required": true
+                        }
+                    }
+                },
+                "manageSubscriptionProduct": {
+                    "semanticObject": "SubscriptionProductSpecific",
+                    "action": "manage",
+                    "parameters": {
+                        "Product": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayProdTradeClassftnFactsheet": {
+                    "semanticObject": "Product",
+                    "action": "displayTradeClassification",
+                    "parameters": {
+                        "Product": {
+                            "required": true
+                        }
+                    }
+                },
+                "displayComplianceInfo": {
+                    "semanticObject": "Material",
+                    "action": "displayComplianceInfo",
+                    "parameters": {
+                        "Product": {
+                            "required": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.3.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        }
+    },
+    "sap.ui5": {
+        "_version": "1.2.0",
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "componentName": "mdm.cmd.product.maintain",
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.i2d.lo.lib.vchclf": {
+                    "lazy": false
+                },
+                "sap.pi.mdm.lib.variants": {
+                    "lazy": false
+                },
+                "sap.i2d.plm.lib.linkage": {
+                    "lazy": true
+                },
+                "sap.mdm.cmd.lib.duplicatecheck": {
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                },
+                "sap.i2d.plm.lib.linkage.requirement": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "models": {
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_Product": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_Product/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Product": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Product/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productbasictext": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productbasictext/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productdistributioncenter": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productdistributioncenter/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productinspectiontext": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productinspectiontext/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productplant": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productplant/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productplanttext": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productplanttext/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productpurchasetext": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productpurchasetext/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productsalesdelivery": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productsalesdelivery/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productsalestext": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productsalestext/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productstoragelocation": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productstoragelocation/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productdcstoragelocation": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productdcstoragelocation/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productstorestoragelocation": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productstorestoragelocation/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productstore": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productstore/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productsupplierean": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productsupplierean/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productunitofmeasuretext": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productunitofmeasuretext/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productunitomeasureean": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productunitomeasureean/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productunitsofmeasure": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productunitsofmeasure/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productvaluation": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productvaluation/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProductPlantMRP": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProductPlantMRP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProductStoreMRP": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProductStoreMRP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProductDistrCtrMRP": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProductDistrCtrMRP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProdEWMWarehouse": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProdEWMWarehouse/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProdEWMWrhsStorageType": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProdEWMWrhsStorageType/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Productsalesdeliverypos": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Productsalesdeliverypos/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "mdm.cmd.product.maintain.ext.controller.ListReportExtension",
+                        "sap.ui.generic.app": {
+                            "C_Product": {
+                                "EntitySet": "C_Product",
+                                "Actions": {
+                                    "Create": {
+                                        "id": "Create",
+                                        "text": "{@i18n>Create}",
+                                        "press": "createButton"
+                                    },
+                                    "ProductCopy": {
+                                        "id": "ProductCopy",
+                                        "text": "{@i18n>copy}",
+                                        "press": "onCopy"
+                                    },
+                                    "ProcessProducts": {
+                                        "id": "actionProcessProducts",
+                                        "text": "{@i18n>btnProcessProducts}",
+                                        "press": "onMassProcessPress"
+                                    },
+                                    "ProductHierarchy": {
+                                        "id": "actionCProductHierarchybutton",
+                                        "text": "{@i18n>ActionC_ProductHierarchy}",
+                                        "press": "onShowHierarchy"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "mdm.cmd.product.maintain.ext.controller.DetailsExtension",
+                        "sap.ui.generic.app": {
+                            "C_Product": {
+                                "EntitySet": "C_Product",
+                                "Sections": {
+                                    "to_Plant::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_Plant::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "PlantLeafCopy": {
+                                                "id": "PlantLeafCopy",
+                                                "text": "{@i18n>copy}",
+                                                "press": "onLeafCopy",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "com.sap.vocabularies.UI.v1.FieldGroup::VariantConfiguration": {
+                                        "id": "com.sap.vocabularies.UI.v1.FieldGroup::VariantConfiguration",
+                                        "Actions": {
+                                            "variantConfigAction": {
+                                                "id": "configureVariant",
+                                                "text": "{@i18n>configureVariant}",
+                                                "press": "onConfigureVariantPress"
+                                            }
+                                        }
+                                    },
+                                    "com.sap.vocabularies.UI.v1.FieldGroup::ProductCompliance": {
+                                        "id": "com.sap.vocabularies.UI.v1.FieldGroup::ProductCompliance",
+                                        "Actions": {
+                                            "btnDisplayComplianceInfo": {
+                                                "id": "btnDisplayComplianceInfo",
+                                                "text": "{@i18n>btnDisplayCompliance}",
+                                                "press": "onOpenInActionClick"
+                                            }
+                                        }
+                                    }
+                                },
+                                "Header": {
+                                    "Actions": {
+                                        "ProductCopy": {
+                                            "id": "ProductCopy",
+                                            "text": "{@i18n>copy}",
+                                            "press": "onObjectPageCopy",
+                                            "applicablePath": "IsActiveEntity"
+                                        },
+                                        "ProductHierarchy": {
+                                            "id": "actionCProductHierarchybutton",
+                                            "text": "{@i18n>ActionC_ProductHierarchy}",
+                                            "press": "onShowHierarchy",
+                                            "applicablePath": "IsActiveEntity"
+                                        },
+                                        "ActionC_ProductHeader1": {
+                                            "id": "ActionC_ProductHeader1button",
+                                            "text": "{@i18n>ActionC_ProductHeader1}",
+                                            "press": "openInHeaderActionClick",
+                                            "applicablePath": "IsActiveEntity"
+                                        },
+                                        "DuplicateCheck": {
+                                            "id": "ProductDuplicateCheck",
+                                            "text": "{@i18n>@duplicatecheck}",
+                                            "press": "onDuplicateCheck"
+                                        }
+                                    }
+                                }
+                            },
+                            "C_Productplant": {
+                                "EntitySet": "C_Productplant",
+                                "Sections": {
+                                    "to_StorageLocation::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_StorageLocation::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "StorageLocationLeafCopy": {
+                                                "id": "StorageLocationLeafCopy",
+                                                "text": "{@i18n>copy}",
+                                                "press": "onLeafCopy",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_MRPAreaData::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_MRPAreaData::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "MRPAreaLeafCopy": {
+                                                "id": "MRPAreaLeafCopy",
+                                                "text": "{@i18n>copy}",
+                                                "press": "onLeafCopy",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "com.sap.vocabularies.UI.v1.FieldGroup::PlantVariantConfiguration": {
+                                        "id": "com.sap.vocabularies.UI.v1.FieldGroup::PlantVariantConfiguration",
+                                        "Actions": {
+                                            "variantConfigAction": {
+                                                "id": "configureVariant",
+                                                "text": "{@i18n>configureVariant}",
+                                                "press": "onConfigurePlantVariantPress"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_Productunitsofmeasure|to_UnitOfMeasure::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.product.maintain.ext.fragments.UnitOfMeasureTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_Productunitsofmeasure|to_UnitOfMeasure::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.product.maintain.ext.fragments.UnitOfMeasureTableCells",
+                            "type": "XML"
+                        },
+                        "AfterFacet|C_Productunitsofmeasure|GeneralInfo": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.product.maintain.ext.fragments.UnitofMeasure",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Conversion_Factor}"
+                            }
+                        },
+                        "AfterSubSection|C_Productsalesdelivery|GeneralData": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.product.maintain.ext.fragments.ProductHierarchy",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>titleProdHier}",
+                                "enableLazyLoading": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "showDraftToggle": true
+        },
+        "pages": {
+            "ListReport|C_Product": {
+                "entitySet": "C_Product",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "multiSelect": true,
+                        "enableTableFilterInPageVariant": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_Product": {
+                        "entitySet": "C_Product",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "to_Description::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_Description",
+                                        "entitySet": "C_Productdescription",
+                                        "createMode": "inline",
+                                        "preliminaryContext": true
+                                    },
+                                    "to_ProductBasicText::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_ProductBasicText",
+                                        "entitySet": "C_Productbasictext",
+                                        "createMode": "inline"
+                                    },
+                                    "to_ProductPurchaseText::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_ProductPurchaseText",
+                                        "entitySet": "C_Productpurchasetext",
+                                        "createMode": "inline"
+                                    },
+                                    "to_ProductInspectionText::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_ProductInspectionText",
+                                        "entitySet": "C_Productinspectiontext",
+                                        "createMode": "inline"
+                                    },
+                                    "to_ProductSeasons::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_ProductSeasons",
+                                        "entitySet": "C_ProductSeasons",
+                                        "createMode": "inline",
+                                        "preliminaryContext": true
+                                    },
+                                    "to_ProductReplenishment::com.sap.vocabularies.UI.v1.LineItem::Article_StoreReplnmt": {
+                                        "navigationProperty": "to_ProductReplenishment",
+                                        "entitySet": "C_ProductReplenishment",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "classificationComponentContainer": {
+                                "id": "classificationComponentContainer",
+                                "componentName": "sap.i2d.lo.lib.vchclf.components.classification",
+                                "title": "{{Classification}}",
+                                "settings": {
+                                    "semanticObject": "Product",
+                                    "objectKey": "{Product}",
+                                    "changeNumber": "{ChangeNumber}",
+                                    "draftKey": "{DraftUUID}",
+                                    "uiMode": "{= ${IsActiveEntity} ? 'Display': (${HasActiveEntity} ? 'Edit' : 'Create') }"
+                                }
+                            },
+                            "ArticleHierarchy": {
+                                "id": "ArticleHierarchy",
+                                "componentName": "mdm.cmd.product.maintain.ext.ArticleHierarchy",
+                                "title": "{{articlehierarchy}}",
+                                "settings": {
+                                    "product": "{ProductForEdit}",
+                                    "draftKey": "{DraftUUID}",
+                                    "uiMode": "{= ${IsActiveEntity} ? 'Display' : (${HasActiveEntity} ? 'Edit' : 'Create')}"
+                                }
+                            },
+                            "BOMComponent": {
+                                "id": "BOMComponent",
+                                "componentName": "mdm.cmd.product.maintain.ext.BOMComponents",
+                                "title": "{{components}}",
+                                "settings": {
+                                    "draftKey": "{DraftUUID}",
+                                    "product": "{ProductForEdit}",
+                                    "baseUnit": "{BaseUnit}",
+                                    "entitySet": "C_Product",
+                                    "uiMode": "{= ${IsActiveEntity} ? 'Display' : (${HasActiveEntity} ? 'Edit' : 'Create')}"
+                                }
+                            },
+                            "VariantsOverview": {
+                                "id": "VariantsOverview",
+                                "componentName": "sap.pi.mdm.lib.variants.components.overview",
+                                "title": "{{VARIANTS}}",
+                                "settings": {
+                                    "draftKey": "{DraftUUID}",
+                                    "product": "{ProductForEdit}",
+                                    "uiMode": "{= ${IsActiveEntity} ? 'Display' : (${HasActiveEntity} ? 'Edit' : 'Create')}",
+                                    "appDataProperties": ["ProductVariant", "Product"],
+                                    "enableMassProcessing": true,
+                                    "stRefreshTrigger": "{NumberOfProcessedProdVariants}"
+                                }
+                            },
+                            "AttachmentsDMS": {
+                                "id": "AttachmentsDMS",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{AttachmentsDMS}}",
+                                "settings": {
+                                    "mode": "{= ${IsActiveEntity} ? 'D' : 'C'}",
+                                    "semanticObject": "",
+                                    "objectKey": "{parts:[{path: 'Product'},{path: 'DraftUUID'}],formatter: 'mdm.cmd.product.maintain.ext.lib.formatter.returnAttachmentKey'}",
+                                    "objectType": "MARA",
+                                    "isDraft": "{= ${IsActiveEntity} ? false : (${HasActiveEntity} ? false : true)}"
+                                },
+                                "propagateModel": true
+                            },
+                            "AttachmentGOS": {
+                                "id": "AttachmentGOS",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{AttachmentsGOS}}",
+                                "settings": {
+                                    "mode": "{= ${IsActiveEntity} ? 'D' : 'C'}",
+                                    "semanticObject": "",
+                                    "objectKey": "{parts:[{path: 'Product'},{path: 'DraftUUID'}],formatter: 'mdm.cmd.product.maintain.ext.lib.formatter.returnAttachmentKey'}",
+                                    "objectType": "{parts:[{path: 'ArticleCategory'}],formatter: 'mdm.cmd.product.maintain.ext.lib.formatter.returnAttachObjectType' }",
+                                    "isDraft": "{= ${IsActiveEntity} ? false : (${HasActiveEntity} ? false : true)}"
+                                },
+                                "propagateModel": true
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_UnitOfMeasure": {
+                                "navigationProperty": "to_UnitOfMeasure",
+                                "entitySet": "C_Productunitsofmeasure",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "to_UnitOfMeasureText::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_UnitOfMeasureText",
+                                                "entitySet": "C_Productunitofmeasuretext",
+                                                "createMode": "inline"
+                                            },
+                                            "to_InternationalArticleNumber::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_InternationalArticleNumber",
+                                                "entitySet": "C_Productunitomeasureean",
+                                                "createMode": "inline"
+                                            },
+                                            "to_SupplierGTIN::com.sap.vocabularies.UI.v1.LineItem::Article_SupplierGTIN": {
+                                                "navigationProperty": "to_SupplierGTIN",
+                                                "entitySet": "C_Productsupplierean",
+                                                "createMode": "inline"
+                                            }
+                                        }
+                                    }
+                                },
+                                "embeddedComponents": {
+                                    "BOMComponentUoM": {
+                                        "id": "BOMComponentUoM",
+                                        "componentName": "mdm.cmd.product.maintain.ext.BOMComponents",
+                                        "title": "{{components}}",
+                                        "settings": {
+                                            "draftKey": "{DraftUUID}",
+                                            "product": "{ProductForEdit}",
+                                            "baseUnit": "{BaseUnit}",
+                                            "entitySet": "parameter>/entitySet",
+                                            "uiMode": "{= ${IsActiveEntity} ? 'Display' : (${HasActiveEntity} ? 'Edit' : 'Create')}"
+                                        }
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_UnitOfMeasureText": {
+                                        "navigationProperty": "to_UnitOfMeasureText",
+                                        "entitySet": "C_Productunitofmeasuretext",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_Plant": {
+                                "navigationProperty": "to_Plant",
+                                "entitySet": "C_Productplant",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "to_PlantText::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_PlantText",
+                                                "entitySet": "C_Productplanttext",
+                                                "createMode": "inline"
+                                            },
+                                            "to_StorageLocation::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_StorageLocation",
+                                                "entitySet": "C_Productstoragelocation",
+                                                "createMode": "inline"
+                                            }
+                                        }
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_PlantText": {
+                                        "navigationProperty": "to_PlantText",
+                                        "entitySet": "C_Productplanttext",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "ObjectPage|to_MRPAreaData": {
+                                        "navigationProperty": "to_MRPAreaData",
+                                        "entitySet": "C_ProductPlantMRP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "ObjectPage|to_StorageLocation": {
+                                        "navigationProperty": "to_StorageLocation",
+                                        "entitySet": "C_Productstoragelocation",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "Canvas|to_PlantVariantConfiguration": {
+                                        "routingSpec": {
+                                            "noOData": true,
+                                            "routeName": "to_PlantVariantConfiguration",
+                                            "headerTitle": "{{@variantConfiguration}}",
+                                            "noKey": true,
+                                            "typeImageUrl": ""
+                                        },
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.Canvas",
+                                            "settings": {
+                                                "requiredControls": {
+                                                    "footerBar": true
+                                                }
+                                            }
+                                        },
+                                        "implementingComponent": {
+                                            "componentName": "sap.i2d.lo.lib.vchclf.components.smarttemplate.configuration",
+                                            "settings": {
+                                                "semanticObject": "Product",
+                                                "objectKey": "{parts: ['Product', 'PlantForEdit'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getConcatenatedObjectKey'}",
+                                                "draftKey": "{ParentDraftUUID}",
+                                                "draftKeyIsString": false,
+                                                "headerConfigurationJSON": {
+                                                    "title": "{to_Product/ProductDescription}",
+                                                    "subtitle": "{to_Product/ProductForEdit}",
+                                                    "headerFields": [
+                                                        {
+                                                            "description": "{@i18n>@plant}",
+                                                            "properties": {
+                                                                "text": "{PlantForEdit}"
+                                                            },
+                                                            "controlType": "Text"
+                                                        },
+                                                        {
+                                                            "description": "{@i18n>ProductTypeFld}",
+                                                            "properties": {
+                                                                "text": "{parts: ['to_Product/ProductType_Text', 'to_Product/ProductType', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                            },
+                                                            "controlType": "Text"
+                                                        },
+                                                        {
+                                                            "description": "{@i18n>ProductCategoryFld}",
+                                                            "properties": {
+                                                                "text": "{to_Product/ArticleCategory_Text}"
+                                                            },
+                                                            "controlType": "Text"
+                                                        },
+                                                        {
+                                                            "description": "{@i18n>ProductGroupFld}",
+                                                            "properties": {
+                                                                "text": "{parts: ['to_Product/ProductGroup_Text', 'to_Product/ProductGroup', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                            },
+                                                            "controlType": "Text"
+                                                        },
+                                                        {
+                                                            "description": "{@i18n>@baseUOM}:",
+                                                            "properties": {
+                                                                "text": "{parts: ['to_Product/BaseUnit_Text', 'to_Product/BaseUnit', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                            },
+                                                            "controlType": "Text"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "id": "headerFieldPrice",
+                                                                "visible": false
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_Store": {
+                                "navigationProperty": "to_Store",
+                                "entitySet": "C_Productstore",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "to_StorageLocation::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_StorageLocation",
+                                                "entitySet": "C_Productstorestoragelocation",
+                                                "createMode": "inline"
+                                            }
+                                        }
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_MRPAreaData": {
+                                        "navigationProperty": "to_MRPAreaData",
+                                        "entitySet": "C_ProductStoreMRP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "ObjectPage|to_StorageLocation": {
+                                        "navigationProperty": "to_StorageLocation",
+                                        "entitySet": "C_Productstorestoragelocation",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_DistributionCenter": {
+                                "navigationProperty": "to_DistributionCenter",
+                                "entitySet": "C_Productdistributioncenter",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "to_StorageLocation::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_StorageLocation",
+                                                "entitySet": "C_Productdcstoragelocation",
+                                                "createMode": "inline"
+                                            }
+                                        }
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_MRPAreaData": {
+                                        "navigationProperty": "to_MRPAreaData",
+                                        "entitySet": "C_ProductDistrCtrMRP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "ObjectPage|to_StorageLocation": {
+                                        "navigationProperty": "to_StorageLocation",
+                                        "entitySet": "C_Productdcstoragelocation",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_SalesDelivery": {
+                                "navigationProperty": "to_SalesDelivery",
+                                "entitySet": "C_Productsalesdelivery",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "to_SalesText::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_SalesText",
+                                                "entitySet": "C_Productsalestext",
+                                                "createMode": "inline"
+                                            },
+                                            "to_SalesDeliveryPointofSale::com.sap.vocabularies.UI.v1.LineItem::Article_Pos": {
+                                                "navigationProperty": "to_SalesDeliveryPointofSale",
+                                                "entitySet": "C_Productsalesdeliverypos",
+                                                "createMode": "inline"
+                                            }
+                                        }
+                                    }
+                                },
+                                "embeddedComponents": {
+                                    "ArticleHierarchydc": {
+                                        "id": "ArticleHierarchydc",
+                                        "componentName": "mdm.cmd.product.maintain.ext.ArticleHierarchy",
+                                        "title": "{{articlehierarchy}}",
+                                        "settings": {
+                                            "product": "{ProductForEdit}",
+                                            "draftKey": "{DraftUUID}",
+                                            "productSalesOrg": "{ProductSalesOrgForEdit}",
+                                            "productDistributionChnl": "{ProductDistributionChnlForEdit}",
+                                            "uiMode": "{= ${IsActiveEntity} ? 'Display' : (${HasActiveEntity} ? 'Edit' : 'Create')}",
+                                            "entitySet": "C_Productsalesdelivery"
+                                        }
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_SalesText": {
+                                        "navigationProperty": "to_SalesText",
+                                        "entitySet": "C_Productsalestext",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "ObjectPage|to_SalesDeliveryPointofSale": {
+                                        "navigationProperty": "to_SalesDeliveryPointofSale",
+                                        "entitySet": "C_Productsalesdeliverypos",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_Valuation": {
+                                "navigationProperty": "to_Valuation",
+                                "entitySet": "C_Productvaluation",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_ProductBasicText": {
+                                "navigationProperty": "to_ProductBasicText",
+                                "entitySet": "C_Productbasictext",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_ProductPurchaseText": {
+                                "navigationProperty": "to_ProductPurchaseText",
+                                "entitySet": "C_Productpurchasetext",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_ProductInspectionText": {
+                                "navigationProperty": "to_ProductInspectionText",
+                                "entitySet": "C_Productinspectiontext",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "Canvas|to_ProductVariant": {
+                                "routingSpec": {
+                                    "noOData": true,
+                                    "routeName": "to_ProductVariant",
+                                    "headerTitle": "{{@VARIANTS}}",
+                                    "noKey": true,
+                                    "typeImageUrl": ""
+                                },
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.Canvas",
+                                    "settings": {
+                                        "requiredControls": {
+                                            "footerBar": true
+                                        }
+                                    }
+                                },
+                                "implementingComponent": {
+                                    "componentName": "sap.pi.mdm.lib.variants.components.matrix",
+                                    "settings": {
+                                        "product": "{ProductForEdit}",
+                                        "draftKey": "{DraftUUID}",
+                                        "appDataProperties": "ProductVariant, Product",
+                                        "headerConfiguration": {
+                                            "title": "ProductDescription",
+                                            "description": "ProductForEdit",
+                                            "headerFields": [
+                                                {
+                                                    "title": "ProductDescription"
+                                                },
+                                                {
+                                                    "description": "ProductForEdit"
+                                                },
+                                                {
+                                                    "imageUrl": "ProductImageURL"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            "Canvas|to_VariantConfiguration": {
+                                "routingSpec": {
+                                    "noOData": true,
+                                    "routeName": "to_VariantConfiguration",
+                                    "headerTitle": "{{@variantConfiguration}}",
+                                    "noKey": true,
+                                    "typeImageUrl": ""
+                                },
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.Canvas",
+                                    "settings": {
+                                        "requiredControls": {
+                                            "footerBar": true
+                                        }
+                                    }
+                                },
+                                "implementingComponent": {
+                                    "componentName": "sap.i2d.lo.lib.vchclf.components.smarttemplate.configuration",
+                                    "settings": {
+                                        "semanticObject": "Product",
+                                        "objectKey": "{Product}",
+                                        "draftKey": "{DraftUUID}",
+                                        "draftKeyIsString": false,
+                                        "headerConfigurationJSON": {
+                                            "title": "{ProductDescription}",
+                                            "subtitle": "{ProductForEdit}",
+                                            "headerFields": [
+                                                {
+                                                    "description": "{@i18n>ProductTypeFld}",
+                                                    "properties": {
+                                                        "text": "{parts: ['ProductType_Text', 'ProductType', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                    },
+                                                    "controlType": "Text"
+                                                },
+                                                {
+                                                    "description": "{@i18n>ProductCategoryFld}",
+                                                    "properties": {
+                                                        "text": "{ArticleCategory_Text}"
+                                                    },
+                                                    "controlType": "Text"
+                                                },
+                                                {
+                                                    "description": "{@i18n>ProductGroupFld}",
+                                                    "properties": {
+                                                        "text": "{parts: ['ProductGroup_Text', 'ProductGroup', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                    },
+                                                    "controlType": "Text"
+                                                },
+                                                {
+                                                    "description": "{@i18n>@baseUOM}:",
+                                                    "properties": {
+                                                        "text": "{parts: ['BaseUnit_Text', 'BaseUnit', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                    },
+                                                    "controlType": "Text"
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "id": "headerFieldPrice",
+                                                        "visible": false
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_Warehouse": {
+                                "navigationProperty": "to_Warehouse",
+                                "entitySet": "C_ProdEWMWarehouse",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "pages": {
+                                    "ObjectPage|to_WrhsStorage": {
+                                        "navigationProperty": "to_WrhsStorage",
+                                        "entitySet": "C_ProdEWMWrhsStorageType",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "_version": "1.2.0",
+        "uri": "/sap/bc/ui5_ui5/sap/MD_PROD_MAS_S1"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1602"],
+        "archeType": "transactional"
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "digitalAssistant": {
+            "intentDefinition": {
+                "ManageProductMasterDataSkill": {
+                    "uri": "/copilot/ManageProductMasterData.xml",
+                    "dataSources": ["mainService"],
+                    "i18n": "/copilot/i18n/i18n.properties"
+                }
+            }
+        },
+        "contextAnalysis": {
+            "whitelistedEntityTypes": [
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductbasictextType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductdcstoragelocationType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductdescriptionType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductdistributioncenterType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductinspectiontextType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductinternaltextType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductplantType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductplanttextType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductpurchasetextType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductsalescountryType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductsalesdeliveryType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductsalestextType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductstoragelocationType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductstoreType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductstorestoragelocationType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductunitofmeasuretextType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductunitomeasureeanType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductunitsofmeasureType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProductvaluationType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProdEWMWarehouseType",
+                "MD_C_PRODUCT_MAINTAIN_SRV.C_ProdEWMWrhsStorageType"
+            ]
+        }
+    }
+}

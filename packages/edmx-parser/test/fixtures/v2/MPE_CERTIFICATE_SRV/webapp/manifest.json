@@ -1,0 +1,213 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-PEO-CER",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MPE_CERTIFICATE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MPE_CERTIFICATE_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MPE_CERTIFICATE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MPE_CERTIFICATE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MPE_CERTIFICATE_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.38.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MfgQualifnCertificate": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MfgQualifnCertificate/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.mpe.manobjcertassgnmts1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_MfgQualifnCertificate": {
+                                "EntitySet": "C_MfgQualifnCertificate",
+                                "Sections": {
+                                    "WorkCenter": {
+                                        "id": "WorkCenter",
+                                        "Actions": {
+                                            "ActionC_MfgQualifnCertificateSections1": {
+                                                "id": "ActionC_MfgQualifnCertificateSections1button",
+                                                "text": "{@i18n>ActionC_MfgQualifnCertificateSections1}",
+                                                "press": "onClickActionCCertificateSections1"
+                                            },
+                                            "ActionC_MfgQualifnCertificateSections2": {
+                                                "id": "ActionC_MfgQualifnCertificateSections2button",
+                                                "text": "{@i18n>ActionC_MfgQualifnCertificateSections2}",
+                                                "press": "onClickActionCCertificateSections2",
+                                                "requiresSelection": true
+                                            },
+                                            "ActionC_MfgQualifnCertificateSections3": {
+                                                "id": "ActionC_MfgQualifnCertificateSections3button",
+                                                "text": "{@i18n>ActionC_MfgQualifnCertificateSections3}",
+                                                "press": "onClickActionCCertificateSections3",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "Material": {
+                                        "id": "Material",
+                                        "Actions": {
+                                            "ActionC_MfgQualifnCertificateSections4": {
+                                                "id": "ActionC_MfgQualifnCertificateSections4button",
+                                                "text": "{@i18n>ActionC_MfgQualifnCertificateSections1}",
+                                                "press": "onClickActionCCertificateSections4"
+                                            },
+                                            "ActionC_MfgQualifnCertificateSections5": {
+                                                "id": "ActionC_MfgQualifnCertificateSections5button",
+                                                "text": "{@i18n>ActionC_MfgQualifnCertificateSections2}",
+                                                "press": "onClickActionCCertificateSections5",
+                                                "requiresSelection": true
+                                            },
+                                            "ActionC_MfgQualifnCertificateSections6": {
+                                                "id": "ActionC_MfgQualifnCertificateSections6button",
+                                                "text": "{@i18n>ActionC_MfgQualifnCertificateSections3}",
+                                                "press": "onClickActionCCertificateSections6",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_MfgQualifnCertificate",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_MfgQualifnCertificate",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2398"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

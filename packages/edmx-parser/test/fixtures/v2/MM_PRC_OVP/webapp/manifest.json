@@ -1,0 +1,573 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "ui.s2p.mm.ovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "MM-PUR-HBA",
+        "resources": "resources.json",
+        "dataSources": {
+            "MM_PRC_OVP": {
+                "uri": "/sap/opu/odata/sap/MM_PRC_OVP/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PRC_OVP_ANNO", "annotation"],
+                    "maxAge": 86400,
+                    "localUri": "localService/MM_PRC_OVP/metadata.xml"
+                }
+            },
+            "MM_PRC_OVP_ANNO": {
+                "uri": "/sap/opu/odata/iwfnd/catalogservice;v=2/Annotations(TechnicalName='MM_PRC_OVP',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PRC_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "uri": "localService/MM_PRC_OVP/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PRC_OVP/annotation.xml"
+                }
+            },
+            "OFFCONTRACTSPEND": {
+                "uri": "/sap/opu/odata/sap/C_PURGSPENDOFFCONTRACT_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["OFFCONTRACTSPEND_ANNO", "OffContractAnnotation"],
+                    "maxAge": 86400
+                }
+            },
+            "OFFCONTRACTSPEND_ANNO": {
+                "uri": "/sap/opu/odata/iwfnd/catalogservice;v=2/Annotations(TechnicalName='C_PURGSPENDOFFCONTRACT_1',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {}
+            },
+            "OffContractAnnotation": {
+                "uri": "localService/MM_PRC_OVP/OffContractAnnotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PRC_OVP/OffContractAnnotation.xml"
+                }
+            },
+            "SupplierEvalOverall": {
+                "uri": "/sap/opu/odata/sap/C_SUPPLIEREVALOVERALLQRY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["SupplierEvalOverall_ANNO", "OverallAnnotation"]
+                }
+            },
+            "SupplierEvalOverall_ANNO": {
+                "uri": "/sap/opu/odata/iwfnd/catalogservice;v=2/Annotations(TechnicalName='C_SUPPLIEREVALOVERALLQRY',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {}
+            },
+            "OverallAnnotation": {
+                "uri": "localService/MM_PRC_OVP/OverallAnnotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PRC_OVP/OverallAnnotation.xml"
+                }
+            },
+            "C_NONMNGDPURGSPEND_CDS": {
+                "uri": "/sap/opu/odata/sap/C_NONMNGDPURGSPEND_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "webapp/localService/metadata.xml",
+                    "annotations": ["C_NONMNGDPURGSPEND_ANNO", "NonManagedAnnotation"],
+                    "maxAge": 86400
+                }
+            },
+            "C_NONMNGDPURGSPEND_ANNO": {
+                "uri": "/sap/opu/odata/iwfnd/catalogservice;v=2/Annotations(TechnicalName='C_NONMNGDPURGSPEND',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {}
+            },
+            "NonManagedAnnotation": {
+                "uri": "localService/MM_PRC_OVP/NonManagedAnnotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PRC_OVP/NonManagedAnnotation.xml"
+                }
+            },
+            "REQUISITIONNOTOUCH": {
+                "uri": "/sap/opu/odata/sap/C_REQUISITIONNOTOUCHRATE_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_REQUISITIONNOTOUCHRATE", "ReqnNoTouchAnnotation"],
+                    "maxAge": 86400,
+                    "odataVersion": "2.0"
+                }
+            },
+            "C_REQUISITIONNOTOUCHRATE": {
+                "uri": "/sap/opu/odata/iwfnd/catalogservice;v=2/Annotations(TechnicalName='C_REQUISITIONNOTOUCHRATE_1',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {}
+            },
+            "ReqnNoTouchAnnotation": {
+                "uri": "localService/MM_PRC_OVP/ReqnNoTouchAnnotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {}
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "img/ovp.jpg"
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "dependencies": {
+            "minUI5Version": "1.36.1",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.36.1",
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "MM_PRC_OVP": {
+                "preload": true,
+                "dataSource": "MM_PRC_OVP",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "MM_PRC_OVP1": {
+                "preload": true,
+                "dataSource": "MM_PRC_OVP",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "MM_PRC_OVP2": {
+                "preload": true,
+                "dataSource": "MM_PRC_OVP",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "SupplierEvaluationOverall": {
+                "preload": true,
+                "dataSource": "SupplierEvalOverall",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "C_NONMNGDPURGSPEND_CDS": {
+                "preload": true,
+                "dataSource": "C_NONMNGDPURGSPEND_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "OFFCONTRACTSPEND": {
+                "preload": true,
+                "dataSource": "OFFCONTRACTSPEND",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "REQUISITIONNOTOUCH": {
+                "preload": true,
+                "dataSource": "REQUISITIONNOTOUCH",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "MM_PRC_OVP",
+        "globalFilterEntityType": "C_ProcurementSmartFilterResult",
+        "containerLayout": "resizable",
+        "considerAnalyticalParameters": true,
+        "enableLiveFilter": false,
+        "cards": {
+            "card01": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "description": "{{proc01_description}}",
+                    "entitySet": "C_Contract_OvpResults",
+                    "title": "{{proc01_title}}",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "sortBy": "WeightedRelevance",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#_CTR_EVAL_LINE_ITEMS",
+                    "requireAppAuthorization": "#PurchaseContract-manage"
+                }
+            },
+            "card03": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{proc02_title}}",
+                    "description": "{{proc02_description}}",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "entitySet": "C_PurchaseRequisition_OvpResults",
+                    "requireAppAuthorization": "#PurchaseRequisition-manage",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#_PR_DUE",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PRDue",
+                            "value": "{{PR_Unsourced}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#_PR_DUE",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#filterStatus",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PRDue",
+                            "value": "{{PR_All}}"
+                        }
+                    ]
+                }
+            },
+            "card05": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{proc03_title}}",
+                    "description": "{{proc03_description}}",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "requireAppAuthorization": "#PurchaseOrderItem-monitorPurDocItems",
+                    "tabs": [
+                        {
+                            "entitySet": "C_MntrPurchaseOrderOvwPageResults",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OverduePO",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#OverduePO_PurchaseOrder",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OverduePO_select",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OverduePO_Supplier",
+                            "value": "{{OverduePO}}"
+                        },
+                        {
+                            "entitySet": "C_InApprovalPurchaseOrderItemResults",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#InApprovalPO",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#InApprovalPO_PurchaseOrder",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InApprovalPO_select",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#InApprovalPO_Supplier",
+                            "value": "{{InApproval}}"
+                        }
+                    ]
+                }
+            },
+            "card06": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{proc04_title}}",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "PurOrdNetAmountInDisplayCrcy",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "entitySet": "C_PurOrdValueWithPlndResults",
+                    "requireAppAuthorization": "#PurchaseOrder-analyzeSBKPIDetailsS4HANA",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PRC_OVP_PURCHASEORDERVALUE_EVAL",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_SAP_MM_PRC_OVP_PURCHASEORDERVALUE_EVAL__BYPURCHASINGCATEGORY",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#_SAP_MM_PRC_OVP_PURCHASEORDERVALUE_EVAL__BYPURCHASINGCATEGORY",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PurOrdValue_NetAmountTrend",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PurchasingSpendTrend",
+                            "value": "{{proc06_title}}"
+                        },
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PurchasingSpend",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PRC_OVP_PURCHASEORDERVALUE_EVAL",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingSpend_Supplier",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PurchasingSpend_Supplier",
+                            "value": "{{BySupplier}}"
+                        },
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PurchasingSpend",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PRC_OVP_PURCHASEORDERVALUE_EVAL",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingSpend_MaterialGroup",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PurchasingSpend_MaterialGroup",
+                            "value": "{{ByMaterialGroup}}"
+                        }
+                    ]
+                }
+            },
+            "card17": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{proc17_title}}",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PUR_OVERALLSUPPLIEREVALUATION",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_SAP_MM_PUR_OVERALLSUPPLIEREVALUATION__BYSUPPLIER",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#_SAP_MM_PUR_OVERALLSUPPLIEREVALUATION__BYSUPPLIER",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_SAP_MM_PUR_OVERALLSUPPLIEREVALUATION",
+                    "entitySet": "C_SupplierEvalOverallOvwPgResults",
+                    "requireAppAuthorization": "#SupplierPerformance-analyzeKPIDetailsS4HANA"
+                }
+            },
+            "card08": {
+                "model": "C_NONMNGDPURGSPEND_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{proc09_title}}",
+                    "description": "{{proc09_description}}",
+                    "entitySet": "C_NONMNGDPURGSPENDResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "NonManagedSpendAmount",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "requireAppAuthorization": "#PurchaseOrder-analyzeNonManagedSpendSB",
+                    "ignoreSapText": true,
+                    "tabs": [
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#NonManagedSpend1",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PUR_NONMANAGEDSPENDEVALUATION",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#NonManagedSpend_ByMaterialgroup",
+                            "value": "{{ByMaterialGroup}}"
+                        },
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#NonManagedSpend",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PUR_NONMANAGEDSPENDEVALUATION",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#NonManagedSpend_BySupplier",
+                            "value": "{{BySupplier}}"
+                        }
+                    ]
+                }
+            },
+            "card09": {
+                "model": "OFFCONTRACTSPEND",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{proc10_title}}",
+                    "description": "{{proc10_description}}",
+                    "entitySet": "C_PURGSPENDOFFCONTRACTResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "AmtWithoutContractRefInDspCrcy",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "ignoreSapText": true,
+                    "requireAppAuthorization": "#PurchaseOrder-analyzeOffContractSpendSB",
+                    "tabs": [
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#OffContractSpend1",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PUR_OFFCONTRACTSPEND_EVAL",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OffContractSpend_byMaterialgroup",
+                            "value": "{{ByMaterialGroup}}"
+                        },
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#OffContractSpend",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PUR_OFFCONTRACTSPEND_EVAL",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OffContractSpend_bySupplier",
+                            "value": "{{BySupplier}}"
+                        }
+                    ]
+                }
+            },
+            "card04": {
+                "model": "MM_PRC_OVP2",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{proc12_title}}",
+                    "entitySet": "C_OperationalEvalSupplierScoreResults",
+                    "ChartProperties": {
+                        "plotArea": {
+                            "markerSize": 30
+                        }
+                    },
+
+                    "requireAppAuthorization": "#SupplierPerformance-analyzeKPIDetailsS4HANA",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PUR_SUPPLIEREVALUATION",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_SAP_MM_PUR_SUPPLIEREVALUATION__TRENDBYSUPPLIER",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#_SAP_MM_PUR_SUPPLIEREVALUATION__TRENDBYSUPPLIER",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#_SAP_MM_PUR_SUPPLIEREVALUATION",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SupplierEvaluationTrend",
+                            "value": "{{proc13_title}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PUR_SUPPLIEREVALUATION",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_SAP_MM_PUR_SUPPLIEREVALUATION__BYSUPPLIER",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#_SAP_MM_PUR_SUPPLIEREVALUATION__BYSUPPLIER",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#_SAP_MM_PUR_SUPPLIEREVALUATION",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SupplierEvaluation",
+                            "value": "{{proc12_title}}"
+                        }
+                    ]
+                }
+            },
+            "card13": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{Open_Activities}}",
+                    "description": "{{view_the_open}}",
+                    "category": "{{Supplier_development}}",
+                    "sortBy": "DueDate",
+                    "sortOrder": "ascending",
+                    "listFlavor": "standard",
+                    "listType": "extended",
+                    "entitySet": "C_SupplierActivityOVP",
+                    "requireAppAuthorization": "#SupplierActivity-manage",
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#SupplierActivity",
+                        "sortBy": "DueDate",
+                        "sortOrder": "ascending"
+                    }
+                }
+            },
+            "card14": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{proc14_title}}",
+                    "description": "{{proc14_description}}",
+                    "entitySet": "C_RFQMonitor_OvpResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "QuotationLatestSubmissionDate",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#_RFQMonitor_LI",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_RFQMonitor_to_RFQ",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#RFQparams",
+                    "requireAppAuthorization": "#RequestForQuotation-manage"
+                }
+            },
+            "card15": {
+                "model": "MM_PRC_OVP1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{proc15_title}}",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PRC_REQUISITIONITEMTYPE",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_SAP_MM_PRC_REQUISITIONITEMTYPE__BYITEMTYPE",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#_SAP_MM_PRC_REQUISITIONITEMTYPE__BYITEMTYPE",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#_SAP_MM_PRC_REQUISITIONITEMTYPE",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_SAP_MM_PRC_REQUISITIONITEMTYPE",
+                    "entitySet": "C_PurReqnItemTypeAnalysisResults",
+                    "navigation": "dataPointNav",
+                    "requireAppAuthorization": "#PurchaseRequisitionItem-analyzeSBKPIDetailsS4HANA"
+                }
+            },
+            "card16": {
+                "model": "MM_PRC_OVP1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{proc16_title}}",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_SAP_MM_PRC_REQNNOTOUCHRATE_EVAL",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_SAP_MM_PRC_REQNNOTOUCHRATE_EVAL__BYTOUCHTYPE",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#_SAP_MM_PRC_REQNNOTOUCHRATE_EVAL__BYTOUCHTYPE",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#_SAP_MM_PRC_REQNNOTOUCHRATE_EVAL",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_SAP_MM_PRC_REQNNOTOUCHRATE_EVAL",
+                    "entitySet": "C_PurReqnNoTouchResults",
+                    "navigation": "dataPointNav",
+                    "requireAppAuthorization": "#PurchaseRequisitionItem-analyzeNoTouchRateSB"
+                }
+            },
+            "card18": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{ui.s2p.mm.ovps1_card14_title}}",
+                    "entitySet": "C_PurOrdDelivSchedDte",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "navigation": "headerNav",
+                    "requireAppAuthorization": "#PurchaseOrderItem-monitorPurDocItems"
+                }
+            },
+            "card19": {
+                "model": "MM_PRC_OVP",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{ui.s2p.mm.ovps1_card15_title}}",
+                    "subTitle": "{{proc02_description}}",
+                    "entitySet": "C_MonitorSupplierConfirmationResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "requireAppAuthorization": "#PurchaseOrderItem-monitorSupplierConfirmations",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ByMissConf",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MoniSupConf",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ByQuantVar",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MSC",
+                            "value": "{{ByMissConf}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ByTimeVar",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MoniSupConf",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ByTimeVar",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MSC",
+                            "value": "{{ByTimeVar}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ByQuantVar",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MoniSupConf",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ByQuantVar",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MSC",
+                            "value": "{{ByQuantVar}}"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/prc_ovps1/webapp",
+        "_version": "1.1.0"
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1990"],
+        "archeType": "transactional"
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {}
+    }
+}

@@ -1,0 +1,189 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2674"],
+        "archeType": "analytical"
+    },
+    "sap.app": {
+        "id": "scm.tm.businessshareovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "TM-CF-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_BUSINESSSHARECOMPLIANCEQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_BUSINESSSHARECOMPLIANCEQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_BUSINESSSHARECOMPLIANCEQ_C_VAN"],
+                    "localUri": "localService/C_BUSINESSSHARECOMPLIANCEQ_CDS/metadata.xml"
+                }
+            },
+            "C_BUSINESSSHARECOMPLIANCEQ_C_VAN": {
+                "uri": "localService/C_BUSINESSSHARECOMPLIANCEQ_CDS/C_BUSINESSSHARECOMPLIANCEQ_C_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_BUSINESSSHARECOMPLIANCEQ_CDS/C_BUSINESSSHARECOMPLIANCEQ_C_VAN.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.56.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.44.3"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_BUSINESSSHARECOMPLIANCEQ_CDS": {
+                "preload": true,
+                "dataSource": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+        "globalFilterEntityType": "C_BUSINESSSHARECOMPLIANCEQResult",
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "card01": {
+                "model": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_fulfillmentWeight_title}}",
+                    "subTitle": "{{card_List_fulfillmentWeight_subTitle}}",
+                    "entitySet": "C_BUSINESSSHARECOMPLIANCEQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "BusinessShareRatio",
+                    "sortOrder": "descending",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Fulfillment",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Fulfillment",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BusinessShareRatio",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FulfillmentWeight",
+                    "addODataSelect": true
+                }
+            },
+            "card02": {
+                "model": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_fulfillmentVolume_title}}",
+                    "subTitle": "{{card_List_fulfillmentVolume_subTitle}}",
+                    "entitySet": "C_BUSINESSSHARECOMPLIANCEQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "BusinessShareRatio",
+                    "sortOrder": "descending",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Fulfillment",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Fulfillment",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BusinessShareRatio",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FulfillmentVolume",
+                    "addODataSelect": true
+                }
+            },
+            "card03": {
+                "model": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_fulfillmentRoad_title}}",
+                    "entitySet": "C_BUSINESSSHARECOMPLIANCEQResults",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#FulfillmentLine",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FulfillmentLine",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FulfillmentRoadLine",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#FulfillmentLine"
+                }
+            },
+            "card04": {
+                "model": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_fulfillmentSea_title}}",
+                    "entitySet": "C_BUSINESSSHARECOMPLIANCEQResults",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#FulfillmentLine",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FulfillmentLine",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FulfillmentSeaLine",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#FulfillmentLine"
+                }
+            },
+            "card05": {
+                "model": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_fulfillmentAir_title}}",
+                    "entitySet": "C_BUSINESSSHARECOMPLIANCEQResults",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#FulfillmentLine",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FulfillmentLine",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FulfillmentAirLine",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#FulfillmentLine"
+                }
+            },
+            "card06": {
+                "model": "C_BUSINESSSHARECOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_fulfillmentTradelane_title}}",
+                    "subTitle": "{{card_List_fulfillmentTradelane_subTitle}}",
+                    "entitySet": "C_BUSINESSSHARECOMPLIANCEQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "BusinessShareRatio",
+                    "sortOrder": "descending",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#FulfillmentTradeLane",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FulfillmentWeight",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#FulfillmentTradeLane",
+                    "addODataSelect": true
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/scm.tm.businessshareovps1/webapp",
+        "_version": "1.1.0"
+    }
+}

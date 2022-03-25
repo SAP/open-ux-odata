@@ -1,0 +1,176 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CA-GTF-CSC",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_IN_GSTTAXSUMMARY_CDS": {
+                "uri": "/sap/opu/odata/sap/C_IN_GSTTAXSUMMARY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["C_IN_GSTTAXSUMMARY_CDS_VAN"],
+                    "localUri": "localService/C_IN_GSTTAXSUMMARY_CDS/metadata.xml"
+                }
+            },
+            "C_IN_GSTTAXSUMMARY_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_IN_GSTTAXSUMMARY_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_IN_GSTTAXSUMMARY_CDS/C_IN_GSTTAXSUMMARY_CDS_VAN.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_IN_GSTTAXSUMMARY_CDS": {
+                "dataSource": "C_IN_GSTTAXSUMMARY_CDS",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3845"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "C_IN_GSTTAXSUMMARY_CDS",
+        "globalFilterEntityType": "C_IN_GSTTaxSummaryType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "card01": {
+                "settings": {
+                    "entitySet": "C_IN_SubcontrgDocOvwQ",
+                    "title": "{{card01_title}}",
+                    "description": "Challan Status by Plant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartDocByPlant"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            },
+            "card02": {
+                "settings": {
+                    "entitySet": "C_IN_JournalVoucherOvwQ",
+                    "title": "{{card02_title}}",
+                    "description": "Tax Corrections by Business Place",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartReversalAmountByJVType"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            },
+            "card03": {
+                "settings": {
+                    "entitySet": "C_IN_JournalVoucherOvwQ",
+                    "title": "{{card03_title}}",
+                    "description": "Amounts by Reversal Reasons",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartReversalAmountByReason"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            },
+            "card04": {
+                "settings": {
+                    "entitySet": "C_IN_ServiceDistrOvwQ",
+                    "title": "{{card04_title}}",
+                    "description": "Amount by Sending Business Place",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartAmountBusPlace"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            },
+            "card05": {
+                "settings": {
+                    "entitySet": "C_IN_SubcontrgDocOvwQ",
+                    "title": "{{card05_title}}",
+                    "description": "Challans by Supplier",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartDocBySubcontractor"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            },
+            "card06": {
+                "settings": {
+                    "entitySet": "C_IN_StockTransportOvwQ",
+                    "title": "{{card06_title}}",
+                    "description": "Stock Transfer Order By Month",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartDocByMonth"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            },
+            "card07": {
+                "settings": {
+                    "entitySet": "C_IN_StockTransportOvwQ",
+                    "title": "{{card07_title}}",
+                    "description": "Stock Transfer Order By Supplying Plant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartDocBySupplyingPlant"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            },
+            "card08": {
+                "settings": {
+                    "entitySet": "C_IN_ServiceDistrOvwQ",
+                    "title": "{{card08_title}}",
+                    "description": "Tax due for Sending Business Place",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartTaxDueBusPlace"
+                },
+                "template": "sap.ovp.cards.charts.analytical",
+                "model": "C_IN_GSTTAXSUMMARY_CDS"
+            }
+        }
+    }
+}

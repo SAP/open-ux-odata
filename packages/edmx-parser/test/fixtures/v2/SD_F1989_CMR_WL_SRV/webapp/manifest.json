@@ -1,0 +1,245 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "SD-SLS",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/SD_F1989_CMR_WL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["SD_F1989_CMR_WL_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "SD_F1989_CMR_WL_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='SD_F1989_CMR_WL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/SD_F1989_CMR_WL_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "displayCreditMemoRequest": {
+                    "semanticObject": "CreditMemoRequest",
+                    "action": "display"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://Fiori2/F0021",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.cus.sd.lib.processflow": { "lazy": true },
+                "cus.sd.lib.worklist": { "lazy": false }
+            },
+            "components": {
+                "sap.cus.sd.lib.processflow.component.creditmemorequest": { "lazy": true }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_CreditMemoRequestWl_F1989": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_CreditMemoRequestWl_F1989/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CreditMemoRequestWl_F1989": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CreditMemoRequestWl_F1989/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_CreditMemoRequestWl_F1989": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.creditmemorequests.manages1.ext.fragments.CustomFilter",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_CreditMemoRequestWl_F1989": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.creditmemorequests.manages1.ext.fragments.StatusTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CreditMemoRequestWl_F1989": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.creditmemorequests.manages1.ext.fragments.StatusTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "cus.sd.creditmemorequests.manages1.ext.controllers.CustomLogic",
+                        "sap.ui.generic.app": {
+                            "C_CreditMemoRequestWl_F1989": {
+                                "EntitySet": "C_CreditMemoRequestWl_F1989",
+                                "Actions": {
+                                    "create": {
+                                        "id": "CreateCreditMemoRequest",
+                                        "text": "{{createCreditMemoRequest}}",
+                                        "press": "onPressCreate"
+                                    },
+                                    "rejectAllItems": {
+                                        "id": "rejectAllItems",
+                                        "text": "{{rejectAllItems}}",
+                                        "press": "onRejectAllItems",
+                                        "requiresSelection": "true"
+                                    },
+                                    "setBillingBlock": {
+                                        "id": "setBillingBlock",
+                                        "text": "{{setBillingBlock}}",
+                                        "press": "onSetBillingBlock",
+                                        "requiresSelection": "true"
+                                    },
+                                    "removeBillingBlock": {
+                                        "id": "removeBillingBlock",
+                                        "text": "{{removeBillingBlock}}",
+                                        "press": "onRemoveBillingBlock",
+                                        "requiresSelection": "true"
+                                    },
+                                    "showBillingPreview": {
+                                        "id": "showBillingPreview",
+                                        "text": "{{showBillingPreview}}",
+                                        "press": "onShowBillingPreview",
+                                        "requiresSelection": "true"
+                                    },
+                                    "setOrderReason": {
+                                        "id": "setOrderReason",
+                                        "text": "{{setOrderReason}}",
+                                        "press": "onSetOrderReason",
+                                        "requiresSelection": "true"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.2.0",
+        "pages": [
+            {
+                "entitySet": "C_CreditMemoRequestWl_F1989",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_CreditMemoRequestWl_F1989",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.app.crossNavigation.outbounds",
+                                "target": "displayCreditMemoRequest"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1989"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "digitalAssistant": {
+            "intentDefinition": {
+                "ManageCreditMemoRequestsSkill": {
+                    "uri": "/copilot/ManageCreditMemoRequestsSkill.xml",
+                    "dataSources": ["mainService"],
+                    "i18n": "/copilot/i18n/i18n.properties"
+                }
+            }
+        }
+    }
+}

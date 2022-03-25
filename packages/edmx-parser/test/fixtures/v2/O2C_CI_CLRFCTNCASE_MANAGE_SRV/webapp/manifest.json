@@ -1,0 +1,235 @@
+{
+    "_version": "1.6.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-CAX-INV-FIO",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/O2C_CI_CLRFCTNCASE_MANAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["O2C_CI_CLRFCTNCASE_MANA_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "O2C_CI_CLRFCTNCASE_MANA_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='O2C_CI_CLRFCTNCASE_MANA_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/O2C_CI_CLRFCTNCASE_MANA_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": { "localUri": "annotations/annotations.xml" }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "Default": {
+                    "semanticObject": "CAInvoicingClarificationCase",
+                    "action": "display",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "fullWidth": true,
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "routing": {
+            "config": {
+                "async": true
+            }
+        },
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.core": {},
+                "sap.m": { "lazy": true },
+                "sap.ui.comp": { "lazy": true },
+                "sap.uxap": { "lazy": true }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_CAInvcgClrfctnCase": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_CAInvcgClrfctnCase/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CAInvcgClrfctnCase": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CAInvcgClrfctnCase/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "permissionModel": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_CAInvcgClrfctnCase": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.o2c.cfcfinv.manage.s1.ext.fragments.CustomFilter",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_CAInvcgClrfctnCase": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.o2c.cfcfinv.manage.s1.ext.fragments.DocumentNumberTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CAInvcgClrfctnCase": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.o2c.cfcfinv.manage.s1.ext.fragments.DocumentNumberTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "cus.o2c.cfcfinv.manage.s1.ext.controllers.CustomLogic",
+                        "sap.ui.generic.app": {
+                            "C_CAInvcgClrfctnCase": {
+                                "EntitySet": "C_CAInvcgClrfctnCase",
+                                "Actions": {
+                                    "clarify": {
+                                        "id": "ClarifyClrfctnCase",
+                                        "text": "{{clarify}}",
+                                        "requiresSelection": true,
+                                        "press": "onPressClarify"
+                                    },
+                                    "changeUser": {
+                                        "id": "ChangeUser",
+                                        "text": "{{changeProcessor}}",
+                                        "requiresSelection": true,
+                                        "press": "onPressChangeUser"
+                                    },
+                                    "changeStatus": {
+                                        "id": "ChangeStatus",
+                                        "text": "{{changeStatus}}",
+                                        "requiresSelection": true,
+                                        "press": "onPressChangeStatus"
+                                    },
+                                    "assignToMe": {
+                                        "id": "assignToMe",
+                                        "text": "{{assignToMe}}",
+                                        "requiresSelection": true,
+                                        "press": "onPressAssignToMe"
+                                    },
+                                    "unassign": {
+                                        "id": "unassign",
+                                        "text": "{{unassign}}",
+                                        "requiresSelection": true,
+                                        "press": "onPressUnassign"
+                                    },
+                                    "resubmission": {
+                                        "id": "resubmission",
+                                        "text": "{{resubmission}}",
+                                        "requiresSelection": true,
+                                        "press": "onPressResubmission"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_CAInvcgClrfctnCase",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2349"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

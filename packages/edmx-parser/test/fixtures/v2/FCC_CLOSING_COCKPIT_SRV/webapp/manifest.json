@@ -1,0 +1,342 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{fioriAppTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FIN-FIO-FCC",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FCC_CLOSING_COCKPIT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCC_CLOSING_COCKPIT_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FCC_CLOSING_COCKPIT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCC_CLOSING_COCKPIT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCC_CLOSING_COCKPIT_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "processClosingTask": {
+                    "semanticObject": "ClosingTask",
+                    "action": "process"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.core": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": false
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ClosingTaskList": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ClosingTaskList/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ClosingTaskList": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ClosingTaskList/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ClosingHierarchyNode": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ClosingHierarchyNode/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_ClosingTaskList": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.TaskListColumnExt"
+                        },
+                        "ResponsiveTableCellsExtension|C_ClosingTaskList": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.TaskListCellExt"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_ClosingTaskList": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.CustomFilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeFacet|C_ClosingTaskList|GENINFOFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.TaskTables",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@SecondFacetLabel}"
+                            }
+                        },
+                        "ReplaceFacet|C_ClosingTask|STATUSFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.StatusChangeFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@StatusChangeFacetLabel}"
+                            }
+                        },
+                        "ReplaceFacet|C_ClosingTask|DEPENDFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.DependenciesFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@DependenciesFacetLabel}"
+                            }
+                        },
+                        "ReplaceFacet|C_ClosingHierarchyNode|FLDNOTESFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.FolderNotesFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@NotesFacetLabel}"
+                            }
+                        },
+                        "ReplaceFacet|C_ClosingHierarchyNode|FLDATTACHFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.AttachmentsFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@AttachmentsFacetLabel}"
+                            }
+                        },
+                        "SmartFormExtension|C_ClosingTask|com.sap.vocabularies.UI.v1.FieldGroup::DURATION": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.TaskDurationSmartFormGroupElement"
+                        },
+                        "ReplaceFacet|C_ClosingTask|NOTESFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.NotesFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@NotesFacetLabel}"
+                            }
+                        },
+                        "ReplaceFacet|C_ClosingTask|ATTACHFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.AttachmentsFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@AttachmentsFacetLabel}"
+                            }
+                        },
+                        "ReplaceFacet|C_ClosingTask|EMAILFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.EmailsFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@EmailsFacetLabel}"
+                            }
+                        },
+                        "ReplaceFacet|C_ClosingTask|CORRFAC": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fcc.closing.cockpit.ext.fragment.CorrespondenceFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>@CorrespondenceFacetLabel}"
+                            }
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.fcc.closing.cockpit.ext.controller.ObjectPageExtension",
+                        "sap.ui.generic.app": {
+                            "C_ClosingTask": {
+                                "EntitySet": "C_ClosingTask",
+                                "Header": {
+                                    "Actions": {
+                                        "SetStatus": {
+                                            "id": "buttonSetStatus",
+                                            "text": "{@i18n>BUT_SET_STATUS}",
+                                            "press": "onSetStatusOnTaskPagePressed"
+                                        },
+                                        "Schedule": {
+                                            "id": "buttonSchedule",
+                                            "text": "{@i18n>BUT_SCHEDULE}",
+                                            "press": "onScheduleOnTaskPagePressed"
+                                        },
+                                        "DeleteScheduling": {
+                                            "id": "buttonDeleteScheduling",
+                                            "text": "{@i18n>BUT_DELETE_SCHD}",
+                                            "press": "onDeleteSchedulingOnTaskPagePressed"
+                                        },
+                                        "ExecuteTestRun": {
+                                            "id": "buttonExecuteTestRun",
+                                            "text": "{@i18n>BUT_TESTRUN}",
+                                            "press": "onExecuteTestRunOnTaskPagePressed"
+                                        },
+                                        "Process": {
+                                            "id": "buttonProcess",
+                                            "text": "{@i18n>BUT_PROCESS}",
+                                            "press": "onProcessOnTaskPagePressed"
+                                        },
+                                        "Approve": {
+                                            "id": "buttonApprove",
+                                            "text": "{@i18n>BUT_APPROVE}",
+                                            "press": "onApproveTaskPressed"
+                                        },
+                                        "Reject": {
+                                            "id": "buttonReject",
+                                            "text": "{@i18n>BUT_REJECT}",
+                                            "press": "onRejectTaskPressed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.fcc.closing.cockpit.ext.controller.ListReportExtension"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_ClosingTaskList",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_ClosingTaskList",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_ClosingTask",
+                                "entitySet": "C_ClosingTask",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true
+                                    }
+                                }
+                            },
+                            {
+                                "navigationProperty": "to_ClosingHierarchyNode",
+                                "entitySet": "C_ClosingHierarchyNode",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2695"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,333 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-MDG-ADQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_RULE_MINING_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CMD_QLTY_RULE_MINING_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "CMD_QLTY_RULE_MINING_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_RULE_MINING_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_RULE_MINING_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MDQltyRuleMiningTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MDQltyRuleMiningTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyRuleMiningTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MDQltyRuleMiningTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyRuleMiningTblSelTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MDQltyRuleMiningTblSelTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none",
+                        "Accept-Encoding": "gzip"
+                    },
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "mdm.cmd.mdq.ruleminings1.ext.controller.ObjectPage",
+                        "sap.ui.generic.app": {
+                            "C_MDQltyRuleMiningTP": {
+                                "EntitySet": "C_MDQltyRuleMiningTP",
+                                "Header": {
+                                    "Actions": {
+                                        "startRun": {
+                                            "id": "startRun",
+                                            "press": "onStartRun",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyRuleMiningTP>START}",
+                                            "determining": true
+                                        },
+                                        "stopRun": {
+                                            "id": "stopRun",
+                                            "press": "onStopRun",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyRuleMiningTP>STOP}",
+                                            "determining": true
+                                        },
+                                        "copy": {
+                                            "id": "copyRun",
+                                            "press": "onCopyRun",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyRuleMiningTP>COPY}"
+                                        },
+                                        "delete": {
+                                            "id": "deleteRun",
+                                            "press": "onDeleteRun",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyRuleMiningTP>DELETE}"
+                                        },
+                                        "refresh": {
+                                            "id": "refreshRun",
+                                            "press": "onRefreshRun",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyRuleMiningTP>REFRESH}"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "TableSel": {
+                                        "id": "TableSel",
+                                        "Actions": {
+                                            "addTableSel": {
+                                                "id": "addTableSel",
+                                                "press": "addTableSel",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_MDQltyRuleMiningTblSelTP": {
+                                "EntitySet": "C_MDQltyRuleMiningTblSelTP",
+                                "Sections": {
+                                    "DataSel": {
+                                        "id": "DataSel",
+                                        "Actions": {
+                                            "addDataSel": {
+                                                "id": "addDataSel",
+                                                "press": "addDataSel",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "FieldSel": {
+                                        "id": "FieldSel",
+                                        "Actions": {
+                                            "addDataSel": {
+                                                "id": "addFieldSel",
+                                                "press": "addFieldSel",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "mdm.cmd.mdq.ruleminings1.ext.controller.ListReport",
+                        "sap.ui.generic.app": {
+                            "C_MDQltyRuleMiningTP": {
+                                "EntitySet": "C_MDQltyRuleMiningTP",
+                                "Actions": {
+                                    "Create": {
+                                        "id": "Create",
+                                        "text": "",
+                                        "press": "onCreate",
+                                        "requiresSelection": false
+                                    },
+                                    "Copy": {
+                                        "id": "Copy",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_MDQltyRuleMiningTP>COPY}",
+                                        "press": "onCopy",
+                                        "requiresSelection": true
+                                    },
+                                    "Delete": {
+                                        "id": "Delete",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_MDQltyRuleMiningTP>DELETE}",
+                                        "press": "onDelete",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "C_MDQltyRuleMiningTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.mdq.ruleminings1.ext.fragment.TableSelection",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "Table Selection"
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_MDQltyRuleMiningTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.mdq.ruleminings1.ext.fragment.CustomColumns"
+                        },
+                        "ResponsiveTableCellsExtension|C_MDQltyRuleMiningTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.mdq.ruleminings1.ext.fragment.CustomColumnsCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+            },
+            "forceGlobalRefresh": false
+        },
+        "pages": {
+            "ListReport|C_MDQltyRuleMiningTP": {
+                "entitySet": "C_MDQltyRuleMiningTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "multiSelect": true,
+                        "tableType": "ResponsiveTable"
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MDQltyRuleMiningTP": {
+                        "entitySet": "C_MDQltyRuleMiningTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": true,
+                                "showConfirmationOnDraftActivate": true,
+                                "navToListOnSave": false,
+                                "allTableMultiSelect": true
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_MDQltyRuleMiningTblSelTblTP": {
+                                "navigationProperty": "to_MDQltyRuleMiningTblSelTblTP",
+                                "entitySet": "C_MDQltyRuleMiningTblSelTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "editableHeaderContent": false,
+                                        "smartVariantManagement": true,
+                                        "allTableMultiSelect": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3576"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

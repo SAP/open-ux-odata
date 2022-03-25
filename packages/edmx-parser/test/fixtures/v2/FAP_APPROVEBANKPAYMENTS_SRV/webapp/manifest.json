@@ -1,0 +1,461 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "resources": "resources.json",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "ach": "FI-FIO-AP",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAP_APPROVEBANKPAYMENTS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["FAP_APPROVEBANKPAYMENTS_ANNO_MDL", "localAnnotations"],
+                    "localUri": "/webapp/test/mock/metadata.xml"
+                }
+            },
+            "FAP_APPROVEBANKPAYMENTS_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAP_APPROVEBANKPAYMENTS_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F0673A"],
+        "archeType": "transactional"
+    },
+    "sap.copilot": {
+        "digitalAssistant": {
+            "intentDefinition": {
+                "copilotIntent": {
+                    "uri": "copilot/intent.xml",
+                    "dataSources": ["FAP_APPROVEBANKPAYMENTS_SRV"],
+                    "i18n": "i18n/copilot/i18n.properties"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://payment-approval",
+            "favIcon": "sap-icon://payment-approval",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize"],
+        "fullWidth": true
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.collaboration": {
+                    "minVersion": "1.38",
+                    "lazy": true
+                },
+                "sap.m": {
+                    "minVersion": "1.38.0",
+                    "lazy": false
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "minVersion": "1.38.0",
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "minVersion": "1.38.0",
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "minVersion": "1.12",
+                    "lazy": false
+                },
+                "sap.ui.unified": {
+                    "lazy": false
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline",
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "component": "sap.suite.ui.generic.template.ListReport",
+            "minVersion": "1.1.0",
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.ap.approvebankpayments.controller.list.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_AbpPaymentBatch": {
+                                "EntitySet": "C_AbpPaymentBatch",
+                                "Actions": {
+                                    "approveBatches": {
+                                        "id": "approveBatches",
+                                        "text": "{{masterSelectedBatchesApprove}}",
+                                        "press": "onApproveBatches",
+                                        "requiresSelection": true
+                                    },
+                                    "rejectBatches": {
+                                        "id": "rejectBatches",
+                                        "text": "{{masterSelectedBatchesReject}}",
+                                        "press": "onRejectBatches"
+                                    },
+                                    "deferBatches": {
+                                        "id": "deferBatches",
+                                        "text": "{{masterSelectedBatchesDefer}}",
+                                        "press": "onDeferBatches"
+                                    },
+                                    "returnBatches": {
+                                        "id": "returnBatches",
+                                        "text": "{{masterSelectedBatchesReturn}}",
+                                        "press": "onReturnBatches"
+                                    },
+                                    "undoBatches": {
+                                        "id": "undoBatches",
+                                        "text": "{{masterSelectedBatchesUndo}}",
+                                        "press": "onUndoBatches"
+                                    },
+                                    "submitReviewed": {
+                                        "id": "submitReviewed",
+                                        "text": "{{masterSubmitReviewed}}",
+                                        "press": "onSubmitReviewed",
+                                        "global": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.ap.approvebankpayments.controller.DetailPageExt",
+                        "sap.ui.generic.app": {
+                            "C_AbpPaymentBatch": {
+                                "EntitySet": "C_AbpPaymentBatch",
+                                "Header": {
+                                    "Actions": {
+                                        "approveBatch": {
+                                            "applicablePath": "batchView>/approveActionAvailable",
+                                            "id": "approveBatch",
+                                            "text": "{{masterSelectedBatchesApprove}}",
+                                            "press": "onApproveBatch"
+                                        },
+                                        "rejectBatch": {
+                                            "applicablePath": "batchView>/firstStageActionsAvailable",
+                                            "id": "rejectBatch",
+                                            "text": "{{masterSelectedBatchesReject}}",
+                                            "press": "onRejectBatch"
+                                        },
+                                        "deferBatch": {
+                                            "applicablePath": "batchView>/firstStageActionsAvailable",
+                                            "id": "deferBatch",
+                                            "text": "{{masterSelectedBatchesDefer}}",
+                                            "press": "onDeferBatch"
+                                        },
+                                        "returnBatch": {
+                                            "applicablePath": "batchView>/nextStageActionsAvailable",
+                                            "id": "returnBatch",
+                                            "text": "{{masterSelectedBatchesReturn}}",
+                                            "press": "onReturnBatch"
+                                        },
+                                        "undoBatch": {
+                                            "applicablePath": "batchView>/draftStageActionsAvailable",
+                                            "id": "undoBatch",
+                                            "text": "{{masterSelectedBatchesUndo}}",
+                                            "press": "onUndoBatch"
+                                        },
+                                        "editBatch": {
+                                            "applicablePath": "batchView>/batchEditable",
+                                            "id": "editBatch",
+                                            "text": "{{masterSelectedBatchesEdit}}",
+                                            "press": "onEditBatch"
+                                        }
+                                    }
+                                }
+                            },
+                            "C_AbpPayment": {
+                                "EntitySet": "C_AbpPayment",
+                                "Header": {
+                                    "Actions": {
+                                        "edit": {
+                                            "applicablePath": "paymentView>/batchEditable",
+                                            "id": "editBatchAndPayment",
+                                            "text": "{{masterSelectedBatchesEdit}}",
+                                            "press": "onEditPayment"
+                                        },
+                                        "editPaymentInstructionKey": {
+                                            "applicablePath": "paymentView>/isNewBatchEdit",
+                                            "id": "editPaymentInstructionKey",
+                                            "text": "{{batchPaymentsHeaderButtonTitleEditInstructionKey}}",
+                                            "press": "onEditPaymentInstructionKey"
+                                        },
+                                        "rejectPayment": {
+                                            "applicablePath": "paymentView>/isNewBatchEdit",
+                                            "id": "rejectPayment",
+                                            "text": "{{batchPaymentsHeaderButtonTitleSetToReject}}",
+                                            "press": "onRejectPayment"
+                                        },
+                                        "deferPayment": {
+                                            "applicablePath": "paymentView>/isNewBatchEdit",
+                                            "id": "deferPayment",
+                                            "text": "{{batchPaymentsHeaderButtonTitleSetToDefer}}",
+                                            "press": "onDeferPayment"
+                                        },
+                                        "resetPayment": {
+                                            "applicablePath": "paymentView>/isNewBatchEdit",
+                                            "id": "resetPayment",
+                                            "text": "{{batchPaymentsHeaderButtonTitleResetStatus}}",
+                                            "press": "onResetPaymentStatus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_AbpPaymentBatch": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.list.CustomFilters",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_AbpPaymentBatch": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.list.BatchListTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_AbpPaymentBatch": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.list.BatchListTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceHeaderFacet|C_AbpPaymentBatch|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::batch": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.batch.BatchHeaderFacetBatch",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "ReplaceHeaderFacet|C_AbpPaymentBatch|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::sum": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.batch.BatchHeaderFacetSum",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "ReplaceHeaderFacet|C_AbpPaymentBatch|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::status": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.batch.BatchHeaderFacetStatus",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "ReplaceFacet|C_AbpPaymentBatch|BatchInfo": {
+                            "id": "batchInfo",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.batch.BatchInfo",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_AbpPayment|Payments": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.batch.PaymentListTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_AbpPayment|Payments": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.batch.PaymentListTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_AprvBkPaytExcludedPayment|ExcludedPayments": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.batch.PaymentListTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_AprvBkPaytExcludedPayment|ExcludedPayments": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.batch.PaymentListTableCells",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AbpPaymentBatch|Timeline": {
+                            "id": "timeline",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.batch.Timeline",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AbpPaymentBatch|Attachments": {
+                            "id": "attachments",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.batch.Attachments",
+                            "type": "XML"
+                        },
+                        "ReplaceHeaderFacet|C_AbpPayment|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::payee": {
+                            "id": "payeeInfo",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.payment.PaymentHeaderFacetPayee",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "ReplaceHeaderFacet|C_AbpPayment|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::status": {
+                            "id": "statusInfo",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.payment.PaymentHeaderFacetStatus",
+                            "type": "XML"
+                        },
+                        "ReplaceHeaderFacet|C_AbpPayment|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::sum": {
+                            "id": "sumInfo",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.payment.PaymentHeaderFacetSum",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AbpPayment|PaymentInfo": {
+                            "id": "paymentInfo",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.payment.PaymentInfo",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_AbpInvoice|to_Invoice::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.payment.InvoiceListTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_AbpInvoice|to_Invoice::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.payment.InvoiceListTableCells",
+                            "type": "XML"
+                        },
+                        "ReplaceHeaderFacet|C_AprvBkPaytExcludedPayment|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::payee": {
+                            "id": "payeeInfo",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.payment.PaymentHeaderFacetPayee",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "ReplaceHeaderFacet|C_AprvBkPaytExcludedPayment|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::status": {
+                            "id": "statusInfo",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.payment.PaymentHeaderFacetStatus",
+                            "type": "XML"
+                        },
+                        "ReplaceHeaderFacet|C_AprvBkPaytExcludedPayment|headerEditable::com.sap.vocabularies.UI.v1.FieldGroup::sum": {
+                            "id": "sumInfo",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.approvebankpayments.view.payment.PaymentHeaderFacetSum",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AprvBkPaytExcludedPayment|PaymentInfo": {
+                            "id": "paymentInfo",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.ap.approvebankpayments.view.payment.PaymentInfo",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui.generic.app": {
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            },
+            "objectPageDynamicHeaderTitleWithVM": false
+        },
+        "pages": [
+            {
+                "entitySet": "C_AbpPaymentBatch",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "multiSelect": true,
+                        "quickVariantSelectionX": {
+                            "variants": {
+                                "0": {
+                                    "key": "_tab1_ForReview",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ForReview"
+                                },
+                                "1": {
+                                    "key": "_tab2_Reviewed",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Reviewed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_AbpPaymentBatch",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_Payment",
+                                "entitySet": "C_AbpPayment",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            {
+                                "navigationProperty": "to_ExcludedPayment",
+                                "entitySet": "C_AprvBkPaytExcludedPayment",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,176 @@
+{
+    "_version": "1.1.0",
+    "sap.app": {
+        "_version": "1.1.0",
+        "id": "sakp.e2etest_exp.upgtestdashboard",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "ach": "CA-CTT-S4C",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/E2EIE_IC_MNGCLDSOL/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/mainService/metadata.xml",
+                    "annotations": ["annotation"]
+                }
+            },
+            "annotation": {
+                "uri": "annotation/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotation/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.1.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "favicon.ico",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "config": {
+            "sapFiori2Adaptation": true
+        },
+        "dependencies": {
+            "minUI5Version": "1.38.1",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.38.1",
+                    "lazy": false
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sakp.e2etest_exp.upgtestdashboardDashboard.i18n.i18n"
+                }
+            },
+            "mainService": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading"
+                    },
+                    "defaultCountMode": "None"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "sakp.e2etest_exp.upgtestdashboard.ext.customConfiguration"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "mainService",
+        "globalFilterEntityType": "Filter",
+        "cards": {
+            "sakp.e2etest_exp.upgtestdashboard_card01": {
+                "model": "mainService",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{sakp.e2etest_exp.upgtestdashboard_card01_title}}",
+                    "subTitle": "{{sakp.e2etest_exp.upgtestdashboard_card01_subTitle}}",
+                    "entitySet": "UpgradeProcessCountSet",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProcessType",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ProcessType",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ProcessType",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#ProcessType",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ProcessType",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ProcessType",
+                    "navigation": "dataPointNav",
+                    "valueSelectionInfo": "{{sakp.e2etest_exp.upgtestdashboard_card01_valueSelectionInfo}}",
+                    "customParams": "getTypeParameters"
+                }
+            },
+            "sakp.e2etest_exp.upgtestdashboard_card02": {
+                "model": "mainService",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{sakp.e2etest_exp.upgtestdashboard_card02_title}}",
+                    "subTitle": "{{sakp.e2etest_exp.upgtestdashboard_card02_subTitle}}",
+                    "entitySet": "UpgradeResultSet",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#UpgradeStatus",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#UpgradeStatus",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#UpgradeStatus",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#UpgradeStatus",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#UpgradeStatus",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#UpgradeStatus",
+                    "navigation": "dataPointNav",
+                    "valueSelectionInfo": "{{sakp.e2etest_exp.upgtestdashboard_card02_valueSelectionInfo}}",
+                    "customParams": "getUpgradeTestPlansCardParameters"
+                }
+            },
+            "sakp.e2etest_exp.upgtestdashboard_card03": {
+                "model": "mainService",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{sakp.e2etest_exp.upgtestdashboard_card03_title}}",
+                    "subTitle": "{{sakp.e2etest_exp.upgtestdashboard_card03_subTitle}}",
+                    "entitySet": "UpgradeResut2Set",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NonUpgradeStatus",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#NonUpgradeStatus",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#NonUpgradeStatus",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#NonUpgradeStatus",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NonUpgradeStatus",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#NonUpgradeStatus",
+                    "navigation": "dataPointNav",
+                    "valueSelectionInfo": "{{sakp.e2etest_exp.upgtestdashboard_card03_valueSelectionInfo}}",
+                    "customParams": "getNonUpgradeTestPlansCardParameters"
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": "/sap/bc/ui5_ui5/sap/sakp_upgtest_s1"
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F3186"],
+        "archeType": "analytical"
+    }
+}

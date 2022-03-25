@@ -1,0 +1,270 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-GTF-EI-VP-UI",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CA_FNDEI_VR_BLACKLIST_FIELDS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CA_FNDEI_VR_BLACKLIST_F_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "CA_FNDEI_VR_BLACKLIST_F_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CA_FNDEI_VR_BLACKLIST_F_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CA_FNDEI_VR_BLACKLIST_F_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|ViewReplExcludeFieldsRecordsUI": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/ViewReplExcludeFieldsRecordsUI/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|ViewReplExcludeFieldsRecordsUI": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|ViewReplBlacklistUI": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "viewIdModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "preload": false
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4.cfnd.blacklistfields.ext.controller.ListReportExt"
+                    },
+
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "s4.cfnd.blacklistfields.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "ViewReplExcludeFieldsRecordsUI": {
+                                "EntitySet": "ViewReplExcludeFieldsRecordsUI",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionViewReplExcludeFieldsRecordsUISections3": {
+                                            "id": "ActionViewReplExcludeFieldsRecordsUISections3button",
+                                            "text": "{@i18n>ActionViewReplExcludeFieldsRecordsUISections3}",
+                                            "press": "onPublish",
+                                            "determining": true
+                                        },
+                                        "ActionViewReplExcludeFieldsRecordsUIHeader1": {
+                                            "id": "ActionViewReplExcludeFieldsRecordsUIHeader1button",
+                                            "text": "{@i18n>ActionViewReplExcludeFieldsRecordsUIHeader1}",
+                                            "press": "onMessagePopoverClick",
+                                            "determining": true
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "to_vrblacklistfields::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_vrblacklistfields::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionViewReplExcludeFieldsRecordsUISections1": {
+                                                "id": "ActionViewReplExcludeFieldsRecordsUISections1button",
+                                                "text": "{@i18n>ActionViewReplExcludeFieldsRecordsUISections1}",
+                                                "press": "onAddTables"
+                                            },
+                                            "ActionViewReplExcludeFieldsRecordsUISections2": {
+                                                "id": "ActionViewReplExcludeFieldsRecordsUISections2button",
+                                                "text": "{@i18n>ActionViewReplExcludeFieldsRecordsUISections2}",
+                                                "press": "onRemoveTable",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ViewReplBlacklistUI": {
+                                "EntitySet": "ViewReplBlacklistUI",
+                                "Sections": {
+                                    "to_fieldsTable::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_fieldsTable::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionViewReplBlacklistUISections1": {
+                                                "id": "ActionViewReplBlacklistUISections1button",
+                                                "text": "{@i18n>ActionViewReplBlacklistUISections1}",
+                                                "press": "onAddFields"
+                                            },
+                                            "ActionViewReplBlacklistUISections2": {
+                                                "id": "ActionViewReplBlacklistUISections2button",
+                                                "text": "{@i18n>ActionViewReplBlacklistUISections2}",
+                                                "press": "onRemoveFields",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeFacet|ViewReplExcludeFieldsRecordsUI|to_vrblacklistfields::com.sap.vocabularies.UI.v1.LineItem": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4.cfnd.blacklistfields.ext.fragment.DataBlockingSwitchFragment",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>ExludeRecordTitle}"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|ViewReplExcludeFieldsRecordsUI": {
+                "entitySet": "ViewReplExcludeFieldsRecordsUI",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "smartVariantManagement": false,
+                        "variantManagementHidden": true,
+                        "subTitleIfVariantMgmtHidden": "{@i18n>ListPageTitle}"
+                    }
+                },
+                "pages": {
+                    "ObjectPage|ViewReplExcludeFieldsRecordsUI": {
+                        "entitySet": "ViewReplExcludeFieldsRecordsUI",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": {
+                            "ObjectPage|to_vrblacklistfields": {
+                                "navigationProperty": "to_vrblacklistfields",
+                                "entitySet": "ViewReplBlacklistUI",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3416"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

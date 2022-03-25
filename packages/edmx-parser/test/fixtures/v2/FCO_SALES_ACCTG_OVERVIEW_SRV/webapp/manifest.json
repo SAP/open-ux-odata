@@ -1,0 +1,704 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "fin.co.salesaccountingovp",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FI-FIO-GL",
+        "resources": "resources.json",
+        "dataSources": {
+            "FCO_SALES_ACCTG_OVERVIEW_SRV": {
+                "uri": "/sap/opu/odata/sap/FCO_SALES_ACCTG_OVERVIEW_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCO_SALES_ACCTG_OVERVIE_ANNO_MDL"],
+                    "localUri": "localService/FCO_SALES_ACCTG_OVERVIEW_SRV/metadata.xml"
+                }
+            },
+            "FCO_SALES_ACCTG_OVERVIE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCO_SALES_ACCTG_OVERVIE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCO_SALES_ACCTG_OVERVIEW_SRV/FCO_SALES_ACCTG_OVERVIE_ANNO_MDL.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.32.0",
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "FCO_SALES_ACCTG_OVERVIEW_THRD1": {
+                "preload": true,
+                "dataSource": "FCO_SALES_ACCTG_OVERVIEW_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "None",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "FCO_SALES_ACCTG_OVERVIEW_THRD2": {
+                "preload": true,
+                "dataSource": "FCO_SALES_ACCTG_OVERVIEW_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "None",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "FCO_SALES_ACCTG_OVERVIEW_THRD3": {
+                "preload": true,
+                "dataSource": "FCO_SALES_ACCTG_OVERVIEW_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "None",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "FCO_SALES_ACCTG_OVERVIEW_THRD4": {
+                "preload": true,
+                "dataSource": "FCO_SALES_ACCTG_OVERVIEW_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "FCO_SALES_ACCTG_OVERVIEW_THRD5": {
+                "preload": true,
+                "dataSource": "FCO_SALES_ACCTG_OVERVIEW_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.co.salesaccountingovp.ext.controller.MainExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "FCO_SALES_ACCTG_OVERVIEW_THRD1",
+        "globalFilterEntityType": "C_SlsAcctgOvwFilterResult",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": true,
+        "showDateInRelativeFormat": false,
+        "containerLayout": "resizable",
+        "cards": {
+            "IncomingSalesOrders": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{IncomingSalesOrders_title}}",
+                    "subTitle": "{{IncomingSalesOrders_subTitle}}",
+                    "entitySet": "C_SlsAcctgIncgSlsOrdsOvwResults",
+                    "valueSelectionInfo": "{{IncomingSalesOrders_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "IncomingSalesOrders",
+                    "tabs": [
+                        {
+                            "value": "{{tab_IncomingSalesOrders_byCustomerGrp}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrders_byCustomerGrp",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrders_byCustomerGrp",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RecognizedMargAmtInDisplayCrcy"
+                        },
+                        {
+                            "value": "{{tab_IncomingSalesOrders_byMaterialGrp}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrders_byMaterialGrp",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrders_byMaterialGrp",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RecognizedMargAmtInDisplayCrcy"
+                        },
+                        {
+                            "value": "{{tab_IncomingSalesOrders_byProfitCenter}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrders_byProfitCenter",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrders_byProfitCenter",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RecognizedMargAmtInDisplayCrcy"
+                        },
+                        {
+                            "value": "{{tab_IncomingSalesOrders_bySalesOrg}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrders",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrders_bySalesOrg",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrders_bySalesOrg",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RecognizedMargAmtInDisplayCrcy"
+                        }
+                    ]
+                }
+            },
+            "IncomingSalesOrdersTrend": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{IncomingSalesOrdersTrend_title}}",
+                    "subTitle": "{{IncomingSalesOrdersTrend_subTitle}}",
+                    "entitySet": "C_SlsAcctgIncgSlsOrdsTrendOvwResults",
+                    "valueSelectionInfo": "{{IncomingSalesOrdersTrend_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "IncomingSalesOrdersTrend",
+                    "tabs": [
+                        {
+                            "value": "{{tab_IncomingSalesOrdersTrend_byOrdersCnt}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrdersTrend_byOrdersCnt",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrdersTrend_byOrdersCnt",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrdersTrend_byOrdersCnt",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfSalesOrdersMTD"
+                        },
+                        {
+                            "value": "{{tab_IncomingSalesOrdersTrend_bySalesRevenue}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrdersTrend_bySalesRevenue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrdersTrend_bySalesRevenue",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrdersTrend_bySalesRevenue",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActlRevenueAmtMTDInDspCrcy"
+                        },
+                        {
+                            "value": "{{tab_IncomingSalesOrdersTrend_bySalesCOGS}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrdersTrend_bySalesCOGS",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrdersTrend_bySalesCOGS",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrdersTrend_bySalesCOGS",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActlRevenueAmtMTDInDspCrcy"
+                        },
+                        {
+                            "value": "{{tab_IncomingSalesOrdersTrend_bySalesMargin}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingSalesOrdersTrend_bySalesMargin",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IncomingSalesOrdersTrend_bySalesMargin",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncomingSalesOrdersTrend_bySalesMargin",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActlRevenueAmtMTDInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "SalesRevenueMonthly": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD2",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{SalesRevenueMonthly_title}}",
+                    "subTitle": "{{SalesRevenueMonthly_subTitle}}",
+                    "entitySet": "C_SlsAcctgSlsRevenueMonthlyOvwResults",
+                    "valueSelectionInfo": "{{SalesRevenueMonthly_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "SalesRevenueMonthly",
+                    "tabs": [
+                        {
+                            "value": "{{tab_SalesRevenueMonthly_actualVsPlan}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SalesRevenueMonthly_actualVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SalesRevenueMonthly_actualVsPlan",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SalesRevenueMonthly_actualVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualToPlanDiffInPercent"
+                        },
+                        {
+                            "value": "{{tab_SalesRevenueMonthly_actualVsLastYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SalesRevenueMonthly_actualVsLastYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SalesRevenueMonthly_actualVsLastYear",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SalesRevenueMonthly_actualVsLastYear",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualToActualYOYDiffInPercent"
+                        }
+                    ]
+                }
+            },
+            "SalesRevenueBenchmark": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD3",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{SalesRevenueBenchmark_title}}",
+                    "subTitle": "{{SalesRevenueBenchmark_subTitle}}",
+                    "entitySet": "C_SlsAcctgSlsRevnBenchmarkOvwResults",
+                    "addODataSelect": true,
+                    "customParams": "SalesRevenueBenchmark",
+                    "tabs": [
+                        {
+                            "value": "{{tab_SalesRevenueBenchmark_byMaterialGrp}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SalesRevenueBenchmark",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SalesRevenueBenchmark_byMaterialGrp",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SalesRevenueBenchmark_byMaterialGrp"
+                        },
+                        {
+                            "value": "{{tab_SalesRevenueBenchmark_byCustomerGrp}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SalesRevenueBenchmark",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SalesRevenueBenchmark_byCustomerGrp",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SalesRevenueBenchmark_byCustomerGrp"
+                        },
+                        {
+                            "value": "{{tab_SalesRevenueBenchmark_bySalesDistrict}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SalesRevenueBenchmark",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SalesRevenueBenchmark_bySalesDistrict",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SalesRevenueBenchmark_bySalesDistrict"
+                        },
+                        {
+                            "value": "{{tab_SalesRevenueBenchmark_byCountry}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SalesRevenueBenchmark",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SalesRevenueBenchmark_byCountry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SalesRevenueBenchmark_byCountry"
+                        },
+                        {
+                            "value": "{{tab_SalesRevenueBenchmark_byIndustry}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SalesRevenueBenchmark",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SalesRevenueBenchmark_byIndustry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SalesRevenueBenchmark_byIndustry"
+                        }
+                    ]
+                }
+            },
+            "SalesVolumePerMaterial": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD5",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{SalesVolumePerMaterial_title}}",
+                    "subTitle": "{{SalesVolumePerMaterial_subTitle}}",
+                    "entitySet": "C_SlsAcctgSlsVolPerMatlOvwResults",
+                    "addODataSelect": true,
+                    "customParams": "SalesVolumePerMaterial",
+                    "tabs": [
+                        {
+                            "value": "{{tab_SalesVolumePerMaterial_byActualAndPlanForPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PeriodToDateVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PeriodToDateVsPlan",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PeriodToDateVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MaterialName",
+                            "addODataSelect": true
+                        },
+                        {
+                            "value": "{{tab_SalesVolumePerMaterial_byActualAndPlanForYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#YearToDateVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#YearToDateVsPlan",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#YearToDateVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MaterialName",
+                            "addODataSelect": true
+                        },
+                        {
+                            "value": "{{tab_SalesVolumePerMaterial_byActualAndActualPreviousPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PeriodToDateVsPrevYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PeriodToDateVsPrevYear",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PeriodToDateVsPrevYear",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MaterialName",
+                            "addODataSelect": true
+                        },
+                        {
+                            "value": "{{tab_SalesVolumePerMaterial_byActualAndActualPreviousYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#YearToDateVsPrevYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#YearToDateVsPrevYear",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#YearToDateVsPrevYear",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MaterialName",
+                            "addODataSelect": true
+                        }
+                    ]
+                }
+            },
+            "QuickLinks": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD1",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{QuickLinks_title}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{link_AnalyzeSalesOrder}}",
+                            "semanticObject": "SalesOrder",
+                            "customParams": "QuickLinks",
+                            "action": "analyzeSalesOrders"
+                        },
+                        {
+                            "title": "{{link_MarketSegments}}",
+                            "semanticObject": "MarketSegment",
+                            "customParams": "QuickLinks",
+                            "action": "analyzePlanActualPC"
+                        },
+                        {
+                            "title": "{{link_MarketSegments}}",
+                            "semanticObject": "MarketSegment",
+                            "customParams": "QuickLinks",
+                            "action": "analyzePlanActual"
+                        },
+                        {
+                            "title": "{{link_P&L}}",
+                            "semanticObject": "CompanyCode",
+                            "customParams": "QuickLinks",
+                            "action": "analyzePlanActualPC"
+                        },
+                        {
+                            "title": "{{link_P&L}}",
+                            "semanticObject": "CompanyCode",
+                            "customParams": "QuickLinks",
+                            "action": "analyzePlanActual"
+                        },
+                        {
+                            "title": "{{link_ProductProfitability}}",
+                            "semanticObject": "MarketSegment",
+                            "customParams": "QuickLinks",
+                            "action": "analyzeContributionMargin"
+                        },
+                        {
+                            "title": "{{link_DisplayActualCostLineItems}}",
+                            "semanticObject": "SalesOrder",
+                            "customParams": "QuickLinks",
+                            "action": "actualCostLineItemsForSalesDocuments"
+                        },
+                        {
+                            "title": "{{link_RevenueVariance}}",
+                            "semanticObject": "CompanyCode",
+                            "customParams": "QuickLinks",
+                            "action": "displayRevenueVariance"
+                        }
+                    ]
+                }
+            },
+            "GrossProfitDecomposition": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD4",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{GrossProfitDecomposition_title}}",
+                    "entitySet": "C_SlsAcctgGrssPrftDcmpstnOvwResults",
+                    "addODataSelect": true,
+                    "customParams": "GrossProfitDecomposition",
+                    "tabs": [
+                        {
+                            "value": "{{tab_GrossProfitDecomposition_SelectedPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectedPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SelectedPeriod",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SelectedPeriod"
+                        },
+                        {
+                            "value": "{{tab_GrossProfitDecomposition_YearToPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#YearToPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#YearToPeriod",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#YearToPeriod"
+                        }
+                    ]
+                }
+            },
+            "RevenueVariance": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD4",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{RevenueVariance_title}}",
+                    "subtitle": "{{RevenueVariance_subTitle}}",
+                    "entitySet": "C_SlsAcctgSlsRevnVarianceOvwResults",
+                    "valueSelectionInfo": "{{RevenueVariance_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "RevenueVariance",
+                    "tabs": [
+                        {
+                            "value": "{{tab_RevenueVariance_ActualVsPlan}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActualVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ActualVsPlan",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ActualVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#KPIActualVsPlan"
+                        },
+                        {
+                            "value": "{{tab_RevenueVariance_ActualVsPreviousYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActualVsPreviousYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ActualVsPreviousYear",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ActualVsPreviousYear",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#KPIActualVsPreviousYear"
+                        }
+                    ]
+                }
+            },
+            "GrossMarginPerMaterial": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD5",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{GrossMarginPerMaterial_title}}",
+                    "subTitle": "{{GrossMarginPerMaterial_subTitle}}",
+                    "entitySet": "C_SlsAcctgGrssMargPerMatlOvwResults",
+                    "valueSelectionInfo": "{{GrossMarginPerMaterial_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "GrossMarginPerMaterial",
+                    "tabs": [
+                        {
+                            "value": "{{tab_GrossMarginPerMaterial_PeriodActVsPlan}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PeriodActVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PeriodActVsPlan",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PeriodActVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#KPIPeriodActVsPlan"
+                        },
+                        {
+                            "value": "{{tab_GrossMarginPerMaterial_YearActVsPlan}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#YearActVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#YearActVsPlan",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#YearActVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#KPIYearActVsPlan"
+                        },
+                        {
+                            "value": "{{tab_GrossMarginPerMaterial_PeriodActVsPrevious}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PeriodActVsPrevious",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PeriodActVsPrevious",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PeriodActVsPrevious",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#KPIPeriodActVsPrevious"
+                        },
+                        {
+                            "value": "{{tab_GrossMarginPerMaterial_YearActVsPrevious}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#YearActVsPrevious",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#YearActVsPrevious",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#YearActVsPrevious",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#KPIYearActVsPrevious"
+                        }
+                    ]
+                }
+            },
+            "DeductionsBenchmarkOverview": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{DeductionsBenchmarkOverview_title}}",
+                    "subTitle": "{{DeductionsBenchmarkOverviewl_subTitle}}",
+                    "entitySet": "C_SlsAcctgSlsDdctdBenchmarkOvwResults",
+                    "addODataSelect": true,
+                    "customParams": "DeductionsBenchmarkOverview",
+                    "tabs": [
+                        {
+                            "value": "{{tab_DeductionsBenchmarkOverview_byMaterialGroup}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#byMaterialGroup",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byMaterialGroup",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#byMaterialGroup",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#byMaterialGroup",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        },
+                        {
+                            "value": "{{tab_DeductionsBenchmarkOverview_byCustomerGroup}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#byCustomerGroup",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byCustomerGroup",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#byCustomerGroup",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#byCustomerGroup",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        },
+                        {
+                            "value": "{{tab_DeductionsBenchmarkOverview_bySalesDistrict}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#bySalesDistrict",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#bySalesDistrict",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#bySalesDistrict",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#bySalesDistrict",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        },
+                        {
+                            "value": "{{tab_DeductionsBenchmarkOverview_byCountry}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#byCustomerSupplierCountry",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byCustomerSupplierCountry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#byCustomerSupplierCountry",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#byCustomerSupplierCountry",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        },
+                        {
+                            "value": "{{tab_DeductionsBenchmarkOverview_byIndustry}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#byCustomerSupplierIndustry",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byCustomerSupplierIndustry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#byCustomerSupplierIndustry",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#byCustomerSupplierIndustry",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        }
+                    ]
+                }
+            },
+            "MonthlyNetSales": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{MonthlyNetSales_title}}",
+                    "subTitle": "{{MonthlyNetSales_subTitle}}",
+                    "entitySet": "C_SlsAcctgMonthlyNetSalesOvwResults",
+                    "valueSelectionInfo": "{{MonthlyNetSales_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "MonthlyNetSales",
+                    "tabs": [
+                        {
+                            "value": "{{tab_MonthlyNetSales_actualVsPlan}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MonthlyNetSales_actualVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MonthlyNetSales_actualVsPlan",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MonthlyNetSales_actualVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualToPlanDiffInPercent"
+                        },
+                        {
+                            "value": "{{tab_MonthlyNetSales_actualVsLastYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MonthlyNetSales_actualVsLastYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MonthlyNetSales_actualVsLastYear",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MonthlyNetSales_actualVsLastYear",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualToActualYOYDiffInPercent"
+                        }
+                    ]
+                }
+            },
+            "SalesDeductions": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD5",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{SalesDeductions_title}}",
+                    "subTitle": "{{SalesDeductions_subTitle}}",
+                    "entitySet": "C_SlsAcctgDeductionsOvwResults",
+                    "addODataSelect": true,
+                    "customParams": "SalesDeductions",
+                    "valueSelectionInfo": "{{SalesDeductions_valueSelectionInfo}}",
+                    "tabs": [
+                        {
+                            "value": "{{tab_SalesDeductionsOverview_PeariodActVsPlan}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PeariodActVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PeariodActVsPlan",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PeariodActVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PeariodActVsPlan",
+                            "addODataSelect": true
+                        },
+                        {
+                            "value": "{{tab_SalesDeductionsOverview_YearActVsPlan}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#YearActVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#YearActVsPlan",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#YearActVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#YearActVsPlan",
+                            "addODataSelect": true
+                        },
+                        {
+                            "value": "{{tab_SalesDeductionsOverview_PeriodActVsPrevious}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PeriodActVsPrevious",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PeriodActVsPrevious",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PeriodActVsPrevious",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PeriodActVsPrevious",
+                            "addODataSelect": true
+                        },
+                        {
+                            "value": "{{tab_SalesDeductionsOverview_YearActVsPrevious}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#YearActVsPrevious",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#YearActVsPrevious",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#YearActVsPrevious",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#YearActVsPrevious",
+                            "addODataSelect": true
+                        }
+                    ]
+                }
+            },
+            "MonthlySalesDeductions": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{MonthlySalesDeductions_title}}",
+                    "subTitle": "{{MonthlySalesDeductions_subTitle}}",
+                    "entitySet": "C_SalesDeductionByMonthResults",
+                    "valueSelectionInfo": "{{MonthlySalesDeductions_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "MonthlySalesDeductions",
+                    "tabs": [
+                        {
+                            "value": "{{tab_MonthlySalesDeductions_PeariodActVsPlan}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActualVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ActualVsPlan",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ActualVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualVsPlan"
+                        },
+                        {
+                            "value": "{{tab_MonthlySalesDeductions_YearActVsPlan}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActualVsLastYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ActualVsLastYear",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ActualVsLastYear",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualVsLastYear"
+                        }
+                    ]
+                }
+            },
+            "MonthlyGrossMargin": {
+                "model": "FCO_SALES_ACCTG_OVERVIEW_THRD4",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{MonthlyGrossMargin_title}}",
+                    "subTitle": "{{MonthlyGrossMargin_subTitle}}",
+                    "entitySet": "C_SlsAcctgGrssMargMonthlyOvwResults",
+                    "valueSelectionInfo": "{{MonthlyGrossMargin_valueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "MonthlyGrossMargin",
+                    "tabs": [
+                        {
+                            "value": "{{tab_MonthlyGrossMargin_ActualVsPlan}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MonthlyGrossMargin_ActualVsPlan",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MonthlyGrossMargin_ActualVsPlan",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MonthlyGrossMargin_ActualVsPlan",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualToPlanDiff"
+                        },
+                        {
+                            "value": "{{tab_MonthlyGrossMargin_ActualVsLastYear}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MonthlyGrossMargin_ActualVsPreviousYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MonthlyGrossMargin_ActualVsPreviousYear",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MonthlyGrossMargin_ActualVsPreviousYear",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualToYTDActualDiff"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3228"],
+        "archeType": "analytical"
+    }
+}

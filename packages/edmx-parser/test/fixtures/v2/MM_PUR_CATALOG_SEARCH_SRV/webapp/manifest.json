@@ -1,0 +1,213 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-FIO-PUR-CA-OCI",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_CATALOG_SEARCH_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_CATALOG_SEARCH_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_CATALOG_SEARCH_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_CATALOG_SEARCH_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_CATALOG_SEARCH_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": true },
+                "sap.uxap": { "lazy": true },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": { "lazy": true },
+                "sap.f": { "lazy": false },
+                "sap.ushell": { "lazy": false },
+                "sap.collaboration": { "lazy": true }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_OpnCtlgItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_OpnCtlgItem/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_OpnCtlgItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_OpnCtlgItem/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_OpnCtlgReview": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_OpnCtlgReview/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_OpnCtlgItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.catalog.searchs1.ext.fragment.ListReportTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_OpnCtlgItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.catalog.searchs1.ext.fragment.ListReportTableQuantityAction",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterFacet|C_OpnCtlgItem|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.catalog.searchs1.ext.fragment.ProductImages",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>ProductImages}"
+                            }
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.catalog.searchs1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_OpnCtlgItem": {
+                                "EntitySet": "C_OpnCtlgItem"
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.catalog.searchs1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_OpnCtlgItem": {
+                                "EntitySet": "C_OpnCtlgItem",
+                                "Actions": {
+                                    "ViewItems": {
+                                        "id": "ViewItems",
+                                        "text": "{path: '@i18n>viewSelected',formatter: '.count'}",
+                                        "press": "onOpenPopover",
+                                        "requiresSelection": false
+                                    },
+                                    "Done": {
+                                        "id": "SubmitDone",
+                                        "text": "{@i18n>Done}",
+                                        "press": "onClickDone",
+                                        "determining": true
+                                    },
+                                    "Cancel": {
+                                        "id": "SubmitCancel",
+                                        "text": "{@i18n>Cancel}",
+                                        "press": "onClickCancel",
+                                        "determining": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_OpnCtlgItem",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_OpnCtlgItem",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2566"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

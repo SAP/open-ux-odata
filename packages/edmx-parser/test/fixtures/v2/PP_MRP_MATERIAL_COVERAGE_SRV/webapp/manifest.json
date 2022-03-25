@@ -1,0 +1,292 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-FIO-MRP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PP_MRP_MATERIAL_COVERAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["mainServiceAnnotation", "localAnnotations"],
+                    "localUri": "localService/metadata_material_coverage.xml"
+                }
+            },
+            "mainServiceAnnotation": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PP_MRP_MATERIAL_COVERAG_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PP_MRP_MATERIAL_COVERAG_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/metadata_material_coverage.xml.xml"
+                }
+            },
+            "PopoverMaterialCoverage": {
+                "uri": "/sap/opu/odata/sap/PP_MRP_MATERIAL_COVERAGE_POVER_SRV_/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata_material_popover.xml"
+                }
+            },
+            "AORService": {
+                "uri": "/sap/opu/odata/sap/PP_MRP_AOR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata_aor.xml"
+                }
+            }
+        },
+        "offline": false,
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "ManageMaterialCoverage": {
+                    "semanticObject": "MRPMaterial",
+                    "action": "manage",
+                    "parameters": {
+                        "navigationID": {
+                            "required": true
+                        }
+                    }
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.i2d.mpe.lib.commons1": {
+                    "minVersion": "1.0.0-SNAPSHOT",
+                    "lazy": false
+                },
+                "sap.i2d.mpe.lib.aors1": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.i2d.mpe.lib.popovers1": {
+                    "minVersion": "1.0.0-SNAPSHOT",
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MaterialCoverage": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MaterialCoverage/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MaterialCoverage": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MaterialCoverage/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                },
+                "preload": true
+            },
+            "MaterialCoverage": {
+                "dataSource": "PopoverMaterialCoverage",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "AOR": {
+                "dataSource": "AORService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "AvailabilityChartSettings": {
+                "type": "sap.ui.model.json.JSONModel"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.pp.materialcover.monitors1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_MaterialCoverage": {
+                                "EntitySet": "C_MaterialCoverage",
+                                "Actions": {
+                                    "ManageMaterials1": {
+                                        "id": "ActionNavToMd04p",
+                                        "text": "{@i18n>ActionNavToMd04p}",
+                                        "tooltip": "{@i18n>ActionNavToMd04p}",
+                                        "press": "onManageMaterials1",
+                                        "requiresSelection": true
+                                    },
+                                    "ManageMaterials": {
+                                        "id": "ActionManageMaterials",
+                                        "text": "{@i18n>ActionManageMaterials}",
+                                        "tooltip": "{@i18n>ActionManageMaterials}",
+                                        "press": "onManageMaterials",
+                                        "requiresSelection": true,
+                                        "applicablePath": "SegmentationIsEmpty"
+                                    },
+                                    "StartMRPRun": {
+                                        "id": "ActionStartMRPRun",
+                                        "text": "{@i18n>ActionStartMRPRun}",
+                                        "tooltip": "{@i18n>ActionStartMRPRun}",
+                                        "press": "onStartMRPRun",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionRevokeAcceptance": {
+                                        "id": "ActionRevokeAcceptance",
+                                        "text": "{@i18n>ActionRevokeAcceptance}",
+                                        "tooltip": "{@i18n>ActionRevokeAcceptance}",
+                                        "press": "onRevokeAcceptance",
+                                        "icon": "sap-icon://horizontal-bar-chart",
+                                        "requiresSelection": true,
+                                        "applicablePath": "SegmentationIsEmpty"
+                                    },
+                                    "ActionOpenAvailabilityChartSettings": {
+                                        "id": "ActionOpenAvailabilityChartSettings",
+                                        "text": "{@i18n>ActionOpenAvailabilityChartSettings}",
+                                        "tooltip": "{@i18n>ActionOpenAvailabilityChartSettings}",
+                                        "press": "onAvailabilityChartSettings",
+                                        "icon": "sap-icon://horizontal-bar-chart"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_MaterialCoverage": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.pp.materialcover.monitors1.ext.fragment.CustomFilter",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MaterialCoverage": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.pp.materialcover.monitors1.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MaterialCoverage": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.pp.materialcover.monitors1.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_MaterialCoverage",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true,
+                        "smartVariantManagement": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F0247A"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="../../../sap/ui_lo_setman_psdoc_man/$metadata">
+		<edmx:Include Namespace="UI_LO_SETMAN_PSDOC_MAN" Alias="SAP"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="ui_lo_setman_psdoc_man_van.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtDocTypeDesc">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtDocCatName">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PersSettlmtAcctgTransfStsName">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/CompanyCodeName">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtApplStsDesc">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PersonFullName">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtApplStsChgd">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="Common.Text" Path="SettlmtApplStsDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/ChangeDocObject">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/ETag">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/Release_ac">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/AssignmentReference_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/CompanyCode_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/DocumentDate_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/FiscalPeriod_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PaymentReference_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PersonWorkAgreement_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PersSettlmtDocCurrency_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PostingDate_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtApplStsChgd_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtCompensationReason_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtDocActivityReason_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtDocType_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtProcessType_fc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/Update_mc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtDocType">
+				<Annotation Term="Common.Text" Path="SettlmtDocTypeDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtDocCat">
+				<Annotation Term="Common.Text" Path="SettlmtDocCatName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtProcessType">
+				<Annotation Term="Common.Text" Path="SettlmtProcessTypeDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtProcessCat"/>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PersSettlmtAcctgTransfSts">
+				<Annotation Term="Common.Text" Path="PersSettlmtAcctgTransfStsName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/CompanyCode">
+				<Annotation Term="Common.Text" Path="CompanyCodeName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PersonWorkAgreement">
+				<Annotation Term="Common.Text" Path="PersonFullName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/PersonnelCostCenter"/>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType/SettlmtCompensationReason">
+				<Annotation Term="Common.Text" Path="SettlmtCompnRsnDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocType">
+				<Annotation Term="UI.ConnectedFields" Qualifier="SettlmtApplStsDesc">
+					<Record>
+						<PropertyValue Property="Data">
+							<Record>
+								<PropertyValue>
+									<Record Type="UI.DataField">
+										<PropertyValue Property="Value" Path="SettlmtApplStsChgd"/>
+									</Record>
+								</PropertyValue>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.DataPoint" Qualifier="PersonWorkAgreement">
+					<Record>
+						<PropertyValue Property="Value" Path="PersonWorkAgreement"/>
+						<PropertyValue Property="Title" String=""/>
+						<PropertyValue Property="TargetValue" Path="PersonWorkAgreement"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.DataPoint" Qualifier="TotalNetAmount">
+					<Record>
+						<PropertyValue Property="Value" Path="TotalNetAmount"/>
+						<PropertyValue Property="Title" String=""/>
+						<PropertyValue Property="TargetValue" Path="TotalNetAmount"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderFacets">
+					<Collection>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="ID" String="HDR_PERSONWORKAGREEMENT"/>
+							<PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#PersonWorkAgreement"/>
+						</Record>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="ID" String="HDR_TOTALNETAMOUNT"/>
+							<PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#TotalNetAmount"/>
+						</Record>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="Label" String="Status"/>
+							<PropertyValue Property="ID" String="HDR_STATUS"/>
+							<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FLDGRP_STATUS"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.Facets">
+					<Collection>
+						<Record Type="UI.CollectionFacet">
+							<PropertyValue Property="Label" String="General Information"/>
+							<PropertyValue Property="ID" String="COLL_GENERALINFO"/>
+							<PropertyValue Property="Facets">
+								<Collection>
+									<Record Type="UI.CollectionFacet">
+										<PropertyValue Property="Label" String="Basic Settlement Data"/>
+										<PropertyValue Property="ID" String="COLL_BASICDATA"/>
+										<PropertyValue Property="Facets">
+											<Collection>
+												<Record Type="UI.ReferenceFacet">
+													<PropertyValue Property="Label" String="Settlement Details"/>
+													<PropertyValue Property="Target"
+																   AnnotationPath="@UI.FieldGroup#FLDGRP_SETTLEMENTDETAILS"/>
+												</Record>
+												<Record Type="UI.ReferenceFacet">
+													<PropertyValue Property="Label" String="Process Details"/>
+													<PropertyValue Property="Target"
+																   AnnotationPath="@UI.FieldGroup#FLDGRP_PROCESSDETAILS"/>
+												</Record>
+												<Record Type="UI.ReferenceFacet">
+													<PropertyValue Property="Label"
+																   String="External Reference Information"/>
+													<PropertyValue Property="Target"
+																   AnnotationPath="@UI.FieldGroup#FLDGRP_EXTREFINFO"/>
+												</Record>
+												<Record Type="UI.ReferenceFacet">
+													<PropertyValue Property="Label" String="Dates"/>
+													<PropertyValue Property="Target"
+																   AnnotationPath="@UI.FieldGroup#FLDGRP_DATES"/>
+												</Record>
+											</Collection>
+										</PropertyValue>
+									</Record>
+								</Collection>
+							</PropertyValue>
+						</Record>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="Label" String="Journal Entry"/>
+							<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FLDGRP_JOURNALENTRY"/>
+						</Record>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="Label" String="Cost Assignments"/>
+							<PropertyValue Property="ID" String="LNITM_ITEMS"/>
+							<PropertyValue Property="Target" AnnotationPath="to_PersSettlmtDocItem/@UI.LineItem"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FLDGRP_DATES">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PostingDate"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="DocumentDate"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FiscalPeriod"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="Dates"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FLDGRP_EXTREFINFO">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="DocumentReferenceID"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="AssignmentReference"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PaymentReference"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="External Reference Information"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FLDGRP_JOURNALENTRY">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="JournalEntry"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="JournalEntryCreationDateTime"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="FiscalYear"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="Journal Entry"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FLDGRP_PROCESSDETAILS">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtCompensationReason"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtProcessType"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtProcessCat"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtDocActivityReason"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="Process Details"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FLDGRP_SETTLEMENTDETAILS">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtDocType"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtDocCat"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CompanyCode"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PersSettlmtDocIsReversed"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PersonnelCostCenter"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PersSettlmtDocCurrency"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="Settlement Details"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FLDGRP_STATUS">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Criticality" Path="PersSettlmtAcctgTransfStsCritl"/>
+									<PropertyValue Property="CriticalityRepresentation"
+												   EnumMember="UI.CriticalityRepresentationType/WithoutIcon"/>
+									<PropertyValue Property="Value" Path="PersSettlmtAcctgTransfSts"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtApplStsChgd"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Personnel Settlement Document"/>
+						<PropertyValue Property="TypeNamePlural" String="Personnel Settlement Documents"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="SettlmtDocTypeDesc"/>
+							</Record>
+						</PropertyValue>
+						<PropertyValue Property="Description">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="PersonnelSettlementDocument"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Identification">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SettlmtApplStsChgd"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PersonnelSettlementDocument"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SettlmtCompensationReason"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PersonWorkAgreement"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Criticality" Path="PersSettlmtAcctgTransfStsCritl"/>
+							<PropertyValue Property="CriticalityRepresentation"
+										   EnumMember="UI.CriticalityRepresentationType/WithoutIcon"/>
+							<PropertyValue Property="Value" Path="PersSettlmtAcctgTransfSts"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Total Net Amount"/>
+							<PropertyValue Property="Value" Path="TotalNetAmount"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PostingDate"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="JournalEntryCreationDate"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+						</Record>
+						<Record Type="UI.DataFieldForAction">
+							<PropertyValue Property="Label" String="Release"/>
+							<PropertyValue Property="Action"
+										   String="cds_ui_lo_setman_psdoc_man.cds_ui_lo_setman_psdoc_man_Entities/Release"/>
+							<PropertyValue Property="InvocationGrouping"
+										   EnumMember="UI.OperationGroupingType/Isolated"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="RequestAtLeast">
+							<Collection>
+								<PropertyPath>SettlmtCompensationReason</PropertyPath>
+								<PropertyPath>PersSettlmtAcctgTransfSts</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="PersonnelSettlementDocument"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>PersonnelSettlementDocument</PropertyPath>
+						<PropertyPath>SettlmtCompensationReason</PropertyPath>
+						<PropertyPath>SettlmtDocType</PropertyPath>
+						<PropertyPath>PersonWorkAgreement</PropertyPath>
+						<PropertyPath>PersonnelCostCenter</PropertyPath>
+						<PropertyPath>PostingDate</PropertyPath>
+						<PropertyPath>PersSettlmtAcctgTransfSts</PropertyPath>
+						<PropertyPath>CompanyCode</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocItemType/ControllingAreaName">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocItemType/ControllingArea">
+				<Annotation Term="Common.Text" Path="ControllingAreaName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocItemType">
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Cost Assignment Item"/>
+						<PropertyValue Property="TypeNamePlural" String="Cost Assignment Items"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="PersSettlmtDocItem"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PersSettlmtDocItem"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ItemNetAmount"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ProfitCenter"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CostCenter"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ControllingArea"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BusTransDocReferenceID"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.ConditionContractStdVHType/CndnContrTypeDesc">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.ConditionContractStdVHType">
+				<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocStdVHType/SettlmtDocTypeDesc">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocStdVHType/PersonFullName">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocStdVHType/SettlmtCompnRsnDesc">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocStdVHType/SettlmtDocType">
+				<Annotation Term="Common.Text" Path="SettlmtDocTypeDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocStdVHType/SettlmtCompensationReason">
+				<Annotation Term="Common.Text" Path="SettlmtCompnRsnDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersSettlmtDocStdVHType">
+				<Annotation Term="UI.FilterFacets">
+					<Collection>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="Label" String="Document Information"/>
+							<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FILTER_DOC"/>
+						</Record>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="Label" String="Personnel Information"/>
+							<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FILTER_PERSONNEL"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FILTER_DOC">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PersonnelSettlementDocument"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtDocType"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="SettlmtCompensationReason"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="FILTER_PERSONNEL">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="PersonWorkAgreement"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Personnel Settlement Document"/>
+						<PropertyValue Property="TypeNamePlural" String="Personnel Settlement Documents"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PersonnelSettlementDocument"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SettlmtDocType"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SettlmtDocTypeDesc"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PersonWorkAgreement"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PersonFullName"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SettlmtCompensationReason"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="SettlmtCompnRsnDesc"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersWrkAgrmtSrchHelpType/PersonWorkAgrmtAuthznGrpg">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersWrkAgrmtSrchHelpType/AuthorizationGroup">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="cds_ui_lo_setman_psdoc_man.PersWrkAgrmtSrchHelpType/IsBusinessPurposeCompleted">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>
