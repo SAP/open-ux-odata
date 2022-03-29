@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="../../../sap/ehs_pma_cplreq_mnt_srv/$metadata">
+		<edmx:Include Namespace="EHS_PMA_CPLREQ_MNT_SRV" Alias="SAP"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="ehs_pma_cplreq_mnt_anno_mdl.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncReqMktUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncRequestUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncInfoUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/Country">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/CountryName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncProdnIsReqd">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncSalesIsReqd">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncReqChgType">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/Delete_mc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType">
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="CountryName"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqBPProcessor">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="Common.Text" Path="ChmlCmplncReqBPProcessorName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqBPProcessorName">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ProductHierarchy">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="Common.Text" Path="ProductHierarchyText">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ExternalProductGroup">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="Common.Text" Path="ExternalProductGroupName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/Division">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="Common.Text" Path="DivisionName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestProcDate">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_BusinessProcess">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_BusinessProcessVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_ChmlCmplncInfo">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_CmplncProcVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_DivisionVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_ExternalProdGrpVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_OriginProcessVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_OriginType">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_OriginTypeVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_ProductGroupVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_ProductHierarchyVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_RequestedApplication">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_RequestedMarket">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_RequestedPlnt">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_RequestedPurpose">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_RequestedSlsOrg">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_RequesterUserVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/to_RequesterVH">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestNavgnLink">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqOriginProcName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/MaterialGroupName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestOriginName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncBusinessProcessName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqCmplncProcName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqBPRequester">
+				<Annotation Term="UI.Hidden"/>
+				<Annotation Term="Common.Text" Path="ChmlCmplncReqBPRequesterName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqBPRequesterName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqRequesterName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ProductHierarchyText">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ExternalProductGroupName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/DivisionName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestPrgrsStatus">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncInfoUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqOriginProc">
+				<Annotation Term="Common.Text" Path="ChmlCmplncReqOriginProcName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/MaterialGroup">
+				<Annotation Term="Common.Text" Path="MaterialGroupName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestOriginType">
+				<Annotation Term="Common.Text" Path="ChmlCmplncRequestOriginName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncBusinessProcess">
+				<Annotation Term="Common.Text" Path="ChmlCmplncBusinessProcessName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqCmplncProc">
+				<Annotation Term="Common.Text" Path="ChmlCmplncReqCmplncProcName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqRequester">
+				<Annotation Term="Common.Text" Path="ChmlCmplncReqRequesterName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType">
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Process Request From Logistics"/>
+						<PropertyValue Property="TypeNamePlural" String="Process Requests From Logistics"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Label" String="Request"/>
+								<PropertyValue Property="Value" Path="ProductName"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="Material"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="MaterialGroup"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ChmlCmplncRequestOriginType"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ChmlCmplncBusinessProcess"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ChmlCmplncRequestSubjectMatter"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ChmlCmplncReqCmplncProc"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ChmlCmplncRequestDueDate"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ChmlCmplncReqBPProcessor"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="ChmlCmplncRequestDueDate"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="ProductName"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="RequestAtLeast">
+							<Collection>
+								<PropertyPath>ChmlCmplncReqCmplncProcName</PropertyPath>
+								<PropertyPath>ChmlCmplncReqOriginProc</PropertyPath>
+								<PropertyPath>ProductName</PropertyPath>
+								<PropertyPath>ChmlCmplncReqOriginProcName</PropertyPath>
+								<PropertyPath>ChmlCmplncRequestPrgrsStatus</PropertyPath>
+								<PropertyPath>ChmlCmplncRequestNavgnLink</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>MaterialGroup</PropertyPath>
+						<PropertyPath>ChmlCmplncRequestOriginType</PropertyPath>
+						<PropertyPath>ChmlCmplncBusinessProcess</PropertyPath>
+						<PropertyPath>ChmlCmplncRequestDueDate</PropertyPath>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant" Qualifier="ComplianceRequestINPROG">
+					<Record>
+						<PropertyValue Property="Text" String="In Assessment"/>
+						<PropertyValue Property="SelectOptions">
+							<Collection>
+								<Record Type="UI.SelectOptionType">
+									<PropertyValue Property="PropertyName" PropertyPath="ChmlCmplncRequestPrgrsStatus"/>
+									<PropertyValue Property="Ranges">
+										<Collection>
+											<Record Type="UI.SelectionRangeType">
+												<PropertyValue Property="Sign"
+															   EnumMember="UI.SelectionRangeSignType/I"/>
+												<PropertyValue Property="Option"
+															   EnumMember="UI.SelectionRangeOptionType/EQ"/>
+												<PropertyValue Property="Low" String="INPROG"/>
+											</Record>
+										</Collection>
+									</PropertyValue>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant" Qualifier="ComplianceRequestNEW">
+					<Record>
+						<PropertyValue Property="Text" String="Unprocessed"/>
+						<PropertyValue Property="SelectOptions">
+							<Collection>
+								<Record Type="UI.SelectOptionType">
+									<PropertyValue Property="PropertyName" PropertyPath="ChmlCmplncRequestPrgrsStatus"/>
+									<PropertyValue Property="Ranges">
+										<Collection>
+											<Record Type="UI.SelectionRangeType">
+												<PropertyValue Property="Sign"
+															   EnumMember="UI.SelectionRangeSignType/I"/>
+												<PropertyValue Property="Option"
+															   EnumMember="UI.SelectionRangeOptionType/EQ"/>
+												<PropertyValue Property="Low" String="NEW"/>
+											</Record>
+										</Collection>
+									</PropertyValue>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/ChmlCmplncReqPlntUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/ChmlCmplncRequestUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/ChmlCmplncInfoUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/ActivePlant">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/PlantName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/ChmlCmplncReqChgType">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/Delete_mc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType">
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="PlantName"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqRequesterUserVHType">
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="UserID"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="UserDescription"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/ChmlCmplncReqSalesOrgUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/ChmlCmplncRequestUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/ChmlCmplncInfoUUID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/SalesOrganization">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/SalesOrganizationName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/ChmlCmplncReqChgType">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/Delete_mc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType">
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="SalesOrganizationName"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

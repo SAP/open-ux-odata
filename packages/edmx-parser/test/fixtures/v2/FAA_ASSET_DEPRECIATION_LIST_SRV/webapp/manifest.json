@@ -1,0 +1,260 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-AA",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAA_ASSET_DEPRECIATION_LIST_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAA_ASSET_DEPRECIATION__ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FAA_ASSET_DEPRECIATION__ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAA_ASSET_DEPRECIATION__ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAA_ASSET_DEPRECIATION__ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "FixedAsset-displayDepreciationLists": {
+                    "semanticObject": "FixedAsset",
+                    "action": "displayDepreciationLists",
+                    "signature": {
+                        "parameters": {
+                            "CompanyCode": {
+                                "defaultValue": {
+                                    "value": "UserDefault.CompanyCode",
+                                    "format": "reference"
+                                }
+                            },
+                            "Ledger": {
+                                "defaultValue": {
+                                    "value": "UserDefault.Ledger",
+                                    "format": "reference"
+                                }
+                            },
+                            "AssetClass": {
+                                "defaultValue": {
+                                    "value": "UserDefault.extended.AssetClass",
+                                    "format": "reference"
+                                }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "FixedAsset-manage": {
+                    "semanticObject": "FixedAsset",
+                    "action": "manage",
+                    "parameters": {
+                        "CompanyCode": {},
+                        "MasterFixedAsset": {},
+                        "FixedAsset": {}
+                    }
+                },
+                "FixedAsset-maintain": {
+                    "semanticObject": "FixedAsset",
+                    "action": "maintain",
+                    "parameters": {
+                        "CompanyCode": {},
+                        "MasterFixedAsset": {},
+                        "FixedAsset": {}
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_FixedAssetDepreciationListResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_FixedAssetDepreciationList/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_FixedAssetDepreciationListResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_FixedAssetDepreciationListResults/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    },
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "None",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "fin.aa.asset.depreciation.list.ext.controller.CustomFilter"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "SmartFilterBarControlConfigurationExtension|C_FixedAssetDepreciationListResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.asset.depreciation.list.ext.fragment.CustomFilter",
+                            "type": "XML"
+                        },
+                        "AnalyticalTableColumnsExtension|C_FixedAssetDepreciationListResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.asset.depreciation.list.ext.fragment.DepreciationListsTable",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_FixedAssetDepreciationListResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "hideVisualFilter": false,
+                        "defaultFilterMode": "compact",
+                        "defaultContentView": "table",
+                        "smartVariantManagement": true,
+                        "condensedTableLayout": true,
+                        "showGoButtonOnFilterBar": true,
+                        "qualifier": "MainContentPV",
+                        "chartPresentationQualifier": "MainChartPV",
+                        "lazyLoadVisualFilter": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_FixedAssetDepreciationListResults",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.apps.crossNavigation.outbounds",
+                                "target": "FixedAsset-maintain"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1616"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

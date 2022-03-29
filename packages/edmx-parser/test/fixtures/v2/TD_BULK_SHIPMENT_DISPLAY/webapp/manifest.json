@@ -1,0 +1,184 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.5.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-OIL-DS",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/TD_BULK_SHIPMENT_DISPLAY/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["TD_BULK_SHIPMENT_DISPLA_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "TD_BULK_SHIPMENT_DISPLA_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='TD_BULK_SHIPMENT_DISPLA_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/TD_BULK_SHIPMENT_DISPLA_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_BulkShipment": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_BulkShipment/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BulkShipment": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_BulkShipment/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "oil.td.shipments1.ext.controller.BulkShpmntUndrlgDoc"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_BulkShipmentDocument|Documents": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "oil.td.shipments1.ext.fragment.BulkShpmntUndrlgDocColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_BulkShipmentDocument|Documents": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "oil.td.shipments1.ext.fragment.BulkShpmntUndrlgDocColumnCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_BulkShipment",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_BulkShipment",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2718"],
+        "archeType": "transactional"
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "whitelistedEntityTypes": [
+                "TD_BULK_SHIPMENT_DISPLAY.C_BulkShipmentPartnerDetailType",
+                "TD_BULK_SHIPMENT_DISPLAY.C_BulkShipmentType",
+                "TD_BULK_SHIPMENT_DISPLAY.C_BulkShipmentVehicleType"
+            ]
+        }
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

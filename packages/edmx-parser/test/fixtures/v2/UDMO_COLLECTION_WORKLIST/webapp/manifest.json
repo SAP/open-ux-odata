@@ -1,0 +1,220 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FIN-FIO-CCD",
+        "resources": "resources.json",
+        "crossNavigation": {
+            "inbounds": {
+                "CustomerCollections-superviseCollectionsWorklist": {
+                    "semanticObject": "CustomerCollections",
+                    "action": "superviseCollectionsWorklist",
+                    "signature": {
+                        "parameters": {
+                            "DisplayCurrency": {
+                                "defaultValue": { "value": "UserDefault.DisplayCurrency", "format": "reference" }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/SAP/UDMO_COLLECTION_WORKLIST/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml",
+                    "annotations": ["annotation"]
+                }
+            },
+            "annotation": {
+                "uri": "annotations/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.unified": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.viz": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|SupervisorWorklistItemResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|SupervisorWorklistItemResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "AnalyticalTableColumnsExtension|SupervisorWorklistItemResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.supervisecollectionsworklist.ext.fragment.AnalyticalTableColumns",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "fin.ar.supervisecollectionsworklist.ext.controller.AnalyticalListPageExt",
+                        "sap.ui.generic.app": {
+                            "Items": {
+                                "EntitySet": "SupervisorWorklistItemResults",
+                                "Actions": {
+                                    "collectionProgressAction": {
+                                        "id": "CollectionProgressAction",
+                                        "text": "{{CallCollectionProgress}}",
+                                        "press": "onCollectionProgressPress"
+                                    }
+                                }
+                            },
+                            "SupervisorWorklistItemResults": {
+                                "EntitySet": "SupervisorWorklistItemResults",
+                                "Actions": {
+                                    "assignToSpecialistAction": {
+                                        "id": "AssignToSpecialistAction",
+                                        "text": "{{AssignToSpecialist}}",
+                                        "press": "onAssignToSpecialistPress",
+                                        "requiresSelection": true,
+                                        "filter": "table"
+                                    },
+                                    "removeAssignmentAction": {
+                                        "id": "RemoveAssignmentAction",
+                                        "text": "{{RemoveAssignment}}",
+                                        "press": "onRemoveAssignmentPress",
+                                        "requiresSelection": true,
+                                        "filter": "table"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "SupervisorWorklistItemResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "hideVisualFilter": false,
+                        "defaultFilterMode": "visual",
+                        "defaultContentView": "table",
+                        "showAutoHide": true,
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": false,
+                        "showGoButtonOnFilterBar": true,
+                        "gridTable": false,
+                        "multiSelect": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2375"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

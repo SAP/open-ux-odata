@@ -1,0 +1,219 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-GL",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAC_WHERE_USED_PROFIT_CENTERS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|WhereUsedListSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/WhereUsedListSet/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|WhereUsedListSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/WhereUsedListSet/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|CostCenterSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/CostCenterSet/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.gl.profitcenter.whereused.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "WhereUsedListSet": {
+                                "EntitySet": "WhereUsedListSet"
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.gl.profitcenter.whereused.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "WhereUsedListSet": {
+                                "EntitySet": "WhereUsedListSet"
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|WhereUsedListSet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.profitcenter.whereused.ext.fragment.Customfilter",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|WhereUsedListSet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.profitcenter.whereused.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|WhereUsedListSet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.profitcenter.whereused.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceHeaderFacet|WhereUsedListSet|headerEditable::Header": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.gl.profitcenter.whereused.ext.view.ObjectpageHeader"
+                        },
+                        "ResponsiveTableColumnsExtension|GlobalAccountingHierarchySet|GAHFACET": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.profitcenter.whereused.ext.fragment.GAHTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|GlobalAccountingHierarchySet|GAHFACET": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.profitcenter.whereused.ext.fragment.GAHTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|CostCenterSet|COSTCENTERFACET": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.profitcenter.whereused.ext.fragment.CCTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|CostCenterSet|COSTCENTERFACET": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.profitcenter.whereused.ext.fragment.CCTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "objectPageDynamicHeaderTitleWithVM": false,
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|WhereUsedListSet": {
+                "entitySet": "WhereUsedListSet",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|WhereUsedListSet": {
+                        "entitySet": "WhereUsedListSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3751"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,371 @@
+{
+    "_version": "1.6.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-DD",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PP_DD_STLM_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PP_DD_STLM_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PP_DD_STLM_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PP_DD_STLM_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PP_DD_STLM_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "AORService": {
+                "uri": "/sap/opu/odata/sap/PP_MRP_AOR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata_aor.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "Material",
+                    "action": "manageBufferLevel"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.suite.ui.microchart": {
+                    "minVersion": "",
+                    "lazy": true
+                },
+                "sap.viz": {
+                    "minVersion": "",
+                    "lazy": true
+                },
+                "sap.suite.ui.commons": {
+                    "minVersion": "",
+                    "lazy": true
+                },
+                "sap.i2d.mpe.lib.commons1": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "minVersion": "",
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ProductBufferLevelMgmtTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ProductBufferLevelMgmtTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProductBufferLevelMgmtTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProductBufferLevelMgmtTP/i18n.properties"
+            },
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                },
+                "preload": true
+            },
+            "AOR": {
+                "dataSource": "AORService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.scm.mrpstklvl.mgmt.s1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_ProductBufferLevelMgmtTP": {
+                                "EntitySet": "C_ProductBufferLevelMgmtTP",
+                                "Actions": {
+                                    "MassActionAdopt": {
+                                        "id": "ActionC_ProductBufferLevelMgmtTP1button",
+                                        "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP1}",
+                                        "press": "fnOnClickMassAdopt",
+                                        "requiresSelection": true
+                                    },
+                                    "MassActionIgnore": {
+                                        "id": "ActionC_ProductBufferLevelMgmtTP2button",
+                                        "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP2}",
+                                        "press": "fnOnClickMassIgnore",
+                                        "requiresSelection": true
+                                    },
+                                    "MassChangesLogNavigation": {
+                                        "id": "IDMassChangesLogNavButton",
+                                        "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP3}",
+                                        "press": "fnOnClickMassChangeLog",
+                                        "global": true
+                                    },
+                                    "ActionC_ProductBufferLevelMgmtTP1": {
+                                        "id": "ActionC_ProductBufferLevelMgmtTP4button",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_ProductBufferLevelMgmtTP>ActionC_ProductBufferLevelMgmtTP4}",
+                                        "press": "onClickActionC_ProductBufferLevelMgmtTP4"
+                                    },
+                                    "ActionC_ProductBufferLevelMgmtTP2": {
+                                        "id": "ActionC_ProductBufferLevelMgmtTP5button",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_ProductBufferLevelMgmtTP>ActionC_ProductBufferLevelMgmtTP5}",
+                                        "press": "onClickActionC_ProductBufferLevelMgmtTP5"
+                                    },
+                                    "ActionC_ProductBufferLevelMgmtTP6": {
+                                        "id": "ActionC_ProductBufferLevelMgmtTP6button",
+                                        "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP6}",
+                                        "press": "fnOnClickSuspend"
+                                    },
+                                    "ActionC_ProductBufferLevelMgmtTP7": {
+                                        "id": "ActionC_ProductBufferLevelMgmtTP7button",
+                                        "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP7}",
+                                        "press": "fnOnClickResume"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.scm.mrpstklvl.mgmt.s1.ext.controller.DetailsExtension",
+                        "sap.ui.generic.app": {
+                            "C_ProductBufferLevelMgmtTP": {
+                                "EntitySet": "C_ProductBufferLevelMgmtTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_ProductBufferLevelMgmtTPHeader1": {
+                                            "id": "ActionC_ProductBufferLevelMgmtTPHeader1button",
+                                            "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP1}",
+                                            "press": "onObjectPage1Adopt",
+                                            "applicablePath": "IsActiveEntity"
+                                        },
+                                        "ActionC_ProductBufferLevelMgmtTPHeader2": {
+                                            "id": "ActionC_ProductBufferLevelMgmtTPHeader2button",
+                                            "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP6}",
+                                            "press": "fnOnClickSuspend"
+                                        },
+                                        "ActionC_ProductBufferLevelMgmtTPHeader3": {
+                                            "id": "ActionC_ProductBufferLevelMgmtTPHeader3button",
+                                            "text": "{@i18n>ActionC_ProductBufferLevelMgmtTP7}",
+                                            "press": "fnOnClickResume"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_ProductBufferLevelMgmtTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.scm.mrpstklvl.mgmt.s1.ext.fragment.TableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProductBufferLevelMgmtTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.scm.mrpstklvl.mgmt.s1.ext.fragment.TableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_ProductBufferLevelMgmtTP|bufferLevelFacet": {
+                            "type": "XML",
+                            "id": "BufferLevelFacetID",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "i2d.scm.mrpstklvl.mgmt.s1.ext.view.bufferLevels",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>BUFFERLEVELS}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ReplaceFacet|C_ProductBufferLevelMgmtTP|avgDailyUsageFacet": {
+                            "type": "XML",
+                            "id": "avgDailyUsageFacetID",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "i2d.scm.mrpstklvl.mgmt.s1.ext.view.avgDailyUsage",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ReplaceFacet|C_ProductBufferLevelMgmtTP|leadTimeFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "id": "leadTimeFacetID",
+                            "viewName": "i2d.scm.mrpstklvl.mgmt.s1.ext.view.leadTimeDetails",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ReplaceFacet|C_ProductBufferLevelMgmtTP|classificationsFacet": {
+                            "type": "XML",
+                            "id": "classificationFacetID",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "i2d.scm.mrpstklvl.mgmt.s1.ext.view.classifications",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "settings": {
+            "forceGlobalRefresh": false,
+            "condensedTableLayout": true,
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded"
+            }
+        },
+        "pages": [
+            {
+                "entitySet": "C_ProductBufferLevelMgmtTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "condensedTableLayout": true,
+                        "gridTable": false
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_ProductBufferLevelMgmtTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "digitalAssistant": {
+            "intentDefinition": {
+                "ManageBufferLevels": {
+                    "uri": "copilot/ManageBufferLevels.xml",
+                    "dataSources": ["/sap/opu/odata/sap/PP_DD_STLM_SRV/"],
+                    "i18n": "copilot/i18n.properties"
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/pp_mrpstklvl/webapp"
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2706"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

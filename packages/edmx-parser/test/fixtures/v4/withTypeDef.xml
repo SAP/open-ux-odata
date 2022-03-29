@@ -1,0 +1,784 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+	<edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+		<edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="RequisitionUIService">
+			<TypeDefinition Name="URL" UnderlyingType="Edm.String"/>
+			<EntityType Name="Cart">
+				<Key>
+					<PropertyRef Name="ReqId"/>
+				</Key>
+				<Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+				<Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+				<Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+				<Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+				<Property Name="PurchaseRequisition" Type="Edm.String" MaxLength="10"/>
+				<Property Name="PurchaseRequisitionStatus" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Title" Type="Edm.String" MaxLength="128"/>
+				<Property Name="Requester" Type="Edm.String" MaxLength="60"/>
+				<Property Name="Author" Type="Edm.String" MaxLength="60"/>
+				<Property Name="TotalNetAmount" Type="Edm.Decimal" Precision="12" Scale="3"/>
+				<Property Name="Currency" Type="Edm.String" MaxLength="5"/>
+				<Property Name="ApprovalStatus" Type="Edm.String" MaxLength="1"/>
+				<Property Name="ExternalDocumentID" Type="Edm.String" MaxLength="50"/>
+				<Property Name="ConnectedSystemId" Type="Edm.String" MaxLength="10"/>
+				<Property Name="ConnectedSystemPRID" Type="Edm.String" MaxLength="10"/>
+				<Property Name="NumberOfItems" Type="Edm.Int32"/>
+				<Property Name="ReqId" Type="Edm.Guid" Nullable="false"/>
+				<NavigationProperty Name="LineItems" Type="Collection(RequisitionUIService.RequisitionItems)" ContainsTarget="true"/>
+			</EntityType>
+			<EntityType Name="RequisitionItems">
+				<Key>
+					<PropertyRef Name="LineItemId"/>
+				</Key>
+				<Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+				<Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+				<Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+				<Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+				<Property Name="ItemNumber" Type="Edm.Int32"/>
+				<Property Name="PurchaseRequisition" Type="Edm.String" MaxLength="50"/>
+				<Property Name="PurchaseRequisitionID" Type="Edm.Guid"/>
+				<Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+				<Property Name="Quantity_fc" Type="Edm.Int32"/>
+				<Property Name="ConnectedSystemItemID" Type="Edm.String" MaxLength="5"/>
+				<Property Name="Price" Type="Edm.Decimal" Precision="15" Scale="3"/>
+				<Property Name="Price_fc" Type="Edm.Int32"/>
+				<Property Name="UnitOfMeasure" Type="Edm.String" MaxLength="50"/>
+				<Property Name="UnitOfMeasure_fc" Type="Edm.Int32"/>
+				<Property Name="TotalNetAmount" Type="Edm.Decimal" Precision="16" Scale="3"/>
+				<Property Name="Currency" Type="Edm.String" MaxLength="50"/>
+				<Property Name="Currency_fc" Type="Edm.Int32"/>
+				<Property Name="ItemType" Type="Edm.String" MaxLength="50"/>
+				<Property Name="ItemType_fc" Type="Edm.Int32"/>
+				<Property Name="ItemCategory" Type="Edm.String" MaxLength="50"/>
+				<Property Name="ItemCategory_fc" Type="Edm.Int32"/>
+				<Property Name="AccountAssignmentCategory" Type="Edm.String" MaxLength="50"/>
+				<Property Name="AccountAssignmentCategory_fc" Type="Edm.Int32"/>
+				<Property Name="AccountAssignmentDistributionType" Type="Edm.String" MaxLength="50"/>
+				<Property Name="DeliveryDate" Type="Edm.DateTimeOffset"/>
+				<Property Name="DeliveryDate_fc" Type="Edm.Int32"/>
+				<Property Name="Supplier" Type="Edm.String" MaxLength="50"/>
+				<Property Name="Supplier_fc" Type="Edm.Int32"/>
+				<Property Name="CompanyCode" Type="Edm.String" MaxLength="50"/>
+				<Property Name="CompanyCode_fc" Type="Edm.Int32"/>
+				<Property Name="PurchasingOrganization" Type="Edm.String" MaxLength="50"/>
+				<Property Name="PurchasingOrganization_fc" Type="Edm.Int32"/>
+				<Property Name="PurchasingGroup" Type="Edm.String" MaxLength="50"/>
+				<Property Name="PurchasingGroup_fc" Type="Edm.Int32"/>
+				<Property Name="MaterialGroup" Type="Edm.String" MaxLength="50"/>
+				<Property Name="MaterialGroup_fc" Type="Edm.Int32"/>
+				<Property Name="ItemShortText" Type="Edm.String" MaxLength="40"/>
+				<Property Name="ItemShortText_fc" Type="Edm.Int32"/>
+				<Property Name="Plant" Type="Edm.String" MaxLength="50"/>
+				<Property Name="Plant_fc" Type="Edm.Int32"/>
+				<Property Name="CatalogId" Type="Edm.String" MaxLength="20"/>
+				<Property Name="CatalogItemId" Type="Edm.String" MaxLength="50"/>
+				<Property Name="SupplierMaterialNumber" Type="Edm.String" MaxLength="255"/>
+				<Property Name="Status" Type="Edm.String" MaxLength="60"/>
+				<Property Name="DeliveryAddress" Type="Edm.String" MaxLength="50"/>
+				<Property Name="DeliverTo" Type="Edm.String" MaxLength="50"/>
+				<Property Name="DeliverTo_fc" Type="Edm.Int32"/>
+				<Property Name="LineItemId" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="CatalogItemImageUrl" Type="RequisitionUIService.URL"/>
+				<Property Name="CatalogItemMinQuantity" Type="Edm.Int32"/>
+				<Property Name="SupplierName" Type="Edm.String"/>
+				<NavigationProperty Name="Header" Type="RequisitionUIService.Cart"/>
+				<NavigationProperty Name="AccountAssignments" Type="Collection(RequisitionUIService.AccountAssignments)" ContainsTarget="true"/>
+				<NavigationProperty Name="Comments" Type="Collection(RequisitionUIService.Comments)" ContainsTarget="true"/>
+			</EntityType>
+			<EntityType Name="AccountAssignments">
+				<Key>
+					<PropertyRef Name="AccountAssignmentId"/>
+				</Key>
+				<Property Name="LineItemId" Type="Edm.Guid"/>
+				<Property Name="PurchaseRequisitionID" Type="Edm.Guid"/>
+				<Property Name="AccountAssignmentNumber" Type="Edm.String"/>
+				<Property Name="DistrQuantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+				<Property Name="DistrQuantity_fc" Type="Edm.Int32"/>
+				<Property Name="DistrPercent" Type="Edm.Decimal" Precision="13" Scale="3"/>
+				<Property Name="DistrPercent_fc" Type="Edm.Int32"/>
+				<Property Name="DistrAmount" Type="Edm.Decimal" Precision="13" Scale="2"/>
+				<Property Name="CostCenter" Type="Edm.String" MaxLength="50"/>
+				<Property Name="CostCenter_fc" Type="Edm.Int32"/>
+				<Property Name="GLAccount" Type="Edm.String" MaxLength="50"/>
+				<Property Name="GLAccount_fc" Type="Edm.Int32"/>
+				<Property Name="OrderID" Type="Edm.String" MaxLength="12"/>
+				<Property Name="OrderID_fc" Type="Edm.Int32"/>
+				<Property Name="ControllingArea" Type="Edm.String" MaxLength="4"/>
+				<Property Name="ControllingArea_fc" Type="Edm.Int32"/>
+				<Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
+				<Property Name="AccountAssignmentId" Type="Edm.Guid" Nullable="false"/>
+				<NavigationProperty Name="Item" Type="RequisitionUIService.RequisitionItems"/>
+			</EntityType>
+			<EntityType Name="Comments">
+				<Key>
+					<PropertyRef Name="CommentId"/>
+				</Key>
+				<Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+				<Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+				<Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+				<Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+				<Property Name="CommentString" Type="Edm.String"/>
+				<Property Name="ParentId" Type="Edm.Guid"/>
+				<Property Name="IsReply" Type="Edm.Boolean"/>
+				<Property Name="UserId" Type="Edm.String" MaxLength="60"/>
+				<Property Name="SupplierRelevant" Type="Edm.Boolean"/>
+				<Property Name="CommentId" Type="Edm.Guid" Nullable="false"/>
+			</EntityType>
+			<Action Name="addToCartAction" IsBound="true">
+				<Parameter Name="in" Type="RequisitionUIService.Cart"/>
+				<Parameter Name="lineItem" Type="RequisitionUIService.RequisitionItems"/>
+				<ReturnType Type="RequisitionUIService.RequisitionItems"/>
+			</Action>
+			<EntityContainer Name="EntityContainer">
+				<Singleton Name="Cart" Type="RequisitionUIService.Cart"/>
+			</EntityContainer>
+			<Annotations Target="RequisitionUIService.EntityContainer/Cart">
+				<Annotation Term="Core.OptimisticConcurrency">
+					<Collection/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/createdAt">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Immutable">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Created On</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/createdBy">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Immutable">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Description">
+					<String>User's unique ID</String>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Created By</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/modifiedAt">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Changed On</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/modifiedBy">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Description">
+					<String>User's unique ID</String>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Changed By</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/PurchaseRequisition">
+				<Annotation Term="Common.Label">
+					<String>PurchaseRequisition</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/PurchaseRequisitionStatus">
+				<Annotation Term="Common.Label">
+					<String>Status</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/Title">
+				<Annotation Term="Common.Label">
+					<String>Title</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/Requester">
+				<Annotation Term="Common.Label">
+					<String>Requester</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/Author">
+				<Annotation Term="Common.Label">
+					<String>Author</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/TotalNetAmount">
+				<Annotation Term="Common.Label">
+					<String>Net Amount</String>
+				</Annotation>
+				<Annotation Term="Measures.ISOCurrency">
+					<Path>Currency</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/Currency">
+				<Annotation Term="Common.Label">
+					<String>Currency</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Cart/ApprovalStatus">
+				<Annotation Term="Common.Label">
+					<String>ApprovalStatus</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems">
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ItemNumber" />
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="Quantity" />
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="Currency" />
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/createdAt">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Immutable">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Created On</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/createdBy">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Immutable">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Description">
+					<String>User's unique ID</String>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Created By</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/modifiedAt">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Changed On</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/modifiedBy">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Description">
+					<String>User's unique ID</String>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Changed By</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/PurchaseRequisition">
+				<Annotation Term="Common.Label">
+					<String>Requisition</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/PurchaseRequisitionID">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Requisition Technical ID</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Quantity">
+				<Annotation Term="Common.Label">
+					<String>Quantity</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>Quantity_fc</Path>
+				</Annotation>
+				<Annotation Term="Measures.Unit">
+					<Path>UnitOfMeasure</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Quantity_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Price">
+				<Annotation Term="Common.Label">
+					<String>Price</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>Price_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Price_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/UnitOfMeasure">
+				<Annotation Term="Common.Label">
+					<String>Unit of Measure</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>UnitOfMeasure_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/UnitOfMeasure_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/TotalNetAmount">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Net Amount</String>
+				</Annotation>
+				<Annotation Term="Measures.ISOCurrency">
+					<Path>Currency</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Currency">
+				<Annotation Term="Common.Label">
+					<String>Currency</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>Currency_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Currency_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/ItemType">
+				<Annotation Term="Common.Label">
+					<String>ItemType</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>ItemType_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/ItemType_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/ItemCategory">
+				<Annotation Term="Common.Label">
+					<String>Item Category</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>ItemCategory_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/ItemCategory_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/AccountAssignmentCategory">
+				<Annotation Term="Common.Label">
+					<String>AccountCategory</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>AccountCategory_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/AccountAssignmentCategory_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/AccountAssignmentDistributionType">
+				<Annotation Term="Common.Label">
+					<String>AccountAssignmentDistributionType</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/DeliveryDate">
+				<Annotation Term="Common.Label">
+					<String>Delivery Date</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>DeliveryDate_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/DeliveryDate_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Supplier">
+				<Annotation Term="Common.Label">
+					<String>Supplier</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>Supplier_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Supplier_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/CompanyCode">
+				<Annotation Term="Common.Label">
+					<String>Company Code</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>CompanyCode_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/CompanyCode_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/PurchasingOrganization">
+				<Annotation Term="Common.Label">
+					<String>Purchasing Organization</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>PurchasingOrganization_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/PurchasingOrganization_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/PurchasingGroup">
+				<Annotation Term="Common.Label">
+					<String>Purchasing Group</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>PurchasingGroup_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/PurchasingGroup_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/MaterialGroup">
+				<Annotation Term="Common.Label">
+					<String>Product Group</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>MaterialGroup_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/MaterialGroup_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/ItemShortText_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Plant">
+				<Annotation Term="Common.Label">
+					<String>Plant</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Plant_fc">
+				<Annotation Term="Common.FieldControl">
+					<EnumMember>Common.FieldControlType/ReadOnly</EnumMember>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/CatalogId">
+				<Annotation Term="Common.Label">
+					<String>Catalog Id</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/CatalogItemId">
+				<Annotation Term="Common.Label">
+					<String>Catalog Item Id</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/SupplierMaterialNumber">
+				<Annotation Term="Common.Label">
+					<String>Supplier Material Number</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/Status">
+				<Annotation Term="Common.Label">
+					<String>Status</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/DeliveryAddress">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>DeliveryAddress</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/DeliverTo">
+				<Annotation Term="Common.Label">
+					<String>DeliverTo</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/DeliverTo_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/CatalogItemImageUrl">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/CatalogItemMinQuantity">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.RequisitionItems/SupplierName">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/DistrQuantity">
+				<Annotation Term="Common.Label">
+					<String>DistrQuantity</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>DistrQuantity_fc</Path>
+				</Annotation>
+				<Annotation Term="Measures.Unit">
+					<Path>BaseUnit</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/DistrQuantity_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/DistrPercent">
+				<Annotation Term="Common.Label">
+					<String>DistrPercent</String>
+				</Annotation>
+				<Annotation Term="Common.FieldControl">
+					<Path>DistrPercent_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/DistrPercent_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/DistrAmount">
+				<Annotation Term="Common.Label">
+					<String>DistrAmount</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/CostCenter">
+				<Annotation Term="Common.FieldControl">
+					<Path>CostCenter_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/CostCenter_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/GLAccount">
+				<Annotation Term="Common.FieldControl">
+					<Path>GLAccount_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/GLAccount_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/OrderID">
+				<Annotation Term="Common.FieldControl">
+					<Path>OrderID_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/OrderID_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/ControllingArea">
+				<Annotation Term="Common.FieldControl">
+					<Path>ControllingArea_fc</Path>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.AccountAssignments/ControllingArea_fc">
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/createdAt">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Immutable">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Created On</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/createdBy">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Immutable">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Description">
+					<String>User's unique ID</String>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Created By</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/modifiedAt">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Changed On</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/modifiedBy">
+				<Annotation Term="UI.HiddenFilter">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Computed">
+					<Bool>true</Bool>
+				</Annotation>
+				<Annotation Term="Core.Description">
+					<String>User's unique ID</String>
+				</Annotation>
+				<Annotation Term="Common.Label">
+					<String>Changed By</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/CommentString">
+				<Annotation Term="Common.Label">
+					<String>CommentString</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/ParentId">
+				<Annotation Term="Common.Label">
+					<String>ParentId</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/IsReply">
+				<Annotation Term="Common.Label">
+					<String>IsReply</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/UserId">
+				<Annotation Term="Common.Label">
+					<String>UserId</String>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="RequisitionUIService.Comments/SupplierRelevant">
+				<Annotation Term="Common.Label">
+					<String>SupplierRelevent</String>
+				</Annotation>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,239 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-DFS-OF-CAP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/C_MISSIONESSENTIALTASKQRY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_MISSIONESSENTIALTASKQRY_CD_VAN", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "C_MISSIONESSENTIALTASKQRY_CD_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_MISSIONESSENTIALTASKQRY_CD_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_MISSIONESSENTIALTASKQRY_CD_VAN.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "DFS_CAP_MSNESNLTSK_SRV": {
+                "uri": "/sap/opu/odata/sap/DFS_CAP_MSNESNLTSK_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/DFS_CAP_MSNESNLTSK_SRV/metadata.xml"
+                }
+            },
+            "DFS_CAP_MSNESNLTSKHIER_SRV": {
+                "uri": "/sap/opu/odata/sap/DFS_CAP_MSNESNLTSKHIER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/DFS_CAP_MSNESNLTSKHIER_SRV/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "MissionEssentialTask",
+                    "action": "displayMETLHierar"
+                }
+            },
+            "outbounds": {
+                "MissionEssentialTask": {
+                    "semanticObject": "MissionEssentialTask",
+                    "action": "manageMETL"
+                },
+                "C_MissionEssentialTaskTP": {
+                    "semanticObject": "MissionEssentialTask",
+                    "action": "manageMETL"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.generic.app": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MISSIONESSENTIALTASKQRY": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MISSIONESSENTIALTASKQRY/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MISSIONESSENTIALTASKQRY": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MISSIONESSENTIALTASKQRY/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "MissionEssentialTask": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "DFS_CAP_MSNESNLTSK_SRV",
+                "preload": true
+            },
+            "MissionEssentialTaskModel": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "DFS_CAP_MSNESNLTSKHIER_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4dfs.metl.hiers1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_MISSIONESSENTIALTASKQRY": {
+                                "EntitySet": "C_MISSIONESSENTIALTASKQRY",
+                                "Actions": {
+                                    "ActionC_MISSIONESSENTIALTASKQRY1": {
+                                        "id": "ActionC_MISSIONESSENTIALTASKQRY1button",
+                                        "text": "{@i18n>ActionC_MISSIONESSENTIALTASKQRY1}",
+                                        "press": "onShowListPress"
+                                    },
+                                    "ActionC_MISSIONESSENTIALTASKQRY2": {
+                                        "id": "ActionC_MISSIONESSENTIALTASKQRY2button",
+                                        "text": "{@i18n>ActionC_MISSIONESSENTIALTASKQRY2}",
+                                        "press": "onCreateMissionEssentialTaskPress"
+                                    },
+                                    "ActionC_MISSIONESSENTIALTASKQRY3": {
+                                        "id": "ActionC_MISSIONESSENTIALTASKQRY3button",
+                                        "text": "{@i18n>ActionC_MISSIONESSENTIALTASKQRY3}",
+                                        "press": "onExpandNodePress",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_MISSIONESSENTIALTASKQRY": {
+                "entitySet": "C_MISSIONESSENTIALTASKQRY",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": false,
+                        "tableType": "TreeTable",
+                        "variantManagementHidden": false,
+                        "gridTable": false,
+                        "multiSelect": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MISSIONESSENTIALTASKQRY": {
+                        "entitySet": "C_MISSIONESSENTIALTASKQRY",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4132"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

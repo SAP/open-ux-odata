@@ -1,0 +1,444 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FIN-FSCM-CMM-DOT",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CMMFDOR_COMMODITYORDERREQUEST_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CMMFDOR_COMMODITYORDERR_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "CMMFDOR_COMMODITYORDERR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMMFDOR_COMMODITYORDERR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMMFDOR_COMMODITYORDERR_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "CommodityOrderRequest-manage-display": {
+                    "semanticObject": "CommodityOrderRequest",
+                    "action": "manage",
+                    "signature": {
+                        "parameters": {
+                            "preferredMode": {
+                                "defaultValue": {
+                                    "value": "display"
+                                }
+                            },
+                            "showErrorLog": {
+                                "defaultValue": {
+                                    "value": "false"
+                                },
+                                "required": false
+                            },
+                            "useWizard": {
+                                "defaultValue": {
+                                    "value": "false"
+                                },
+                                "required": false
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "CommodityOrderFill-manage-display": {
+                    "semanticObject": "CommodityOrderFill",
+                    "action": "manage",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                },
+                "CommodityOrderRequest-display-display": {
+                    "semanticObject": "CommodityOrderRequest",
+                    "action": "display",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                },
+                "CommodityOrderRequestBracket-manage-display": {
+                    "semanticObject": "CommodityOrderRequestBracket",
+                    "action": "manage",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                },
+                "CommodityOrderRequest-manage-edit": {
+                    "semanticObject": "CommodityOrderRequest",
+                    "action": "manage",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "edit"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/orderCreationWizard.css"
+                }
+            ]
+        },
+        "services": {
+            "ShellUIService": {
+                "factoryName": "sap.ushell.ui5service.ShellUIService",
+                "lazy": false
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_CommodityOrderRequestTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_CommodityOrderRequestTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CommodityOrderRequestTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CommodityOrderRequestTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CmmdtyOrdReqDocumentTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CmmdtyOrdReqDocumentTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_CommodityOrderRequestTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cd.commodity.orderreq.mans1.ext.fragment.SmartFilterBarControlConfiguration",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_CommodityOrderRequestTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cd.commodity.orderreq.mans1.ext.fragment.ResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CommodityOrderRequestTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cd.commodity.orderreq.mans1.ext.fragment.ResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeFacet|C_CommodityOrderRequestTP|OrderRequestInfoFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cd.commodity.orderreq.mans1.ext.fragment.FollowOnMessages",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>ErrorLogsFacetLabel}"
+                            }
+                        },
+                        "BeforeFacet|C_CommodityOrderRequestTP|RelatedBracketsFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cd.commodity.orderreq.mans1.ext.fragment.OrderCreationWizard"
+                        },
+                        "AfterFacet|C_CommodityOrderRequestTP|RelatedBracketsFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cd.commodity.orderreq.mans1.ext.fragment.OrderCreationWizardReview"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "cd.commodity.orderreq.mans1.ext.controller.ListReportExtension",
+                        "sap.ui.generic.app": {
+                            "C_CommodityOrderRequestTP": {
+                                "EntitySet": "C_CommodityOrderRequestTP",
+                                "Actions": {
+                                    "UpdatePriceAction": {
+                                        "id": "C_CommodityOrderRequestTPGet_cur_mkt_prc",
+                                        "text": "{@i18n>UpdatePrice}",
+                                        "press": "onUpdatePriceAction",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_CommodityOrderRequestTPReprocess": {
+                                        "id": "ActionC_CommodityOrderRequestTPReprocessList",
+                                        "text": "{@i18n>ReprocessPacket}",
+                                        "press": "onReprocessFillPackets",
+                                        "requiresSelection": true
+                                    },
+                                    "TransmitAction": {
+                                        "id": "C_CommodityOrderRequestTPSend_to_broker",
+                                        "text": "{@i18n>Transmit}",
+                                        "press": "onTransmitAction",
+                                        "requiresSelection": true
+                                    },
+                                    "ApproveAction": {
+                                        "id": "ApproveOrderAction",
+                                        "text": "{@i18n>Approve}",
+                                        "press": "onApproveOrderAction",
+                                        "requiresSelection": true
+                                    },
+                                    "CopyAction": {
+                                        "id": "CopyOrderAction",
+                                        "text": "{@i18n>Copy}",
+                                        "press": "onCopyOrderAction",
+                                        "requiresSelection": true
+                                    },
+                                    "CancelOrderAction": {
+                                        "id": "CancelOrderAction",
+                                        "text": "{@i18n>ActionCancel}",
+                                        "press": "onCancelOrderAction",
+                                        "requiresSelection": true
+                                    },
+                                    "CancelAction": {
+                                        "id": "SendCancelMessageAction",
+                                        "text": "{@i18n>SendCancelMessage}",
+                                        "press": "onSendCancelMessageAction",
+                                        "requiresSelection": true
+                                    },
+                                    "AmendAction": {
+                                        "id": "AmendOrderAction",
+                                        "text": "{@i18n>Amend}",
+                                        "press": "onAmendAction",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "cd.commodity.orderreq.mans1.ext.controller.DetailsExtension",
+                        "sap.ui.generic.app": {
+                            "C_CommodityOrderRequestTP": {
+                                "EntitySet": "C_CommodityOrderRequestTP",
+                                "Header": {
+                                    "Actions": {
+                                        "UpdatePriceAction": {
+                                            "id": "C_CommodityOrderRequestTPGet_cur_mkt_prc",
+                                            "text": "{@i18n>UpdatePrice}",
+                                            "press": "onUpdatePriceAction"
+                                        },
+                                        "ActionC_CommodityOrderRequestTPReprocess": {
+                                            "id": "ActionC_CommodityOrderRequestTPReprocessObjectPage",
+                                            "text": "{@i18n>ReprocessPacket}",
+                                            "press": "onReprocessFillPacket"
+                                        },
+                                        "TransmitAction": {
+                                            "id": "C_CommodityOrderRequestTPSend_to_broker",
+                                            "text": "{@i18n>Transmit}",
+                                            "press": "onTransmitAction"
+                                        },
+                                        "ApproveAction": {
+                                            "id": "ApproveOrderAction",
+                                            "text": "{@i18n>Approve}",
+                                            "press": "onApproveOrderAction"
+                                        },
+                                        "CopyAction": {
+                                            "id": "CopyOrderAction",
+                                            "text": "{@i18n>Copy}",
+                                            "press": "onCopyOrderAction"
+                                        },
+                                        "CancelOrderAction": {
+                                            "id": "CancelOrderAction",
+                                            "text": "{@i18n>ActionCancel}",
+                                            "press": "onCancelOrderAction"
+                                        },
+                                        "CancelAction": {
+                                            "id": "SendCancelMessageAction",
+                                            "text": "{@i18n>SendCancelMessage}",
+                                            "press": "onSendCancelMessageAction"
+                                        },
+                                        "AmendAction": {
+                                            "id": "AmendOrderAction",
+                                            "text": "{@i18n>Amend}",
+                                            "press": "onAmendAction"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "routing": {
+            "config": {
+                "viewLevel": 1
+            }
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "useColumnLayoutForSmartForm": false,
+            "objectPageDynamicHeaderTitleWithVM": false
+        },
+        "pages": {
+            "ListReport|C_CommodityOrderRequestTP": {
+                "entitySet": "C_CommodityOrderRequestTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true,
+                        "gridTable": false,
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_CommodityOrderRequestTP": {
+                        "entitySet": "C_CommodityOrderRequestTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showConfirmationOnDraftActivate": true,
+                                "navToListOnSave": false,
+                                "sections": {
+                                    "OrdReqLegFacet": {
+                                        "navigationProperty": "to_OrdReqLeg",
+                                        "entitySet": "C_CmmdtyOrderReqLegTP",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    },
+                                    "DocumentsFacet": {
+                                        "navigationProperty": "to_Document",
+                                        "entitySet": "C_CmmdtyOrdReqDocumentTP",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_AssignedFills": {
+                                "navigationProperty": "to_AssignedFills",
+                                "entitySet": "C_CmmdtyOrdReqAssignedFill",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_Document": {
+                                "navigationProperty": "to_Document",
+                                "entitySet": "C_CmmdtyOrdReqDocumentTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_RelatedBrackets": {
+                                "navigationProperty": "to_RelatedBrackets",
+                                "entitySet": "C_CmmdtyOrdReqAssgdOrdBracket",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3352"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

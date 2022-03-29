@@ -1,0 +1,193 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{APP_TITLE}}",
+        "description": "{{APP_DESCRIPTION}}",
+        "ach": "LE-JIT",
+        "resources": "resources.json",
+        "dataSources": {
+            "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV": {
+                "uri": "/sap/opu/odata/sap/JIT_SUPPLY_TO_CUSTOMER_OVW_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["JIT_SUPPLY_TO_CUSTOMER__ANNO_MDL"],
+                    "localUri": "localService/JIT_SUPPLY_TO_CUSTOMER_OVW_SRV/metadata.xml"
+                }
+            },
+            "JIT_SUPPLY_TO_CUSTOMER__ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='JIT_SUPPLY_TO_CUSTOMER__ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/JIT_SUPPLY_TO_CUSTOMER_OVW_SRV/JIT_SUPPLY_TO_CUSTOMER__ANNO_MDL.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV_ANA": {
+                "preload": true,
+                "dataSource": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV": {
+                "preload": true,
+                "dataSource": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3933"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV",
+        "globalFilterEntityType": "C_JITSupplyToCustomerOvwFltrType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "card1": {
+                "model": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{JIT_CALL_BY_STATUS}}",
+                    "entitySet": "C_JITCallOverviewByStatus",
+                    "valueSelectionInfo": "{{TOTAL_NUMBER_JIT_CALL}}",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "stopResizing": true,
+                    "addODataSelect": true,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByStatus",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfItems",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "defaultSpan": {
+                        "rows": 4,
+                        "cols": 1
+                    }
+                }
+            },
+            "card2": {
+                "model": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{ALERTS}}",
+                    "entitySet": "C_JITCallAlertOverview",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "tabs": [
+                        {
+                            "value": "{{ACTIVE_CALLS}}",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Active",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByActiveAlert",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActiveStatusAlert",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#ActiveStatusAlert",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        },
+                        {
+                            "value": "{{INPROCESS_CALLS}}",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#InProcess",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByInProcessAlert",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InProcessStatusAlert",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#InProcessStatusAlert",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        }
+                    ],
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card3": {
+                "model": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{SHIP_TO_PARTY_SUMMARY}}",
+                    "entitySet": "C_JITCallOverviewByShipToPty",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ShipToPartyCard",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ShipToPartyCard",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card4": {
+                "model": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{JIT_CUSTOMER_SUMMARY}}",
+                    "entitySet": "C_JITCustomerOverviewBySts",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#donut",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#donut",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Count",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Count",
+                    "valueSelectionInfo": "{{TOTAL_NUMBER_JIT_CUSTOMER}}"
+                }
+            },
+            "card5": {
+                "model": "JIT_SUPPLY_TO_CUSTOMER_OVW_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{COMPONENT_GROUP_SUMMARY}}",
+                    "entitySet": "C_JITCallCompGrpStatusOvw",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#JITCGStatusCard",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#JITCGStatusCard",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            }
+        }
+    }
+}

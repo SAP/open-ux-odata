@@ -47,6 +47,14 @@ importers:
             ts-node: 10.7.0_227c0ef097b6c87b85c4c8af5cb211ad
             typescript: 4.6.2
 
+    packages/edmx-parser:
+        specifiers:
+            '@sap-ux/vocabularies-types': 0.5.0
+            xml-js: 1.6.11
+        dependencies:
+            '@sap-ux/vocabularies-types': link:../vocabularies-types
+            xml-js: 1.6.11
+
     packages/vocabularies-types:
         specifiers:
             '@types/mkdirp': ^1.0.2
@@ -5485,6 +5493,13 @@ packages:
             }
         dev: true
 
+    /sax/1.2.4:
+        resolution:
+            {
+                integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+            }
+        dev: false
+
     /saxes/5.0.1:
         resolution:
             {
@@ -6411,6 +6426,16 @@ packages:
             utf-8-validate:
                 optional: true
         dev: true
+
+    /xml-js/1.6.11:
+        resolution:
+            {
+                integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==
+            }
+        hasBin: true
+        dependencies:
+            sax: 1.2.4
+        dev: false
 
     /xml-name-validator/3.0.0:
         resolution:

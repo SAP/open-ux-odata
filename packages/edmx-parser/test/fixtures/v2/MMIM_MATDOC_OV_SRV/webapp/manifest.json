@@ -1,0 +1,267 @@
+{
+    "_version": "1.2.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-FIO-IM-SGM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MMIM_MATDOC_OV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MMIM_MATDOC_OV_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MMIM_MATDOC_OV_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MMIM_MATDOC_OV_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MMIM_MATDOC_OV_ANNO_MDL.xml"
+                }
+            },
+            "MMIM_GR_CANCELLATION_MDL": {
+                "uri": "/sap/opu/odata/sap/MMIM_GR_CANCELLATION_SRV",
+                "type": "OData"
+            },
+            "CA_BPF_LAYOUT_METADATA_SRV": {
+                "uri": "/sap/opu/odata/sap/CA_BPF_LAYOUT_METADATA_SRV",
+                "type": "OData"
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "minVersion": "1.34.0",
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.commons": {
+                    "minVersion": "1.34.0",
+                    "lazy": false
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "minVersion": "10.3.0",
+                    "lazy": true
+                },
+                "sap.ssuite.fnd.om.outputcontrol": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.s4.cfnd.lib.businessprocessflow": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "config": {
+            "sapFiori2Adaptation": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|F_Mmim_Findmatdoc": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/F_Mmim_Findmatdoc/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|F_Mmim_Findmatdoc": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/F_Mmim_Findmatdoc/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|to_Mdoc_Item": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/F_Mmim_Matdoc_Item/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.document.overview.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.document.overview.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "F_Mmim_Findmatdoc": {
+                                "EntitySet": "F_Mmim_Findmatdoc",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionF_Mmim_FindmatdocHeader1": {
+                                            "id": "idReverseButton",
+                                            "text": "{@i18n>ActionF_Mmim_FindmatdocHeader1}",
+                                            "press": "onReverseDocument"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterFacet|F_Mmim_Matdoc_Item|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.document.overview.ext.view.OutputManagement",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Output_Management}"
+                            }
+                        },
+                        "AfterFacet|F_Mmim_Findmatdoc|GeneralInformation": {
+                            "type": "XML",
+                            "settings": {
+                                "objectType": "BUS2017"
+                            },
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.document.overview.ext.view.Attachment",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Attachment}"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "settings": {
+            "objectPageDynamicHeaderTitleWithVM": true
+        },
+        "pages": [
+            {
+                "entitySet": "F_Mmim_Findmatdoc",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "F_Mmim_Findmatdoc",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::processflow": {
+                                "componentName": "sap.s4.cfnd.lib.businessprocessflow.component.smarttemplate",
+                                "id": "simple::processflow",
+                                "propogateModel": true,
+                                "title": "{{ProcessFlow}}",
+                                "settings": {
+                                    "layoutID": "Mmim_MatDocDocFlow",
+                                    "docID": "{parts:[{path:'MaterialDocument'}]}",
+                                    "keyName": "MaterialDocument",
+                                    "FiscalYear": "{parts:[{path:'MaterialDocumentYear'}]}",
+                                    "FiscalYearKey": "MaterialDocumentYear"
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_Mdoc_Item",
+                                "entitySet": "F_Mmim_Matdoc_Item",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1077"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

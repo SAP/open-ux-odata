@@ -1,0 +1,232 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2679"],
+        "archeType": "analytical"
+    },
+
+    "sap.app": {
+        "id": "scm.tm.tenderingovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "TM-CF-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_TENDERINGQUERY_CDS": {
+                "uri": "/sap/opu/odata/sap/C_TENDERINGQUERY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_TENDERINGQUERY_CDS_VAN"],
+                    "localUri": "localService/C_TENDERINGQUERY_CDS/metadata.xml"
+                }
+            },
+            "C_TENDERINGQUERY_CDS_VAN": {
+                "uri": "localService/C_TENDERINGQUERY_CDS/C_TENDERINGQUERY_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_TENDERINGQUERY_CDS/C_TENDERINGQUERY_CDS_VAN.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.56.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.44.3"
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_TENDERINGQUERY_CDS": {
+                "preload": true,
+                "dataSource": "C_TENDERINGQUERY_CDS",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "C_TENDERINGQUERY_CDS",
+        "globalFilterEntityType": "C_TENDERINGQUERYResult",
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "tm.cf.ana.tendering.ovp_card01": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{tcard_List_acceptanceRatio_title}}",
+                    "subTitle": "{{tcard_List_acceptanceRatio_subTitle}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "PositiveTenderingResponseRatio",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AcceptanceRatio",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#AcceptanceRatio",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AcceptanceRatio"
+                }
+            },
+            "tm.cf.ana.tendering.ovp_card02": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_acceptanceComp_title}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AcceptanceCompLine",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AcceptanceCompLine",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfFrtOrdsWithCmpltdTndrg",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AcceptanceCompLine",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#AcceptanceCompLine"
+                }
+            },
+            "tm.cf.ana.tendering.ovp_card03": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_tenderingRatio_title}}",
+                    "subTitle": "{{card_List_tenderingRatio_subTitle}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "CarrierFromTenderingRatio",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TenderingRatio",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TenderingRatio",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TenderingRatio"
+                }
+            },
+            "tm.cf.ana.tendering.ovp_card04": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_cycleTime_title}}",
+                    "subTitle": "{{card_List_cycleTime_subTitle}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "TenderingCycleTimeInDspUnit",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CycleTime",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#CycleTime",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CycleTime"
+                }
+            },
+            "tm.cf.ana.tendering.ovp_card05": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_p2pCycles_title}}",
+                    "subTitle": "{{card_List_p2pCycles_subTitle}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "AvgNumberOfPeerToPeerCycles",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#P2pCycles",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#P2pCycles",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#P2pCycles"
+                }
+            },
+            "tm.cf.ana.tendering.ovp_card06": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_discrepantCarrier_title}}",
+                    "subTitle": "{{card_List_discrepantCarrier_subTitle}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfDiscrepantCarrierSel",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DiscrepantCarrier",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DiscrepantCarrier",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#DiscrepantCarrier"
+                }
+            },
+            "tm.cf.ana.tendering.ovp_card07": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "addODataSelect": true,
+                    "title": "{{card_Stack_openRequests_title}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenNonOverdueRequests",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Stack",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ALP",
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#Stack",
+                        "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Stack"
+                    }
+                }
+            },
+            "tm.cf.ana.tendering.ovp_card08": {
+                "model": "C_TENDERINGQUERY_CDS",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "addODataSelect": true,
+                    "title": "{{card_Stack_overdueRequests_title}}",
+                    "entitySet": "C_TENDERINGQUERYResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenOverdueRequests",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Stack",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ALP",
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#Stack",
+                        "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Stack"
+                    }
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/scm.tm.tenderingovps1/webapp",
+        "_version": "1.1.0"
+    }
+}

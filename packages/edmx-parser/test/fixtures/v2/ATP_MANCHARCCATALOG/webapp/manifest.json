@@ -1,0 +1,440 @@
+{
+    "_version": "1.11.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-ATP-PAL",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ATP_MANCHARCCATALOG/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ATP_MANCHARCCATALOG_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "ATP_MANCHARCCATALOG_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ATP_MANCHARCCATALOG_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ATP_MANCHARCCATALOG_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "ATPCharacteristicCatalog",
+                    "action": "manageCharacteristicCatalogs"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "config": {
+            "sapFiori2Adaptation": true
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.comp": { "lazy": true },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MngCharcCtlgTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MngCharcCtlgTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MngCharcCtlgTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MngCharcCtlgTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MngCharcCtlgCharcTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MngCharcCtlgCharcTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MngCharcCtlgMixedCharcTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MngCharcCtlgMixedCharcTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MngCharcCtlgValGrpTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MngCharcCtlgValGrpTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MngCharcCtlgValGrpValTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MngCharcCtlgValGrpValTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MngCharcCtlgAuthznGroupTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MngCharcCtlgAuthznGroupTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.atp.mancharccatalogs1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_MngCharcCtlgTP": {
+                                "EntitySet": "C_MngCharcCtlgTP",
+                                "Sections": {
+                                    "to_ProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_ProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgTPDeleteCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPDeleteCharcButton",
+                                                "text": "{@i18n>ActionRemove}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionRemoveCharacteristic"
+                                            },
+                                            "ActionC_MngCharcCtlgTPAddCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPAddCharcButton",
+                                                "text": "{@i18n>ActionAdd}",
+                                                "press": "onClickActionAddCharacteristics"
+                                            }
+                                        }
+                                    },
+                                    "to_GrpProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_GrpProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgTPDeleteGrp": {
+                                                "id": "ActionC_MngCharcCtlgTPDeleteGrpButton",
+                                                "text": "{@i18n>ActionDelete}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionRemoveValueGroup"
+                                            },
+                                            "ActionC_MngCharcCtlgTPAddGrp": {
+                                                "id": "ActionC_MngCharcCtlgTPAddGrpButton",
+                                                "text": "{@i18n>ActionCreate}",
+                                                "press": "onClickActionAddValueGroup"
+                                            }
+                                        }
+                                    },
+                                    "to_MixedProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_MixedProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgTPDeleteMixedCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPDeleteMixedCharcButton",
+                                                "text": "{@i18n>ActionDelete}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionRemoveMixedCharc"
+                                            }
+                                        }
+                                    },
+                                    "to_AllocCharcCtlgAuthznCharcTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AllocCharcCtlgAuthznCharcTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgTPDeleteAuthCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPDeleteAuthCharcButton",
+                                                "text": "{@i18n>ActionDelete}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionRemoveAuthCharc"
+                                            },
+                                            "ActionC_MngCharcCtlgTPAddAuthCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPAddAuthCharcButton",
+                                                "text": "{@i18n>ActionCreate}",
+                                                "press": "onClickActionAddAuthCharc"
+                                            },
+                                            "ActionC_MngCharcCtlgTPMoveUpAuthCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPMoveUpAuthCharcButton",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionMoveUpAuthCharc"
+                                            },
+                                            "ActionC_MngCharcCtlgTPMoveDownAuthCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPMoveDownAuthCharcButton",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionMoveDownAuthCharc"
+                                            }
+                                        }
+                                    },
+                                    "to_AllocCharcCtlgAuthznGroupTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AllocCharcCtlgAuthznGroupTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgTPDeleteAuthGrp": {
+                                                "id": "ActionC_MngCharcCtlgTPDeleteAuthGrpButton",
+                                                "text": "{@i18n>ActionDelete}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionRemoveAuthGrp"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_MngCharcCtlgMixedCharcTP": {
+                                "EntitySet": "C_MngCharcCtlgMixedCharcTP",
+                                "Sections": {
+                                    "to_ProdAllocCharcCtlgPathRefTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_ProdAllocCharcCtlgPathRefTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgMixedCharcTPAssignBaseCharc": {
+                                                "id": "ActionC_MngCharcCtlgMixedCharcTPAssignBaseCharcButton",
+                                                "text": "{@i18n>ActionAssignBaseCharc}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionAssignBaseCharc"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_MngCharcCtlgValGrpTP": {
+                                "EntitySet": "C_MngCharcCtlgValGrpTP",
+                                "Sections": {
+                                    "to_AllocCharcCtlgValGrpValTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AllocCharcCtlgValGrpValTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgValGrpValTPToggle_fallback": {
+                                                "id": "ActionC_MngCharcCtlgValGrpValTPToggle_fallback",
+                                                "text": "{@i18n>ActionToggleFallback}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionToggleFallback"
+                                            },
+                                            "ActionC_MngCharcCtlgValGrpTPDeleteGroupValue": {
+                                                "id": "ActionC_MngCharcCtlgValGrpTPDeleteGroupValue",
+                                                "text": "{@i18n>ActionDelete}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionRemoveGroupValue"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_MngCharcCtlgAuthznGroupTP": {
+                                "EntitySet": "C_MngCharcCtlgAuthznGroupTP",
+                                "Sections": {
+                                    "to_AllocCharcCtlgAuthznValueTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AllocCharcCtlgAuthznValueTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_MngCharcCtlgAuthznGroupTPDeleteAuthValue": {
+                                                "id": "ActionC_MngCharcCtlgAuthznGroupTPDeleteAuthValue",
+                                                "text": "{@i18n>ActionDelete}",
+                                                "requiresSelection": true,
+                                                "press": "onClickActionRemoveAuthValue"
+                                            },
+                                            "ActionC_MngCharcCtlgAuthznGroupTPAddAuthCharc": {
+                                                "id": "ActionC_MngCharcCtlgTPAddAuthValueButton",
+                                                "text": "{@i18n>ActionCreate}",
+                                                "press": "onClickActionAddAuthValue"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.atp.mancharccatalogs1.ext.controller.ListReportExt"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_MngCharcCtlgTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.atp.mancharccatalogs1.ext.fragment.CustomfilterDummy",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_MngCharcCtlgTP": {
+                "entitySet": "C_MngCharcCtlgTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MngCharcCtlgTP": {
+                        "entitySet": "C_MngCharcCtlgTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "simpleHeaderFacets": false,
+                                "sections": {
+                                    "to_ProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_ProdAllocCharcCtlgPathTP",
+                                        "entitySet": "C_MngCharcCtlgCharcTP"
+                                    },
+                                    "to_MixedProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_MixedProdAllocCharcCtlgPathTP",
+                                        "entitySet": "C_MngCharcCtlgMixedCharcTP",
+                                        "multiSelect": true
+                                    },
+                                    "to_GrpProdAllocCharcCtlgPathTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_GrpProdAllocCharcCtlgPathTP",
+                                        "entitySet": "C_MngCharcCtlgValGrpTP",
+                                        "multiSelect": true
+                                    },
+                                    "to_AllocCharcCtlgAuthznGroupTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_AllocCharcCtlgAuthznGroupTP",
+                                        "entitySet": "C_MngCharcCtlgAuthznGroupTP",
+                                        "multiSelect": true
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_ProdAllocCharcCtlgPathTP": {
+                                "navigationProperty": "to_ProdAllocCharcCtlgPathTP",
+                                "entitySet": "C_MngCharcCtlgCharcTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_MixedProdAllocCharcCtlgPathTP": {
+                                "navigationProperty": "to_MixedProdAllocCharcCtlgPathTP",
+                                "entitySet": "C_MngCharcCtlgMixedCharcTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_GrpProdAllocCharcCtlgPathTP": {
+                                "navigationProperty": "to_GrpProdAllocCharcCtlgPathTP",
+                                "entitySet": "C_MngCharcCtlgValGrpTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "to_AllocCharcCtlgValGrpValTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                                "navigationProperty": "to_AllocCharcCtlgValGrpValTP",
+                                                "entitySet": "C_MngCharcCtlgValGrpValTP",
+                                                "multiSelect": true
+                                            }
+                                        }
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_AllocCharcCtlgValGrpValTP": {
+                                        "navigationProperty": "to_AllocCharcCtlgValGrpValTP",
+                                        "entitySet": "C_MngCharcCtlgValGrpValTP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                                            "settings": {
+                                                "sections": {
+                                                    "to_AllocCharcCtlgParPathValTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                                        "navigationProperty": "to_AllocCharcCtlgParPathValTP",
+                                                        "entitySet": "C_MngCharcCtlgParPathValTP",
+                                                        "multiSelect": true,
+                                                        "createMode": "inline"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_AllocCharcCtlgAuthznGroupTP": {
+                                "navigationProperty": "to_AllocCharcCtlgAuthznGroupTP",
+                                "entitySet": "C_MngCharcCtlgAuthznGroupTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3829"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

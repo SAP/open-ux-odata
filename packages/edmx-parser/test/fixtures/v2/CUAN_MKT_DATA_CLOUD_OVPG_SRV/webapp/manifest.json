@@ -1,0 +1,328 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "hpa.cei.mkt.data.cloud",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "CEC-MKT-DM-CON-FAC",
+        "resources": "resources.json",
+        "embeds": [
+            "contactProfileTile",
+            "searchContactsTile",
+            "searchAccountsTile",
+            "topInteractionsTile",
+            "topInterestsTile",
+            "topInterestsBarChartTile"
+        ],
+        "embeddedBy": "",
+        "dataSources": {
+            "CUAN_MKT_DATA_CLOUD_OVPG_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_MKT_DATA_CLOUD_OVPG_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["CUAN_MKT_DATA_CLOUD_OVP_ANNO_MDL"],
+                    "localUri": "localService/CUAN_MKT_DATA_CLOUD_OVPG_SRV/metadata.xml"
+                }
+            },
+            "CUAN_MKT_DATA_CLOUD_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CUAN_MKT_DATA_CLOUD_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CUAN_MKT_DATA_CLOUD_OVPG_SRV/CUAN_MKT_DATA_CLOUD_OVP_ANNO_MDL.xml"
+                }
+            },
+            "CUAN_COMMON_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_COMMON_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/CUAN_COMMON_SRV/metadata.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CUAN_MKT_DATA_CLOUD_OVPG_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_MKT_DATA_CLOUD_OVPG_SRV/",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "preload": true
+            },
+            "CUAN_COMMON_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_COMMON_SRV/",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "CUAN_COMMON_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "hpa.cei.mkt.data.cloud.ext.customController"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ],
+            "img": [
+                {
+                    "uri": "img"
+                }
+            ]
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3652"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+        "globalFilterEntityType": "",
+        "containerLayout": "resizable",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": false,
+        "cards": {
+            "card01_ContactProfileTile": {
+                "template": "hpa.cei.mkt.data.cloud.contactProfileTile",
+                "settings": {
+                    "title": "{{ContactProfileTileTitle}}",
+                    "stopResizing": true,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 1
+                    },
+                    "semanticObject": "ContactEngagement",
+                    "action": "display"
+                }
+            },
+            "card02_ContactStagesTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "hpa.cei.mkt.data.cloud.contactStagesTile",
+                "settings": {
+                    "entitySet": "C_MKT_CntctValdtnStatusOvPgQ",
+                    "title": "{{ContactStagesTileTitle}}",
+                    "stopResizing": true,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 1
+                    },
+                    "semanticObject": "ContactEngagement",
+                    "action": "display"
+                }
+            },
+            "card04_SearchContactsTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "hpa.cei.mkt.data.cloud.searchContactsTile",
+                "settings": {
+                    "entitySet": "C_MKT_ContactSearchOvPgQ",
+                    "title": "{{SearchContactsTileTitle}}",
+                    "stopResizing": true,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 1
+                    },
+                    "semanticObject": "MarketingContact",
+                    "action": "showList"
+                }
+            },
+            "card05_SearchAccountsTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "hpa.cei.mkt.data.cloud.searchAccountsTile",
+                "settings": {
+                    "entitySet": "C_MKT_RecentCorporateAccountsQ",
+                    "title": "{{SearchAccountsTileTitle}}",
+                    "stopResizing": true,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 1
+                    },
+                    "semanticObject": "MarketingAccount",
+                    "action": "manage"
+                }
+            },
+            "card06_TopInteractionsTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "hpa.cei.mkt.data.cloud.topInteractionsTile",
+                "settings": {
+                    "entitySet": "C_MKT_IntactnTypePerdOvPgQuery",
+                    "title": "{{TopInteractionsTileTitle}}",
+                    "stopResizing": false,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    }
+                }
+            },
+            "card09_TopInterestsBarChartTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "hpa.cei.mkt.data.cloud.topInterestsBarChartTile",
+                "settings": {
+                    "entitySet": "C_MKT_IntactnCntctIntrstOvPgQ",
+                    "title": "{{TopInterestsTileTitle}}",
+                    "stopResizing": false,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    },
+                    "semanticObject": "ContactEngagement",
+                    "action": "display"
+                }
+            },
+            "card08_ContactEngagementTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{ContactEngagementTileTitle}}",
+                    "valueSelectionInfo": "{{ContactEngagementTileSelectionInfoTitle}}",
+                    "entitySet": "C_MKT_CntctEngmntScoreOvPgQ",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionEngagementByContacts",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartEngagementByContacts",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationEngagementByContacts",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#selectionPresentationEngagementByContacts",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NrOfCntctsEngmntScoreHigh",
+                    "navigation": "chartNav",
+                    "semanticObject": "MarketingProfile",
+                    "action": "manage"
+                }
+            },
+            "card03_ContactPermissionsTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{ContactPermissionsTileTitle}}",
+                    "valueSelectionInfo": "{{ContactPermissionsTileSelectionInfoTitle}}",
+                    "entitySet": "C_MKT_ContactPermissionOvPgQ",
+                    "sortBy": "NumberOfOptIns",
+                    "sortOrder": "descending",
+                    "tabs": [
+                        {
+                            "value": "{{Dropdown_ByChannel}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionPermissionsByChannel",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartPermissionsByChannel",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationPermissionsByChannel",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#selectionPresentationPermissionsChannel",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOptIns",
+                            "navigation": "chartNav"
+                        },
+                        {
+                            "value": "{{Dropdown_ByCountry}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionPermissionsByCountry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartPermissionsByCountry",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationPermissionsByCountry",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#selectionPresentationPermissionsCountry",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOptIns",
+                            "navigation": "chartNav"
+                        }
+                    ],
+                    "semanticObject": "MarketingProfile",
+                    "action": "manage"
+                }
+            },
+            "card07_CorpAccountsAllTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{CorpAccountsAllTileTitle}}",
+                    "entitySet": "C_MKT_CorpAccountOvPgQ",
+                    "sortBy": "NumberOfInteractionContacts",
+                    "sortOrder": "descending",
+                    "valueSelectionInfo": "{{CorpAccountsAllTileSelectionInfo}}",
+                    "tabs": [
+                        {
+                            "value": "{{Dropdown_ByIndustry}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionAccountByIndustry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartAccountByIndustry",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#selectionPresentationAccountByIndustry",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationAccountByIndustry",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfInteractionContacts",
+                            "navigation": "chartNav"
+                        },
+                        {
+                            "value": "{{Dropdown_ByCountry}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selectionAccountByCountry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartAccountByCountry",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#selectionPresentationAccountByCountry",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentationAccountByCountry",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfInteractionContacts",
+                            "navigation": "chartNav"
+                        }
+                    ],
+                    "semanticObject": "MarketingAccount",
+                    "action": "manage"
+                }
+            },
+            "card10_ContactsProfilesTile": {
+                "model": "CUAN_MKT_DATA_CLOUD_OVPG_SRV",
+                "template": "hpa.cei.mkt.data.cloud.links",
+                "settings": {
+                    "title": "{{hpa.cei.mkt.data.cloud_cardContactsProfiles_title}}",
+                    "stopResizing": true,
+                    "entitySet": "Links",
+                    "customFilter": "CP"
+                }
+            }
+        }
+    }
+}

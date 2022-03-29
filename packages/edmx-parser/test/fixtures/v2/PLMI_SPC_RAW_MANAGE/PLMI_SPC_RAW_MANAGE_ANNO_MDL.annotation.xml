@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="../../../sap/plmi_spc_raw_manage/$metadata">
+		<edmx:Include Namespace="PLMI_SPC_RAW_MANAGE" Alias="SAP"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="plmi_spc_raw_manage_anno_mdl.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstanceInternalID">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations/>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/to_RawSubstanceAuthGrpValueHelp">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/to_SpecHeaderStatusValueHelp">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstanceCreatedByUserName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstanceChangedByUserName">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstanceHeaderStatusDesc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/SpecificationAuthznGroupDesc">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstanceType">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstance">
+				<Annotation Term="Common.SemanticObject" String="RawSubstance"/>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstanceHeaderStatus">
+				<Annotation Term="Common.Text" Path="RawSubstanceHeaderStatusDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType/RawSubstanceAuthznGroup">
+				<Annotation Term="Common.Text" Path="SpecificationAuthznGroupDesc">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="PLMI_SPC_RAW_MANAGE.C_RawSubstanceType">
+				<Annotation Term="UI.FieldGroup" Qualifier="AdditionalFilters">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="RawSubstanceChangedByUser"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="RawSubstanceChangeDate"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="RawSubstanceAuthznGroup"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="Additional Filters"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Raw Substance"/>
+						<PropertyValue Property="TypeNamePlural" String="Raw Substances"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="RawSubstance"/>
+							</Record>
+						</PropertyValue>
+						<PropertyValue Property="Description">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="RawSubstancePrimaryIdfgDesc"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="RawSubstance"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="RawSubstancePrimaryIdfgDesc"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="RawSubstanceSecondaryIdfgDesc"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="RawSubstanceHeaderStatus"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="RawSubstanceCreatedByUser"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="RawSubstanceCreationDate"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="RawSubstanceCreationDate"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="RequestAtLeast">
+							<Collection>
+								<PropertyPath>RawSubstance</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>RawSubstance</PropertyPath>
+						<PropertyPath>RawSubstancePrimaryIdfgDesc</PropertyPath>
+						<PropertyPath>RawSubstanceSecondaryIdfgDesc</PropertyPath>
+						<PropertyPath>RawSubstanceHeaderStatus</PropertyPath>
+						<PropertyPath>RawSubstanceCreatedByUser</PropertyPath>
+						<PropertyPath>RawSubstanceCreationDate</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

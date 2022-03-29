@@ -1,0 +1,274 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PPM-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PPM_PRO_PROJECT_RANKING_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PPM_PRO_PROJECT_RANKING_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PPM_PRO_PROJECT_RANKING_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PPM_PRO_PROJECT_RANKING_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PPM_PRO_PROJECT_RANKING_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "EnterpriseProject-displayFactSheet": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "displayFactSheet"
+                },
+                "EnterpriseProject-showProgress": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "showProgress"
+                },
+                "Project-displayFinancialReport": {
+                    "semanticObject": "Project",
+                    "action": "displayFinancialReport"
+                },
+                "EnterpriseProject-displayProjectBudget": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "displayProjectBudget"
+                },
+                "EnterpriseProject-showByKeyFigures": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "showByKeyFigures"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "minVersion": "11.7.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {}
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_EnterpriseProjectRankingTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_EnterpriseProjectRankingTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_EnterpriseProjectRankingTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_EnterpriseProjectRankingTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.ppm.projectrankings1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_EnterpriseProjectRankingTP": {
+                                "EntitySet": "C_EnterpriseProjectRankingTP",
+                                "Sections": {
+                                    "to_RankingItem::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_RankingItem::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AssignProjectAction": {
+                                                "id": "assignProjectButton",
+                                                "text": "{@i18n>AssignProjectsActionLabel}",
+                                                "press": "onOpenAssignProjectsDialogPressed"
+                                            },
+                                            "MoveToPositionAction": {
+                                                "id": "moveToPositionButton",
+                                                "text": "{@i18n>MoveToPositionActionButtonText}",
+                                                "press": "onOpenMoveToPositionDialogPressed"
+                                            },
+                                            "AnalyzeInAction": {
+                                                "id": "analyzeInButton",
+                                                "text": "{@i18n>AnalyzeInActionButtonText}",
+                                                "press": "onOpenAnalyzeInActionSheetPressed",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_EnterpriseProjectRankingTP": {
+                "entitySet": "C_EnterpriseProjectRankingTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "multiSelect": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_EnterpriseProjectRankingTP": {
+                        "entitySet": "C_EnterpriseProjectRankingTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": true,
+                                "sections": {
+                                    "to_RankingItem::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_RankingItem",
+                                        "entitySet": "C_EntProjectRankingItemTP",
+                                        "multiSelect": true
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{AttachmentsServiceTitle}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "/S4PPM/RNK",
+                                    "objectKey": "{=${ActiveUUID} === '00000000-0000-0000-0000-000000000000'? ${EnterpriseProjectRankingUUID}:${ActiveUUID}}",
+                                    "isGuid": true,
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": false,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": false,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true,
+                                            "DOWNLOAD": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3859"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

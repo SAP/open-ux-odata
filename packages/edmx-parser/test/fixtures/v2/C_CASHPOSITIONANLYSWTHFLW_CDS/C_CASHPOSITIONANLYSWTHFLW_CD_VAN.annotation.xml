@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="../../../sap/c_cashpositionanlyswthflw_cds/$metadata">
+		<edmx:Include Namespace="C_CASHPOSITIONANLYSWTHFLW_CDS" Alias="SAP"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="c_cashpositionanlyswthflw_cd_van.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_BankFeeAccountVHType/BankAccountInternalID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_BankFeeAccountVHType">
+				<Annotation Term="UI.FieldGroup" Qualifier="Account">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="BankAccount"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Label" String="Bank Account Name"/>
+									<PropertyValue Property="Value" Path="BankAccountDescription"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Label" String="Technical ID"/>
+									<PropertyValue Property="Value" Path="BankAccountInternalID"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="Account"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Account"/>
+						<PropertyValue Property="TypeNamePlural" String="Accounts"/>
+						<PropertyValue Property="TypeImageUrl" String="sap-icon://appointment-2"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="BankAccount"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BankAccount"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Bank Account Name"/>
+							<PropertyValue Property="Value" Path="BankAccountDescription"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Technical ID"/>
+							<PropertyValue Property="Value" Path="BankAccountInternalID"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_BankFeeBankCountryVHType">
+				<Annotation Term="UI.FieldGroup" Qualifier="BankCountry">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Label" String="Bank Country"/>
+									<PropertyValue Property="Value" Path="BankCountry"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Label" String="Country Name"/>
+									<PropertyValue Property="Value" Path="CountryName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="BankCountry"/>
+						<PropertyValue Property="TypeNamePlural" String="BankCountries"/>
+						<PropertyValue Property="TypeImageUrl" String="sap-icon://appointment-2"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="BankCountry"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Bank Country"/>
+							<PropertyValue Property="Value" Path="BankCountry"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Country Name"/>
+							<PropertyValue Property="Value" Path="CountryName"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_BankFeeBankVHType">
+				<Annotation Term="UI.FieldGroup" Qualifier="Bank">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="Bank"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="BankCountry"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="BankName"/>
+									<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Label" String="Bank"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Bank"/>
+						<PropertyValue Property="TypeNamePlural" String="Banks"/>
+						<PropertyValue Property="TypeImageUrl" String="sap-icon://appointment-2"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Value" Path="Bank"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Bank"/>
+							<PropertyValue Property="Value" Path="Bank"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Bank Country"/>
+							<PropertyValue Property="Value" Path="BankCountry"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Label" String="Bank Name"/>
+							<PropertyValue Property="Value" Path="BankName"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OpeningBalAmtInBankAcctCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OverdueDebitAmtInBkAcctCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/TotalDebitAmtInBkAcctCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OverdueCreditAmtInBkAcctCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/TotalCreditAmtInBkAcctCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/ClsgBalAmtInBkAcctCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OpeningBalanceAmtInDisplayCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OverdueDebitAmtInDisplayCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/DebitAmtInDisplayCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OverdueCreditAmtInDspCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/CreditAmtInDisplayCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations
+				Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/ClosingBalanceAmtInDisplayCrcy">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OverdraftLimitAmount">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/CompanyCodeName">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/CurrencyName">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/BankAccountDescription">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/BankName">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/CountryName">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/to_BankAccount">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/to_CompanyCode">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/to_Currency">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/BankAccountInternalID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/DisplayCurrency">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/CashPoolBalCalcPrfl">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/OffsetDays">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/_BankAccount">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/_Currency">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/P_KeyDate">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/P_OffsetDays">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/P_CashPoolBalCalcPrfl">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/P_DisplayCurrency">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/ID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/CompanyCode">
+				<Annotation Term="Common.Text" Path="CompanyCodeName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/BankAccountCurrency">
+				<Annotation Term="Common.Text" Path="CurrencyName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/BankAccount">
+				<Annotation Term="Common.Text" Path="BankAccountDescription">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/Bank">
+				<Annotation Term="Common.Text" Path="BankName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult/BankCountry">
+				<Annotation Term="Common.Text" Path="CountryName">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.C_CashPositionAnlysWthFlwResult">
+				<Annotation Term="UI.Chart" Qualifier="ChartDefault">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Cash Position"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>BankAccountCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="BankAccountCurrency"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>ClosingBalanceAmtInDisplayCrcy</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="ClosingBalanceAmtInDisplayCrcy"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Cash Position Analysis"/>
+						<PropertyValue Property="TypeNamePlural" String="Cash Position"/>
+						<PropertyValue Property="Title">
+							<Record Type="UI.DataField">
+								<PropertyValue Property="Label" String="Cash Position"/>
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BankAccountCurrency"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CompanyCode"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BankAccount"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ClosingBalanceAmtInDisplayCrcy"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="OpeningBalAmtInBankAcctCrcy"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="OverdraftLimitAmount"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="ClsgBalAmtInBkAcctCrcy"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="Default">
+					<Record>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="ClosingBalanceAmtInDisplayCrcy"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#ChartDefault</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>CompanyCode</PropertyPath>
+						<PropertyPath>BankAccountCurrency</PropertyPath>
+						<PropertyPath>BankAccount</PropertyPath>
+						<PropertyPath>Bank</PropertyPath>
+						<PropertyPath>BankCountry</PropertyPath>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.SelectionPresentationVariant" Qualifier="Default">
+					<Record>
+						<PropertyValue Property="Text" String=""/>
+						<PropertyValue Property="SelectionVariant" Path="@UI.SelectionVariant#Default"/>
+						<PropertyValue Property="PresentationVariant" Path="@UI.PresentationVariant#Default"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant" Qualifier="Default">
+					<Record>
+						<PropertyValue Property="Text" String="Default"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_CASHPOSITIONANLYSWTHFLW_CDS.I_FiscalYearVariantType/FiscalYearVariant">
+				<Annotation Term="Common.IsFiscalYearVariant"/>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,322 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "fin.cash.brm.bankrelationship.overview",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FIN-FIO-CLM",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_BankAcctProfiles": {
+                "uri": "/sap/opu/odata/sap/FCLM_BAM_ACCOUNTOV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_BankAcctProfilesAnno0"],
+                    "localUri": "localService/C_BankAcctProfiles/metadata.xml"
+                }
+            },
+            "C_BankAcctProfilesAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCLM_BAM_ACCOUNTOV_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_BankAcctProfiles/C_BankAcctProfiles_annotations_0.xml"
+                }
+            },
+            "C_ChangeRequestProfiles": {
+                "uri": "/sap/opu/odata/sap/FCLM_BAM_REQUESTOV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_ChangeRequestProfilesAnno0"],
+                    "localUri": "localService/C_ChangeRequestProfiles/metadata.xml"
+                }
+            },
+            "C_ChangeRequestProfilesAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCLM_BAM_REQUESTOV_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_ChangeRequestProfiles/C_ChangeRequestProfiles_annotations_0.xml"
+                }
+            },
+            "C_BankAccountRevisionProfiles": {
+                "uri": "/sap/opu/odata/sap/FCLM_BAM_REVISIONOV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_BankAccountRevisionProfilesAnno0"],
+                    "localUri": "localService/C_BankAccountRevisionProfiles/metadata.xml"
+                }
+            },
+            "C_BankAccountRevisionProfilesAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCLM_BAM_REVISIONOV_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_BankAccountRevisionProfiles/C_BankAccountRevisionProfiles_annotations_0.xml"
+                }
+            },
+            "FCLM_BRM_BANKFEEOV_SRV": {
+                "uri": "/sap/opu/odata/sap/FCLM_BRM_BANKFEEOV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCLM_BRM_BANKFEEOV_ANNO_MDL"],
+                    "odataVersion": "2.0",
+                    "localUri": "localService/FCLM_BRM_BANKFEEOV_SRV/metadata.xml"
+                }
+            },
+            "FCLM_BRM_BANKFEEOV_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCLM_BRM_BANKFEEOV_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCLM_BRM_BANKFEEOV_SRV/FCLM_BRM_BANKFEEOV_ANNO_MDL.xml"
+                }
+            },
+            "FCLM_BAM_BANKGROUPOV_SRV": {
+                "uri": "/sap/opu/odata/sap/FCLM_BAM_BANKGROUPOV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCLM_BAM_BANKGROUPOV_SRVAnno0"],
+                    "localUri": "localService/FCLM_BAM_BANKGROUPOV_SRV/metadata.xml"
+                }
+            },
+            "FCLM_BAM_BANKGROUPOV_SRVAnno0": {
+                "uri": "localService/FCLM_BAM_BANKGROUPOV_SRV/FCLM_BAM_BANKGROUPOV_SRV_annotations_0.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCLM_BAM_BANKGROUPOV_SRV/FCLM_BAM_BANKGROUPOV_SRV_annotations_0.xml"
+                }
+            },
+            "C_PaymentByHouseBankAccount": {
+                "uri": "/sap/opu/odata/sap/FCLM_BAM_PAYMENTBYBANKACCOV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_PaymentByHouseBankAccountAnno0"],
+                    "localUri": "localService/C_PaymentByHouseBankAccount/metadata.xml"
+                }
+            },
+            "C_PaymentByHouseBankAccountAnno0": {
+                "uri": "localService/C_PaymentByHouseBankAccount/C_PaymentByHouseBankAccount_annotations_0.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_PaymentByHouseBankAccount/C_PaymentByHouseBankAccount_annotations_0.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_BankAcctProfiles": {
+                "dataSource": "C_BankAcctProfiles",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_ChangeRequestProfiles": {
+                "dataSource": "C_ChangeRequestProfiles",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_BankAccountRevisionProfiles": {
+                "dataSource": "C_BankAccountRevisionProfiles",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "FCLM_BRM_BANKFEEOV_SRV": {
+                "uri": "/sap/opu/odata/sap/FCLM_BRM_BANKFEEOV_SRV/",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "FCLM_BRM_BANKFEEOV_SRV",
+                "preload": true
+            },
+            "FCLM_BAM_BANKGROUPOV_SRV": {
+                "dataSource": "FCLM_BAM_BANKGROUPOV_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PaymentByHouseBankAccount": {
+                "dataSource": "C_PaymentByHouseBankAccount",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.cash.brm.bankrelationship.overview.ext.controller.customConfiguration"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3775"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "FCLM_BRM_BANKFEEOV_SRV",
+        "globalFilterEntityType": "C_BankFeeOverviewResult",
+        "enableLiveFilter": true,
+        "containerLayout": "resizable",
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "fin_cash_brm_bankrelationship_overview_card01": {
+                "model": "C_PaymentByHouseBankAccount",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{fin_cash_brm_bankrelationship_overview_card01_title}}",
+                    "subTitle": "{{fin_cash_brm_bankrelationship_overview_card01_subtitle}}",
+                    "entitySet": "C_PaymentByHouseBankAccountResults",
+                    "addODataSelect": true,
+                    "sortBy": "OutgoingPaymentQuantity",
+                    "sortOrder": "descending",
+                    "customParams": "toBankStatement",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PaymentByHouseBank",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#defaultViewSetting",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PaymentByHouseBank",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#toBankStatement",
+                    "value": "{{payment_group1}}",
+                    "defaultSpan": {
+                        "rows": 3,
+                        "cols": 7
+                    }
+                }
+            },
+            "fin_cash_brm_bankrelationship_overview_card02": {
+                "model": "FCLM_BAM_BANKGROUPOV_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{fin_cash_brm_bankrelationship_overview_card02_title}}",
+                    "subTitle": "{{fin_cash_brm_bankrelationship_overview_card02_subTitle}}",
+                    "entitySet": "C_BankProfilesBankGroup",
+                    "sortBy": "UnderBankGroupBankQuantity",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#BankProfilePresent",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#BankProfileHierarchy",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "defaultSpan": {
+                        "rows": 3,
+                        "cols": 4
+                    }
+                }
+            },
+            "fin_cash_brm_bankrelationship_overview_card03": {
+                "model": "FCLM_BRM_BANKFEEOV_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{fin_cash_brm_bankrelationship_overview_card03_title}}",
+                    "subTitle": "{{fin_cash_brm_bankrelationship_overview_card03_subTitle}}",
+                    "entitySet": "C_BankFeeOverviewResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#BankFeeTypeGroupChart",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ServiceAmountByServiceAndBankGroup",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ServiceAmountInDC"
+                }
+            },
+            "fin_cash_brm_bankrelationship_overview_card05": {
+                "model": "C_BankAcctProfiles",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{fin_cash_brm_bankrelationship_overview_card05_title}}",
+                    "subTitle": "{{fin_cash_brm_bankrelationship_overview_card05_subTitle}}",
+                    "tabs": [
+                        {
+                            "entitySet": "C_BankAcctProfiles",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AcctOverviewByCompany",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AcctOverviewByCompany",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{BY_COMPANY}}"
+                        },
+                        {
+                            "entitySet": "C_BankAccountProfilesByCountry",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AcctOverviewByCountry",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AcctOverviewByCountry",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{BY_COUNTRY}}"
+                        }
+                    ]
+                }
+            },
+            "fin_cash_brm_bankrelationship_overview_card06": {
+                "model": "C_ChangeRequestProfiles",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{fin_cash_brm_bankrelationship_overview_card06_title}}",
+                    "subTitle": "{{fin_cash_brm_bankrelationship_overview_card05_subTitle}}",
+                    "entitySet": "C_ChangeRequestProfiles",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReqOverview",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ReqOverview",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "fin_cash_brm_bankrelationship_overview_card07": {
+                "model": "C_BankAccountRevisionProfiles",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{fin_cash_brm_bankrelationship_overview_card05_title}}",
+                    "subTitle": "{{fin_cash_brm_bankrelationship_overview_card07_subTitle}}",
+                    "entitySet": "C_BankAccountRevisionProfiles",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RevOverview",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RevOverview",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            }
+        }
+    }
+}

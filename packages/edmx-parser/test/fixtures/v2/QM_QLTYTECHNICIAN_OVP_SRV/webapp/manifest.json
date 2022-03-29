@@ -1,0 +1,169 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "i2d.qm.qltytechnician.ovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "QM-FIO-IM",
+        "resources": "resources.json",
+        "dataSources": {
+            "QM_QLTYTECHNICIAN_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/QM_QLTYTECHNICIAN_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["QM_QLTYTECHNICIAN_OVP_ANNO_MDL", "annotation"],
+                    "localUri": "localService/QM_QLTYTECHNICIAN_OVP_SRV/metadata.xml"
+                }
+            },
+            "QM_QLTYTECHNICIAN_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='QM_QLTYTECHNICIAN_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/QM_QLTYTECHNICIAN_OVP_SRV/QM_QLTYTECHNICIAN_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "uri": "annotations/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "QM_QLTYTECHNICIAN_OVP_SRV": {
+                "preload": true,
+                "dataSource": "QM_QLTYTECHNICIAN_OVP_SRV",
+                "settings": {}
+            }
+        },
+        "extends": {
+            "component": "sap.ovp.app",
+            "minVersion": "1.32.0",
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "i2d.qm.qltytechnician.ovps1.ext.customFilter"
+                    }
+                }
+            }
+        },
+
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "QM_QLTYTECHNICIAN_OVP_SRV",
+        "globalFilterEntityType": "C_QltyTechnicianOVPType",
+        "containerLayout": "resizable",
+        "showDateInRelativeFormat": false,
+        "cards": {
+            "i2d.qm.qltytechnician.ovps1_card00": {
+                "model": "QM_QLTYTECHNICIAN_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.qm.qltytechnician.ovps1_card00_title}}",
+                    "subTitle": "{{i2d.qm.qltytechnician.ovps1_card00_subTitle}}",
+                    "entitySet": "C_InspectionLotOVP",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InspLotSelVar",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "InspectionLotCreatedOn",
+                    "sortOrder": "ascending",
+                    "addODataSelect": "false",
+                    "showFilterInHeader": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#inspLot"
+                }
+            },
+            "i2d.qm.qltytechnician.ovps1_card01": {
+                "model": "QM_QLTYTECHNICIAN_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qltytechnician.ovps1_card01_title}}",
+                    "subTitle": "{{i2d.qm.qltytechnician.ovps1_card01_subTitle}}",
+                    "entitySet": "C_InspLotResultRecordingOVP",
+                    "showFilterInHeader": false,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ResRecSelVar",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#resultRecording",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#InspectionLotSum",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "i2d.qm.qltytechnician.ovps1_card02": {
+                "model": "QM_QLTYTECHNICIAN_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qltytechnician.ovps1_card02_title}}",
+                    "subTitle": "{{i2d.qm.qltytechnician.ovps1_card02_subTitle}}",
+                    "entitySet": "C_InspLotSbstRsltRecOvwPg",
+                    "showFilterInHeader": false,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ResRecSbstVar",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#resultRecInspPoint",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#InspectionLotSum",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "paramForInspectionLotSubsetResultRecording"
+                }
+            },
+            "i2d.qm.qltytechnician.ovps1_card03": {
+                "model": "QM_QLTYTECHNICIAN_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.qm.qltytechnician.ovps1_card03_title}}",
+                    "subTitle": "{{i2d.qm.qltytechnician.ovps1_card03_subTitle}}",
+                    "entitySet": "C_QltyTskOpn",
+                    "sortBy": "NotifTaskPlannedEndDate",
+                    "sortOrder": "ascending",
+                    "addODataSelect": "false",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#tasks",
+                    "customParams": "paramsQltyTsk",
+                    "requireAppAuthorization": "#QualityTask-process"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2361"],
+        "archeType": "transactional"
+    }
+}

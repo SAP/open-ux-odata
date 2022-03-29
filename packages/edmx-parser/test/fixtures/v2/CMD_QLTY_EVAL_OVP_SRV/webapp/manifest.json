@@ -1,0 +1,504 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "CA-MDG-ADQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "CMD_QLTY_EVAL_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_EVAL_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["CMD_QLTY_EVAL_OVP_ANNO_MDL_01", "annotation"],
+                    "localUri": "localService/CMD_QLTY_EVAL_OVP_SRV/metadata.xml"
+                }
+            },
+            "CMD_QLTY_EVAL_OVP_ANNO_MDL_01": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_EVAL_OVP_ANNO_MDL_01',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_EVAL_OVP_SRV/CMD_QLTY_EVAL_OVP_ANNO_MDL_01.xml"
+                }
+            },
+            "kpi_card_model_cmd_qlty_eval_ovp_srv": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_EVAL_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["kpi_card_model_cmd_qlty_eval_ovp_srv_ANNO", "annotation"],
+                    "localUri": ""
+                }
+            },
+            "kpi_card_model_cmd_qlty_eval_ovp_srv_ANNO": {
+                "uri": "/sap/opu/odata/iwfnd/catalogservice;v=2/Annotations(TechnicalName='0894EF4591D11EE98CF125710F54B078',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": ""
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_EVAL_OVP_SRV/annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_EVAL_OVP_SRV/annotation.xml"
+                }
+            },
+            "CMD_QLTY_BP_GENERAL_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_BP_GENERAL_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml",
+                    "annotations": ["CMD_QLTY_BP_GENERAL_ALP_ANNO_MDL", "general_annotation"]
+                }
+            },
+            "general_annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_BP_GENERAL_ALP_SRV/general_annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_GENERAL_ALP_SRV/general_annotation.xml"
+                }
+            },
+            "CMD_QLTY_BP_CUST_SALES_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_BP_CUST_SALES_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml",
+                    "annotations": ["CMD_QLTY_BP_CUST_SALES__ANNO_MDL", "sales_annotation"]
+                }
+            },
+            "CMD_QLTY_BP_CUST_SALES__ANNO_MDL": {
+                "type": "ODataAnnotation",
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_BP_CUST_SALES__ANNO_MDL',Version='0001')/$value/",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_CUST_SALES_ALP_SRV/CMD_QLTY_BP_CUST_SALES__ANNO_MDL.xml"
+                }
+            },
+            "CMD_QLTY_BP_GENERAL_ALP_ANNO_MDL": {
+                "type": "ODataAnnotation",
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_BP_GENERAL_ALP_ANNO_MDL',Version='0001')/$value/",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_GENERAL_ALP_SRV/CMD_QLTY_BP_GENERAL_ALP_ANNO_MDL.xml"
+                }
+            },
+            "sales_annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_BP_CUST_SALES_ALP_SRV/sales_annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_CUST_SALES_ALP_SRV/sales_annotation.xml"
+                }
+            },
+            "CMD_QLTY_BP_SUPLR_PURG_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_BP_SUPLR_PURG_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml",
+                    "annotations": ["CMD_QLTY_BP_SUPLR_PURG__ANNO_MDL", "purgorg_annotation"]
+                }
+            },
+            "CMD_QLTY_BP_SUPLR_PURG__ANNO_MDL": {
+                "type": "ODataAnnotation",
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_BP_SUPLR_PURG__ANNO_MDL',Version='0001')/$value/",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_SUPLR_PURG_ALP_SRV/CMD_QLTY_BP_SUPLR_PURG__ANNO_MDL.xml"
+                }
+            },
+            "purgorg_annotation": {
+                "uri": "localService/CMD_QLTY_BP_SUPLR_PURG_APL_SRV/purgorg_annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_SUPLR_PURG_APL_SRV/purgorg_annotation.xml"
+                }
+            },
+            "CMD_QLTY_BP_CUST_CCODE_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_BP_CUST_CCODE_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_CUST_CCODE_ALP_SRV/metadata.xml",
+                    "annotations": ["CMD_QLTY_BP_CUST_CCODE__ANNO_MDL", "cust_ccode_annotation"]
+                }
+            },
+            "CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV/metadata.xml",
+                    "annotations": ["suplr_ccode_annotation", "CMD_QLTY_BP_SUPLR_CCODE_ANNO_MDL"]
+                }
+            },
+            "CMD_QLTY_BP_CUST_CCODE__ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_BP_CUST_CCODE__ANNO_MDL',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_CUST_CCODE_ALP_SRV/CMD_QLTY_BP_CUST_CCODE__ANNO_MDL.xml"
+                }
+            },
+            "cust_ccode_annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_BP_CUST_CCODE_ALP_SRV/cust_ccode_annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_CUST_CCODE_ALP_SRV/cust_ccode_annotation.xml"
+                }
+            },
+            "suplr_ccode_annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV/suplr_ccode_annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV/suplr_ccode_annotation.xml"
+                }
+            },
+            "CMD_QLTY_BP_SUPLR_CCODE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_BP_SUPLR_CCODE_ANNO_MDL',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV/CMD_QLTY_BP_SUPLR_CCODE_ANNO_MDL.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CMD_QLTY_EVAL_OVP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_EVAL_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_BP_GENERAL_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_BP_GENERAL_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_BP_CUST_SALES_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_BP_CUST_SALES_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "kpi_card_model_cmd_qlty_eval_ovp_srv": {
+                "preload": true,
+                "dataSource": "kpi_card_model_cmd_qlty_eval_ovp_srv",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_BP_SUPLR_PURG_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_BP_SUPLR_PURG_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_BP_CUST_CCODE_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_BP_CUST_CCODE_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3900"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "CMD_QLTY_EVAL_OVP_SRV",
+        "globalFilterEntityType": "",
+        "containerLayout": "resizable",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "A_Global_Category": {
+                "model": "kpi_card_model_cmd_qlty_eval_ovp_srv",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card00_title}}",
+                    "subTitle": "{{card00_subTitle}}",
+                    "kpiAnnotationPath": "com.sap.vocabularies.UI.v1.KPI#_GLOBAL_CAT_SCORE_BP",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_GLOBAL_CAT_SCORE_BP_NAV",
+                    "entitySet": "C_MDQltyDimnCatRuleScore",
+                    "stopResizing": false,
+                    "defaultSpan": {
+                        "rows": 2,
+                        "cols": 2,
+                        "showOnlyHeader": false
+                    },
+                    "navigation": "dataPointNav"
+                }
+            },
+            "B_Time_Series": {
+                "model": "kpi_card_model_cmd_qlty_eval_ovp_srv",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card01_title}}",
+                    "subTitle": "{{card01_subTitle}}",
+                    "entitySet": "C_MDQltyDimnCatRuleScore",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "addODataSelect": true,
+                    "stopResizing": false,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_GLOBAL_CAT_TREND_BP",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_GLOBAL_CAT_TREND_BP_V_SCORE_BY_TIME_DIMENSION",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##_GLOBAL_CAT_TREND_BP_V_SCORE_BY_TIME_DIMENSION",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_GLOBAL_CAT_TREND_BP_NAV",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "C_Evaluation_Date": {
+                "model": "CMD_QLTY_EVAL_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card02_title}}",
+                    "entitySet": "C_MDQltyDimnCatRuleScore",
+                    "addODataSelect": true,
+                    "stopResizing": false,
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "showDateInRelativeFormat": false,
+                    "sortBy": "MDChgProcessFinishDateTime",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TableCard",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#filterOTC",
+                    "category": "{{evaluation_detail_title}}",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "D_ALP_General": {
+                "model": "CMD_QLTY_BP_GENERAL_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{general_bp_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyBPGeneralResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "addODataSelect": true,
+                    "stopResizing": false,
+                    "staticParameters": {
+                        "MDQltyBusinessObjectTypeCode": "147"
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByBPCategory",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByBPCategory",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#General_ALP_Selection",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#General_ALP",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#General_ALP",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "E_ALP_Sales": {
+                "model": "CMD_QLTY_BP_CUST_SALES_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{sales_bp_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyBPCustSalesAreaResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "stopResizing": false,
+                    "addODataSelect": true,
+                    "staticParameters": {
+                        "MDQltyBusinessObjectTypeCode": "147"
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{By_Sales_Organization}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumEvalsBySalesOrg",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##TotalNumEvalsBySalesOrg",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Sales_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SALES_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#SALES_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_BP_Category}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByBPCategory",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByBPCategory",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Sales_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SALES_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#SALES_ALP",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "F_ALP_Purg": {
+                "model": "CMD_QLTY_BP_SUPLR_PURG_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{purgorg_bp_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyBPSuplrPurgOrgResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "stopResizing": false,
+                    "addODataSelect": true,
+                    "staticParameters": {
+                        "MDQltyBusinessObjectTypeCode": "147"
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{By_PurgOrg_Organization}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumEvalsByPurgOrg",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##TotalNumEvalsByPurgOrg",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PURG_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PURG_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PURG_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_BP_Category}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByBPCategory",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByBPCategory",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PURG_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PURG_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PURG_ALP",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "G_ALP_Cust_Ccode": {
+                "model": "CMD_QLTY_BP_CUST_CCODE_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{cust_ccode_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyBPCustCoCodeResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "stopResizing": false,
+                    "addODataSelect": true,
+                    "staticParameters": {
+                        "MDQltyBusinessObjectTypeCode": "147"
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{By_Customer_CCode}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumEvalsByCoCode",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##TotalNumEvalsByCoCode",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CUST_CCODE_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#CUST_CCODE_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CUST_CCODE_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_BP_Category}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByBPCategory",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByBPCategory",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CUST_CCODE_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#CUST_CCODE_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CUST_CCODE_ALP",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "H_ALP_Suplr_Ccode": {
+                "model": "CMD_QLTY_BP_SUPLR_CCODE_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{suplr_ccode_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyBPSuplrCoCodeResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "stopResizing": false,
+                    "addODataSelect": true,
+                    "staticParameters": {
+                        "MDQltyBusinessObjectTypeCode": "147"
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{By_Supplier_CCode}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumEvalsByResultBase",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##TotalNumEvalsByResultBase",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SUPLR_CCODE_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SUPLR_CCODE_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#SUPLR_CCODE_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_BP_Category}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByBPCategory",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByBPCategory",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SUPLR_CCODE_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SUPLR_CCODE_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#SUPLR_CCODE_ALP",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,384 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-RA-CP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FARR_CONTRACT_OVERVIEW/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FARR_CONTRACT_OVERVIEW_ANNO_MDL", "annotation"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FARR_CONTRACT_OVERVIEW_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FARR_CONTRACT_OVERVIEW_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FARR_CONTRACT_OVERVIEW_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "WebdynproContract": {
+                    "semanticObject": "RevenueAccountingContract",
+                    "action": "displayStructure"
+                },
+                "RevenueSchedule": {
+                    "semanticObject": "RevenueAccountingContract",
+                    "action": "manageRevenueSchedule"
+                },
+                "ChangeHistory": {
+                    "semanticObject": "RevenueAccountingContract",
+                    "action": "displayChangeHistory"
+                },
+                "POBDetail": {
+                    "semanticObject": "PerformanceObligation",
+                    "action": "managePerformanceObligation"
+                },
+                "DocumentFlow": {
+                    "semanticObject": "PerformanceObligation",
+                    "action": "displayDocumentFlow"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.fin.rar.lib": {
+                    "lazy": true
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "minVersion": "11.14.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.nw.core.gbt.notes.lib.reuse": {
+                    "minVersion": "1.25.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            },
+            "notesReuseComponent": {
+                "name": "sap.nw.core.gbt.notes.lib.reuse.notes4smarttemplate",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_RAContrWithPostedBalanceTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_RAContrWithPostedBalanceTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_RAContrWithPostedBalanceTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_RAContrWithPostedBalanceTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_RAPerfOblgnWthToCurPerdAmtTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_RAPerfOblgnWthToCurPerdAmtTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.rar.manage.contract.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.rar.manage.contract.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_RAContrWithPostedBalanceTP": {
+                                "EntitySet": "C_RAContrWithPostedBalanceTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_RAContrWithPostedBalanceTPHeader1": {
+                                            "id": "ActionC_RAContrWithPostedBalanceTPHeader1button",
+                                            "text": "{@i18n>ButtonRevenueSchedule}",
+                                            "press": "onClickRevenueSchedule"
+                                        },
+                                        "ActionC_RAContrWithPostedBalanceTPHeader2": {
+                                            "id": "ActionC_RAContrWithPostedBalanceTPHeader2button",
+                                            "text": "{@i18n>DisplayChangeHistory}",
+                                            "press": "onClickChangeHistory"
+                                        },
+                                        "ActionC_RAContrWithPostedBalanceTPHeader3": {
+                                            "id": "ActionC_RAContrWithPostedBalanceTPHeader4button",
+                                            "text": "{@i18n>Refresh}",
+                                            "press": "onRefresh"
+                                        }
+                                    }
+                                }
+                            },
+                            "C_RAPerfOblgnWthToCurPerdAmtTP": {
+                                "EntitySet": "C_RAPerfOblgnWthToCurPerdAmtTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_RAPerfOblgnWthToCurPerdAmtTPHeader1": {
+                                            "id": "ActionC_RAPerfOblgnWthToCurPerdAmtTPHeader1button",
+                                            "text": "{@i18n>ButtonDocumentFlow}",
+                                            "press": "onClickDocumentFlow"
+                                        },
+                                        "ActionC_RAPerfOblgnWthToCurPerdAmtTPHeader2": {
+                                            "id": "ActionC_RAPerfOblgnWthToCurPerdAmtTPHeader2button",
+                                            "text": "{@i18n>Refresh}",
+                                            "press": "onRefresh"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_RAPerfOblgnWthToCurPerdAmtTP|PobList": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.POBListOperDocuColumn"
+                        },
+                        "ResponsiveTableCellsExtension|C_RAPerfOblgnWthToCurPerdAmtTP|PobList": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.POBListOperDocuCell"
+                        },
+                        "AfterHeaderFacet|C_RAContrWithPostedBalanceTP|headerEditable::header3": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.ContractStatusCompDate"
+                        },
+                        "SmartFormExtension|C_RAPerfOblgnWthToCurPerdAmtTP|PobAlloc": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.SSPriceToleranceForm"
+                        },
+                        "ReplaceFacet|C_RAPerfOblgnWthToCurPerdAmtTP|PobCondType": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.ConditionTypesAndAccountsFacet"
+                        },
+                        "BeforeHeaderFacet|C_RAPerfOblgnWthToCurPerdAmtTP|headerEditable::header": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.ObjPageExtension"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_RAContrWithPostedBalanceTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.ContractListColumns"
+                        },
+                        "ResponsiveTableCellsExtension|C_RAContrWithPostedBalanceTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manage.contract.ext.fragment.ContractListCells"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_RAContrWithPostedBalanceTP": {
+                "entitySet": "C_RAContrWithPostedBalanceTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_RAContrWithPostedBalanceTP": {
+                        "entitySet": "C_RAContrWithPostedBalanceTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showConfirmationOnDraftActivate": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{AttachmentsTitle}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "FARR_CONTR",
+                                    "objectKey": "{parts: [{path: 'RevenueAccountingContract'}, {value: '14'}], formatter: 'fin.rar.manage.contract.ext.util.Utility.formatContract'}",
+                                    "isGuid": false,
+                                    "flavor": "withCheckin",
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": false,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true,
+                                            "DOWNLOAD": true
+                                        }
+                                    }
+                                }
+                            },
+                            "notesComponent": {
+                                "id": "notesComponent",
+                                "componentUsage": "notesReuseComponent",
+                                "title": "{{NOTES_TITLE}}",
+                                "settings": {
+                                    "objectNodeType": "RevenueAccountingContract",
+                                    "objectId": "{parts: [{path: 'RevenueAccountingContract'}, {value: '14'}], formatter: 'fin.rar.manage.contract.ext.util.Utility.formatContract'}",
+                                    "draftUUID": "{DraftUUID}",
+                                    "noteTypes": ["FARR_MNG_CONTR_MULTI"]
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_RAPerfOblgnWithToCurPerdAmt": {
+                                "navigationProperty": "to_RAPerfOblgnWithToCurPerdAmt",
+                                "entitySet": "C_RAPerfOblgnWthToCurPerdAmtTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3883"],
+        "archeType": "transactional"
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/fin_contract"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "digitalAssistant": {
+            "intentDefinition": {
+                "Skill1": {
+                    "uri": "/copilot/Skill.xml",
+                    "dataSources": ["FARR_CONTRACT_OVERVIEW"],
+                    "i18n": "/copilot/i18n.properties"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,346 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-SDS",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHS_SDS_SHPT_MON_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHS_SDS_SHPT_MON_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHS_SDS_SHPT_MON_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHS_SDS_SHPT_MON_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHS_SDS_SHPT_MON_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "monitorSDSShipment": {
+                    "semanticObject": "CompliancePatternSDSManagement",
+                    "action": "monitorShipment",
+                    "deviceTypes": {
+                        "desktop": true,
+                        "tablet": true,
+                        "phone": false
+                    },
+                    "signature": {
+                        "parameters": {
+                            "SftyDataShtOutpReqItmNavgnLink": {
+                                "defaultValue": {
+                                    "value": "",
+                                    "format": "plain"
+                                },
+                                "required": false
+                            }
+                        },
+                        "additionalParameters": "ignored"
+                    }
+                }
+            },
+            "outbounds": {
+                "displaySDSShipmentItem": {
+                    "semanticObject": "CompliancePatternSDSManagement",
+                    "action": "monitorShipment",
+                    "parameters": {
+                        "SftyDataShtOutpReqItmNavgnLink": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.core": {},
+                "sap.ui.fl": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.unified": {
+                    "lazy": true
+                },
+                "sap.ehs.fnd.lib.reuse.pc": {
+                    "lazy": true
+                },
+                "sap.ssuite.fnd.om.outputcontrol": {
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "reusepc_i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.ehs.fnd.lib.reuse.pc.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ehs.sds.shpt.mons1.ext.controller.ObjectPageExtension",
+                        "sap.ui.generic.app": {
+                            "C_SftyDataShtOutpReqMntr": {
+                                "EntitySet": "C_SftyDataShtOutpReqMntr",
+                                "Sections": {},
+                                "Header": {
+                                    "Actions": {
+                                        "sap.ehs.fnd.lib.reuse.pc.fnd.controller.DynamicNavigationController": {
+                                            "id": "ActionOpenComplReq",
+                                            "text": "{@i18n>ehs.sds.shpt.mons1.viewCmplReq.button.text}",
+                                            "press": "ActionDisplayCmplRequest"
+                                        },
+                                        "ehs.sds.shpt.mons1.ext.controller.ObjectPageExtension|RETRY": {
+                                            "id": "ActionRetry",
+                                            "text": "{@i18n>ehs.sds.shpt.mons1.retry.button.text}",
+                                            "press": "onRetryFailedAction"
+                                        },
+                                        "ehs.sds.shpt.mons1.ext.controller.ObjectPageExtension|GENLOG": {
+                                            "id": "ActionViewGenLog",
+                                            "text": "{@i18n>ehs.sds.shpt.mons1.viewGenLog.button.text}",
+                                            "press": "onHandleAction"
+                                        },
+                                        "ehs.sds.shpt.mons1.ext.controller.ObjectPageExtension|SHPLOG": {
+                                            "id": "ActionViewShpLog",
+                                            "text": "{@i18n>ehs.sds.shpt.mons1.viewShpLog.button.text}",
+                                            "press": "onHandleAction"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_SftyDataShtOutpReqMntr|UPComplianceViewCOL": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "sap.ehs.fnd.lib.reuse.pc.cci.view.RoleView",
+                            "id": "roleView",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "AfterFacet|C_SftyDataShtOutpReqMntr|SafetyDatasheetsCOL": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ehs.sds.shpt.mons1.ext.view.OutputManagement",
+                            "id": "outputMgmtView",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "config": {
+            "sap.ehs.fnd.lib.reuse.pc": {
+                "sap.ehs.fnd.lib.reuse.pc.cci.controller.RoleHeaderExtension": {
+                    "NameRef": "ChmlCmplncInfoUnpckgdProdName",
+                    "MaterialRef": "ChmlCmplncProdMaterial"
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.DynamicNavigationController": {
+                    "NavigationConfiguration": {
+                        "SemanticObject": "ComplianceRequest",
+                        "SemanticObjectAction": "manage",
+                        "NavigationParameters": [
+                            {
+                                "Name": "ChmlCmplncRequestNavgnLink",
+                                "Value": "{ChmlCmplncRequestNavgnLink}"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "useColumnLayoutForSmartForm": false,
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|C_SftyDataShtOutpReqMntr": {
+                "entitySet": "C_SftyDataShtOutpReqMntr",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true,
+                        "quickVariantSelectionX": {
+                            "enableAutoBinding": true,
+                            "showCounts": true,
+                            "variants": {
+                                "0": {
+                                    "key": "_tab1",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SftyDataShtOutpFailed"
+                                },
+                                "1": {
+                                    "key": "_tab2",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SftyDataShtOutpCompleted"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_SftyDataShtOutpReqMntr": {
+                        "entitySet": "C_SftyDataShtOutpReqMntr",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": {
+                            "ObjectPage|to_RequestBundle": {
+                                "navigationProperty": "to_RequestBundle",
+                                "entitySet": "C_SftyDataShtOutpReqBndl",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{ehs.sds.shpt.mons1.section.safetydatasheets.title}}",
+                                "settings": {
+                                    "mode": "'D'",
+                                    "objectType": "EHSDS_DOC",
+                                    "objectKey": "{SftyDataShtOutpReqUUID}",
+                                    "isGuid": true,
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": false,
+                                            "SOURCE": true,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": false,
+                                            "DELETE": false,
+                                            "ADD": false,
+                                            "ADDURL": false,
+                                            "DOWNLOAD": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4309"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

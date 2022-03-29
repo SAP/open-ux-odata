@@ -1,0 +1,277 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2676"],
+        "archeType": "analytical"
+    },
+    "sap.app": {
+        "id": "scm.tm.freightorderquantityovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "TM-CF-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_FRTORDQUANTITYQUERY_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FRTORDQUANTITYQUERY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_FRTORDQUANTITYQUERY_CDS_VAN"],
+                    "localUri": "localService/C_FRTORDQUANTITYQUERY_CDS/metadata.xml"
+                }
+            },
+            "C_FRTORDQUANTITYQUERY_CDS_VAN": {
+                "uri": "localService/C_FRTORDQUANTITYQUERY_CDS/C_FRTORDQUANTITYQUERY_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_FRTORDQUANTITYQUERY_CDS/C_FRTORDQUANTITYQUERY_CDS_VAN.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.56.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.44.3"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_FRTORDQUANTITYQUERY_CDS": {
+                "preload": true,
+                "dataSource": "C_FRTORDQUANTITYQUERY_CDS",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "component": "sap.ovp.app",
+            "minVersion": "1.44.3",
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "C_FRTORDQUANTITYQUERY_CDS",
+        "globalFilterEntityType": "C_FRTORDQUANTITYQUERYResult",
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "tmafrtordqtyovp_card01": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_grossWeight_title}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#GrossWeightLine",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#GrossWeightLine",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#GrossWeightLine",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GrossWeightWOLable",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant"
+                }
+            },
+            "tmafrtordqtyovp_card02": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_grossVolume_title}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#GrossVolumeLine",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#GrossVolumeLine",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GrossVolumeWOLable",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#GrossVolumeLine"
+                }
+            },
+            "tmafrtordqtyovp_card03": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_quantity_title}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#QuantityLine",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#QuantityLine",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QuantityWOLable",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#QuantityLine"
+                }
+            },
+            "tmafrtordqtyovp_card04": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalBubble_trModeCat_title}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TrModeCatBubble",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#TrModeCatBubble",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfTransportationOrders",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TrModeCatBubble"
+                }
+            },
+            "tmafrtordqtyovp_card05": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card_Table_logisticNetwork_title}}",
+                    "subTitle": "{{card_Table_logisticNetwork_subTitle}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "sortBy": "TranspOrdGrossWeightInDspUnit",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LogisticNetwork",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LogisticNetwork",
+                    "ignoreSapText": true
+                }
+            },
+            "tmafrtordqtyovp_card06": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_carrierQuantities_title}}",
+                    "subTitle": "{{card_List_carrierQuantities_subTitle}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "TranspOrdGrossWeightInDspUnit",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#CarrierQuantities",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CarrierQuantities",
+                    "ignoreSapText": true
+                }
+            },
+            "tmafrtordqtyovp_card07": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_carrierUtilization_title}}",
+                    "subTitle": "{{card_List_carrierUtilization_subTitle}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "TranspOrdMaxUtilznRatio",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#CarrierUtilization",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CarrierUtilization",
+                    "ignoreSapText": true
+                }
+            },
+            "tmafrtordqtyovp_card08": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card_Table_trModeCatQuantity_title}}",
+                    "subTitle": "{{card_Table_trModeCatQuantity_subTitle}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "sortBy": "TranspOrdGrossWeightInDspUnit",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TrModeCatQuantity",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TrModeCatQuantity",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "tmafrtordqtyovp_card09": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card_Table_trModeCatDistance_title}}",
+                    "subTitle": "{{card_Table_trModeCatDistance_subTitle}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "sortBy": "TranspOrdStageDstncInDspUnit",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TrModeCatDistance",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TrModeCatDistance",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "tmafrtordqtyovp_card10": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_shipperQuantities_title}}",
+                    "subTitle": "{{card_List_shipperQuantities_subTitle}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "TranspOrdGrossWeightInDspUnit",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ShipperQuantities",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ShipperQuantities",
+                    "ignoreSapText": true
+                }
+            },
+            "tmafrtordqtyovp_card11": {
+                "model": "C_FRTORDQUANTITYQUERY_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_consigneeQuantities_title}}",
+                    "subTitle": "{{card_List_consigneeQuantities_subTitle}}",
+                    "entitySet": "C_FRTORDQUANTITYQUERYResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "TranspOrdGrossWeightInDspUnit",
+                    "sortOrder": "descending",
+                    "addODataSelect": "false",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ConsigneeQuantities",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ConsigneeQuantities",
+                    "ignoreSapText": true
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/scm.tm.freightorderquantityovps1/webapp",
+        "_version": "1.1.0"
+    }
+}

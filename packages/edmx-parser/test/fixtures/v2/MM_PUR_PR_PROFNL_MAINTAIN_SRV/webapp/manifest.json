@@ -1,0 +1,477 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-FIO-PUR-REQ-PRF",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_PR_PROFNL_MAINTAIN_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_PR_PROFNL_MAINTA_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_PR_PROFNL_MAINTA_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_PR_PROFNL_MAINTA_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_PR_PROFNL_MAINTA_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "MEREQ_WEBGUI": {
+                    "semanticObject": "PurchaseRequisition",
+                    "action": "displayAdvanced"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "ext/css/StyleExt.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {
+                    "forceGlobalRefresh": false
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.s2p.mm.lib.reuse.text": {
+                    "lazy": true,
+                    "minVersion": "10.3.0"
+                },
+                "sap.ui.s2p.mm.lib.reuse.oci": {
+                    "lazy": true,
+                    "minVersion": "10.3.0"
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "lazy": true
+                },
+                "sap.s4.cfnd.lib.businessprocessflow": {
+                    "lazy": true
+                },
+                "s4.cfnd.sit.reuse": {
+                    "lazy": false
+                },
+                "sap.io.bpm.sworkfloweditor.lib.reuse": {
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.ui.s2p.mm.lib.reuse.text.component": {
+                    "minVersion": "10.3.0"
+                },
+                "sap.ui.s2p.mm.lib.reuse.oci.component": {
+                    "minVersion": "10.3.0"
+                },
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {},
+                "sap.s4.cfnd.lib.businessprocessflow.component.smarttemplate": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_PurchaseReqnHeader": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_PurchaseReqnHeader/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_PurchaseReqnHeader": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_PurchaseReqnHeader/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_PurchaseReqnItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_PurchaseReqnItem/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "situationModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterFacet|C_PurchaseReqnItem|iDeliveryAddressFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.profrequisition.maintains1.ext.view.ItemNotes",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Notes}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "AfterFacet|C_PurchaseReqnLimitItem|iDeliveryAddress": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.profrequisition.maintains1.ext.view.ItemNotes",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Notes}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "BeforeFacet|C_PurchaseReqnItem|iGeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.profrequisition.maintains1.ext.view.SitnPurContrRdyToUseRelInfo",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>SitnPurContrRdyToUseRelInfo}",
+                                "enableLazyLoading": true
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_PurchaseReqnHeader": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.profrequisition.maintains1.ext.view.fragment.PurchaseReqnTableColumnsExt",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_PurchaseReqnHeader": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.profrequisition.maintains1.ext.view.fragment.PurchaseReqnTableCellsExt",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "className": "sap.ui.core.mvc.Controller",
+                        "controllerName": "ui.s2p.mm.profrequisition.maintains1.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.profrequisition.maintains1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_PurchaseReqnHeader": {
+                                "EntitySet": "C_PurchaseReqnHeader",
+                                "Sections": {
+                                    "to_PurchaseReqnItem::com.sap.vocabularies.UI.v1.LineItem::Item": {
+                                        "id": "to_PurchaseReqnItem::com.sap.vocabularies.UI.v1.LineItem::Item",
+                                        "preliminaryContext": true,
+                                        "Actions": {
+                                            "CopyItems": {
+                                                "id": "iCopyItembutton",
+                                                "text": "{@i18n>copyItems}",
+                                                "press": "onCopyItems",
+                                                "requiresSelection": true
+                                            },
+                                            "CreateItems": {
+                                                "id": "iCreateItembutton",
+                                                "press": "onItemCreateMenuOpen",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_PurchaseReqnItem::com.sap.vocabularies.UI.v1.LineItem::LimitItem": {
+                                        "id": "to_PurchaseReqnItem::com.sap.vocabularies.UI.v1.LineItem::LimitItem",
+                                        "preliminaryContext": true,
+                                        "Actions": {
+                                            "CreateLimitItems": {
+                                                "id": "iCreateLimitItembutton",
+                                                "press": "onLimitItemCreateMenuOpen",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_PurchaseReqnItem": {
+                                "EntitySet": "C_PurchaseReqnItem",
+                                "Sections": {
+                                    "iAssignedSOS": {
+                                        "id": "iAssignedSOS",
+                                        "preliminaryContext": true,
+                                        "Actions": {
+                                            "ActionC_PurchaseReqnItemSections1": {
+                                                "id": "ActionC_PurchaseReqnItemSections1button",
+                                                "text": "{@i18n>ActionC_PurchaseReqnItemSections1}",
+                                                "press": "onClickActionC_PurchaseReqnItemSections1",
+                                                "requiresSelection": false
+                                            },
+                                            "ActionC_PurchaseReqnItemSections2": {
+                                                "id": "ActionC_PurchaseReqnItemSections2button",
+                                                "text": "{@i18n>Action_delete}",
+                                                "press": "onClickActionC_PurchaseReqnItemSections2",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_PurchaseReqnHeader",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_PurchaseReqnHeader",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "allowDeepLinking": true,
+                                "preliminaryContext": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "workflowComponent": {
+                                "id": "workflowComponent",
+                                "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.stworkflowinstance",
+                                "title": "{{WorkflowTitle}}",
+                                "settings": {
+                                    "objectIdentifier": "{parts:[{path:'PurchaseRequisition'},{path:'PurchaseRequisitionItem'},{path:'IsPurReqnOvrlRel'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.returnObjIdentifier'}",
+                                    "scenarioId": "{parts:[{path:'WorkflowScenarioDefinition'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.returnscenarioId'}",
+                                    "objectContext": "empty string",
+                                    "routePrefix": "ApprovalDetHeader",
+                                    "enableLazyLoading": true,
+                                    "stRefreshTrigger": "{TotalNetAmount}"
+                                },
+                                "pages": [
+                                    {
+                                        "routingSpec": {
+                                            "noOData": true,
+                                            "routeName": "ApprovalDetHeaderstepDetails",
+                                            "headerTitle": "{{workflowComponentStepDetailsTitle}}",
+                                            "typeImageUrl": ""
+                                        },
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.Canvas"
+                                        },
+                                        "implementingComponent": {
+                                            "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.ststep"
+                                        }
+                                    },
+                                    {
+                                        "routingSpec": {
+                                            "noOData": true,
+                                            "routeName": "ApprovalDetHeaderroles",
+                                            "headerTitle": "{{workflowComponentRolesTitle}}",
+                                            "typeImageUrl": ""
+                                        },
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.Canvas"
+                                        },
+                                        "implementingComponent": {
+                                            "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.stteamfunctions"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_PurchaseReqnItem",
+                                "entitySet": "C_PurchaseReqnItem",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true,
+                                        "preliminaryContext": true
+                                    }
+                                },
+                                "embeddedComponents": {
+                                    "simple::Attachments": {
+                                        "id": "simple::Attachments",
+                                        "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                        "title": "{{Attachment}}",
+                                        "settings": {
+                                            "mode": "{parts:[{path:'ui>/editable'},{path:'Update_mc'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.isAttachmentEditable'}",
+                                            "objectType": "EBAN",
+                                            "objectKey": "{parts:[{path:'PurchaseRequisition'},{path:'PurchaseRequisitionItemForEdit'},{path:'DraftUUID'},{path:'HasActiveEntity'},{path:'IsActiveEntity'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.returnAttachmentKey'}",
+                                            "enableLazyLoading": true
+                                        }
+                                    },
+                                    "simple::status": {
+                                        "id": "simple::status",
+                                        "componentName": "sap.s4.cfnd.lib.businessprocessflow.component.smarttemplate",
+                                        "propogateModel": true,
+                                        "title": "{{processFlow}}",
+                                        "settings": {
+                                            "layoutID": "C_PurReqnProcessFlow",
+                                            "docID": "{parts:[{path:'PurchaseRequisition'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.padHeader'}",
+                                            "item": "{parts:[{path:'PurchaseRequisitionItem'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.padItem'}",
+                                            "keyName": "PurchaseRequisition",
+                                            "itemKeyName": "PurchaseRequisitionItem",
+                                            "enableLazyLoading": true
+                                        }
+                                    },
+                                    "simple::Root": {
+                                        "id": "simple::Root",
+                                        "componentName": "s4.cfnd.sit.reuse.pc",
+                                        "title": "{{situations}}",
+                                        "hiddenByDefault": true,
+                                        "settings": {
+                                            "anchorObjectKey": "{parts:[{path:'PurchaseReqnItemUniqueID'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.padItemUniqueid'}",
+                                            "anchorObjectType": "PurchaseReqnItemUniqueID",
+                                            "preselectedSituationInstanceId": "{path:'situationModel>/preselectedSituationInstanceId'}",
+                                            "situationModelName": "situationModel",
+                                            "situationDataProperty": "/situationData",
+                                            "selectedSituationProperty": "/selectedSituation"
+                                        }
+                                    },
+                                    "workflowComponent": {
+                                        "id": "workflowComponent",
+                                        "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.stworkflowinstance",
+                                        "title": "{{WorkflowTitle}}",
+                                        "settings": {
+                                            "objectIdentifier": "{parts:[{path:'PurchaseRequisition'},{path:'PurchaseRequisitionItem'},{path:'IsPurReqnOvrlRel'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.returnObjIdentifier'}",
+                                            "scenarioId": "{parts:[{path:'WorkflowScenarioDefinition'}],formatter:'ui.s2p.mm.profrequisition.maintains1.ext.util.formatter.returnscenarioId'}",
+                                            "objectContext": "empty string",
+                                            "routePrefix": "ApprovalDet",
+                                            "enableLazyLoading": true,
+                                            "stRefreshTrigger": "{ItemNetAmount}{Plant}{AccountAssignmentCategory}{MaterialGroup}{PurchasingOrganization}{PurchasingGroup}"
+                                        },
+                                        "pages": [
+                                            {
+                                                "routingSpec": {
+                                                    "noOData": true,
+                                                    "routeName": "ApprovalDetstepDetails",
+                                                    "headerTitle": "{{workflowComponentStepDetailsTitle}}",
+                                                    "typeImageUrl": ""
+                                                },
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.Canvas"
+                                                },
+                                                "implementingComponent": {
+                                                    "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.ststep"
+                                                }
+                                            },
+                                            {
+                                                "routingSpec": {
+                                                    "noOData": true,
+                                                    "routeName": "ApprovalDetroles",
+                                                    "headerTitle": "{{workflowComponentRolesTitle}}",
+                                                    "typeImageUrl": ""
+                                                },
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.Canvas"
+                                                },
+                                                "implementingComponent": {
+                                                    "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.stteamfunctions"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "pages": [
+                                    {
+                                        "navigationProperty": "to_PurchaseReqnAcctAssgmt",
+                                        "entitySet": "C_PurchaseReqnAcctAssgmt",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                                            "settings": {
+                                                "enableLazyLoading": true
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2229"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

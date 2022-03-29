@@ -1,0 +1,189 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.5.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-OIL-DS",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EXG_EXCHANGE_AGREEMENT_DISPLAY/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EXG_EXCHANGE_AGREEMENT__ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EXG_EXCHANGE_AGREEMENT__ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EXG_EXCHANGE_AGREEMENT__ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EXG_EXCHANGE_AGREEMENT__ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ExchangeAgreement": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ExchangeAgreement/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ExchangeAgreement": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ExchangeAgreement/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "oil.exg.exchanges1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_ExchangeAgreement": {
+                                "EntitySet": "C_ExchangeAgreement",
+                                "Sections": {
+                                    "SalesContract": {
+                                        "id": "SalesContract",
+                                        "Actions": {
+                                            "ActionZc_Exchange_AgreementSections2": {
+                                                "id": "ActionZc_Exchange_AgreementSections2",
+                                                "text": "{@i18n>salesContractButtonText}",
+                                                "press": "onClickActionZc_Exchange_SalseContract",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "PurchaseContract": {
+                                        "id": "PurchaseContract",
+                                        "Actions": {
+                                            "ActionZc_Exchange_AgreementSections1": {
+                                                "id": "ActionZc_Exchange_AgreementSections1",
+                                                "text": "{@i18n>purchaseContractButtonText}",
+                                                "press": "onClickActionZc_Exchange_PurchaseContract",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_ExchangeAgreement",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_ExchangeAgreement",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2717"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

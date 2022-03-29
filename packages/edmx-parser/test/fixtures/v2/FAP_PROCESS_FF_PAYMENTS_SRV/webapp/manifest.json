@@ -1,0 +1,280 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-AP",
+        "resources": "resources.json",
+        "crossNavigation": {
+            "inbounds": {
+                "PaymentRequest-process": {
+                    "semanticObject": "PaymentRequest",
+                    "action": "process",
+                    "signature": {
+                        "parameters": {
+                            "CompanyCode": {
+                                "defaultValue": {
+                                    "value": "UserDefault.extended.CompanyCode",
+                                    "format": "reference"
+                                }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "AccountingDocument-manage": {
+                    "semanticObject": "AccountingDocument",
+                    "action": "manage",
+                    "parameters": {
+                        "AccountingDocument": {},
+                        "AccountingDocumentItem": {},
+                        "ClearingAccountingDocument": {},
+                        "CompanyCode": {}
+                    }
+                }
+            }
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAP_PROCESS_FF_PAYMENTS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAP_PROCESS_FF_PAYMENTS_ANNO_MDL", "annotation"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FAP_PROCESS_FF_PAYMENTS_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAP_PROCESS_FF_PAYMENTS_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAP_PROCESS_FF_PAYMENTS_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.ui.unified": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_PaymentRequest": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_PaymentRequest/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_PaymentRequest": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_PaymentRequest/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none",
+                        "sap-documentation": "heading,quickinfo"
+                    },
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": true
+                }
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "services": {
+            "ShellUIService": {
+                "factoryName": "sap.ushell.ui5service.ShellUIService"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_PaymentRequest": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.process.payments.ext.fragment.ListReportTableColumn"
+                        },
+                        "ResponsiveTableCellsExtension|C_PaymentRequest": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ap.process.payments.ext.fragment.ListReportTableCell"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.ap.process.payments.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_PaymentRequest": {
+                                "EntitySet": "C_PaymentRequest",
+                                "Actions": {
+                                    "DuplicateCheckAction": {
+                                        "id": "duplicateCheckBtn",
+                                        "text": "{{DUPLICATE_CHECK}}",
+                                        "press": "onDuplicateCheckBtnPress"
+                                    },
+                                    "CopyAction": {
+                                        "id": "CopyActionListReport",
+                                        "text": "{@i18n>COPY}",
+                                        "press": "onCopyBtnPress"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.ap.process.payments.ext.controller.DetailPageExt",
+                        "sap.ui.generic.app": {
+                            "C_PaymentRequest": {
+                                "EntitySet": "C_PaymentRequest",
+                                "Header": {
+                                    "Actions": {
+                                        "ManageTemplatesAction": {
+                                            "id": "ManageTemplatesActionBtn",
+                                            "text": "{@i18n>MANAGE_VARIANTS}",
+                                            "press": "onManageTemplatesActionBtnPress"
+                                        },
+                                        "GetTemplateAction": {
+                                            "id": "saveTemplateBtn",
+                                            "text": "{{SAVE_AS_VARIANT}}",
+                                            "press": "onSaveTemplateBtnPress"
+                                        },
+                                        "CopyAction": {
+                                            "id": "CopyActionObjectPage",
+                                            "text": "{@i18n>COPY}",
+                                            "press": "onCopyBtnPress"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded"
+            },
+            "objectPageDynamicHeaderTitleWithVM": false
+        },
+        "pages": [
+            {
+                "entitySet": "C_PaymentRequest",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_PaymentRequest",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2564"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

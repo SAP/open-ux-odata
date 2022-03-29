@@ -1,0 +1,275 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appTitle}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CEC-MKT-LM-DU",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/C_MKT_DMNDUNITMBRINTRSTQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["C_MKT_DMNDUNITMBRINTRSTQ_CDS_VAN", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "C_MKT_DMNDUNITMBRINTRSTQ_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_MKT_DMNDUNITMBRINTRSTQ_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_MKT_DMNDUNITMBRINTRSTQ_CDS_VAN.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "corporateAccountIconsService": {
+                "uri": "/sap/opu/odata/sap/CUAN_ACCOUNT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/CUAN_ACCOUNT_SRV/metadata.xml"
+                }
+            },
+            "CUAN_DEMAND_UNIT_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_DEMAND_UNIT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/CUAN_DEMAND_UNIT_SRV/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.41.1"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "DisplayMarketingContact": {
+                    "semanticObject": "MarketingContact",
+                    "action": "displayFactSheet",
+                    "parameters": {
+                        "CorporateAccountID": {
+                            "value": {
+                                "value": "CorporateAccountID",
+                                "format": "plain"
+                            },
+                            "required": true
+                        }
+                    },
+                    "additionalParameters": "ignored"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ca.ui": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "hpa.cei.dm.lib.ic": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties",
+                "settings": {
+                    "bundleName": "hpa.cei.demandunit.i18n.i18n"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18nQuery|sap.suite.ui.generic.template.AnalyticalListPage|C_MKT_DMNDUNITMBRINTRSTQResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_MKT_DMNDUNITMBRINTRSTQResults/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "corporateAccountIcons": {
+                "preload": true,
+                "dataSource": "corporateAccountIconsService",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "DemandUnit": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultUpdateMethod": "PUT",
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                },
+                "dataSource": "CUAN_DEMAND_UNIT_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "hpa.cei.demandunit.controller.ALPExt",
+                        "sap.ui.generic.app": {
+                            "C_MKT_InteractionQuery": {
+                                "EntitySet": "C_MKT_DMNDUNITMBRINTRSTQResults",
+                                "Actions": {
+                                    "ActionA": {
+                                        "id": "CreateAction",
+                                        "text": "{{table.header.button.create}}",
+                                        "press": "_onClickCreate"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "SmartFilterBarControlConfigurationExtension|C_MKT_DMNDUNITMBRINTRSTQResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.demandunit.fragment.CustomFilters",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MKT_DMNDUNITMBRINTRSTQResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.demandunit.fragment.ResponsiveCustomColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MKT_DMNDUNITMBRINTRSTQResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.demandunit.fragment.ResponsiveCustomColumnItems",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "AnalyticalListPage|C_MKT_DMNDUNITMBRINTRSTQResults": {
+                "entitySet": "C_MKT_DMNDUNITMBRINTRSTQResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "tableType": "ResponsiveTable",
+                        "multiSelect": true,
+                        "qualifier": "DefaultPresentationVariant",
+                        "autoHide": true,
+                        "showGoButtonOnFilterBar": false,
+                        "condensedTableLayout": true,
+                        "defaultContentView": "charttable",
+                        "keyPerformanceIndicators": {}
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MKT_DMNDUNITMBRINTRSTQResults": {
+                        "entitySet": "C_MKT_DMNDUNITMBRINTRSTQResults",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3973"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

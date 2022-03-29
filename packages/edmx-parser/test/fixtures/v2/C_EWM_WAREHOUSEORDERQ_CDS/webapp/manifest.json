@@ -1,0 +1,539 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "SCM-EWM-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_EWM_WAREHOUSEORDERQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_EWM_WAREHOUSEORDERQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["WhseOrderAnnotation"],
+                    "localUri": "localService/C_EWM_WAREHOUSEORDERQ/metadata.xml"
+                }
+            },
+            "WhseOrderAnnotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/WhseOrderAnnotation.xml",
+                "settings": {
+                    "localUri": "annotations/WhseOrderAnnotation.xml"
+                }
+            },
+            "C_EWM_WAREHOUSETASKQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_EWM_WAREHOUSETASKQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["WhseTaskAnnotation"],
+                    "localUri": "localService/C_EWM_WAREHOUSETASKQ/metadata.xml"
+                }
+            },
+            "WhseTaskAnnotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/WhseTaskAnnotation.xml",
+                "settings": {
+                    "localUri": "annotations/WhseTaskAnnotation.xml"
+                }
+            },
+            "C_EWM_WHSEKPIGLOBALFILTER_CDS": {
+                "uri": "/sap/opu/odata/sap/C_EWM_WHSEKPIGLOBALFILTER_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_EWM_WHSEKPIGLOBALFILTER/metadata.xml",
+                    "annotations": ["GlobalFilterAnnotation"]
+                }
+            },
+            "GlobalFilterAnnotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/GlobalFilterAnnotation.xml",
+                "settings": {
+                    "localUri": "annotations/GlobalFilterAnnotation.xml"
+                }
+            },
+            "C_EWM_OUTBDELIVORDNOPARAMQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_EWM_OUTBDELIVORDNOPARAMQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_EWM_OUTBDELIVORDNOPARAMQ_CDS/metadata.xml",
+                    "annotations": ["OutbDelivOrdNoParaAnnotation"]
+                }
+            },
+            "OutbDelivOrdNoParaAnnotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/OutbDelivOrdNoParaAnnotation.xml",
+                "settings": {
+                    "localUri": "annotations/OutbDelivOrdNoParaAnnotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false,
+                    "minVersion": ""
+                },
+                "sap.ui.comp": {
+                    "lazy": false,
+                    "minVersion": ""
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_EWM_WAREHOUSETASKQ_CDS": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "C_EWM_WAREHOUSETASKQ_CDS",
+                "preload": false
+            },
+            "C_EWM_WAREHOUSEORDERQ_CDS": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "C_EWM_WAREHOUSEORDERQ_CDS",
+                "preload": false
+            },
+            "C_EWM_WHSEKPIGLOBALFILTER_CDS": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "sizeLimit": 500,
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "C_EWM_WHSEKPIGLOBALFILTER_CDS",
+                "preload": true
+            },
+            "C_EWM_OUTBDELIVORDNOPARAMQ_CDS": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "scm.ewm.whseclerkovps1.ext.custom"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.ovp.app.Main": {
+                        "SmartFilterBarControlConfigurationExtension|C_EWM_WhseKPIGlobalFilterType": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "scm.ewm.whseclerkovps1.ext.customFilter",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4024"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "C_EWM_WHSEKPIGLOBALFILTER_CDS",
+        "globalFilterEntityType": "C_EWM_WhseKPIGlobalFilterType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "card_OpenODOByShipToParty": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_OpenODOByShipToParty_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "addODataSelect": true,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ShipToParty",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenODO",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    }
+                }
+            },
+            "card_NumOverdueByShipToParty": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_NumOverdueByShipToParty_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "addODataSelect": true,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ShipToParty",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OT",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    }
+                }
+            },
+            "card_OpenODOByStatus": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenODOByStatus_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ODOByStatus",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint"
+                }
+            },
+            "card_ConfODOByActualGIDate": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_ConfODOByActualGIDate_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ActualGIDate30Min",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActualGIDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ActualGIDate30Mins",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                            "value": "{{switch30Min}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ActualGIDate60Min",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActualGIDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ActualGIDate60Mins",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                            "value": "{{switch60Min}}"
+                        }
+                    ],
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card_OpenODOByPlannedGIDate": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenODOByPlannedGIDate_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OpenPlannedGI",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenODO",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byNum",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card_ODONoPickWTByPlannedGIDate": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_ODONoPickWTByPlannedGIDate_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlannedGI60Min",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NoPickWT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byNum",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                            "value": "{{sortByNum}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlannedGI60Min",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NoPickWT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byTimeDesc",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                            "value": "{{sortByTimeDesc}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlannedGI60Min",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NoPickWT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byTimeAsc",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                            "value": "{{sortByTimeAsc}}"
+                        }
+                    ],
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card_ODOBlockItemByPlannedGIDate": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_ODOBlockItemByPlannedGIDate_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BlockedItem",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BlockedItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#byNum",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card_ODOIncompleteWaveByPlannedGIDate": {
+                "model": "C_EWM_OUTBDELIVORDNOPARAMQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_ODOIncompleteWaveByPlannedGIDate_title}}",
+                    "entitySet": "C_EWM_OUTBDELIVORDNOPARAMQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ItemWaveIsIncomplete",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ItemWaveIsIncomplete",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.DLV.ODO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SSB",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card_OpenWOByQueue": {
+                "model": "C_EWM_WAREHOUSEORDERQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenWOByQueue_title}}",
+                    "entitySet": "C_EWM_WAREHOUSEORDERQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.WO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SmartBusinessWO",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant"
+                }
+            },
+            "card_ConfWOByQueue": {
+                "model": "C_EWM_WAREHOUSEORDERQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_ConfWOByQueue_title}}",
+                    "entitySet": "C_EWM_WAREHOUSEORDERQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Conf",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.WO"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SmartBusinessWO",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Conf"
+                }
+            },
+            "card_OpenWTByWPCat": {
+                "model": "C_EWM_WAREHOUSETASKQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenWTByWPCat_title}}",
+                    "entitySet": "C_EWM_WAREHOUSETASKQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#WPCat",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.WT"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SmartBusiness",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint"
+                }
+            },
+            "card_OpenWTByOT": {
+                "model": "C_EWM_WAREHOUSETASKQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenWTByOT_title}}",
+                    "entitySet": "C_EWM_WAREHOUSETASKQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OT",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OT",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OT",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.WT"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SmartBusiness",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card_OpenWTByActArea": {
+                "model": "C_EWM_WAREHOUSETASKQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenWTByActArea_title}}",
+                    "entitySet": "C_EWM_WAREHOUSETASKQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AA",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.WT"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SmartBusiness"
+                }
+            },
+            "card_OpenPickingWTByActArea": {
+                "model": "C_EWM_WAREHOUSETASKQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenPickingWTByActArea_title}}",
+                    "entitySet": "C_EWM_WAREHOUSETASKQ",
+                    "customParams": "getWTParams",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PickingAA",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AA",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Picking"
+                }
+            },
+            "card_OpenPutawayWTByActArea": {
+                "model": "C_EWM_WAREHOUSETASKQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenPutawayWTByActArea_title}}",
+                    "entitySet": "C_EWM_WAREHOUSETASKQ",
+                    "customParams": "getWTParams",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PutawayAA",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AA",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Putaway"
+                }
+            },
+            "card_OpenWTByWPT": {
+                "model": "C_EWM_WAREHOUSETASKQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_OpenWTByWPT_title}}",
+                    "entitySet": "C_EWM_WAREHOUSETASKQ",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#WPT",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "customParams": "getSSBParams",
+                    "staticParameters": {
+                        "EvaluationId": ".SCM.EWM.KPI.WT"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SmartBusiness",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            }
+        }
+    }
+}
