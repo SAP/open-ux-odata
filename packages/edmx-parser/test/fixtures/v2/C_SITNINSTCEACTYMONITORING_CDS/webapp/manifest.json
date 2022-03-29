@@ -1,0 +1,199 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "s4.cfnd.sit.mntr",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-SIT-DA",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/C_SITNINSTCEACTYMONITORING_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["C_SITNINSTCEACTYMONITORING_C_VAN", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "C_SITNINSTCEACTYMONITORING_C_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_SITNINSTCEACTYMONITORING_C_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_SITNINSTCEACTYMONITORING_C_VAN.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.41.1"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "SituationInstance",
+                    "action": "monitor"
+                }
+            },
+            "outbounds": {
+                "manageSitType": {
+                    "semanticObject": "SituationDefinition",
+                    "action": "maintain"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_SitnInstceActyMonitoring": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_SitnInstceActyMonitoring/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SitnInstceActyMonitoring": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SitnInstceActyMonitoring/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SitnDefAnchorObjTypeVH": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SitnDefAnchorObjTypeVH/i18n.properties"
+            },
+
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "None",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "AnalyticalTableColumnsExtension|C_SitnInstceActyMonitoring": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4.cfnd.sit.mntr.ext.fragment.AnalyticalTableColumns",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "s4.cfnd.sit.mntr.ext.controller.ALPExt",
+                        "sap.ui.generic.app": {
+                            "C_SitnInstceActyMonitoring": {
+                                "EntitySet": "C_SitnInstceActyMonitoring"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "AnalyticalListPage|C_SitnInstceActyMonitoring": {
+                "entitySet": "C_SitnInstceActyMonitoring",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "tableType": "AnalyticalTable",
+                        "multiSelect": false,
+                        "qualifier": "DefaultVariant",
+                        "defaultFilterMode": "compact",
+                        "autoHide": true,
+                        "showGoButtonOnFilterBar": false,
+                        "condensedTableLayout": true,
+                        "keyPerformanceIndicators": {},
+                        "lazyLoadVisualFilter": true
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3264"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

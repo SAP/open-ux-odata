@@ -1,0 +1,237 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-RA-CP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FARR_REVENUE_EXPLANATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FARR_REVENUE_EXPLANATIO_ANNO_MDL", "annotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FARR_REVENUE_EXPLANATIO_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FARR_REVENUE_EXPLANATIO_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FARR_REVENUE_EXPLANATIO_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.fin.rar.lib": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_RAPerfOblgnToRevnExplItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_RAPerfOblgnToRevnExplItem/i18n.properties"
+            },
+
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_RARevnExplanationItem|RevnExplList": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.revenue.explanation.ext.fragment.RevenueAdjustReasonColumn"
+                        },
+                        "ResponsiveTableCellsExtension|C_RARevnExplanationItem|RevnExplList": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.revenue.explanation.ext.fragment.RevenueAdjustReasonCell"
+                        },
+                        "ReplaceHeaderFacet|C_RAPerfOblgnToRevnExplItem|headerEditable::ContractHeader1": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.rar.revenue.explanation.ext.view.GeneralInformation"
+                        },
+                        "ReplaceHeaderFacet|C_RAPerfOblgnToRevnExplItem|headerEditable::ContractHeader2": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.rar.revenue.explanation.ext.view.FulfillmentInformation"
+                        },
+                        "ReplaceHeaderFacet|C_RAPerfOblgnToRevnExplItem|headerEditable::ContractHeaderMiddle": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.rar.revenue.explanation.ext.view.RevenueProgress"
+                        },
+                        "ReplaceHeaderFacet|C_RAPerfOblgnToRevnExplItem|headerEditable::ContractHeaderRight": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.rar.revenue.explanation.ext.view.RevenueCatchup"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_RAPerfOblgnToRevnExplItem": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.revenue.explanation.ext.fragment.CustomColumnsForListReport"
+                        },
+                        "ResponsiveTableCellsExtension|C_RAPerfOblgnToRevnExplItem": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.revenue.explanation.ext.fragment.CustomCellsForListReport"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.rar.revenue.explanation.ext.controller.ObjectPageExt"
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.rar.revenue.explanation.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_RAPerfOblgnToRevnExplItem": {
+                                "EntitySet": "C_RAPerfOblgnToRevnExplItem"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|C_RAPerfOblgnToRevnExplItem": {
+                "entitySet": "C_RAPerfOblgnToRevnExplItem",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": false,
+                        "enableTableFilterInPageVariant": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_RAPerfOblgnToRevnExplItem": {
+                        "entitySet": "C_RAPerfOblgnToRevnExplItem",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": {
+                            "ObjectPage|to_Item": {
+                                "navigationProperty": "to_Item",
+                                "entitySet": "C_RARevnExplanationItem",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4272"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

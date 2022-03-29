@@ -1,0 +1,249 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-DG",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHDGM_UP_WORKLIST/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHDGM_UP_WORKLIST_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHDGM_UP_WORKLIST_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHDGM_UP_WORKLIST_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHDGM_UP_WORKLIST_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "displayDGWorklist": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "displayDGWorklist",
+                    "deviceTypes": {
+                        "desktop": true,
+                        "tablet": true,
+                        "phone": false
+                    },
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "classifyDG": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "classifyDG",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "ChmlCmplncInfoUUID": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_UnpckgdDangerousGoodWorkItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_UnpckgdDangerousGoodWorkItem/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_UnpckgdDangerousGoodWorkItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_UnpckgdDangerousGoodWorkItem/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_UnpckgdDangerousGoodWorkItem": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.dg.unpackagedproduct.worklists1.ext.fragments.ProgressChartBreakoutColumn"
+                        },
+                        "ResponsiveTableCellsExtension|C_UnpckgdDangerousGoodWorkItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.dg.unpackagedproduct.worklists1.ext.fragments.ProgressChartBreakoutTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ehs.dg.unpackagedproduct.worklists1.ext.controller.ListReportExtension"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_UnpckgdDangerousGoodWorkItem": {
+                "entitySet": "C_UnpckgdDangerousGoodWorkItem",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "isWorklist": true,
+                        "smartVariantManagement": false,
+                        "quickVariantSelectionX": {
+                            "enableAutoBinding": true,
+                            "showCounts": true,
+                            "variants": {
+                                "0": {
+                                    "key": "_tab1",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#ForMyResponsibleUnit"
+                                },
+                                "1": {
+                                    "key": "_tab2",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#WithMyInvolvement"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_UnpckgdDangerousGoodWorkItem": {
+                        "entitySet": "C_UnpckgdDangerousGoodWorkItem",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.app.crossNavigation.outbounds",
+                                "target": "classifyDG"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3643"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

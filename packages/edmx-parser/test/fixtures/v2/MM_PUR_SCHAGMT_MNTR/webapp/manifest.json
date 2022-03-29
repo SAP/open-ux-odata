@@ -1,0 +1,183 @@
+{
+    "_version": "1.6.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-FIO-PUR-ANA",
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "NavigateToCTRItem": {
+                    "semanticObject": "PurchaseSchedulingAgreement",
+                    "action": "manage"
+                }
+            }
+        },
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_SCHAGMT_MNTR/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_SCHAGMT_MNTR_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_SCHAGMT_MNTR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_SCHAGMT_MNTR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_SCHAGMT_MNTR_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.m": {},
+                "sap.ui.table": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_SchedgAgrmtItemMonitorResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_SchedgAgrmtItemMonitorResults/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SchedgAgrmtItemMonitorResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SchedgAgrmtItemMonitorResults/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "SmartFilterBarControlConfigurationExtension|C_SchedgAgrmtItemMonitorResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.monitors1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        },
+                        "AnalyticalTableColumnsExtension|C_SchedgAgrmtItemMonitorResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.monitors1.ext.fragment.AnalyticalTableColumns",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "ui.s2p.mm.pur.schedulingagrmt.monitors1.ext.controller.CustomFilters"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "C_SchedgAgrmtItemMonitorResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "tableType": "AnalyticalTable",
+                        "multiSelect": true,
+                        "autoHide": true,
+                        "defaultFilterMode": "compact",
+                        "showGoButtonOnFilterBar": true,
+                        "condensedTableLayout": true,
+                        "keyPerformanceIndicators": {},
+                        "navigation": {
+                            "display": {
+                                "path": "sap.apps.crossNavigation.outbounds",
+                                "target": "NavigateToCTRItem"
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3143"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

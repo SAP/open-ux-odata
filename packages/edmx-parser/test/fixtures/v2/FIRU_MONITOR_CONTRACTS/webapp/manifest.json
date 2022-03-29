@@ -1,0 +1,194 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "XX-CSC-RU-FI",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FIRU_MONITOR_CONTRACTS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FIRU_MONITOR_CONTRACTS_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FIRU_MONITOR_CONTRACTS_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FIRU_MONITOR_CONTRACTS_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FIRU_MONITOR_CONTRACTS_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "minVersion": "1.42.0"
+                },
+                "sap.m": {
+                    "minVersion": "1.42.0",
+                    "lazy": false
+                },
+                "sap.f": {
+                    "minVersion": "1.46",
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "minVersion": "1.42.0",
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "minVersion": "1.42",
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "minVersion": "1.42",
+                    "lazy": false
+                },
+                "sap.ui.table": {
+                    "minVersion": "1.42",
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "minVersion": "1.42",
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "minVersion": "1.42",
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "minVersion": "1.42",
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "minVersion": "1.42",
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|P_RU_MONITOR_CONTRACTS": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/P_RU_MONITOR_CONTRACTS/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|P_RU_MONITOR_CONTRACTS": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/P_RU_MONITOR_CONTRACTS/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|P_RU_MONITOR_CONTRACTS": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.monitorcontracts.ext.fragments.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|P_RU_MONITOR_CONTRACTS": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.monitorcontracts.ext.fragments.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|P_RU_MONITOR_CONTRACTS": {
+                "entitySet": "P_RU_MONITOR_CONTRACTS",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": false,
+                    "settings": {
+                        "tableType": "Table",
+                        "smartVariantManagement": true,
+                        "hideTableVariantManagement": false,
+                        "isWorklist": false
+                    }
+                },
+                "pages": {}
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3757"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

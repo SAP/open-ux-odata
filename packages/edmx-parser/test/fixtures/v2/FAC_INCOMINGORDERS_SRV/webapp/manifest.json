@@ -1,0 +1,218 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-GL",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAC_INCOMINGORDERS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAC_INCOMINGORDERS_ANNO_MDL", "localAnnotations"]
+                }
+            },
+            "FAC_INCOMINGORDERS_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAC_INCOMINGORDERS_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    },
+                    "refreshAfterChange": false
+                }
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_GLIncgOrdPrdtvAnalysis": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_GLIncgOrdPrdtvAnalysis/i18n.properties"
+            },
+            "kpi": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request",
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                },
+                "dataSource": "mainService",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "fin.gl.incomingorders.controller.AnalyticalListPageExt",
+                        "sap.ui.generic.app": {
+                            "C_GLIncgOrdPrdtvAnalysis": {
+                                "EntitySet": "C_GLIncgOrdPrdtvAnalysis",
+                                "Actions": {
+                                    "jumpToAction": {
+                                        "id": "jumpToAction",
+                                        "text": "{{jumpToAction}}",
+                                        "press": "onJumpToClick",
+                                        "global": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "SmartFilterBarControlConfigurationExtension|C_GLIncgOrdPrdtvAnalysis": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.incomingorders.view.CustomFilters",
+                            "type": "XML"
+                        },
+                        "AnalyticalTableColumnsExtension|C_GLIncgOrdPrdtvAnalysis": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.incomingorders.view.CustomColumns",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_GLIncgOrdPrdtvAnalysis",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "qualifier": "DefaultPresentationVariant",
+                        "autoHide": true,
+                        "condensedTableLayout": true,
+                        "defaultContentView": "charttable",
+                        "showGoButtonOnFilterBar": true,
+                        "lazyLoadVisualFilter": true,
+                        "keyPerformanceIndicators": {
+                            "KPINumberOfSalesOrders": {
+                                "model": "kpi",
+                                "entitySet": "C_GLIncgOrdPrdtvAnalysis",
+                                "qualifier": "KPINumberOfSalesOrders",
+                                "filterable": true
+                            },
+                            "KPIDiscountRate": {
+                                "model": "kpi",
+                                "entitySet": "C_GLIncgOrdPrdtvAnalysis",
+                                "qualifier": "KPIDiscountRate",
+                                "filterable": true
+                            },
+                            "KPIGrossMargin": {
+                                "model": "kpi",
+                                "entitySet": "C_GLIncgOrdPrdtvAnalysis",
+                                "qualifier": "KPIGrossMargin",
+                                "filterable": true
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2964"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

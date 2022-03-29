@@ -1,0 +1,512 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-AA-AA-A",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAA_MD_MANAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAA_MD_MANAGE_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FAA_MD_MANAGE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAA_MD_MANAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAA_MD_MANAGE_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "FixedAsset-maintain": {
+                    "semanticObject": "FixedAsset",
+                    "action": "maintain",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "FixedAsset-maintainLegacyFixedAsset": {
+                    "semanticObject": "FixedAsset",
+                    "action": "maintainLegacyFixedAsset",
+                    "signature": {
+                        "parameters": {
+                            "IsLegacyAsset": {
+                                "defaultValue": {
+                                    "value": "true"
+                                }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "FixedAsset-compareMigrationResult": {
+                    "semanticObject": "FixedAsset",
+                    "action": "compareMigrationResult"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://task",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "componentUsages": {
+            "ChangedocReuseComponent": {
+                "name": "sap.nw.core.changedocs.lib.reuse.changedocscomponent"
+            },
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.unified": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.fin.central.lib": {
+                    "lazy": true
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                },
+                "sap.nw.core.changedocs.lib.reuse": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_AssetTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ASSETTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_AssetTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ASSETTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_AssetTP|TabLedgerQualifier": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ASSETTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_AssetTP|TabValuationQualifier": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ASSETTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_AssetLedgerTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ASSETTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_AssetValuationTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ASSETTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_AssetTimeBasedValuationTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ASSETTP/i18n.properties"
+            },
+            "i18nForValueDisplay": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ASSETTP/ValueDisplay/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "className": "sap.ui.core.mvc.Controller",
+                        "controllerName": "fin.aa.md.manage.ext.controller.ListPage",
+                        "sap.ui.generic.app": {
+                            "C_AssetTP": {
+                                "EntitySet": "C_AssetTP"
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "className": "sap.ui.core.mvc.Controller",
+                        "controllerName": "fin.aa.md.manage.ext.controller.ObjectPage",
+                        "sap.ui.generic.app": {
+                            "C_AssetTP": {
+                                "EntitySet": "C_AssetTP"
+                            },
+                            "C_AssetValuationTP": {
+                                "EntitySet": "C_AssetValuationTP",
+                                "Header": {
+                                    "Actions": {
+                                        "Simulate": {
+                                            "id": "fin.aa.md.manage.Simulate",
+                                            "text": "{{SimulateButton}}",
+                                            "press": "onSimulate",
+                                            "importance": "com.sap.vocabularies.UI.v1.ImportanceType/High"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceHeaderExtensionFacet|C_AssetTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ObjectPageHeaderContent",
+                            "type": "XML"
+                        },
+                        "BeforeFacet|C_AssetTP|TabGeneral": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ObjectPageHeaderInfoSection",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{HeaderDataSectionTitle}}"
+                            }
+                        },
+                        "ReplaceFacet|C_AssetTP|TabTDD": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.aa.md.manage.ext.view.TDD",
+                            "type": "XML"
+                        },
+                        "ReplaceHeaderExtensionFacet|C_AssetValuationTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ValuationObjectPageHeader",
+                            "type": "XML"
+                        },
+                        "BeforeFacet|C_AssetValuationTP|SectionGeneralParameters": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ValuationObjectPageHeaderInfoSection",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{HeaderDataSectionTitle}}"
+                            }
+                        },
+                        "ReplaceFacet|C_AssetValuationTP|SectionGeneralParameters": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.aa.md.manage.ext.view.DepreciationAreaGeneralParams",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AssetValuationTP|SectionAdditionalParameters": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ObjectPageValuationAdditionalParametersSection",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AssetValuationTP|ValueDisplay": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.aa.md.manage.ext.view.ValueDisplay.ValueDisplay",
+                            "id": "ValueDisplay",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_AssetLedgerTP|TabLedgerQualifier": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ObjectPageLedgerColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_AssetLedgerTP|TabLedgerQualifier": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ObjectPageLedgerCell",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_AssetValuationTP|TabValuationQualifier": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ObjectPageValuationColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_AssetValuationTP|TabValuationQualifier": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.aa.md.manage.ext.fragment.ObjectPageValuationCell",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AssetValuationTP|GloValuationTDD": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.aa.md.manage.ext.view.GLO.GloValTDD",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_AssetTP|GLOTDDQ": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.aa.md.manage.ext.view.GLO.GloTDD",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "objectPageHeaderType": "Dynamic",
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+            },
+            "sections": {
+                "to_AssetLedgerTP::com.sap.vocabularies.UI.v1.LineItem": {
+                    "navigationProperty": "to_AssetLedgerTP",
+                    "entitySet": "C_AssetLedgerTP",
+                    "createMode": "inline"
+                }
+            },
+            "forceGlobalRefresh": true
+        },
+        "pages": {
+            "ListReport|C_AssetTP": {
+                "entitySet": "C_AssetTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true,
+                        "smartVariantManagement": true,
+                        "condensedTableLayout": true,
+                        "quickVariantSelectionX": {
+                            "showCounts": true,
+                            "variants": {
+                                "0": {
+                                    "key": "_tableALL",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AllAsset"
+                                },
+                                "1": {
+                                    "key": "_tableCreated",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CreatedAsset"
+                                },
+                                "2": {
+                                    "key": "_tableAcquired",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AcquiredAsset"
+                                },
+                                "3": {
+                                    "key": "_tableDeactivated",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DeactivatedAsset"
+                                },
+                                "4": {
+                                    "key": "_tableArchiving",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ArchivingAsset"
+                                },
+                                "5": {
+                                    "key": "_tableIncomplete",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncompleteAsset"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_AssetTP": {
+                        "entitySet": "C_AssetTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "condensedTableLayout": true,
+                                "sections": {
+                                    "to_AssetLedgerTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_AssetLedgerTP",
+                                        "entitySet": "C_AssetLedgerTP",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{attachmentsServiceTitle}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "BUS1022",
+                                    "objectKey": "{ChangeDocumentUUID}",
+                                    "isGuid": true,
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": false,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": false,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true,
+                                            "DOWNLOAD": false
+                                        }
+                                    }
+                                }
+                            },
+                            "changedoccomponent": {
+                                "id": "changedoccomponent",
+                                "componentUsage": "ChangedocReuseComponent",
+                                "title": "{{changeDocTitle}}",
+                                "settings": {
+                                    "objectClass": ["FAA_MD", "ANLA"],
+                                    "objectId": "{parts: [{path: 'ChangeDocumentUUID'}], formatter: 'sap.nw.core.changedocs.lib.reuse.changedocscomponent.arrayFormatter'}",
+                                    "startDate": "1900-01-01T00:00:00.000Z"
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_AssetValuationTP": {
+                                "navigationProperty": "to_AssetValuationTP",
+                                "entitySet": "C_AssetValuationTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_AssetValuationTDDTP": {
+                                        "navigationProperty": "to_AssetTimeBasedValuationTP",
+                                        "entitySet": "C_AssetTimeBasedValuationTP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "ObjectPage|to_AssetGloValuationTDDTP": {
+                                        "navigationProperty": "to_GlobAssetTimeBasedValnTP",
+                                        "entitySet": "C_GlobAssetTimeBasedValnTP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_AssetTDDTP": {
+                                "navigationProperty": "to_AssetAssignmentTP",
+                                "entitySet": "C_AssetAssignmentTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssetGLOTDDTP": {
+                                "navigationProperty": "to_GlobAssetAssignmentTP",
+                                "entitySet": "C_GlobAssetAssignmentTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3425"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

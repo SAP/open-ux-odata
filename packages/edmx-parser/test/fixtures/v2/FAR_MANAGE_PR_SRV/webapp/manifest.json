@@ -1,0 +1,400 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-AR",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAR_MANAGE_PR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAR_MANAGE_PR_ANNO_MDL", "annotation"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FAR_MANAGE_PR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAR_MANAGE_PR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAR_MANAGE_PR_ANNO_MDL.xml"
+                }
+            },
+            "ESH_SEARCH_SRV": {
+                "uri": "/sap/opu/odata/sap/ESH_SEARCH_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/ESH_SEARCH_SRV.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            },
+            "FAR_BS_ITM_REPROC_SRV": {
+                "uri": "/sap/opu/odata/sap/FAR_BS_ITM_REPROC_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "service/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "crossNavigation": {
+            "inbounds": {
+                "bankStatementReversalLog": {
+                    "semanticObject": "ApplicationLog",
+                    "action": "showDetails",
+                    "signature": {
+                        "parameters": {
+                            "sap-ach": {
+                                "required": false,
+                                "defaultValue": {
+                                    "value": "BC-SRV-APS-APL",
+                                    "format": "plain"
+                                }
+                            },
+                            "sap-fiori-id": {
+                                "required": false,
+                                "defaultValue": {
+                                    "value": "F1487",
+                                    "format": "plain"
+                                }
+                            },
+                            "sap-xapp-state": {}
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.tnt": {
+                    "lazy": false
+                },
+                "sap.fin.acc.lib.codingblock": {
+                    "minVersion": "10.3.0",
+                    "lazy": false
+                }
+            },
+            "components": {
+                "sap.fin.acc.lib.codingblock.component": {
+                    "minVersion": "10.3.0"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ARPostingRule": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ARPostingRule/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ARPostingRule": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ARPostingRule/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo",
+                        "sap-value-list": "none"
+                    },
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "ReprocessBankstatementService": {
+                "dataSource": "FAR_BS_ITM_REPROC_SRV",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo",
+                        "sap-value-list": "none"
+                    },
+                    "defaultCountMode": "Inline",
+                    "defaultBindingMode": "TwoWay",
+                    "sequentializeRequests": true
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "SmartFormExtension|C_ARPostingRule|FACET1": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.postingrule.manage.ext.fragment.FormExtension"
+                        },
+                        "AfterFacet|C_ARPostgRuleActnGL|FACET1": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.postingrule.manage.ext.fragment.CodingBlock"
+                        },
+                        "ReplaceHeaderExtensionFacet|C_ARPostgRuleActnGL": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.postingrule.manage.ext.fragment.HeaderExtensionFacet",
+                            "bVisibleOnEdit": true
+                        },
+                        "ReplaceHeaderExtensionFacet|C_ARPostingRule": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.postingrule.manage.ext.fragment.HeaderExtensionFacetRootNode",
+                            "bVisibleOnEdit": true
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_ARPostingRule": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.postingrule.manage.ext.fragment.ListReportFilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.ar.postingrule.manage.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_ARPostingRule": {
+                                "EntitySet": "C_ARPostingRule",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_ARPostingRuleHeader1": {
+                                            "id": "ActionC_ARPostingRuleHeader1button",
+                                            "text": "{{deprecateRuleButton}}",
+                                            "press": "onPressDeprecateRule"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.ar.postingrule.manage.ext.controller.ListReportFilter",
+                        "sap.ui.generic.app": {
+                            "C_ARPostingRule": {
+                                "EntitySet": "C_ARPostingRule",
+                                "Actions": {
+                                    "Action_NavgationToApplicationLogButton": {
+                                        "id": "Action_NavgationToApplicationLogButton",
+                                        "text": "{{navigateToApplicationLogButton}}",
+                                        "press": "onPressNavigateToApplicationLogButton"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "maxColumnsCount": 3,
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded"
+            },
+            "inboundParameters": {
+                "BankStatementItem": {
+                    "useForCreate": true
+                },
+                "BankStatementShortID": {
+                    "useForCreate": true
+                },
+                "SourceReprocessingRuleUUID": {
+                    "useForCreate": true
+                },
+                "ReprocessingRuleCreationMode": {
+                    "useForCreate": true
+                },
+                "BankStatementItemSemanticKey": {
+                    "useForCreate": true
+                }
+            }
+        },
+        "pages": [
+            {
+                "entitySet": "C_ARPostingRule",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true,
+                        "quickVariantSelectionX": {
+                            "variants": {
+                                "0": {
+                                    "key": "_tab1",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OwnRules"
+                                },
+                                "1": {
+                                    "key": "_tab2",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SharedRules"
+                                },
+                                "2": {
+                                    "key": "_tab3",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AutomaticRules"
+                                },
+                                "3": {
+                                    "key": "_tab4",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProposedRules"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_ARPostingRule",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "FACET_ACT_GL": {
+                                        "navigationProperty": "to_ActionGL",
+                                        "entitySet": "C_ARPostgRuleActnGL",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    },
+                                    "FACET_ACT_APAR": {
+                                        "navigationProperty": "to_ActionAPAR",
+                                        "entitySet": "C_ARPostgRuleActnAPAR",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    },
+                                    "FACET_ACT_AA": {
+                                        "navigationProperty": "to_ActionPaytCat",
+                                        "entitySet": "C_ARPostgRuleActnPaytCatTP",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    },
+                                    "FACET_COND": {
+                                        "navigationProperty": "to_Condition",
+                                        "entitySet": "C_ARPostingRuleCondition",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    }
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_ActionGL",
+                                "entitySet": "C_ARPostgRuleActnGL",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3555"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    },
+    "sap.copilot": {
+        "digitalAssistant": {
+            "intentDefinition": {
+                "copilotIntent_1": {
+                    "uri": "Skill.xml",
+                    "dataSources": ["FAR_MANAGE_PR_SRV"],
+                    "i18n": "i18n/CoPilot/i18n.properties"
+                }
+            }
+        }
+    }
+}

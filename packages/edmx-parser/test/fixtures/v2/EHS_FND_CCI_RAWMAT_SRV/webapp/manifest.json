@@ -1,0 +1,273 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{ehs.fnd.rawmat.monitors1.appTitle}}",
+        "description": "{{ehs.fnd.rawmat.monitors1.appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-FND",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHS_FND_CCI_RAWMAT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHS_FND_CCI_RAWMAT_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHS_FND_CCI_RAWMAT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHS_FND_CCI_RAWMAT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHS_FND_CCI_RAWMAT_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "monitorRawMaterialChemicalInfo": {
+                    "semanticObject": "RawMaterialChemicalInfo",
+                    "action": "monitorBasicData",
+                    "deviceTypes": {
+                        "desktop": true,
+                        "tablet": true,
+                        "phone": false
+                    },
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "ignored"
+                    }
+                }
+            },
+            "outbounds": {
+                "displaySpecHeader": {
+                    "semanticObject": "Specification",
+                    "action": "displaySpecificationHeader",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "SpecificationNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ValAssgmtType": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "RawMatManageBasicData": {
+                    "semanticObject": "RawMaterialChemicalInfo",
+                    "action": "manageBasicData",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "ChmlCmplncInfoNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ChmlCmplncInfoIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "RawmatCreate": {
+                    "semanticObject": "RawMaterialChemicalInfo",
+                    "action": "manageBasicData",
+                    "additionalParameters": "allowed",
+                    "parameters": {
+                        "ChmlCmplncInfoNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ChmlCmplncInfoIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        },
+                        "preferredMode": {
+                            "value": {
+                                "value": "create"
+                            },
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ehs.fnd.lib.reuse.pc": {
+                    "lazy": true
+                },
+                "sap.ui.fl": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_RawChmlCmplncInfoMntr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_RawChmlCmplncInfoMntr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "reusepc_i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.ehs.fnd.lib.reuse.pc.i18n.i18n"
+                }
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_RawChmlCmplncInfoMntr": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.rawmat.monitors1.ext.fragment.CustomFilterExtension",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ehs.fnd.rawmat.monitors1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_RawChmlCmplncInfoMntr": {
+                                "EntitySet": "C_RawChmlCmplncInfoMntr",
+                                "Actions": {
+                                    "sap.ehs.fnd.lib.reuse.pc.cci.controller.CreateBulkController": {
+                                        "id": "ActionC_RawChmlCmplncInfoMntr1button",
+                                        "text": "{i18n>CREATE_OBJECT}",
+                                        "press": "onCreateRawMat"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "config": {
+            "sap.ehs.fnd.lib.reuse.pc": {
+                "sap.ehs.fnd.lib.reuse.pc.cci.controller.CreateBulkController": {
+                    "CCIView": "RM"
+                }
+            }
+        },
+
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_RawChmlCmplncInfoMntr": {
+                "entitySet": "C_RawChmlCmplncInfoMntr",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_RawChmlCmplncInfoMntr": {
+                        "entitySet": "C_RawChmlCmplncInfoMntr",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3024"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,201 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-GL",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FI_TAX_DECL_RECONCILIATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FI_TAX_DECL_RECONCILIAT_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FI_TAX_DECL_RECONCILIAT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FI_TAX_DECL_RECONCILIAT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FI_TAX_DECL_RECONCILIAT_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": { "lazy": true },
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.uxap": { "lazy": false },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_TaxDecReconTaxCodeQry": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_TaxDecReconTaxCodeQry/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_TaxDecReconTaxCodeQry": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_TaxDecReconTaxCodeQry/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|to_Item": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_TaxDecReconDetail/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.gl.tax_reconciliation.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_TaxDecReconTaxCodeQry": {
+                                "EntitySet": "C_TaxDecReconTaxCodeQry",
+                                "Sections": {
+                                    "to_Item::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_Item::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionButtonShowAllData": {
+                                                "id": "ActionButtonShowAllData",
+                                                "text": "{@i18n>ActionButtonShowLessData}",
+                                                "press": "onClickActionButtonShowAllData"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_TaxDecReconTaxCodeQry|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.tax_reconciliation.ext.fragment.detail-general-information"
+                        },
+                        "ReplaceFacet|C_TaxDecReconDetail|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.gl.tax_reconciliation.ext.fragment.lineitem-general-information"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_TaxDecReconTaxCodeQry",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_TaxDecReconTaxCodeQry",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_Item",
+                                "entitySet": "C_TaxDecReconDetail",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2096"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

@@ -1,0 +1,224 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CO-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FCO_SERVICE_COST_RATE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCO_SERVICE_COST_RAT_ANNO_MDL_01", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FCO_SERVICE_COST_RAT_ANNO_MDL_01": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCO_SERVICE_COST_RAT_ANNO_MDL_01',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCO_SERVICE_COST_RAT_ANNO_MDL_01.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.generic.app": {},
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "minVersion": "1.30.0",
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.ui.unified": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ServiceCostRate": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ServiceCostRate/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ServiceCostRate": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ServiceCostRate/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_ServiceCostRate": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.srv.costrates.manage.ext.fragments.CustomColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ServiceCostRate": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.srv.costrates.manage.ext.fragments.CustomCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.co.srv.costrates.manage.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_ServiceCostRate": {
+                                "EntitySet": "C_ServiceCostRate",
+                                "Actions": {
+                                    "ActionC_New": {
+                                        "id": "ActionC_AccountingCostRate1New",
+                                        "text": "{@i18n>ActionCreate}",
+                                        "press": "onAddCopyButtonPressed"
+                                    },
+                                    "ActionC_ServiceCostRate1": {
+                                        "id": "ActionC_AccountingCostRate1Edit",
+                                        "text": "{@i18n>ActionEdit}",
+                                        "press": "onEditButtonPressed",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_Copy": {
+                                        "id": "ActionC_AccountingCostRate1Copy",
+                                        "text": "{@i18n>ActionCopy}",
+                                        "press": "onAddCopyButtonPressed",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_ServiceCostRate2": {
+                                        "id": "ActionC_ServiceCostRate1Chart",
+                                        "text": "{@i18n>ActionChart}",
+                                        "press": "onTimelineButtonPressed",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_Upload": {
+                                        "id": "ActionC_ServiceCostRateUpload",
+                                        "text": "{@i18n>ActionUpload}",
+                                        "press": "onClickActionUpload"
+                                    },
+                                    "ActionC_ServiceCostRate3": {
+                                        "id": "ActionC_ServiceCostRate3button",
+                                        "text": "{@i18n>ActionAnalysis}",
+                                        "press": "onClickActionAnalysis",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.Details": {
+                        "controllerName": "fin.co.srv.costrates.manage.ext.controller.ListReportExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_ServiceCostRate",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3161"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

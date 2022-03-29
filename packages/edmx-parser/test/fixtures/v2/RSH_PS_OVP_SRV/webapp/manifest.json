@@ -1,0 +1,345 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "CA-RSH-PS",
+        "resources": "resources.json",
+        "dataSources": {
+            "RSH_PS_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/RSH_PS_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "webapp/localService/RSH_PS_OVP_SRV/metadata.xml",
+                    "annotations": ["CATALOGSERVICE"]
+                }
+            },
+            "RSH_PS_APP_SETTINGS_SRV": {
+                "uri": "/sap/opu/odata/sap/RSH_PS_APP_SETTINGS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "webapp/localService/RSH_PS_APP_SETTINGS_SRV/metadata.xml",
+                    "annotations": ["CATALOGSERVICE"]
+                }
+            },
+            "RshResTotalCountAnnotations": {
+                "uri": "../RshResTotalCountAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../RshResTotalCountAnnotations.xml"
+                }
+            },
+            "ProjectRequestAnnotations": {
+                "uri": "../ProjectRequestAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../ProjectRequestAnnotations.xml"
+                }
+            },
+            "GlobalFiltersAnnotations": {
+                "uri": "../GlobalFiltersAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../GlobalFiltersAnnotations.xml"
+                }
+            },
+            "StaffingRequestAnnotations": {
+                "uri": "../StaffingRequestAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../StaffingRequestAnnotations.xml"
+                }
+            },
+            "OnBenchAnnotations": {
+                "uri": "../OnBenchAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../OnBenchAnnotations.xml"
+                }
+            },
+            "OverbookedAnnotations": {
+                "uri": "../OverbookedAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../OverbookedAnnotations.xml"
+                }
+            },
+            "FreeAndOverbookedResourcesAnnotations": {
+                "uri": "../FreeAndOverbookedResourcesAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../FreeAndOverbookedResourcesAnnotations.xml"
+                }
+            },
+            "AverageUtilizationAnnotations": {
+                "uri": "../AverageUtilizationAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../AverageUtilizationAnnotations.xml"
+                }
+            },
+            "StaffingByRoleAnnotations": {
+                "uri": "../StaffingByRoleAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../StaffingByRoleAnnotations.xml"
+                }
+            },
+            "CATALOGSERVICE": {
+                "uri": "/sap/opu/odata/iwfnd/CATALOGSERVICE;v=0002/Annotations(TechnicalName='RSH_PS_OVP_ANNO_MDL',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "webapp/localService/CATALOGSERVICE/metadata.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2277"],
+        "archeType": "transactional"
+    },
+    "sap.ui": {
+        "_version": "1.4.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://dimension"
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.3.0",
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "minVersion": "1.48.0",
+                    "lazy": true
+                },
+                "sap.ovp": {
+                    "minVersion": "1.48.0",
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "minVersion": "1.48.0",
+                    "lazy": true
+                },
+                "sap.rsh.ps.lib.common": {
+                    "minVersion": "11.9.0-SNAPSHOT",
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "RSH_PS_OVP_RES_SRV": {
+                "preload": true,
+                "dataSource": "RSH_PS_OVP_SRV",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading",
+                        "sap-value-list": "none"
+                    },
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "RSH_PS_OVP_REQ_SRV": {
+                "preload": true,
+                "dataSource": "RSH_PS_OVP_SRV",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading",
+                        "sap-value-list": "none"
+                    },
+                    "defaultCountMode": "none"
+                }
+            },
+            "RSH_PS_APP_SETTINGS_SRV": {
+                "preload": false,
+                "dataSource": "RSH_PS_APP_SETTINGS_SRV",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading",
+                        "sap-value-list": "none"
+                    },
+                    "defaultCountMode": "none",
+                    "defaultBindingMode": "TwoWay"
+                }
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "rsh.ps.overviews1.customController"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "enableLiveFilter": false,
+        "globalFilterModel": "RSH_PS_OVP_REQ_SRV",
+        "globalFilterEntityType": "",
+        "smartVariantRequired": false,
+        "cards": {
+            "card00": {
+                "model": "RSH_PS_OVP_RES_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "category": "{{card00_category}}",
+                    "title": "{{card00_title}}",
+                    "subTitle": "{{card00_subTitle}}",
+                    "entitySet": "C_RSHResourceKPIs",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "sortBy": "LabelSetDescription",
+                    "sortOrder": "ascending",
+                    "requireAppAuthorization": "#EmployeeCapacity-displayAllEmployees",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CapacityListCard",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfEmployees",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            },
+            "card01": {
+                "model": "RSH_PS_OVP_REQ_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "category": "{{card01_category}}",
+                    "title": "{{card01_title}}",
+                    "subTitle": "{{card01_subTitle}}",
+                    "entitySet": "C_RSHStaffingRequestCount",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#StaffingReqCount",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfEmployeeRequests",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            },
+            "card02": {
+                "model": "RSH_PS_OVP_RES_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card02_title}}",
+                    "category": "{{card02_category}}",
+                    "subTitle": "{{card02_subTitle}}",
+                    "entitySet": "C_RSHResourceKpiOnBench",
+                    "sortBy": "EmployeeUtilLvlFreeCapacity",
+                    "sortOrder": "ascending",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OnBench",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            },
+            "card03": {
+                "model": "RSH_PS_OVP_RES_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card03_title}}",
+                    "category": "{{card03_category}}",
+                    "subTitle": "{{card03_subTitle}}",
+                    "entitySet": "C_RSHResourceKpiOverbook",
+                    "sortBy": "EmployeeUtilLvlOverbooked",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OverBooked",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            },
+            "card04": {
+                "model": "RSH_PS_OVP_REQ_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card04_title}}",
+                    "category": "{{card04_category}}",
+                    "subTitle": "{{card04_subTitle}}",
+                    "entitySet": "C_RSHStaffReqKPIStatusCount",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "sortBy": "ID",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#StaffReqCard",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfEmployeeRequests",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            },
+            "card05": {
+                "model": "RSH_PS_OVP_RES_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "category": "{{card05_category}}",
+                    "title": "{{card05_title}}",
+                    "subTitle": "{{card05_subTitle}}",
+                    "entitySet": "C_RSHResourceCapacityKPIs",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FreeAndOverbooked",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfEmployees",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            },
+            "card06": {
+                "model": "RSH_PS_OVP_RES_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "category": "{{card06_category}}",
+                    "title": "{{card06_title}}",
+                    "subTitle": "{{card06_subTitle}}",
+                    "entitySet": "C_RSHResource4MonthsUtil",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AvgUtilization",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#EmployeeAverageUtilization",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            },
+            "card07": {
+                "model": "RSH_PS_OVP_REQ_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card07_title}}",
+                    "subTitle": "{{card07_subTitle}}",
+                    "valueSelectionInfo": "{{card07_selectionInfo}}",
+                    "entitySet": "C_RSHStaffingRequestByRole",
+                    "addODataSelect": "true",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#StaffingSummary",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfRoles",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "customParams": "basic"
+                }
+            }
+        }
+    }
+}

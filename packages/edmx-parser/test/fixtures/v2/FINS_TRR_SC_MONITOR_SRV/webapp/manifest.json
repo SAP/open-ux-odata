@@ -1,0 +1,238 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CO-PC-OBJ-EBR",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FINS_TRR_SC_MONITOR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["FINS_TRR_SC_MONITOR_ANNO_MDL", "annotation"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FINS_TRR_SC_MONITOR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FINS_TRR_SC_MONITOR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FINS_TRR_SC_MONITOR_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "EventBasedRevnRecgn",
+                    "action": "monitorServiceDocument"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "fullWidth ": true,
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "componentName": "fin.co.sc.mon.evtbasedrevrec",
+        "autoPrefixId": true,
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties",
+                "settings": {
+                    "bundleName": "fin.co.sc.mon.evtbasedrevrec.i18n.i18n"
+                }
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_SrvcDocRevnRecgnJrnlEntrItmResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_SrvcDocRevnRecgnJrnlEntrItmResults/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SrvcDocRevnRecgnJrnlEntrItmResults": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SrvcDocRevnRecgnJrnlEntrItmResults/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo",
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.co.sc.mon.evtbasedrevrec.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_SrvcDocRevnRecgnJrnlEntrItmResults": {
+                                "EntitySet": "C_SrvcDocRevnRecgnJrnlEntrItmResults",
+                                "Header": {
+                                    "Actions": {
+                                        "revalue": {
+                                            "id": "revalue",
+                                            "text": "{@i18n>@Revalue}",
+                                            "press": "onRevaluePress",
+                                            "importance": "com.sap.vocabularies.UI.v1.ImportanceType/High"
+                                        },
+                                        "manualAccruals": {
+                                            "id": "manualAccruals",
+                                            "text": "{@i18n>@EnterManualContractAccruals}",
+                                            "press": "onManualAccrualsPress",
+                                            "importance": "com.sap.vocabularies.UI.v1.ImportanceType/High"
+                                        },
+                                        "changeRAKey": {
+                                            "id": "changeRAKey",
+                                            "text": "{@i18n>@ChangeRecognitionKey}",
+                                            "press": "onChangeRAKeyPress",
+                                            "importance": "com.sap.vocabularies.UI.v1.ImportanceType/High"
+                                        },
+                                        "lineItemReport": {
+                                            "id": "lineItemReport",
+                                            "text": "{@i18n>@LineItemReport}",
+                                            "press": "onLineItemReportPress",
+                                            "importance": "com.sap.vocabularies.UI.v1.ImportanceType/High"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "AnalyticalListPage|C_SrvcDocRevnRecgnJrnlEntrItmResults": {
+                "entitySet": "C_SrvcDocRevnRecgnJrnlEntrItmResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "hideVisualFilter": false,
+                        "defaultFilterMode": "compact",
+                        "defaultContentView": "table",
+                        "smartVariantManagement": false,
+                        "condensedTableLayout": true,
+                        "showGoButtonOnFilterBar": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_SrvcDocRevnRecgnJrnlEntrItmResults": {
+                        "entitySet": "C_SrvcDocRevnRecgnJrnlEntrItmResults",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3756"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

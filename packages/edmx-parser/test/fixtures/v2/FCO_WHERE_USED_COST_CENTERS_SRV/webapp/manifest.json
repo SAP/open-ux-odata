@@ -1,0 +1,429 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CO-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FCO_WHERE_USED_COST_CENTERS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCO_WHERE_USED_COST_CEN_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FCO_WHERE_USED_COST_CEN_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCO_WHERE_USED_COST_CEN_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCO_WHERE_USED_COST_CEN_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|WhereUsedListSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/WhereUsedListSet/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|WhereUsedListSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/WhereUsedListSet/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.co.costcenter.whereused.ext.controller.ObjectPage",
+                        "sap.ui.generic.app": {
+                            "WhereUsedListSet": {
+                                "EntitySet": "WhereUsedListSet",
+                                "Header": {}
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.co.costcenter.whereused.ext.controller.ListReport",
+                        "sap.ui.generic.app": {
+                            "WhereUsedListSet": {
+                                "EntitySet": "WhereUsedListSet"
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|WhereUsedListSet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.CustomFilter",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|WhereUsedListSet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|WhereUsedListSet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|AllocationCyclesSet|ALLOCCYCLEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.AllocationCyclesTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|AllocationCyclesSet|ALLOCCYCLEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.AllocationCyclesTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|ProfitCenterSet|PROFITCENTERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ProfitCentersTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|ProfitCenterSet|PROFITCENTERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ProfitCentersTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|ActivityTypeSet|ACTIVITYTYPEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ActivityTypeTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|ActivityTypeSet|ACTIVITYTYPEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ActivityTypeTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|CompanyCodeSet|COMPANYCODEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ObjectTypeTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|CompanyCodeSet|COMPANYCODEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.ObjectTypeTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|FixedAssetSet|FIXEDASSETFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.FixedAssetsTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|FixedAssetSet|FIXEDASSETFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.FixedAssetsTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|SplittingStructureSet|SPLITSTRUCTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.SplittingStructuresTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|SplittingStructureSet|SPLITSTRUCTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.SplittingStructuresTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|AllocationSegmentSet|ALLOCSEGMENTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.AllocationSegmentsTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|AllocationSegmentSet|ALLOCSEGMENTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.AllocationSegmentsTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|GroupAndHierarchySet|GROUPANDHIERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.GroupsAndHierarchiesTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|GroupAndHierarchySet|GROUPANDHIERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.GroupsAndHierarchiesTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|WBSElementsSet|WBSELEMENTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.WBSElementsTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|WBSElementsSet|WBSELEMENTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.WBSElementsTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|OrderSet|ORDERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.OrdersTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|OrderSet|ORDERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.OrdersTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|CostCtrUsingBudgetSet|CCUSINGBDGTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.CCUsingBudgetTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|CostCtrUsingBudgetSet|CCUSINGBDGTFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.CCUsingBudgetTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|DefaultAccountAssignmentSet|DFLTACCASSGMFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.DefaultAccountAssignmentTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|DefaultAccountAssignmentSet|DFLTACCASSGMFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.DefaultAccountAssignmentTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|SettlementRuleSet|SETTLMNTRULEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.SettlementRulesTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|SettlementRuleSet|SETTLMNTRULEFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.SettlementRulesTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|GlobalAccountingHierarchySet|GLOBACCTHIERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.GlobalAccountingHierarchyTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|GlobalAccountingHierarchySet|GLOBACCTHIERFACET1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.costcenter.whereused.ext.fragment.GlobalAccountingHierarchyTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|WhereUsedListSet": {
+                "entitySet": "WhereUsedListSet",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|WhereUsedListSet": {
+                        "entitySet": "WhereUsedListSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviAllocationCycleSet": {
+                        "entitySet": "NaviAllocationCycleSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviActivityTypeSet": {
+                        "entitySet": "NaviActivityTypeSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviProfitCenterSet": {
+                        "entitySet": "NaviProfitCenterSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviFixedAssetSet": {
+                        "entitySet": "NaviFixedAssetSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviCompanyCodeSet": {
+                        "entitySet": "NaviCompanyCodeSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviSplittingStructureSet": {
+                        "entitySet": "NaviSplittingStructureSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviAllocationSegmentSet": {
+                        "entitySet": "NaviAllocationSegmentSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviGroupAndHierarchySet": {
+                        "entitySet": "NaviGroupAndHierarchySet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviOrderSet": {
+                        "entitySet": "NaviOrderSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviWBSElementSet": {
+                        "entitySet": "NaviWBSElementSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviCostCtrUsingBudgetSet": {
+                        "entitySet": "NaviCostCtrUsingBudgetSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviDefaultAccountAssignmentSet": {
+                        "entitySet": "NaviDefaultAccountAssignmentSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviSettlementRuleSet": {
+                        "entitySet": "NaviSettlementRuleSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|NaviGlobalAccountingHierarchySet": {
+                        "entitySet": "NaviGlobalAccountingHierarchySet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3549"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

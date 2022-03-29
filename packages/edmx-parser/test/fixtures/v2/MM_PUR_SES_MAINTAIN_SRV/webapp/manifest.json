@@ -1,0 +1,414 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-PUR-SVC-SES",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_SES_MAINTAIN_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_SES_MAINTAIN_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_SES_MAINTAIN_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_SES_MAINTAIN_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_SES_MAINTAIN_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "ServiceEntrySheet-manage": {
+                    "semanticObject": "ServiceEntrySheet",
+                    "action": "manage",
+                    "signature": {
+                        "parameters": {
+                            "Supplier": {
+                                "defaultValue": { "value": "UserDefault.extended.Supplier", "format": "reference" }
+                            },
+                            "PurchasingOrganization": {
+                                "defaultValue": {
+                                    "value": "UserDefault.extended.PurchasingOrganization",
+                                    "format": "reference"
+                                }
+                            },
+                            "PurchasingGroup": {
+                                "defaultValue": { "value": "UserDefault.PurchasingGroup", "format": "reference" }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.nw.core.gbt.notes.lib.reuse": {
+                    "lazy": true
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "lazy": true
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": true
+                },
+                "sap.io.bpm.sworkfloweditor.lib.reuse": {
+                    "minVersion": "1.21.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.s4.cfnd.lib.businessprocessflow": {
+                    "lazy": true
+                },
+                "sap.ui.s2p.mm.lib.reuse.text": {
+                    "lazy": true,
+                    "minVersion": "11.13.0"
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {
+                    "lazy": true
+                },
+                "sap.s4.cfnd.lib.businessprocessflow.component.smarttemplate": {
+                    "lazy": true
+                },
+                "sap.ui.s2p.mm.lib.reuse.text.component": {
+                    "lazy": true,
+                    "minVersion": "11.13.0"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ServiceEntrySheetWD": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ServiceEntrySheetWD/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ServiceEntrySheetWD": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ServiceEntrySheetWD/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|to_ServiceEntrySheetItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ServiceEntrySheetItemWD/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_ServiceEntrySheetItemWD|Items": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.ses.manage.s1.ext.fragments.LineItemsColumnExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ServiceEntrySheetItemWD|Items": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.ses.manage.s1.ext.fragments.LineItemsCellsExtension",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_ServiceEntrySheetWD": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.ses.manage.s1.ext.fragments.Customfilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.ses.manage.s1.ext.controller.ListReportExtension",
+                        "sap.ui.generic.app": {
+                            "C_ServiceEntrySheetWD": {
+                                "EntitySet": "C_ServiceEntrySheetWD",
+                                "Actions": {
+                                    "upload": {
+                                        "id": "upload",
+                                        "text": "{{@IMPORT}}",
+                                        "press": "onUploadPressed",
+                                        "requiresSelection": false
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "className": "sap.ui.core.mvc.Controller",
+                        "controllerName": "ui.s2p.mm.ses.manage.s1.ext.controller.LineItemsCellsExtension",
+                        "sap.ui.generic.app": {
+                            "C_ServiceEntrySheetWD": {
+                                "EntitySet": "C_ServiceEntrySheetItemWD"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "settings": {
+            "forceGlobalRefresh": true,
+            "objectPageHeaderType": "Dynamic"
+        },
+        "pages": [
+            {
+                "entitySet": "C_ServiceEntrySheetWD",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_ServiceEntrySheetWD",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "Items": {
+                                        "navigationProperty": "to_ServiceEntrySheetItem",
+                                        "entitySet": "C_ServiceEntrySheetItemWD",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "HeaderNotes": {
+                                "id": "HeaderNotes",
+                                "componentName": "sap.nw.core.gbt.notes.lib.reuse.notes4smarttemplate",
+                                "title": "{{NotesComponentTitle}}",
+                                "settings": {
+                                    "objectId": "{ parts: [{path:'ServiceEntrySheet'}] , formatter: 'ui.s2p.mm.ses.manage.s1.model.formatter.fnReturnObjectKey'}",
+                                    "objectNodeType": "ServiceEntrySheet",
+                                    "draftUUID": "{path:'DraftUUID'}",
+                                    "noteTypes": "{path:'NoteTypeListText' , formatter: 'ui.s2p.mm.ses.manage.s1.model.formatter.fnReturnNoteTypes'}"
+                                }
+                            },
+                            "AttachmentsHeader": {
+                                "id": "AttachmentsHeader",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{AttachmentsReuseFacetLabel}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "MMPUR_SES",
+                                    "objectKey": "{ parts: [{path:'ServiceEntrySheet'}, {path:'DraftUUID'}] , formatter: 'ui.s2p.mm.ses.manage.s1.model.formatter.fnReturnObjectKey'}"
+                                }
+                            },
+                            "ProcessFlow": {
+                                "componentName": "sap.s4.cfnd.lib.businessprocessflow.component.smarttemplate",
+                                "id": "ProcessFlow",
+                                "propogateModel": true,
+                                "title": "{{BusinessProcessFlowComponentTitle}}",
+                                "settings": {
+                                    "layoutID": "C_ServiceEntrySheetProcessFlow",
+                                    "docID": "{parts:[{path:'ServiceEntrySheet'}]}",
+                                    "keyName": "ServiceEntrySheet",
+                                    "item": "{parts:[{path:'ServiceEntrySheetItem'}]}",
+                                    "itemKeyName": "ServiceEntrySheetItem"
+                                }
+                            },
+                            "workflowComponent": {
+                                "id": "workflowComponent",
+                                "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.stworkflowinstance",
+                                "title": "{{workflowComponentTitle}}",
+                                "settings": {
+                                    "objectIdentifier": "{ parts: [{path:'ServiceEntrySheet'}] , formatter: 'ui.s2p.mm.ses.manage.s1.model.formatter.fnAddLeadingZerosToObjectID'}",
+                                    "scenarioId": "WS00800321",
+                                    "objectContext": "empty string"
+                                },
+                                "pages": [
+                                    {
+                                        "routingSpec": {
+                                            "noOData": true,
+                                            "routeName": "stepDetails",
+                                            "headerTitle": "{{workflowComponentTitle}}",
+                                            "typeImageUrl": ""
+                                        },
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.Canvas"
+                                        },
+                                        "implementingComponent": {
+                                            "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.ststep",
+                                            "settings": {}
+                                        }
+                                    },
+                                    {
+                                        "routingSpec": {
+                                            "noOData": true,
+                                            "routeName": "roles",
+                                            "headerTitle": "{{workflowComponentTitle}}",
+                                            "typeImageUrl": ""
+                                        },
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.Canvas"
+                                        },
+                                        "implementingComponent": {
+                                            "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.stteamfunctions",
+                                            "settings": {}
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_ServiceEntrySheetItem",
+                                "entitySet": "C_ServiceEntrySheetItemWD",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "AccAssignment": {
+                                                "navigationProperty": "to_AccountAssignment",
+                                                "entitySet": "C_SESAccountAssignmentWD",
+                                                "createMode": "inline"
+                                            }
+                                        }
+                                    }
+                                },
+                                "embeddedComponents": {
+                                    "ItemNotes": {
+                                        "id": "ItemNotes",
+                                        "componentName": "sap.nw.core.gbt.notes.lib.reuse.notes4smarttemplate",
+                                        "title": "{{NotesComponentTitle}}",
+                                        "settings": {
+                                            "objectId": "{ parts: [{path:'ServiceEntrySheet'}, '', {path:'ServiceEntrySheetItem'}] , formatter: 'ui.s2p.mm.ses.manage.s1.model.formatter.fnReturnObjectKey'}",
+                                            "objectNodeType": "ServiceEntrySheetItem",
+                                            "draftUUID": "{DraftUUID}",
+                                            "noteTypes": "{path:'NoteTypeListText' , formatter: 'ui.s2p.mm.ses.manage.s1.model.formatter.fnReturnNoteTypes'}"
+                                        }
+                                    },
+                                    "AttachmentsItem": {
+                                        "id": "AttachmentsItem",
+                                        "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                        "title": "{{AttachmentsReuseFacetLabel}}",
+                                        "settings": {
+                                            "mode": "{= ${ui>/editable}?'C':'D'}",
+                                            "objectType": "MMPUR_SES",
+                                            "objectKey": "{ parts: [{path:'ServiceEntrySheet'}, {path:'DraftUUID'}, {path:'ServiceEntrySheetItem'}] , formatter: 'ui.s2p.mm.ses.manage.s1.model.formatter.fnReturnObjectKey'}"
+                                        }
+                                    }
+                                },
+                                "pages": [
+                                    {
+                                        "navigationProperty": "to_AccountAssignment",
+                                        "entitySet": "C_SESAccountAssignmentWD",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                                            "settings": {
+                                                "condensedTableLayout": true
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2027"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": "/sap/bc/ui5_ui5/sap/mm_ses_mains1"
+    }
+}

@@ -1,0 +1,234 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PM-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EAM_OBJPG_TASKLIST_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EAM_OBJPG_TASKLIST_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EAM_OBJPG_TASKLIST_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EAM_OBJPG_TASKLIST_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EAM_OBJPG_TASKLIST_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "minVersion": "10.6.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {
+                    "minVersion": "10.6.0-SNAPSHOT"
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ObjPgMaintTaskList": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ObjPgMaintTaskList/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ObjPgMaintTaskList": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ObjPgMaintTaskList/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "component": "i2d.eam.tasklist.manages1",
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.eam.tasklist.manages1.ext.controller.CustomFilter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_ObjPgMaintTaskListSet": {
+                "entitySet": "C_ObjPgMaintTaskListSet",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": {
+                    "ObjectPage|C_ObjPgMaintTaskListSet": {
+                        "entitySet": "C_ObjPgMaintTaskListSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true,
+                                "allowDeepLinking": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::HeaderAttachments": {
+                                "id": "simple::HeaderAttachments",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{xtit.originalFiles}}",
+                                "settings": {
+                                    "mode": "D",
+                                    "objectType": "PMPLKO",
+                                    "objectKey": "{TaskListObjectKey}",
+                                    "attributeHandling": {
+                                        "_VisibleActions": {
+                                            "ADD": false,
+                                            "ADDURL": false
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_MaintTaskListOperation": {
+                                "navigationProperty": "to_MaintTaskListOperation",
+                                "entitySet": "C_ObjPgMaintTaskListOperation",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true
+                                    }
+                                },
+                                "embeddedComponents": {
+                                    "simple::OperationAttachments": {
+                                        "id": "simple::OperationAttachments",
+                                        "componentUsage": "attachmentReuseComponent",
+                                        "title": "{{xtit.originalFiles}}",
+                                        "settings": {
+                                            "mode": "D",
+                                            "objectType": "PMPLPO",
+                                            "objectKey": "{TaskListOperationObjectKey}",
+                                            "attributeHandling": {
+                                                "_VisibleActions": {
+                                                    "ADD": false,
+                                                    "ADDURL": false
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2660"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

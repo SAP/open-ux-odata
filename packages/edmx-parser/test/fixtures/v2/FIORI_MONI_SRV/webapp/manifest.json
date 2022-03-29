@@ -1,0 +1,277 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "com.sap.fiori.fin.mbc.managebankmessages",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "LOD-FSN-AGT",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/bsnagt/FIORI_MONI_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["_BSNAGT_FIORI_MONI_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "_BSNAGT_FIORI_MONI_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='%2FBSNAGT%2FFIORI_MONI_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": ""
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": ""
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {}
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://activity-2",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|xBSNAGTxC_MBC_MESSAGES": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/xBSNAGTxC_MBC_MESSAGES/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|xBSNAGTxC_MBC_MESSAGES": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/xBSNAGTxC_MBC_MESSAGES/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "com.sap.fiori.fin.mbc.managebankmessages.ext.controller.WorklistExtension",
+                        "sap.ui.generic.app": {
+                            "xBSNAGTxC_MBC_MESSAGES": {
+                                "EntitySet": "xBSNAGTxC_MBC_MESSAGES"
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "com.sap.fiori.fin.mbc.managebankmessages.ext.controller.DetailExtension",
+                        "sap.ui.generic.app": {
+                            "xBSNAGTxC_MBC_MESSAGES": {
+                                "EntitySet": "xBSNAGTxC_MBC_MESSAGES",
+                                "Header": {
+                                    "Actions": {
+                                        "LogMessages": {
+                                            "id": "ButtonLogMessages",
+                                            "text": "{@i18n>btnLogMessages}",
+                                            "press": "onPressButtonLogMessages",
+                                            "applicablePath": "ButtonLogMessagesEnabled"
+                                        },
+                                        "ViewPayload": {
+                                            "id": "ButtonViewPayload",
+                                            "text": "{@i18n>btnViewPayload}",
+                                            "press": "onPressViewPayloadButton",
+                                            "applicablePath": "DownloadPayloadActionEnabled"
+                                        },
+                                        "ProcessingSteps": {
+                                            "id": "ButtonProcessingSteps",
+                                            "text": "{@i18n>btnProcessingSteps}",
+                                            "press": "onPressButtonProcessingSteps"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterFacet|xBSNAGTxC_MBC_MESSAGES|SectionMessageDetails|1": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "com.sap.fiori.fin.mbc.managebankmessages.ext.view.MessageDetailsSectionExt",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{messageDetailsSectionExt}}"
+                            }
+                        },
+                        "AfterFacet|xBSNAGTxC_MBC_MESSAGES|SectionMessageDetails|2": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "com.sap.fiori.fin.mbc.managebankmessages.ext.view.PayloadSectionFreeText",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{payloadSectionDescription}}"
+                            }
+                        },
+                        "AfterFacet|xBSNAGTxC_MBC_MESSAGES|SectionMessageDetails|3": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "com.sap.fiori.fin.mbc.managebankmessages.ext.view.PayloadSectionCreate",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{payloadSectionDescription}}"
+                            }
+                        },
+                        "ReplaceHeaderFacet|xBSNAGTxC_MBC_MESSAGES|headerEditable::headerFacetSenderReceiver": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "com.sap.fiori.fin.mbc.managebankmessages.ext.view.OriginApplication",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+            },
+            "forceGlobalRefresh": false
+        },
+        "pages": {
+            "ListReport|xBSNAGTxC_MBC_MESSAGES": {
+                "entitySet": "xBSNAGTxC_MBC_MESSAGES",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "quickVariantSelectionX": {
+                            "showCounts": true,
+                            "variants": {
+                                "0": {
+                                    "key": "_tab1",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#StatusError"
+                                },
+                                "1": {
+                                    "key": "_tab2",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#StatusCreated"
+                                },
+                                "2": {
+                                    "key": "_tab3",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ForManualProcessing"
+                                },
+                                "3": {
+                                    "key": "_tab4",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IncomingMessages"
+                                },
+                                "4": {
+                                    "key": "_tab5",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OutgoingMessages"
+                                },
+                                "5": {
+                                    "key": "_tab6",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AllMessages"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|xBSNAGTxC_MBC_MESSAGES": {
+                        "entitySet": "xBSNAGTxC_MBC_MESSAGES",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "toExtendedHeaderParameters::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "toExtendedHeaderParameters",
+                                        "entitySet": "xBSNAGTxI_EXTHD",
+                                        "tableType": "ResponsiveTable",
+                                        "list": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4385"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

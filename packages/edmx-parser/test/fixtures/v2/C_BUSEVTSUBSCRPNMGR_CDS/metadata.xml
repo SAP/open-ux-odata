@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+		   xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+		   xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+	</edmx:Reference>
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="C_BUSEVTSUBSCRPNMGR_CDS" xml:lang="en"
+				sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="C_BusEvtSubscrpnMgrType" sap:label="Business Event Subscriptions Manager"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="BusEventSubscriberCode"/>
+					<PropertyRef Name="SAPObjectType"/>
+					<PropertyRef Name="SAPObjectTaskCode"/>
+				</Key>
+				<Property Name="Activate_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false"
+						  sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="Deactivate_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false"
+						  sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="Update_priority_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control"
+						  sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="BusEventSubscriberCode" Type="Edm.String" Nullable="false" MaxLength="4"
+						  sap:display-format="UpperCase" sap:label="Subscriber ID"/>
+				<Property Name="SAPObjectType" Type="Edm.String" Nullable="false" MaxLength="30"
+						  sap:label="SAP Object Type" sap:value-list="standard"/>
+				<Property Name="SAPObjectTaskCode" Type="Edm.String" Nullable="false" MaxLength="18"
+						  sap:label="SAP Object Task Code" sap:value-list="standard"/>
+				<Property Name="SAPObjectTypeName" Type="Edm.String" MaxLength="80" sap:label="SAP Object Type Name"
+						  sap:value-list="standard"/>
+				<Property Name="SAPObjectTaskTypeName" Type="Edm.String" MaxLength="80"
+						  sap:label="SAP Object Task Type Name" sap:value-list="standard"/>
+				<Property Name="BusinessEventSubscriberName" Type="Edm.String" MaxLength="32" sap:label="Subscriber"
+						  sap:quickinfo="Subscriber Name" sap:value-list="standard"/>
+				<Property Name="BusEventPriority" Type="Edm.Byte" sap:label="Priority"
+						  sap:quickinfo="Subscription priority"/>
+				<Property Name="CreationDateTime" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Created Date" sap:quickinfo="Date"/>
+				<Property Name="CreationUTCDateTime" Type="Edm.Time" Precision="0" sap:label="Created Time"
+						  sap:quickinfo="Created time in HHMMSS"/>
+				<Property Name="CreatedByUser" Type="Edm.String" MaxLength="80" sap:label="Description"
+						  sap:quickinfo="User Description"/>
+				<Property Name="CriticalityCode" Type="Edm.Byte" sap:label="State Criticality"
+						  sap:quickinfo="Subscription State Criticality" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="BusEventSubscriptionStateName" Type="Edm.String" MaxLength="60"
+						  sap:display-format="UpperCase" sap:label="Subscription State"
+						  sap:quickinfo="Subscription State Text"/>
+				<Property Name="BusEventSubscriptionStateCode" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="State"/>
+				<Property Name="Status" Type="Edm.String" MaxLength="1"/>
+				<NavigationProperty Name="to_BusObjHelp"
+									Relationship="C_BUSEVTSUBSCRPNMGR_CDS.assoc_EAC03EC4F80A5F4674A2404B2E020815"
+									FromRole="FromRole_assoc_EAC03EC4F80A5F4674A2404B2E020815"
+									ToRole="ToRole_assoc_EAC03EC4F80A5F4674A2404B2E020815"/>
+				<NavigationProperty Name="to_SubscriberHelp"
+									Relationship="C_BUSEVTSUBSCRPNMGR_CDS.assoc_11ED1359F842EE666C76F219B7C9ED72"
+									FromRole="FromRole_assoc_11ED1359F842EE666C76F219B7C9ED72"
+									ToRole="ToRole_assoc_11ED1359F842EE666C76F219B7C9ED72"/>
+				<NavigationProperty Name="to_Toggle"
+									Relationship="C_BUSEVTSUBSCRPNMGR_CDS.assoc_6936331993832E908EB221C43A003BA4"
+									FromRole="FromRole_assoc_6936331993832E908EB221C43A003BA4"
+									ToRole="ToRole_assoc_6936331993832E908EB221C43A003BA4"/>
+			</EntityType>
+			<EntityType Name="I_BusEvtBusObjHelpType" sap:label="Value Help for Business Objects"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="SAPObjectTypeName"/>
+					<PropertyRef Name="SAPObjectTaskCode"/>
+				</Key>
+				<Property Name="SAPObjectTypeName" Type="Edm.String" Nullable="false" MaxLength="80"
+						  sap:label="SAP Object Type Name"/>
+				<Property Name="SAPObjectTaskCode" Type="Edm.String" Nullable="false" MaxLength="18"
+						  sap:label="SAP Object Task Code"/>
+			</EntityType>
+			<EntityType Name="I_BusEvtSubHelpType" sap:label="Value Help for Business Event Subscribers"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="BusinessEventSubscriberName"/>
+				</Key>
+				<Property Name="BusinessEventSubscriberName" Type="Edm.String" Nullable="false" MaxLength="32"
+						  sap:label="Subscriber name" sap:quickinfo="Subscriber Name"/>
+			</EntityType>
+			<EntityType Name="I_FeatureToggleType" sap:label="Feature Toggle Status Check view" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="FeatureToggle"/>
+				</Key>
+				<Property Name="FeatureToggle" Type="Edm.String" Nullable="false" MaxLength="40"
+						  sap:display-format="UpperCase" sap:label="Feature Toggle" sap:quickinfo="Feature Toggle ID"/>
+				<Property Name="Status" Type="Edm.String" MaxLength="1"/>
+			</EntityType>
+			<Association Name="assoc_11ED1359F842EE666C76F219B7C9ED72" sap:content-version="1">
+				<End Type="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType" Multiplicity="1"
+					 Role="FromRole_assoc_11ED1359F842EE666C76F219B7C9ED72"/>
+				<End Type="C_BUSEVTSUBSCRPNMGR_CDS.I_BusEvtSubHelpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_11ED1359F842EE666C76F219B7C9ED72"/>
+			</Association>
+			<Association Name="assoc_6936331993832E908EB221C43A003BA4" sap:content-version="1">
+				<End Type="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType" Multiplicity="1"
+					 Role="FromRole_assoc_6936331993832E908EB221C43A003BA4"/>
+				<End Type="C_BUSEVTSUBSCRPNMGR_CDS.I_FeatureToggleType" Multiplicity="0..1"
+					 Role="ToRole_assoc_6936331993832E908EB221C43A003BA4"/>
+			</Association>
+			<Association Name="assoc_EAC03EC4F80A5F4674A2404B2E020815" sap:content-version="1">
+				<End Type="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType" Multiplicity="1"
+					 Role="FromRole_assoc_EAC03EC4F80A5F4674A2404B2E020815"/>
+				<End Type="C_BUSEVTSUBSCRPNMGR_CDS.I_BusEvtBusObjHelpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_EAC03EC4F80A5F4674A2404B2E020815"/>
+			</Association>
+			<EntityContainer Name="C_BUSEVTSUBSCRPNMGR_CDS_Entities" m:IsDefaultEntityContainer="true"
+							 sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+				<EntitySet Name="C_BusEvtSubscrpnMgr" EntityType="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<EntitySet Name="I_BusEvtBusObjHelp" EntityType="C_BUSEVTSUBSCRPNMGR_CDS.I_BusEvtBusObjHelpType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_BusEvtSubHelp" EntityType="C_BUSEVTSUBSCRPNMGR_CDS.I_BusEvtSubHelpType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_FeatureToggle" EntityType="C_BUSEVTSUBSCRPNMGR_CDS.I_FeatureToggleType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<AssociationSet Name="assoc_11ED1359F842EE666C76F219B7C9ED72"
+								Association="C_BUSEVTSUBSCRPNMGR_CDS.assoc_11ED1359F842EE666C76F219B7C9ED72"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_BusEvtSubscrpnMgr" Role="FromRole_assoc_11ED1359F842EE666C76F219B7C9ED72"/>
+					<End EntitySet="I_BusEvtSubHelp" Role="ToRole_assoc_11ED1359F842EE666C76F219B7C9ED72"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_EAC03EC4F80A5F4674A2404B2E020815"
+								Association="C_BUSEVTSUBSCRPNMGR_CDS.assoc_EAC03EC4F80A5F4674A2404B2E020815"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_BusEvtSubscrpnMgr" Role="FromRole_assoc_EAC03EC4F80A5F4674A2404B2E020815"/>
+					<End EntitySet="I_BusEvtBusObjHelp" Role="ToRole_assoc_EAC03EC4F80A5F4674A2404B2E020815"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_6936331993832E908EB221C43A003BA4"
+								Association="C_BUSEVTSUBSCRPNMGR_CDS.assoc_6936331993832E908EB221C43A003BA4"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_BusEvtSubscrpnMgr" Role="FromRole_assoc_6936331993832E908EB221C43A003BA4"/>
+					<End EntitySet="I_FeatureToggle" Role="ToRole_assoc_6936331993832E908EB221C43A003BA4"/>
+				</AssociationSet>
+				<FunctionImport Name="C_BusEvtSubscrpnMgrActivate"
+								ReturnType="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+								EntitySet="C_BusEvtSubscrpnMgr" m:HttpMethod="POST"
+								sap:action-for="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+								sap:applicable-path="Activate_ac">
+					<Parameter Name="BusEventSubscriberCode" Type="Edm.String" Mode="In" MaxLength="4"/>
+					<Parameter Name="SAPObjectType" Type="Edm.String" Mode="In" MaxLength="30"/>
+					<Parameter Name="SAPObjectTaskCode" Type="Edm.String" Mode="In" MaxLength="18"/>
+				</FunctionImport>
+				<FunctionImport Name="C_BusEvtSubscrpnMgrDeactivate"
+								ReturnType="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+								EntitySet="C_BusEvtSubscrpnMgr" m:HttpMethod="POST"
+								sap:action-for="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+								sap:applicable-path="Deactivate_ac">
+					<Parameter Name="BusEventSubscriberCode" Type="Edm.String" Mode="In" MaxLength="4"/>
+					<Parameter Name="SAPObjectType" Type="Edm.String" Mode="In" MaxLength="30"/>
+					<Parameter Name="SAPObjectTaskCode" Type="Edm.String" Mode="In" MaxLength="18"/>
+				</FunctionImport>
+				<FunctionImport Name="C_BusEvtSubscrpnMgrUpdate_priority"
+								ReturnType="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+								EntitySet="C_BusEvtSubscrpnMgr" m:HttpMethod="POST"
+								sap:action-for="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+								sap:applicable-path="Update_priority_ac">
+					<Parameter Name="BusEventSubscriberCode" Type="Edm.String" Mode="In" MaxLength="4"/>
+					<Parameter Name="SAPObjectType" Type="Edm.String" Mode="In" MaxLength="30"/>
+					<Parameter Name="SAPObjectTaskCode" Type="Edm.String" Mode="In" MaxLength="18"/>
+					<Parameter Name="BusinessEventSubscriberName" Type="Edm.String" Mode="In" MaxLength="32"/>
+					<Parameter Name="BusEventPriority" Type="Edm.Byte" Mode="In"/>
+					<Parameter Name="BusEventSubscriptionStateName" Type="Edm.String" Mode="In" MaxLength="60"/>
+				</FunctionImport>
+			</EntityContainer>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType/SAPObjectType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Value Help for Business Objects"/>
+						<PropertyValue Property="CollectionPath" String="I_BusEvtBusObjHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTypeName"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTypeName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTaskCode"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTaskCode"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType/SAPObjectTaskCode"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Value Help for Business Objects"/>
+						<PropertyValue Property="CollectionPath" String="I_BusEvtBusObjHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTypeName"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTypeName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTaskCode"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTaskCode"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType/SAPObjectTypeName"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Value Help for Business Objects"/>
+						<PropertyValue Property="CollectionPath" String="I_BusEvtBusObjHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTypeName"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTypeName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTaskCode"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTaskCode"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType/SAPObjectTaskTypeName"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Value Help for Business Objects"/>
+						<PropertyValue Property="CollectionPath" String="I_BusEvtBusObjHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTypeName"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTypeName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SAPObjectTaskCode"/>
+									<PropertyValue Property="ValueListProperty" String="SAPObjectTaskCode"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType/BusinessEventSubscriberName"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Value Help for Business Event Subscribers"/>
+						<PropertyValue Property="CollectionPath" String="I_BusEvtSubHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty"
+												   PropertyPath="BusinessEventSubscriberName"/>
+									<PropertyValue Property="ValueListProperty" String="BusinessEventSubscriberName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BUSEVTSUBSCRPNMGR_CDS_Entities"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+				<Annotation Term="Aggregation.ApplySupported">
+					<Record>
+						<PropertyValue Property="Transformations">
+							<Collection>
+								<String>aggregate</String>
+								<String>groupby</String>
+								<String>filter</String>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Rollup" EnumMember="None"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BUSEVTSUBSCRPNMGR_CDS_Entities/C_BusEvtSubscrpnMgr"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>Activate_ac</PropertyPath>
+								<PropertyPath>Deactivate_ac</PropertyPath>
+								<PropertyPath>Update_priority_ac</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>Activate_ac</PropertyPath>
+								<PropertyPath>Deactivate_ac</PropertyPath>
+								<PropertyPath>Update_priority_ac</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="C_BUSEVTSUBSCRPNMGR_CDS.C_BusEvtSubscrpnMgrType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>BusinessEventSubscriberName</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<atom:link rel="self"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_BUSEVTSUBSCRPNMGR_CDS/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+			<atom:link rel="latest-version"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_BUSEVTSUBSCRPNMGR_CDS/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,158 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "XX-CSC-HU-FI",
+        "resources": "resources.json",
+        "crossNavigation": {
+            "inbounds": {
+                "CashJournal-displayHistoricalData": {
+                    "semanticObject": "CashJournal",
+                    "action": "displayHistoricalData",
+                    "signature": {
+                        "parameters": {
+                            "CompanyCode": {
+                                "defaultValue": { "value": "UserDefault.CompanyCode", "format": "reference" }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FIGLHU_CASHJOURN_FX/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.core": {},
+                "sap.m": { "lazy": true },
+                "sap.ui.generic.app": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|ExchRateLogSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/ExchRateLogSet/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "gs.fin.cashjournal.fx.display.hu.ext.controller.AnalyticalListPageExt",
+                        "sap.ui.generic.app": {
+                            "ExchRateLogSet": {
+                                "EntitySet": "ExchRateLogSet",
+                                "Actions": {
+                                    "ActionExchRateLogDispAppLog": {
+                                        "id": "ActionAppLog",
+                                        "text": "{{DisplayAppLog}}",
+                                        "press": "onDisplayAppLog",
+                                        "requiresSelection": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "ExchRateLogSet",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "defaultContentView": "table",
+                        "defaultFilterMode": "compact",
+                        "hideVisualFilter": true,
+                        "showGoButtonOnFilterBar": true,
+                        "smartVariantManagement": true,
+                        "condensedTableLayout": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2511"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

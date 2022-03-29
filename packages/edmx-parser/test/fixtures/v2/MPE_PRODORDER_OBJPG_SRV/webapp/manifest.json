@@ -1,0 +1,265 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-FIO-SFC",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MPE_PRODORDER_OBJPG_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MPE_PRODORDER_OBJPG_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MPE_PRODORDER_OBJPG_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MPE_PRODORDER_OBJPG_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MPE_PRODORDER_OBJPG_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": { "lazy": false },
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.uxap": { "lazy": false },
+                "sap.suite.ui.generic.template": { "lazy": false },
+                "sap.ui.generic.app": { "lazy": false },
+                "sap.i2d.lo.lib.vchclf": { "lazy": false }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MfgOrderObjPg": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MfgOrderObjPg/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MfgOrderObjPg": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MfgOrderObjPg/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|to_MfgOrderComponents": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage//i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.Canvas|to_VariantConfiguration": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/Canvas/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_MfgOrderObjPgItem|to_MfgOrderItems::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.productionorder.infos1.ext.view.ConfigurationColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MfgOrderObjPgItem|to_MfgOrderItems::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.productionorder.infos1.ext.view.ConfigurationCell",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.mpe.productionorder.infos1.ext.controller.ObjectPageExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "config": {
+            "sapFiori2Adaptation": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_MfgOrderObjPg",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_MfgOrderObjPg",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_MfgOrderComponents",
+                                "entitySet": "",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            {
+                                "navigationProperty": "Canvas|to_VariantConfiguration",
+                                "routingSpec": {
+                                    "noOData": true,
+                                    "routeName": "to_VariantConfiguration",
+                                    "headerTitle": "{{@variantConfiguration}}",
+                                    "noKey": false,
+                                    "typeImageUrl": ""
+                                },
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.Canvas",
+                                    "settings": {
+                                        "requiredControls": {
+                                            "footerBar": true
+                                        }
+                                    }
+                                },
+                                "implementingComponent": {
+                                    "componentName": "sap.i2d.lo.lib.vchclf.components.smarttemplate.configuration",
+                                    "settings": {
+                                        "semanticObject": "ProductionOrder",
+                                        "objectKey": "",
+                                        "draftKey": "{ParentDraftUUID}",
+                                        "draftKeyIsString": true,
+                                        "internalNavSettings": {
+                                            "configObjectEntitySetName": "C_MfgOrderObjPgItem",
+                                            "keyFields": ["ManufacturingOrder", "ManufacturingOrderItem"],
+                                            "multipleKeyFieldsSeparator": "&"
+                                        },
+                                        "uiMode": "Display",
+                                        "headerConfiguration": {
+                                            "title": "{Material}",
+                                            "subtitle": "{MaterialName}",
+                                            "headerFields": [
+                                                {
+                                                    "description": "{i18n|sap.suite.ui.generic.template.Canvas|to_VariantConfiguration>productionDocument}",
+                                                    "properties": {
+                                                        "text": "{parts: ['ManufacturingOrder', 'ManufacturingOrderItem', 'i18n|sap.suite.ui.generic.template.Canvas|to_VariantConfiguration>HEADER_DOC_ITEM'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                    },
+                                                    "controlType": "Text"
+                                                },
+                                                {
+                                                    "description": "{i18n|sap.suite.ui.generic.template.Canvas|to_VariantConfiguration>orderQuantity}",
+                                                    "properties": {
+                                                        "text": "{parts: ['i18n>PRICE_REPRESENTATION', 'MfgOrderItemPlannedTotalQty', 'ProductionUnit'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.formatPrice'}"
+                                                    },
+                                                    "controlType": "Text"
+                                                },
+                                                {
+                                                    "description": "{i18n|sap.suite.ui.generic.template.Canvas|to_VariantConfiguration>orderType}",
+                                                    "properties": {
+                                                        "text": "{parts: ['ManufacturingOrderTypeName', 'ManufacturingOrderType', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                    },
+                                                    "controlType": "Text"
+                                                },
+                                                {
+                                                    "description": "{i18n|sap.suite.ui.generic.template.Canvas|to_VariantConfiguration>productionPlant}",
+                                                    "properties": {
+                                                        "text": "{parts: ['PlantName', 'MRPPlant', 'i18n>HEADER_FIELD_VALUE'], formatter: 'sap.i2d.lo.lib.vchclf.components.configuration.formatter.HeaderFieldFormatter.getText'}"
+                                                    },
+                                                    "controlType": "Text"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2261"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

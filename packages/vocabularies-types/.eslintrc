@@ -1,0 +1,7 @@
+{
+    "extends": ["../../.eslintrc"],
+    "parserOptions": { "project": "./tsconfig-lint.json" },
+    "rules": {
+        "no-console": "off"
+    }
+}

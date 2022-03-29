@@ -1,0 +1,223 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-OIL",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/TSW_TICKETS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["TSW_TICKETS_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "TSW_TICKETS_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='TSW_TICKETS_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/TSW_TICKETS_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_TicketHeadTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_TicketHeadTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_TicketHeadTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_TicketHeadTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_TicketItemTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_TicketItemTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "oil.tsw.tickets1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_TicketHeadTP": {
+                                "EntitySet": "C_TicketHeadTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_TicketHeadTPHeader1": {
+                                            "id": "btnActualize",
+                                            "text": "{@i18n>Ticket_Actualize}",
+                                            "press": "onTicketActualize",
+                                            "applicablePath": "Actualize_ticket_ac"
+                                        },
+                                        "ActionC_TicketHeadTPHeader3": {
+                                            "id": "btnReverse",
+                                            "text": "{@i18n>Ticket_Reverse}",
+                                            "press": "onTicketReverse",
+                                            "applicablePath": "TicketReverseMode"
+                                        },
+                                        "ActionC_TicketHeadTPHeader4": {
+                                            "id": "btnCorrupt",
+                                            "text": "{@i18n>Ticket_Corrupt}",
+                                            "press": "onTicketCorrupt",
+                                            "applicablePath": "TicketCorruptMode"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "oil.tsw.tickets1.ext.controller.ListReportExt"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "oil.tsw.tickets1.ext.controller.DocumentFlowExt",
+                        "ReplaceFacet|C_TicketItemTP|fctDocumentFlow": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "oil.tsw.tickets1.ext.fragment.DocumentFlowFacet"
+                        },
+                        "ReplaceFacet|C_TicketItemTP|fctErrorLog": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "oil.tsw.tickets1.ext.fragment.ErrorLog"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_TicketHeadTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_TicketHeadTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_TicketItemTP",
+                                "entitySet": "C_TicketItemTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2736"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

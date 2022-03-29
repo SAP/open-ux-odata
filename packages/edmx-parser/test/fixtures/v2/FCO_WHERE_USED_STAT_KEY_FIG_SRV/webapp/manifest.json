@@ -1,0 +1,295 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CO-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FCO_WHERE_USED_STAT_KEY_FIG_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCO_WHERE_USED_STAT_KEY_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FCO_WHERE_USED_STAT_KEY_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCO_WHERE_USED_STAT_KEY_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCO_WHERE_USED_STAT_KEY_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.co.statisticalkeyfigure.whereused.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.co.statisticalkeyfigure.whereused.ext.controller.ObjectPage"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_StatKeyFigWhereUsed": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.SmartFilterBar",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_StatKeyFigAllObject|StatKeyFigAllObjectFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigAllObjectColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_StatKeyFigCostCenter|StatKeyFigCostCenterFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigCostCenterColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_StatKeyFigCostAllocCyc|StatKeyFigCostAllocCycFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigCostAllocCycColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_StatKeyFigCostAllocSgmt|StatKeyFigCostAllocSgmtFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigCostAllocSgmtColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_StatKeyFigGroup|StatKeyFigGroupFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigGroupColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_StatKeyFigValueAssignment|StatKeyFigValueAssignmentFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigValueAssignmentColumn",
+                            "type": "XML"
+                        },
+
+                        "ResponsiveTableCellsExtension|C_StatKeyFigAllObject|StatKeyFigAllObjectFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigAllObjectCell",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_StatKeyFigCostCenter|StatKeyFigCostCenterFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigCostCenterCell",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_StatKeyFigCostAllocCyc|StatKeyFigCostAllocCycFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigCostAllocCycCell",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_StatKeyFigCostAllocSgmt|StatKeyFigCostAllocSgmtFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigCostAllocSgmtCell",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_StatKeyFigGroup|StatKeyFigGroupFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigGroupCell",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_StatKeyFigValueAssignment|StatKeyFigValueAssignmentFacet": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.statisticalkeyfigure.whereused.ext.fragment.StatKeyFigValueAssignmentCell",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|C_StatKeyFigWhereUsed": {
+                "entitySet": "C_StatKeyFigWhereUsed",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": false,
+                        "autoHide": false,
+                        "condensedTableLayout": true,
+                        "showGoButtonOnFilterBar": true,
+                        "smartVariantManagement": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_StatKeyFigWhereUsed": {
+                        "entitySet": "C_StatKeyFigWhereUsed",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|C_StatKeyFigAllObject": {
+                        "entitySet": "C_StatKeyFigAllObjectObj",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|C_StatKeyFigCostCenter": {
+                        "entitySet": "C_StatKeyFigCostCenterObj",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|C_StatKeyFigCostAllocCyc": {
+                        "entitySet": "C_StatKeyFigCostAllocCycObj",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|C_StatKeyFigCostAllocSgmt": {
+                        "entitySet": "C_StatKeyFigCostAllocSgmtObj",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|C_StatKeyFigGroup": {
+                        "entitySet": "C_StatKeyFigGroupObj",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    },
+                    "ObjectPage|C_StatKeyFigValueAssignment": {
+                        "entitySet": "C_StatKeyFigValueAssignmentObj",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4078"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,289 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-DD",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PP_DD_REPLENISHMENT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PP_DD_REPLENISHMENT_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PP_DD_REPLENISHMENT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PP_DD_REPLENISHMENT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PP_DD_REPLENISHMENT_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "AORService": {
+                "uri": "/sap/opu/odata/sap/PP_MRP_AOR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PP_DD_ORD_DET_SRV": {
+                "uri": "/sap/opu/odata/sap/PP_DD_ORD_DET_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PP_DD_ORD_DET_SRV/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "DDProductExecutionDisplay": {
+                    "semanticObject": "DDProductExecution",
+                    "action": "detail",
+                    "parameters": {
+                        "mode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://task",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.unified": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.i2d.mpe.lib.commons1": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.viz": {
+                    "lazy": true
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_DemandDrivenReplnmt": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_DemandDrivenReplnmt/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_DemandDrivenReplnmt": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_DemandDrivenReplnmt/i18n.properties"
+            },
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "defaultUpdateMethod": "PUT"
+                },
+                "preload": true
+            },
+            "AOR": {
+                "dataSource": "AORService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                },
+                "preload": true
+            },
+            "OrderDetails": {
+                "uri": "/sap/opu/odata/sap/PP_DD_ORD_DET_SRV/",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "dataSource": "PP_DD_ORD_DET_SRV",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.pp.ddreplenish.monitors1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_DemandDrivenReplnmt": {
+                                "EntitySet": "C_DemandDrivenReplnmt",
+                                "Actions": {
+                                    "ActionMassCreateSupply": {
+                                        "id": "multiCreateSupplyButton",
+                                        "text": "{@i18n>CreateSupply}",
+                                        "press": "createSupply",
+                                        "requiresSelection": true
+                                    },
+                                    "JobLog": {
+                                        "id": "jobLogButton",
+                                        "text": "{@i18n>JobLog}",
+                                        "press": "onClickJobLog",
+                                        "requiresSelection": false,
+                                        "global": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_DemandDrivenReplnmt": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.pp.ddreplenish.monitors1.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_DemandDrivenReplnmt": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.pp.ddreplenish.monitors1.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "settings": {
+            "condensedTableLayout": true,
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            }
+        },
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_DemandDrivenReplnmt",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_DemandDrivenReplnmt",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.app.crossNavigation.outbounds",
+                                "target": "DDProductExecutionDisplay"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2831"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,209 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "rfm.arun.supsortrule.configs1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "LO-RFM-ARN",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/UI_RFM_SUPPLY_SORTRULE/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["UI_RFM_SUPPLY_SORTRULE_VAN", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "UI_RFM_SUPPLY_SORTRULE_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='UI_RFM_SUPPLY_SORTRULE_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/UI_RFM_SUPPLY_SORTRULE_VAN.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.ui.layout": { "lazy": false }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|ARunSupplySortRule": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/ARunSupplySortRule/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|ARunSupplySortRule": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/ARunSupplySortRule/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|ArunStockSortDynAttrib": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/ArunStockSortDynAttrib/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "rfm.arun.supsortrule.configs1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "ARunSupplySortRule": {
+                                "EntitySet": "ARunSupplySortRule",
+                                "Header": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+            }
+        },
+        "pages": [
+            {
+                "entitySet": "ARunSupplySortRule",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true,
+                        "gridTable": false,
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "ARunSupplySortRule",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "gridTable": false,
+                                "multiSelect": true,
+                                "smartVariantManagement": true,
+                                "sections": {
+                                    "ArunStockSortStaticAttrib": {
+                                        "navigationProperty": "to_ARunSupplyStaticSortAttrib",
+                                        "entitySet": "ArunStockSortStaticAttrib",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    },
+                                    "ArunStockSortDynAttrib": {
+                                        "navigationProperty": "to_ARunSupplyDynSortAttrib",
+                                        "entitySet": "ArunStockSortDynAttrib",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    }
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_ARunSupplyStaticSortAttrib",
+                                "entitySet": "ArunStockSortStaticAttrib",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "ARunSupStaticSortAttribVal": {
+                                                "navigationProperty": "to_ARunSupStaticSortAttribVal",
+                                                "entitySet": "ArunStockSortStaticAtribVal",
+                                                "createMode": "inline",
+                                                "multiSelect": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4057"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

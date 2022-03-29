@@ -1,0 +1,520 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "rfm.arun.sdo.ovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "LO-RFM-ARN",
+        "resources": "resources.json",
+        "dataSources": {
+            "RFM_ARUN_SDO_DASHBOARD_SRV": {
+                "uri": "/sap/opu/odata/sap/RFM_ARUN_SDO_DASHBOARD_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["RFM_ARUN_SDO_DASHBOARD_ANNO_MDL", "annotation"],
+                    "localUri": "localService/RFM_ARUN_SDO_DASHBOARD_SRV/metadata.xml"
+                }
+            },
+            "RFM_ARUN_SDO_DASHBOARD_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='RFM_ARUN_SDO_DASHBOARD_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/RFM_ARUN_SDO_DASHBOARD_SRV/RFM_ARUN_SDO_DASHBOARD_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "uri": "annotations/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "RFM_ARUN_SDO_DASHBOARD_SRV": {
+                "preload": true,
+                "dataSource": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4373"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "RFM_ARUN_SDO_DASHBOARD_SRV",
+        "globalFilterEntityType": "C_SupDmndOvwPgFltrType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": true,
+        "useDateRangeType": true,
+        "cards": {
+            "card01": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card01_title}}",
+                    "entitySet": "C_SupDmndOvwPgTotDmndQResults",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-12",
+                        "P_ExchangeRateType": "M"
+                    },
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_DMDOVW_REQMTVALUEBYTYPE",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_DMDOVW_ASSQTY_REQTYPE",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_DMDOVW_ASSQTY_REQTYPE",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_DMDOVW_ASSQTY",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_DMDOVW_REQMTVALUEBYTYPE",
+                            "value": "{{card01_filter1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_DMDOVW_REQMTVALUEBYTYPE",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_DMDOVW_AMOUNT_REQTYPE",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_DMDOVW_AMOUNT_REQTYPE",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_DMDOVW_AMOUNT",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_DMDOVW_REQMTVALUEBYTYPE",
+                            "value": "{{card01_filter2}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_DMDOVW_REQMTVALUEBYTYPE",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_DMDOVW_FULFILMENTPER_REQTYPE",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_DMDOVW_FULFILMENTPER_REQTYPE",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_DMDOVW_REQMTVALUEBYTYPE",
+                            "value": "{{card01_filter3}}"
+                        }
+                    ]
+                }
+            },
+            "card02": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card02_title}}",
+                    "entitySet": "C_SupDmndOvwPgTotSupQResults",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-27",
+                        "P_ExchangeRateType": "M"
+                    },
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_SUPOVW_SUPPLYTYPE",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_SUPOVW_ASSQTY_SUPPLYTYPE",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_SUPOVW_SUPASSQTY_SUPPLYTYPE",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_SUPOVW_SUPASSQTY",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_SUPOVW_SUPPLYTYPE",
+                            "value": "{{card02_filter1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_SUPOVW_SUPPLYTYPE",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_SUPOVW_AMOUNT_SUPPLYTYPE",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_SUPOVW_AMOUNT_REQTYPE",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_SUPOVW_AMOUNT",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_SUPOVW_SUPPLYTYPE",
+                            "value": "{{card02_filter2}}"
+                        }
+                    ]
+                }
+            },
+            "card03": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card03_title}}",
+                    "subTitle": "{{card03_subtitle}}",
+                    "entitySet": "C_SupDmndOvwPgAllDocAssgmtQ",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ARunSupDlyHrznInWeeks",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LI_SUPDMD_DELIDATE",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_SUPDMD_DELIDATE",
+                    "addODataSelect": true,
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-14",
+                        "P_ExchangeRateType": "M"
+                    }
+                }
+            },
+            "card04": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card04_title}}",
+                    "entitySet": "C_SupDmndOvwPgSlsContrQ",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-43",
+                        "P_ExchangeRateType": "M"
+                    },
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_SALESCONTR_BYCONSUMPTION",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_SALESCONTR_BYCONSUMPTION",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_SALESCONTR_BYCONSUMPTION",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_SALESCONTR_BYCONSUMPTION",
+                            "value": "{{card04_filter1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_SALESCONTR_BYASSIGNMENT",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_SALESCONTR_BYASSIGNMENT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_SALESCONTR_BYASSIGNMENT",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_SALESCONTR_BYASSIGNMENT",
+                            "value": "{{card04_filter2}}"
+                        }
+                    ]
+                }
+            },
+            "card05": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card05_title}}",
+                    "entitySet": "C_SupDmndOvwPgPurgContrQ",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-35",
+                        "P_ExchangeRateType": "M"
+                    },
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_PURCONTR_BYCONSUMPTION",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_PURCONTR_BYCONSUMPTION",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_PURCONTR_BYCONSUMPTION",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_PURCONTR_BYCONSUMPTION",
+                            "value": "{{card05_filter1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_PURCONTR_BYASSIGNMENT",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_PURCONTR_BYASSIGNMENT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_PURCONTR_BYASSIGNMENT",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_PURCONTR_BYASSIGNMENT",
+                            "value": "{{card05_filter2}}"
+                        }
+                    ]
+                }
+            },
+            "card06": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card06_title}}",
+                    "entitySet": "C_SupDmndOvwPgOpenDelivQ",
+                    "subTitle": "{{card06_subtitle}}",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_OPENDEL",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_OPENDEL",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_OPENDEL",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_OPENDEL",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_OPENDEL",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-95",
+                        "P_ExchangeRateType": "M"
+                    }
+                }
+            },
+            "card08": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card08_title}}",
+                    "subTitle": "{{card08_subtitle}}",
+                    "entitySet": "C_SupDmndOvwPgCustRetsQResults",
+                    "addODataSelect": true,
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "OpenSupplyQuantity",
+                    "sortOrder": "descending",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-103",
+                        "P_ExchangeRateType": "M"
+                    },
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LI_CUSTRETURN_CUSTOMER",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_CUSTRETURN_CUSTOMER",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_CUST_RET",
+                            "value": "{{card08_filter1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LI_CUSTRETURN_REASON",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_CUSTRETURN_REASON",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_CUST_RETL",
+                            "value": "{{card08_filter2}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LI_CUSTRETURN_PRODUCT",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_CUSTRETURN_PRODUCT",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_CUST_RET",
+                            "value": "{{card08_filter3}}"
+                        }
+                    ]
+                }
+            },
+            "card09": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card09_title}}",
+                    "subTitle": "{{card09_subtitle}}",
+                    "entitySet": "C_SupDmndOvwPgMntrDmndQResults",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-monitor",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_TOPTRAINDING_DISTCHANNEL",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_TOPTRENDING_DISTCHANNEL",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_TOPTRENDING_DISTCHANNEL",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_TOPTRAINDING",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_TOPTRENDING",
+                            "value": "{{card09_filter1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_TOPTRAINDING_CUSTOMER",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_TOPTRENDING_CUSTOMER",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_TOPTRENDING_CUSTOMER",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_TOPTRAINDING",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_TOPTRENDING",
+                            "value": "{{card09_filter2}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_TOPTRAINDING_CUSTOMERGRP",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_TOPTRENDING_CUSTOMERGRP",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_TOPTRENDING_CUSTOMERGRP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_TOPTRAINDING",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_TOPTRENDING",
+                            "value": "{{card09_filter3}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_TOPTRAINDING_PRODUCT",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_TOPTRENDING_PRODUCT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_TOPTRENDING_PRODUCT",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_TOPTRAINDING",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_TOPTRENDING",
+                            "value": "{{card09_filter4}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_TOPTRAINDING_PRODUCTGRP",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_TOPTRENDING_PRODUCTGRP",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_TOPTRENDING_PRODUCTGRP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_TOPTRAINDING",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_TOPTRENDING",
+                            "value": "{{card09_filter5}}"
+                        }
+                    ]
+                }
+            },
+            "card10": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card10_title}}",
+                    "subTitle": "{{card10_subtitle}}",
+                    "entitySet": "C_SupDmndOvwPgBlkdSlsOrdQResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "NumberOfSalesOrderItems",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LI_BLOCKEDSALESORDER",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_BLOCKEDSALESORDER",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "addODataSelect": true,
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-119",
+                        "P_ExchangeRateType": "M"
+                    }
+                }
+            },
+            "card11": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card11_title}}",
+                    "entitySet": "C_SupDmndOvwPgMntrDmndQResults",
+                    "subTitle": "{{card11_subtitle}}",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-monitor",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_ORDWITHCANDATE",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_ORDWITHCANDATE_QTY",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_ORDWITHCANDATE_QTY",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_ORDWITHCANDATE",
+                            "value": "{{card11_filter1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_ORDWITHCANDATE",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_ORDWITHCANDATE_AMOUNT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_ORDWITHCANDATE_AMOUNT",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DP_ORDWITHCANDATE_AMOUNT",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_ORDWITHCANDATE",
+                            "value": "{{card11_filter2}}"
+                        }
+                    ]
+                }
+            },
+            "card12": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card12_title}}",
+                    "subTitle": "{{card12_subtitle}}",
+                    "entitySet": "C_SupDmndOvwPgDmndSitn",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "NumberOfOrderItems",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LI_ORDWITHSITUATION",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_ORDWITHSITUATION",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showTemp",
+                    "addODataSelect": true,
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-120",
+                        "P_ExchangeRateType": "M"
+                    }
+                }
+            },
+            "card13": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card13_title}}",
+                    "subTitle": "{{card13_subtitle}}",
+                    "entitySet": "C_SupDmndOvwPgMntrDmndQResults",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#SupplyDemandOverview-showDetail",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_QTY_ASSIGNMENTSTATUS",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_QTY_ASSIGNMENTSTATUS",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_QTY_ASSIGNMENTSTATUS",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_QTY_ASSIGNMENTSTATUS",
+                    "staticParameters": {
+                        "sap-apf-step-id": "Step-8",
+                        "P_ExchangeRateType": "M"
+                    }
+                }
+            },
+            "card14": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card14_title}}",
+                    "entitySet": "C_SupDmndOvwPgExcessRqmtsQ",
+                    "subTitle": "{{card14_subtitle}}",
+                    "addODataSelect": "true",
+                    "requireAppAuthorization": "#RequirementOrderItem-manageExcessQty",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_EXCESSREQ_FSHCONTRACT",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_EXCESSREQ_FSHCONTRACT",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_EXCESSREQ_FSHCONTRACT",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_EXCESSREQ",
+                            "value": "{{card14_filter1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_EXCESSREQ_SALESORD",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_EXCESSREQ_SALESORD",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_EXCESSREQ_SALESORD",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_EXCESSREQ",
+                            "value": "{{card14_filter2}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SV_EXCESSREQ_STO",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CHART_EXCESSREQ_STO",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PV_EXCESSREQ_STO",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ID_EXCESSREQ",
+                            "value": "{{card14_filter3}}"
+                        }
+                    ]
+                }
+            },
+            "quickActions": {
+                "model": "RFM_ARUN_SDO_DASHBOARD_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{quickActions_title}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{quickActions_sdoalldoc_title}}",
+                            "subtitle": "{{quickActions_sdoalldoc_subtitle}}",
+                            "imageUri": "sap-icon://Fiori2/F0014",
+                            "semanticObject": "SupplyDemandOverview",
+                            "action": "showTemp"
+                        },
+                        {
+                            "title": "{{quickActions_sdodetail_title}}",
+                            "subtitle": "{{quickActions_sdodetail_subtitle}}",
+                            "imageUri": "sap-icon://Fiori2/F0014",
+                            "semanticObject": "SupplyDemandOverview",
+                            "action": "showDetail"
+                        },
+                        {
+                            "title": "{{quickActions_mntrsupassgmtdmnd_title}}",
+                            "imageUri": "sap-icon://Fiori2/F0343",
+                            "semanticObject": "SupplyDemandOverview",
+                            "action": "monitor"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

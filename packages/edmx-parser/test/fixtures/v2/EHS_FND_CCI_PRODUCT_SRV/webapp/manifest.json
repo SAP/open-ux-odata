@@ -1,0 +1,252 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{ehs.fnd.product.monitors1.appTitle}}",
+        "description": "{{ehs.fnd.product.monitors1.appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-FND",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHS_FND_CCI_PRODUCT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHS_FND_CCI_PRODUCT_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHS_FND_CCI_PRODUCT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHS_FND_CCI_PRODUCT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHS_FND_CCI_PRODUCT_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "monitorUnpackagedChemicalInfo": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "monitorBasicData",
+                    "deviceTypes": {
+                        "desktop": true,
+                        "tablet": true,
+                        "phone": false
+                    },
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "ignored"
+                    }
+                }
+            },
+            "outbounds": {
+                "ProductManageDisplay": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "manageBasicData",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "ProductCreate": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "manageBasicData",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "create"
+                            },
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.fl": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ehs.fnd.lib.reuse.pc": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ChmlCmplncInfoMntr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ChmlCmplncInfoMntr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "reusepc_i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.ehs.fnd.lib.reuse.pc.i18n.i18n"
+                }
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ehs.fnd.product.monitors1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_ChmlCmplncInfoMntr": {
+                                "EntitySet": "C_ChmlCmplncInfoMntr",
+                                "Actions": {
+                                    "sap.ehs.fnd.lib.reuse.pc.cci.controller.CreateBulkController": {
+                                        "id": "ActionC_ChmlCmplncInfoMntr1button",
+                                        "text": "{i18n>CREATE_OBJECT}",
+                                        "press": "onCreateProduct"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "config": {
+            "sap.ehs.fnd.lib.reuse.pc": {
+                "sap.ehs.fnd.lib.reuse.pc.cci.controller.CreateBulkController": {
+                    "CCIView": "UP"
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_ChmlCmplncInfoMntr": {
+                "entitySet": "C_ChmlCmplncInfoMntr",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_ChmlCmplncInfoMntr": {
+                        "entitySet": "C_ChmlCmplncInfoMntr",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.app.crossNavigation.outbounds",
+                                "target": "ProductManageDisplay"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2641"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

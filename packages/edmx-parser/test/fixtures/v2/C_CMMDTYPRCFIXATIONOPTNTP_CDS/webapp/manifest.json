@@ -1,0 +1,198 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-GTF-CPE",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/C_CMMDTYPRCFIXATIONOPTNTP_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_CMMDTYPRCFIXATIONOPTNTP_CD_VAN", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "C_CMMDTYPRCFIXATIONOPTNTP_CD_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_CMMDTYPRCFIXATIONOPTNTP_CD_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_CMMDTYPRCFIXATIONOPTNTP_CD_VAN.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "CommodityPriceFixationOption-manage-edit": {
+                    "semanticObject": "CommodityPriceFixationOption",
+                    "action": "manage"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_CmmdtyPrcFixationOptnTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_CmmdtyPrcFixationOptnTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CmmdtyPrcFixationOptnTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CmmdtyPrcFixationOptnTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CmmdtyPrcFixationExerTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CmmdtyPrcFixationExerTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ibso.commodity.pricefixationoption.mans1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_CmmdtyPrcFixationOptnTP": {
+                                "EntitySet": "C_CmmdtyPrcFixationOptnTP"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|C_CmmdtyPrcFixationOptnTP": {
+                "entitySet": "C_CmmdtyPrcFixationOptnTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true,
+                        "quickVariantSelectionX": {
+                            "variants": {
+                                "0": {
+                                    "key": "_tab1",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#prc_fixation_statusAB"
+                                },
+                                "1": {
+                                    "key": "_tab2",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#prc_fixation_statusC"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_CmmdtyPrcFixationOptnTP": {
+                        "entitySet": "C_CmmdtyPrcFixationOptnTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "to_Exercise::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "multiSelect": true,
+                                        "navigationProperty": "to_Exercise",
+                                        "entitySet": "C_CmmdtyPrcFixationExerTP",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4268"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,302 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-CFS-CE",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PP_CFS_CAPEVAL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PP_CFS_CAPEVAL_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PP_CFS_CAPEVAL_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PP_CFS_CAPEVAL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PP_CFS_CAPEVAL_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "AORService": {
+                "uri": "/sap/opu/odata/sap/PP_MRP_AOR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localservice/metadata_aor.xml"
+                }
+            },
+            "PP_CFS_CAPEVAL_SRV": {
+                "uri": "/sap/opu/odata/sap/PP_CFS_CAPEVAL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PP_CFS_CAPEVAL_SRV/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.i2d.mpe.lib.commons1": {
+                    "minVersion": "11.7.0-SNAPSHOT",
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                },
+                "sap.viz": {
+                    "minVersion": "",
+                    "lazy": true
+                },
+                "sap.suite.ui.commons": {
+                    "minVersion": "",
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_WorkCenterCapOverviewTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_WorkCenterCapOverviewTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_WorkCenterCapOverviewTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_WorkCenterCapOverviewTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CapEvalWcUtilznInEvalHorzn": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CapEvalWcUtilznInEvalHorzn/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_WrkCtrAvailableCapacityTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_WrkCtrAvailableCapacityTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                },
+                "preload": true
+            },
+            "AOR": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "AORService",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_WorkCenterCapOverviewTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pp.capplans1.ext.fragment.TableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_WorkCenterCapOverviewTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pp.capplans1.ext.fragment.TableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_WorkCenterCapOverviewTP|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "pp.capplans1.ext.view.Chart",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ResponsiveTableColumnsExtension|C_CapEvalPplineOp|to_WorkCenterOperation::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pp.capplans1.ext.fragment.OperationsTableColumns",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ResponsiveTableCellsExtension|C_CapEvalPplineOp|to_WorkCenterOperation::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pp.capplans1.ext.fragment.OperationsTableCells",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ResponsiveTableColumnsExtension|C_WrkCtrAvailableCapacityTP|to_availableCapacity::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pp.capplans1.ext.fragment.ShiftsTableColumns",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ResponsiveTableCellsExtension|C_WrkCtrAvailableCapacityTP|to_availableCapacity::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pp.capplans1.ext.fragment.ShiftsTableCells",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "enableLazyLoading": true
+                            }
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "pp.capplans1.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "pp.capplans1.ext.controller.ObjectPageExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_WorkCenterCapOverviewTP": {
+                "entitySet": "C_WorkCenterCapOverviewTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_WorkCenterCapOverviewTP": {
+                        "entitySet": "C_WorkCenterCapOverviewTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "to_availableCapacity::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_availableCapacity",
+                                        "entitySet": "C_WrkCtrAvailableCapacityTP",
+                                        "tableType": "ResponsiveTable"
+                                    },
+                                    "to_WorkCenterOperation::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_WorkCenterOperation",
+                                        "entitySet": "C_CapEvalPplineOp",
+                                        "tableType": "ResponsiveTable"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3289"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,168 @@
+{
+    "_version": "1.6.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FIN-FIO-TRM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FTR_POSITION_VALUES_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FTR_POSITION_VALUES_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FTR_POSITION_VALUES_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FTR_POSITION_VALUES_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FTR_POSITION_VALUES_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": { "lazy": false },
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.uxap": { "lazy": false },
+                "sap.suite.ui.generic.template": { "lazy": false },
+                "sap.ui.generic.app": { "lazy": false }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_Ftr_Position_Values": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_Ftr_Position_Values/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|Results": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_Ftr_Position_ValuesResults/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Ftr_Position_Values": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Ftr_Position_Values/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo"
+                    }
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_Ftr_Position_ValuesResults": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.trm.display.treasury.position.values.ext.fragment.customfilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.trm.display.treasury.position.values.ext.controller.customfilter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_Ftr_Position_ValuesResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1867"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

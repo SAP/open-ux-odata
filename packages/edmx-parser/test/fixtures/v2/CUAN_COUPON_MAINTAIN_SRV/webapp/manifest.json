@@ -1,0 +1,238 @@
+{
+    "_version": "1.11.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CEC-MKT-OFM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CUAN_COUPON_MAINTAIN_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CUAN_COUPON_MAINTAIN_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "CUAN_COUPON_MAINTAIN_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CUAN_COUPON_MAINTAIN_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CUAN_COUPON_MAINTAIN_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "Offers": {
+                    "semanticObject": "Recommendations",
+                    "action": "startManageOffer",
+                    "parameters": {
+                        "MarketingOffer": {}
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {},
+                "sap.ui.unified": { "lazy": true }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MKT_CouponTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MKT_CouponTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_CouponTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_CouponTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_CouponCodeTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_CouponCodeTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading"
+                    }
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "hpa.cei.coupon.manage.ext.controller.CouponCodeList",
+                        "sap.ui.generic.app": {
+                            "C_MKT_CouponTP": {
+                                "EntitySet": "C_MKT_CouponTP",
+                                "Sections": {
+                                    "to_CouponCode::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_CouponCode::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "RequestAdditionalCodes": {
+                                                "id": "RequestAdditionalCodesButton",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_CouponTP>RequestAdditionalCodesButton}",
+                                                "press": "onRequestAdditionalCodes",
+                                                "requiresSelection": false
+                                            },
+                                            "DownloadFileTemplateAction": {
+                                                "id": "DownloadFileTemplateButton",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_CouponTP>DownloadFileTemplateButton}",
+                                                "press": "onDownloadFileTemplate",
+                                                "requiresSelection": false
+                                            },
+                                            "OpenFileUploadDialogAction": {
+                                                "id": "OpenFileUploadDialogButton",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_CouponTP>UploadCodesButton}",
+                                                "press": "onOpenFileUploadDialog",
+                                                "requiresSelection": false
+                                            },
+                                            "DeleteAllCodes": {
+                                                "id": "DeleteAllCodesButton",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_CouponTP>DeleteAllCodesButton}",
+                                                "press": "onDeleteAllCodes",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "C_MKT_CouponTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true,
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_MKT_CouponTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "to_CouponText::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_CouponText",
+                                        "entitySet": "C_MKT_CouponTextTP",
+                                        "createMode": "inline"
+                                    },
+                                    "to_CouponCode::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_CouponCode",
+                                        "entitySet": "C_MKT_CouponCodeTP",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_CouponCode",
+                                "entitySet": "C_MKT_CouponCodeTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            {
+                                "navigationProperty": "to_CouponText",
+                                "entitySet": "C_MKT_CouponTextTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2833"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": "webapp"
+    }
+}

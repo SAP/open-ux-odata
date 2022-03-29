@@ -1,0 +1,453 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-PMA",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHS_PMA_MKT_PRODUCT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHS_PMA_MKT_PRODUCT_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHS_PMA_MKT_PRODUCT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHS_PMA_MKT_PRODUCT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHS_PMA_MKT_PRODUCT_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "manageMarketabilityUnpackagedChemicalInfo": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "manageMarketability",
+                    "deviceTypes": {
+                        "desktop": true,
+                        "tablet": true,
+                        "phone": false
+                    },
+                    "signature": {
+                        "parameters": {
+                            "ChmlCmplncInfoNavgnLink": {
+                                "defaultValue": {
+                                    "value": "",
+                                    "format": "plain"
+                                },
+                                "required": false
+                            },
+                            "ChmlCmplncInfoIsActiveEntity": {
+                                "defaultValue": {
+                                    "value": "",
+                                    "format": "plain"
+                                },
+                                "required": false
+                            }
+                        },
+                        "additionalParameters": "ignored"
+                    }
+                }
+            },
+            "outbounds": {
+                "managefromObjectUnpackagedChemicalInfo": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "manageBasicData",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "ChmlCmplncInfoNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ChmlCmplncInfoIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "displayCRRUnpackagedChemicalInfo": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "displayCRR",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CmplRqRsltNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ChmlCmplncInfoIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        },
+                        "focusSection": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "manageResultCCICompliancePatternSubstListChk": {
+                    "semanticObject": "CompliancePatternSubstListChk",
+                    "action": "manageResultCCI",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CmplRqRsltNavgnLink": {
+                            "value": {},
+                            "required": false
+                        },
+                        "CmplRqRsltIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "manageResultCCICompliancePatternSupplierInfo": {
+                    "semanticObject": "CompliancePatternSupplierInfo",
+                    "action": "manageResultCCI",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CmplRqRsltNavgnLink": {
+                            "value": {},
+                            "required": false
+                        },
+                        "CmplRqRsltIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "manageResultCCICompliancePatternSimpleCheck": {
+                    "semanticObject": "CompliancePatternSimpleCheck",
+                    "action": "manageResultCCI",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CmplRqRsltNavgnLink": {
+                            "value": {},
+                            "required": false
+                        },
+                        "CmplRqRsltIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ehs.fnd.lib.reuse.pc": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ChmlCmplncMktTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ChmlCmplncMktTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "reusepc_i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.ehs.fnd.lib.reuse.pc.i18n.i18n"
+                }
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_ChmlCmplncMktTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.pma.market.manages1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeHeaderFacet|C_ChmlCmplncMktTP|headerEditable::CCCMKTTP_HeaderInfoFieldGroup": {
+                            "id": "HeaderIcon",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.fnd.fragment.ObjectPageHeaderIcon",
+                            "type": "XML"
+                        },
+                        "AfterHeaderFacet|C_ChmlCmplncMktTP|headerEditable::CCCMKTTP_ApplInfoFieldGroup": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "sap.ehs.fnd.lib.reuse.pc.cci.view.RoleHeaderView",
+                            "id": "roleHeaderView",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "ResponsiveTableColumnsExtension|C_ChmlCmplncMktCmplRqRslt|CCCMKTCVRGTP_MktCR": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.crr.fragment.ComplianceRequirementTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ChmlCmplncMktCmplRqRslt|CCCMKTCVRGTP_MktCR": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.crr.fragment.ComplianceRequirementWithoutDraftTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ehs.pma.market.manages1.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ehs.pma.market.manages1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_ChmlCmplncMktTP": {
+                                "EntitySet": "C_ChmlCmplncMktTP",
+                                "Sections": {
+                                    "CCCMKTTP_MktUPLI": {
+                                        "id": "CCCMKTTP_MktUPLI",
+                                        "Actions": {
+                                            "sap.ehs.fnd.lib.reuse.pc.fnd.controller.CountryAssignmentDialogController": {
+                                                "id": "ActionAssignCountry",
+                                                "text": "{i18n>CREATE_OBJECT}",
+                                                "press": "onAssignCountry"
+                                            },
+                                            "sap.ehs.fnd.lib.reuse.pc.fnd.controller.CountryDeleteController": {
+                                                "id": "ActionDeleteCountry",
+                                                "text": "{reusepc_i18n>common.button.delete.text}",
+                                                "press": "onDeleteCountry",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                },
+                                "Header": {
+                                    "Actions": {
+                                        "sap.ehs.fnd.lib.reuse.pc.fnd.controller.DynamicNavigationController": {
+                                            "id": "ActionOpenCrrMonitor",
+                                            "text": "{@i18n>ehs.pma.market.manages1.viewCRs.button.text}",
+                                            "press": "ActionDisplayCRR"
+                                        },
+                                        "sap.ehs.fnd.lib.reuse.pc.fnd.controller.AdminDataDialogAction": {
+                                            "id": "AdminDataDialogAction",
+                                            "text": "{reusepc_i18n>common.adminDataPopup.header.action}",
+                                            "press": "onOpenAdminPopup"
+                                        }
+                                    }
+                                }
+                            },
+                            "C_ChmlCmplncMktCvrgTP": {
+                                "EntitySet": "C_ChmlCmplncMktCvrgTP",
+                                "Sections": {
+                                    "CCCMKTCVRGTP_MktPPLI": {
+                                        "id": "CCCMKTCVRGTP_MktPPLI",
+                                        "Actions": {
+                                            "ActionEditSpecMatketability": {
+                                                "id": "ActionEditSpecMatketabilitybutton",
+                                                "text": "{@i18n>ehs.pma.market.manages1.AddSpecificAssessment.button.text}",
+                                                "press": "onClickActionEditSpecMarketability",
+                                                "requiresSelection": true
+                                            },
+                                            "ActionDeleteSpecMatketability": {
+                                                "id": "ActionDeleteSpecMatketabilitybutton",
+                                                "text": "{@i18n>ehs.pma.market.manages1.DeleteSpecificAssessment.button.text}",
+                                                "press": "onClickActionDeleteSpecMarketability",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "config": {
+            "sap.ehs.fnd.lib.reuse.pc": {
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.CountryDeleteController": {
+                    "ObjectUUIDName": "ChmlCmplncMktCvrgUUID",
+                    "ViewName": "C_ChmlCmplncMktCvrgTP",
+                    "Draft": "Yes"
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.CountryAssignmentDialogController": {
+                    "EntitySets": "C_ChmlCmplncMktCountryVH",
+                    "ObjectsUUIDColumn": "ChmlCmplncInfoUUID",
+                    "ParameterNameColumn": "P_ChmlCmplncInfoUUID",
+                    "Draft": "No",
+                    "BindingPath": "to_MarketCoverage"
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.DynamicNavigationController": {
+                    "NavigationConfiguration": {
+                        "SemanticObject": "UnpackagedChemicalInfo",
+                        "SemanticObjectAction": "displayCRR",
+                        "NavigationParameters": [
+                            {
+                                "Name": "CmplRqRsltNavgnLink",
+                                "Value": "{CmplRqRsltNavgnLink}"
+                            },
+                            {
+                                "Name": "ChmlCmplncInfoIsActiveEntity",
+                                "Value": true
+                            },
+                            {
+                                "Name": "{focusSection}",
+                                "Value": "sectionAll"
+                            }
+                        ]
+                    }
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.fragment.ObjectPageHeaderIcon": {
+                    "IconConfiguration": {
+                        "dynamic_icon": "cci_dependent"
+                    }
+                },
+                "sap.ehs.fnd.lib.reuse.pc.cci.controller.RoleHeaderExtension": {
+                    "CCIView": "UP"
+                },
+                "ControllerFeatures": {
+                    "ehs.pma.market.manages1.ext.controller.ObjectPageExt": {
+                        "sap.ehs.fnd.lib.reuse.pc.fnd.controller.AfterDraftActivationTrigger": {
+                            "FunctionImports": {
+                                "AfterDraftActivate": "/C_ChmlCmplncMktTPAfter_activate"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "objectPageHeaderType": "Dynamic",
+            "useColumnLayoutForSmartForm": false,
+            "showDraftToggle": true,
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|C_ChmlCmplncMktTP": {
+                "entitySet": "C_ChmlCmplncMktTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_ChmlCmplncMktTP": {
+                        "entitySet": "C_ChmlCmplncMktTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "defaultLayoutType": "OneColumn",
+                        "pages": {
+                            "ObjectPage|to_MarketCoverage": {
+                                "navigationProperty": "to_MarketCoverage",
+                                "entitySet": "C_ChmlCmplncMktCvrgTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "defaultLayoutType": "TwoColumnsMidExpanded",
+                                "pages": {
+                                    "ObjectPage|to_CmplRqRslt": {
+                                        "navigationProperty": "to_CmplRqRslt",
+                                        "entitySet": "C_ChmlCmplncMktCmplRqRslt",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2612"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,383 @@
+{
+    "_version": "1.6.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "i2d.ps.projfincontroller.ovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "PS-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "PS_PROJFINCTRLROVP_SRV": {
+                "uri": "/sap/opu/odata/sap/PS_PROJFINCTRLROVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PS_PROJFINCTRLROVP_ANNO_MDL", "annotation"],
+                    "localUri": "localService/PS_PROJFINCTRLROVP_SRV/metadata.xml"
+                }
+            },
+            "PS_PROJFINCTRLROVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PS_PROJFINCTRLROVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PS_PROJFINCTRLROVP_SRV/PS_PROJFINCTRLROVP_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "digitalAssistant": {
+            "intentDefinition": {
+                "copilotIntent": {
+                    "uri": "copilot/MonitorProjectCosts.xml",
+                    "dataSources": ["PS_PROJFINCTRLROVP_SRV"],
+                    "i18n": "i18n/copilot/i18n.properties"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "PS_PROJFINCTRLROVP_SRV_ANA": {
+                "preload": true,
+                "dataSource": "PS_PROJFINCTRLROVP_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "PS_PROJFINCTRLROVP_SRV_NANA": {
+                "preload": true,
+                "dataSource": "PS_PROJFINCTRLROVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "PS_OVP_SRV_STATUS": {
+                "preload": true,
+                "dataSource": "PS_PROJFINCTRLROVP_SRV"
+            },
+            "PS_PROJFINCTRLROVP_SRV": {
+                "preload": true,
+                "dataSource": "PS_PROJFINCTRLROVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "i2d.ps.projfincontroller.ovps1.ext.customFilter"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.ovp.app.Main": {
+                        "SmartFilterBarControlConfigurationExtension|C_ProjectFinCtrlrOvwType": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.ps.projfincontroller.ovps1.ext.customFilter",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "PS_PROJFINCTRLROVP_SRV",
+        "globalFilterEntityType": "C_ProjectFinCtrlrOvwType",
+        "enableLiveFilter": false,
+        "containerLayout": "resizable",
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "i2d.ps.projfincontroller.ovps1_card00": {
+                "model": "PS_PROJFINCTRLROVP_SRV_NANA",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.ps.projfincontroller.ovps1_card00_title}}",
+                    "subTitle": "{{i2d.ps.projfincontroller.ovps1_card00_subTitle}}",
+                    "entitySet": "C_PlannedProjectsOvw",
+                    "sortBy": "PlannedStartDate",
+                    "sortOrder": "descending",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#card1",
+                    "customParams": "card0"
+                }
+            },
+            "i2d.ps.projfincontroller.ovps1_card01": {
+                "model": "PS_PROJFINCTRLROVP_SRV_NANA",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.ps.projfincontroller.ovps1_card01_title}}",
+                    "subTitle": "{{i2d.ps.projfincontroller.ovps1_card01_subTitle}}",
+                    "entitySet": "C_ProjectsWthoutRecentPosting",
+                    "addODataSelect": false,
+                    "customParams": "card1",
+                    "tabs": [
+                        {
+                            "value": "{{PREVIOUS_123}}",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#viewSwitch1",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presVarCard1",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selViewSwitch1"
+                        },
+                        {
+                            "value": "{{PREVIOUS_456}}",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#viewSwitch2",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presVarCard2",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selViewSwitch2"
+                        },
+                        {
+                            "value": "{{PREVIOUS_OVR6}}",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#viewSwitch3",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presVarCard3",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selViewSwitch3"
+                        }
+                    ]
+                }
+            },
+            "i2d.ps.projfincontroller.ovps1_card02": {
+                "model": "PS_PROJFINCTRLROVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.ps.projfincontroller.ovps1_card02_title}}",
+                    "subTitle": "{{i2d.ps.projfincontroller.ovps1_card02_subTitle}}",
+                    "entitySet": "C_ProjCostByCostComp",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#card2",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#card2",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualAmountInGlobalCurrency",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "navigation": "dataPointNav",
+                    "valueSelectionInfo": "{{i2d.ps.projfincontroller.ovps1_card02_valueSelectionInfo}}",
+                    "customParams": "card2"
+                }
+            },
+            "i2d.ps.projfincontroller.ovps1_card03": {
+                "model": "PS_PROJFINCTRLROVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.ps.projfincontroller.ovps1_card03_title}}",
+                    "subTitle": "{{i2d.ps.projfincontroller.ovps1_card03_subTitle}}",
+                    "entitySet": "C_ActiveProjectCostsByMonthOvw",
+
+                    "valueSelectionInfo": "{{i2d.ps.projfincontroller.ovps1_card03_valueSelectionInfo}}",
+                    "customParams": "card3",
+                    "tabs": [
+                        {
+                            "value": "{{PREVIOUS_PCN}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#chartVariant1",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presVariant1",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selVariant1",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActlCmtmtCumltvAmtInGlobCrcy"
+                        },
+                        {
+                            "value": "{{PREVIOUS_2CN}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#chartVariant2",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presVariant2",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selVariant2",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActlCmtmtCumltvAmtInGlobCrcy"
+                        },
+                        {
+                            "value": "{{PREVIOUS_4C}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#chartVariant3",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presVariant3",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#selVariant3",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActlCmtmtCumltvAmtInGlobCrcy"
+                        }
+                    ]
+                }
+            },
+            "i2d_ps_projfincontroller_ovps1_card04": {
+                "model": "PS_OVP_SRV_STATUS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d_ps_projfincontroller_ovps1_card04_title}}",
+                    "subTitle": "{{i2d_ps_projfincontroller_ovps1_card04_subTitle}}",
+                    "entitySet": "C_ActiveProjectOvrlStsSmmry",
+                    "requireAppAuthorization": "EnterpriseProject-showProjectBrief",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#donut",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#donut",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "navigation": "dataPointNav",
+                    "customParams": "card04"
+                }
+            },
+            "i2d_ps_projfincontroller_ovps1_card05": {
+                "model": "PS_OVP_SRV_STATUS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{i2d_ps_projfincontroller_ovps1_card05_title}}",
+                    "subTitle": "{{i2d_ps_projfincontroller_ovps1_card05_subTitle}}",
+                    "entitySet": "C_ActiveProjectOvrlSts",
+                    "requireAppAuthorization": "EnterpriseProject-showProjectBrief",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "navigation": "dataPointNav",
+                    "customParams": "card5"
+                }
+            },
+            "i2d_ps_projfincontroller_ovps1_card06": {
+                "model": "PS_PROJFINCTRLROVP_SRV_NANA",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d_ps_projfincontroller_ovps1_card06_title}}",
+                    "subTitle": "{{i2d_ps_projfincontroller_ovps1_card06_subTitle}}",
+                    "entitySet": "C_ActvProjUpcomingMilestones",
+                    "requireAppAuthorization": "EnterpriseProject-showProjectBrief",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant"
+                }
+            },
+            "i2d_ps_projfincontroller_ovps1_card07": {
+                "model": "PS_PROJFINCTRLROVP_SRV_NANA",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{i2d_ps_projfincontroller_ovps1_card07_title}}",
+                    "subTitle": "{{i2d_ps_projfincontroller_ovps1_card07_subTitle}}",
+                    "entitySet": "C_ActiveProjectDetailedSts",
+                    "requireAppAuthorization": "EnterpriseProject-showProjectBrief",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant"
+                }
+            },
+            "i2d_ps_projfincontroller_ovps1_card08": {
+                "model": "PS_PROJFINCTRLROVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d_ps_projfincontroller_ovps1_card08_title}}",
+                    "subTitle": "{{i2d_ps_projfincontroller_ovps1_card08_subTitle}}",
+                    "entitySet": "C_ProjectCostsToDate",
+                    "requireAppAuthorization": "EnterpriseProject-showProjectBrief",
+                    "valueSelectionInfo": "{{i2d_ps_projfincontroller_ovps1_card08_valueSelectionInfo}}",
+                    "customParams": "card4",
+                    "tabs": [
+                        {
+                            "value": "{{LASTTHREE}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LastThree",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#chartVariant1",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualAmountInGlobalCurrency"
+                        },
+                        {
+                            "value": "{{LASTSIX}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LastSix",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#chartVariant2",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualAmountInGlobalCurrency"
+                        },
+                        {
+                            "value": "{{LASTTWELVE}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LastTwelve",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#chartVariant3",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "navigation": "dataPointNav",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ActualAmountInGlobalCurrency"
+                        }
+                    ]
+                }
+            },
+            "i2d_ps_projfincontroller_ovps1_card09": {
+                "model": "PS_PROJFINCTRLROVP_SRV_NANA",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d_ps_projfincontroller_ovps1_card09_title}}",
+                    "subTitle": "{{i2d_ps_projfincontroller_ovps1_card09_subTitle}}",
+                    "entitySet": "C_ProjectBudgetConsumption",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "customParams": "card9"
+                }
+            },
+            "i2d_ps_projfincontroller_ovps1_card10": {
+                "model": "PS_PROJFINCTRLROVP_SRV_NANA",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d_ps_projfincontroller_ovps1_card10_title}}",
+                    "subTitle": "{{i2d_ps_projfincontroller_ovps1_card10_subTitle}}",
+                    "entitySet": "C_ProjOvrlBudgetConsumption",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "customParams": "card10"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3078"],
+        "archeType": "transactional"
+    }
+}

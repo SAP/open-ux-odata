@@ -8,11 +8,13 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=SAP_open-ux-odata&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SAP_open-ux-odata)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/open-ux-odata)](https://api.reuse.software/info/github.com/SAP/open-ux-odata)
 
-TBD
+This repository contains a collection of utilities around the OData protocol that can be used in your application.
+
 
 ## Modules
 
-TBD
+[@sap-ux/vocabularies-types](./packages/vocabularies-types) : An opinionated set of types representing the OData vocabularies.
+[@sap-ux/edmx-parser](./packages/edmx-parser) : A simple parser of OData metadata document (v2 and v4) that generates an object representation.
 
 ## Requirements
 Everything is released as node modules requiring node with a version matching `">=12.22.5 < 13.0.0 || >= 14.16.0 < 15.0.0 || >=16.1.0 < 17.0.0"`.

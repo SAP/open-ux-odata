@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="../../../sap/fitaxcn_input_vat_deduction_srv/$metadata">
+		<edmx:Include Namespace="FITAXCN_INPUT_VAT_DEDUCTION_SRV" Alias="SAP"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="fitaxcn_input_vat_de_anno_mdl_01.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/Country">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/Language">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/ChartOfAccounts">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/FiscalYearVariant">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/Company">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/CreditControlArea">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/CountryChartOfAccounts">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/FinancialManagementArea">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/AddressID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/TaxableEntity">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/VATRegistration">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/ExtendedWhldgTaxIsActive">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/ControllingArea">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxCompanyCodeType/FieldStatusVariant">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/CategoryDescription">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations/>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/CN_TaxInvcTypeTxt">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/DocumentStatusDesc">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/ID">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/CN_TaxEntityID">
+				<Annotation Term="Common.Text" Path="CN_TaxEntityID">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/CN_TaxDeclnMonth">
+				<Annotation Term="Common.Text" Path="CN_TaxDeclnMonth">
+					<Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextSeparate"/>
+				</Annotation>
+			</Annotations>
+			<Annotations
+				Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/CN_TaxInvcNetAmtInInvcCrcy"/>
+			<Annotations
+				Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/ZeroTaxBaseAmountInCoCodeCrcy"/>
+			<Annotations
+				Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/CN_TaxInvcTaxAmtInInvcCrcy"/>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/TaxAmount"/>
+			<Annotations
+				Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType/CN_TaxInvcTotAmtInInvcCrcy"/>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxDeductionItemCubeType">
+				<Annotation Term="UI.Chart" Qualifier="VHInvcType">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Input VAT Transfer in CNY"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>CN_TaxInvcType</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>CN_TaxInvcTaxAmtInInvcCrcy</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart" Qualifier="VHDeclaration">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Input VAT Transfer in CNY"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Line"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>CN_TaxDeclnYear</PropertyPath>
+								<PropertyPath>CN_TaxDeclnMonth</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>CN_TaxInvcTaxAmtInInvcCrcy</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart" Qualifier="VHTaxEntity">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Input VAT Transfer in CNY"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>CN_TaxEntityID</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>CN_TaxInvcTaxAmtInInvcCrcy</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.Chart">
+					<Record Type="UI.ChartDefinitionType">
+						<PropertyValue Property="Title" String="Deduction Amount by Tax Category"/>
+						<PropertyValue Property="Description" String="Deduction Amount by Tax Category"/>
+						<PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
+						<PropertyValue Property="Dimensions">
+							<Collection>
+								<PropertyPath>CN_TaxEntityID</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="DimensionAttributes">
+							<Collection>
+								<Record Type="UI.ChartDimensionAttributeType">
+									<PropertyValue Property="Dimension" PropertyPath="CN_TaxEntityID"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>CN_TaxInvcTaxAmtInInvcCrcy</PropertyPath>
+								<PropertyPath>CN_TaxInvcNetAmtInInvcCrcy</PropertyPath>
+								<PropertyPath>TaxCategory</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="CN_TaxInvcNetAmtInInvcCrcy"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+								</Record>
+								<Record Type="UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="TaxCategory"/>
+									<PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="AdditionalInfo">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CompanyCode"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxEntityID"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxDeclnYear"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxDeclnMonth"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.FieldGroup" Qualifier="BasicInfo">
+					<Record>
+						<PropertyValue Property="Data">
+							<Collection>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CategoryDescription"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxInvcType"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxInvcCode"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxInvcNmbr"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxInvcDate"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="DisplayTaxRate"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxInvcNetAmtInInvcCrcy"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxInvcTaxAmtInInvcCrcy"/>
+								</Record>
+								<Record Type="UI.DataField">
+									<PropertyValue Property="Value" Path="CN_TaxInvcTotAmtInInvcCrcy"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Input VAT Deduction Item"/>
+						<PropertyValue Property="TypeNamePlural" String="Input VAT Deduction Items"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CompanyCode"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CategoryDescription"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="DisplayTaxRate"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxInvcCode"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxInvcDate"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxInvcNetAmtInInvcCrcy"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxInvcTaxAmtInInvcCrcy"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxDeclnYear"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxDeclnMonth"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxInvcTypeTxt"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="DocumentStatusDesc"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxInvcUUID"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.LineItem" Qualifier="ValueList">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxEntityID"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxDeclnYear"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxDeclnMonth"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="CN_TaxInvcType"/>
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="VH_InvcType">
+					<Record>
+						<PropertyValue Property="MaxItems" Int="3"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="CN_TaxInvcTaxAmtInInvcCrcy"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#VHInvcType</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="VH_Declaration">
+					<Record>
+						<PropertyValue Property="MaxItems" Int="6"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="CN_TaxDeclnYear"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="CN_TaxDeclnMonth"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#VHDeclaration</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.PresentationVariant" Qualifier="VH_TaxEntity">
+					<Record>
+						<PropertyValue Property="MaxItems" Int="2"/>
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="CN_TaxInvcTaxAmtInInvcCrcy"/>
+									<PropertyValue Property="Descending" Bool="true"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Visualizations">
+							<Collection>
+								<AnnotationPath>@UI.Chart#VHTaxEntity</AnnotationPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>CompanyCode</PropertyPath>
+						<PropertyPath>CN_TaxEntityID</PropertyPath>
+						<PropertyPath>CN_TaxDeclnYear</PropertyPath>
+						<PropertyPath>CN_TaxDeclnMonth</PropertyPath>
+						<PropertyPath>CN_TaxInvcType</PropertyPath>
+					</Collection>
+				</Annotation>
+				<Annotation Term="UI.SelectionPresentationVariant" Qualifier="Standard">
+					<Record>
+						<PropertyValue Property="Text" String="Standard Selection-Presentation-Variant"/>
+						<PropertyValue Property="ID" String="Standard"/>
+						<PropertyValue Property="SelectionVariant" Path="@UI.SelectionVariant#VH_TaxEntity"/>
+						<PropertyValue Property="PresentationVariant" Path="@UI.PresentationVariant#Standard"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant" Qualifier="Standard">
+					<Record>
+						<PropertyValue Property="Text" String="Standard Selection"/>
+						<PropertyValue Property="ID" String="Standard"/>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant">
+					<Record>
+						<PropertyValue Property="Text" String="Default Selection"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxInptVATCatType/TaxCategory">
+				<Annotation Term="UI.HiddenFilter"/>
+			</Annotations>
+			<Annotations Target="FITAXCN_INPUT_VAT_DEDUCTION_SRV.C_CN_TaxInptVATCatType/TaxRate">
+				<Annotation Term="UI.HiddenFilter"/>
+				<Annotation Term="Common.FilterDefaultValue" Decimal="0"/>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

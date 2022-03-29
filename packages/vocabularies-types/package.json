@@ -1,0 +1,31 @@
+{
+    "name": "@sap-ux/vocabularies-types",
+    "version": "0.5.0",
+    "license": "Apache-2.0",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "pnpm clean && pnpm generate_types && tsc",
+        "clean": "rimraf vocabularies && rimraf *.d.ts && rimraf src/vocabularies",
+        "format": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
+        "lint": "eslint . --ext .ts",
+        "lint:fix": "eslint . --ext .ts --fix",
+        "generate_types": "ts-node utils/generate_types.ts",
+        "watch": "tsc --watch",
+        "link": "pnpm link --global",
+        "unlink": "pnpm unlink --global"
+    },
+    "files": [
+        "LICENSE",
+        "dist",
+        "index.d.ts"
+    ],
+    "devDependencies": {
+        "@types/mkdirp": "^1.0.2",
+        "axios": "^0.26.1",
+        "mkdirp": "^1.0.4"
+    },
+    "engines": {
+        "pnpm": ">=6.26.1",
+        "node": ">=12.22.5 < 13.0.0 || >= 14.16.0 < 15.0.0 || >=16.1.0 < 17.0.0"
+    }
+}

@@ -1,0 +1,171 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-MDG-ADQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MDG_CR_BUPA_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["MDG_CR_BUPA_ALP_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MDG_CR_BUPA_ALP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MDG_CR_BUPA_ALP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MDG_CR_BUPA_ALP_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {},
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_MDGovBusPartChangeRequest": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_MDGovBusPartChangeRequest/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadata-url-params": {
+                        "sap-value-list": "none",
+                        "sap-documentation": "heading,quickinfo"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "mdm.mdg.cr.bupa.alps1.ext.controller.custom"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "AnalyticalTableColumnsExtension|C_MDGovBusPartChangeRequest": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.mdg.cr.bupa.alps1.ext.fragment.customAnalyticalTableColumns",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "C_MDGovBusPartChangeRequest",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "tableType": "AnalyticalTable",
+                        "multiSelect": false,
+                        "qualifier": "DefaultVariantALP",
+                        "autoHide": true,
+                        "showGoButtonOnFilterBar": false,
+                        "condensedTableLayout": true,
+                        "keyPerformanceIndicators": {},
+                        "smartVariantManagement": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3141"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/mdg_crbp_alps1/webapp"
+    }
+}
