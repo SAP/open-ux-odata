@@ -1,0 +1,180 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CO-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FINS_ACDOC_PLAN_MANAGE_COPY_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FINS_ACDOC_PLAN_MANAGE__ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FINS_ACDOC_PLAN_MANAGE__ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FINS_ACDOC_PLAN_MANAGE__ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FINS_ACDOC_PLAN_MANAGE__ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_FinPlanningManageCopy": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_FinPlanningManageCopy/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_FinPlanningManageCopy": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_FinPlanningManageCopy/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo",
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.co.plandata.manage.copy.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_FinPlanningManageCopy": {
+                                "EntitySet": "C_FinPlanningManageCopy",
+                                "Actions": {
+                                    "ActionC_FinPlanningManageCopyCopy": {
+                                        "id": "ActionC_FinPlanningManageCopyCopyButton",
+                                        "text": "{@i18n>ActionC_FinPlanningManageCopyCopy}",
+                                        "press": "onClickActionC_FinPlanningManageCopyCopy",
+                                        "enabled": "false"
+                                    },
+                                    "ActionC_FinPlanningManageCopyZero": {
+                                        "id": "ActionC_FinPlanningManageCopyZeroButton",
+                                        "text": "{@i18n>ActionC_FinPlanningManageCopyZero}",
+                                        "press": "onClickActionC_FinPlanningManageCopyZero"
+                                    },
+                                    "ActionC_FinPlanningManageCopyShowLog": {
+                                        "id": "ActionC_FinPlanningManageCopyShowLogButton",
+                                        "text": "{@i18n>ActionC_FinPlanningManageCopyShowLog}",
+                                        "press": "onClickActionC_FinPlanningManageCopyShowLog"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_FinPlanningManageCopy": {
+                "entitySet": "C_FinPlanningManageCopy",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "condensedTableLayout": true,
+                        "enableTableFilterInPageVariant": true
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3396"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

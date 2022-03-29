@@ -1,0 +1,231 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "sap.i2d.atp.configurerespys1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-ATP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ATP_RESPONSIBILITY_CONFIG/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ATP_RESPONSIBILITY_CONF_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "vocabularyService": {
+                "uri": "/sap/opu/odata/sap/VOCABULARY_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/vocabulary/metadata.xml"
+                }
+            },
+            "ATP_RESPONSIBILITY_CONF_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ATP_RESPONSIBILITY_CONF_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ATP_RESPONSIBILITY_CONF_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.rules.ui": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_OrderFulfillmentRespyWD": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_OrderFulfillmentRespyWD/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_OrderFulfillmentRespyWD": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_OrderFulfillmentRespyWD/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|to_OrdFulfillmentRespyAssWD": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_OrdFulfillmentRespyAssgmtWD/i18n.properties"
+            },
+            "": {
+                "type": "sap.i2d.atp.configurerespys1.ext.message.ATPODataModel",
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "vocabulary": {
+                "dataSource": "vocabularyService",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_OrderFulfillmentRespyTP|GeneralInformation": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "sap.i2d.atp.configurerespys1.ext.view.ResponsibilityGeneralFacet",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{facetTile}}"
+                            }
+                        },
+                        "AfterFacet|C_OrderFulfillmentRespyTP|GeneralInformation": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.i2d.atp.configurerespys1.ext.view.fragment.ResponsibilityDefinition",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{/#C_OrderFulfillmentRespyTPType/ResponsibilityDefinition/@sap:label}"
+                            }
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "sap.i2d.atp.configurerespys1.ext.controller.ResponsibilityListPage",
+                        "sap.ui.generic.app": {
+                            "C_OrderFulfillmentRespyTP": {
+                                "EntitySet": "C_OrderFulfillmentRespyTP",
+                                "Actions": {
+                                    "ActionMassCreation": {
+                                        "id": "ActionMassCreation",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_OrderFulfillmentRespyWD>MassCreationAction}",
+                                        "press": "startMassCreationOfResponsibilities",
+                                        "requiresSelection": false
+                                    },
+                                    "ActionMassAssignment": {
+                                        "id": "ActionMassAssignment",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_OrderFulfillmentRespyWD>MassAssignmentAction}",
+                                        "press": "startMassAssignmentOfResponsibilities",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "sap.i2d.atp.configurerespys1.ext.controller.ResponsibilityObjectPage"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_OrderFulfillmentRespyTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_OrderFulfillmentRespyTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_Assignment",
+                                "entitySet": "C_OrdFulfillmentRespyAssgmtTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2246"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

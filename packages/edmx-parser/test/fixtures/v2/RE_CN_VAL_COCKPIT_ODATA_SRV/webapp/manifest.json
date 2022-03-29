@@ -1,0 +1,155 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "_version": "1.3.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{App.Title}}",
+        "description": "{{app_description}}",
+        "ach": "RE-FX-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "VALUATION_COCKPIT": {
+                "uri": "/sap/opu/odata/sap/RE_CN_VAL_COCKPIT_ODATA_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/ZRE_VALUATION_COCKPIT_TEST_SRV_01/metadata.xml",
+                    "annotations": ["VALUATION_COCKPIT_ANNO_MDL"]
+                }
+            },
+            "VALUATION_COCKPIT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='RE_CN_VAL_COCKPIT_ODATA_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "VALUATION_COCKPIT": {
+                "preload": true,
+                "dataSource": "VALUATION_COCKPIT",
+
+                "settings": {
+                    "useBatch": true,
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4035"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "VALUATION_COCKPIT",
+        "globalFilterEntityType": "C_REContractValuationByTypeType",
+        "enableLiveFilter": true,
+        "smartVariantRequired": true,
+        "considerAnalyticalParameters": false,
+        "containerLayout": "resizable",
+        "cards": {
+            "card01": {
+                "model": "VALUATION_COCKPIT",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Chart.Status.Title}}",
+                    "subTitle": "{{Chart.Status.SubTitle}}",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ValStatChart",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RENumberOfContracts",
+                    "entitySet": "C_REContractValuationByStatus",
+                    "stopResizing": true,
+                    "defaultSpan": {
+                        "cols": 2,
+                        "rows": 18
+                    }
+                }
+            },
+            "card02": {
+                "model": "VALUATION_COCKPIT",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Chart.Type.Title}}",
+                    "subTitle": "{{Chart.Type.SubTitle}}",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ValTypeChart",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RENumberOfContracts",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "entitySet": "C_REContractValuationByType",
+                    "stopResizing": true,
+                    "autoAdjustHeight": false,
+                    "staticParameters": {
+                        "REValuationStatus": ""
+                    },
+                    "defaultSpan": {
+                        "cols": 2,
+                        "rows": 18
+                    }
+                }
+            },
+            "card04": {
+                "model": "VALUATION_COCKPIT",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{QuickLinks.Title}}",
+                    "listFlavor": "standard",
+                    "stopResizing": true,
+                    "staticContent": [
+                        {
+                            "title": "{{Link.ManageValuations}}",
+                            "semanticObject": "REValuation",
+                            "action": "manage"
+                        },
+                        {
+                            "title": "{{Link.ManageContracts}}",
+                            "semanticObject": "REContract",
+                            "action": "display"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

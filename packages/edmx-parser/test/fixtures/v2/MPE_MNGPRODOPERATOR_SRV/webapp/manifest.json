@@ -1,0 +1,240 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-FIO-SFC",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MPE_MNGPRODOPERATOR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MPE_MNGPRODOPERATOR_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MPE_MNGPRODOPERATOR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MPE_MNGPRODOPERATOR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MPE_MNGPRODOPERATOR_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.core": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MfgOperatorDetail": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MfgOperatorDetail/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MfgOperatorDetail": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MfgOperatorDetail/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MfgOpActyAssgdToOptr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MfgOpActyAssgdToOptr/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_MfgOpActyAssgdToOptr|ASSIGNEDACT": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.prodnoperator.manages1.ext.fragments.DurationStatusResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MfgOpActyAssgdToOptr|ASSIGNEDACT": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.prodnoperator.manages1.ext.fragments.DurationStatusResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MfgBPWorkCenterAssgmt|ASSIGNEDWC3": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.prodnoperator.manages1.ext.fragments.ValidityAssWCResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MfgBPWorkCenterAssgmt|ASSIGNEDWC3": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.prodnoperator.manages1.ext.fragments.ValidityAssWCResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MfgHumRsceQualifnBP|ASSIGNEDWC": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.prodnoperator.manages1.ext.fragments.ValidityQualResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MfgHumRsceQualifnBP|ASSIGNEDWC": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.prodnoperator.manages1.ext.fragments.ValidityQualResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_MfgOperatorDetail": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.mpe.prodnoperator.manages1.ext.fragments.Customfilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.mpe.prodnoperator.manages1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_MfgOperatorDetail": {
+                                "EntitySet": "C_MfgOperatorDetail",
+                                "Sections": {
+                                    "ASSIGNEDACT": {
+                                        "id": "ASSIGNEDACT",
+                                        "Actions": {
+                                            "ActionC_MfgOperatorDetailSections1": {
+                                                "id": "ActionC_MfgOperatorDetailSections1button",
+                                                "text": "{@i18n>ActionC_MfgOperatorDetailSections1}",
+                                                "press": "onClickAssignactivity"
+                                            },
+                                            "ActionC_MfgOperatorDetailSections2": {
+                                                "id": "ActionC_MfgOperatorDetailSections2button",
+                                                "text": "{@i18n>ActionC_MfgOperatorDetailSections2}",
+                                                "press": "onClickUnassign",
+                                                "global": false,
+                                                "requiresSelection": true
+                                            },
+                                            "ActionC_MfgOperatorDetailSections3": {
+                                                "id": "ActionC_MfgOperatorDetailSections3button",
+                                                "text": "{@i18n>ActionC_MfgOperatorDetailSections3}",
+                                                "press": "onClickAssignDuration",
+                                                "global": false,
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.mpe.prodnoperator.manages1.ext.controller.ListReportExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|C_MfgOperatorDetail": {
+                "entitySet": "C_MfgOperatorDetail",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MfgOperatorDetail": {
+                        "entitySet": "C_MfgOperatorDetail",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4046"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,612 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "ux.fnd.pob.o2c.ovp",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "CA-EPT-POC",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_PROCMONKPIO2C_CDS": {
+                "uri": "/sap/opu/odata/sap/C_PROCMONKPIO2C_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_PROCMONKPIO2C_CDS/metadata.xml",
+                    "annotations": ["annotation"],
+                    "maxAge": 30
+                }
+            },
+            "annotation": {
+                "uri": "annotations/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2242"],
+        "archeType": "analytical"
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_PROCMONKPIO2C_CDS": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS2": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS3": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS4": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS5": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS6": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS7": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS8": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS_AC": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS_AC2": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS_AC3": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "C_PROCMONKPIO2C_CDS_AC4": {
+                "preload": true,
+                "dataSource": "C_PROCMONKPIO2C_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "C_PROCMONKPIO2C_CDS",
+        "globalFilterEntityType": "C_ProcMonKPIO2CResult",
+        "cards": {
+            "card00": {
+                "model": "C_PROCMONKPIO2C_CDS_AC",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card0_title}}",
+                    "subTitle": "{{card0_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CMonthResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOperMon3",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value3}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOperMon6",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value6}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOperMon12",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value12}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card01": {
+                "model": "C_PROCMONKPIO2C_CDS_AC2",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card1_title}}",
+                    "subTitle": "{{card0_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CMonthResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemperMon3",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value3}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemperMon6",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value6}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemperMon12",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value12}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card02": {
+                "model": "C_PROCMONKPIO2C_CDS_AC3",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card2_title}}",
+                    "subTitle": "{{card0_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CMonthResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelNum3",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value3}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelNum6",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value6}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelNum12",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value12}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card03": {
+                "model": "C_PROCMONKPIO2C_CDS_AC4",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card3_title}}",
+                    "subTitle": "{{card0_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CMonthResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilNum3",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value3}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilNum6",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value6}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilNum12",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LineChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Pres",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value12}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card04": {
+                "model": "C_PROCMONKPIO2C_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card4_title}}",
+                    "subTitle": "{{card4_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SONum1",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SONum7",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SONum14",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SONum28",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card05": {
+                "model": "C_PROCMONKPIO2C_CDS2",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card5_title}}",
+                    "subTitle": "{{card4_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemNum1",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemNum7",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemNum14",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemNum28",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card06": {
+                "model": "C_PROCMONKPIO2C_CDS3",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card6_title}}",
+                    "subTitle": "{{card4_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelNum1",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelNum7",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelNum14",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelNum28",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card07": {
+                "model": "C_PROCMONKPIO2C_CDS4",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card7_title}}",
+                    "subTitle": "{{card4_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilNum1",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilNum7",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilNum14",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Totals",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilNum28",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card08": {
+                "model": "C_PROCMONKPIO2C_CDS5",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card08_title}}",
+                    "subTitle": "{{card8_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOLdTm1",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOLdTm7",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOLdTm14",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOLdTm28",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card09": {
+                "model": "C_PROCMONKPIO2C_CDS6",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card09_title}}",
+                    "subTitle": "{{card8_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemLdTm1",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemLdTm7",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemLdTm14",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SOItemLdTm28",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card10": {
+                "model": "C_PROCMONKPIO2C_CDS7",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card10_title}}",
+                    "subTitle": "{{card8_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelLdTm1",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelLdTm7",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelLdTm14",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DelLdTm28",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "card11": {
+                "model": "C_PROCMONKPIO2C_CDS8",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card11_title}}",
+                    "subTitle": "{{card8_subTitle}}",
+                    "entitySet": "C_ProcMonKPIO2CResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ProcObsvrKPIDefinition",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilLdTm1",
+                            "value": "{{day_value1}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilLdTm7",
+                            "value": "{{day_value7}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilLdTm14",
+                            "value": "{{day_value14}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LdTm",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BilLdTm28",
+                            "value": "{{day_value28}}"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            }
+        }
+    }
+}

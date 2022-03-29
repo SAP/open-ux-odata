@@ -1,0 +1,181 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-AR",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAR_INSPECT_ITEMS_CHNGLOG_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["localAnnotations", "FAR_INSPECT_ITEMS_CHNGL_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FAR_INSPECT_ITEMS_CHNGL_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAR_INSPECT_ITEMS_CHNGL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAR_INSPECT_ITEMS_CHNGL_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "Customer-displayItemChangeLog": {
+                    "signature": {
+                        "parameters": {
+                            "Customer": {
+                                "defaultValue": { "value": "UserDefault.extended.Customer", "format": "reference" }
+                            },
+                            "Supplier": {
+                                "defaultValue": { "value": "UserDefault.extended.Supplier", "format": "reference" }
+                            },
+                            "CompanyCode": {
+                                "defaultValue": { "value": "UserDefault.CompanyCode", "format": "reference" }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "Customer",
+                    "action": "displayItemChangeLog"
+                },
+                "Supplier-displayItemChangeLog": {
+                    "signature": {
+                        "parameters": {
+                            "Customer": {
+                                "defaultValue": { "value": "UserDefault.extended.Customer", "format": "reference" }
+                            },
+                            "Supplier": {
+                                "defaultValue": { "value": "UserDefault.extended.Supplier", "format": "reference" }
+                            },
+                            "CompanyCode": {
+                                "defaultValue": { "value": "UserDefault.CompanyCode", "format": "reference" }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "Supplier",
+                    "action": "displayItemChangeLog"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_JournalEntryChangeLog": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_JournalEntryChangeLog/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.ar.inspect.itemschangelog.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_JournalEntryChangeLog": {
+                                "EntitySet": "C_JournalEntryChangeLog"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_JournalEntryChangeLog",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": false
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2681"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

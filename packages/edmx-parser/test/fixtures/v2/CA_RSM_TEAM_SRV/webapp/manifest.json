@@ -1,0 +1,419 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-GTF-RM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CA_RSM_TEAM_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CA_RSM_TEAM_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "CA_RSM_TEAM_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CA_RSM_TEAM_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CA_RSM_TEAM_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "CA_RSM_TEAM_ACTION_Service": {
+                "uri": "/sap/opu/odata/sap/CA_RSM_TEAM_ACTION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0"
+                }
+            },
+            "attribute_local": {
+                "uri": "localService/AttributeData.json",
+                "type": "JSON"
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "TeamAsResponsible",
+                    "action": "maintain"
+                }
+            },
+            "outbounds": {
+                "teamHierarchy": {
+                    "semanticObject": "TeamAsResponsible",
+                    "action": "manageHierarchies"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "componentUsages": {
+            "ChangedocReuseComponent": {
+                "name": "sap.nw.core.changedocs.lib.reuse.changedocscomponent"
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": false
+                },
+                "s4.cfnd.sit.reuse": {
+                    "minVersion": "11.11.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.nw.core.changedocs.lib.reuse": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_RespyMgmtTeamHeaderTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_RespyMgmtTeamHeaderTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_RespyMgmtTeamHeaderTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_RespyMgmtTeamHeaderTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_RespyMgmtTeamMemberTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_RespyMgmtTeamMemberTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "CA_RSM_TEAM_ACTION_Model": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "CA_RSM_TEAM_ACTION_Service",
+                "preload": true
+            },
+            "AttributeLocal": {
+                "type": "sap.ui.model.json.JSONModel",
+                "dataSource": "attribute_local"
+            },
+            "situationModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4.cfnd.mgreciplist.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_RespyMgmtTeamHeaderTP": {
+                                "EntitySet": "C_RespyMgmtTeamHeaderTP",
+                                "Actions": {
+                                    "ActionC_RespyMgmtTeamHeaderTP1": {
+                                        "id": "ActionC_RespyMgmtTeamHeaderTP1button",
+                                        "text": "{@i18n>SHOWHIERARCHY}",
+                                        "press": "onShowInHierarchy"
+                                    },
+                                    "ActionC_RespyMgmtTeamHeaderTP2": {
+                                        "id": "ActionC_RespyMgmtTeamHeaderTP2button",
+                                        "text": "{@i18n>ActionC_RespyMgmtTeamHeaderTP2}",
+                                        "press": "onClickReplaceTeamMember",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "s4.cfnd.mgreciplist.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_RespyMgmtTeamHeaderTP": {
+                                "EntitySet": "C_RespyMgmtTeamHeaderTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_RespyMgmtTeamHeaderTPHeader1": {
+                                            "id": "ActionC_RespyMgmtTeamHeaderTPHeader1button",
+                                            "text": "{@i18n>SHOWHIERARCHY}",
+                                            "press": "onShowInHierarchy"
+                                        },
+                                        "ActionC_RespyMgmtTeamHeaderTPHeader2": {
+                                            "id": "ActionC_RespyMgmtTeamHeaderTPHeader2button",
+                                            "text": "{@i18n>CREATESUBTEAM}",
+                                            "press": "onClickCreateSubTeam"
+                                        },
+                                        "ActionC_RespyMgmtTeamHeaderTPHeader3": {
+                                            "id": "ActionC_RespyMgmtTeamHeaderTPHeader3button",
+                                            "text": "{@i18n>REMOVE_INVALID_MEMBERS}",
+                                            "press": "onClickRemoveInvalidMembers"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "SubTeams": {
+                                        "id": "SubTeams",
+                                        "Actions": {
+                                            "ActionC_RespyMgmtTeamHeaderTPSections2": {
+                                                "id": "ActionC_RespyMgmtTeamHeaderTPSections2button",
+                                                "text": "{@i18n>UNASSIGN}",
+                                                "press": "onUnassignPress"
+                                            }
+                                        }
+                                    },
+                                    "OrgUnit": {
+                                        "id": "OrgUnit",
+                                        "Actions": {
+                                            "ActionC_RespyMgmtTeamHeaderTPSections3": {
+                                                "id": "ActionC_RespyMgmtTeamHeaderTPSections3button",
+                                                "text": "{@i18n>DELETE}",
+                                                "press": "onDeleteOrgUnit"
+                                            },
+                                            "ActionC_RespyMgmtTeamHeaderTPSections4": {
+                                                "id": "ActionC_RespyMgmtTeamHeaderTPSections4button",
+                                                "text": "{@i18n>CREATE}",
+                                                "press": "onCreateOrgUnit"
+                                            }
+                                        }
+                                    },
+                                    "TeamMembers": {
+                                        "id": "TeamMembers",
+                                        "Actions": {
+                                            "ActionC_RespyMgmtTeamHeaderTPSections5": {
+                                                "id": "ActionC_RespyMgmtTeamHeaderTPSections5button",
+                                                "text": "{@i18n>CREATE}",
+                                                "press": "onCreateBP"
+                                            },
+                                            "ActionC_RespyMgmtTeamHeaderTPSections10": {
+                                                "id": "ActionC_RespyMgmtTeamHeaderTPSections10button",
+                                                "text": "{@i18n>MANAGE_FUNCTIONS}",
+                                                "press": "onAssignFunctions"
+                                            },
+                                            "ActionC_RespyMgmtTeamHeaderTPSections15": {
+                                                "id": "ActionC_RespyMgmtTeamHeaderTPSections15button",
+                                                "text": "{@i18n>REFRESH}",
+                                                "press": "onRefreshClick"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterFacet|C_RespyMgmtTeamHeaderTP|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "s4.cfnd.mgreciplist.ext.view.SelectionCriteria",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>SELECTION_CRITERIA}"
+                            }
+                        },
+                        "ResponsiveTableColumnsExtension|C_RespyMgmtTeamMemberTP|TeamMembers": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4.cfnd.mgreciplist.ext.fragment.ObjectPageResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_RespyMgmtTeamMemberTP|TeamMembers": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4.cfnd.mgreciplist.ext.fragment.ObjectPageResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_RespyMgmtTeamHeaderTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4.cfnd.mgreciplist.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_RespyMgmtTeamHeaderTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true,
+                        "smartVariantManagement": true,
+                        "variantManagementHidden": false
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_RespyMgmtTeamHeaderTP",
+                        "embeddedComponents": {
+                            "simple::Root": {
+                                "id": "simple::Root",
+                                "componentName": "s4.cfnd.sit.reuse.pc",
+                                "title": "{{SITUATIONS}}",
+                                "hiddenByDefault": true,
+                                "settings": {
+                                    "anchorObjectKey": "{path:'RespyMgmtTeamID'}",
+                                    "anchorObjectType": "RESPYMGMTTEAMID",
+                                    "preselectedSituationInstanceId": "{path:'situationModel>/preselectedSituationInstanceId'}",
+                                    "situationModelName": "situationModel",
+                                    "situationDataProperty": "/situationData",
+                                    "selectedSituationProperty": "/selectedSituation"
+                                }
+                            },
+                            "changedoccomponent": {
+                                "id": "changedoccomponent",
+                                "componentUsage": "ChangedocReuseComponent",
+                                "title": "{{CHANGE_DOCUMENTS}}",
+                                "settings": {
+                                    "objectClass": ["RSM_TEAM_CHGDOC"],
+                                    "objectId": "{parts: [{path: 'RespyMgmtTeamID'}], formatter: 'sap.nw.core.changedocs.lib.reuse.changedocscomponent.arrayFormatter'}",
+                                    "startDate": "00000000"
+                                }
+                            }
+                        },
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "allowDeepLinking": true,
+                                "sections": {
+                                    "TeamMembers": {
+                                        "navigationProperty": "to_TeamMember",
+                                        "entitySet": "C_RespyMgmtTeamMemberTP",
+                                        "createMode": "inline"
+                                    },
+                                    "OrgUnit": {
+                                        "navigationProperty": "to_TeamOrgUnit",
+                                        "entitySet": "C_RespyMgmtTeamOrgUnitTP",
+                                        "createMode": "inline"
+                                    },
+                                    "TeamOwner": {
+                                        "navigationProperty": "to_TeamOwner",
+                                        "entitySet": "C_RespyMgmtTeamOwnerTP",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    }
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "entitySet": "C_RespyMgmtDirectSubTeamTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            {
+                                "entitySet": "C_RespyMgmtDirectSuperTeam",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2412"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

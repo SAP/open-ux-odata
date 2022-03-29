@@ -1,0 +1,190 @@
+{
+    "_version": "1.11.0",
+    "sap.app": {
+        "id": "hpa.cei.ana.gallery",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "CEC-MKT-ISG-ME",
+        "resources": "resources.json",
+        "dataSources": {
+            "CUAN_ANA_GALLERY_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_ANA_GALLERY_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CUAN_ANA_GALLERY_SRV/metadata.xml",
+                    "annotations": ["annotation"]
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        },
+        "_version": "1.3.0"
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2955"],
+        "archeType": "transactional"
+    },
+    "sap.ui": {
+        "_version": "1.1.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://tools-opportunity"
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.2.0",
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CUAN_ANA_GALLERY_SRV": {
+                "preload": true,
+                "dataSource": "CUAN_ANA_GALLERY_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline",
+                    "useBatch": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "handleValidation": true,
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "config": {
+            "fullWidth": true
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "hpa.cei.ana.gallery.ext.customActions"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.ovp.app.Main": {
+                        "SmartFilterBarGlobalActionExtension": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.ana.gallery.ext.customActions",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "CUAN_ANA_GALLERY_SRV",
+        "globalFilterEntityType": "Link",
+        "showBasicSearch": true,
+        "cards": {
+            "hpa.cei.ana.gallery_card020CampaignAnalytics": {
+                "model": "CUAN_ANA_GALLERY_SRV",
+                "template": "hpa.cei.ana.gallery.ext.links",
+                "settings": {
+                    "entitySet": "Links",
+                    "title": "{{hpa.cei.ana.gallery_cardCampaignAnalytics_title}}",
+                    "customFilter": "CA"
+                }
+            },
+            "hpa.cei.ana.gallery_card030ContactsProfiles": {
+                "model": "CUAN_ANA_GALLERY_SRV",
+                "template": "hpa.cei.ana.gallery.ext.links",
+                "settings": {
+                    "title": "{{hpa.cei.ana.gallery_cardContactsProfiles_title}}",
+                    "entitySet": "Links",
+                    "customFilter": "CP"
+                }
+            },
+            "hpa.cei.ana.gallery_card040PlanningPerformance": {
+                "model": "CUAN_ANA_GALLERY_SRV",
+                "template": "hpa.cei.ana.gallery.ext.links",
+                "settings": {
+                    "entitySet": "Links",
+                    "title": "{{hpa.cei.ana.gallery_cardMarketingPlanningAndPerformance_title}}",
+                    "customFilter": "MP"
+                }
+            },
+            "hpa.cei.ana.gallery_card050MarketingDataAnalysis": {
+                "model": "CUAN_ANA_GALLERY_SRV",
+                "template": "hpa.cei.ana.gallery.ext.links",
+                "settings": {
+                    "entitySet": "Links",
+                    "title": "{{hpa.cei.ana.gallery_cardMarketingDataAnalysis_title}}",
+                    "customFilter": "MA"
+                }
+            },
+            "hpa.cei.ana.gallery_card060OfferManagement": {
+                "model": "CUAN_ANA_GALLERY_SRV",
+                "template": "hpa.cei.ana.gallery.ext.links",
+                "settings": {
+                    "entitySet": "Links",
+                    "title": "{{hpa.cei.ana.gallery_cardOfferManagement_title}}",
+                    "customFilter": "OM"
+                }
+            },
+            "hpa.cei.ana.gallery_card070LeadManagement": {
+                "model": "CUAN_ANA_GALLERY_SRV",
+                "template": "hpa.cei.ana.gallery.ext.links",
+                "settings": {
+                    "entitySet": "Links",
+                    "title": "{{hpa.cei.ana.gallery_cardLeadManagement_title}}",
+                    "customFilter": "LM"
+                }
+            },
+            "hpa.cei.ana.gallery_card080Unassigned": {
+                "model": "CUAN_ANA_GALLERY_SRV",
+                "template": "hpa.cei.ana.gallery.ext.links",
+                "settings": {
+                    "entitySet": "Links",
+                    "title": "{{hpa.cei.ana.gallery_cardUnassigned_title}}",
+                    "customFilter": " "
+                }
+            }
+        }
+    }
+}

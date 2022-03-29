@@ -1,0 +1,342 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    },
+    "sap.app": {
+        "id": "mdm.mdg.cr.fin.ovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CA-MDG-ADQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "MDG_CR_FIN_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/MDG_CR_FIN_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["MDG_CR_FIN_OVP_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MDG_CR_FIN_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MDG_CR_FIN_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MDG_CR_FIN_OVP_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "MDG_CR_FIN_OVP_SRV": {
+                "dataSource": "MDG_CR_FIN_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                },
+                "preload": true
+            },
+            "MDG_CR_FIN_OVP_SRV_ANA": {
+                "dataSource": "MDG_CR_FIN_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "mdm.mdg.cr.fin.ovps1.ext.controller.custom"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "MDG_CR_FIN_OVP_SRV",
+        "globalFilterEntityType": "C_MDGovFinanceChgReqFiltersType",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "mdm.mdg.cr.fin.ovps1_card010": {
+                "model": "MDG_CR_FIN_OVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card010_title}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "ChartProperties": {
+                        "plotArea": {
+                            "isSmoothed": true
+                        }
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{byEdition}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumberOfChgReqByEditions",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenChangeRequests",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsOrderByEditionsAsc",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{byStatus}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumberOfChgReqByStatus",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenChangeRequests",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsOrderByStatusAsc",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{byType}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumberOfChgReqByType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenChangeRequests",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsOrderByTypeAsc",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card020": {
+                "model": "MDG_CR_FIN_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card020_title}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "defaultSpan": {
+                        "rows": 4,
+                        "cols": 1
+                    },
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "value": "{{createdByMe}}",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#MyChangeRequests",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ChangeRequestsCreatedByMe",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsWithMyParticipation"
+                        },
+                        {
+                            "value": "{{withMyInvolvement}}",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#MyChangeRequests",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ChangeRequestsProcessedByMe",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsWithMyParticipation"
+                        }
+                    ]
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card030": {
+                "model": "MDG_CR_FIN_OVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card030_title}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenChangeRequestsOlderThan48hours",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequestsOpen48hoursWithCriticality",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumberOfChgReqByAction",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card040": {
+                "model": "MDG_CR_FIN_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card040_title}}",
+                    "subTitle": "{{mdm.mdg.cr.fin.ovps1_card040_subTitle}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "defaultSpan": "auto",
+                    "addODataSelect": true,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OpenChangeRequests",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenChangeRequests",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsOrderByProcessingDurationDesc"
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card050": {
+                "model": "MDG_CR_FIN_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card050_title}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 1
+                    },
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{mdm.mdg.cr.fin.ovps1_card050_valueSelectionInfo}}",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OverdueChangeRequests",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequestsOverdueWithCriticality",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OverdueChangeRequests",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsOrderByOverdueDaysDesc"
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card060": {
+                "model": "MDG_CR_FIN_OVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card060_title}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "ChartProperties": {
+                        "plotArea": {
+                            "isSmoothed": true
+                        }
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{byRequestDate}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumberOfChgReqByCreationDate",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{byStatus}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumberOfChgReqByStatus",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsOrderByStatusAsc",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{byType}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TotalNumberOfChgReqByType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DefaultSelectionVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ChangeRequestsOrderByTypeAsc",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card070": {
+                "model": "MDG_CR_FIN_OVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card070_title}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "valueSelectionInfo": "{{mdm.mdg.cr.fin.ovps1_card070_valueSelectionInfo}}",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FinalRejectedChangeRequests",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FinalRejectedChangeRequestsByReason",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovChangeRequests",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card080": {
+                "model": "MDG_CR_FIN_OVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card080_title}}",
+                    "subTitle": "{{mdm.mdg.cr.fin.ovps1_card080_subTitle}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceChangeRequest",
+                    "tabs": [
+                        {
+                            "value": "{{byType}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AvgProcgDurationAndNumberOfChgReqsByType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MDGovChgReqAvgProcgDuration",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NonOpenChangeRequests",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{byPriority}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AvgProcgDurationAndNumberOfChgReqsByPriority",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MDGovChgReqAvgProcgDuration",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NonOpenChangeRequests",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "mdm.mdg.cr.fin.ovps1_card090": {
+                "model": "MDG_CR_FIN_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{mdm.mdg.cr.fin.ovps1_card090_title}}",
+                    "requireAppAuthorization": "#ChangeRequest-displayOverviewForFinancials",
+                    "entitySet": "C_MDGovFinanceEdition",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "defaultSpan": "auto",
+                    "addODataSelect": true,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#EditionStatus",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.#DefaultSelectionVariant",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#EditionStatus",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfMDGovEditions"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3428"],
+        "archeType": "transactional"
+    }
+}

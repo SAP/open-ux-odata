@@ -1,0 +1,121 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "MM-FIO-PUR-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "MM_PUR_MNTR_ANA_OPS_SRV": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_MNTR_ANA_OPS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/MM_PUR_MNTR_ANA_OPS_SRV/metadata.xml",
+                    "annotations": ["localAnnotations"]
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "MM_PUR_MNTR_ANA_OPS_SRV": {
+                "dataSource": "MM_PUR_MNTR_ANA_OPS_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "ui.s2p.mm.mntr.ana.ops.s1.ext.controller.CrossNav"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4399"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "MM_PUR_MNTR_ANA_OPS_SRV",
+        "globalFilterEntityType": "",
+        "containerLayout": "resizable",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": false,
+        "cards": {
+            "CurrencyExchCard": {
+                "model": "MM_PUR_MNTR_ANA_OPS_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "listType": "extended",
+                    "entitySet": "MissingExchangeRatesSet",
+                    "title": "{{CurrencyCard}}",
+                    "description": "{{CurrencyCardSubTitle}}",
+                    "listFlavor": "standard",
+                    "sortBy": "PurchasingDocumentCount",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#View1",
+                    "customParams": "getParameters",
+                    "stopResizing": false,
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 3
+                    }
+                }
+            }
+        }
+    }
+}

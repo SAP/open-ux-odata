@@ -1,0 +1,278 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PLM-FIO-BOM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/BOMWHEREUSED_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["BOMWHEREUSED_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "BOMWHEREUSED_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='BOMWHEREUSED_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/BOMWHEREUSED_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "DisplayMaterialBOM": {
+                    "semanticObject": "MaterialBOM",
+                    "action": "displayBOM",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "config": {
+            "sapFiori2Adaptation": true
+        },
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/customStyle.css"
+                },
+                {
+                    "uri": "css/customStyle.less"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.m": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_BOMwhereUsed": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_BOMwhereUsed/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BOMwhereUsed": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_BOMwhereUsed/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "pis4.idea.plm.bomwhereused.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_BOMwhereUsed": {
+                                "EntitySet": "C_BOMwhereUsed",
+                                "Actions": {
+                                    "ViewHierarchy": {
+                                        "id": "ViewHierarchy",
+                                        "text": "{@i18n>viewHierarchyButtonText}",
+                                        "press": "onHierarchyPress",
+                                        "requiresSelection": true
+                                    },
+                                    "UsageAvailability": {
+                                        "id": "UsageAvailability",
+                                        "text": "{@i18n>usageAndAvailabilityButtonText}",
+                                        "press": "onUsagePress",
+                                        "requiresSelection": true
+                                    },
+                                    "ReplaceMaterial": {
+                                        "id": "ReplaceMaterial",
+                                        "text": "{@i18n>replaceMaterialButtonText}",
+                                        "press": "onReplaceMaterialPress",
+                                        "requiresSelection": true
+                                    },
+                                    "ConfirmReplacement": {
+                                        "id": "ConfirmReplacement",
+                                        "text": "{@i18n>ConfirmReplacementBtn}",
+                                        "press": "onConfirmReplacementPress",
+                                        "requiresSelection": true
+                                    },
+                                    "DiscardReplacement": {
+                                        "id": "DiscardReplacement",
+                                        "text": "{@i18n>discardReplaceButtonText}",
+                                        "press": "onDiscardReplacementPress",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "pis4.idea.plm.bomwhereused.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_BOMwhereUsed": {
+                                "EntitySet": "C_BOMwhereUsed",
+                                "Header": {
+                                    "Actions": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_BOMwhereUsed": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pis4.idea.plm.bomwhereused.ext.fragment.C_BOMwhereUsedColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_BOMwhereUsed": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pis4.idea.plm.bomwhereused.ext.fragment.C_BOMwhereUsedCell",
+                            "type": "XML"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_BOMwhereUsed": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pis4.idea.plm.bomwhereused.ext.fragment.CustomFilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_BOMwhereUsed|HierarchyChart": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pis4.idea.plm.bomwhereused.ext.fragment.HierarchyGraph",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_BOMwhereUsed|UsageAvailability": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pis4.idea.plm.bomwhereused.ext.fragment.UsageAvailabilityChart",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_BOMwhereUsed": {
+                "entitySet": "C_BOMwhereUsed",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "gridTable": false,
+                        "multiSelect": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_BOMwhereUsed": {
+                        "entitySet": "C_BOMwhereUsed",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2214"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

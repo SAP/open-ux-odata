@@ -1,0 +1,331 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "fin.fcc.closing.overview.ovp",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FIN-FIO-FCC",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_OVWCLSGPROCCOMPLETION_CDS": {
+                "uri": "/sap/opu/odata/sap/C_OVWCLSGPROCCOMPLETION_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/C_OVWCLSGPROCCOMPLETION_CDS/metadata.xml",
+                    "annotations": ["completion_rate", "delayed_task_list"]
+                }
+            },
+            "C_OVWCLSGPROCCOMPLETION_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_OVWCLSGPROCCOMPLETION_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_OVWCLSGPROCCOMPLETION_CDS/C_OVWCLSGPROCCOMPLETION_CDS_VAN.xml"
+                }
+            },
+            "completion_rate": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/completion_rate.xml",
+                "settings": {
+                    "localUri": "annotations/completion_rate.xml"
+                }
+            },
+            "FCC_CLOSING_OVERVIEW_SRV": {
+                "uri": "/sap/opu/odata/sap/FCC_CLOSING_OVERVIEW_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/FCC_CLOSING_OVERVIEW_SRV/metadata.xml",
+                    "annotations": [
+                        "issues_number",
+                        "tasks_by_due_date",
+                        "FCC_CLOSING_OVERVIEW_ANNO_MDL",
+                        "approve_tasks"
+                    ]
+                }
+            },
+            "FCC_CLOSING_OVERVIEW_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCC_CLOSING_OVERVIEW_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCC_CLOSING_OVERVIEW_ANNO_MDL.xml"
+                }
+            },
+            "issues_number": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/issues_number.xml",
+                "settings": {
+                    "localUri": "annotations/issues_number.xml"
+                }
+            },
+            "tasks_by_due_date": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/tasks_by_due_date.xml",
+                "settings": {
+                    "localUri": "annotations/tasks_by_due_date.xml"
+                }
+            },
+            "approve_tasks": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/approve_tasks.xml",
+                "settings": {
+                    "localUri": "annotations/approve_tasks.xml"
+                }
+            },
+            "C_CLOSINGPROCESSCOMPLETION_CDS": {
+                "uri": "/sap/opu/odata/sap/C_CLOSINGPROCESSCOMPLETION_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/C_CLOSINGPROCESSCOMPLETION_CDS/metadata.xml",
+                    "annotations": []
+                }
+            },
+            "delayed_task_list": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/delayed_task_list.xml",
+                "settings": {
+                    "localUri": "annotations/delayed_task_list.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_OVWCLSGPROCCOMPLETION_CDS": {
+                "preload": true,
+                "dataSource": "C_OVWCLSGPROCCOMPLETION_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "FCC_CLOSING_OVERVIEW_SRV": {
+                "preload": true,
+                "dataSource": "FCC_CLOSING_OVERVIEW_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.fcc.closing.overview.ovp.ext.controller.OverviewPageExtension"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "C_OVWCLSGPROCCOMPLETION_CDS",
+        "globalFilterEntityType": "C_OVWCLSGPROCCOMPLETIONType",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": true,
+        "showDateInRelativeFormat": false,
+        "containerLayout": "resizable",
+        "cards": {
+            "fin_fcc_closing_overview_ovp_CompletionRateByOpenTaksList": {
+                "model": "C_OVWCLSGPROCCOMPLETION_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{ClosingRateByOpenTaskList_title}}",
+                    "subTitle": "{{ClosingRateByOpenTaskList_subTitle}}",
+                    "entitySet": "C_OVWCLSGPROCCOMPLETION",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "sortBy": "CompletedClsgTsksRatioInPct_F",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "customParams": "ConvertClosingTaskListExternalID",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CompletionRateByOpenTaksList",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariantClosingRateByOpenTaskList",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationClosingTaskProcess"
+                }
+            },
+            "fin_fcc_closing_overview_ovp_CompletionRateByOrganisationalUnit": {
+                "model": "C_OVWCLSGPROCCOMPLETION_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{CompletionRateByOrganisationalUnit_title}}",
+                    "subTitle": "{{CompletionRateByOrganisationalUnit_subTitle}}",
+                    "entitySet": "C_OVWCLSGPROCCOMPLETION",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "sortBy": "CompletedClsgTsksRatioInPct_F",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CompletionRateByCompanyCode",
+                            "value": "{{by_Company_Code}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActiveTaskListsSelectionVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationClosingTaskDisplayClosingCompletion"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CompletionRateByCountry",
+                            "value": "{{by_Country}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActiveTaskListsSelectionVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationClosingTaskDisplayClosingCompletion"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CompletionRateByRegion",
+                            "value": "{{by_Region}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ActiveTaskListsSelectionVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationClosingTaskDisplayClosingCompletion"
+                        }
+                    ]
+                }
+            },
+            "fin_fcc_closing_overview_ovp_NumberOfErrors": {
+                "model": "FCC_CLOSING_OVERVIEW_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{NumberOfIssuesList_title}}",
+                    "subTitle": "{{NumberOfIssuesList_subTitle}}",
+                    "entitySet": "C_OvwClsgLogIssue",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfErrors",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#NumberOfIssuesList",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#NavigationNumberOfIssues"
+                }
+            },
+            "fin_fcc_closing_overview_ovp_ChartDonutTaskOverview": {
+                "model": "C_OVWCLSGPROCCOMPLETION_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{ChartDonutTaskOverview_title}}",
+                    "entitySet": "C_OVWCLSGPROCCOMPLETION",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVarian",
+                    "bEnableStableColors": true,
+                    "colorPalette": {
+                        " ": "sapUiChartPaletteSemanticNeutral",
+                        "4": "sapUiChartPaletteSemanticBadDark1",
+                        "N": "sapUiChartPaletteSemanticCriticalLight3",
+                        "C": "sapUiChartPaletteSemanticCritical",
+                        "0": "sapUiChartPaletteSemanticGoodLight2",
+                        "2": "sapUiChartPaletteSemanticCriticalDark1",
+                        "R": "sapUiChartPaletteSemanticCriticalLight2",
+                        "1": "sapUiChartPaletteSemanticGoodDark1",
+                        "A": "sapUiChartPaletteSemanticNeutralDark2",
+                        "U": "sapUiChartPaletteSemanticNeutralDark1"
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartDonutTaskOverview",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#TaskOverviewDonutPresentation",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CompletionRate",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationClosingTaskDisplayClosingCompletion",
+                    "navigation": "dataPointNav",
+                    "valueSelectionInfo": "{{ChartDonutTaskOverview_valueSelectionInfo}}",
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    }
+                }
+            },
+            "fin_fcc_closing_overview_ovp_OpenTasksByDueDate": {
+                "model": "FCC_CLOSING_OVERVIEW_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{OpenTasksByDueDate_title}}",
+                    "subTitle": "{{OpenTasksByDueDate_subTitle}}",
+                    "entitySet": "C_OvwOpenClsgTaskByDueDate",
+                    "sortBy": "OverdueDays",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "customParams": "ConvertClosingTaskExternalID",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationClosingTaskDisplayClosingCompletion",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LineItemOpenTasksByDueDate",
+                    "valueSelectionInfo": "{{fin_fcc_closing_overview_ovp_card07_valueSelectionInfo}}"
+                }
+            },
+            "fin_fcc_closing_overview_ovp_ClosingTaskForApproval": {
+                "model": "FCC_CLOSING_OVERVIEW_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{TasksToBeApproved_title}}",
+                    "subTitle": "{{TasksToBeApproved_subTitle}}",
+                    "entitySet": "C_OvwClosingTaskForApproval",
+                    "sortBy": "OverdueDays",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "customParams": "ConvertClosingTaskExternalID",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationClosingTaskDisplayClosingCompletion",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LineItemApproveTasks"
+                }
+            },
+            "fin_fcc_closing_overview_ovp_DelayedTaskList": {
+                "model": "C_OVWCLSGPROCCOMPLETION_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{DelayedTaskList_title}}",
+                    "subTitle": "{{DelayedTaskList_subTitle}}",
+                    "entitySet": "C_OVWCLSGPROCCOMPLETION",
+                    "sortBy": "OverdueDays_F",
+                    "sortOrder": "ascending",
+                    "addODataSelect": true,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LineItemsDelayedTaskList",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SelectionVariantDelayedTaskList",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#IdentificationDelayedTaskLists"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2693"],
+        "archeType": "analytical"
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    }
+}

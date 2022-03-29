@@ -1,0 +1,388 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-HS",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHHSS_HSM_HSI_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHHSS_HSM_HSI_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "replica": {
+                "uri": "/sap/opu/odata/sap/EHHSS_HSM_HSI_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["replicaLocalAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHHSS_HSM_HSI_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHHSS_HSM_HSI_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHHSS_HSM_HSI_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "replicaLocalAnnotations": {
+                "uri": "localService/EHHSS_HSM_HSI_ANNO_MDL.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHHSS_HSM_HSI_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.unified": {
+                    "lazy": false
+                },
+                "sap.ui.fl": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_HzdsSubstInventoryTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_HzdsSubstInventoryTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_HzdsSubstInventoryTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_HzdsSubstInventoryTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_HzdsSubstInventoryItemTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_HzdsSubstInventoryItemTP/i18n.properties"
+            },
+            "appModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {},
+                "uri": "model/AppModel.json",
+                "preload": true
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "replica": {
+                "dataSource": "replica",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ehs.hs.hsi.manages1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_HzdsSubstInventoryTP": {
+                                "EntitySet": "C_HzdsSubstInventoryTP",
+                                "Actions": {
+                                    "ActionC_HzdsSubstInventoryTP1": {
+                                        "id": "ActionC_HzdsSubstInventoryTP1button",
+                                        "press": "onAddLocation"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ehs.hs.hsi.manages1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_HzdsSubstInventoryTP": {
+                                "EntitySet": "C_HzdsSubstInventoryTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_HzdsSubstInventoryTPHeader1": {
+                                            "id": "idCopyRevision",
+                                            "text": "{i18n>copyRevisionAction}",
+                                            "press": "onCopyRevisionAction"
+                                        },
+                                        "PrintInventory": {
+                                            "id": "idPrintInventory",
+                                            "text": "{i18n>btnPrint}",
+                                            "press": "onOpenPrintInventoryDialog"
+                                        },
+                                        "ActionC_HzdsSubstInventoryTPHeader5": {
+                                            "id": "ActionC_HzdsSubstInventoryTPHeader5button",
+                                            "text": "{i18n>noteButton}",
+                                            "applicablePath": "ui>/editable",
+                                            "press": "onOpenEditInternalNoteDialog"
+                                        },
+                                        "SetToHistoric": {
+                                            "id": "idSetToHistoric",
+                                            "text": "{i18n>btnSetToHistoric}",
+                                            "press": "onSetToHistoricPress"
+                                        },
+                                        "ReleaseInventory": {
+                                            "id": "idReleaseInventory",
+                                            "text": "{i18n>btnReleaseInventory}",
+                                            "press": "onReleasePress"
+                                        },
+                                        "RequestReleaseInventory": {
+                                            "id": "idRequestReleaseInventory",
+                                            "text": "{i18n>btnRequestReleaseInventory}",
+                                            "press": "onReleasePress"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "to_HzdsSubstInventoryItem": {
+                                        "id": "to_HzdsSubstInventoryItem",
+                                        "Actions": {
+                                            "Calculate": {
+                                                "id": "idCalculateButton",
+                                                "text": "{i18n>butCalculateAll}",
+                                                "press": "onCalculateItemsPress"
+                                            },
+                                            "SetMarkers": {
+                                                "id": "idSetMarkers",
+                                                "text": "{i18n>actionsCustomColumn}",
+                                                "press": "onOpenActionPopover"
+                                            },
+                                            "UploadSubstances": {
+                                                "id": "idUploadSubstances",
+                                                "text": "{i18n>btnUpload}",
+                                                "press": "onOpenUploadDialog"
+                                            },
+                                            "ProposalButton": {
+                                                "id": "idProposalButton",
+                                                "text": "{i18n>actionBtnProposals}",
+                                                "press": "onOpenProposedSubstancesPopover"
+                                            },
+                                            "AddSubstanceButton": {
+                                                "id": "idAddSubstanceButton",
+                                                "press": "onAddSubstanceDialogOpen"
+                                            },
+                                            "ExportButton": {
+                                                "id": "idExportButton",
+                                                "press": "onTableExport"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_HzdsSubstInventoryItemTP|to_HzdsSubstInventoryItem": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.ObjectPageTableColumns",
+                            "id": "AllTableColumns"
+                        },
+                        "ResponsiveTableCellsExtension|C_HzdsSubstInventoryItemTP|to_HzdsSubstInventoryItem": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.ObjectPageTableCells",
+                            "id": "AllTableCells"
+                        },
+                        "ResponsiveTableColumnsExtension|C_HzdsSubstInventoryItemProdTP|to_HzdsSubstInventoryItemProd::com.sap.vocabularies.UI.v1.LineItem::2": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.MaterialsObjectPageTableColumns"
+                        },
+                        "ResponsiveTableCellsExtension|C_HzdsSubstInventoryItemProdTP|to_HzdsSubstInventoryItemProd::com.sap.vocabularies.UI.v1.LineItem::2": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.MaterialsObjectPageTableCells"
+                        },
+                        "ResponsiveTableColumnsExtension|C_HzdsSubstInventoryItemLocTP|to_HzdsSubstInventoryItemLoc::com.sap.vocabularies.UI.v1.LineItem::1": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.BuildingsObjectPageTableColumns"
+                        },
+                        "ResponsiveTableCellsExtension|C_HzdsSubstInventoryItemLocTP|to_HzdsSubstInventoryItemLoc::com.sap.vocabularies.UI.v1.LineItem::1": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.BuildingsObjectPageTableCells"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_HzdsSubstInventoryTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.ListReportTableColumns"
+                        },
+                        "ResponsiveTableCellsExtension|C_HzdsSubstInventoryTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.hs.hsi.manages1.ext.fragment.ListReportTableCells"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic"
+        },
+        "pages": {
+            "ListReport|C_HzdsSubstInventoryTP": {
+                "entitySet": "C_HzdsSubstInventoryTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_HzdsSubstInventoryTP": {
+                        "entitySet": "C_HzdsSubstInventoryTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "to_HzdsSubstInventoryItem": {
+                                        "navigationProperty": "to_HzdsSubstInventoryItem",
+                                        "entitySet": "C_HzdsSubstInventoryItemTP",
+                                        "createMode": "inline",
+                                        "quickVariantSelection": {
+                                            "showCounts": true,
+                                            "variants": {
+                                                "0": {
+                                                    "key": "_tab0",
+                                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#All"
+                                                },
+                                                "1": {
+                                                    "key": "_tab1",
+                                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#New"
+                                                },
+                                                "2": {
+                                                    "key": "_tab2",
+                                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NotCompleted"
+                                                },
+                                                "3": {
+                                                    "key": "_tab3",
+                                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MarkedForDeletion"
+                                                },
+                                                "4": {
+                                                    "key": "_tab4",
+                                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NotPrinted"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_HzdsSubstInventoryItem": {
+                                "navigationProperty": "to_HzdsSubstInventoryItem",
+                                "entitySet": "C_HzdsSubstInventoryItemTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3764"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

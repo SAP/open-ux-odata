@@ -1,0 +1,279 @@
+{
+    "_version": "1.6.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CA-RSH-EAM",
+        "resources": "resources.json",
+        "dataSources": {
+            "RSH_EAM_ANALYZE_SRV": {
+                "uri": "/sap/opu/odata/sap/RSH_EAM_ANALYZE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "webapp/localService/RSH_EAM_ANALYZE_SRV/metadata.xml",
+                    "annotations": ["CATALOGSERVICE"]
+                }
+            },
+            "OverloadWorkCenter": {
+                "uri": "../OverloadWorkCenter.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../OverloadWorkCenter.xml"
+                }
+            },
+            "CATALOGSERVICE": {
+                "uri": "/sap/opu/odata/iwfnd/CATALOGSERVICE;v=0002/Annotations(TechnicalName='RSH_EAM_ANALYZE_ANNO_MDL',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "webapp/localService/CATALOGSERVICE/metadata.xml"
+                }
+            },
+            "AggregatedOrderByPrio": {
+                "uri": "../AggregatedOrderByPrio.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../AggregatedOrderByPrio.xml"
+                }
+            },
+            "GlobalFilterValueHelpAnnoations": {
+                "uri": "../GlobalFilterValueHelpAnnoations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../GlobalFilterValueHelpAnnoations.xml"
+                }
+            },
+            "ProcessingStatus": {
+                "uri": "../ProcessingStatusCardAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "../ProcessingStatusCardAnnotations.xml"
+                }
+            },
+            "UnassignedWorkCardAnnotations": {
+                "type": "ODataAnnotation",
+                "uri": "../UnassignedWorkCardAnnotations.xml",
+                "settings": {
+                    "localUri": "../UnassignedWorkCardAnnotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2227"],
+        "archeType": "transactional"
+    },
+    "sap.ui": {
+        "_version": "1.4.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://dimension"
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.3.0",
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.36.0",
+                    "lazy": false
+                },
+                "sap.rsh.eam.lib.common": {
+                    "minVersion": "1.0.0",
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "RSH_EAM_ANALYZE_SRV": {
+                "dataSource": "RSH_EAM_ANALYZE_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline",
+                    "metadataUrlParams": {
+                        "sap-value-list": "all"
+                    },
+                    "defaultBindingMode": "TwoWay"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "WrkCtrUtil": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "RSH_EAM_ANALYZE_SRV",
+                "preload": true
+            },
+            "UnassgnWrk": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "None"
+                },
+                "dataSource": "RSH_EAM_ANALYZE_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "rsh.eam.overviews1.customController"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "enableLiveFilter": false,
+        "globalFilterModel": "RSH_EAM_ANALYZE_SRV",
+        "globalFilterEntityType": "C_RSHMaintPlnrOvwPgFiltersType",
+        "cards": {
+            "card00": {
+                "model": "RSH_EAM_ANALYZE_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card00_title}}",
+                    "subTitle": "{{card03_subTitle}}",
+                    "category": "{{card00_category}}",
+                    "entitySet": "C_RSHOrdersKPI",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#DueMaintOrdersByPriorityTable",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterDueFutureMaintOrders",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortDueOrdersByPriority",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "addODataSelect": "true"
+                }
+            },
+            "card01": {
+                "model": "WrkCtrUtil",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card01_title}}",
+                    "subTitle": "{{card01_subTitle}}",
+                    "category": "{{card01_category}}",
+                    "entitySet": "C_RSHOverloadedWC",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OverloadedWorkCenters",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterFutureMaintOrders"
+                }
+            },
+            "card02": {
+                "model": "RSH_EAM_ANALYZE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "category": "{{card02_category}}",
+                    "entitySet": "C_RSHOrdersKPI",
+                    "title": "{{card02_title}}",
+                    "subTitle": "{{card02_subTitle}}",
+                    "showFilterInHeader": false,
+                    "showSortingInHeader": true,
+                    "ChartProperties": {
+                        "plotArea": {
+                            "dataLabel": {
+                                "type": "percentage"
+                            }
+                        }
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PastMaintOrdersByProcStatusDonut",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNumberOfMaintOrders",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterPastMaintOrders",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortMaintOrdersByProcStatus",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card03": {
+                "model": "RSH_EAM_ANALYZE_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "title": "{{card03_title}}",
+                    "subTitle": "{{card03_subTitle}}",
+                    "category": "{{card00_category}}",
+                    "entitySet": "C_RSHOrdersKPI",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#DueMaintOrdersByPriorityTable",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterDueFutureMaintOrders",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortDueOrdersByPriority",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNumberOfMaintOrders",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "showFilterInHeader": false,
+                    "addODataSelect": "true",
+                    "showSortingInHeader": true
+                }
+            },
+            "card04": {
+                "model": "UnassgnWrk",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "category": "{{card04_category}}",
+                    "entitySet": "C_RSHOpUnassignedWork",
+                    "title": "{{card04_title}}",
+                    "subTitle": "{{card04_subTitle}}",
+                    "showFilterInHeader": false,
+                    "showSortingInHeader": true,
+                    "ChartProperties": {
+                        "plotArea": {
+                            "dataLabel": {
+                                "type": "value"
+                            }
+                        }
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#UnassignedWorkCardDonut",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MaintOrdOperationsTotUnassgWrk",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FilterFutureUnassignedWork",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortUnassignedWork",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card05": {
+                "model": "RSH_EAM_ANALYZE_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "title": "{{card05_title}}",
+                    "subTitle": "{{card05_subTitle}}",
+                    "entitySet": "C_RSHMaintSchedSimulationOvw",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#MySchedules",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MySchedulesByCalendarWeek",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            }
+        }
+    }
+}

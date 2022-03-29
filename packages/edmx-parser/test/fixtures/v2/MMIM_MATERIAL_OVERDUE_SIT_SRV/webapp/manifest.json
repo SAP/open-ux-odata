@@ -1,0 +1,267 @@
+{
+    "_version": "1.2.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-FIO-IM-SGM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MMIM_MATERIAL_OVERDUE_SIT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MMIM_MATERIAL_OVERDUE_S_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MMIM_MATERIAL_OVERDUE_S_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MMIM_MATERIAL_OVERDUE_S_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MMIM_MATERIAL_OVERDUE_S_ANNO_MDL.xml"
+                }
+            },
+            "C_SITNINSTANCETP_CDS": {
+                "uri": "/sap/opu/odata/sap/C_SITNINSTANCETP_CDS/",
+                "type": "OData"
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "config": {
+            "sapFiori2Adaptation": true
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                },
+                "s4.cfnd.sit.reuse": {
+                    "lazy": true,
+                    "minVersion": "11.11.0-SNAPSHOT"
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "minVersion": "1.34.0",
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {}
+            },
+            "components": {
+                "s4.cfnd.sit.reuse.lists": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MaterialOverdueSIT": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MaterialOverdueSIT/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MaterialOverdueSIT": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MaterialOverdueSIT/i18n.properties"
+            },
+            "situationModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_MaterialOverdueSIT": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.overdue.sit.ext.fragment.ResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MaterialOverdueSIT": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.overdue.sit.ext.fragment.ResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeFacet|C_MaterialOverdueSIT|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.overdue.sit.ext.fragment.TimeLineFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>PROCESS_FLOW}"
+                            }
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.overdue.sit.ext.controller.ListReportExtension"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.overdue.sit.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_MaterialOverdueSIT": {
+                                "EntitySet": "C_MaterialOverdueSIT",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_MaterialOverdueSITHeader1": {
+                                            "id": "ActionC_MaterialOverdueSITHeader1button",
+                                            "text": "{@i18n>ACTION_COMPLETE_DELIVERY}",
+                                            "press": "onClickActionC_MaterialOverdueSITHeader1"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "settings": {
+            "objectPageDynamicHeaderTitleWithVM": true
+        },
+        "pages": [
+            {
+                "entitySet": "C_MaterialOverdueSIT",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "quickVariantSelection": {
+                            "showCounts": true,
+                            "variants": {
+                                "0": {
+                                    "key": "_tab1",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Incomplete"
+                                },
+                                "1": {
+                                    "key": "_tab2",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Complete"
+                                },
+                                "2": {
+                                    "key": "_tab3",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#All"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_MaterialOverdueSIT",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "embeddedComponents": {
+                            "simple::Root": {
+                                "id": "simple::Root",
+                                "componentName": "s4.cfnd.sit.reuse.pc",
+                                "title": "{{situationFacetLabel}}",
+                                "hiddenByDefault": true,
+                                "settings": {
+                                    "anchorObjectKey": "{= (${PurchaseOrder} && ${PurchaseOrderItem}) ? ${PurchaseOrder} + ${PurchaseOrderItem} : '' }",
+                                    "anchorObjectType": "MatlOverdueSitSitnAnchrID",
+                                    "situationModelName": "situationModel",
+                                    "situationDataProperty": "/situationData",
+                                    "selectedSituationProperty": "/selectedSituation"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2139"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

@@ -1,0 +1,470 @@
+{
+    "_version": "1.6.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "fin.trm.foreignexchange.ovp",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FIN-FIO-TRM",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_FXFORWARDNOMINAL_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FXFORWARDNOMINAL_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_FXFORWARDNOMINAL_CDS_VAN", "annotation_fxforwardnominal"],
+                    "localUri": "localService/C_FXFORWARDNOMINAL_CDS/metadata.xml"
+                }
+            },
+            "C_FXFORWARDNOMINAL_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_FXFORWARDNOMINAL_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_FXFORWARDNOMINAL_CDS/C_FXFORWARDNOMINAL_CDS_VAN.xml"
+                }
+            },
+            "C_FXOPTIONNOMINAL_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FXOPTIONNOMINAL_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["annotation_fxoptionnominal"],
+                    "localUri": "localService/C_FXOPTIONNOMINAL_CDS/metadata.xml"
+                }
+            },
+            "C_NONDELIVERABLEFWDNOMINAL_CDS": {
+                "uri": "/sap/opu/odata/sap/C_NONDELIVERABLEFWDNOMINAL_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_NONDELIVERABLEFWDNOMINAL_CDS/metadata.xml",
+                    "annotations": ["annotation_nondeliverablefwdnominal"]
+                }
+            },
+            "FXM_EXCHANGE_RATE_SRV": {
+                "uri": "/sap/opu/odata/sap/FXM_EXCHANGE_RATE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/FXM_EXCHANGE_RATE_SRV/metadata.xml",
+                    "annotations": ["annotation_fxmexchangerate"]
+                }
+            },
+            "C_TREASURYFINANCIALSTATUS_CDS": {
+                "uri": "/sap/opu/odata/sap/C_TREASURYFINANCIALSTATUS_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/C_TREASURYFINANCIALSTATUS_CDS/metadata.xml",
+                    "annotations": ["annotation_treasuryfinancialstatus"]
+                }
+            },
+            "C_FTR_CL_KEYDATE_UTIL_Q_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FTR_CL_KEYDATE_UTIL_Q_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/C_FTR_CL_KEYDATE_UTIL_Q_CDS/metadata.xml",
+                    "annotations": ["annotation_ftrcreditlinekeydateutilq"]
+                }
+            },
+            "C_CASHPOSITIONOVERVIEW_CDS": {
+                "uri": "/sap/opu/odata/sap/C_CASHPOSITIONOVERVIEW_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/C_CASHPOSITIONOVERVIEW_CDS/metadata.xml",
+                    "annotations": ["annotation_cashpositionoverview"]
+                }
+            },
+            "C_LQDYFORECASTOVERVIEW_CDS": {
+                "uri": "/sap/opu/odata/sap/C_LQDYFORECASTOVERVIEW_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/C_LQDYFORECASTOVERVIEW_CDS/metadata.xml",
+                    "annotations": ["annotation_lqdyforecastoverview"]
+                }
+            },
+            "annotation_fxforwardnominal": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_fxforwardnominal.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_fxforwardnominal.xml"
+                }
+            },
+            "annotation_fxoptionnominal": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_fxoptionnominal.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_fxoptionnominal.xml"
+                }
+            },
+            "annotation_nondeliverablefwdnominal": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_nondeliverablefwdnominal.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_nondeliverablefwdnominal.xml"
+                }
+            },
+            "annotation_fxmexchangerate": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_fxmexchangerate.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_fxmexchangerate.xml"
+                }
+            },
+            "annotation_treasuryfinancialstatus": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_treasuryfinancialstatus.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_treasuryfinancialstatus.xml"
+                }
+            },
+            "annotation_ftrcreditlinekeydateutilq": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_ftrcreditlinekeydateutilq.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_ftrcreditlinekeydateutilq.xml"
+                }
+            },
+            "annotation_cashpositionoverview": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_cashpositionoverview.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_cashpositionoverview.xml"
+                }
+            },
+            "annotation_lqdyforecastoverview": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_lqdyforecastoverview.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_lqdyforecastoverview.xml"
+                }
+            },
+            "FXM_BAL_EXP_SRV": {
+                "uri": "/sap/opu/odata/sap/FXM_BAL_EXP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/FXM_BAL_EXP_SRV/metadata.xml",
+                    "annotations": ["annotation_bs_exp"]
+                }
+            },
+            "annotation_bs_exp": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_bs_exp.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_bs_exp.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2331"],
+        "archeType": "analytical"
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.32.0",
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_FXFORWARDNOMINAL_CDS": {
+                "preload": true,
+                "dataSource": "C_FXFORWARDNOMINAL_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_FXOPTIONNOMINAL_CDS": {
+                "preload": true,
+                "dataSource": "C_FXOPTIONNOMINAL_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_NONDELIVERABLEFWDNOMINAL_CDS": {
+                "preload": true,
+                "dataSource": "C_NONDELIVERABLEFWDNOMINAL_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "FXM_EXCHANGE_RATE_SRV": {
+                "preload": true,
+                "dataSource": "FXM_EXCHANGE_RATE_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_TREASURYFINANCIALSTATUS_CDS": {
+                "preload": true,
+                "dataSource": "C_TREASURYFINANCIALSTATUS_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "C_FTR_CL_KEYDATE_UTIL_Q_CDS": {
+                "preload": true,
+                "dataSource": "C_FTR_CL_KEYDATE_UTIL_Q_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "C_CASHPOSITIONOVERVIEW_CDS": {
+                "preload": true,
+                "dataSource": "C_CASHPOSITIONOVERVIEW_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "C_LQDYFORECASTOVERVIEW_CDS": {
+                "preload": true,
+                "dataSource": "C_LQDYFORECASTOVERVIEW_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "FXM_BAL_EXP_SRV": {
+                "preload": true,
+                "dataSource": "FXM_BAL_EXP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.trm.foreignexchange.ovp.ext.customFilter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "C_TREASURYFINANCIALSTATUS_CDS",
+        "globalFilterEntityType": "C_TreasuryFinancialStatusResult",
+        "considerAnalyticalParameters": true,
+        "enableLiveFilter": false,
+        "cards": {
+            "card06_fxrateovp": {
+                "model": "C_FXFORWARDNOMINAL_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card06_fxrateovp_title}}",
+                    "entitySet": "C_FXForwardNominalResults",
+                    "sortBy": "AmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InstrumentForwardsParameter",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#InstrumentForwardsTable",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "staticParameters": {
+                        "sap-ui-tech-hint": "GUI"
+                    }
+                }
+            },
+            "card07_fxrateovp": {
+                "model": "C_FXOPTIONNOMINAL_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card07_fxrateovp_title}}",
+                    "entitySet": "C_FXOptionNominalResults",
+                    "sortBy": "AmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InstrumentsOptionParameter",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#InstrumentsOptionTable",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "staticParameters": {
+                        "sap-ui-tech-hint": "GUI"
+                    }
+                }
+            },
+            "card08_fxrateovp": {
+                "model": "C_NONDELIVERABLEFWDNOMINAL_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card08_fxrateovp_title}}",
+                    "entitySet": "C_NonDeliverableFwdNominalResults",
+                    "sortBy": "AmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#NonInstrumentDeliverableParameter",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#NonInstrumentsDeliverableTable",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "staticParameters": {
+                        "sap-ui-tech-hint": "GUI"
+                    }
+                }
+            },
+            "card09_fxrateovp": {
+                "model": "FXM_EXCHANGE_RATE_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card09_fxrateovp_title}}",
+                    "subTitle": "{{card09_fxrateovp_subTitle}}",
+                    "entitySet": "C_CurrencyPairExchangeRateSet",
+                    "sortBy": "SortSequence",
+                    "sortOrder": "ascending",
+                    "addODataSelect": "true",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CurrencyPairEXRateParameter",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CurrencyEXRateTable",
+                    "customParams": "paramFXEchangeRateCard",
+                    "staticParameters": {
+                        "sap-ui-tech-hint": "GUI"
+                    }
+                }
+            },
+            "card01_fxrateovp": {
+                "model": "C_TREASURYFINANCIALSTATUS_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card01_fxrateovp_title}}",
+                    "subTitle": "{{card01_fxrateovp_subTitle}}",
+                    "entitySet": "C_TreasuryFinancialStatusResults",
+                    "staticParameters": {
+                        "sap-ui-tech-hint": "WDA"
+                    },
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FinancialStatusParameter",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FinancialStatusBookValueAmountChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#FinancialStatusBookValueAmountChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BookValueAmountInReportingCrcy",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DisplayBookValue",
+                            "value": "{{card01_fxrateovp_dropdown_value_BookValue}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FinancialStatusParameter",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FinancialStatusNominalAmountChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#FinancialStatusNominalAmountChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NominalAmountInReportingCrcy",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DisplayNominalAmount",
+                            "value": "{{card01_fxrateovp_dropdown_value_NominalAmount}}"
+                        }
+                    ]
+                }
+            },
+            "card02_fxrateovp": {
+                "model": "C_FTR_CL_KEYDATE_UTIL_Q_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card02_fxrateovp_title}}",
+                    "subTitle": "{{card02_fxrateovp_subTitle}}",
+                    "entitySet": "C_FTR_CL_KEYDATE_UTIL_QResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CreditLineParameter",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#UtilizedAmountColumnChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#UtilizedAmountColumnChart",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#UtilizedAmountInDisplayCrcy",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "staticParameters": {
+                        "sap-ui-tech-hint": "WDA"
+                    }
+                }
+            },
+            "card03_fxrateovp": {
+                "model": "C_CASHPOSITIONOVERVIEW_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card03_fxrateovp_title}}",
+                    "subTitle": "{{card03_fxrateovp_subTitle}}",
+                    "entitySet": "C_CashPositionOverviewResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CashPositionParameter",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CashPositionChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#CashPositionChart",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+
+            "card05_fxrateovp": {
+                "model": "C_LQDYFORECASTOVERVIEW_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card05_fxrateovp_title}}",
+                    "subTitle": "{{card05_fxrateovp_subTitle}}",
+                    "entitySet": "C_LqdyForecastOverviewResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LiquidityForecastByMonthParameter",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LiquidityForecastByMonthChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#LiquidityForecastByMonthChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{card05_fxrateovp_dropdown_value_ByMonth}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LiquidityForecastByWeekParameter",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LiquidityForecastByWeekChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#LiquidityForecastByWeekChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{card05_fxrateovp_dropdown_value_ByWeek}}"
+                        }
+                    ]
+                }
+            },
+            "card10_fxrateovp": {
+                "model": "FXM_BAL_EXP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card10_fxrateovp_title}}",
+                    "subTitle": "{{card10_fxrateovp_subTitle}}",
+                    "entitySet": "OVPAbsNetExps",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "ABS_NET_EXP",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AbsNetEX01",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ExpListParameter",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ExpList01",
+                    "staticParameters": {
+                        "sap-ui-tech-hint": "GUI"
+                    }
+                }
+            }
+        }
+    }
+}

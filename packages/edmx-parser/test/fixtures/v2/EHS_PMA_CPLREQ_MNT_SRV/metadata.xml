@@ -1,0 +1,1312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+		   xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+		   xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+	</edmx:Reference>
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="EHS_PMA_CPLREQ_MNT_SRV" xml:lang="en" sap:schema-version="1"
+				xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="C_ChmlCmplncReqMktTPType" sap:label="Requested Market of a Chemical Compliance Request"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncReqMktUUID"/>
+				</Key>
+				<Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false"
+						  sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="ChmlCmplncReqMktUUID" Type="Edm.Guid" Nullable="false" sap:label="Market Request"
+						  sap:quickinfo="Requested Market" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestUUID" Type="Edm.Guid" sap:label="Chemical Compliance Request"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncInfoUUID" Type="Edm.Guid" sap:label="Chemical Compliance Information"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase"
+						  sap:label="Country"/>
+				<Property Name="CountryName" Type="Edm.String" MaxLength="50" sap:label="Country Name"
+						  sap:quickinfo="Country Name (Max. 50 Characters)" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncProdnIsReqd" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Produce In" sap:quickinfo="Production is Required Indicator"/>
+				<Property Name="ChmlCmplncSalesIsReqd" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Sell In" sap:quickinfo="Sales is Required Indicator"/>
+				<Property Name="ChmlCmplncReqChgType" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Type" sap:quickinfo="Indicates Change Type of a Record"/>
+			</EntityType>
+			<EntityType Name="C_ChmlCmplncReqMntrType" sap:label="Process Requests from Logistics"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncRequestUUID"/>
+				</Key>
+				<Property Name="ChmlCmplncRequestUUID" Type="Edm.Guid" Nullable="false"
+						  sap:label="Chemical Compliance Request" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestNavgnLink" Type="Edm.Guid" sap:label="Chemical Compliance Request"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductName" Type="Edm.String" MaxLength="132" sap:label="Product Name"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncReqOriginProc" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:text="ChmlCmplncReqOriginProcName" sap:label="Reason for Request"
+						  sap:quickinfo="Origin Process of Chemical Compliance Request" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="fixed-values"/>
+				<Property Name="ChmlCmplncReqOriginProcName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="Material" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase"
+						  sap:label="Material" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="MaterialGroup" Type="Edm.String" MaxLength="9" sap:display-format="UpperCase"
+						  sap:text="MaterialGroupName" sap:label="Material Group" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="standard"/>
+				<Property Name="MaterialGroupName" Type="Edm.String" MaxLength="20" sap:label="Prod Grp Desc."
+						  sap:quickinfo="Product Group Description" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestOriginType" Type="Edm.String" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncRequestOriginName" sap:label="Origin"
+						  sap:quickinfo="Origin Type of Chemical Compliance Request" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="fixed-values"/>
+				<Property Name="ChmlCmplncRequestOriginName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncBusinessProcess" Type="Edm.String" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncBusinessProcessName"
+						  sap:label="Business Process" sap:quickinfo="Compliance Business Process" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="fixed-values"/>
+				<Property Name="ChmlCmplncBusinessProcessName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestSubjectMatter" Type="Edm.String" MaxLength="132" sap:label="Area"
+						  sap:quickinfo="Country or Sales Organization" sap:creatable="false" sap:updatable="false"
+						  sap:sortable="false"/>
+				<Property Name="ChmlCmplncReqCmplncProc" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase"
+						  sap:text="ChmlCmplncReqCmplncProcName" sap:label="Component"
+						  sap:quickinfo="Component of EHS/PS&amp;S" sap:creatable="false" sap:updatable="false"
+						  sap:value-list="fixed-values"/>
+				<Property Name="ChmlCmplncReqCmplncProcName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestDueDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Due Date" sap:quickinfo="Due Date of Chemical Compliance Request"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncReqBPProcessor" Type="Edm.String" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncReqBPProcessorName" sap:label="Processor"
+						  sap:quickinfo="Processor of Chemical Compliance Request" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncReqBPProcessorName" Type="Edm.String" MaxLength="80" sap:label="Description"
+						  sap:quickinfo="Description of the Technical User Account" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncReqBPRequester" Type="Edm.String" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncReqBPRequesterName" sap:label="Requester"
+						  sap:quickinfo="Requester of Chemical Compliance Request" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="fixed-values"/>
+				<Property Name="ChmlCmplncReqBPRequesterName" Type="Edm.String" MaxLength="80" sap:label="Description"
+						  sap:quickinfo="Description of the Technical User Account" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncReqRequester" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:text="ChmlCmplncReqRequesterName" sap:label="Requester"
+						  sap:quickinfo="System User of Requester of Chemical Compliance Request" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="fixed-values"/>
+				<Property Name="ChmlCmplncReqRequesterName" Type="Edm.String" MaxLength="80" sap:label="Description"
+						  sap:quickinfo="User Description" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductHierarchy" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase"
+						  sap:text="ProductHierarchyText" sap:label="Product Hierarchy" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="standard"/>
+				<Property Name="ProductHierarchyText" Type="Edm.String" MaxLength="40"
+						  sap:label="Product Hierarchy Text" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ExternalProductGroup" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase"
+						  sap:text="ExternalProductGroupName" sap:label="External Material Group" sap:creatable="false"
+						  sap:updatable="false" sap:value-list="standard"/>
+				<Property Name="ExternalProductGroupName" Type="Edm.String" MaxLength="20"
+						  sap:label="Ext. Prod Grp Descr" sap:quickinfo="Description for external product group"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Division" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:text="DivisionName" sap:label="Division" sap:creatable="false" sap:updatable="false"
+						  sap:value-list="standard"/>
+				<Property Name="DivisionName" Type="Edm.String" MaxLength="20" sap:label="Division Description"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestProcDate" Type="Edm.DateTimeOffset" Precision="7"
+						  sap:label="Date of Acceptance"
+						  sap:quickinfo="Acceptance Date of a Chemical Compliance Request" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="SalesDocument" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Logistics Document" sap:quickinfo="Logistics Document Number" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestPrgrsStatus" Type="Edm.String" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Status"
+						  sap:quickinfo="Status of Chemical Compliance Request" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncInfoUUID" Type="Edm.Guid" sap:label="Chemical Compliance Information"
+						  sap:creatable="false" sap:updatable="false"/>
+				<NavigationProperty Name="to_BusinessProcess"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_93501BBF37EF1C68C7DB053D94FD3521"
+									FromRole="FromRole_assoc_93501BBF37EF1C68C7DB053D94FD3521"
+									ToRole="ToRole_assoc_93501BBF37EF1C68C7DB053D94FD3521"/>
+				<NavigationProperty Name="to_BusinessProcessVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"
+									FromRole="FromRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"
+									ToRole="ToRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"/>
+				<NavigationProperty Name="to_ChmlCmplncInfo"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_0238292DD26DB2C7E205C4B92CB5175D"
+									FromRole="FromRole_assoc_0238292DD26DB2C7E205C4B92CB5175D"
+									ToRole="ToRole_assoc_0238292DD26DB2C7E205C4B92CB5175D"/>
+				<NavigationProperty Name="to_CmplncProcVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_7AEB338A0869608762F872DF046BAE9E"
+									FromRole="FromRole_assoc_7AEB338A0869608762F872DF046BAE9E"
+									ToRole="ToRole_assoc_7AEB338A0869608762F872DF046BAE9E"/>
+				<NavigationProperty Name="to_DivisionVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_2E9B975B8D5D936CBDE60A1145BA0034"
+									FromRole="FromRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034"
+									ToRole="ToRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034"/>
+				<NavigationProperty Name="to_ExternalProdGrpVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_836DFA88E01C1DB5CABB894486A4C379"
+									FromRole="FromRole_assoc_836DFA88E01C1DB5CABB894486A4C379"
+									ToRole="ToRole_assoc_836DFA88E01C1DB5CABB894486A4C379"/>
+				<NavigationProperty Name="to_OriginProcessVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_8FAC732150A7C27218351D303FE2C7C6"
+									FromRole="FromRole_assoc_8FAC732150A7C27218351D303FE2C7C6"
+									ToRole="ToRole_assoc_8FAC732150A7C27218351D303FE2C7C6"/>
+				<NavigationProperty Name="to_OriginType"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"
+									FromRole="FromRole_assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"
+									ToRole="ToRole_assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"/>
+				<NavigationProperty Name="to_OriginTypeVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_7F6FF1281C11A962E59B47361DFDC1E7"
+									FromRole="FromRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7"
+									ToRole="ToRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7"/>
+				<NavigationProperty Name="to_ProductGroupVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"
+									FromRole="FromRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"
+									ToRole="ToRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"/>
+				<NavigationProperty Name="to_ProductHierarchyVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_0CBD705A8CF10841D72D757987F3EE04"
+									FromRole="FromRole_assoc_0CBD705A8CF10841D72D757987F3EE04"
+									ToRole="ToRole_assoc_0CBD705A8CF10841D72D757987F3EE04"/>
+				<NavigationProperty Name="to_RequestedApplication"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_9BF7447B97DF8182D6D13B7512AABDB4"
+									FromRole="FromRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4"
+									ToRole="ToRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4"/>
+				<NavigationProperty Name="to_RequestedMarket"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_CDFAB81031785261DDE6B7CC9E2B786D"
+									FromRole="FromRole_assoc_CDFAB81031785261DDE6B7CC9E2B786D"
+									ToRole="ToRole_assoc_CDFAB81031785261DDE6B7CC9E2B786D"/>
+				<NavigationProperty Name="to_RequestedPlnt"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_9BB81B503C16B4D33F7A34C85D802DB7"
+									FromRole="FromRole_assoc_9BB81B503C16B4D33F7A34C85D802DB7"
+									ToRole="ToRole_assoc_9BB81B503C16B4D33F7A34C85D802DB7"/>
+				<NavigationProperty Name="to_RequestedPurpose"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_E249FDCC17EB7C6B649084F1B5791FF3"
+									FromRole="FromRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3"
+									ToRole="ToRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3"/>
+				<NavigationProperty Name="to_RequestedSlsOrg"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_470FC5CA1C8DC077B81A548BBDEBF039"
+									FromRole="FromRole_assoc_470FC5CA1C8DC077B81A548BBDEBF039"
+									ToRole="ToRole_assoc_470FC5CA1C8DC077B81A548BBDEBF039"/>
+				<NavigationProperty Name="to_RequesterUserVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_F6F9CDC61F6C154739A81FAD019219B6"
+									FromRole="FromRole_assoc_F6F9CDC61F6C154739A81FAD019219B6"
+									ToRole="ToRole_assoc_F6F9CDC61F6C154739A81FAD019219B6"/>
+				<NavigationProperty Name="to_RequesterVH"
+									Relationship="EHS_PMA_CPLREQ_MNT_SRV.assoc_5542A80D5A0430596CCCAAEB5654C643"
+									FromRole="FromRole_assoc_5542A80D5A0430596CCCAAEB5654C643"
+									ToRole="ToRole_assoc_5542A80D5A0430596CCCAAEB5654C643"/>
+			</EntityType>
+			<EntityType Name="C_ChmlCmplncReqPlntTPType" sap:label="Requested Plants of a Chemical Compliance Request"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncReqPlntUUID"/>
+				</Key>
+				<Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false"
+						  sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="ChmlCmplncReqPlntUUID" Type="Edm.Guid" Nullable="false" sap:label="Plant"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestUUID" Type="Edm.Guid" sap:label="Chemical Compliance Request"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncInfoUUID" Type="Edm.Guid" sap:label="Chemical Compliance Information"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ActivePlant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Plant ID"/>
+				<Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ChmlCmplncReqChgType" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Type" sap:quickinfo="Indicates Change Type of a Record"/>
+			</EntityType>
+			<EntityType Name="C_ChmlCmplncReqRequesterUserVHType"
+						sap:label="Chemical Compliance Request Requester User Value Help" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="UserID"/>
+				</Key>
+				<Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase"
+						  sap:text="UserDescription" sap:label="User ID"/>
+				<Property Name="UserDescription" Type="Edm.String" MaxLength="80" sap:label="Name"
+						  sap:quickinfo="User Description"/>
+			</EntityType>
+			<EntityType Name="C_ChmlCmplncReqRequesterVHType"
+						sap:label="Value Help for Requester of a Chemical Compliance Request" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncReqBPRequester"/>
+				</Key>
+				<Property Name="ChmlCmplncReqBPRequester" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncReqBPRequesterName" sap:label="Requester"
+						  sap:quickinfo="Requester of Chemical Compliance Request"/>
+				<Property Name="ChmlCmplncReqBPRequesterName" Type="Edm.String" MaxLength="80" sap:label="Description"
+						  sap:quickinfo="Description of the Technical User Account"/>
+			</EntityType>
+			<EntityType Name="C_ChmlCmplncReqSlsOrgTPType"
+						sap:label="Requested SalesOrgs of a Chemical Compliance Request" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncReqSalesOrgUUID"/>
+				</Key>
+				<Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false"
+						  sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="ChmlCmplncReqSalesOrgUUID" Type="Edm.Guid" Nullable="false"
+						  sap:label="Sales Organization" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncRequestUUID" Type="Edm.Guid" sap:label="Chemical Compliance Request"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncInfoUUID" Type="Edm.Guid" sap:label="Chemical Compliance Information"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="SalesOrganization" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Sales Organization"/>
+				<Property Name="SalesOrganizationName" Type="Edm.String" MaxLength="20"
+						  sap:label="Sales Organization Description" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ChmlCmplncReqChgType" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Type" sap:quickinfo="Indicates Change Type of a Record"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncBusProcType" sap:label="Chemical Compliance Business Process"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncBusinessProcess"/>
+				</Key>
+				<Property Name="ChmlCmplncBusinessProcess" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncBusinessProcess_Text"
+						  sap:label="Lower Value" sap:quickinfo="Values for Domains: Single Value/Lower Limit"/>
+				<Property Name="ChmlCmplncBusinessProcess_Text" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values" sap:creatable="false"
+						  sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncBusProcVHType" sap:label="Chemical Compliance Business Process Value Help"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncBusinessProcess"/>
+				</Key>
+				<Property Name="ChmlCmplncBusinessProcess" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncBusinessProcessName"
+						  sap:label="Lower Value" sap:quickinfo="Values for Domains: Single Value/Lower Limit"/>
+				<Property Name="ChmlCmplncBusinessProcessName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncInfoType" sap:label="Chemical Compliance Information" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncInfoUUID"/>
+				</Key>
+				<Property Name="ChmlCmplncInfoUUID" Type="Edm.Guid" Nullable="false"
+						  sap:label="Chemical Compliance Information"/>
+				<Property Name="CreationUTCDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Created On"/>
+				<Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Created By" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="LastChangeUTCDateTime" Type="Edm.DateTimeOffset" Precision="7"
+						  sap:label="Last Changed On"/>
+				<Property Name="LastChangedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Last Changed By" sap:quickinfo="Last Change By" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="ProdStewardshipRespUnit" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Responsible Unit"/>
+				<Property Name="DngrsGdsRespUnit" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Responsible Unit for Dangerous Goods"/>
+				<Property Name="ChmlCmplncInfoType" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Type of Chemical Compliance Information" sap:quickinfo="CCI Type"/>
+				<Property Name="ChmlCmplncInternalName" Type="Edm.String" MaxLength="132" sap:label="Internal Name"/>
+				<Property Name="MaterialIsBaseProduct" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Is Base Product" sap:quickinfo="Material is Base Product (obsolete)"/>
+				<Property Name="MaterialIsSold" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Is Sold"
+						  sap:quickinfo="Material is Sold"/>
+				<Property Name="MaterialIsTransported" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Is Transported" sap:quickinfo="Material is Transported"/>
+				<Property Name="MaterialIsSourced" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Is Purchased" sap:quickinfo="Material is Sourced"/>
+				<Property Name="MaterialIsProduced" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Is Produced" sap:quickinfo="Material is Produced"/>
+				<Property Name="Specification" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Internal Number"/>
+				<Property Name="SpecificationInternalID" Type="Edm.String" MaxLength="20"
+						  sap:display-format="NonNegative" sap:label="Record number"
+						  sap:quickinfo="Sequential Number of Data Record"/>
+				<Property Name="ChmlCmplncProdIsResearched" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="R&amp;D Sample" sap:quickinfo="Research and Development Sample"/>
+				<Property Name="MatlIsNotDngrsGdsRlvt" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Is Not Dangerous Goods Relevant"
+						  sap:quickinfo="Material is not relevant for dangerous goods"/>
+				<Property Name="MatlIsNotProdMarketabilityRlvt" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Is Not Product Marketability Relevant"
+						  sap:quickinfo="Material is not relevant for product marketability"/>
+				<Property Name="MatlIsNotProdSafetyRlvt" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Is Not Product Safety Relevant"
+						  sap:quickinfo="Material is not relevant for product safety"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncReqApplicationTPType" sap:label="Chemical Compliance Application"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncApplUUID"/>
+				</Key>
+				<Property Name="ChmlCmplncApplUUID" Type="Edm.Guid" Nullable="false" sap:label="Application"/>
+				<Property Name="ChmlCmplncRequestUUID" Type="Edm.Guid" sap:label="Chemical Compliance Request"/>
+				<Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Created By"/>
+				<Property Name="CreationUTCDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Created On"/>
+				<Property Name="LastChangeUTCDateTime" Type="Edm.DateTimeOffset" Precision="7"
+						  sap:label="Last Changed On"/>
+				<Property Name="LastChangedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Last Changed By" sap:quickinfo="Last Change By"/>
+				<Property Name="ChmlCmplncApplication" Type="Edm.String" MaxLength="10" sap:label="Application"/>
+				<Property Name="ChmlCmplncReqChgType" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Type" sap:quickinfo="Indicates Change Type of a Record"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncReqCmplncProcVHType"
+						sap:label="Chem. Compl. Request Compl. Process Value Help" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncReqCmplncProc"/>
+				</Key>
+				<Property Name="ChmlCmplncReqCmplncProc" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncReqCmplncProcName" sap:label="Lower Value"
+						  sap:quickinfo="Values for Domains: Single Value/Lower Limit"/>
+				<Property Name="ChmlCmplncReqCmplncProcName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncReqOriginProcVHType"
+						sap:label="Chem. Compl. Request Origin Process Value Help" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncReqOriginProc"/>
+				</Key>
+				<Property Name="ChmlCmplncReqOriginProc" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncReqOriginProcName" sap:label="Lower Value"
+						  sap:quickinfo="Values for Domains: Single Value/Lower Limit"/>
+				<Property Name="ChmlCmplncReqOriginProcName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncReqOriginTypeType" sap:label="Chemical Compliance Request Origin Type"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncRequestOriginType"/>
+				</Key>
+				<Property Name="ChmlCmplncRequestOriginType" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncRequestOriginType_Text"
+						  sap:label="Lower Value" sap:quickinfo="Values for Domains: Single Value/Lower Limit"/>
+				<Property Name="ChmlCmplncRequestOriginType_Text" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values" sap:creatable="false"
+						  sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncReqOrigTypeVHType"
+						sap:label="Chemical Compliance Request Origin Type Value Help" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncRequestOriginType"/>
+				</Key>
+				<Property Name="ChmlCmplncRequestOriginType" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="ChmlCmplncRequestOriginName" sap:label="Lower Value"
+						  sap:quickinfo="Values for Domains: Single Value/Lower Limit"/>
+				<Property Name="ChmlCmplncRequestOriginName" Type="Edm.String" MaxLength="60"
+						  sap:label="Short Descript." sap:quickinfo="Short Text for Fixed Values"/>
+			</EntityType>
+			<EntityType Name="I_ChmlCmplncReqPrpsAssgmtTPType" sap:label="Chemical Compliance Purpose Assignment"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ChmlCmplncPrpsAssgmtUUID"/>
+				</Key>
+				<Property Name="ChmlCmplncPrpsAssgmtUUID" Type="Edm.Guid" Nullable="false"
+						  sap:label="Purpose Assignment"/>
+				<Property Name="ChmlCmplncRequestUUID" Type="Edm.Guid" sap:label="Chemical Compliance Request"/>
+				<Property Name="CreationUTCDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Created On"/>
+				<Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Created By"/>
+				<Property Name="LastChangeUTCDateTime" Type="Edm.DateTimeOffset" Precision="7"
+						  sap:label="Last Changed On"/>
+				<Property Name="LastChangedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Last Changed By" sap:quickinfo="Last Change By"/>
+				<Property Name="CmplncPrpsUUID" Type="Edm.Guid" sap:label="Compliance Purpose"/>
+				<Property Name="ChmlCmplncReqChgType" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Type" sap:quickinfo="Indicates Change Type of a Record"/>
+			</EntityType>
+			<EntityType Name="I_DivisionType" sap:label="Division" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="Division"/>
+				</Key>
+				<Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="UpperCase" sap:text="Division_Text" sap:label="Division"/>
+				<Property Name="Division_Text" Type="Edm.String" MaxLength="20" sap:label="Division Description"
+						  sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_ExtProdGrpType" sap:label="External Product Group Basic" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ExternalProductGroup"/>
+				</Key>
+				<Property Name="ExternalProductGroup" Type="Edm.String" Nullable="false" MaxLength="18"
+						  sap:display-format="UpperCase" sap:text="ExternalProductGroup_Text"
+						  sap:label="Ext. Product Group" sap:quickinfo="External Product Group"/>
+				<Property Name="ExternalProductGroup_Text" Type="Edm.String" MaxLength="20"
+						  sap:label="Ext. Prod Grp Descr" sap:quickinfo="Description for external product group"
+						  sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_ProductGroup_2Type" sap:label="Product Group" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ProductGroup"/>
+				</Key>
+				<Property Name="ProductGroup" Type="Edm.String" Nullable="false" MaxLength="9"
+						  sap:display-format="UpperCase" sap:text="ProductGroup_Text" sap:label="Product Group"/>
+				<Property Name="ProductGroup_Text" Type="Edm.String" MaxLength="20"
+						  sap:label="Product Group Description" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_ProductHierarchyType" sap:label="Product Hierarchy" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ProductHierarchy"/>
+				</Key>
+				<Property Name="ProductHierarchy" Type="Edm.String" Nullable="false" MaxLength="18"
+						  sap:display-format="UpperCase" sap:text="ProductHierarchy_Text"
+						  sap:label="Product Hierarchy"/>
+				<Property Name="ProductHierarchy_Text" Type="Edm.String" MaxLength="40"
+						  sap:label="Product Hierarchy Text" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductHierarchyLevel" Type="Edm.String" MaxLength="1" sap:display-format="NonNegative"
+						  sap:label="Level number" sap:quickinfo="Number of the level in the product hierarchy"/>
+			</EntityType>
+			<Association Name="assoc_0C3A7E3C840BE580DE525B2CF63DD4A6" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncBusProcVHType" Multiplicity="0..1"
+					 Role="ToRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6">
+						<PropertyRef Name="ChmlCmplncBusinessProcess"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6">
+						<PropertyRef Name="ChmlCmplncBusinessProcess"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_0238292DD26DB2C7E205C4B92CB5175D" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_0238292DD26DB2C7E205C4B92CB5175D"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncInfoType" Multiplicity="0..1"
+					 Role="ToRole_assoc_0238292DD26DB2C7E205C4B92CB5175D"/>
+			</Association>
+			<Association Name="assoc_7AEB338A0869608762F872DF046BAE9E" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_7AEB338A0869608762F872DF046BAE9E"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqCmplncProcVHType" Multiplicity="1"
+					 Role="ToRole_assoc_7AEB338A0869608762F872DF046BAE9E"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_7AEB338A0869608762F872DF046BAE9E">
+						<PropertyRef Name="ChmlCmplncReqCmplncProc"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_7AEB338A0869608762F872DF046BAE9E">
+						<PropertyRef Name="ChmlCmplncReqCmplncProc"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_2E9B975B8D5D936CBDE60A1145BA0034" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_DivisionType" Multiplicity="0..1"
+					 Role="ToRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034">
+						<PropertyRef Name="Division"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034">
+						<PropertyRef Name="Division"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_836DFA88E01C1DB5CABB894486A4C379" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_836DFA88E01C1DB5CABB894486A4C379"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ExtProdGrpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_836DFA88E01C1DB5CABB894486A4C379"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_836DFA88E01C1DB5CABB894486A4C379">
+						<PropertyRef Name="ExternalProductGroup"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_836DFA88E01C1DB5CABB894486A4C379">
+						<PropertyRef Name="ExternalProductGroup"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_8FAC732150A7C27218351D303FE2C7C6" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_8FAC732150A7C27218351D303FE2C7C6"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqOriginProcVHType" Multiplicity="1"
+					 Role="ToRole_assoc_8FAC732150A7C27218351D303FE2C7C6"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_8FAC732150A7C27218351D303FE2C7C6">
+						<PropertyRef Name="ChmlCmplncReqOriginProc"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_8FAC732150A7C27218351D303FE2C7C6">
+						<PropertyRef Name="ChmlCmplncReqOriginProc"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqOriginTypeType" Multiplicity="0..1"
+					 Role="ToRole_assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"/>
+			</Association>
+			<Association Name="assoc_7F6FF1281C11A962E59B47361DFDC1E7" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqOrigTypeVHType" Multiplicity="0..1"
+					 Role="ToRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7">
+						<PropertyRef Name="ChmlCmplncRequestOriginType"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7">
+						<PropertyRef Name="ChmlCmplncRequestOriginType"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_F0CB2BCDE70FA43E1B75E7A519849BC0" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ProductGroup_2Type" Multiplicity="0..1"
+					 Role="ToRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0">
+						<PropertyRef Name="ProductGroup"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0">
+						<PropertyRef Name="MaterialGroup"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_0CBD705A8CF10841D72D757987F3EE04" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_0CBD705A8CF10841D72D757987F3EE04"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ProductHierarchyType" Multiplicity="0..1"
+					 Role="ToRole_assoc_0CBD705A8CF10841D72D757987F3EE04"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_0CBD705A8CF10841D72D757987F3EE04">
+						<PropertyRef Name="ProductHierarchy"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_0CBD705A8CF10841D72D757987F3EE04">
+						<PropertyRef Name="ProductHierarchy"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_9BF7447B97DF8182D6D13B7512AABDB4" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4">
+					<OnDelete Action="Cascade"/>
+				</End>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqApplicationTPType" Multiplicity="*"
+					 Role="ToRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4">
+						<PropertyRef Name="ChmlCmplncRequestUUID"/>
+					</Principal>
+					<Dependent Role="ToRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4">
+						<PropertyRef Name="ChmlCmplncRequestUUID"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_CDFAB81031785261DDE6B7CC9E2B786D" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_CDFAB81031785261DDE6B7CC9E2B786D"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType" Multiplicity="*"
+					 Role="ToRole_assoc_CDFAB81031785261DDE6B7CC9E2B786D"/>
+			</Association>
+			<Association Name="assoc_9BB81B503C16B4D33F7A34C85D802DB7" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_9BB81B503C16B4D33F7A34C85D802DB7"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType" Multiplicity="*"
+					 Role="ToRole_assoc_9BB81B503C16B4D33F7A34C85D802DB7"/>
+			</Association>
+			<Association Name="assoc_E249FDCC17EB7C6B649084F1B5791FF3" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3">
+					<OnDelete Action="Cascade"/>
+				</End>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqPrpsAssgmtTPType" Multiplicity="*"
+					 Role="ToRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3">
+						<PropertyRef Name="ChmlCmplncRequestUUID"/>
+					</Principal>
+					<Dependent Role="ToRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3">
+						<PropertyRef Name="ChmlCmplncRequestUUID"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_470FC5CA1C8DC077B81A548BBDEBF039" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_470FC5CA1C8DC077B81A548BBDEBF039"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType" Multiplicity="*"
+					 Role="ToRole_assoc_470FC5CA1C8DC077B81A548BBDEBF039"/>
+			</Association>
+			<Association Name="assoc_F6F9CDC61F6C154739A81FAD019219B6" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_F6F9CDC61F6C154739A81FAD019219B6"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqRequesterUserVHType" Multiplicity="0..1"
+					 Role="ToRole_assoc_F6F9CDC61F6C154739A81FAD019219B6"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_F6F9CDC61F6C154739A81FAD019219B6">
+						<PropertyRef Name="UserID"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_F6F9CDC61F6C154739A81FAD019219B6">
+						<PropertyRef Name="ChmlCmplncReqRequester"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_5542A80D5A0430596CCCAAEB5654C643" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_5542A80D5A0430596CCCAAEB5654C643"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqRequesterVHType" Multiplicity="0..1"
+					 Role="ToRole_assoc_5542A80D5A0430596CCCAAEB5654C643"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_5542A80D5A0430596CCCAAEB5654C643">
+						<PropertyRef Name="ChmlCmplncReqBPRequester"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_5542A80D5A0430596CCCAAEB5654C643">
+						<PropertyRef Name="ChmlCmplncReqBPRequester"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_93501BBF37EF1C68C7DB053D94FD3521" sap:content-version="1">
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType" Multiplicity="1"
+					 Role="FromRole_assoc_93501BBF37EF1C68C7DB053D94FD3521"/>
+				<End Type="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncBusProcType" Multiplicity="0..1"
+					 Role="ToRole_assoc_93501BBF37EF1C68C7DB053D94FD3521"/>
+			</Association>
+			<EntityContainer Name="EHS_PMA_CPLREQ_MNT_SRV_Entities" m:IsDefaultEntityContainer="true"
+							 sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+				<EntitySet Name="C_ChmlCmplncReqMktTP" EntityType="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType"
+						   sap:updatable="false" sap:searchable="true" sap:content-version="1"
+						   sap:deletable-path="Delete_mc"/>
+				<EntitySet Name="C_ChmlCmplncReqMntr" EntityType="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<EntitySet Name="C_ChmlCmplncReqPlntTP" EntityType="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType"
+						   sap:updatable="false" sap:searchable="true" sap:content-version="1"
+						   sap:deletable-path="Delete_mc"/>
+				<EntitySet Name="C_ChmlCmplncReqRequesterUserVH"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqRequesterUserVHType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<EntitySet Name="C_ChmlCmplncReqRequesterVH"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqRequesterVHType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_ChmlCmplncReqSlsOrgTP"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType" sap:updatable="false"
+						   sap:searchable="true" sap:content-version="1" sap:deletable-path="Delete_mc"/>
+				<EntitySet Name="I_ChmlCmplncBusProc" EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncBusProcType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncBusProcVH" EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncBusProcVHType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncInfo" EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncInfoType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncReqApplicationTP"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqApplicationTPType"
+						   sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncReqCmplncProcVH"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqCmplncProcVHType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncReqOriginProcVH"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqOriginProcVHType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncReqOriginType"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqOriginTypeType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncReqOrigTypeVH"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqOrigTypeVHType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ChmlCmplncReqPrpsAssgmtTP"
+						   EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqPrpsAssgmtTPType" sap:content-version="1"/>
+				<EntitySet Name="I_Division" EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_DivisionType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<EntitySet Name="I_ExtProdGrp" EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ExtProdGrpType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<EntitySet Name="I_ProductGroup_2" EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ProductGroup_2Type"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<EntitySet Name="I_ProductHierarchy" EntityType="EHS_PMA_CPLREQ_MNT_SRV.I_ProductHierarchyType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<AssociationSet Name="assoc_5542A80D5A0430596CCCAAEB5654C643"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_5542A80D5A0430596CCCAAEB5654C643"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_5542A80D5A0430596CCCAAEB5654C643"/>
+					<End EntitySet="C_ChmlCmplncReqRequesterVH" Role="ToRole_assoc_5542A80D5A0430596CCCAAEB5654C643"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_8FAC732150A7C27218351D303FE2C7C6"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_8FAC732150A7C27218351D303FE2C7C6"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_8FAC732150A7C27218351D303FE2C7C6"/>
+					<End EntitySet="I_ChmlCmplncReqOriginProcVH" Role="ToRole_assoc_8FAC732150A7C27218351D303FE2C7C6"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_7F6FF1281C11A962E59B47361DFDC1E7"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_7F6FF1281C11A962E59B47361DFDC1E7"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7"/>
+					<End EntitySet="I_ChmlCmplncReqOrigTypeVH" Role="ToRole_assoc_7F6FF1281C11A962E59B47361DFDC1E7"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_836DFA88E01C1DB5CABB894486A4C379"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_836DFA88E01C1DB5CABB894486A4C379"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_836DFA88E01C1DB5CABB894486A4C379"/>
+					<End EntitySet="I_ExtProdGrp" Role="ToRole_assoc_836DFA88E01C1DB5CABB894486A4C379"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_9BF7447B97DF8182D6D13B7512AABDB4"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_9BF7447B97DF8182D6D13B7512AABDB4"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4"/>
+					<End EntitySet="I_ChmlCmplncReqApplicationTP" Role="ToRole_assoc_9BF7447B97DF8182D6D13B7512AABDB4"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_93501BBF37EF1C68C7DB053D94FD3521"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_93501BBF37EF1C68C7DB053D94FD3521"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_93501BBF37EF1C68C7DB053D94FD3521"/>
+					<End EntitySet="I_ChmlCmplncBusProc" Role="ToRole_assoc_93501BBF37EF1C68C7DB053D94FD3521"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_CDFAB81031785261DDE6B7CC9E2B786D"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_CDFAB81031785261DDE6B7CC9E2B786D"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_CDFAB81031785261DDE6B7CC9E2B786D"/>
+					<End EntitySet="C_ChmlCmplncReqMktTP" Role="ToRole_assoc_CDFAB81031785261DDE6B7CC9E2B786D"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_0CBD705A8CF10841D72D757987F3EE04"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_0CBD705A8CF10841D72D757987F3EE04"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_0CBD705A8CF10841D72D757987F3EE04"/>
+					<End EntitySet="I_ProductHierarchy" Role="ToRole_assoc_0CBD705A8CF10841D72D757987F3EE04"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"/>
+					<End EntitySet="I_ChmlCmplncReqOriginType" Role="ToRole_assoc_0DF0A01CF49B6E6CBF2BAA46A8D6FC70"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_2E9B975B8D5D936CBDE60A1145BA0034"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_2E9B975B8D5D936CBDE60A1145BA0034"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034"/>
+					<End EntitySet="I_Division" Role="ToRole_assoc_2E9B975B8D5D936CBDE60A1145BA0034"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"/>
+					<End EntitySet="I_ChmlCmplncBusProcVH" Role="ToRole_assoc_0C3A7E3C840BE580DE525B2CF63DD4A6"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_9BB81B503C16B4D33F7A34C85D802DB7"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_9BB81B503C16B4D33F7A34C85D802DB7"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_9BB81B503C16B4D33F7A34C85D802DB7"/>
+					<End EntitySet="C_ChmlCmplncReqPlntTP" Role="ToRole_assoc_9BB81B503C16B4D33F7A34C85D802DB7"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_470FC5CA1C8DC077B81A548BBDEBF039"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_470FC5CA1C8DC077B81A548BBDEBF039"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_470FC5CA1C8DC077B81A548BBDEBF039"/>
+					<End EntitySet="C_ChmlCmplncReqSlsOrgTP" Role="ToRole_assoc_470FC5CA1C8DC077B81A548BBDEBF039"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_F6F9CDC61F6C154739A81FAD019219B6"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_F6F9CDC61F6C154739A81FAD019219B6"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_F6F9CDC61F6C154739A81FAD019219B6"/>
+					<End EntitySet="C_ChmlCmplncReqRequesterUserVH"
+						 Role="ToRole_assoc_F6F9CDC61F6C154739A81FAD019219B6"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_7AEB338A0869608762F872DF046BAE9E"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_7AEB338A0869608762F872DF046BAE9E"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_7AEB338A0869608762F872DF046BAE9E"/>
+					<End EntitySet="I_ChmlCmplncReqCmplncProcVH" Role="ToRole_assoc_7AEB338A0869608762F872DF046BAE9E"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"/>
+					<End EntitySet="I_ProductGroup_2" Role="ToRole_assoc_F0CB2BCDE70FA43E1B75E7A519849BC0"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_0238292DD26DB2C7E205C4B92CB5175D"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_0238292DD26DB2C7E205C4B92CB5175D"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_0238292DD26DB2C7E205C4B92CB5175D"/>
+					<End EntitySet="I_ChmlCmplncInfo" Role="ToRole_assoc_0238292DD26DB2C7E205C4B92CB5175D"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_E249FDCC17EB7C6B649084F1B5791FF3"
+								Association="EHS_PMA_CPLREQ_MNT_SRV.assoc_E249FDCC17EB7C6B649084F1B5791FF3"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_ChmlCmplncReqMntr" Role="FromRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3"/>
+					<End EntitySet="I_ChmlCmplncReqPrpsAssgmtTP" Role="ToRole_assoc_E249FDCC17EB7C6B649084F1B5791FF3"/>
+				</AssociationSet>
+			</EntityContainer>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqOriginProc"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Chem. Compl. Request Origin Process Value Help"/>
+						<PropertyValue Property="CollectionPath" String="I_ChmlCmplncReqOriginProcVH"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ChmlCmplncReqOriginProc"/>
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncReqOriginProc"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncReqOriginProcName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/MaterialGroup"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Product Group"/>
+						<PropertyValue Property="CollectionPath" String="I_ProductGroup_2"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="MaterialGroup"/>
+									<PropertyValue Property="ValueListProperty" String="ProductGroup"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ProductGroup_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestOriginType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Chemical Compliance Request Origin Type Value Help"/>
+						<PropertyValue Property="CollectionPath" String="I_ChmlCmplncReqOrigTypeVH"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty"
+												   PropertyPath="ChmlCmplncRequestOriginType"/>
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncRequestOriginType"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncRequestOriginName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncBusinessProcess"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Chemical Compliance Business Process Value Help"/>
+						<PropertyValue Property="CollectionPath" String="I_ChmlCmplncBusProcVH"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty"
+												   PropertyPath="ChmlCmplncBusinessProcess"/>
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncBusinessProcess"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncBusinessProcessName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqCmplncProc"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Chem. Compl. Request Compl. Process Value Help"/>
+						<PropertyValue Property="CollectionPath" String="I_ChmlCmplncReqCmplncProcVH"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ChmlCmplncReqCmplncProc"/>
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncReqCmplncProc"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncReqCmplncProcName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqBPRequester"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label"
+									   String="Value Help for Requester of a Chemical Compliance Request"/>
+						<PropertyValue Property="CollectionPath" String="C_ChmlCmplncReqRequesterVH"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty"
+												   PropertyPath="ChmlCmplncReqBPRequester"/>
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncReqBPRequester"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ChmlCmplncReqBPRequesterName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncReqRequester"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Chemical Compliance Request Requester User Value Help"/>
+						<PropertyValue Property="CollectionPath" String="C_ChmlCmplncReqRequesterUserVH"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ChmlCmplncReqRequester"/>
+									<PropertyValue Property="ValueListProperty" String="UserID"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="UserDescription"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ProductHierarchy"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Product Hierarchy"/>
+						<PropertyValue Property="CollectionPath" String="I_ProductHierarchy"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ProductHierarchy"/>
+									<PropertyValue Property="ValueListProperty" String="ProductHierarchy"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ProductHierarchy_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ExternalProductGroup"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="External Product Group Basic"/>
+						<PropertyValue Property="CollectionPath" String="I_ExtProdGrp"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ExternalProductGroup"/>
+									<PropertyValue Property="ValueListProperty" String="ExternalProductGroup"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ExternalProductGroup_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/Division"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Division"/>
+						<PropertyValue Property="CollectionPath" String="I_Division"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="Division"/>
+									<PropertyValue Property="ValueListProperty" String="Division"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Division_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.EHS_PMA_CPLREQ_MNT_SRV_Entities"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+				<Annotation Term="Aggregation.ApplySupported">
+					<Record>
+						<PropertyValue Property="Transformations">
+							<Collection>
+								<String>aggregate</String>
+								<String>groupby</String>
+								<String>filter</String>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Rollup" EnumMember="None"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncReqMktUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/ChmlCmplncRequestUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType/Country"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestNavgnLink"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestPrgrsStatus"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType/ChmlCmplncRequestUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/ActivePlant"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType/ChmlCmplncRequestUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/ChmlCmplncRequestUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType/SalesOrganization"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqApplicationTPType/ChmlCmplncApplication"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqApplicationTPType/ChmlCmplncRequestUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqPrpsAssgmtTPType/ChmlCmplncRequestUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqPrpsAssgmtTPType/CmplncPrpsUUID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.EHS_PMA_CPLREQ_MNT_SRV_Entities/C_ChmlCmplncReqMktTP"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>Delete_mc</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>Delete_mc</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.EHS_PMA_CPLREQ_MNT_SRV_Entities/C_ChmlCmplncReqPlntTP"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>Delete_mc</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>Delete_mc</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.EHS_PMA_CPLREQ_MNT_SRV_Entities/C_ChmlCmplncReqSlsOrgTP"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>Delete_mc</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>Delete_mc</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMktTPType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>Country</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqMntrType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>ProductName</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqPlntTPType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>ActivePlant</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.C_ChmlCmplncReqSlsOrgTPType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>SalesOrganization</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqApplicationTPType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>ChmlCmplncApplUUID</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.I_ChmlCmplncReqPrpsAssgmtTPType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>ChmlCmplncRequestUUID</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="EHS_PMA_CPLREQ_MNT_SRV.EHS_PMA_CPLREQ_MNT_SRV_Entities/C_ChmlCmplncReqMntr"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>ChmlCmplncRequestSubjectMatter</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<atom:link rel="self"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/EHS_PMA_CPLREQ_MNT_SRV/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+			<atom:link rel="latest-version"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/EHS_PMA_CPLREQ_MNT_SRV/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

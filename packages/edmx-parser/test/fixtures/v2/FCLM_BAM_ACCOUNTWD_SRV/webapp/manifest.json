@@ -1,0 +1,451 @@
+{
+    "_version": "1.5.0",
+    "sap.app": {
+        "_version": "1.3.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "subTitle": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FIN-FIO-CLM",
+        "resources": "resources.json",
+        "crossNavigation": {
+            "inbounds": {
+                "bankManage": {
+                    "semanticObject": "BankAccount",
+                    "action": "manageMasterData"
+                }
+            },
+            "outbounds": {
+                "ImportAndExportBankAccounts": {
+                    "semanticObject": "BankAccount",
+                    "action": "importAndExport"
+                },
+                "BankHierarchyAndAccountGroup": {
+                    "semanticObject": "BankAccount",
+                    "action": "maintainHierarchy"
+                },
+                "ManageHouseBanks": {
+                    "semanticObject": "Bank",
+                    "action": "manageHouseBank"
+                },
+                "ChangeRequest": {
+                    "semanticObject": "BankAccount",
+                    "action": "manageChangeRequest"
+                },
+                "ManageBankAccounts": {
+                    "semanticObject": "BankAccount",
+                    "action": "manageMasterData"
+                },
+                "ManageReviewProcess": {
+                    "semanticObject": "BankAccount",
+                    "action": "review"
+                }
+            }
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FCLM_BAM_ACCOUNTWD_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCLM_BAM_ACCOUNTWD_ANNO_MDL", "LOCAL"],
+
+                    "localUri": "localService/metadata1.xml"
+                }
+            },
+            "FCLM_BAM_ACCOUNTWD_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCLM_BAM_ACCOUNTWD_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCLM_BAM_ACCOUNTWD_ANNO_MDL.xml"
+                }
+            },
+            "LOCAL": {
+                "uri": "ext/annotations/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCLM_BAM_ACCOUNTWD_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.3.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"],
+        "fullWidth": true
+    },
+    "sap.ui5": {
+        "_version": "1.2.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.30.0",
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {}
+            },
+            "libs": {
+                "sap.ui.generic.app": {},
+                "sap.ui.core": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.ssuite.fnd.om.outputcontrol": {
+                    "minVersion": "10.4.0",
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_BankAccountTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_BankAccountTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BankAccountTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_BankAccountTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BankAccHouseBankAccTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_BankAccHouseBankAccTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BankAccLimitTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_BankAccLimitTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BankAccSignatureTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_BankAccSignatureTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BankAccSignatureCard": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_BankAccSignatureCard/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.cash.brm.bankaccount.manage.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_BankAccountTP": {
+                                "EntitySet": "C_BankAccountTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionInitiateClosing": {
+                                            "id": "ActionInitiateClosing",
+                                            "text": "{@i18n>InitiateClosing}",
+                                            "press": "onClickActionInitiateClosing"
+                                        },
+                                        "ActionOpenRevisionList": {
+                                            "id": "ActionOpenRevisionList",
+                                            "text": "{@i18n>REVISION}",
+                                            "press": "onClickActionOpenRevisionList"
+                                        },
+                                        "ActionOpenRevisionHistory": {
+                                            "id": "ActionOpenRevisionHistory",
+                                            "text": "{@i18n>History}",
+                                            "press": "onClickActionOpenRevisionHistory"
+                                        },
+                                        "ActionShowDifference": {
+                                            "id": "ActionShowDifference",
+                                            "text": "{@i18n>SHOWDIFFERENT}",
+                                            "press": "onClickActionShowDifference"
+                                        },
+                                        "ActionShowExistingAccts": {
+                                            "id": "ActionShowExistingAccts",
+                                            "text": "{@i18n>EXISTINGACCOUNTS}",
+                                            "press": "onClickActionShowExistingAccts"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "FACET1": {
+                                        "id": "FACET1",
+                                        "Actions": {
+                                            "ActionShowApprovalSteps": {
+                                                "id": "ActionShowApprovalSteps",
+                                                "text": "{@i18n>ShowApprovalSteps}",
+                                                "press": "onClickActionShowApprovalSteps"
+                                            },
+                                            "ActionUnhideInvalidSig": {
+                                                "id": "ActionUnhideInvalidSig",
+                                                "text": "{@i18n>UnhideInactiveSignatories}",
+                                                "press": "onClickActionUnhideInactiveSignatories"
+                                            }
+                                        }
+                                    },
+                                    "FACET3": {
+                                        "id": "FACET3",
+                                        "Actions": {
+                                            "ActionManageHouseBanks": {
+                                                "id": "ActionManageHouseBanks",
+                                                "text": "{@i18n>ActionManageHouseBanks}",
+                                                "press": "onClickActionManageHouseBanks"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.cash.brm.bankaccount.manage.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_BankAccountTP": {
+                                "EntitySet": "C_BankAccountTP",
+                                "Actions": {
+                                    "OpenImportAndExportView": {
+                                        "id": "OpenImportAndExportView",
+                                        "text": "{@i18n>OpenImportAndExportView}",
+                                        "press": "onClickActionOpenImportAndExportView",
+                                        "global": true
+                                    },
+                                    "OpenBankHierarchyView": {
+                                        "id": "OpenBankHierarchyView",
+                                        "text": "{@i18n>OpenBankHierarchyView}",
+                                        "press": "onClickActionOpenBankHierarchyView",
+                                        "global": true
+                                    },
+                                    "InitiateReviewProcess": {
+                                        "id": "ActionInitiateReviewProcess",
+                                        "text": "{@i18n>InitiateReviewProcess}",
+                                        "press": "onClickActionInitiateReviewProcess"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterFacet|C_BankAccountTP|COLLFAC7": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.cash.brm.bankaccount.manage.ext.view.OutputManagement",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_BankAccountTP>BAM_CORRESPONDENCE}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ResponsiveTableColumnsExtension|C_BankAccSignatureCard|FACET11": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.cash.brm.bankaccount.manage.ext.fragments.MaxPaymentColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_BankAccSignatureCard|FACET11": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.cash.brm.bankaccount.manage.ext.fragments.MaxPaymentCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "settings": {
+            "inboundParameters": {
+                "CompanyCode": {
+                    "useForCreate": true
+                },
+                "BankCountry": {
+                    "useForCreate": true
+                },
+                "Bank": {
+                    "useForCreate": true
+                },
+                "BankAccountCurrency": {
+                    "useForCreate": true
+                },
+                "BankAccountType": {
+                    "useForCreate": true
+                }
+            },
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": true
+        },
+        "pages": [
+            {
+                "entitySet": "C_BankAccountTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": false,
+                        "condensedTableLayout": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_BankAccountTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": true,
+                                "condensedTableLayout": true,
+                                "allowDeepLinking": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{ATTACHMENTS}}",
+                                "settings": {
+                                    "mode": "D",
+                                    "objectType": "FCLM_ACCT",
+                                    "objectKey": "{BankAccountInternalID}0000",
+                                    "isGuid": true,
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": false,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": false,
+                                            "ATTACHMENTTITLE": false,
+                                            "SOURCE": false,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": false,
+                                            "DELETE": false,
+                                            "ADD": false,
+                                            "ADDURL": false,
+                                            "DOWNLOAD": true
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_AccountConnectivePath",
+                                "entitySet": "C_BankAccHouseBankAccTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "createMode": "inline",
+                                        "condensedTableLayout": true
+                                    }
+                                }
+                            },
+                            {
+                                "navigationProperty": "to_AccountOverDraftLimit",
+                                "entitySet": "C_BankAccLimitTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "createMode": "inline",
+                                        "condensedTableLayout": true
+                                    }
+                                }
+                            },
+                            {
+                                "navigationProperty": "to_AccountSignature",
+                                "entitySet": "C_BankAccSignatureTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "createMode": "inline",
+                                        "condensedTableLayout": true
+                                    }
+                                }
+                            },
+                            {
+                                "navigationProperty": "to_AccountText",
+                                "entitySet": "C_BankAccTextTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "createMode": "inline",
+                                        "condensedTableLayout": true
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1366A"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

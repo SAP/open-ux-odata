@@ -1,0 +1,343 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-FND",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHS_FND_PCT_MAN_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHS_FND_PCT_MAN_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHS_FND_PCT_MAN_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHS_FND_PCT_MAN_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHS_FND_PCT_MAN_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "EventDisplay": {
+                    "semanticObject": "ProductComplianceEvent",
+                    "action": "manage",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            },
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.fl": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ehs.fnd.lib.reuse.pc": {
+                    "minVersion": "11.11.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_ProdCmplncTaskTP|ProdCmplncTaskFailed": {
+                            "id": "ProdCmplncTaskFailed",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProdCmplncTaskTP|ProdCmplncTaskFailed": {
+                            "id": "ProdCmplncTaskFailedCells",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_ProdCmplncTaskTP|ProdCmplncTaskNewOrInProgress": {
+                            "id": "ProdCmplncTaskNewOrInProgress",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProdCmplncTaskTP|ProdCmplncTaskNewOrInProgress": {
+                            "id": "ProdCmplncTaskNewOrInProgressCells",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_ProdCmplncTaskTP|ProdCmplncTaskCompleted": {
+                            "id": "ProdCmplncTaskCompleted",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProdCmplncTaskTP|ProdCmplncTaskCompleted": {
+                            "id": "ProdCmplncTaskCompletedCells",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeHeaderFacet|C_ProdCmplncTaskTP|headerEditable::HeaderInfoFieldGroup2": {
+                            "id": "FirstFacet",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.NavigationLinkForObjectPageHeaderInfo",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_ProdCmplncTaskEventsInfo|EventsInfo": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ObjectPageResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProdCmplncTaskEventsInfo|EventsInfo": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.pc.task.monitors1.ext.fragment.ObjectPageResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ehs.fnd.pc.task.monitors1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_ProdCmplncTaskTP": {
+                                "EntitySet": "C_ProdCmplncTaskTP",
+                                "Actions": {
+                                    "ProcessAgain": {
+                                        "id": "ProcessAgain",
+                                        "text": "{@i18n>process.again.button.text}",
+                                        "press": "onProcessAgain",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ehs.fnd.pc.task.monitors1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_ProdCmplncTaskTP": {
+                                "EntitySet": "C_ProdCmplncTaskTP",
+                                "Header": {
+                                    "Actions": {
+                                        "sap.ehs.fnd.lib.reuse.pc.fnd.controller.DynamicNavigationController": {
+                                            "id": "ActionViewLog",
+                                            "text": "{@i18n>view.log.button.text}",
+                                            "press": "ActionDisplayLog"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "config": {
+            "sap.ehs.fnd.lib.reuse.pc": {
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.DynamicNavigationController": {
+                    "NavigationConfiguration": {
+                        "SemanticObject": "ProductComplianceTask",
+                        "SemanticObjectAction": "showLogDetails",
+                        "NavigationParameters": [
+                            {
+                                "Name": "LogHandle",
+                                "Value": "{ApplicationLogHandle}"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "reusepc_i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.ehs.fnd.lib.reuse.pc.i18n.i18n"
+                }
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ProdCmplncTaskTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ProdCmplncTaskTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProdCmplncTaskTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProdCmplncTaskTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProdCmplncTaskEventsInfo": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProdCmplncTaskEventsInfo/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic"
+        },
+        "pages": {
+            "ListReport|C_ProdCmplncTaskTP": {
+                "entitySet": "C_ProdCmplncTaskTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true,
+                        "gridTable": false,
+                        "variantManagementHidden": true,
+                        "multiSelect": true,
+                        "quickVariantSelectionX": {
+                            "enableAutoBinding": true,
+                            "showCounts": true,
+                            "variants": {
+                                "0": {
+                                    "key": "ProdCmplncTaskFailed",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProdCmplncTaskFailed"
+                                },
+                                "1": {
+                                    "key": "ProdCmplncTaskNewOrInProgress",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProdCmplncTaskNewOrInProgress"
+                                },
+                                "2": {
+                                    "key": "ProdCmplncTaskCompleted",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProdCmplncTaskCompleted"
+                                }
+                            }
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_ProdCmplncTaskTP": {
+                        "entitySet": "C_ProdCmplncTaskTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": {
+                            "ObjectPage|to_ProdCmplncTaskEventsInfo": {
+                                "navigationProperty": "to_ProdCmplncTaskEventsInfo",
+                                "entitySet": "C_ProdCmplncTaskEventsInfo",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "EventDisplay"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4097"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

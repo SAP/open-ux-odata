@@ -1,0 +1,308 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "archeType": "transactional",
+        "registrationIds": ["F1876"]
+    },
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "ach": "PPM-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "PPM_PRO_PROJECT_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/PPM_PRO_PROJECT_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PPM_PRO_PROJECT_OVP_ANNO_MDL", "frontEndAnnotations"],
+                    "localUri": "localService/PPM_PRO_PROJECT_OVP_SRV/metadata.xml"
+                }
+            },
+            "PPM_PRO_PROJECT_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PPM_PRO_PROJECT_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PPM_PRO_PROJECT_OVP_ANNO_MDL.xml"
+                }
+            },
+            "frontEndAnnotations": {
+                "uri": "annotations/frontEndAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/frontEndAnnotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {},
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "PPM_PRO_PROJECT_OVP_SRV": {
+                "preload": true,
+                "dataSource": "PPM_PRO_PROJECT_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "PPM_PRO_PROJECT_OVP_SRV_ANA": {
+                "preload": true,
+                "dataSource": "PPM_PRO_PROJECT_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "component": "sap.ovp.app",
+            "minVersion": "1.32.0",
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "PPM_PRO_PROJECT_OVP_SRV",
+        "globalFilterEntityType": "C_PPM_LastUsedProjectOVPType",
+        "cards": {
+            "card01UpcomingMilestonesList": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "title": "{{upcomingMilestonesTitle}}",
+                    "description": "{{upcomingMilestonesDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showLastUsed",
+                    "entitySet": "C_PPM_UpcMilestonesProjectsOVP",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card011UpcomingMilestonesList": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "title": "{{upcomingMilestonesTitle}}",
+                    "description": "{{upcomingMilestonesDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showProjectBrief",
+                    "entitySet": "C_PPM_UpcMilestonesProjOVPCE",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card02MostCriticalProjectsList": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "title": "{{mostCriticalProjectsTitle}}",
+                    "description": "{{mostCriticalProjectsDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showLastUsed",
+                    "entitySet": "C_PPM_MostCriticalProjectOVP",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card03MyProjectsInPlanningList": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "title": "{{projectsInPlanningTitle}}",
+                    "description": "{{projectsInPlanningDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showLastUsed",
+                    "entitySet": "C_PPM_MyPlannedProjectsOVP",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card031MyProjectsInPlanningList": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "title": "{{projectsInPlanningTitle}}",
+                    "description": "{{projectsInPlanningDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showProjectBrief",
+                    "entitySet": "C_PPM_MyPlannedProjOVPCE",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card04MyActiveProjectsStack": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{myActiveProjectsTitle}}",
+                    "category": "{{myActiveProjectsTitle}}",
+                    "description": "{{myActiveProjectsDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showLastUsed",
+                    "entitySet": "C_PPM_MyActiveProjectsOVP",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "objectStreamCardsSettings": {
+                        "category": "{{quickViewHeader}}"
+                    }
+                }
+            },
+            "card05ProjectsWithMeAsSubstituteStack": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{projectsWithMeAsSubstituteTitle}}",
+                    "category": "{{projectsWithMeAsSubstituteTitle}}",
+                    "description": "{{projectsWithMeAsSubstituteDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showLastUsed",
+                    "entitySet": "C_PPM_MeAsSubstituteProjOVP",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "objectStreamCardsSettings": {
+                        "category": "{{quickViewHeader}}"
+                    }
+                }
+            },
+            "card06LastUsedProjectsStack": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{lastUsedProjectsTitle}}",
+                    "category": "{{lastUsedProjectsTitle}}",
+                    "description": "{{lastUsedProjectsDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showLastUsed",
+                    "entitySet": "C_PPM_LastUsedProjectOVP",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "objectStreamCardsSettings": {
+                        "category": "{{quickViewHeader}}"
+                    }
+                }
+            },
+            "card07MyActiveProjectsOverallStatus": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{myActiveProjectsOverallStatusTitle}}",
+                    "category": "{{myActiveProjectsOverallStatusTitle}}",
+                    "description": "{{myActiveProjectsOverallStatusDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showProjectBrief",
+                    "entitySet": "C_PPM_MyActvProjectsOvrlStatus",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card08MyActiveProjectsDetailedStatus": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{myActiveProjectsDetailedStatusTitle}}",
+                    "category": "{{myActiveProjectsDetailedStatusTitle}}",
+                    "description": "{{myActiveProjectsDetailedStatusDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showProjectBrief",
+                    "entitySet": "C_PPM_MyActvProjectsDetStatus",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card09MyActiveProjectsCostsTable": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{myActiveProjectsCostsTableTitle}}",
+                    "category": "{{myActiveProjectsCostsTableTitle}}",
+                    "description": "{{myActiveProjectsCostsTableDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showProjectBrief",
+                    "entitySet": "C_PPM_MyActvProjectsCostTable",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                }
+            },
+            "card10MyActiveProjectsCostsChart": {
+                "model": "PPM_PRO_PROJECT_OVP_SRV_ANA",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{myActiveProjectsCostsChartTitle}}",
+                    "category": "{{myActiveProjectsCostsChartTitle}}",
+                    "description": "{{myActiveProjectsCostsChartDescription}}",
+                    "requireAppAuthorization": "#EnterpriseProject-showProjectBrief",
+                    "entitySet": "C_PPM_MyActvProjectsCostChart",
+                    "valueSelectionInfo": "{{myActiveProjectsCostsChartVSInfo}}",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#line",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#chartVariant1",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OvrlActualCostInGlobalCurrency",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{chartVariant1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#line",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#chartVariant2",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OvrlActualCostInGlobalCurrency",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{chartVariant2}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#line",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#chartVariant3",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OvrlActualCostInGlobalCurrency",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{chartVariant3}}"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

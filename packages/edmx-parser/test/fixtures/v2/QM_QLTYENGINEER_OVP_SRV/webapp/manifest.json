@@ -1,0 +1,448 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "i2d.qm.qualityengineer.ovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "QM-FIO-IM",
+        "resources": "resources.json",
+        "dataSources": {
+            "QM_QLTYENGINEER_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/QM_QLTYENGINEER_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["QM_QLTYENGINEER_OVP_ANNO_MDL", "annotation"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "QM_QLTYENGINEER_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='QM_QLTYENGINEER_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/QM_QLTYENGINEER_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "uri": "annotations/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "QM_QLTYENGINEER_OVP_SRV": {
+                "preload": true,
+                "dataSource": "QM_QLTYENGINEER_OVP_SRV",
+                "settings": {}
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "i2d.qm.qualityengineer.ovps1.ext.customFilter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "QM_QLTYENGINEER_OVP_SRV",
+        "globalFilterEntityType": "C_QltyEngineerOVPType",
+        "containerLayout": "resizable",
+        "showDateInRelativeFormat": true,
+        "cards": {
+            "i2d.qm.qualityengineer.ovps1_card00": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card00_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps1_card00_subTitle}}",
+                    "entitySet": "C_InspectionLotOVP",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InspLotSelVar",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "InspectionLotCreatedOn",
+                    "sortOrder": "ascending",
+                    "addODataSelect": "false",
+                    "showFilterInHeader": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#inspLot"
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card01": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card01_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps1_card01_subTitle}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card01_info}}",
+                    "entitySet": "C_InspUsageDecisionOVP",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#InspSelVar",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#usageDecision",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#InspectionLotSum",
+                    "showFilterInHeader": false,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card02": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "sortBy": "InspectionLotEndDate",
+                    "sortOrder": "ascending",
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card02_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps1_card02_subTitle}}",
+                    "entitySet": "C_UsageDecisionReadyOVP",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#UDReadySelVar",
+                    "addODataSelect": "false",
+                    "showFilterInHeader": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#inspLotQuickView",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card03": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card03_title}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card_defects}}",
+                    "entitySet": "C_DefectsByInspLotOrign",
+                    "requireAppAuthorization": "#Defect-manage",
+                    "customParams": "paramInspLotDefectDays",
+                    "showFilterInHeader": false,
+                    "tabs": [
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_today}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectsByLotOrigin",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#today",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_2_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectsByLotOrigin",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last2Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_7_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectsByLotOrigin",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last7Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_30_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectsByLotOrigin",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last30Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        }
+                    ]
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card04": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card04_headertitle}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card_defects}}",
+                    "entitySet": "C_DefectsByMatl",
+                    "requireAppAuthorization": "#Defect-manage",
+                    "customParams": "paramMaterialDefectDays",
+                    "showFilterInHeader": false,
+                    "tabs": [
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_today}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectRecording",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#today",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#top3Changed",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_2_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectRecording",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last2Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#top3Changed",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_7_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectRecording",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last7Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#top3Changed",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_30_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#defectRecording",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last30Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#top3Changed",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        }
+                    ]
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card05": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card05_title}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card_defects}}",
+                    "entitySet": "C_DefectsByDefectCode",
+                    "requireAppAuthorization": "#Defect-manage",
+                    "customParams": "paramDefCodeDefectDays",
+                    "showFilterInHeader": false,
+                    "tabs": [
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_today}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DefectiveCode",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#today",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#topDefectiveCode",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_2_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DefectiveCode",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last2Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#topDefectiveCode",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_7_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DefectiveCode",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last7Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#topDefectiveCode",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_last_30_days}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DefectiveCode",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Last30Days",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#topDefectiveCode",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfDefects"
+                        }
+                    ]
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card06": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card06_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps1_card0607_subTitle}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.qualityLevels_info}}",
+                    "entitySet": "C_QltyLvlByChar",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#QltyLvlByCharVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#QltyLvlByChar",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QualityLevelCount",
+                    "showFilterInHeader": false,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "requireAppAuthorization": "#QualityLevel-manage"
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card07": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card07_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps1_card0607_subTitle}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.qualityLevels_info}}",
+                    "entitySet": "C_QltyLvlByInspLot",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#QltyLvlByInspLotVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#QltyLvlByInspLot",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QualityLevelCount",
+                    "showFilterInHeader": false,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "requireAppAuthorization": "#QualityLevel-manage"
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card08": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card08_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps08_subTitle}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.qualityLevels_info}}",
+                    "entitySet": "C_QltyLvlBySvrty",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#QltyLvlBySvrty",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QualityLevelCount",
+                    "showFilterInHeader": false,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "requireAppAuthorization": "#QualityLevel-manage"
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card09": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card09_title}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card09_info}}",
+                    "entitySet": "C_QltyCtrlChtWthDvtn",
+                    "showFilterInHeader": false,
+                    "customParams": "paramSpcLastSevenDays",
+                    "requireAppAuthorization": "#QualityControlChart-manage",
+                    "tabs": [
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_card9_view01_title}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#controlRecording",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#QltyCtrlChtWthDvtnVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#top5workcenters",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QltyCtrlChtCnt"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_card9_view02_title}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#controlRecordingByMaterial",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#QltyCtrlChtWthDvtnMatVariant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#top5materials",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QltyCtrlChtCnt"
+                        }
+                    ]
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card10": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card10_title}}",
+                    "entitySet": "C_QltyInfoRecdWthException",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card10_valueSelectionInfo}}",
+                    "customParams": "paramsQltyInfo",
+                    "requireAppAuthorization": "#QualityInProcurement-manage",
+                    "tabs": [
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_card10_view01_title}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#card4ViewSwitch1",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#card4PresVarViewSwitch1",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#card4selViewSwitch1",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#card4PresVarViewSwitch1",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QualityInfoRecordExcptnSpanCnt",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{i2d.qm.qualityengineer.ovps1_card10_view02_title}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#card4ViewSwitch2",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#card4PresVarViewSwitch2",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#card4selViewSwitch2",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#card4PresVarViewSwitch2",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#QltyInfoRecdBlkStsCnt",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card11": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card11_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps1_card11_subTitle}}",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card11_valueInfo}}",
+                    "entitySet": "C_QltyTskByProcsr",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OpenTasks",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfQltyTskAssgdSts",
+                    "showFilterInHeader": false,
+                    "navigation": "dataPointNav",
+                    "customParams": "paramsQltyTskProcsr",
+                    "requireAppAuthorization": "#QualityTask-manage"
+                }
+            },
+            "i2d.qm.qualityengineer.ovps1_card12": {
+                "model": "QM_QLTYENGINEER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.qm.qualityengineer.ovps1_card12_title}}",
+                    "subTitle": "{{i2d.qm.qualityengineer.ovps1_card12_subTitle}}",
+                    "entitySet": "C_QltyTskByDte",
+                    "valueSelectionInfo": "{{i2d.qm.qualityengineer.ovps1_card11_valueInfo}}",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlannedEndDate",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#card4PresVarViewSwitch1",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#card4selViewSwitch1",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#card4PresVarViewSwitch1",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfQltyPlndEndDteSts",
+                    "navigation": "dataPointNav",
+                    "customParams": "paramsQltyTsk",
+                    "requireAppAuthorization": "#QualityTask-manage"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2360"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/qm_qe_ovps1"
+    }
+}

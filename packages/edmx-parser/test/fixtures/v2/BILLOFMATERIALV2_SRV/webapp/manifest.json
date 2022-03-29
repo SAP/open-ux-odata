@@ -1,0 +1,625 @@
+{
+    "_version": "1.11.0",
+    "sap.app": {
+        "id": "pise.mi.plm.bom",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "embeds": ["ObjectView", "SubassemblyListView"],
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PLM-FIO-BOM",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/SAP/BILLOFMATERIALV2_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["BILLOFMATERIALV2_ANNO_MDL", "localAnnotations", "annotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "BILLOFMATERIALV2_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='BILLOFMATERIALV2_ANNO_MDL',Version='0001')/$value",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/BILLOFMATERIALV2_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "annotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "resources": "resources.json",
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+        "destination": {
+            "name": "UYTCLNT928"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "DisplayMaterial": {
+                    "semanticObject": "Material",
+                    "action": "manage",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "Simulation": {
+                    "semanticObject": "VariantConfiguration",
+                    "action": "simulate",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "SoftwareConstraint": {
+                    "semanticObject": "SoftwareConstraint",
+                    "action": "checkCompatibility",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "DisplayMaterialBOM": {
+                    "semanticObject": "MaterialBOM",
+                    "action": "displayBOM",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "HandoverToManufacturing": {
+                    "semanticObject": "HandoverToManufacturing",
+                    "action": "handoverEBOM",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "DisplaySalesOrderBOM": {
+                    "semanticObject": "SalesOrderBOM",
+                    "action": "display",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "config": {
+            "sapFiori2Adaptation": true
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/customStyle.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "1.34.6",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.m": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": false
+                },
+                "sap.i2d.plm.lib.linkage": {
+                    "lazy": true
+                },
+                "i2d.mpe.lib.produnitizations1": {
+                    "minVersion": "11.9.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.9.0-SNAPSHOT",
+                    "lazy": false
+                },
+                "sap.nw.core.gbt.notes.lib.reuse": {
+                    "minVersion": "1.24.0-SNAPSHOT",
+                    "lazy": false
+                },
+                "i2d.mpe.lib.parameffectivitys1": {
+                    "minVersion": "6.100.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {},
+                "sap.i2d.plm.lib.linkage.requirement": {
+                    "lazy": true
+                },
+                "sap.nw.core.gbt.notes.lib.reuse.notes4smarttemplate": {}
+            }
+        },
+        "componentUsages": {
+            "notesReuseComponent": {
+                "name": "sap.nw.core.gbt.notes.lib.reuse.notes4smarttemplate"
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_BillOfMaterialTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BillOfMaterialTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_BillOfMaterialItemTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/C_BillOfMaterialItemTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "oParamEffectivityModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "pise.mi.plm.bom.ext.controller.ListReportExtension",
+                        "sap.ui.generic.app": {
+                            "C_BillOfMaterialTP": {
+                                "EntitySet": "C_BillOfMaterialTP",
+                                "Actions": {
+                                    "CreateNewBOM": {
+                                        "id": "CreateNewBOM",
+                                        "text": "{{createBOM}}",
+                                        "press": "onCreateBOM"
+                                    },
+                                    "CreateVersionBOM": {
+                                        "id": "CreateVersionBOM",
+                                        "text": "{{createVersionBOM}}",
+                                        "press": "onCreateBOM"
+                                    },
+                                    "CreateNewAlternative": {
+                                        "id": "CreateNewAlternative",
+                                        "text": "{{createNewAlternative}}",
+                                        "press": "onCreateBOM",
+                                        "requiresSelection": true
+                                    },
+                                    "CreateNewVersion": {
+                                        "id": "CreateNewVersion",
+                                        "text": "{{createNewVersion}}",
+                                        "press": "onCreateBOM",
+                                        "enabled": false,
+                                        "requiresSelection": true
+                                    },
+                                    "HandoverToManufacturing": {
+                                        "id": "HandoverToManufacturing",
+                                        "text": "{{HandoverToManufacturing}}",
+                                        "press": "onHandoverToManufacturingPress",
+                                        "enabled": false,
+                                        "requiresSelection": true
+                                    },
+                                    "CopyBOM": {
+                                        "id": "CopyBOM",
+                                        "text": "{{copyBOM}}",
+                                        "press": "onCreateBOM",
+                                        "enabled": false,
+                                        "requiresSelection": true
+                                    },
+                                    "AssignChangeRecord": {
+                                        "id": "AssignChangeRecord",
+                                        "text": "{{assignChangeRecord}}",
+                                        "press": "onAssignChangeRecord",
+                                        "enabled": false,
+                                        "requiresSelection": true
+                                    },
+                                    "CreateSalesOrderBOM": {
+                                        "id": "idCreateSalesOrderBOM",
+                                        "text": "{{createOrderBOMBtn}}",
+                                        "press": "onCreateSalesOrderBOM"
+                                    },
+                                    "CopySalesOrderBOM": {
+                                        "id": "idCopySalesOrderBOM",
+                                        "text": "{{copyOrderBOMBtn}}",
+                                        "press": "onCopySalesOrderBOM",
+                                        "requiresSelection": true
+                                    },
+                                    "CopyMaterialBOM": {
+                                        "id": "idCopyMaterialBOM",
+                                        "text": "{{copyMaterialBOMBtn}}",
+                                        "press": "onCopyMaterialBOM"
+                                    },
+                                    "CreatePlantAssignment": {
+                                        "id": "CreatePlantAssignment",
+                                        "text": "{{createPlantAssignmentBtn}}",
+                                        "press": "onCreatePlantAssignment",
+                                        "requiresSelection": true
+                                    },
+                                    "DeletePlantAssignment": {
+                                        "id": "DeletePlantAssignment",
+                                        "text": "{{deletePlantAssignmentBtn}}",
+                                        "press": "onDeleteAssignment",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "pise.mi.plm.bom.ext.controller.ObjectPageExtension",
+                        "sap.ui.generic.app": {
+                            "C_BillOfMaterialTP": {
+                                "EntitySet": "C_BillOfMaterialTP",
+                                "Header": {
+                                    "Actions": {
+                                        "DeleteActive": {
+                                            "id": "idObjectDeleteBtn",
+                                            "text": "{@i18n>DeleteBtn}",
+                                            "press": "onObjectDeletePressed"
+                                        },
+                                        "ReleaseVersionBOMBtn": {
+                                            "id": "idReleaseBOMBtn",
+                                            "text": "{@i18n>ReleaseBtn}",
+                                            "press": "onReleaseBOMPress"
+                                        },
+                                        "ObsoleteVersionBOMBtn": {
+                                            "id": "idObsoleteBOMBtn",
+                                            "text": "{@i18n>ObsoleteBtn}",
+                                            "press": "onObsoleteBOMPress"
+                                        },
+                                        "AssignObject": {
+                                            "id": "idObjectAssignBtn",
+                                            "text": "{@i18n>ModelObjectAssignBtn}",
+                                            "press": "onObjectAssignPressed"
+                                        },
+                                        "AssignChangeRecord": {
+                                            "id": "idAssignChangeRecord",
+                                            "text": "{{assignChangeRecord}}",
+                                            "press": "onAssignChangeRecord",
+                                            "enabled": false
+                                        },
+                                        "HandovertoAINBtn": {
+                                            "id": "idHandOverToAINBtn",
+                                            "text": "{@i18n>HandOverToAINBtn}",
+                                            "press": "onHandoverToAINPress"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "Component": {
+                                        "id": "Component",
+                                        "Actions": {
+                                            "EffectivityFilter": {
+                                                "id": "idEffectivityFilter",
+                                                "press": "onEffectivityFilterPress"
+                                            },
+                                            "RemoveEffectivityFilter": {
+                                                "id": "idRemoveEffectivityFilter",
+                                                "press": "onRemoveEffectivityFilter"
+                                            },
+                                            "AddComponentBtn": {
+                                                "id": "idAddComponentBtn",
+                                                "text": "",
+                                                "press": "onAddItemPress"
+                                            },
+                                            "MultiAddComponentBtn": {
+                                                "id": "idMultiAddComponentBtn",
+                                                "text": "",
+                                                "press": "onAddItemPress"
+                                            },
+                                            "CopyComponentBtn": {
+                                                "id": "idCopyComponentBtn",
+                                                "text": "",
+                                                "press": "onCopyItemPress"
+                                            },
+                                            "CreateChangeNumberBtn": {
+                                                "id": "idCreateChangeNumberBtn",
+                                                "text": "{@i18n>newChangeNumberDialogTitle}",
+                                                "press": "onCreateChangePress"
+                                            },
+                                            "MaintainSoftwareBtn": {
+                                                "id": "idMaintainSoftwareBtn",
+                                                "text": "{@i18n>MaintainSoftwareBtn}",
+                                                "press": "onMaintainSoftwarePress",
+                                                "requiresSelection": true
+                                            },
+                                            "CheckSoftware": {
+                                                "id": "idCheckSoftwareBtn",
+                                                "text": "{@i18n>SoftwareCheckBtn}",
+                                                "press": "onCheckSoftwarePressed"
+                                            },
+                                            "ObjectDependencyBtn": {
+                                                "id": "idObjectDependencyBtn",
+                                                "text": "{@i18n>objectDependencies}",
+                                                "press": "onMaterialDependenciesPress"
+                                            },
+                                            "NaviagtetoSimulationBtn": {
+                                                "id": "idNaviagtetoSimulationBtn",
+                                                "text": "{@i18n>ObjectPageSimulate}",
+                                                "press": "onNaviagtetoSimulationPress",
+                                                "visible": false
+                                            },
+                                            "DeleteComponentBtn": {
+                                                "id": "idDeleteComponentBtn",
+                                                "text": "{@i18n>DeleteBtn}",
+                                                "press": "onDeleteItemPress"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_BillOfMaterialTP|Timeline": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pise.mi.plm.bom.ext.fragment.ChangeNumberTimeline",
+                            "type": "XML"
+                        },
+                        "GridTableColumnsExtension|C_BillOfMaterialItemTP|Component": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pise.mi.plm.bom.ext.fragment.C_BillOfMaterialItemResponsiveTableColumn",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_BillOfMaterialTP|AIN": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "pise.mi.plm.bom.ext.fragment.AINAnnouncement",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "componentName": "pise.mi.plm.bom"
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_BillOfMaterialTP": {
+                "entitySet": "C_BillOfMaterialTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": {
+                    "ObjectPage|C_BillOfMaterialTP": {
+                        "entitySet": "C_BillOfMaterialTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true,
+                                "tableType": "GridTable",
+                                "sections": {
+                                    "to_BillOfMaterialItem::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_BillOfMaterialItem",
+                                        "entitySet": "C_BillOfMaterialItemTP",
+                                        "createMode": "inline",
+                                        "multiSelect": true
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{attributesHdrAttachments}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "STKO_DOC",
+                                    "objectKey": "{HeaderAttachmentKey}",
+                                    "isDraft": "{ui>/createMode}",
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": false,
+                                            "DIRDETAILS": true
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true
+                                        }
+                                    }
+                                }
+                            },
+                            "notesComponent": {
+                                "id": "notesComponent",
+                                "componentUsage": "notesReuseComponent",
+                                "title": "{{attributesHdrLongText}}",
+                                "settings": {
+                                    "objectId": "{BillOfMaterialHeaderUUID}",
+                                    "objectNodeType": "BillOfMaterial",
+                                    "draftUUID": "{DraftUUID}",
+                                    "noteTypes": "{objectView>/NoteTypes}"
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|C_BillOfMaterialItemTP": {
+                                "navigationProperty": "to_BillOfMaterialItem",
+                                "entitySet": "C_BillOfMaterialItemTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "embeddedComponents": {
+                                    "simple::Attachments": {
+                                        "id": "simple::Attachments",
+                                        "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                        "title": "{{attachmentsLabel}}",
+                                        "settings": {
+                                            "mode": "{= ${ui>/editable}?'C':'D'}",
+                                            "objectType": "STPO_DOC",
+                                            "objectKey": "{ItemAttachmentKey}",
+                                            "isDraft": "{ui>/createMode}",
+                                            "attributeHandling": {
+                                                "_VisibleAttributes": {
+                                                    "UPLOADEDBY": true,
+                                                    "UPLOADEDON": true,
+                                                    "FILESIZE": true,
+                                                    "ENABLELINK": true,
+                                                    "ATTACHMENTSTATUS": true,
+                                                    "ATTACHMENTTITLE": true,
+                                                    "SOURCE": false,
+                                                    "DIRDETAILS": true
+                                                },
+                                                "_VisibleActions": {
+                                                    "RENAME": true,
+                                                    "DELETE": true,
+                                                    "ADD": true,
+                                                    "ADDURL": true
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "notesComponent": {
+                                        "id": "notesComponent",
+                                        "componentUsage": "notesReuseComponent",
+                                        "title": "{{attributesItmLongText}}",
+                                        "settings": {
+                                            "objectId": "{BillOfMaterialItemUUID}",
+                                            "objectNodeType": "BillOfMaterialItem",
+                                            "draftUUID": "{DraftUUID}",
+                                            "noteTypes": ["CS_BOM_ITM_LONG_TXT"]
+                                        }
+                                    },
+                                    "parameterEffectivity": {
+                                        "id": "parameterEffectivity",
+                                        "componentName": "i2d.mpe.lib.produnitizations1.component.stcomponent",
+                                        "title": "{{parameterEffectivityLabel}}",
+                                        "settings": {
+                                            "changeNumber": "{EngineeringChangeDocument}",
+                                            "objectKey": "{ItemAttachmentKey}",
+                                            "rootObjectKey": "{oParamEffectivityModel>/rootObjectKey}",
+                                            "objectType": "BOM",
+                                            "effectivityType": "{oParamEffectivityModel>/effectivityType}"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F1813"],
+        "archeType": "transactional"
+    }
+}

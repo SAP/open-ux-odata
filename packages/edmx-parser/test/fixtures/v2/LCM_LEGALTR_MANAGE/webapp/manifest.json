@@ -1,0 +1,912 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "LCM-LT",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/LCM_LEGALTR_MANAGE/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["LCM_LEGALTR_MANAGE_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "LCM_LEGALTR_MANAGE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='LCM_LEGALTR_MANAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/LCM_LEGALTR_MANAGE_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "LglCntntMDocumentManageDisplay": {
+                    "semanticObject": "LegalDocument",
+                    "action": "manage",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "ApplicationLogDisplay": {
+                    "semanticObject": "ApplicationLog",
+                    "action": "showDetails",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.ui.unified": {
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "lazy": true
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "lazy": true
+                },
+                "sap.io.bpm.sworkfloweditor.lib.reuse": {
+                    "lazy": true,
+                    "minVersion": "1.14.0-SNAPSHOT"
+                },
+                "s4.cfnd.sit.reuse": {
+                    "lazy": true,
+                    "minVersion": "11.11.0-SNAPSHOT"
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {
+                    "lazy": true
+                },
+                "s4.cfnd.sit.reuse.pc": {
+                    "lazy": true
+                },
+                "s4.cfnd.sit.reuse.related": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "situationModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "relsituationModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_LegalTransactionTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionEntityTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionIntContactTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionExtContactTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTrLinkedObjectsTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTrRelationshipTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionDateTPType": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionReminderTPType": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LCMLegalTrDocument": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionDocLinkTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_LegalTransactionTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_LegalTransactionTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.CustomFilters",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_LegalTransactionTP|GeneralInformation": {
+                            "id": "mltExtensionOPGeneralInformation",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.GeneralInformation",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{@GeneralInfoFacetLabel}}"
+                            }
+                        },
+                        "ReplaceFacet|C_LegalTransactionEntityTP|GenInfEntity": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.EntityGeneralInformation",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_LegalTransactionExtContactTP|GenInfExtContacts": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.ExtContactGeneralInformation",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_LegalTransactionIntContactTP|GenInfIntContacts": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.IntContactGeneralInformation",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_LegalTrLinkedObjectsTP|GenInfObjectLinks": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.ObjectLinksGeneralInformation",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_LegalTransactionDateTP|GenInfDate": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.DateGeneralInformation",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_LegalTransactionReminderTP|GenInfReminder": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.ReminderGeneralInformation",
+                            "type": "XML"
+                        },
+                        "AfterFacet|C_LegalTransactionTP|GeneralInformation": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.Categories",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{xtit.Categories}}"
+                            }
+                        },
+                        "ReplaceSubSection|C_LegalTransactionTP|RelatedDocuments": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.RelatedDocuments",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>RELATED_REQ_DOCUMENTS}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionEntityTP|to_LegalTransactionEntityTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.EntityResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionEntityTP|to_LegalTransactionEntityTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.EntityResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTrRelationshipTP|to_LegalTrRelationshipTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.LegalTrRelationshipTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTrRelationshipTP|to_LegalTrRelationshipTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.LegalTrRelationshipTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTrLinkedObjectsTP|to_LegalTrLinkedObjectsTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.LinkObjResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTrLinkedObjectsTP|to_LegalTrLinkedObjectsTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.LinkObjResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionReminderTP|RemindersFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.RemResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionReminderTP|RemindersFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.RemResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionIntContactTP|to_LegalTransactionIntContactTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.IntContResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionIntContactTP|to_LegalTransactionIntContactTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.IntContResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionExtContactTP|to_LegalTransactionExtContactTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.ExtContactsResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionExtContactTP|to_LegalTransactionExtContactTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.ExtContactsResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionDateTP|to_LegalTransactionDateTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.DatesRefResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionDateTP|to_LegalTransactionDateTP::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.DatesRefResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionStartedTasks|TasksFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.TasksResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionStartedTasks|TasksFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.TasksResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LCMLegalTrDocument|DocumentsFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.DocResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LCMLegalTrDocument|DocumentsFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.DocResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionDocLinkTP|LinkedDocumentsFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.LinkDocResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionDocLinkTP|LinkedDocumentsFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.LinkDocResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionSgntrGrp|EnvelopesFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.EnvelopesResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionSgntrGrp|EnvelopesFacetID": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.EnvelopesResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_LegalTransactionPhase|idPhases": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.PhasesResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_LegalTransactionPhase|idPhases": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.legaltransaction.manage.ext.fragment.PhasesResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "AfterFacet|C_LegalTransactionTP|EnvelopesFacetID": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.Note",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Notes}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ReplaceFacet|C_LegalTrRelationshipTP|RelGenInfo": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.LTRelationship"
+                        },
+                        "AfterFacet|C_LegalTransactionStartedTasks|WorkflowDocumentsFacetID": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.Comments",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Comments}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "ReplaceHeaderFacet|C_LegalTransactionTP|headerEditable::HealthRef": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.HealthStatus"
+                        },
+                        "ReplaceFacet|C_LegalTransactionTP|idObligations": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.lcm.legaltransaction.manage.ext.view.Obligations"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.lcm.legaltransaction.manage.ext.controller.CLegalTransactionTP",
+                        "sap.ui.generic.app": {
+                            "C_LegalTransactionTP": {
+                                "EntitySet": "C_LegalTransactionTP",
+                                "Actions": {
+                                    "Copy": {
+                                        "id": "C_LegalTransactionTP.ListReport.CopyBtn",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_LegalTransactionTP>COPY_BTN}",
+                                        "press": "onCopy",
+                                        "requiresSelection": true,
+                                        "applicablePath": "Copy_ac"
+                                    },
+                                    "CreateWithRefernce": {
+                                        "id": "C_LegalTransactionTP.ListReport.CreateWithRefernce",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_LegalTransactionTP>CREATE_WITH_REFERENCE_BTN}",
+                                        "press": "onCreateWithReference",
+                                        "requiresSelection": true,
+                                        "applicablePath": "Create_with_reference_ac"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.lcm.legaltransaction.manage.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_LegalTransactionTP": {
+                                "EntitySet": "C_LegalTransactionTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ChangeLog": {
+                                            "id": "ChangeLog",
+                                            "press": "onChangeLogAction",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@CHANGE_LOG_BTN}"
+                                        },
+                                        "CreateWithRefernce": {
+                                            "id": "idCreateWithRefernceLT",
+                                            "press": "onCreateWithReference",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@CREATE_WITH_REFERENCE_BTN}"
+                                        },
+                                        "Copy": {
+                                            "id": "idCopyLT",
+                                            "press": "onCopy",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@COPY}"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "EnvelopesFacetID": {
+                                        "id": "EnvelopesFacetID",
+                                        "Actions": {
+                                            "CancelEsign": {
+                                                "id": "CancelEsign",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@CANCEL_ESIGN}",
+                                                "press": "cancelEsign",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_LegalTrRelationshipTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_LegalTrRelationshipTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "Notification": {
+                                                "id": "idNotification",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@NOTIFICATIONS}",
+                                                "press": "onNotification"
+                                            }
+                                        }
+                                    },
+                                    "DocumentsFacetID": {
+                                        "id": "DocumentsFacetID",
+                                        "Actions": {
+                                            "DownloadDocuments": {
+                                                "id": "DownloadDocuments",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>DOWNLOAD_A_COPY_BTN}",
+                                                "press": "downloadDucuments",
+                                                "requiresSelection": true
+                                            },
+                                            "QuickCreateDocument": {
+                                                "id": "QuickCreateDocument",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>uploadFileButton}",
+                                                "press": "quickCreateDocument"
+                                            },
+                                            "SendToESign": {
+                                                "id": "SendToESign",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@SEND_TO_eSIGN}",
+                                                "press": "sendToESign",
+                                                "requiresSelection": true
+                                            },
+                                            "StartDocWorkflow": {
+                                                "id": "StartDocWorkflow",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@START_WF}",
+                                                "press": "startDocWF",
+                                                "requiresSelection": true
+                                            },
+                                            "Create Virtual Document": {
+                                                "id": "CreateVirtualDocument",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@CREATE_VD_DOCUMENT}",
+                                                "press": "createVirtualDocument"
+                                            }
+                                        }
+                                    },
+                                    "TasksGroupFacetID": {
+                                        "id": "TasksGroupFacetID",
+                                        "Actions": {
+                                            "CreateTasksLT": {
+                                                "id": "StartTasks",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@START_TASKS}",
+                                                "press": "startTasksGroup",
+                                                "requiresSelection": true
+                                            },
+                                            "CreateTasksGroup": {
+                                                "id": "CreateTasksGroup",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@CREATE_TASKS_GROUP}",
+                                                "press": "createTasksGroup"
+                                            }
+                                        }
+                                    },
+                                    "TasksFacetID": {
+                                        "id": "TasksFacetID",
+                                        "Actions": {
+                                            "CreateTasks": {
+                                                "id": "CreateTasks",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@CREATE_TASKS_START_WF}",
+                                                "press": "createTasks"
+                                            },
+                                            "CancelTasks": {
+                                                "id": "CancelTasks",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@CANCEL}",
+                                                "press": "cancelTasks",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "idMltObligationReminders": {
+                                        "id": "idMltObligationReminders",
+                                        "Actions": {
+                                            "deleteObligationReminder": {
+                                                "id": "idDeleteObligationReminder",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@DELETE}",
+                                                "press": "handleDeleteObligationReminder",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "idPhases": {
+                                        "id": "idPhases",
+                                        "Actions": {
+                                            "StartPhase": {
+                                                "id": "idStartPhase",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@START_PHASE}",
+                                                "press": "handleStartPhase",
+                                                "requiresSelection": true
+                                            },
+                                            "ReStartPhase": {
+                                                "id": "idReStartPhase",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@RESTART_PHASE}",
+                                                "press": "handleRestartPhase",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_LglCntntMTaskGroupTP": {
+                                "EntitySet": "C_LglCntntMTaskGroupTP",
+                                "Header": {
+                                    "Actions": {
+                                        "SaveAndStartWorkflow": {
+                                            "id": "SaveAndStartWorkflowAction",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_LegalTransactionTP>@FOOTER_SAVE_WF_LABEL}",
+                                            "press": "cancelTasksGroupPage",
+                                            "determining": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_LegalTransactionTP": {
+                "entitySet": "C_LegalTransactionTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_LegalTransactionTP": {
+                        "entitySet": "C_LegalTransactionTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "to_LegalTransactionEntityTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTransactionEntityTP",
+                                        "entitySet": "C_LegalTransactionEntityTP",
+                                        "createMode": "inline"
+                                    },
+                                    "to_LegalTransactionIntContactTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTransactionIntContactTP",
+                                        "entitySet": "C_LegalTransactionIntContactTP",
+                                        "createMode": "inline"
+                                    },
+                                    "to_LegalTransactionExtContactTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTransactionExtContactTP",
+                                        "entitySet": "C_LegalTransactionExtContactTP",
+                                        "createMode": "inline"
+                                    },
+                                    "to_LegalTrRelationshipTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTrRelationshipTP",
+                                        "entitySet": "C_LegalTrRelationshipTP",
+                                        "createMode": "inline"
+                                    },
+                                    "to_LegalTrLinkedObjectsTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTrLinkedObjectsTP",
+                                        "entitySet": "C_LegalTrLinkedObjectsTP",
+                                        "createMode": "inline"
+                                    },
+                                    "to_LegalTransactionDateTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTransactionDateTP",
+                                        "entitySet": "C_LegalTransactionDateTPType",
+                                        "createMode": "inline"
+                                    },
+                                    "RemindersFacetID": {
+                                        "navigationProperty": "to_LegalTransactionReminderTP",
+                                        "entitySet": "C_LegalTransactionReminderTPType",
+                                        "createMode": "inline"
+                                    },
+                                    "to_LglCntntMTaskGroupTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LglCntntMTaskGroupTP",
+                                        "entitySet": "C_LglCntntMTaskGroupTPType"
+                                    },
+                                    "to_LegalTransactionStartedTasks::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTransactionStartedTasks",
+                                        "entitySet": "C_LegalTransactionStartedTasksType"
+                                    },
+                                    "to_LegalTransactionSgntrGrp::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LegalTransactionSgntrGrp",
+                                        "entitySet": "C_LegalTransactionSgntrGrp"
+                                    },
+                                    "to_LCMLegalTrDocument::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_LCMLegalTrDocument",
+                                        "entitySet": "C_LCMLegalTrDocument"
+                                    },
+                                    "LinkedDocumentsFacetID": {
+                                        "navigationProperty": "to_LegalTransactionDocLinkTP",
+                                        "entitySet": "C_LegalTransactionDocLinkTP",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Root": {
+                                "id": "simple::Root",
+                                "componentName": "s4.cfnd.sit.reuse.pc",
+                                "title": "{{situationFacetLabel}}",
+                                "hiddenByDefault": true,
+                                "settings": {
+                                    "anchorObjectKey": "{parts:[{path:'LegalTransactionUUID'}],formatter:'ui.s2p.lcm.legaltransaction.manage.ext.util.Formatter.foramtUUID'}",
+                                    "anchorObjectType": "LEGALTRANSACTIONUUID",
+                                    "preselectedSituationInstanceId": "{path:'situationModel>/preselectedSituationInstanceId'}",
+                                    "situationModelName": "situationModel",
+                                    "situationDataProperty": "/situationData",
+                                    "selectedSituationProperty": "/selectedSituation"
+                                }
+                            },
+                            "simple::relatedSit": {
+                                "id": "simple::relatedSit",
+                                "componentName": "s4.cfnd.sit.reuse.related",
+                                "title": "{{relatedSituationFacetLabel}}",
+                                "hiddenByDefault": true,
+                                "settings": {
+                                    "relatedObjectKey": "{parts:[{path:'LegalTransactionUUID'}],formatter:'ui.s2p.lcm.legaltransaction.manage.ext.util.Formatter.foramtUUID'}",
+                                    "sapObjectType": "LegalTransaction",
+                                    "sapObjectNodeType": "LegalTransaction",
+                                    "situationModelName": "relsituationModel",
+                                    "situationDataProperty": "/relatedSituationData"
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_LegalTransactionEntityTP": {
+                                "navigationProperty": "to_LegalTransactionEntityTP",
+                                "entitySet": "C_LegalTransactionEntityTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LegalTransactionIntContactTP": {
+                                "navigationProperty": "to_LegalTransactionIntContactTP",
+                                "entitySet": "C_LegalTransactionIntContactTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LegalTransactionExtContactTP": {
+                                "navigationProperty": "to_LegalTransactionExtContactTP",
+                                "entitySet": "C_LegalTransactionExtContactTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LegalTrRelationshipTP": {
+                                "navigationProperty": "to_LegalTrRelationshipTP",
+                                "entitySet": "C_LegalTrRelationshipTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LegalTrLinkedObjectsTP": {
+                                "navigationProperty": "to_LegalTrLinkedObjectsTP",
+                                "entitySet": "C_LegalTrLinkedObjectsTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LegalTransactionDateTP": {
+                                "navigationProperty": "to_LegalTransactionDateTP",
+                                "entitySet": "C_LegalTransactionDateTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LegalTransactionReminderTP": {
+                                "navigationProperty": "to_LegalTransactionReminderTP",
+                                "entitySet": "C_LegalTransactionReminderTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LglCntntMTaskGroupTP": {
+                                "navigationProperty": "to_LglCntntMTaskGroupTP",
+                                "entitySet": "C_LglCntntMTaskGroupTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "WorkflowDocumentsFacetID": {
+                                                "navigationProperty": "to_LglCntntMTaskGroupDocsTP",
+                                                "entitySet": "C_LglCntntMTaskGroupDocsTP"
+                                            }
+                                        }
+                                    }
+                                },
+                                "embeddedComponents": {
+                                    "workflowTemplateComponent": {
+                                        "id": "workflowTemplateComponent",
+                                        "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.sttemplates",
+                                        "title": "{{workflowComponentTitle}}",
+                                        "settings": {
+                                            "objectIdentifier": "{path:'LglCntntMTaskGroupUUID'}",
+                                            "scenarioId": "WS00800233",
+                                            "ensureTemplate": false
+                                        },
+                                        "pages": [
+                                            {
+                                                "routingSpec": {
+                                                    "noOData": true,
+                                                    "routeName": "stepDetails",
+                                                    "headerTitle": "{{workflowComponentStepDetailsTitle}}",
+                                                    "typeImageUrl": ""
+                                                },
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.Canvas"
+                                                },
+                                                "implementingComponent": {
+                                                    "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.ststep",
+                                                    "settings": {}
+                                                }
+                                            },
+                                            {
+                                                "routingSpec": {
+                                                    "noOData": true,
+                                                    "routeName": "roles",
+                                                    "headerTitle": "{{workflowComponentRolesTitle}}",
+                                                    "typeImageUrl": ""
+                                                },
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.Canvas"
+                                                },
+                                                "implementingComponent": {
+                                                    "componentName": "sap.io.bpm.sworkfloweditor.lib.reuse.teamfunctions",
+                                                    "settings": {}
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_LegalTransactionStartedTasks": {
+                                "navigationProperty": "to_LegalTransactionStartedTasks",
+                                "entitySet": "C_LegalTransactionStartedTasks",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LCMLegalTrDocument": {
+                                "navigationProperty": "to_LCMLegalTrDocument",
+                                "entitySet": "C_LCMLegalTrDocument",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "LglCntntMDocumentManageDisplay"
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_LegalTransactionDocLinkTP": {
+                                "navigationProperty": "to_LegalTransactionDocLinkTP",
+                                "entitySet": "C_LegalTransactionDocLinkTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "LglCntntMDocumentManageDisplay"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2310"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

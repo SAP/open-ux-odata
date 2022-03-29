@@ -1,0 +1,253 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "com.sap.fiori.fin.fscm.pf.managepaymentbatches",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "ach": "FIN-FSCM-PF",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/PF1/FIORI_PAYBATCH_SRV",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml",
+                    "annotations": ["localAnnotations"]
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "LROP.worklist",
+            "version": "1.41.1"
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4039"],
+        "archeType": "transactional"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.42.1",
+            "libs": {
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "com.sap.fiori.fin.fscm.pf.managepaymentbatches.ext.controller.FilterExtension",
+                        "sap.ui.generic.app": {
+                            "xPF1xC_DB_COLLECT_TP": {
+                                "EntitySet": "xPF1xC_DB_COLLECT_TP",
+                                "Actions": {
+                                    "Process": {
+                                        "id": "ButtonProcess",
+                                        "text": "{@i18n>btnProcessBatch}",
+                                        "press": "onPressProcessButtonList",
+                                        "requiresSelection": true,
+                                        "applicablePath": "ProcessActionEnabled"
+                                    },
+                                    "AssignAll": {
+                                        "id": "ButtonAssignAll",
+                                        "text": "{@i18n>btnAssignAll}",
+                                        "press": "onPressAssignAllButtonList",
+                                        "requiresSelection": true,
+                                        "applicablePath": "AssignAllActionEnabled"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "com.sap.fiori.fin.fscm.pf.managepaymentbatches.ext.controller.DetailExtension",
+                        "sap.ui.generic.app": {
+                            "xPF1xC_DB_COLLECT_TP": {
+                                "EntitySet": "xPF1xC_DB_COLLECT_TP",
+                                "Header": {
+                                    "Actions": {
+                                        "Process": {
+                                            "id": "ButtonProcess",
+                                            "text": "{@i18n>btnProcessBatch}",
+                                            "press": "onPressProcessButton",
+                                            "applicablePath": "ProcessActionEnabled"
+                                        },
+                                        "AssignAll": {
+                                            "id": "ButtonAssignAll",
+                                            "text": "{@i18n>btnAssignAll}",
+                                            "press": "onPressAssignAllButton",
+                                            "applicablePath": "AssignAllActionEnabled"
+                                        },
+                                        "DisplayLog": {
+                                            "id": "ButtonDisplayLog",
+                                            "text": "{@i18n>btnDisplayLog}",
+                                            "press": "onPressDisplayLog"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|xPF1xC_DB_COLLECT_TP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "com.sap.fiori.fin.fscm.pf.managepaymentbatches.ext.view.CustomFilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "SmartFormExtension|xPF1xC_DB_COLLECT_TP|closingInformation": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "com.sap.fiori.fin.fscm.pf.managepaymentbatches.ext.view.NextClosingTime",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|xPF1xC_DB_COLLECT_TP|general": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "com.sap.fiori.fin.fscm.pf.managepaymentbatches.ext.view.RouteClearing",
+                            "type": "XML"
+                        },
+                        "ReplaceHeaderFacet|xPF1xC_DB_COLLECT_TP|headerEditable::headerFacet2": {
+                            "id": "headerFacet2Info",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "com.sap.fiori.fin.fscm.pf.managepaymentbatches.ext.view.OutgoingPaymentOrder",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|xPF1xC_DB_COLLECT_TP": {
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "tableType": "ResponsiveTable",
+                        "multiSelect": true
+                    }
+                },
+                "entitySet": "xPF1xC_DB_COLLECT_TP",
+                "pages": {
+                    "ObjectPage|xPF1xC_DB_COLLECT_TP": {
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "allTableMultiSelect": true,
+                                "sections": {
+                                    "to_batchItems::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_batchItems",
+                                        "entitySet": "xPF1xC_BATCHITEM_TP",
+                                        "tableType": "ResponsiveTable",
+                                        "list": true
+                                    }
+                                }
+                            }
+                        },
+                        "entitySet": "xPF1xC_DB_COLLECT_TP"
+                    }
+                }
+            }
+        }
+    },
+
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,373 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CEC-MKT-INT-GA",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CUAN_WEB_TRACKING_MAPPING_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CUAN_WEB_TRACKING_MAPPI_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/mockdata/metadata.xml"
+                }
+            },
+            "CUAN_WEB_TRACKING_MAPPI_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CUAN_WEB_TRACKING_MAPPI_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CUAN_WEB_TRACKING_MAPPI_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MKT_WebTrackingMappingTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MKT_WebTrackingMappingTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrackingMappingTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrackingMappingTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrckgIntactnHdrTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrckgIntactnHdrTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrckgProdHeaderTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrckgProdHeaderTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrckgValMappingTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrckgValMappingTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrckgComMappingTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrckgComMappingTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrckgMappgFltrTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrckgMappgFltrTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrckgMappingLogTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrckgMappingLogTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrackingTagHeaderTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrackingTagHeaderTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrckgContactHeaderTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MKT_WebTrckgContactHeaderTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "useBatch": true
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_MKT_WebTrckgValMappingTP|to_WebTrckgValMapping::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.wtm.ext.fragment.F4Column",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MKT_WebTrckgValMappingTP|to_WebTrckgValMapping::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.wtm.ext.fragment.F4Cell",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MKT_WebTrckgValMappingTP|contact_fields": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.wtm.ext.fragment.F4Column",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MKT_WebTrckgValMappingTP|contact_fields": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "hpa.cei.wtm.ext.fragment.F4Cell",
+                            "type": "XML"
+                        },
+                        "AfterFacet|C_MKT_WebTrackingMappingTP|queries": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "hpa.cei.wtm.ext.view.BigQuery",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrackingMappingTP>queryTab}"
+                            }
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "hpa.cei.wtm.ext.controller.ObjectPageDetailsExtension",
+                        "sap.ui.generic.app": {
+                            "C_MKT_WebTrackingMappingTP": {
+                                "EntitySet": "C_MKT_WebTrackingMappingTP",
+                                "Header": {
+                                    "Actions": {
+                                        "Copy": {
+                                            "id": "copyConfig",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrackingMappingTP>copyAction}",
+                                            "press": "onCopyAction"
+                                        },
+                                        "Validate": {
+                                            "id": "validate_action",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrackingMappingTP>validateAction}",
+                                            "press": "onValidateAction"
+                                        },
+                                        "Deactivate": {
+                                            "id": "deactivate_action",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_MKT_WebTrackingMappingTP>deactivateAction}",
+                                            "press": "onDeactivateAction"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "hpa.cei.wtm.ext.controller.ListReportExtension"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "useColumnLayoutForSmartForm": false
+        },
+        "pages": {
+            "ListReport|C_MKT_WebTrackingMappingTP": {
+                "entitySet": "C_MKT_WebTrackingMappingTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MKT_WebTrackingMappingTP": {
+                        "entitySet": "C_MKT_WebTrackingMappingTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "to_WebTrckgValMapping::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_WebTrckgValMapping",
+                                        "entitySet": "C_MKT_WebTrckgValMappingTP",
+                                        "createMode": "inline",
+                                        "disableDefaultInlineCreateSort": true
+                                    },
+                                    "to_WebTrckgMappgFltr::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_WebTrckgMappgFltr",
+                                        "entitySet": "C_MKT_WebTrckgMappgFltrTP",
+                                        "createMode": "inline",
+                                        "disableDefaultInlineCreateSort": true
+                                    },
+                                    "contact_filters_basic_filters": {
+                                        "navigationProperty": "to_WebTrckgMappgFltr",
+                                        "entitySet": "C_MKT_WebTrckgMappgFltrTP",
+                                        "createMode": "inline",
+                                        "disableDefaultInlineCreateSort": true
+                                    },
+                                    "to_WebTrckgComMapping::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_WebTrckgComMapping",
+                                        "entitySet": "C_MKT_WebTrckgComMappingTP",
+                                        "createMode": "inline",
+                                        "disableDefaultInlineCreateSort": true
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_WebTrckgRtrvlIaHdr": {
+                                "navigationProperty": "to_WebTrckgRtrvlIaHdr",
+                                "entitySet": "C_MKT_WebTrckgIntactnHdrTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "interactionRtrvlHdrDim": {
+                                                "navigationProperty": "to_WebTrckgRtrvlDimItem",
+                                                "entitySet": "C_MKT_WebTrckgIntactnItmTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            },
+                                            "interactionRtrvlHdrMsr": {
+                                                "navigationProperty": "to_WebTrckgRtrvlMsrItem",
+                                                "entitySet": "C_MKT_WebTrckgIntactnMsrTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_WebTrckgRtrvlProdHdr": {
+                                "navigationProperty": "to_WebTrckgRtrvlProdHdr",
+                                "entitySet": "C_MKT_WebTrckgProdHeaderTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "productRtrvlHdrDim": {
+                                                "navigationProperty": "to_WebTrckgRtrvlDimItem",
+                                                "entitySet": "C_MKT_WebTrckgProdItemTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            },
+                                            "productRtrvlHdrMsr": {
+                                                "navigationProperty": "to_WebTrckgRtrvlMsrItem",
+                                                "entitySet": "C_MKT_WebTrckgProdMsrTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_WebTrckgRtrvlTagHdr": {
+                                "navigationProperty": "to_WebTrckgRtrvlTagHdr",
+                                "entitySet": "C_MKT_WebTrackingTagHeaderTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "tagRtrvlHdrDim": {
+                                                "navigationProperty": "to_WebTrckgRtrvlDimItem",
+                                                "entitySet": "C_MKT_WebTrackingTagItemTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            },
+                                            "tagRtrvlHdrMsr": {
+                                                "navigationProperty": "to_WebTrckgRtrvlMsrItem",
+                                                "entitySet": "C_MKT_WebTrackingTagMeasureTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_WebTrckgRtrvlContactHdr": {
+                                "navigationProperty": "to_WebTrckgRtrvlContactHdr",
+                                "entitySet": "C_MKT_WebTrckgContactHeaderTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "sections": {
+                                            "contactRtrvlHdrDim": {
+                                                "navigationProperty": "to_WebTrckgRtrvlDimItem",
+                                                "entitySet": "C_MKT_WebTrckgContactItemTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            },
+                                            "contactRtrvlHdrMsr": {
+                                                "navigationProperty": "to_WebTrckgRtrvlMsrItem",
+                                                "entitySet": "C_MKT_WebTrckgContactMeasureTP",
+                                                "createMode": "inline",
+                                                "disableDefaultInlineCreateSort": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3615"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

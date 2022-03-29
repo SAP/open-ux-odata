@@ -1,0 +1,736 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FI-FIO-AA",
+        "resources": "resources.json",
+        "dataSources": {
+            "FAA_ASSET_OVERVIEWPAGE_SRV": {
+                "uri": "/sap/opu/odata/sap/FAA_ASSET_OVERVIEWPAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAA_ASSET_OVERVIEWPAGE_ANNO_MDL", "annotations"],
+                    "localUri": "localService/FAA_ASSET_OVERVIEWPAGE_SRV/metadata.xml",
+                    "maxAge": 360
+                }
+            },
+            "FAA_ASSET_OVERVIEWPAGE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAA_ASSET_OVERVIEWPAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAA_ASSET_OVERVIEWPAGE_SRV/FAA_ASSET_OVERVIEWPAGE_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "FAA_ASSET_OVERVIEWPAGE_SRV_ListFast": {
+                "preload": true,
+                "dataSource": "FAA_ASSET_OVERVIEWPAGE_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "FAA_ASSET_OVERVIEWPAGE_SRV_ListLong": {
+                "preload": true,
+                "dataSource": "FAA_ASSET_OVERVIEWPAGE_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "FAA_ASSET_OVERVIEWPAGE_SRV_ChartFast": {
+                "preload": true,
+                "dataSource": "FAA_ASSET_OVERVIEWPAGE_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "None",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "FAA_ASSET_OVERVIEWPAGE_SRV_ChartLong": {
+                "preload": true,
+                "dataSource": "FAA_ASSET_OVERVIEWPAGE_SRV",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "None",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.aa.assetaccounting.ovp.ext.controller.MainExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "FAA_ASSET_OVERVIEWPAGE_SRV_ListFast",
+        "globalFilterEntityType": "C_FixedAssetOvwFilterResult",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": true,
+        "showDateInRelativeFormat": false,
+        "containerLayout": "resizable",
+        "cards": {
+            "AssetRetirementsCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListFast",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{AssetRetirementsCard_Title}}",
+                    "subTitle": "{{AssetRetirementsCard_SubTitle}}",
+                    "entitySet": "C_FixedAssetTransactionOvwResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{AssetRetirementsCard_ValueSelectionInfo}}",
+                    "tabs": [
+                        {
+                            "value": "{{Tab_YearToDate}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetRetirements_YearToDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetRetirements_YearToDate",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetRetirements",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RtrmtNetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_InCurrentPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetRetirements_InCurrentPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetRetirements_InCurrentPeriod",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetRetirements",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RtrmtNetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetRetirements_InPreviousPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetRetirements_InPreviousPeriod",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetRetirements",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RtrmtNetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousQuarter}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetRetirements_InPreviousQuarter",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetRetirements_InPreviousQuarter",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetRetirements",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RtrmtNetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetRetirements_InPreviousYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetRetirements_InPreviousYear",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetRetirements",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RtrmtNetBookValueAmtInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "AssetAcquisitionsCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListFast",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{AssetAcquisitionsCard_Title}}",
+                    "subTitle": "{{AssetAcquisitionsCard_SubTitle}}",
+                    "entitySet": "C_FixedAssetTransactionOvwResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{AssetAcquisitionsCard_ValueSelectionInfo}}",
+                    "tabs": [
+                        {
+                            "value": "{{Tab_YearToDate}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetAcquisitions_YearToDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetAcquisitions_YearToDate",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetAcquisitions",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AcqnProdnAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_InCurrentPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetAcquisitions_InCurrentPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetAcquisitions_InCurrentPeriod",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetAcquisitions",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AcqnProdnAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetAcquisitions_InPreviousPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetAcquisitions_InPreviousPeriod",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetAcquisitions",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AcqnProdnAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousQuarter}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetAcquisitions_InPreviousQuarter",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetAcquisitions_InPreviousQuarter",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetAcquisitions",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AcqnProdnAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetAcquisitions_InPreviousYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetAcquisitions_InPreviousYear",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetAcquisitions",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AcqnProdnAmtInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "AssetBalancesListCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListLong",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{AssetBalancesListCard_Title}}",
+                    "subTitle": "{{AssetBalancesListCard_SubTitle}}",
+                    "entitySet": "C_FixedAssetBalanceOvwResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{AssetBalancesListCard_ValueSelectionInfo}}",
+                    "tabs": [
+                        {
+                            "value": "{{AssetBalancesListCard_Tab_ByAmount}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalances_ByAmount",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalances_ByAmount",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetBalances",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{AssetBalancesListCard_Tab_ByDate}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalances_ByDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalances_ByDate",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetBalances",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "AssetBalancesChartCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartLong",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{AssetBalancesChartCard_Title}}",
+                    "subTitle": "{{AssetBalancesChartCard_SubTitle}}",
+                    "entitySet": "C_FixedAssetBalanceOvwResults",
+                    "valueSelectionInfo": "{{AssetBalancesChartCard_ValueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "value": "{{Tab_ByAssetClass}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalancesChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalancesChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetBalancesChart_ByAssetClass",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAccountDetermination}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalancesChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalancesChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetBalancesChart_ByAccountDetermination",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAssetCostCenter}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalancesChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalancesChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetBalancesChart_ByAssetCostCenter",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAssetProfitCenter}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalancesChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalancesChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetBalancesChart_ByAssetProfitCenter",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_BySegment}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalancesChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalancesChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetBalancesChart_BySegment",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByPlant}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetBalancesChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetBalancesChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetBalancesChart_ByPlant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "QuickLinksCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListFast",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{QuickLinksCard_Title}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{QuickLinks_AssetTransactionsLink}}",
+                            "imageUri": "sap-icon://Fiori2/F0021",
+                            "imageAltText": "{{QuickLinks_AssetTransactionsLink}}",
+                            "semanticObject": "FixedAsset",
+                            "action": "displayTransactions"
+                        },
+                        {
+                            "title": "{{QuickLinks_AssetBalancesLink}}",
+                            "imageUri": "sap-icon://Fiori2/F0021",
+                            "imageAltText": "{{QuickLinks_AssetBalancesLink}}",
+                            "semanticObject": "FixedAsset",
+                            "action": "displayBalances"
+                        },
+                        {
+                            "title": "{{QuickLinks_AssetHistorySheetLink}}",
+                            "imageUri": "sap-icon://Fiori2/F0021",
+                            "imageAltText": "{{QuickLinks_AssetHistorySheetLink}}",
+                            "semanticObject": "FixedAsset",
+                            "action": "displayHistorySheet"
+                        },
+                        {
+                            "title": "{{QuickLinks_DisplayAssetLink}}",
+                            "imageUri": "sap-icon://Fiori2/F0021",
+                            "imageAltText": "{{QuickLinks_DisplayAssetLink}}",
+                            "semanticObject": "FixedAsset",
+                            "action": "display"
+                        },
+                        {
+                            "title": "{{QuickLinks_DisplayAssetWorklistLink}}",
+                            "imageUri": "sap-icon://Fiori9/F0997",
+                            "imageAltText": "{{QuickLinks_DisplayAssetWorklistLink}}",
+                            "semanticObject": "FixedAsset",
+                            "action": "displayWorklist"
+                        },
+                        {
+                            "title": "{{QuickLinks_ManageFixedAssetsLink}}",
+                            "imageUri": "sap-icon://Fiori2/F0003",
+                            "imageAltText": "{{QuickLinks_ManageFixedAssetsLink}}",
+                            "semanticObject": "FixedAsset",
+                            "action": "maintain"
+                        },
+                        {
+                            "title": "{{QuickLinks_CreateAssetMasterRecordLink}}",
+                            "imageUri": "sap-icon://Fiori2/F0021",
+                            "imageAltText": "{{QuickLinks_CreateAssetMasterRecordLink}}",
+                            "semanticObject": "FixedAsset",
+                            "action": "create"
+                        }
+                    ]
+                }
+            },
+            "OpenPurchaseOrdersCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListFast",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{OpenPurchaseOrders_Title}}",
+                    "subTitle": "{{OpenPurchaseOrders_SubTitle}}",
+                    "entitySet": "C_FixedAssetPurchaseOrderOvwResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{OpenPurchaseOrders_ValueSelectionInfo}}",
+                    "customParams": "OpenPurchaseOrdersCardNav",
+                    "defaultSpan": {
+                        "cols": 1,
+                        "rows": 3,
+                        "minimumTitleRow": 2
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{Tab_NotInvoiced}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenPurchaseOrders_NotInvoiced",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OpenPurchaseOrders_NotInvoiced",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OpenPurchaseOrders_NotInvoiced",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#StillToInvoiceValue"
+                        },
+                        {
+                            "value": "{{Tab_NotDelivered}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OpenPurchaseOrders_NotDelivered",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OpenPurchaseOrders_NotDelivered",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OpenPurchaseOrders_NotDelivered",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#StillToBeDeliveredValue"
+                        }
+                    ]
+                }
+            },
+            "AssetStatisticsCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartFast",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{AssetTransactionStatistics_Title}}",
+                    "subTitle": "{{AssetTransactionStatistics_SubTitle}}",
+                    "valueSelectionInfo": "{{AssetTransactionStatistics_ValueSelectionInfo}}",
+                    "entitySet": "C_FixedAssetTransactionOvwResults",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "value": "{{Tab_InCurrentPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionsChart_InCurrentPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionsChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionsChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_YearToDate}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionsChart_YearToDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionsChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionsChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousPeriod}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionsChart_InPreviousPeriod",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionsChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionsChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousQuarter}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionsChart_InPreviousQuarter",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionsChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionsChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_PreviousYear}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionsChart_InPreviousYear",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionsChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionsChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "PurchaseOrdersChartCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartFast",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{PurchaseOrdersChart_Title}}",
+                    "subTitle": "{{PurchaseOrdersChart_SubTitle}}",
+                    "entitySet": "C_FixedAssetPurchaseOrderOvwResults",
+                    "valueSelectionInfo": "{{PurchaseOrdersChart_ValueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "customParams": "OpenPurchaseOrdersCardNav",
+                    "tabs": [
+                        {
+                            "value": "{{Tab_ByValue}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PurchaseOrdersChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PurchaseOrdersChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchaseOrdersChart_ByValue",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PurchaseOrderItemNetAmount"
+                        },
+                        {
+                            "value": "{{Tab_ByPlant}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PurchaseOrdersChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PurchaseOrdersChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchaseOrdersChart_ByPlant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PurchaseOrderItemNetAmount"
+                        }
+                    ]
+                }
+            },
+            "AssetMasterWorklistCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartFast",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{AssetMasterWorklistCard_Title}}",
+                    "subTitle": "{{AssetMasterWorklistCard_SubTitle}}",
+                    "requireAppAuthorization": "#FixedAsset-displayWorklist",
+                    "valueSelectionInfo": "{{AssetMasterWorklistCard_ValueSelectionInfo}}",
+                    "entitySet": "C_FixedAssetWorklistOvwResults",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetMasterWorklistChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetMasterWorklistChart",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetMasterWorklistChart_ByQuantity",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfActiveAssets"
+                }
+            },
+            "DepreciationToBePostedCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartLong",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{DepreciationToBePostedChart_Title}}",
+                    "subTitle": "{{DepreciationToBePostedChart_SubTitle}}",
+                    "entitySet": "C_FxdAstPlndDeprInCurPeriodResults",
+                    "valueSelectionInfo": "{{DepreciationToBePostedChart_ValueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DepreciationToBePostedChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DepreciationToBePostedChart",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DepreciationToBePostedChart",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalDepreciationAmount"
+                }
+            },
+            "AssetUnderConstructionCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListLong",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{AssetUnderConstruction_Title}}",
+                    "subTitle": "{{AssetUnderConstruction_SubTitle}}",
+                    "entitySet": "C_FxdAstUndrConstructionOvwResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{AssetUnderConstruction_ValueSelectionInfo}}",
+                    "customParams": "AssetUnderConstructionCardNav",
+                    "tabs": [
+                        {
+                            "value": "{{Tab_ByAmount}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetUnderConstruction",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetUnderConstruction_ByAmount",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetUnderConstruction",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAcquisitionDateDesc}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetUnderConstruction",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetUnderConstruction_ByAcquisitionDateDesc",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetUnderConstruction",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAcquisitionDateAsc}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetUnderConstruction",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetUnderConstruction_ByAcquisitionDateAsc",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetUnderConstruction",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "AssetDepreciationsListCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListLong",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{AssetDepreciationsList_Title}}",
+                    "subTitle": "{{AssetDepreciationsList_SubTitle}}",
+                    "entitySet": "C_FxdAstDeprValInCurPeriodResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{AssetDepreciationsList_ValueSelectionInfo}}",
+                    "tabs": [
+                        {
+                            "value": "{{Tab_Ordinary}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetDepreciationsList_Ordinary",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetDepreciationsList",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetDepreciationsList",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalPlannedDepreciationAmount"
+                        },
+                        {
+                            "value": "{{Tab_Special}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetDepreciationsList_Special",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetDepreciationsList",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetDepreciationsList",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalPlannedDepreciationAmount"
+                        },
+                        {
+                            "value": "{{Tab_Unplanned}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetDepreciationsList_Unplanned",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetDepreciationsList",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetDepreciationsList",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalPlannedDepreciationAmount"
+                        }
+                    ]
+                }
+            },
+            "OriginOfAssetsChartCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartLong",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{OriginOfAssets_Title}}",
+                    "subTitle": "{{OriginOfAssets_SubTitle}}",
+                    "entitySet": "C_FxdAstOriginOfAssetOvwResults",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{OriginOfAssets_ValueSelectionInfo}}",
+                    "customParams": "OriginOfAssetsChartCardNav",
+                    "tabs": [
+                        {
+                            "value": "{{Tab_ByCountry}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OriginOfAssetsChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OriginOfAssetsChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OriginOfAssetsChart_ByCountry",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_BySupplier}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OriginOfAssetsChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#OriginOfAssetsChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OriginOfAssetsChart_BySupplier",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NetBookValueAmtInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "AssetTransactionColumnChartCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartFast",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{AssetTransactionColumnChartCard_Title}}",
+                    "subTitle": "{{AssetTransactionColumnChartCard_SubTitle}}",
+                    "entitySet": "C_FixedAssetTransactionOvwResults",
+                    "valueSelectionInfo": "{{AssetTransactionColumnChartCard_ValueSelectionInfo}}",
+                    "addODataSelect": true,
+                    "tabs": [
+                        {
+                            "value": "{{Tab_ByAssetClass}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionColumnChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionColumnChart_ByAssetClass",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAccountDetermination}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionColumnChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionColumnChart_ByAccountDetermination",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAssetCostCenter}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionColumnChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionColumnChart_ByAssetCostCenter",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByAssetProfitCenter}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionColumnChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionColumnChart_ByAssetProfitCenter",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_BySegment}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionColumnChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionColumnChart_BySegment",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        },
+                        {
+                            "value": "{{Tab_ByPlant}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetTransactionColumnChart",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetTransactionColumnChart",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AssetTransactionColumnChart_ByPlant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#OriginalAmountInDspCrcy"
+                        }
+                    ]
+                }
+            },
+            "AssetUnderConstructionAgingCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ListLong",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{AssetUnderConstructionAgingCard_Title}}",
+                    "subTitle": "{{AssetUnderConstructionAgingCard_SubTitle}}",
+                    "entitySet": "C_FxdAstUndrConstructionsAgingResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "valueSelectionInfo": "{{AssetUnderConstructionAgingCard_ValueSelectionInfo}}",
+                    "tabs": [
+                        {
+                            "value": "{{Tab_ByFirstAcquisitionDate}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetUnderConstructionAging_ByFirstAcqDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetUnderConstructionAging_ByDifferenceInDays",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetUnderConstructionAging",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNoOfDays"
+                        },
+                        {
+                            "value": "{{Tab_ByLastAcquisitionDate}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AssetUnderConstructionAging_ByLastAcqDate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AssetUnderConstructionAging_ByDifferenceInDays",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AssetUnderConstructionAging",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNoOfDays"
+                        }
+                    ]
+                }
+            },
+            "ManageFixedAssetsCard": {
+                "model": "FAA_ASSET_OVERVIEWPAGE_SRV_ChartFast",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{ManageFixedAssetsCard_Title}}",
+                    "subTitle": "{{ManageFixedAssetsCard_SubTitle}}",
+                    "requireAppAuthorization": "#FixedAsset-maintain",
+                    "valueSelectionInfo": "{{ManageFixedAssets_ValueSelectionInfo}}",
+                    "entitySet": "C_FxdAssetByLifeCycleStatusOvwResults",
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ManageFixedAssetsChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ManageFixedAssetsChart",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ManageFixedAssetsChart_ByQuantity",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfActiveAssets"
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3096"],
+        "archeType": "analytical"
+    }
+}

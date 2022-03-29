@@ -1,0 +1,217 @@
+{
+    "_version": "1.11.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-PUR-GF-SCR",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_SUBCONTRACTING_COCKPIT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml",
+                    "annotations": ["localAnnotations"]
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ProcmtDocSubcontrg": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ProcmtDocSubcontrg/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProcmtDocSubcontrg": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProcmtDocSubcontrg/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Request",
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo",
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "TreeTableColumnsExtension|C_PROCMTDOCSUBCONTRG": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.subcontracting.cockpit.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_PROCMTDOCSUBCONTRG": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.subcontracting.cockpit.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.subcontracting.cockpit.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_PROCMTDOCSUBCONTRG": {
+                                "EntitySet": "C_PROCMTDOCSUBCONTRG",
+                                "Actions": {
+                                    "CalculateStockBalance": {
+                                        "id": "CalculateStockBalanceButton",
+                                        "text": "{@i18n>CalculateStockBalance}",
+                                        "press": "fnCalculateStockBalance"
+                                    },
+                                    "ActionC_PROCMTDOCSUBCONTRG0": {
+                                        "id": "ActionC_PROCMTDOCSUBCONTRG0button",
+                                        "press": "onPostGoodsIssueLinkPress"
+                                    },
+                                    "CreateDelivery": {
+                                        "id": "CreateDeliveryButton",
+                                        "text": "{@i18n>CreateDelivery}",
+                                        "press": "onPressCreateDeliveryButton"
+                                    },
+                                    "StockRequirement": {
+                                        "id": "StockRequirementButton",
+                                        "text": "{@i18n>StockRequirement}",
+                                        "press": "onClickStockRequirementButton"
+                                    },
+                                    "ActionC_PROCMTDOCSUBCONTRG1": {
+                                        "id": "ActionC_PROCMTDOCSUBCONTRG1button",
+                                        "press": "onExpandAll"
+                                    },
+                                    "ActionC_PROCMTDOCSUBCONTRG2": {
+                                        "id": "ActionC_PROCMTDOCSUBCONTRG2button",
+                                        "press": "onCollapseAll"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_PROCMTDOCSUBCONTRG": {
+                "entitySet": "C_PROCMTDOCSUBCONTRG",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "treeTable": true,
+                        "gridTable": false,
+                        "smartVariantManagement": true,
+                        "condensedTableLayout": true,
+                        "multiSelect": false
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2948"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}
