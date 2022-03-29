@@ -1,9 +1,8 @@
-import { fileExist, loadFixture } from './fixturesHelper';
+import { fileExist, loadFixture, loadFixtureSync } from './fixturesHelper';
 import { parse, merge } from '../src';
 import type { RawMetadata } from '@sap-ux/vocabularies-types';
 
 describe('Parser', function () {
-    jest.setTimeout(30000);
     it('can parse an edmx file', async () => {
         const xmlFile = await loadFixture('v4/sdMeta.xml');
         const schema: RawMetadata = parse(xmlFile);
@@ -57,29 +56,32 @@ describe('Parser', function () {
         expect(schema).toMatchSnapshot();
     });
 
-    it('can parse all edmx file', async () => {
-        const indexFile = JSON.parse(await loadFixture('v2/index.json'));
-        await indexFile.reduce(async (previousPromise: Promise<void>, serviceName: string) => {
-            await previousPromise;
-            const xmlFile = await loadFixture(`v2/${serviceName}/metadata.xml`);
-            const outputs = [];
-            outputs.push(parse(xmlFile));
+    describe('can parse all edmx file', () => {
+        const indexFile = JSON.parse(loadFixtureSync('v2/index.json'));
+        indexFile.forEach((serviceName: string) => {
+            test(serviceName, async () => {
+                const xmlFile = await loadFixture(`v2/${serviceName}/metadata.xml`);
+                const outputs = [];
+                outputs.push(parse(xmlFile));
 
-            const manifestFile = JSON.parse(await loadFixture(`v2/${serviceName}/webapp/manifest.json`));
-            if (manifestFile['sap.app'].dataSources.mainService) {
-                const annotations: string[] =
-                    manifestFile['sap.app'].dataSources.mainService.settings.annotations || [];
-                for (const annotation of annotations) {
-                    if (manifestFile['sap.app'].dataSources[annotation].uri.startsWith('/sap/opu/odata/')) {
-                        if (fileExist(`v2/${serviceName}/${annotation}.annotation.xml`)) {
-                            const annotationFile = await loadFixture(`v2/${serviceName}/${annotation}.annotation.xml`);
-                            outputs.push(parse(annotationFile));
+                const manifestFile = JSON.parse(await loadFixture(`v2/${serviceName}/webapp/manifest.json`));
+                if (manifestFile['sap.app'].dataSources.mainService) {
+                    const annotations: string[] =
+                        manifestFile['sap.app'].dataSources.mainService.settings.annotations || [];
+                    for (const annotation of annotations) {
+                        if (manifestFile['sap.app'].dataSources[annotation].uri.startsWith('/sap/opu/odata/')) {
+                            if (fileExist(`v2/${serviceName}/${annotation}.annotation.xml`)) {
+                                const annotationFile = await loadFixture(
+                                    `v2/${serviceName}/${annotation}.annotation.xml`
+                                );
+                                outputs.push(parse(annotationFile));
+                            }
                         }
                     }
                 }
-            }
-            const mergedOutput: RawMetadata = merge(...outputs);
-            expect(mergedOutput).toBeDefined();
+                const mergedOutput: RawMetadata = merge(...outputs);
+                expect(mergedOutput).toBeDefined();
+            });
         });
     });
 });

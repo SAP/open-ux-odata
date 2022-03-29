@@ -12,3 +12,6 @@ export function fileExist(name: string): boolean {
 export async function loadFixture(name: string): Promise<string> {
     return (await readFile(path.join(__dirname, FIXTURE_DIR, name))).toString('utf-8');
 }
+export function loadFixtureSync(name: string): string {
+    return fs.readFileSync(path.join(__dirname, FIXTURE_DIR, name)).toString('utf-8');
+}
