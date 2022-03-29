@@ -1,0 +1,466 @@
+{
+    "_version": "1.6.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "i2d.scm.planner.ovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "PP-DD",
+        "resources": "resources.json",
+        "dataSources": {
+            "PP_PLANNER_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/PP_PLANNER_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PP_PLANNER_OVP_ANNO_MDL", "annotation1"],
+                    "localUri": "localService/PP_PLANNER_OVP_SRV/metadata.xml"
+                }
+            },
+            "PP_PLANNER_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PP_PLANNER_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PP_PLANNER_OVP_SRV/PP_PLANNER_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotation1": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation1.xml",
+                "settings": {
+                    "localUri": "annotations/annotation1.xml"
+                }
+            },
+            "PP_MRP_AOR_SRV": {
+                "uri": "/sap/opu/odata/sap/PP_MRP_AOR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PP_MRP_AOR_SRV/metadata.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        },
+        "_version": "1.3.0"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"],
+        "_version": "1.3.0"
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                },
+                "sap.i2d.mpe.lib.commons1": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "PP_PLANNER_OVP_SRV": {
+                "dataSource": "PP_PLANNER_OVP_SRV",
+                "settings": {},
+                "preload": true
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "AOR": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneTime",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "PP_MRP_AOR_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "i2d.scm.planner.ovps1.ext.controller.OVPController"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "_version": "1.2.0"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "PP_PLANNER_OVP_SRV",
+        "globalFilterEntityType": "C_PlannerOverviewPageType",
+        "cards": {
+            "i2d.scm.planner.ovps1_card00": {
+                "model": "PP_PLANNER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.scm.planner.ovps1_card00_title}}",
+                    "subTitle": "{{i2d.scm.planner.ovps1_card00_subTitle}}",
+                    "entitySet": "C_BufLvlDeviationsByIndCht",
+                    "valueSelectionInfo": "{{i2d.scm.planner.ovps1_card00_subTitle02}}",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BufferLevelCardQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ABCValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNumberOfDeviations",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#BufferLevelIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_ABCValue}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BufferLevelCardQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#EFGValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNumberOfDeviations",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#BufferLevelIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_EFGValue}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BufferLevelCardQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#XYZValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNumberOfDeviations",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#BufferLevelIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_XYZValue}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BufferLevelCardQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PQRValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNumberOfDeviations",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#BufferLevelIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_PQRValue}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BufferLevelCardQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BMTValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNumberOfDeviations",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#BufferLevelIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_BMTValue}}"
+                        }
+                    ]
+                }
+            },
+            "i2d.scm.planner.ovps1_card01": {
+                "model": "PP_PLANNER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.scm.planner.ovps1_card01_title}}",
+                    "subTitle": "{{i2d.scm.planner.ovps1_card01_subTitle}}",
+                    "entitySet": "C_BufBelowReorderPtIndCht",
+                    "valueSelectionInfo": "{{i2d.scm.planner.ovps1_card01_subTitle02}}",
+                    "tabs": [
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{PlanningPriorityStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{PlanningPriorityStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{PlanningPriorityStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplPlngSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BMTValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplPlngBMTPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowReorderPt",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplPlngIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_BMTValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{PlanningPriorityStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{PlanningPriorityStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{PlanningPriorityStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplPlngSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ABCValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplPlngABCPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowReorderPt",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplPlngIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_ABCValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{PlanningPriorityStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{PlanningPriorityStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{PlanningPriorityStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplPlngSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#EFGValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplPlngEFGPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowReorderPt",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplPlngIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_EFGValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{PlanningPriorityStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{PlanningPriorityStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{PlanningPriorityStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplPlngSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#XYZValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplPlngXYZPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowReorderPt",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplPlngIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_XYZValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{PlanningPriorityStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{PlanningPriorityStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{PlanningPriorityStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplPlngSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PQRValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplPlngPQRPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowReorderPt",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplPlngIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_PQRValue}}"
+                        }
+                    ]
+                }
+            },
+            "i2d.scm.planner.ovps1_card02": {
+                "model": "PP_PLANNER_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{i2d.scm.planner.ovps1_card02_title}}",
+                    "subTitle": "{{i2d.scm.planner.ovps1_card02_subTitle}}",
+                    "entitySet": "C_BufBelowSftyStkIndCht",
+                    "valueSelectionInfo": "{{i2d.scm.planner.ovps1_card02_subTitle02}}",
+                    "tabs": [
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{OnHandStockStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{OnHandStockStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{OnHandStockStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplExecSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BMTValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplExecBMTPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowSafetyStk",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplExecIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_BMTValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{OnHandStockStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{OnHandStockStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{OnHandStockStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplExecSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ABCValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplExecABCPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowSafetyStk",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplExecIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_ABCValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{OnHandStockStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{OnHandStockStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{OnHandStockStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplExecSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#EFGValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplExecEFGPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowSafetyStk",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplExecIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_EFGValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{OnHandStockStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{OnHandStockStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{OnHandStockStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplExecSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#XYZValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplExecXYZPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowSafetyStk",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplExecIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_XYZValue}}"
+                        },
+                        {
+                            "colorPalette": [
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark2",
+                                    "legendText": "{{OnHandStockStatusZero}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticBadDark1",
+                                    "legendText": "{{OnHandStockStatusOne}}"
+                                },
+                                {
+                                    "color": "sapUiChartPaletteSemanticCritical",
+                                    "legendText": "{{OnHandStockStatusTwo}}"
+                                },
+                                {}
+                            ],
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ReplExecSVQualifier",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PQRValue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ReplExecPQRPresentation",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNmbrOfBufBelowSafetyStk",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ReplExecIdentificationQualifier",
+                            "navigation": "dataPointNav",
+                            "value": "{{i2d.scm.planner.ovps1_card00_PQRValue}}"
+                        }
+                    ]
+                }
+            }
+        },
+        "_version": "1.1.0"
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2832"],
+        "archeType": "analytical"
+    }
+}

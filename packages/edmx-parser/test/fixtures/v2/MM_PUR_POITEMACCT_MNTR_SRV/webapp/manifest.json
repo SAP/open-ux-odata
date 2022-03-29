@@ -1,0 +1,208 @@
+{
+    "_version": "1.11.0",
+    "sap.app": {
+        "id": "ui.s2p.mm.poitemacc.monitors1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-PUR-PO",
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "MonitorPO": {
+                    "semanticObject": "PurchaseOrder",
+                    "action": "manage"
+                }
+            }
+        },
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_POITEMACCT_MNTR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_POITEMACCT_MN_ANNO_MDL_02", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_POITEMACCT_MN_ANNO_MDL_02": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_POITEMACCT_MN_ANNO_MDL_02',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_POITEMACCT_MN_ANNO_MDL_02.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.38.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "flexEnabled": true,
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.table": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_Purchaseorderitemacctmntr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_Purchaseorderitemacctmntr/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Purchaseorderitemacctmntr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Purchaseorderitemacctmntr/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|I_CostCenter": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/I_CostCenter/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo",
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_Purchaseorderitemacctmntr": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.poitemacc.monitors1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        },
+                        "AnalyticalTableColumnsExtension|C_Purchaseorderitemacctmntr": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.poitemacc.monitors1.ext.fragment.analyticalCustomTableColumn",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.poitemacc.monitors1.ext.controller.ListReportExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_Purchaseorderitemacctmntr": {
+                "entitySet": "C_Purchaseorderitemacctmntr",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": false,
+                        "condensedTableLayout": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_Purchaseorderitemacctmntr": {
+                        "entitySet": "C_Purchaseorderitemacctmntr",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.apps.crossNavigation.outbounds",
+                                "target": "MonitorPO"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2420"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/poiacct_mntrs1/webapp",
+        "_version": "1.1.0"
+    }
+}

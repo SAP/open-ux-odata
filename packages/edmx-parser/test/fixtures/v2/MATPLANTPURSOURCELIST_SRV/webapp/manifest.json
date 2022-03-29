@@ -1,0 +1,210 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-PUR-SQ-SLI",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MATPLANTPURSOURCELIST_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MATPLANTPURSOURCELIST_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MATPLANTPURSOURCELIST_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MATPLANTPURSOURCELIST_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MATPLANTPURSOURCELIST_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_Mppurchasingsourceitem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MPPurchasingSource/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MPPurchasingSource": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MPPurchasingSource/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.manage.sourcelists.s1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_Mppurchasingsourceitem": {
+                                "EntitySet": "C_Mppurchasingsourceitem",
+                                "Actions": {
+                                    "DeleteSrcList": {
+                                        "id": "idDeleteSrcListBtn",
+                                        "text": "{@i18n>DeleteSrcLst}",
+                                        "press": "onHeaderDeletePress"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.manage.sourcelists.s1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_MPPurchasingSource": {
+                                "EntitySet": "C_MPPurchasingSource",
+                                "Sections": {
+                                    "to_MPPurchasingSourceItemWD::com.sap.vocabularies.UI.v1.LineItem::ListPage": {
+                                        "id": "to_MPPurchasingSourceItemWD::com.sap.vocabularies.UI.v1.LineItem::ListPage",
+                                        "Actions": {
+                                            "CopySrcList": {
+                                                "id": "idCopySrcListButton",
+                                                "text": "{@i18n>CopySrcList}",
+                                                "press": "onSrcListActionPress"
+                                            },
+                                            "GenerateSrcList": {
+                                                "id": "idGenerateSrcListButton",
+                                                "text": "{@i18n>GenerateSrcList}",
+                                                "press": "onSrcListActionPress"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_Mppurchasingsourceitem",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "creationEntitySet": "C_MPPurchasingSource"
+                    }
+                },
+                "pages": [
+                    {
+                        "navigationProperty": "to_MPPurchasingSourceWd",
+                        "entitySet": "C_MPPurchasingSource",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_MPPurchasingSourceItemWD",
+                                "entitySet": "C_Mppurchasingsourceitem",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1859"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

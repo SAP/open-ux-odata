@@ -1,0 +1,262 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-FIO-AR",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAR_DOUBTFUL_ACCTS_VALUATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAR_DOUBTFUL_ACCTS_VALU_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FAR_DOUBTFUL_ACCTS_VALU_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAR_DOUBTFUL_ACCTS_VALU_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAR_DOUBTFUL_ACCTS_VALU_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "Customer-analyzeDoubtfulAcctsValuation": {
+                    "semanticObject": "Customer",
+                    "action": "analyzeDoubtfulAcctsValuation",
+                    "signature": {
+                        "parameters": {
+                            "P_DisplayCurrency": {
+                                "defaultValue": {
+                                    "value": "UserDefault.DisplayCurrency",
+                                    "format": "reference"
+                                }
+                            },
+                            "Customer": {
+                                "defaultValue": {
+                                    "value": "UserDefault.extended.Customer",
+                                    "format": "reference"
+                                }
+                            },
+                            "CompanyCode": {
+                                "defaultValue": {
+                                    "value": "UserDefault.extended.CompanyCode",
+                                    "format": "reference"
+                                }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.viz": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "kpi": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_DoubtfulAccountsValuationResults|OverdueDocuments": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.doubtfulacctsvaluation.ext.fragment.OverdueDocumentsTable",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_DoubtfulAccountsValuationResults|AllowanceDocuments": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.ar.doubtfulacctsvaluation.ext.fragment.AllowanceDocumentsTable",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "fin.ar.doubtfulacctsvaluation.ext.controller.AnalyticalListPageExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.ar.doubtfulacctsvaluation.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_DoubtfulAccountsValuationResults": {
+                                "EntitySet": "C_DoubtfulAccountsValuationResults",
+                                "Sections": {
+                                    "JournalEntries": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "AnalyticalListPage|C_DoubtfulAccountsValuationResults": {
+                "entitySet": "C_DoubtfulAccountsValuationResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": false,
+                        "defaultContentView": "charttable",
+                        "defaultFilterMode": "compact",
+                        "qualifier": "ByCustomerVariant",
+                        "showAutoHide": true,
+                        "autoHide": true,
+                        "smartVariantManagement": false,
+                        "showGoButtonOnFilterBar": true,
+                        "condensedTableLayout": true,
+                        "keyPerformanceIndicators": {
+                            "KPI_OvrdRec_ByQrt": {
+                                "model": "kpi",
+                                "entitySet": "C_DbtflAcctsValnStatisticResults",
+                                "qualifier": "KPI_OvrdRec_ByQrt",
+                                "filterable": true
+                            }
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_DoubtfulAccountsValuationResults": {
+                        "entitySet": "C_DoubtfulAccountsValuationResults",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3246"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    },
+    "sap.copilot": {
+        "digitalAssistant": {
+            "intentDefinition": {
+                "copilotIntent": {
+                    "uri": "copilot/intent.xml",
+                    "dataSources": ["FAR_DOUBTFUL_ACCTS_VALUATION_SRV"],
+                    "i18n": "i18n/copilot/i18n.properties"
+                }
+            }
+        }
+    }
+}

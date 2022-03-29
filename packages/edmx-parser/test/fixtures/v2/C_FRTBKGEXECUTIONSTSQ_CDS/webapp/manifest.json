@@ -1,0 +1,151 @@
+{
+    "_version": "1.9.0",
+    "sap.app": {
+        "id": "scm.tm.freightbookingexecutionlrstss1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "TM-CF-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/C_FRTBKGEXECUTIONSTSQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["VisualFilterAnnotation", "C_FRTBKGEXECUTIONSTSQ_CDS_VAN"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "VisualFilterAnnotation": {
+                "uri": "annotations/VisualFilterAnnotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/VisualFilterAnnotation.xml"
+                }
+            },
+            "C_FRTBKGEXECUTIONSTSQ_CDS_VAN": {
+                "uri": "annotations/C_FRTBKGEXECUTIONSTSQ_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/C_FRTBKGEXECUTIONSTSQ_CDS_VAN.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.56.0",
+            "libs": {
+                "sap.m": {
+                    "minVersion": "1.34.0"
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.commons": {
+                    "minVersion": "1.34.0",
+                    "lazy": false
+                },
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "C_FRTBKGEXECUTIONSTSQResults",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "contentTitle": "{{content_title}}",
+                        "qualifier": "DefaultSelectionPresentationVariant",
+                        "chartPresentationQualifier": "DefaultChartPresentationVariant",
+                        "defaultContentView": "charttable",
+                        "defaultFilterMode": "visual",
+                        "showAutoHide": true,
+                        "autoHide": true,
+                        "hideVisualFilter": false,
+                        "smartVariantManagement": true,
+                        "condensedTableLayout": false,
+                        "showGoButtonOnFilterBar": false,
+                        "showItemNavigationOnChart": true,
+                        "tableType": "ResponsiveTable"
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2748"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": "/sap/bc/ui5_ui5/sap/scm.tm.freightbookingexecutionlrstss1/webapp"
+    }
+}

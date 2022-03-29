@@ -1,0 +1,245 @@
+{
+    "_version": "1.5.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "SD-SLS-RE",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/SD_F1708_CRT_WL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["SD_F1708_CRT_WL_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "SD_F1708_CRT_WL_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='SD_F1708_CRT_WL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/SD_F1708_CRT_WL_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "SD_F1708_CRT_WL_SRV": {
+                "uri": "/sap/opu/odata/sap/SD_F1708_CRT_WL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/SD_F1708_CRT_WL_SRV/metadata.xml",
+                    "annotations": ["SD_F1708_CRT_WL_ANNO_MDL", "localAnnotations"]
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "FilteredWorklist": {
+                    "semanticObject": "CustomerReturn",
+                    "action": "manage"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "cus.sd.lib.worklist": {
+                    "minVersion": "11.2.0-SNAPSHOT",
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties",
+                "preload": false
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties",
+                "preload": false
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_CustomerReturn": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_CustomerReturnWL_F1708/i18n.properties",
+                "preload": false
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CustomerReturn": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CustomerReturnWL_F1708/i18n.properties",
+                "preload": false
+            },
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline"
+                },
+                "dataSource": "SD_F1708_CRT_WL_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_CustomerReturn": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customerreturns.manage.wl.ext.fragments.CustomerReturnCustomColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CustomerReturn": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customerreturns.manage.wl.ext.fragments.CustomerReturnCustomCells",
+                            "type": "XML"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_CustomerReturn": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customerreturns.manage.wl.ext.fragments.CustomerReturnCustomFilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "cus.sd.customerreturns.manage.wl.ext.controllers.CustomLogic",
+                        "sap.ui.generic.app": {
+                            "C_CustomerReturn": {
+                                "EntitySet": "C_CustomerReturn",
+                                "Actions": {
+                                    "create": {
+                                        "id": "CreateCustomerReturn",
+                                        "text": "{{createCustomerReturn}}",
+                                        "press": "onPressCreate"
+                                    },
+                                    "edit": {
+                                        "id": "EditCustomerReturn",
+                                        "text": "{{editCustomerReturn}}",
+                                        "press": "onPressEdit",
+                                        "requiresSelection": "true"
+                                    },
+                                    "delete": {
+                                        "id": "DeleteCustomerReturn",
+                                        "text": "{{deleteCustomerReturn}}",
+                                        "press": "onPressDelete",
+                                        "requiresSelection": "true"
+                                    },
+                                    "refund": {
+                                        "id": "DetermineRefund",
+                                        "text": "{{determineRefund}}",
+                                        "press": "onPressRefund",
+                                        "requiresSelection": "true"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_CustomerReturn",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "hideChevronForUnauthorizedExtNav": false
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_CustomerReturn",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.app.crossNavigation.outbounds",
+                                "target": "FilteredWorklist"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F1708"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,210 @@
+{
+    "_version": "1.2.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-FIO-IV",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_SUPPLIER_INVOICE_UPLOAD_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["MM_SUPPLIER_INVOICE__ANNO_MDL_01", "localAnnotations"],
+                    "localUri": "localService/main/metadata.xml"
+                }
+            },
+            "MM_SUPPLIER_INVOICE__ANNO_MDL_01": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_SUPPLIER_INVOICE__ANNO_MDL_01',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/main/MM_SUPPLIER_INVOICE__ANNO_MDL_01.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.commons": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {}
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment",
+                "settings": {}
+            }
+        },
+        "handleValidation": true,
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_SupplierInvoiceUploadHistory": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_SupplierInvoiceUploadHistory/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.supplinvoice.upload.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_SupplierInvoiceUploadHistory": {
+                                "EntitySet": "C_SupplierInvoiceUploadHistory",
+                                "Actions": {
+                                    "ActionC_SupplierInvoiceUploadHistory2": {
+                                        "id": "ActionC_SupplierInvoiceUploadHistory2button",
+                                        "text": "{@i18n>ActionC_SupplierInvoiceUploadHistory2}",
+                                        "press": "onClickOpenUploadButton",
+                                        "type": "Reject"
+                                    },
+                                    "ActionC_SupplierInvoiceUploadHistory1": {
+                                        "id": "ActionC_SupplierInvoiceUploadHistory1button",
+                                        "text": "",
+                                        "press": "onClickAddUploadButton"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_SupplierInvoiceUploadHistory": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.supplinvoice.upload.ext.fragments.RootDraftKeyTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SupplierInvoiceUploadHistory": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.supplinvoice.upload.ext.fragments.RootDraftKeyTableCells",
+                            "type": "XML"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_SupplierInvoiceUploadHistory": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.supplinvoice.upload.ext.fragments.CustomFilter",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_SupplierInvoiceUploadHistory",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": false,
+                        "smartVariantManagement": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2452"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

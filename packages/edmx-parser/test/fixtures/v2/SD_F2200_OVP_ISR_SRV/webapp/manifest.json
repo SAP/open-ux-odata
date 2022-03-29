@@ -1,0 +1,342 @@
+{
+    "_version": "1.8.0",
+    "start_url": "start.html",
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2200"],
+        "archeType": "analytical"
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    },
+    "sap.app": {
+        "_version": "1.1.0",
+        "id": "cus.sd.ovp.isr",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "SD-FIO-HBA",
+        "resources": "resources.json",
+        "dataSources": {
+            "SD_F2200_OVP_ISR_SRV": {
+                "uri": "/sap/opu/odata/sap/SD_F2200_OVP_ISR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["SD_F2200_OVP_ISR_ANNO_MDL"],
+                    "localUri": "localService/SD_F2200_OVP_ISR_SRV/metadata.xml"
+                }
+            },
+            "SD_F2200_OVP_ISR_ANNO_MDL": {
+                "uri": "localService/SD_F2200_OVP_ISR_SRV/SD_F2200_OVP_ISR_ANNO_MDL.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/SD_F2200_OVP_ISR_SRV/SD_F2200_OVP_ISR_ANNO_MDL.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "img/dimension.png"
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "SD_F2200_OVP_ISR_SRV": {
+                "preload": true,
+                "dataSource": "SD_F2200_OVP_ISR_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "SD_F2200_OVP_ISR_SRV_1": {
+                "preload": true,
+                "dataSource": "SD_F2200_OVP_ISR_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "SD_F2200_OVP_ISR_SRV_2": {
+                "preload": true,
+                "dataSource": "SD_F2200_OVP_ISR_SRV",
+                "settings": {
+                    "defaultCountMode": "None",
+                    "useBatch": false
+                }
+            },
+            "SD_F2200_OVP_ISR_SRV_3": {
+                "preload": true,
+                "dataSource": "SD_F2200_OVP_ISR_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "cus.sd.ovp.isr.ext.controller.customFilter"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.2.0",
+        "enableLiveFilter": false,
+        "globalFilterModel": "SD_F2200_OVP_ISR_SRV",
+        "globalFilterEntityType": "C_GlobalFiltersOVP_F2200Type",
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "customerContacts": {
+                "model": "SD_F2200_OVP_ISR_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{customerContacts_title}}",
+                    "subTitle": "{{customerContacts_subTitle}}",
+                    "category": "{{customerContacts_category}}",
+                    "entitySet": "C_CustomerContact_F2200",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#cnt"
+                }
+            },
+            "creditMemos": {
+                "model": "SD_F2200_OVP_ISR_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{creditMemo_title}}",
+                    "subTitle": "{{blockCreditMemo_subTitle}}",
+                    "entitySet": "C_Credit_Memo_F2200",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BCM",
+                    "sortBy": "LastChangeDateTime",
+                    "sortOrder": "descending",
+                    "stopResizing": true
+                }
+            },
+            "customerReturns": {
+                "model": "SD_F2200_OVP_ISR_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{customerReturns_title}}",
+                    "subTitle": "{{customerReturnsByLastChangeDate_subTitle}}",
+                    "entitySet": "C_CustomerReturns_F2200",
+                    "listType": "extended",
+                    "sortBy": "LastChangeDateTime",
+                    "sortOrder": "descending",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#allActiveReturnView",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{customerReturn_AllValues}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#readyforRefundView",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#readyforRefund",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{customerReturn_ReadyforRefund}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#notReleasedView",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#notReleased",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{customerReturn_NotReleased}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#undeliveredView",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#undelivered",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{customerReturn_Undelivered}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#withinLast7DaysView",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#withinLast7Days",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{customerReturn_CreatedWithinLast7Days}}"
+                        }
+                    ],
+                    "customParams": "crParameters",
+                    "stopResizing": true
+                }
+            },
+            "quickActions": {
+                "model": "SD_F2200_OVP_ISR_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{quickActions_title}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{quickActions_sc_salesOrderLink}}",
+                            "imageUri": "sap-icon://customer-financial-fact-sheet",
+                            "imageAltText": "{{quickActions_sc_altText_salesOrderLink}}",
+                            "semanticObject": "SalesOrder",
+                            "action": "create"
+                        },
+                        {
+                            "title": "{{quickActions_sc_salesQuotationLink}}",
+                            "imageUri": "sap-icon://customer-financial-fact-sheet",
+                            "imageAltText": "{{quickActions_sc_altText_salesQuotationLink}}",
+                            "semanticObject": "SalesQuotation",
+                            "action": "create"
+                        },
+                        {
+                            "title": "{{quickActions_sc_creditMemoReqLink}}",
+                            "imageUri": "sap-icon://customer-financial-fact-sheet",
+                            "imageAltText": "{{quickActions_sc_altText_creditMemoReqLink}}",
+                            "semanticObject": "CreditMemoRequest",
+                            "action": "create"
+                        },
+                        {
+                            "title": "{{quickActions_sc_customerReturnLink}}",
+                            "imageUri": "sap-icon://customer-financial-fact-sheet",
+                            "imageAltText": "{{quickActions_sc_altText_customerReturnLink}}",
+                            "semanticObject": "CustomerReturn",
+                            "action": "create",
+                            "openInNewWindow": false
+                        },
+                        {
+                            "title": "{{quickActions_sc_customerReturnLink_classicalUI}}",
+                            "imageUri": "sap-icon://customer-financial-fact-sheet",
+                            "imageAltText": "{{quickActions_sc_altText_customerReturnLink_classicalUI}}",
+                            "semanticObject": "CustomerReturn",
+                            "action": "createCustomerReturn"
+                        }
+                    ],
+                    "stopResizing": true
+                }
+            },
+            "openQuotations": {
+                "model": "SD_F2200_OVP_ISR_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{openQuotations_title}}",
+                    "subTitle": "{{openQuotationsByLastChangeDate_subTitle}}",
+                    "entitySet": "C_OpenQuotations_F2200",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OSQ",
+                    "sortBy": "LastChangeDateTime",
+                    "sortOrder": "descending",
+                    "stopResizing": true
+                }
+            },
+            "openSalesOrders": {
+                "model": "SD_F2200_OVP_ISR_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{openSalesOrders_title}}",
+                    "subTitle": "{{openSalesOrders_subTitle}}",
+                    "entitySet": "C_OpenSalesOrders_F2200",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OSO",
+                    "listType": "extended",
+                    "sortBy": "LastChangeDateTime",
+                    "sortOrder": "descending",
+                    "stopResizing": true
+                }
+            },
+            "monthlySalesRevenue": {
+                "model": "SD_F2200_OVP_ISR_SRV_2",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{incomingSalesOrdersHeader_title}}",
+                    "subTitle": "{{incomingSalesOrdersHeader_subTitle}}",
+                    "requireAppAuthorization": "#SalesOrder-analyzeIncoming",
+                    "entitySet": "C_MonthlySalesRevenue_F2200Results",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IS4",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ISA",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IS",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value4}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IS6",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ISA",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IS",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value6}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IS12",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ISA",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IS",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{month_value12}}"
+                        }
+                    ],
+                    "navigation": "headerNav",
+                    "stopResizing": true
+                }
+            },
+            "salesOrderFulfillment": {
+                "model": "SD_F2200_OVP_ISR_SRV_1",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{salesOrderFulfillment_title}}",
+                    "subTitle": "{{salesOrderFulfillment_subTitle}}",
+                    "entitySet": "C_Sofulfillmentmonitor_F2200",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "IssueCategory",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "addODataSelect": true,
+                    "stopResizing": true
+                }
+            },
+            "salesQuotationPipeline": {
+                "model": "SD_F2200_OVP_ISR_SRV_3",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{salesQuotationPipeline_title}}",
+                    "entitySet": "C_SalesQuotationPipeline_F2200",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "CriticalityCode",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#bar",
+                    "addODataSelect": true,
+                    "customParams": "sqpParameters",
+                    "stopResizing": true
+                }
+            }
+        }
+    }
+}

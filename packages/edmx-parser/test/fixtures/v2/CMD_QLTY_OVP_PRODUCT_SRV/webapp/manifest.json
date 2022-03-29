@@ -1,0 +1,203 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "mdm.cmd.mdq.ovp.products1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CA-MDG-ADQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "CMD_QLTY_OVP_PRODUCT_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_OVP_PRODUCT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["CMD_QLTY_OVP_PRODUCT_ANNO_MDL", "customAnnotations"],
+                    "localUri": "localService/CMD_QLTY_OVP_PRODUCT_SRV/metadata.xml"
+                }
+            },
+            "CMD_QLTY_OVP_PRODUCT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_OVP_PRODUCT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_OVP_PRODUCT_SRV/CMD_QLTY_OVP_PRODUCT_ANNO_MDL.xml"
+                }
+            },
+            "customAnnotations": {
+                "uri": "localService/CMD_QLTY_OVP_PRODUCT_SRV/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_OVP_PRODUCT_SRV/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "default": {
+                    "semanticObject": "Product",
+                    "action": "displayQualityOverviewPage"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": { "lazy": false }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CMD_QLTY_OVP_PRODUCT_SRV": {
+                "dataSource": "CMD_QLTY_OVP_PRODUCT_SRV",
+                "settings": {
+                    "defaultCountMode": "InlineRepeat"
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "component": "sap.ovp.app",
+            "minVersion": "1.46.0",
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "mdm.cmd.mdq.ovp.products1.ext.custom"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "CMD_QLTY_OVP_PRODUCT_SRV",
+        "globalFilterEntityType": "C_MDQltyProdsWthErrorsFilterType",
+        "cards": {
+            "mdm.cmd.mdq.ovp.products1_card00": {
+                "model": "CMD_QLTY_OVP_PRODUCT_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.cmd.mdq.ovp.products1_card00_title}}",
+                    "subTitle": "{{CurrentEvaluationRun}}",
+                    "entitySet": "C_MDQltyProdsWthErrorsAnaResults",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LatestEvaluationRun",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RemediationStatus",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RemediationStatus"
+                }
+            },
+            "mdm.cmd.mdq.ovp.products1_card01": {
+                "model": "CMD_QLTY_OVP_PRODUCT_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.cmd.mdq.ovp.products1_card01_title}}",
+                    "subTitle": "{{mdm.cmd.mdq.ovp.products1_card01_subTitle}}",
+                    "entitySet": "C_MDQltyProdsWthErrorsAnaResults",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AllEvaluationRuns",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#EvaluationRun",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Top10SortedByRun",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#MDQltyEvalRunBusObjectsWthErr"
+                }
+            },
+            "mdm.cmd.mdq.ovp.products1_card02": {
+                "model": "CMD_QLTY_OVP_PRODUCT_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "addODataSelect": true,
+                    "title": "{{mdm.cmd.mdq.ovp.products1_card02_title}}",
+                    "subTitle": "{{CurrentEvaluationRun}}",
+                    "entitySet": "C_MDQltyProdsWthErrorsAnaResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Product",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Product",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LatestEvaluationRun",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Top3SortedByErrors"
+                }
+            },
+            "mdm.cmd.mdq.ovp.products1_card03": {
+                "model": "CMD_QLTY_OVP_PRODUCT_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "addODataSelect": true,
+                    "title": "{{mdm.cmd.mdq.ovp.products1_card03_title}}",
+                    "subTitle": "{{CurrentEvaluationRun}}",
+                    "entitySet": "C_MDQltyProdsWthErrorsAnaResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Rule",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Rule",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LatestEvaluationRun",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Top3SortedByErrors"
+                }
+            },
+            "mdm.cmd.mdq.ovp.products1_card04": {
+                "model": "CMD_QLTY_OVP_PRODUCT_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{mdm.cmd.mdq.ovp.products1_card04_title}}",
+                    "subTitle": "{{CurrentEvaluationRun}}",
+                    "entitySet": "C_MDQltyProdsWthErrorsAnaResults",
+                    "tabs": [
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ProductType",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LatestEvaluationRun",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Top4SortedByErrors",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ProductType",
+                            "value": "{{ProductType}}"
+                        },
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ProductGroup",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LatestEvaluationRun",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Top4SortedByErrors",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ProductGroup",
+                            "value": "{{ProductGroup}}"
+                        },
+                        {
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Division",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#LatestEvaluationRun",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Top4SortedByErrors",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Division",
+                            "value": "{{Division}}"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2519"],
+        "archeType": "transactional"
+    }
+}

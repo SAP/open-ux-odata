@@ -1,0 +1,361 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "IS-U-BI",
+        "resources": "resources.json",
+        "dataSources": {
+            "ISU_BI_PERDC_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/ISU_BI_PERDC_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ISU_BI_PERDC_OVP_ANNO_MDL", "annotations"],
+                    "localUri": "localService/ISU_BI_PERDC_OVP_SRV/metadata.xml"
+                }
+            },
+            "ISU_BI_PERDC_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ISU_BI_PERDC_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ISU_BI_PERDC_OVP_SRV/ISU_BI_PERDC_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.54.0",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "ISU_BI_PERDC_OVP_SRV": {
+                "preload": true,
+                "dataSource": "ISU_BI_PERDC_OVP_SRV",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "isu.bi.periodicoverviews1.ext.controller.OverviewPageExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "ISU_BI_PERDC_OVP_SRV",
+        "globalFilterEntityType": "C_UtilsContrToBeBlldType",
+        "containerLayout": "resizable",
+        "showDateInRelativeFormat": false,
+        "cards": {
+            "periodicoverviews1_card00": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{periodicoverviews1_card00_title}}",
+                    "subTitle": "{{periodicoverviews1_card00_subTtl}}",
+                    "entitySet": "C_UtilsContrToBeBlld",
+                    "showFilterInHeader": false,
+                    "customParams": "additionalNavigationParams",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#periodicoverviews1_card00",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfUtilsContractsToBeBilled",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#periodicoverviews1_card00",
+                            "ChartProperties": {
+                                "plotArea": {
+                                    "dataLabel": {
+                                        "type": "percentage"
+                                    }
+                                }
+                            },
+                            "value": "{{dropdown_percentage}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#periodicoverviews1_card00",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfUtilsContractsToBeBilled",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#periodicoverviews1_card00",
+                            "ChartProperties": {
+                                "plotArea": {
+                                    "dataLabel": {
+                                        "type": "value"
+                                    }
+                                }
+                            },
+                            "value": "{{dropdown_value}}"
+                        }
+                    ]
+                }
+            },
+            "periodicoverviews1_card01": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{periodicoverviews1_card01_title}}",
+                    "subTitle": "{{periodicoverviews1_card01_subTtl}}",
+                    "entitySet": "C_UtilsContrToBeBlld",
+                    "showFilterInHeader": false,
+                    "customParams": "additionalNavigationParams",
+                    "listType": "condensed",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#periodicoverviews1_card01",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#periodicoverviews1_card01"
+                }
+            },
+            "periodicoverviews1_card02": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{periodicoverviews1_card02_title}}",
+                    "subTitle": "{{periodicoverviews1_card02_subTtl}}",
+                    "entitySet": "C_UtilsContrToBeBlld",
+                    "showFilterInHeader": false,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    },
+                    "customParams": "additionalNavigationParams",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card02",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#periodicoverviews1_card02",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfUtilsContractsToBeBilled",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#periodicoverviews1_card02",
+                            "ChartProperties": {
+                                "plotArea": {
+                                    "dataLabel": {
+                                        "type": "percentage"
+                                    }
+                                }
+                            },
+                            "value": "{{dropdown_percentage}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card02",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#periodicoverviews1_card02",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfUtilsContractsToBeBilled",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#periodicoverviews1_card02",
+                            "ChartProperties": {
+                                "plotArea": {
+                                    "dataLabel": {
+                                        "type": "value"
+                                    }
+                                }
+                            },
+                            "value": "{{dropdown_value}}"
+                        }
+                    ]
+                }
+            },
+            "periodicoverviews1_card03": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{periodicoverviews1_card03_title}}",
+                    "subTitle": "{{periodicoverviews1_card03_subTtl}}",
+                    "entitySet": "C_UtilsContrToBeBlld",
+                    "showFilterInHeader": false,
+                    "customParams": "additionalNavigationParams",
+                    "listType": "condensed",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#periodicoverviews1_card03",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card03",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#periodicoverviews1_card03"
+                }
+            },
+            "periodicoverviews1_card04": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{periodicoverviews1_card04_title}}",
+                    "subTitle": "{{periodicoverviews1_card04_subTtl}}",
+                    "entitySet": "C_OutsrtdUtilsBillingDoc",
+                    "showFilterInHeader": false,
+                    "staticParameters": {
+                        "UtilsContrToBeBlldType": "03"
+                    },
+                    "sortBy": "NmbrOfOutsortedUtilsBillgDocs",
+                    "sortOrder": "descending",
+                    "listType": "condensed",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#periodicoverviews1_card04",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card04"
+                }
+            },
+            "periodicoverviews1_card05": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{periodicoverviews1_card05_title}}",
+                    "subTitle": "{{periodicoverviews1_card05_subTtl}}",
+                    "entitySet": "C_OutsrtdUtilsBillingDoc",
+                    "showFilterInHeader": false,
+                    "sortBy": "NmbrOfOutsortedUtilsBillgDocs",
+                    "sortOrder": "descending",
+                    "listType": "condensed",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#periodicoverviews1_card05",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card05"
+                }
+            },
+            "periodicoverviews1_card06": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{periodicoverviews1_card06_title}}",
+                    "subTitle": "{{periodicoverviews1_card06_subTtl}}",
+                    "entitySet": "C_UtilsContrToBeBlld",
+                    "showFilterInHeader": false,
+                    "sortBy": "NmbrOfUtilsContractsToBeBilled",
+                    "sortOrder": "descending",
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#periodicoverviews1_card06",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card06",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#periodicoverviews1_card06"
+                }
+            },
+            "periodicoverviews1_card07": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{periodicoverviews1_card07_title}}",
+                    "subTitle": "{{periodicoverviews1_card07_subTtl}}",
+                    "entitySet": "C_NonBllbleUtilsBillgOrd",
+                    "showFilterInHeader": false,
+                    "addODataSelect": "true",
+                    "staticParameters": {
+                        "OpnUtilsBillgDocAndOrdType": "01"
+                    },
+                    "customParams": "additionalNavigationParams",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#periodicoverviews1_card07",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card07"
+                }
+            },
+            "periodicoverviews1_card08": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{periodicoverviews1_card08_title}}",
+                    "subTitle": "{{periodicoverviews1_card08_subTtl}}",
+                    "entitySet": "C_SuppressedUtilsBillgOrd",
+                    "showFilterInHeader": false,
+                    "addODataSelect": "true",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#periodicoverviews1_card08",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#periodicoverviews1_card08"
+                }
+            },
+            "periodicoverviews1_card09": {
+                "model": "ISU_BI_PERDC_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{periodicoverviews1_card09_title}}",
+                    "subTitle": "{{periodicoverviews1_card09_subTtl}}",
+                    "entitySet": "C_BlkdUtilsContrToBeBlld",
+                    "showFilterInHeader": false,
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    },
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#periodicoverviews1_card09",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfUtilsContrBlkdForBillg",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "ChartProperties": {
+                                "plotArea": {
+                                    "dataLabel": {
+                                        "type": "percentage"
+                                    }
+                                }
+                            },
+                            "value": "{{dropdown_percentage}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#periodicoverviews1_card09",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                            "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfUtilsContrBlkdForBillg",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "ChartProperties": {
+                                "plotArea": {
+                                    "dataLabel": {
+                                        "type": "value"
+                                    }
+                                }
+                            },
+                            "value": "{{dropdown_value}}"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2709"],
+        "archeType": "analytical"
+    }
+}

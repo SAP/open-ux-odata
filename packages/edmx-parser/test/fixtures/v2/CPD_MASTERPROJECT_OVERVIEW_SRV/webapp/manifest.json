@@ -1,0 +1,337 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "ach": "CA-CPD-ANA",
+        "i18n": "i18n/i18n.properties",
+
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+
+        "resources": "resources.json",
+        "offline": false,
+
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CPD_MASTERPROJECT_OVERVIEW_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml",
+                    "annotations": ["annotation"]
+                }
+            },
+            "annotation": {
+                "uri": "localService/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "wdWorkspace": {
+                    "semanticObject": "MasterProject",
+                    "action": "analyseWorkspace",
+                    "parameters": {
+                        "MasterProjectUUID": {
+                            "required": true
+                        },
+                        "alert_id": {
+                            "required": false
+                        },
+                        "view_id": {
+                            "required": false
+                        }
+                    }
+                },
+                "wdStatusAndTrends": {
+                    "semanticObject": "MasterProject",
+                    "action": "manageStatusAndTrends",
+                    "parameters": {
+                        "MasterProjectUUID": {
+                            "required": true
+                        }
+                    }
+                },
+                "wdProjectCostReport": {
+                    "semanticObject": "MasterProject",
+                    "action": "checkCostStatusReport",
+                    "parameters": {
+                        "MasterProjectUUID": {
+                            "required": true
+                        }
+                    }
+                },
+                "wdProjectDetails": {
+                    "semanticObject": "MasterProject",
+                    "action": "manageProjectDetails",
+                    "parameters": {
+                        "MasterProjectUUID": {
+                            "required": true
+                        }
+                    }
+                },
+                "wdContactPerson": {
+                    "semanticObject": "MasterProject",
+                    "action": "manageContactPersons",
+                    "parameters": {
+                        "MasterProjectUUID": {
+                            "required": true
+                        }
+                    }
+                },
+                "wdTeamDetails": {
+                    "semanticObject": "MasterProject",
+                    "action": "manageTeamDetails",
+                    "parameters": {
+                        "MasterProjectUUID": {
+                            "required": true
+                        }
+                    }
+                },
+                "billnrcv": {
+                    "semanticObject": "ProjectCollection",
+                    "action": "analyseBillingAndReceivables",
+                    "parameters": {
+                        "MasterProject": {
+                            "required": true
+                        }
+                    }
+                },
+                "procurement": {
+                    "semanticObject": "ProjectCollection",
+                    "action": "analyseProcurement",
+                    "parameters": {
+                        "MasterProject": {
+                            "required": true
+                        }
+                    }
+                },
+                "myactivity": {
+                    "semanticObject": "ProjectActivity",
+                    "action": "manageActivities",
+                    "parameters": {
+                        "MasterProject": {
+                            "required": true
+                        },
+                        "DateRangeType": {
+                            "required": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/cpa_projobjs1"
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2182"],
+        "archeType": "analytical"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize", "sap_belize_plus"],
+
+        "icons": {
+            "icon": "sap-icon://capital-projects",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "localService/style.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "minVersion": "1.44.0",
+                    "lazy": false
+                },
+                "sap.m": {
+                    "minVersion": "1.44.0",
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "minVersion": "1.44.0",
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "minVersion": "1.44.0",
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "minVersion": "1.44.0",
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "minVersion": "1.44.0",
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "minVersion": "1.44.0",
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "minVersion": "1.44.0",
+                    "lazy": true
+                },
+                "sap.suite.ui.microchart": {
+                    "minVersion": "1.44.0",
+                    "lazy": true
+                }
+            }
+        },
+
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading,quickinfo",
+                        "sap-value-list": "none"
+                    },
+                    "defaultCountMode": "Inline",
+                    "defaultBindingMode": "TwoWay"
+                }
+            }
+        },
+
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "icd.cpa.project.objectpages1.ext.controller.DetailsExtension",
+                        "sap.ui.generic.app": {
+                            "MasterProjectKPISet": {
+                                "EntitySet": "MasterProjectKPISet",
+                                "Header": {
+                                    "Actions": {
+                                        "OpenInWorkspace": {
+                                            "id": "OpenInWorkspace",
+                                            "text": "Open In Workspace",
+                                            "press": "onOpenInWorkspace"
+                                        },
+                                        "ProjectDetails": {
+                                            "id": "ProjectDetails",
+                                            "text": "Project Details",
+                                            "press": "onProjectDetails"
+                                        },
+                                        "Alerts": {
+                                            "id": "Alerts",
+                                            "text": "{AlertCount} Alerts",
+                                            "press": "onAlertPress"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceHeaderFacet|MasterProjectKPISet|headerEditable::DETAIL": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "icd.cpa.project.objectpages1.ext.view.Details",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|MasterProjectKPISet|COMM": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "icd.cpa.project.objectpages1.ext.view.Commercials",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|MasterProjectKPISet|STATUS": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "icd.cpa.project.objectpages1.ext.view.Status",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|MasterProjectKPISet|KEYDATES": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "icd.cpa.project.objectpages1.ext.view.Keydates",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|MasterProjectKPISet|KEYMEMBER": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "icd.cpa.project.objectpages1.ext.view.Keymembers",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|MasterProjectKPISet|ATTACHMENT": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "icd.cpa.project.objectpages1.ext.view.Attachments",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "MasterProjectKPISet",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "MasterProjectKPISet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+
+    "sap.copilot": {
+        "contextAnalysis": {
+            "whitelistedEntityTypes": ["CPD_MASTERPROJECT_OVERVIEW_SRV.MasterProjectKPI"]
+        }
+    }
+}

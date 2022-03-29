@@ -1,0 +1,163 @@
+{
+    "_version": "1.5.0",
+    "sap.app": {
+        "_version": "1.3.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{title}}",
+        "description": "{{description}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FIN-FIO-CLM",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FCLM_BAM_FS_HOUSEBANK_SRV_01/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCLM_BAM_FS_HOUSEBAN_ANNO_MDL_01"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FCLM_BAM_FS_HOUSEBAN_ANNO_MDL_01": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCLM_BAM_FS_HOUSEBAN_ANNO_MDL_01',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCLM_BAM_FS_HOUSEBAN_ANNO_MDL_01.xml"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "displayHouseBank": {
+                    "semanticObject": "HouseBank",
+                    "action": "displayFactSheet",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {}
+        }
+    },
+    "sap.ui": {
+        "_version": "1.3.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.2.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "minVersion": "1.30.0"
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {}
+            },
+            "components": {}
+        },
+
+        "config": {
+            "fullWidth": true
+        },
+
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_HouseBank": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/HouseBanks/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_HouseBank": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/HouseBanks/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.1.0",
+        "pages": [
+            {
+                "entitySet": "C_HouseBank",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_HouseBank",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "condensedTableLayout": true
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.platform.hcp": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1758"],
+        "archeType": "factsheet"
+    }
+}

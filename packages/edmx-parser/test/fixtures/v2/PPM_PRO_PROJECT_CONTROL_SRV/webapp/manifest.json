@@ -1,0 +1,386 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PS-FIO-STR",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PPM_PRO_PROJECT_CONTROL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["LOCAL_ANNOTATIONS", "PPM_PRO_PROJECT_CONTROL_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PPM_PRO_PROJECT_CONTROL_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PPM_PRO_PROJECT_CONTROL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PPM_PRO_PROJECT_CONTROL_ANNO_MDL.xml"
+                }
+            },
+            "LOCAL_ANNOTATIONS": {
+                "uri": "localService/PPM_PRO_PROJECT_CONTROL_ANNO_MDL.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PPM_PRO_PROJECT_CONTROL_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/localAnnotations.xml",
+                "settings": {
+                    "localUri": "annotations/localAnnotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "EnterpriseProject-maintain": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "maintain",
+                    "signature": {
+                        "parameters": {
+                            "ResponsibleCostCenter": {
+                                "defaultValue": {
+                                    "value": "UserDefault.extended.ResponsibleCostCenter",
+                                    "format": "reference"
+                                }
+                            },
+                            "ProfitCenter": {
+                                "defaultValue": {
+                                    "value": "UserDefault.extended.ProfitCenter",
+                                    "format": "reference"
+                                }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "Project-displayDetails": {
+                    "semanticObject": "Project",
+                    "action": "displayDetails"
+                },
+                "EnterpriseProject-displayFactSheet": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "displayFactSheet"
+                },
+                "EnterpriseProject-showProjectBrief": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "showProjectBrief"
+                },
+                "EnterpriseProject-monitor": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "monitor"
+                },
+                "EnterpriseProject-showProgress": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "showProgress"
+                },
+                "EnterpriseProject-displayProjectBudget": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "displayProjectBudget"
+                },
+                "Project-displayFinancialReport": {
+                    "semanticObject": "Project",
+                    "action": "displayFinancialReport"
+                },
+                "Project-manageProcurement": {
+                    "semanticObject": "Project",
+                    "action": "manageProcurement"
+                },
+                "CostAccountingSettlementRule-maintain": {
+                    "semanticObject": "CostAccountingSettlementRule",
+                    "action": "maintain"
+                },
+                "EnterpriseProject-planProject": {
+                    "semanticObject": "EnterpriseProject",
+                    "action": "planProject"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "minVersion": "Active",
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "Active",
+                    "lazy": true
+                },
+                "s4.cfnd.sit.reuse": {
+                    "minVersion": "Active",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                },
+                "s4.cfnd.sit.reuse.pc": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            },
+            "s4.cfnd.sit.reuse.pc": {
+                "name": "s4.cfnd.sit.reuse.pc"
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_PPM_ProjectControlTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_PPM_ProjectControlTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_PPM_ProjectControlTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_PPM_ProjectControlTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "situationModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.ppm.projectcontrols1.extension.controller.ListReport",
+                        "sap.ui.generic.app": {
+                            "C_PPM_ProjectControlTP": {
+                                "EntitySet": "C_PPM_ProjectControlTP",
+                                "Actions": {
+                                    "AnalyzeProjectIn": {
+                                        "id": "aLRAnalyzeProject",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_PPM_ProjectControlTP>AnalyzeProject}",
+                                        "requiresSelection": true
+                                    },
+                                    "CopyProject": {
+                                        "id": "aLRCopyProject",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_PPM_ProjectControlTP>Copy}",
+                                        "requiresSelection": true,
+                                        "press": "onClickCopyProject",
+                                        "applicablePath": "Copy_ac"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.ppm.projectcontrols1.extension.controller.ObjectPage",
+                        "sap.ui.generic.app": {
+                            "C_PPM_ProjectControlTP": {
+                                "EntitySet": "C_PPM_ProjectControlTP",
+                                "Header": {
+                                    "Actions": {
+                                        "SettlementRule": {
+                                            "id": "aOPSettlementRule",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_PPM_ProjectControlTP>SettlementRule}"
+                                        },
+                                        "OpenIn": {
+                                            "id": "aOPOpenIn",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_PPM_ProjectControlTP>OpenIn}",
+                                            "applicablePath": "IsActiveEntity"
+                                        },
+                                        "EditIn": {
+                                            "id": "aOPEEditIn",
+                                            "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_PPM_ProjectControlTP>EditIn}",
+                                            "applicablePath": "ui>/editable"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "objectPageDynamicHeaderTitleWithVM": true
+        },
+        "pages": {
+            "ListReport|C_PPM_ProjectControlTP": {
+                "entitySet": "C_PPM_ProjectControlTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true,
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_PPM_ProjectControlTP": {
+                        "entitySet": "C_PPM_ProjectControlTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{AttachmentsServiceTitle}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "/S4PPM/PRJ",
+                                    "objectKey": "{=${ActiveUUID} === '00000000-0000-0000-0000-000000000000'? ${ProjectUUID}:${ActiveUUID}}",
+                                    "isGuid": true,
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": false,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": false,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true,
+                                            "DOWNLOAD": false
+                                        }
+                                    }
+                                }
+                            },
+                            "simple::Root": {
+                                "id": "simple::Root",
+                                "componentName": "s4.cfnd.sit.reuse.pc",
+                                "title": "{{Situations}}",
+                                "hiddenByDefault": true,
+                                "settings": {
+                                    "anchorObjectKey": "{path:'Project'}",
+                                    "anchorObjectType": "PROJECT",
+                                    "preselectedSituationInstanceId": "{path:'situationModel>/preselectedSituationInstanceId'}",
+                                    "situationModelName": "situationModel",
+                                    "situationDataProperty": "/situationData",
+                                    "selectedSituationProperty": "/selectedSituation"
+                                }
+                            },
+                            "simple::relatedSit": {
+                                "id": "simple::relatedSit",
+                                "componentName": "s4.cfnd.sit.reuse.related",
+                                "title": "{{relatedSituationsFacetLabel}}",
+                                "hiddenByDefault": true,
+                                "settings": {
+                                    "relatedObjectKey": "{path:'Project'}",
+                                    "sapObjectType": "EnterpriseProject",
+                                    "sapObjectNodeType": "EnterpriseProject",
+                                    "situationModelName": "situationModel",
+                                    "situationDataProperty": "/relatedSituationData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3215"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

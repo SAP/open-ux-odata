@@ -1,0 +1,602 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FI-FIO-AP",
+        "resources": "resources.json",
+        "dataSources": {
+            "FAP_APOVERVIEWPAGE_SRV": {
+                "uri": "/sap/opu/odata/sap/FAP_APOVERVIEWPAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAP_APOVERVIEWPAGE_ANNO_MDL"]
+                }
+            },
+            "FAP_APOVERVIEWPAGE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAP_APOVERVIEWPAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "C_APDAYSPYBLOUTSTDGINDRCT_CDS": {
+                "uri": "/sap/opu/odata/sap/C_APDAYSPYBLOUTSTDGINDRCT_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_APDAYSPYBLOUTSTDGINDRCT_CD_VAN"]
+                }
+            },
+            "C_APDAYSPYBLOUTSTDGINDRCT_CD_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_APDAYSPYBLOUTSTDGINDRCT_CD_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "C_APDAYSPYBLOUTSTDGDIRECT_CDS": {
+                "uri": "/sap/opu/odata/sap/C_APDAYSPYBLOUTSTDGDIRECT_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_APDAYSPYBLOUTSTDGDIRECT_CD_VAN"]
+                }
+            },
+            "C_APDAYSPYBLOUTSTDGDIRECT_CD_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_APDAYSPYBLOUTSTDGDIRECT_CD_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "IWPGW_TASKPROCESSING_V2": {
+                "uri": "/sap/opu/odata/IWPGW/TASKPROCESSING;mo;v=2/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["IWPGW_TASKPROCESSING_V2_ANNO_MDL_LOCAL"]
+                }
+            },
+            "IWPGW_TASKPROCESSING_V2_ANNO_MDL_LOCAL": {
+                "uri": "./annotations/IWPGW_TASKPROCESSING_V2.xml",
+                "type": "ODataAnnotation"
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2917"],
+        "archeType": "analytical"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.48.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "FAP_APOVERVIEWPAGE_SRV": {
+                "preload": true,
+                "dataSource": "FAP_APOVERVIEWPAGE_SRV",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "C_APDAYSPYBLOUTSTDGINDRCT_CDS": {
+                "preload": true,
+                "dataSource": "C_APDAYSPYBLOUTSTDGINDRCT_CDS",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "C_APDAYSPYBLOUTSTDGDIRECT_CDS": {
+                "preload": true,
+                "dataSource": "C_APDAYSPYBLOUTSTDGDIRECT_CDS",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "IWPGW_TASKPROCESSING_V2": {
+                "preload": true,
+                "dataSource": "IWPGW_TASKPROCESSING_V2",
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.ap.manager.ovp.ext.controller.app"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "enableLiveFilter": false,
+        "globalFilterEntityType": "C_APBlockedInvoiceResult",
+        "globalFilterModel": "FAP_APOVERVIEWPAGE_SRV",
+        "refreshIntervalInMinutes": 15,
+        "showDateInRelativeFormat": false,
+        "cards": {
+            "card01_ParkedInvoicesList": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "customParams": "parkedInvoicesList",
+                    "title": "{{parkedInvoices_cardTitle}}",
+                    "subTitle": "{{parkedInvoices_card_subTitle}}",
+                    "entitySet": "C_APParkedInvoiceResults",
+                    "listType": "extended",
+                    "valueSelectionInfo": "{{parkedInvoices_KPI_subTitle}}",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNoOfDays",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Date",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{parkedInvoices_listCard_byDate}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNoOfDays",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Amount",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{parkedInvoices_listCard_byAmount}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#DocumentCurrency",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNoOfDays",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Amount",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{parkedInvoices_listCard_byAmountDocCurr}}"
+                        }
+                    ]
+                }
+            },
+            "card03_BlockedInvoicesChart": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "customParams": "blockedInvoicesChart",
+                    "title": "{{blockedInvoicesChart_cardTitle}}",
+                    "subTitle": "{{blockedInvoices_chartCard_subTitle}}",
+                    "entitySet": "C_APBlockedInvoiceResults",
+                    "valueSelectionInfo": "{{blockedInvoices_KPI_subTitle}}",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BlockedInvoicesByReason",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "value": "{{blockedInvoices_chartCard_byBlockingReason}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BlockedInvoicesByAging",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "value": "{{blockedInvoices_chartCard_byAging}}"
+                        }
+                    ]
+                }
+            },
+            "card04_BlockedInvoicesList": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "customParams": "blockedInvoicesList",
+                    "title": "{{blockedInvoices_cardTitle}}",
+                    "description": "{{blockedInvoices_subTitle}}",
+                    "valueSelectionInfo": "{{blockedInvoices_KPI_subTitle}}",
+                    "entitySet": "C_APPaymentBlockedInvoiceResults",
+                    "listType": "extended",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Aging",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{blockedInvoices_listCard_byAging}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Amount",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{blockedInvoices_listCard_byAmount}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#DocumentCurrency",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Amount",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{blockedInvoices_listCard_byAmountDocumentCurrency}}"
+                        }
+                    ]
+                }
+            },
+            "card05_CashPaymentDiscount": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "customParams": "cashPaymentDiscount",
+                    "title": "{{cashPaymentDiscount_cardTitle}}",
+                    "entitySet": "C_APCshDiscUtilznOvwResults",
+                    "subTitle": "{{cashPaymentDiscount_cardSubTitle1}}",
+                    "valueSelectionInfo": "{{cashPaymentDiscount_KPI_subTitle}}",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Discount1",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CashDiscountAmount",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{cashPaymentDiscount_chart_taken_3}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Discount2",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CashDiscountAmount",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{cashPaymentDiscount_chart_taken_4}}"
+                        }
+                    ]
+                }
+            },
+            "card06_DPOIndirectChart": {
+                "model": "C_APDAYSPYBLOUTSTDGINDRCT_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "customParams": "dpoIndChart",
+                    "title": "{{DPOIndirectChart_Title}}",
+                    "subTitle": "{{DPOIndirectChart_chartCard_subTitle1}}",
+                    "entitySet": "C_APDAYSPYBLOUTSTDGINDRCTResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DaysPayableOutstanding",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DaysPayablesOutstanding",
+                    "valueSelectionInfo": "{{DPOIndirectChart_KPI_subTitle}}"
+                }
+            },
+            "card07_DPODirect": {
+                "model": "C_APDAYSPYBLOUTSTDGDIRECT_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "customParams": "dpoChart",
+                    "title": "{{dpoDirect_cardTitle1}}",
+                    "subTitle": "{{dpoDirect_card_desc}}",
+                    "entitySet": "C_APDAYSPYBLOUTSTDGDIRECTResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DaysPayablesOutstanding",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DaysPayablesOutstanding",
+                    "valueSelectionInfo": "{{dpoDirect_KPI_subTitle}}"
+                }
+            },
+            "card08_QuickLinks": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{quickLinks_cardTitle}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{quickLinks_manageSupplierLineItems}}",
+                            "imageUri": "sap-icon://Fiori5/F0712",
+                            "imageAltText": "{{quickLinks_manageSupplierLineItems}}",
+                            "semanticObject": "Supplier",
+                            "action": "manageLineItems"
+                        },
+                        {
+                            "title": "{{quickLinks_managePaymentBlocks}}",
+                            "imageUri": "sap-icon://Fiori4/F0593",
+                            "imageAltText": "{{quickLinks_managePaymentBlocks}}",
+                            "semanticObject": "Supplier",
+                            "action": "managePaymentBlocks"
+                        },
+                        {
+                            "title": "{{quickLinks_approveSupplierInvoices}}",
+                            "imageUri": "sap-icon://complete",
+                            "imageAltText": "{{quickLinks_approveSupplierInvoices}}",
+                            "semanticObject": "SupplierInvoice",
+                            "action": "inboxapprove"
+                        },
+                        {
+                            "title": "{{quickLinks_displaySupplierBalances}}",
+                            "imageUri": "sap-icon://Fiori2/FK10N",
+                            "imageAltText": "{{quickLinks_displaySupplierBalances}}",
+                            "semanticObject": "Supplier",
+                            "action": "displayBalance"
+                        },
+                        {
+                            "title": "{{quickLinks_monitorPayments}}",
+                            "imageUri": "sap-icon://Fiori2/F0029",
+                            "imageAltText": "{{quickLinks_monitorPayments}}",
+                            "semanticObject": "PaymentItem",
+                            "action": "monitor"
+                        },
+                        {
+                            "title": "{{quickLinks_approveBankPayments}}",
+                            "imageUri": "sap-icon://Fiori2/F0245",
+                            "imageAltText": "{{quickLinks_approveBankPayments}}",
+                            "semanticObject": "BankOutgoingPaymentCollection",
+                            "action": "approvePayments"
+                        },
+                        {
+                            "title": "{{quickLinks_myInbox}}",
+                            "imageUri": "sap-icon://complete",
+                            "imageAltText": "{{quickLinks_myInbox}}",
+                            "semanticObject": "WorkflowTask",
+                            "action": "displayInbox",
+                            "params": {
+                                "allItems": true
+                            }
+                        }
+                    ]
+                }
+            },
+            "card09_DebitBalances": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "customParams": "debitBalancesList",
+                    "title": "{{debitBalances_cardTitle}}",
+                    "description": "{{debitBalances_listCard_subTitle}}",
+                    "entitySet": "C_APDebitBalancesResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "AmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "valueSelectionInfo": "{{debitBalances_KPI_subTitle}}"
+                }
+            },
+            "card10_MasterBlockedInvoicesChart": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "customParams": "masterBlockedInvoicesChart",
+                    "title": "{{masterBlockedInvoices_cardTitle}}",
+                    "subTitle": "{{blockedInvoices_chartCard_subTitle}}",
+                    "entitySet": "C_APMasterBlockedInvoiceResults",
+                    "valueSelectionInfo": "{{blockedInvoices_KPI_subTitle}}",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BlockedInvoicesByReason",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{blockedInvoices_chartCard_byBlockingReason}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BlockedInvoicesByAging",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{blockedInvoices_chartCard_byAging}}"
+                        }
+                    ]
+                }
+            },
+            "card11_PostedInvoicesChart": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{postedInvoices_cardTitle}}",
+                    "subTitle": "{{postedInvoices_chartCard_subTitle}}",
+                    "entitySet": "C_APPostedInvoiceResults",
+                    "valueSelectionInfo": "{{postedInvoices_KPI_subTitle}}",
+                    "tabs": [
+                        {
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PostedInvoicesAmntByPostingDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{postedInvoicesAmnt_chartCard_byEntryDate}}"
+                        },
+                        {
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfItems",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PostedInvoicesCountByPostingDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{postedInvoicesCnt_chartCard_byEntryDate}}"
+                        },
+                        {
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfItems",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PstdInvCntByUser",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#maxitems",
+                            "value": "{{postedInvoicesAmnt_chartCard_byUser}}"
+                        }
+                    ]
+                }
+            },
+            "card12_PayablesAgingChart": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "customParams": "payablesAgingChart",
+                    "title": "{{payablesAging_cardTitle}}",
+                    "subTitle": "{{payablesAging_cardKPI_subTitle}}",
+                    "entitySet": "C_APPayablesAgingOvwResults",
+                    "valueSelectionInfo": "{{payableAging_KPI_subTitle}}",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsOverdue",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverdueAging",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "value": "{{payablesAgingChart_chartCard_OverdueAging}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsNotDue",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#NotdueAging",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "value": "{{payablesAgingChart_chartCard_NotdueAging}}"
+                        }
+                    ]
+                }
+            },
+            "card13_MyInbox": {
+                "model": "IWPGW_TASKPROCESSING_V2",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{myInboxt_cardTitle}}",
+                    "subTitle": "{{myInbox_cardSubTitle}}",
+                    "entitySet": "TaskCollection",
+                    "listType": "condensed",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityAll",
+                            "value": "{{myInbox_Card_PriorityAll}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityVeryHigh",
+                            "value": "{{myInbox_Card_PriorityVeryHigh}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityHigh",
+                            "value": "{{myInbox_Card_PriorityHigh}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityMedium",
+                            "value": "{{myInbox_Card_PriorityMedium}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityLow",
+                            "value": "{{myInbox_Card_PriorityLow}}"
+                        }
+                    ]
+                }
+            },
+            "card14_PostedInvoicesStatistics": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{postedStat_card_title}}",
+                    "subTitle": "{{postedStat_card_subTitle}}",
+                    "entitySet": "C_APInvoiceStatisticsResults",
+                    "valueSelectionInfo": "{{postedStat_card_selectionInfo}}",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PostedInvoicesAmntByPostingDate",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{postedInvoicesAmnt_chartCard_byEntryDate}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PostedInvoicesCountByPostingDate",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfItems",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{postedInvoicesCnt_chartCard_byEntryDate}}"
+                        }
+                    ]
+                }
+            },
+            "card15_PayableAmount": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{dueInvoicesFreeForPayment_cardTitle}}",
+                    "subTitle": "{{dueInvoicesFreeForPayment_chartCard_subTitle}}",
+                    "valueSelectionInfo": "{{dueInvoicesFreeForPayment_KPI_subTitle}}",
+                    "customParams": "payableAmountChart",
+                    "entitySet": "C_APPayableAmountResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsOverdue",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AmountByAging",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInDisplayCurrency"
+                }
+            },
+            "card16_InvoiceProcessingStatistics": {
+                "model": "FAP_APOVERVIEWPAGE_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{invoiceProcessingStats_cardTitle}}",
+                    "subTitle": "{{invoiceProcessingStats_chartCard_subTitle}}",
+                    "valueSelectionInfo": "{{invoiceProcessingStats_KPI_subTitle}}",
+                    "entitySet": "C_APInvcProcessingStatisticsResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IssuedToPostedTrend",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IssuedToPostedTrend",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#FromIssuedToPostedDays",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IssuedToPostedTrend",
+                            "value": "{{invoiceProcessingStats_chartCard_issuedToPostedTrend}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IssuedToPostedDonut",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#FromIssuedToPostedDays",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IssuedToPostedDonut",
+                            "value": "{{invoiceProcessingStats_Card_issuedToPostedDonut}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DueToPaidTrend",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DueToPaidTrend",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#FromDueToPayDays",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DueToPaidTrend",
+                            "value": "{{invoiceProcessingStats_chartCard_dueToPaidTrend}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#DueToPaidDonut",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#FromDueToPayDays",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DueToPaidDonut",
+                            "value": "{{invoiceProcessingStats_chartCard_dueToPaidDonut}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ParkedToPostedTrend",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ParkedToPostedTrend",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#FromParkedToPostedDays",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ParkedToPostedTrend",
+                            "value": "{{invoiceProcessingStats_chartCard_ParkedToPostedTrend}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ParkedToPostedDonut",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#FromParkedToPostedDays",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ParkedToPostedDonut",
+                            "value": "{{invoiceProcessingStats_chartCard_ParkedToPostedDonut}}"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    }
+}

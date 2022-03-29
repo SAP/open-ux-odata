@@ -1,0 +1,218 @@
+{
+    "_version": "1.5.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "fs.ins.overview.page",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "FS-CM",
+        "resources": "resources.json",
+        "dataSources": {
+            "ICL_WLM_TASKS": {
+                "uri": "/sap/opu/odata/sap/ICL_WLM_TASKS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["criticalTasksAnnotations", "wlmTasksAnnotations"],
+                    "localUri": "localService/ICL_WLM_TASKS/metadata.xml"
+                }
+            },
+            "ICL_CLAIM_SUPV_OVP_SRV_01": {
+                "uri": "/sap/opu/odata/sap/ICL_CLAIM_SUPV_OVP_SRV_01/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["claimsByTotalIncurredAnnotations", "topClaimHandlersAnnotations"],
+                    "localUri": "localService/ICL_CLAIM_SUPV_OVP_SRV_01/metadata.xml"
+                }
+            },
+            "ICL_PAYMENT_APPROVAL_SRV": {
+                "uri": "/sap/opu/odata/sap/ICL_PAYMENT_APPROVAL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["paymentApprovalAnnotations"],
+                    "localUri": "localService/ICL_PAYMENT_APPROVAL_SRV/metadata.xml"
+                }
+            },
+            "criticalTasksAnnotations": {
+                "uri": "annotations/criticalTasksAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/criticalTasksAnnotations.xml"
+                }
+            },
+            "wlmTasksAnnotations": {
+                "uri": "annotations/wlmTasksAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/wlmTasksAnnotations.xml"
+                }
+            },
+            "claimsByTotalIncurredAnnotations": {
+                "uri": "annotations/claimsByTotalIncurredAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/claimsByTotalIncurredAnnotations.xml"
+                }
+            },
+            "paymentApprovalAnnotations": {
+                "uri": "annotations/paymentApprovalAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/paymentApprovalAnnotations.xml"
+                }
+            },
+            "topClaimHandlersAnnotations": {
+                "uri": "annotations/topClaimHandlersAnnotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/topClaimHandlersAnnotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2635"],
+        "archeType": "transactional"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "ICL_WLM_TASKS": {
+                "dataSource": "ICL_WLM_TASKS",
+                "preload": false,
+                "settings": {}
+            },
+            "ICL_CLAIM_SUPV_OVP_SRV_01": {
+                "dataSource": "ICL_CLAIM_SUPV_OVP_SRV_01",
+                "preload": false,
+                "settings": {}
+            },
+            "ICL_PAYMENT_APPROVAL_SRV": {
+                "dataSource": "ICL_PAYMENT_APPROVAL_SRV",
+                "preload": false,
+                "settings": {}
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "ICL_WLM_TASKS",
+        "globalFilterEntityType": "",
+        "cards": {
+            "card01Claims": {
+                "model": "ICL_CLAIM_SUPV_OVP_SRV_01",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card01ClaimsTitle}}",
+                    "entitySet": "AdjusterTopClaimCounts",
+                    "navigation": "chartNav",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#analyticalDonut",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#chart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant"
+                }
+            },
+            "card02Tasks": {
+                "model": "ICL_WLM_TASKS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card02TasksTitle}}",
+                    "entitySet": "AdjusterTaskCounts",
+                    "navigation": "chartNav",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#analyticalColumn",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#chart",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tasksFilter",
+                    "showFilterInHeader": false
+                }
+            },
+            "card03CriticalTasks": {
+                "model": "ICL_WLM_TASKS",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{card03CriticalTasksTitle}}",
+                    "subTitle": "{{card03CriticalTasksSubTitle}}",
+                    "entitySet": "AdjusterTasks",
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#criticalTasksFacets"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#criticalTasksFilter"
+                }
+            },
+            "card04Top20": {
+                "model": "ICL_CLAIM_SUPV_OVP_SRV_01",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{card04Top20PaymentsClaimTitle}}",
+                    "entitySet": "ClaimsByTotalIncurred",
+                    "objectStreamCardsTemplate": "sap.ovp.cards.quickview",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card05Payments": {
+                "model": "ICL_PAYMENT_APPROVAL_SRV",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{card05PaymentsTitle}}",
+                    "subTitle": "{{card05PaymentsSubtitle}}",
+                    "entitySet": "Payments",
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#paymentsFacets"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card06AbsentToday": {
+                "model": "ICL_CLAIM_SUPV_OVP_SRV_01",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{card06AbsentTodayTitle}}",
+                    "entitySet": "TeamAbsences",
+                    "listFlavor": "standard",
+                    "headerAnnotationPath": "com.sap.vocabularies.UI.v1.HeaderInfo"
+                }
+            }
+        }
+    },
+    "sap.platform.hcp": {
+        "uri": "webapp",
+        "_version": "1.1.0"
+    }
+}

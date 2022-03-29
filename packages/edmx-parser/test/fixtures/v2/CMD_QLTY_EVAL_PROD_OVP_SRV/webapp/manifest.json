@@ -1,0 +1,384 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.copilot": {
+        "digitalAssistant": {
+            "intentDefinition": {
+                "myIntent": {
+                    "uri": "localService/intent1.xml",
+                    "dataSources": ["CMD_QLTY_EVAL_PROD_OVP_SRV"],
+                    "i18n": "i18n/i18n1.properties"
+                }
+            }
+        }
+    },
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "CA-MDG-ADQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "CMD_QLTY_EVAL_PROD_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_EVAL_PROD_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_EVAL_PROD_OVP_SRV/metadata.xml",
+                    "annotations": [
+                        "0894EF4591D11ED88FB21F61C37AD40F",
+                        "0894EF4591D11ED88FB1DD15CAC5D25D",
+                        "annotation"
+                    ]
+                }
+            },
+            "CMD_QLTY_PROD_GENERAL_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_PROD_GENERAL_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_GENERAL_ALP_SRV/metadata.xml",
+                    "annotations": ["CMD_QLTY_PROD_GENERAL_A_ANNO_MDL", "general_annotation"]
+                }
+            },
+
+            "CMD_QLTY_PROD_PLANT_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_PROD_PLANT_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_PLANT_ALP_SRV/metadata.xml",
+                    "annotations": ["CMD_QLTY_PROD_PLANT_ALP_ANNO_MDL", "plant_annotation"]
+                }
+            },
+            "CMD_QLTY_PROD_SALES_ALP_SRV": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_PROD_SALES_ALP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_SALES_ALP_SRV/metadata.xml",
+                    "annotations": ["CMD_QLTY_PROD_SALES_ALP_ANNO_MDL", "sales_annotation"]
+                }
+            },
+            "0894EF4591D11ED88FB21F61C37AD40F": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='0894EF4591D11ED88FB21F61C37AD40F',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_EVAL_PROD_OVP_SRV/0894EF4591D11ED88FB21F61C37AD40F.xml"
+                }
+            },
+            "0894EF4591D11ED88FB1DD15CAC5D25D": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='0894EF4591D11ED88FB1DD15CAC5D25D',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_EVAL_PROD_OVP_SRV/0894EF4591D11ED88FB1DD15CAC5D25D.xml"
+                }
+            },
+            "CMD_QLTY_PROD_GENERAL_A_ANNO_MDL": {
+                "type": "ODataAnnotation",
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_PROD_GENERAL_A_ANNO_MDL',Version='0001')/$value/",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_GENERAL_ALP_SRV/CMD_QLTY_PROD_GENERAL_A_ANNO_MDL.xml"
+                }
+            },
+            "CMD_QLTY_PROD_PLANT_ALP_ANNO_MDL": {
+                "type": "ODataAnnotation",
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_PROD_PLANT_ALP_ANNO_MDL',Version='0001')/$value/",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_PLANT_ALP_SRV/CMD_QLTY_PROD_PLANT_ALP_ANNO_MDL.xml"
+                }
+            },
+            "CMD_QLTY_PROD_SALES_ALP_ANNO_MDL": {
+                "type": "ODataAnnotation",
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_PROD_SALES_ALP_ANNO_MDL',Version='0001')/$value/",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_SALES_ALP_SRV/CMD_QLTY_PROD_SALES_ALP_ANNO_MDL.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_EVAL_PROD_OVP_SRV/annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_EVAL_PROD_OVP_SRV/annotation.xml"
+                }
+            },
+            "sales_annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_PROD_SALES_ALP_SRV/sales_annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_SALES_ALP_SRV/sales_annotation.xml"
+                }
+            },
+            "general_annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_PROD_GENERAL_ALP_SRV/general_annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_GENERAL_ALP_SRV/general_annotation.xml"
+                }
+            },
+            "plant_annotation": {
+                "type": "ODataAnnotation",
+                "uri": "localService/CMD_QLTY_PROD_PLANT_ALP_SRV/plant_annotation.xml",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_PROD_PLANT_ALP_SRV/plant_annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {}
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CMD_QLTY_PROD_GENERAL_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_PROD_GENERAL_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_EVAL_PROD_OVP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_EVAL_PROD_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_PROD_PLANT_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_PROD_PLANT_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "CMD_QLTY_PROD_SALES_ALP_SRV": {
+                "preload": true,
+                "dataSource": "CMD_QLTY_PROD_SALES_ALP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3260"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "CMD_QLTY_EVAL_PROD_OVP_SRV",
+        "globalFilterEntityType": "",
+        "containerLayout": "resizable",
+        "enableLiveFilter": false,
+        "smartVariantRequired": false,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "A_Global_Category": {
+                "model": "CMD_QLTY_EVAL_PROD_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{global_title}}",
+                    "dynamicSubtitleAnnotationPath": "com.sap.vocabularies.UI.v1.HeaderInfo#dynamicSubtitle",
+                    "entitySet": "C_MDQltyProdDimnCatRuleScore",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": false,
+                    "showDateInRelativeFormat": true,
+                    "addODataSelect": true,
+                    "value": "{{byDimension}}",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_E_1523262449324",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_E_1523262449324__V_1523263136447",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#_E_1523262449324",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##_E_1523262449324__V_1523263136447",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_E_1523262449324",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "B_Time_Series": {
+                "model": "CMD_QLTY_EVAL_PROD_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{time_title}}",
+                    "dynamicSubtitleAnnotationPath": "com.sap.vocabularies.UI.v1.HeaderInfo#dynamicSubtitleWithDate",
+                    "entitySet": "C_MDQltyProdDimnCatRuleScore",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "addODataSelect": true,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#_E_1523263629882",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#_E_1523263629882__V_1523263721821",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##_E_1523263629882__V_1523263721821",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#_E_1523263629882",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "C_Evaluation_Date": {
+                "model": "CMD_QLTY_EVAL_PROD_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{evaluation_title}}",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "addODataSelect": true,
+                    "showDateInRelativeFormat": true,
+                    "sortBy": "MDChgProcessFinishDateTime",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TableCard",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "category": "{{evaluation_detail_title}}",
+                    "entitySet": "C_MDQltyProdDimnCatRuleScore",
+                    "customParams": "getEvaluationParameters",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "D_ALP_General": {
+                "model": "CMD_QLTY_PROD_GENERAL_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{general_product_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyProductGeneralResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "addODataSelect": true,
+                    "staticParameters": { "MDQltyBusinessObjectTypeCode": "194" },
+                    "tabs": [
+                        {
+                            "value": "{{By_Product_Type}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByProdType",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##DefaultVariantALP",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#General_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#General_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#General_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_Cross_Plant_Product_Status}}",
+
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByPlantStatus",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByPlantStatus",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#General_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#General_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#General_ALP",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "E_ALP_Sales": {
+                "model": "CMD_QLTY_PROD_SALES_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{sales_product_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyProductSalesResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "addODataSelect": true,
+                    "staticParameters": { "MDQltyBusinessObjectTypeCode": "194" },
+                    "tabs": [
+                        {
+                            "value": "{{By_Sales_Organization}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsBySalesOrg",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Sales_ALP_Selection",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsBySalesOrg",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#SALES_ALP",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SALES_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_Product_Type}}",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Sales_ALP_Selection",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByProdType",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByProdType",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#SALES_ALP",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SALES_ALP",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            },
+            "F_ALP_Plant": {
+                "model": "CMD_QLTY_PROD_PLANT_ALP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{plant_product_data_title}}",
+                    "subTitle": "{{Latest_Evaluation_subTitle}}",
+                    "entitySet": "C_MDQltyProductPlantResult",
+                    "showSortingInHeader": true,
+                    "showFilterInHeader": true,
+                    "addODataSelect": true,
+                    "staticParameters": { "MDQltyBusinessObjectTypeCode": "194" },
+                    "tabs": [
+                        {
+                            "value": "{{By_Plant}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByPlant",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByPlant",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Plant_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PLANT_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PLANT_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_Product_Type}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByProdType",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByProdType",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Plant_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PLANT_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PLANT_ALP",
+                            "navigation": "dataPointNav"
+                        },
+                        {
+                            "value": "{{By_Plant_Specific_Status}}",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#FilterEvalsByPlantSpecStatus",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant##FilterEvalsByPlantSpecStatus",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Plant_ALP_Selection",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PLANT_ALP",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PLANT_ALP",
+                            "navigation": "dataPointNav"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

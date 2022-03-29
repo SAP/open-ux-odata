@@ -1,0 +1,256 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "QM-IM-RR",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/QM_SUBSET_RR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["QM_SUBSET_RR_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "QM_SUBSET_RR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='QM_SUBSET_RR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/QM_SUBSET_RR_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.viz": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                },
+                "sap.i2d.qm.lib.resultsrecords1": {
+                    "minVersion": "1.0.0",
+                    "lazy": true
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_InspLotRsltRec": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_InspLotRsltRec/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_InspLotRsltRec": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_InspLotRsltRec/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_InspSubsetRsltRec": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_InspSubsetRsltRec/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.qm.inspsubset.resultsrecords1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_InspLotRsltRec": {},
+                            "C_InspSubsetRsltRec": {
+                                "EntitySet": "C_InspSubsetRsltRec",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_InspSubsetRsltRecHeader2": {
+                                            "id": "SaveButton",
+                                            "text": "{@i18n>ActionC_InspSubsetRsltRecHeader2}",
+                                            "press": "onPressSaveActive",
+                                            "determining": true,
+                                            "type": "emphasized"
+                                        },
+                                        "ActionC_InspSubsetRsltRecHeader1": {
+                                            "id": "DraftCancelButton",
+                                            "text": "{@i18n>ActionC_InspSubsetRsltRecHeader1}",
+                                            "press": "onPressCancelDraft",
+                                            "determining": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.qm.inspsubset.resultsrecords1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {}
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterFacet|C_InspSubsetRsltRec|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.inspsubset.resultsrecords1.ext.fragment.ValuationFacet",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Valuation}"
+                            }
+                        },
+                        "ReplaceFacet|C_InspSubsetRsltRec|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.inspsubset.resultsrecords1.ext.fragment.RRTable"
+                        },
+                        "ReplaceFacet|C_InspLotRsltRec|to_InspSubsetRsltRec::com.sap.vocabularies.UI.v1.LineItem": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.inspsubset.resultsrecords1.ext.fragment.InspectionPointTableFacet"
+                        },
+                        "BeforeHeaderFacet|C_InspLotRsltRec|headerEditable::com.sap.vocabularies.UI.v1.DataPoint::InspectionLotEndData": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "i2d.qm.inspsubset.resultsrecords1.ext.view.InspectionLotDetails"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "settings": {
+            "forceGlobalRefresh": false,
+            "useColumnLayoutForSmartForm": false
+        },
+        "pages": [
+            {
+                "entitySet": "C_InspLotRsltRec",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_InspLotRsltRec",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_InspSubsetRsltRec",
+                                "entitySet": "C_InspSubsetRsltRec",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2689"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

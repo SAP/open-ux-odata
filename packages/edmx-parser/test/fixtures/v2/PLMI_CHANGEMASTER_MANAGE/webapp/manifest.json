@@ -1,0 +1,196 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "ChangeMasterCDCreate": {
+                    "semanticObject": "ChangeMaster",
+                    "action": "createChangeMaster",
+                    "parameters": {}
+                },
+                "ChangeMasterCDEdit": {
+                    "semanticObject": "ChangeMaster",
+                    "action": "changeChangeMaster",
+                    "parameters": {}
+                }
+            }
+        },
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PLM-WUI-OBJ-ECN",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PLMI_CHANGEMASTER_MANAGE/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PLMI_CHANGEMASTER_MANAG_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PLMI_CHANGEMASTER_MANAG_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PLMI_CHANGEMASTER_MANAG_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PLMI_CHANGEMASTER_MANAG_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.m": {}
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ChangeMasterObjPg": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ChangeMasterObjPg/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ChangeMasterObjPg": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ChangeMasterObjPg/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|to_ObjTypeAssignment": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/I_ChangeMasterObjTypeAssgmt/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_ChangeMasterObjPg": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.plm.changemaster.manages1.ext.fragments.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ChangeMasterObjPg": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.plm.changemaster.manages1.ext.fragments.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.2.0",
+        "pages": [
+            {
+                "entitySet": "C_ChangeMasterObjPg",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_ChangeMasterObjPg",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true
+                            }
+                        },
+                        "navigation": {
+                            "create": {
+                                "path": "sap.apps.crossNavigation.outbounds",
+                                "target": "ChangeMasterCDCreate"
+                            },
+                            "edit": {
+                                "path": "sap.apps.crossNavigation.outbounds",
+                                "target": "ChangeMasterCDEdit"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2212"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

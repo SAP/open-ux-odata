@@ -1,0 +1,692 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CRM-S4-SOM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CRMS4_SOM_PROD_SPEC_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CRMS4_SOM_PROD_SPEC_ANNO_MDL", "annotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "CRMS4_SOM_PROD_SPEC_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CRMS4_SOM_PROD_SPEC_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CRMS4_SOM_PROD_SPEC_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "manage": {
+                    "semanticObject": "Material",
+                    "action": "manage",
+                    "parameters": {
+                        "Product": {
+                            "required": true
+                        },
+                        "IsActiveEntity": {
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "componentName": "s4crm.o2c.som.product.mntns1",
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_SubscrpnProdSpecTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_SubscrpnProdSpecTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SubscrpnProdSpecTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SubscrpnProdSpecTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CrsCtlgMappingVersionTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CrsCtlgMappingVersionTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ChargePlanAssignmentTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ChargePlanAssignmentTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CrsCtlgMaExtObjAssgmtTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CrsCtlgMaExtObjAssgmtTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ChrgPlnTechResourceTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ChrgPlnTechResourceTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ChrgPlanTableParameterTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ChrgPlanTableParameterTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "all"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4crm.o2c.som.product.mntns1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_SubscrpnProdSpecTP": {
+                                "EntitySet": "C_SubscrpnProdSpecTP",
+                                "Actions": {
+                                    "Copy": {
+                                        "id": "CopyProductbutton",
+                                        "text": "{@i18n>actionCopy}",
+                                        "press": "onCopyProduct"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "s4crm.o2c.som.product.mntns1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_SubscrpnProdSpecTP": {
+                                "EntitySet": "C_SubscrpnProdSpecTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_SubscrpnProdSpecTPHeader1": {
+                                            "id": "ActionC_SubscrpnProdSpecTPCopybutton",
+                                            "text": "{@i18n>actionCopy}",
+                                            "press": "onCopyProductHeaderActionClick"
+                                        },
+                                        "ActionC_SubscrpnProdSpecTPHeader2": {
+                                            "id": "ActionC_SubscrpnProdSpecTPOpenInbutton",
+                                            "text": "{@i18n>actionOpenIn}",
+                                            "press": "onOpenInHeaderActionClick"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "CrossCatalogMapping": {
+                                        "id": "CrossCatalogMapping",
+                                        "Actions": {
+                                            "ObjectPageCustomAction1": {
+                                                "id": "ActionCCMCheckbutton",
+                                                "text": "{@i18n>actionCheck}",
+                                                "press": "onCheckCCMActionClick",
+                                                "requiresSelection": true
+                                            },
+                                            "ObjectPageCustomAction2": {
+                                                "id": "ActionCCMCopyFromProductbutton",
+                                                "text": "{@i18n>actionCopyFromProduct}",
+                                                "press": "onCopyFromProductCCMActionClick",
+                                                "requiresSelection": false
+                                            },
+                                            "ObjectPageCustomAction3": {
+                                                "id": "ActionCCMCopybutton",
+                                                "text": "{@i18n>actionCopy}",
+                                                "press": "onCopyCCMActionClick",
+                                                "requiresSelection": true
+                                            },
+                                            "ObjectPageCustomAction4": {
+                                                "id": "ActionCCMSetStatusbutton",
+                                                "text": "{@i18n>actionSetStatus}",
+                                                "press": "onSetStatusCCMActionClick",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_CrsCtlgMappingVersionTP": {
+                                "EntitySet": "C_CrsCtlgMappingVersionTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_CrsCtlgMappingVersionTPHeader1": {
+                                            "id": "ActionC_CrsCtlgMappingVersionTPCheckbutton",
+                                            "text": "{@i18n>actionCheck}",
+                                            "press": "onCheckCCMHeaderActionClick"
+                                        },
+                                        "ActionC_CrsCtlgMappingVersionTPHeader2": {
+                                            "id": "ActionC_CrsCtlgMappingVersionTPCopybutton",
+                                            "text": "{@i18n>actionCopy}",
+                                            "press": "onCopyCCMHeaderActionClick"
+                                        },
+                                        "ActionC_CrsCtlgMappingVersionTPHeader3": {
+                                            "id": "ActionC_CrsCtlgMappingVersionTPSetStatusbutton",
+                                            "text": "{@i18n>actionSetStatus}",
+                                            "press": "onSetStatusCCMHeaderActionClick"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "AssignmentChargePlan": {
+                                        "id": "AssignmentChargePlan",
+                                        "Actions": {
+                                            "ObjectPageCustomAction1": {
+                                                "id": "ActionAssCPCheckbutton",
+                                                "text": "{@i18n>actionCheck}",
+                                                "press": "onCheckAssCPActionClick",
+                                                "requiresSelection": true
+                                            },
+                                            "ObjectPageCustomAction2": {
+                                                "id": "ActionAssCPWhereUsedbutton",
+                                                "text": "{@i18n>actionWhereUsed}",
+                                                "press": "onWhereUsedAssCPActionClick",
+                                                "requiresSelection": true
+                                            },
+                                            "ObjectPageCustomAction4": {
+                                                "id": "ActionAssCPCopybutton",
+                                                "text": "{@i18n>actionCopy}",
+                                                "press": "onCopyAssCPActionClick",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "AssignmentExternalObject": {
+                                        "id": "AssignmentExternalObject",
+                                        "Actions": {
+                                            "ObjectPageCustomAction1": {
+                                                "id": "ActionAssEOCheckbutton",
+                                                "text": "{@i18n>actionCheck}",
+                                                "press": "onCheckAssEOActionClick",
+                                                "requiresSelection": true
+                                            },
+                                            "ObjectPageCustomAction2": {
+                                                "id": "ActionAssEOCopybutton",
+                                                "text": "{@i18n>actionCopy}",
+                                                "press": "onCopyAssEOActionClick",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "Description": {
+                                        "id": "Description",
+                                        "Actions": {
+                                            "ObjectPageCustomAction1": {
+                                                "id": "ActionCCMDescriptionDeletebutton",
+                                                "text": "{@i18n>actionDelete}",
+                                                "press": "onDeleteCCMDescriptionActionClick",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_ChargePlanAssignmentTP": {
+                                "EntitySet": "C_ChargePlanAssignmentTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_ChargePlanAssignmentTPHeader1": {
+                                            "id": "ActionC_ChargePlanAssignmentTPAddInfobutton",
+                                            "text": "{@i18n>actionAddInfo}",
+                                            "press": "onAddInfoAssCPHeaderActionClick"
+                                        },
+                                        "ActionC_ChargePlanAssignmentTPHeader2": {
+                                            "id": "ActionC_ChargePlanAssignmentTPCheckbutton",
+                                            "text": "{@i18n>actionCheck}",
+                                            "press": "onCheckAssCPHeaderActionClick"
+                                        },
+                                        "ActionC_ChargePlanAssignmentTPHeader3": {
+                                            "id": "ActionC_ChargePlanAssignmentTPWhereUsedbutton",
+                                            "text": "{@i18n>actionWhereUsed}",
+                                            "press": "onWhereUsedAssCPHeaderActionClick"
+                                        },
+                                        "ActionC_ChargePlanAssignmentTPHeader5": {
+                                            "id": "ActionC_ChargePlanAssignmentTPCopybutton",
+                                            "text": "{@i18n>actionCopy}",
+                                            "press": "onCopyAssCPHeaderActionClick"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "Table": {
+                                        "id": "Table",
+                                        "Actions": {
+                                            "ObjectPageCustomAction1": {
+                                                "id": "ActionTablesUseDefaultbutton",
+                                                "text": "{@i18n>actionUseDefaultTable}",
+                                                "press": "onUseDefaultTableActionClick",
+                                                "requiresSelection": true
+                                            },
+                                            "ObjectPageCustomAction2": {
+                                                "id": "ActionTablesRedefinebutton",
+                                                "text": "{@i18n>actionRedefineTable}",
+                                                "press": "onRedefineTableActionClick",
+                                                "requiresSelection": true
+                                            },
+                                            "ObjectPageCustomAction3": {
+                                                "id": "ActionTablesAssignbutton",
+                                                "text": "{@i18n>actionAssignTable}",
+                                                "press": "onAssignTableActionClick",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "Description": {
+                                        "id": "Description",
+                                        "Actions": {
+                                            "ObjectPageCustomAction1": {
+                                                "id": "ActionAssCPDescriptionDeletebutton",
+                                                "text": "{@i18n>actionDelete}",
+                                                "press": "onDeleteAssCPDescriptionActionClick",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "C_CrsCtlgMaExtObjAssgmtTP": {
+                                "EntitySet": "C_CrsCtlgMaExtObjAssgmtTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_CrsCtlgMaExtObjAssgmtTPHeader1": {
+                                            "id": "ActionC_CrsCtlgMaExtObjAssgmtTPCheckbutton",
+                                            "text": "{@i18n>actionCheck}",
+                                            "press": "onCheckAssEOHeaderActionClick"
+                                        },
+                                        "ActionC_CrsCtlgMaExtObjAssgmtTPHeader2": {
+                                            "id": "ActionC_CrsCtlgMaExtObjAssgmtTPCopybutton",
+                                            "text": "{@i18n>actionCopy}",
+                                            "press": "onCopyAssEOHeaderActionClick"
+                                        }
+                                    }
+                                }
+                            },
+                            "C_ChrgPlanTableParameterTP": {
+                                "EntitySet": "C_ChrgPlanTableParameterTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_ChrgPlanTableParameterTPHeader1": {
+                                            "id": "ActionTablesUseDefaultbutton",
+                                            "text": "{@i18n>actionUseDefaultTable}",
+                                            "press": "onUseDefaultTableHeaderActionClick"
+                                        },
+                                        "ActionC_ChrgPlanTableParameterTPHeader2": {
+                                            "id": "ActionTablesRedefinebutton",
+                                            "text": "{@i18n>actionRedefineTable}",
+                                            "press": "onRedefineTableHeaderActionClick"
+                                        },
+                                        "ActionC_ChrgPlanTableParameterTPHeader3": {
+                                            "id": "ActionTablesAssignbutton",
+                                            "text": "{@i18n>actionAssignTable}",
+                                            "press": "onAssignTableHeaderActionClick"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_SubscrpnProdSpecTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.o2c.som.product.mntns1.ext.fragments.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SubscrpnProdSpecTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.o2c.som.product.mntns1.ext.fragments.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_SubscrpnProdDiscountTP|Discount": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.o2c.som.product.mntns1.ext.fragments.DurationResponsiveTableColumnsDiscount",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SubscrpnProdDiscountTP|Discount": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.o2c.som.product.mntns1.ext.fragments.DurationResponsiveTableCellsDiscount",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_SubscrpnProductChargeTP|Charge": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.o2c.som.product.mntns1.ext.fragments.DurationResponsiveTableColumnsCharge",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SubscrpnProductChargeTP|Charge": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.o2c.som.product.mntns1.ext.fragments.DurationResponsiveTableCellsCharge",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_SubscrpnProdSpecTP": {
+                "entitySet": "C_SubscrpnProdSpecTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_SubscrpnProdSpecTP": {
+                        "entitySet": "C_SubscrpnProdSpecTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": false,
+                                "gridTable": false,
+                                "simpleHeaderFacets": true,
+                                "sections": {
+                                    "Discount": {
+                                        "navigationProperty": "to_SubscrpnProdDiscountTP",
+                                        "entitySet": "C_SubscrpnProdDiscountTP",
+                                        "createMode": "inline"
+                                    },
+                                    "Charge": {
+                                        "navigationProperty": "to_SubscrpnProductChargeTP",
+                                        "entitySet": "C_SubscrpnProductChargeTP",
+                                        "createMode": "inline"
+                                    },
+                                    "CrossCatalogMapping": {
+                                        "navigationProperty": "to_CrsCtlgMappingVersionTP",
+                                        "entitySet": "C_CrsCtlgMappingVersionTP",
+                                        "createMode": "inline"
+                                    },
+                                    "DistributionChain": {
+                                        "navigationProperty": "to_SubscrpnProdSlsDelivery",
+                                        "entitySet": "C_SubscrpnProdSlsDelivery"
+                                    },
+                                    "SharingProduct": {
+                                        "navigationProperty": "to_SubscrpnSharingProductTP",
+                                        "entitySet": "C_SubscrpnSharingProductTP",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_SubscrpnProdDiscountTP": {
+                                "navigationProperty": "to_SubscrpnProdDiscountTP",
+                                "entitySet": "C_SubscrpnProdDiscountTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "editableHeaderContent": false
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_SubscrpnProductChargeTP": {
+                                "navigationProperty": "to_SubscrpnProductChargeTP",
+                                "entitySet": "C_SubscrpnProductChargeTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "editableHeaderContent": false
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_SubscrpnProdSlsDelivery": {
+                                "navigationProperty": "to_SubscrpnProdSlsDelivery",
+                                "entitySet": "C_SubscrpnProdSlsDelivery",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "editableHeaderContent": false
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_SubscrpnSharingProductTP": {
+                                "navigationProperty": "to_SubscrpnSharingProductTP",
+                                "entitySet": "C_SubscrpnSharingProductTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "editableHeaderContent": false
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_CrsCtlgMappingVersionTP": {
+                                "navigationProperty": "to_CrsCtlgMappingVersionTP",
+                                "entitySet": "C_CrsCtlgMappingVersionTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "editableHeaderContent": false,
+                                        "sections": {
+                                            "AssignmentChargePlan": {
+                                                "navigationProperty": "to_ChargePlanAssignmentTP",
+                                                "entitySet": "C_ChargePlanAssignmentTP",
+                                                "createMode": "inline"
+                                            },
+                                            "AssignmentExternalObject": {
+                                                "navigationProperty": "to_CrsCtlgMaExtObjAssgmtTP",
+                                                "entitySet": "C_CrsCtlgMaExtObjAssgmtTP",
+                                                "createMode": "inline"
+                                            },
+                                            "Description": {
+                                                "navigationProperty": "to_CrsCtlgMappingVersionTTP",
+                                                "entitySet": "C_CrsCtlgMappingVersionTTPT",
+                                                "createMode": "inline"
+                                            }
+                                        }
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_ChargePlanAssignmentTP": {
+                                        "navigationProperty": "to_ChargePlanAssignmentTP",
+                                        "entitySet": "C_ChargePlanAssignmentTP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                                            "settings": {
+                                                "editableHeaderContent": false,
+                                                "sections": {
+                                                    "TechnicalResources": {
+                                                        "navigationProperty": "to_ChrgPlnTechResourceTP",
+                                                        "entitySet": "C_ChrgPlnTechResourceTP",
+                                                        "createMode": "inline"
+                                                    },
+                                                    "Description": {
+                                                        "navigationProperty": "to_ChargePlanAssignmentTTP",
+                                                        "entitySet": "C_ChargePlanAssignmentTTP",
+                                                        "createMode": "inline"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "pages": {
+                                            "ObjectPage|to_ChrgPlanDateParameterTP": {
+                                                "navigationProperty": "to_ChrgPlanDateParameterTP",
+                                                "entitySet": "C_ChrgPlanDateParameterTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_ChrgPlnStringParameterTP": {
+                                                "navigationProperty": "to_ChrgPlnStringParameterTP",
+                                                "entitySet": "C_ChrgPlnStringParameterTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_ChrgPlanNmrcParameterTP": {
+                                                "navigationProperty": "to_ChrgPlanNmrcParameterTP",
+                                                "entitySet": "C_ChrgPlanNmrcParameterTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_ChrgPlanTableParameterTP": {
+                                                "navigationProperty": "to_ChrgPlanTableParameterTP",
+                                                "entitySet": "C_ChrgPlanTableParameterTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_ChrgPlnAllwncParameterTP": {
+                                                "navigationProperty": "to_ChrgPlnAllwncParameterTP",
+                                                "entitySet": "C_ChrgPlnAllwncParameterTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_ChrgPlnTechResourceTP": {
+                                                "navigationProperty": "to_ChrgPlnTechResourceTP",
+                                                "entitySet": "C_ChrgPlnTechResourceTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_ChargePlanCountedObjectTP": {
+                                                "navigationProperty": "to_ChargePlanCountedObjectTP",
+                                                "entitySet": "C_ChargePlanCountedObjectTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "ObjectPage|to_CrsCtlgMaExtObjAssgmtTP": {
+                                        "navigationProperty": "to_CrsCtlgMaExtObjAssgmtTP",
+                                        "entitySet": "C_CrsCtlgMaExtObjAssgmtTP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                                            "settings": {
+                                                "editableHeaderContent": false
+                                            }
+                                        },
+                                        "pages": {
+                                            "ObjectPage|to_CrsCtlgMaExtDteParamTP": {
+                                                "navigationProperty": "to_CrsCtlgMaExtDteParamTP",
+                                                "entitySet": "C_CrsCtlgMaExtDteParamTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_CrsCtlgMaExtStrParamTP": {
+                                                "navigationProperty": "to_CrsCtlgMaExtStrParamTP",
+                                                "entitySet": "C_CrsCtlgMaExtStrParamTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            },
+                                            "ObjectPage|to_CrsCtlgMaExtNmrcParamTP": {
+                                                "navigationProperty": "to_CrsCtlgMaExtNmrcParamTP",
+                                                "entitySet": "C_CrsCtlgMaExtNmrcParamTP",
+                                                "component": {
+                                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3560"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

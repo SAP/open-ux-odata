@@ -1,0 +1,314 @@
+{
+    "_version": "1.6.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "hpa.cei.dm.steward",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "CEC-MKT-DM-STW",
+        "resources": "resources.json",
+        "embeds": [
+            "contactTile",
+            "importTile",
+            "quicklinkTile",
+            "searchTile",
+            "contactReportingTile",
+            "interactionReportingTile"
+        ],
+        "embeddedBy": "",
+        "dataSources": {
+            "CUAN_DM_STEWARD_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_DM_STEWARD_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/CUAN_DM_STEWARD_SRV/metadata.xml",
+                    "annotations": ["annotation"]
+                }
+            },
+            "annotation": {
+                "uri": "annotations/annotation.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            },
+            "CUAN_COMMON_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_COMMON_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        },
+        "_version": "1.3.0"
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2563"],
+        "archeType": "transactional"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal", "sap_belize"],
+        "_version": "1.3.0"
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    },
+    "sap.ui5": {
+        "_version": "1.2.0",
+        "dependencies": {
+            "minUI5Version": "1.46.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CUAN_DM_STEWARD_SRV": {
+                "preload": true,
+                "dataSource": "CUAN_DM_STEWARD_SRV",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading"
+                    },
+                    "useBatch": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CUAN_COMMON_SRV": {
+                "uri": "/sap/opu/odata/sap/CUAN_COMMON_SRV/",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "CUAN_COMMON_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "CUAN_DM_STEWARD_SRV",
+        "globalFilterEntityType": "",
+        "cards": {
+            "ManageDataOVP_card01": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{Manage_And_Analyze_Data_title}}",
+                    "entitySet": "ConfigurationLinks",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{ImportData_CSV_title}}",
+                            "subTitle": "{{ImportData_CSV_subTitle}}",
+                            "imageUri": "sap-icon://upload",
+                            "semanticObject": "MarketingDataCSV",
+                            "action": "import",
+                            "openInNewWindow": true
+                        },
+                        {
+                            "title": "{{Application_Jobs_title}}",
+                            "subTitle": "{{Application_Jobs_subTitle}}",
+                            "imageUri": "sap-icon://instance",
+                            "semanticObject": "MarketingApplicationJob",
+                            "action": "scheduleList",
+                            "params": {
+                                "JobCatalogEntryName": "SAP_CUAN_*,SAP_GSEG_*"
+                            },
+                            "openInNewWindow": true
+                        },
+                        {
+                            "title": "{{Analyze_Contact_Origin_Data_title}}",
+                            "subTitle": "{{Analyze_Contact_Origin_Data_subTitle}}",
+                            "imageUri": "sap-icon://Fiori3/F0508",
+                            "semanticObject": "MarketingContactOrigin",
+                            "action": "monitor",
+                            "openInNewWindow": true
+                        },
+                        {
+                            "title": "{{Analyze_Interaction_Load_Data_title}}",
+                            "subTitle": "{{Analyze_Interaction_Load_Data_subTitle}}",
+                            "imageUri": "sap-icon://multiple-radar-chart",
+                            "semanticObject": "MarketingInteraction",
+                            "action": "monitor",
+                            "openInNewWindow": true
+                        }
+                    ]
+                }
+            },
+            "ApplicationLogsOVP_card02": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{Stewardship_card02_title}}",
+                    "subTitle": "{{Application_Logs_subTitle}}",
+                    "entitySet": "ConfigurationLinks",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{Application_Logs_title}}",
+                            "imageUri": "sap-icon://list",
+                            "semanticObject": "MarketingApplicationLog",
+                            "action": "showList",
+                            "openInNewWindow": true
+                        }
+                    ]
+                }
+            },
+            "BestPracticeLinksOVP_card05": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{Stewardship_card04_title}}",
+                    "entitySet": "ConfigurationLinks",
+                    "listFlavor": "standard",
+                    "defaultSpan": {
+                        "rows": 7,
+                        "cols": 4
+                    },
+                    "staticContent": [
+                        {
+                            "title": "{{Integration_Guide}}",
+                            "imageUri": "sap-icon://disconnected",
+                            "targetUri": "https://help.sap.com/viewer/0f9408e4921e4ba3bb4a7a1f75f837a7/LATEST/en-US",
+                            "openInNewWindow": true
+                        },
+                        {
+                            "title": "{{SCN_Blogs}}",
+                            "imageUri": "sap-icon://jam",
+                            "targetUri": "https://blogs.sap.com/tag/consumercustomerprofiling/",
+                            "openInNewWindow": true
+                        },
+                        {
+                            "title": "{{Hybris_Marketing_Cloud_Help_Portal}}",
+                            "imageUri": "sap-icon://learning-assistant",
+                            "targetUri": "https://help.sap.com/viewer/p/SAP_HYBRIS_MARKETING_CLOUD",
+                            "openInNewWindow": true
+                        }
+                    ]
+                }
+            },
+            "UnmappedFreeTextOVP_card06": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{Unmapped_Free_Texts_title}}",
+                    "subTitle": "{{Unmapped_Free_Texts_subTitle}}",
+                    "entitySet": "FreeTextsKeyFigures",
+                    "listType": "extended",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UnmappedFreeText"
+                }
+            },
+            "SearchTile": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "hpa.cei.dm.steward.searchTile",
+                "settings": {
+                    "entitySet": "ConfigurationLinks",
+                    "title": "{{SearchTileTitle}}",
+                    "subTitle": "{{SearchTileSubTitle}}"
+                }
+            },
+            "ContactReportingTile": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "hpa.cei.dm.steward.contactReportingTile",
+                "settings": {
+                    "entitySet": "C_MKT_IntactnCntctOriginMonthQ",
+                    "title": "{{ContactReportingTileTitle}}",
+                    "subTitle": "{{ContactReportingTileSubTitle}}"
+                }
+            },
+            "InteractionReportingTile": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "hpa.cei.dm.steward.interactionReportingTile",
+                "settings": {
+                    "entitySet": "C_MKT_InteractionMonthCumltvQ",
+                    "title": "{{InteractionReportingTileTitle}}",
+                    "subTitle": "{{InteractionReportingTileSubTitle}}"
+                }
+            },
+            "ImportTile": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "hpa.cei.dm.steward.importTile",
+                "settings": {
+                    "entitySet": "ImportMonitorKeyFigures",
+                    "title": "{{ImportTileTitle}}",
+                    "subTitle": "{{ImportTileSubTitle}}"
+                }
+            },
+            "QuicklinkTile": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "hpa.cei.dm.steward.quicklinkTile",
+                "settings": {
+                    "entitySet": "ConfigurationLinks",
+                    "title": "{{QuickLinkTileTitle}}"
+                }
+            },
+            "ContactTile": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "hpa.cei.dm.steward.contactTile",
+                "settings": {
+                    "entitySet": "ContactKeyFigures",
+                    "title": "{{Contact_title}}",
+                    "subTitle": "{{Contact_subTitle}}"
+                }
+            },
+            "DataLoadMonitorTile": {
+                "model": "CUAN_DM_STEWARD_SRV",
+                "template": "hpa.cei.dm.steward.dataLoadMonitorTile",
+                "settings": {
+                    "entitySet": "C_MKT_ImprtHdrMsgTypeAggrgnQ",
+                    "title": "{{DataLoadMonitorTileTitle}}",
+                    "subTitle": "{{DataLoadMonitorTileSubTitle}}"
+                }
+            }
+        }
+    }
+}

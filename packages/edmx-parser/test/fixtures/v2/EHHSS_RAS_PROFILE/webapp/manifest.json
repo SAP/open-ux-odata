@@ -1,0 +1,326 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "subTitle": "{{appSubTitle}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-HS",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHHSS_RAS_PROFILE/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHHSS_RAS_PROFILE_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHHSS_RAS_PROFILE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHHSS_RAS_PROFILE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHHSS_RAS_PROFILE_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "EHSRiskAssessmentProfileManage": {
+                    "semanticObject": "EHSRiskAssessmentProfile",
+                    "action": "manage",
+                    "title": "{{appTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "ignored"
+                    }
+                }
+            },
+            "outbounds": {
+                "managePhysicalAgents": {
+                    "semanticObject": "EHSAgent",
+                    "action": "search",
+                    "additionalParameters": "ignored",
+                    "parameters": {}
+                },
+                "manageAirborneAgents": {
+                    "semanticObject": "EHSAgent",
+                    "action": "manageAirborneAgents",
+                    "additionalParameters": "ignored",
+                    "parameters": {}
+                },
+                "manageControlMasterData": {
+                    "semanticObject": "EHSControl",
+                    "action": "editControlMaster",
+                    "additionalParameters": "ignored",
+                    "parameters": {}
+                },
+                "manageJobs": {
+                    "semanticObject": "EHSJob",
+                    "action": "search",
+                    "additionalParameters": "ignored",
+                    "parameters": {}
+                },
+                "manageRiskIdentificationTemplates": {
+                    "semanticObject": "EHSRiskIdentificationTemplate",
+                    "action": "manage",
+                    "additionalParameters": "ignored",
+                    "parameters": {}
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": { "lazy": false },
+                "sap.ui.generic.app": { "lazy": false },
+                "sap.suite.ui.generic.template": { "lazy": false },
+                "sap.m": { "lazy": true }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_EHSRskAssmtProfileTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_EHSRskAssmtProfileTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_EHSRskAssmtProfileTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_EHSRskAssmtProfileTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ehs.hs.rasp.manages1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_EHSRskAssmtProfileTP": {
+                                "EntitySet": "C_EHSRskAssmtProfileTP",
+                                "Actions": {
+                                    "ActionCreateProfile": {
+                                        "id": "ActionCreateProfile",
+                                        "text": "{{CreateProfile}}",
+                                        "press": "onClickCreateProfileButton",
+                                        "requiresSelection": false
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ehs.hs.rasp.manages1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_EHSRskAssmtProfileTP": {
+                                "EntitySet": "C_EHSRskAssmtProfileTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionCopyProfile": {
+                                            "id": "ActionCopyProfile",
+                                            "text": "{{CopyProfile}}",
+                                            "press": "onClickCopyProfileButton",
+                                            "applicablePath": "IsActiveEntity"
+                                        },
+                                        "ActionChangeLocation": {
+                                            "id": "ActionChangeLocation",
+                                            "text": "{{ChangeLocation}}",
+                                            "press": "onClickChangeLocationButton"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "PhysicalAgentList": {
+                                        "id": "PhysicalAgentList",
+                                        "Actions": {
+                                            "ActionManagePhysicalAgents": {
+                                                "id": "ActionManagePhysicalAgents",
+                                                "text": "{{ManagePhysicalAgents}}",
+                                                "press": "onClickManagePhysicalAgentsButton",
+                                                "requiresSelection": false
+                                            },
+                                            "ActionAddPhysicalAgent": {
+                                                "id": "AddPhysicalAgentButton",
+                                                "text": "",
+                                                "press": "onClickAddPhysicalAgentButton",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "AirborneAgentList": {
+                                        "id": "AirborneAgentList",
+                                        "Actions": {
+                                            "ActionManageAirborneAgents": {
+                                                "id": "ActionManageAirborneAgents",
+                                                "text": "{{ManageAirborneAgents}}",
+                                                "press": "onClickManageAirborneAgentsButton",
+                                                "requiresSelection": false
+                                            },
+                                            "ActionAddAirborneAgent": {
+                                                "id": "AddAirborneAgentButton",
+                                                "text": "",
+                                                "press": "onClickAddAirborneAgentButton",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "HazardList": {
+                                        "id": "HazardList",
+                                        "Actions": {
+                                            "ActionAddHazard": {
+                                                "id": "AddHazardButton",
+                                                "text": "",
+                                                "press": "onClickAddHazardButton",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "ControlCatalogList": {
+                                        "id": "ControlCatalogList",
+                                        "Actions": {
+                                            "ActionManageControlCatalogs": {
+                                                "id": "ActionManageControlCatalogs",
+                                                "text": "{{ManageControlCatalogs}}",
+                                                "press": "onClickManageControlCatalogsButton",
+                                                "requiresSelection": false
+                                            },
+                                            "ActionAddControlCatalog": {
+                                                "id": "AddControlCatalogButton",
+                                                "text": "",
+                                                "press": "onClickAddControlCatalogButton",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "JobList": {
+                                        "id": "JobList",
+                                        "Actions": {
+                                            "ActionManageJobs": {
+                                                "id": "ActionManageJobs",
+                                                "text": "{{ManageJobs}}",
+                                                "press": "onClickManageJobsButton",
+                                                "requiresSelection": false
+                                            },
+                                            "ActionAddJob": {
+                                                "id": "AddJobButton",
+                                                "text": "",
+                                                "press": "onClickAddJobButton",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "RiskIdentificationTemplatesList": {
+                                        "id": "RiskIdentificationTemplatesList",
+                                        "Actions": {
+                                            "ActionManageRiskIdentificationTemplates": {
+                                                "id": "ActionManageRiskIdentificationTemplates",
+                                                "text": "{{ManageRiskIdentificationTemplates}}",
+                                                "press": "onClickManageRiskIdentificationTemplatesButton",
+                                                "requiresSelection": false
+                                            },
+                                            "AddRiskIdentificationTemplates": {
+                                                "id": "AddRiskIdentificationTemplatesButton",
+                                                "text": "",
+                                                "press": "onClickAddRiskIdentificationTemplatesButton",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_EHSRskAssmtProfileTP": {
+                "entitySet": "C_EHSRskAssmtProfileTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": false,
+                        "smartVariantManagement": true,
+                        "variantManagementHidden": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_EHSRskAssmtProfileTP": {
+                        "entitySet": "C_EHSRskAssmtProfileTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2645"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

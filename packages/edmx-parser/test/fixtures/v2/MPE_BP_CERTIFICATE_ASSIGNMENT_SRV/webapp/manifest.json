@@ -1,0 +1,219 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-PEO-CER",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MPE_BP_CERTIFICATE_ASSIGNMENT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MPE_BP_CERTIFICATE_ASSI_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MPE_BP_CERTIFICATE_ASSI_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MPE_BP_CERTIFICATE_ASSI_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MPE_BP_CERTIFICATE_ASSI_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MfgBusinessPartnerTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MfgBusinessPartnerTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MfgBusinessPartnerTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MfgBusinessPartnerTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.mpe.mfguser.manages1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_MfgBusinessPartnerTP": {
+                                "EntitySet": "C_MfgBusinessPartnerTP",
+                                "Actions": {
+                                    "onClickUserAddButton": {
+                                        "id": "UserAddButton",
+                                        "text": "{@i18n>UserAddButtonText}",
+                                        "press": "onClickUserAddButton"
+                                    },
+                                    "onClickUserEditButton": {
+                                        "id": "UserEditButton",
+                                        "text": "{@i18n>UserEditButtonText}",
+                                        "press": "onClickUserEditButton",
+                                        "requiresSelection": "true"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.mpe.mfguser.manages1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_MfgBusinessPartnerTP": {
+                                "EntitySet": "C_MfgBusinessPartnerTP",
+                                "Sections": {
+                                    "to_MfgBPWrkCtr::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_MfgBPWrkCtr::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "onClickUserWorkCenterAddButton": {
+                                                "id": "UserWorkCenterAddButton",
+                                                "text": "{@i18n>UserAddButtonText}",
+                                                "press": "onClickUserWCAddButton"
+                                            },
+                                            "onClickUserWorkCenterEditButton": {
+                                                "id": "UserWorkCenterEditButton",
+                                                "text": "{@i18n>UserEditButtonText}",
+                                                "press": "onClickUserWCEditButton",
+                                                "requiresSelection": "true"
+                                            },
+                                            "onClickUserWorkCenterDeleteButton": {
+                                                "id": "ActionC_MfgBusinessPartnerTPSections3button",
+                                                "text": "{@i18n>UserWorkCenterDeleteButton}",
+                                                "press": "onClickUserWCDeleteButton",
+                                                "requiresSelection": "true"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "pages": [
+            {
+                "entitySet": "C_MfgBusinessPartnerTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_MfgBusinessPartnerTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2829"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

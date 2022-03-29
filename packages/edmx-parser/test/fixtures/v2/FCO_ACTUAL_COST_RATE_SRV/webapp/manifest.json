@@ -1,0 +1,237 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CO-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FCO_ACTUAL_COST_RATE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FCO_ACTUAL_COST_RATE_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FCO_ACTUAL_COST_RATE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FCO_ACTUAL_COST_RATE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FCO_ACTUAL_COST_RATE_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "minVersion": "1.30.0",
+                    "lazy": false
+                },
+                "sap.m": {
+                    "minVersion": "1.30.0",
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "minVersion": "1.30.0",
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "minVersion": "1.30.0",
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ushell": {
+                    "lazy": false
+                },
+                "sap.collaboration": {
+                    "lazy": false
+                },
+                "sap.ui.unified": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ActualCostRate": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ActualCostRate/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ActualCostRate": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ActualCostRate/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_ActualCostRate": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.act.costrates.manage.ext.fragments.CustomColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ActualCostRate": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.co.act.costrates.manage.ext.fragments.CustomCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.co.act.costrates.manage.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_ActualCostRate": {
+                                "EntitySet": "C_ActualCostRate",
+                                "Actions": {
+                                    "ActionC_Create": {
+                                        "id": "ActionC_ActualCostRateNew",
+                                        "text": "{@i18n>ActionCreate}",
+                                        "press": "onAddCopyButtonPressed"
+                                    },
+                                    "ActionC_Edit": {
+                                        "id": "ActionC_ActualCostRateEdit",
+                                        "text": "{@i18n>ActionEdit}",
+                                        "press": "onEditButtonPressed",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_Copy": {
+                                        "id": "ActionC_ActualCostRateCopy",
+                                        "text": "{@i18n>ActionCopy}",
+                                        "press": "onAddCopyButtonPressed",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_Chart": {
+                                        "id": "ActionC_ActualCostRate1Chart",
+                                        "text": "{@i18n>ActionChart}",
+                                        "press": "onTimelineButtonPressed",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_Upload": {
+                                        "id": "ActionC_ActualCostRateUpload",
+                                        "text": "{@i18n>ActionUpload}",
+                                        "press": "onClickActionUpload"
+                                    },
+                                    "ActionC_Analysis": {
+                                        "id": "ActionC_ActualCostRateAnalysis",
+                                        "text": "{@i18n>ActionAnalysis}",
+                                        "press": "onClickActionAnalysis",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_Currencies": {
+                                        "id": "ActionC_ActualCostRateCurrencies",
+                                        "text": "{@i18n>ActionCurrencies}",
+                                        "press": "onClickActionCurrencies",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.Details": {
+                        "controllerName": "fin.co.act.costrates.manage.ext.controller.ListReportExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_ActualCostRate": {
+                "entitySet": "C_ActualCostRate",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3422"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

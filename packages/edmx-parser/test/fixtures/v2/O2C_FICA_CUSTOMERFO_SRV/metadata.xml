@@ -1,0 +1,2031 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+		   xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+		   xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.UI.v1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.Communication.v1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="vCard"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='Measures.V1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="CQP"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='Core.V1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.Common.v1',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="O2C_FICA_CUSTOMERFO_SRV" Alias="O2C_FICA_CUSTOMERFO_SRV"/>
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+	</edmx:Reference>
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="O2C_FICA_CUSTOMERFO_SRV" xml:lang="en" sap:schema-version="1"
+				xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="C_CAContractPartnerValueHelpType" sap:label="Contract Partner Value Help"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="BusinessPartner"/>
+				</Key>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="BusinessPartnerFullName" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="BusinessPartnerFullName" Type="Edm.String" MaxLength="81"
+						  sap:label="Business Partner Name" sap:quickinfo="Name of Business Partner"/>
+				<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name"
+						  sap:quickinfo="First Name of Business Partner (Person)"/>
+				<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name"
+						  sap:quickinfo="Last Name of Business Partner (Person)"/>
+				<Property Name="OrganizationBPName1" Type="Edm.String" MaxLength="40" sap:label="Name 1"
+						  sap:quickinfo="Name 1 of organization"/>
+				<Property Name="OrganizationBPName2" Type="Edm.String" MaxLength="40" sap:label="Name 2"
+						  sap:quickinfo="Name 2 of organization"/>
+				<Property Name="GroupBusinessPartnerName1" Type="Edm.String" MaxLength="40" sap:label="Name 1"
+						  sap:quickinfo="Name 1 (group)"/>
+				<Property Name="GroupBusinessPartnerName2" Type="Edm.String" MaxLength="40" sap:label="Name 2"
+						  sap:quickinfo="Name 2 (group)"/>
+				<Property Name="BusinessPartnerCategory" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase"
+						  sap:label="Category" sap:quickinfo="Business Partner Category"/>
+				<Property Name="SearchTerm1" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase"
+						  sap:label="Search term 1" sap:quickinfo="Search term 1 for business partner"/>
+				<Property Name="SearchTerm2" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase"
+						  sap:label="Search term 2" sap:quickinfo="Search term 2 for business partner"/>
+				<Property Name="StreetName" Type="Edm.String" MaxLength="60" sap:label="Street"/>
+				<Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Postal Code" sap:quickinfo="City Postal Code"/>
+				<Property Name="CityName" Type="Edm.String" MaxLength="40" sap:label="City"/>
+				<Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase"
+						  sap:label="Country Key"/>
+				<Property Name="BusinessPartnerRole" Type="Edm.String" MaxLength="6" sap:display-format="UpperCase"
+						  sap:label="BP Role"/>
+				<Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Authorization Group"/>
+				<Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Purpose Completed"
+						  sap:quickinfo="Business Purpose Completed Flag"/>
+			</EntityType>
+			<EntityType Name="C_CACustFinOvwCorrespondenceType" sap:label="Correspondence" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CACorrespondenceType"/>
+					<PropertyRef Name="BusinessPartner"/>
+					<PropertyRef Name="ContractAccount"/>
+					<PropertyRef Name="CACorrespondence"/>
+				</Key>
+				<Property Name="CACorrespondenceType" Type="Edm.String" Nullable="false" MaxLength="4"
+						  sap:display-format="UpperCase" sap:text="CACorrespondenceTypeName"
+						  sap:label="Correspondence Type"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:text="ContractAccountName" sap:label="Contract Account"/>
+				<Property Name="CACorrespondence" Type="Edm.String" Nullable="false" MaxLength="36"
+						  sap:display-format="UpperCase" sap:label="Correspondence Key"
+						  sap:quickinfo="Correspondence key"/>
+				<Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:text="CompanyCodeName" sap:label="Company Code"
+						  sap:quickinfo="Company Code in Correspondence"/>
+				<Property Name="CompanyCodeName" Type="Edm.String" MaxLength="25" sap:label="Company Name"
+						  sap:quickinfo="Name of Company Code or Company"/>
+				<Property Name="OriglCorrespondenceRecipient" Type="Edm.String" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="OriglCorrespncRecipientName"
+						  sap:label="Original Recipient" sap:quickinfo="Original Correspondence Recipient"/>
+				<Property Name="OriglCorrespncRecipientName" Type="Edm.String" MaxLength="81"/>
+				<Property Name="CACorrespondenceTypeName" Type="Edm.String" MaxLength="40" sap:label="Corresp. Name"
+						  sap:quickinfo="Name of Correspondence Type"/>
+				<Property Name="ContractAccountName" Type="Edm.String" MaxLength="35" sap:label="Contract Acct Name"
+						  sap:quickinfo="Description of Contract Account"/>
+				<Property Name="CATechCorrespondenceStatus" Type="Edm.String" MaxLength="2"
+						  sap:display-format="UpperCase" sap:text="CATechCorrespondenceStatusName"
+						  sap:label="Technical Status" sap:quickinfo="Technical Correspondence Status"/>
+				<Property Name="CATechCorrespondenceStatusName" Type="Edm.String" MaxLength="250"
+						  sap:label="Description" sap:quickinfo="Description (250 Characters)"/>
+				<Property Name="CreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Creation Date"/>
+				<Property Name="CorrespondenceIssueDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Issue Date"/>
+				<Property Name="CorrespondenceIssueDateTime" Type="Edm.DateTimeOffset" Precision="0"
+						  sap:label="Issue Time Stamp"/>
+				<Property Name="CorrespondenceIssuedByUser" Type="Edm.String" MaxLength="12"
+						  sap:display-format="UpperCase" sap:text="CorrespondenceIssuedByUserName"
+						  sap:label="Issue User" sap:quickinfo="Issue, Logon Name of User"/>
+				<Property Name="CorrespondenceIssuedByUserName" Type="Edm.String" MaxLength="80" sap:label="Description"
+						  sap:quickinfo="User Description"/>
+				<Property Name="CorrespondencePrintDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Print Date"/>
+				<Property Name="CorrespondencePrintDateTime" Type="Edm.DateTimeOffset" Precision="0"
+						  sap:label="Print Timestamp"/>
+				<Property Name="CorrespondencePrintedByUser" Type="Edm.String" MaxLength="12"
+						  sap:display-format="UpperCase" sap:text="CorrespondencePrintedByUsrName"
+						  sap:label="Print User" sap:quickinfo="Print, Logon Name of User"/>
+				<Property Name="CorrespondencePrintedByUsrName" Type="Edm.String" MaxLength="80" sap:label="Description"
+						  sap:quickinfo="User Description"/>
+				<Property Name="CACorrespondenceStatus" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Correspond. Status" sap:quickinfo="Correspondence Status"/>
+				<Property Name="CACorrespncDispatchControl" Type="Edm.String" MaxLength="4"
+						  sap:display-format="UpperCase" sap:text="CACorrespncDispatchControlName"
+						  sap:label="Send Control"/>
+				<Property Name="CACorrespncDispatchControlName" Type="Edm.String" MaxLength="50"
+						  sap:label="Descr.Disp.Control" sap:quickinfo="Description of Dispatch Control"/>
+				<Property Name="CAContract" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase"
+						  sap:label="Contract" sap:quickinfo="Reference Specifications from Contract"/>
+				<Property Name="CASubApplication" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase"
+						  sap:text="CASubApplicationText" sap:label="Subapplication"
+						  sap:quickinfo="Subapplication Indicator in Correspondence"/>
+				<Property Name="CAAmountInLocalCurrency" Type="Edm.Decimal" Precision="14" Scale="3" sap:unit="Currency"
+						  sap:label="Local currency amnt" sap:quickinfo="Amount In Local Currency With +/- Signs"/>
+				<Property Name="Currency" Type="Edm.String" MaxLength="5" sap:label="Currency"
+						  sap:quickinfo="Currency Key" sap:semantics="currency-code"/>
+				<Property Name="CASubApplicationText" Type="Edm.String" MaxLength="250" sap:label="Description"
+						  sap:quickinfo="Description (250 Characters)"/>
+				<Property Name="CAPrintRunDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Print Run Date"/>
+				<Property Name="CAPrintRunID" Type="Edm.String" MaxLength="6" sap:display-format="UpperCase"
+						  sap:label="Print Run ID"/>
+			</EntityType>
+			<EntityType Name="C_CACustomerFOFsType" sap:label="Business Partner Financial Overview"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="P_DisplayCurrency"/>
+					<PropertyRef Name="BusinessPartner"/>
+				</Key>
+				<Property Name="P_DisplayCurrency" Type="Edm.String" Nullable="false" MaxLength="5"
+						  sap:label="Display Currency" sap:semantics="currency-code"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:text="BusinessPartnerName" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number" sap:value-list="standard"/>
+				<Property Name="Currency" Type="Edm.String" MaxLength="5" sap:semantics="currency-code"/>
+				<Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase"
+						  sap:label="Country Key"/>
+				<Property Name="BusinessPartnerName" Type="Edm.String" MaxLength="81" sap:label="Business Partner Name"
+						  sap:quickinfo="BUSINESS PARTNER NAME"/>
+				<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name"
+						  sap:quickinfo="First Name of Business Partner (Person)"/>
+				<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name"
+						  sap:quickinfo="Last Name of Business Partner (Person)"/>
+				<Property Name="SearchTerm1" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase"
+						  sap:label="Search term 1" sap:quickinfo="Search term 1 for business partner"/>
+				<Property Name="SearchTerm2" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase"
+						  sap:label="Search term 2" sap:quickinfo="Search term 2 for business partner"/>
+				<Property Name="OrganizationBPName1" Type="Edm.String" MaxLength="40" sap:label="Name 1"
+						  sap:quickinfo="Name 1 of organization"/>
+				<Property Name="OrganizationBPName2" Type="Edm.String" MaxLength="40" sap:label="Name 2"
+						  sap:quickinfo="Name 2 of organization"/>
+				<Property Name="GroupBusinessPartnerName1" Type="Edm.String" MaxLength="40" sap:label="Name 1"
+						  sap:quickinfo="Name 1 (group)"/>
+				<Property Name="GroupBusinessPartnerName2" Type="Edm.String" MaxLength="40" sap:label="Name 2"
+						  sap:quickinfo="Name 2 (group)"/>
+				<Property Name="CompleteAddress" Type="Edm.String" MaxLength="176"/>
+				<Property Name="AddressLine1" Type="Edm.String" MaxLength="71" sap:label="Street / No."
+						  sap:quickinfo="Business Partner Address (Street / No.)"/>
+				<Property Name="AddressLine2" Type="Edm.String" MaxLength="51" sap:label="Postal Code / City"
+						  sap:quickinfo="Address of Business Partner (Postal Code / City)"/>
+				<Property Name="AddressLine3" Type="Edm.String" MaxLength="50" sap:label="Country"
+						  sap:quickinfo="Country of Business Partner"/>
+				<Property Name="StreetName" Type="Edm.String" MaxLength="60" sap:label="Street"/>
+				<Property Name="HouseNumber" Type="Edm.String" MaxLength="10" sap:label="House Number"/>
+				<Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Postal Code" sap:quickinfo="City Postal Code"/>
+				<Property Name="CityName" Type="Edm.String" MaxLength="40" sap:label="City"/>
+				<Property Name="CreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Customer Since" sap:quickinfo="Date on Which the Business Partner Was Created"/>
+				<Property Name="CACreditWorthiness" Type="Edm.String" MaxLength="4" sap:display-format="NonNegative"
+						  sap:label="Creditworthiness" sap:quickinfo="Manual Creditworthiness"/>
+				<Property Name="OpenReceivablesAmountInDspCrcy" Type="Edm.Decimal" Precision="24" Scale="3"
+						  sap:unit="Currency" sap:label="Open" sap:quickinfo="Aggregated Amount"/>
+				<Property Name="OverdueReceivablesCriticality" Type="Edm.Byte"/>
+				<Property Name="OpenDueReceivablesAmtInDspCrcy" Type="Edm.Decimal" Precision="24" Scale="3"
+						  sap:unit="Currency" sap:label="Overdue" sap:quickinfo="Aggregated Amount"/>
+				<Property Name="DoubtfulReceivablesCriticality" Type="Edm.Byte"/>
+				<Property Name="DoubtfulReceivablesAmountInDC" Type="Edm.Decimal" Precision="24" Scale="3"
+						  sap:unit="Currency" sap:label="Doubtful" sap:quickinfo="Aggregated Amount"/>
+				<Property Name="OpenPayablesAmountInDspCrcy" Type="Edm.Decimal" Precision="24" Scale="3"
+						  sap:unit="Currency" sap:label="Open" sap:quickinfo="Aggregated Amount"/>
+				<Property Name="OverduePayablesCriticality" Type="Edm.Byte"/>
+				<Property Name="OpenDuePayablesAmountInDspCrcy" Type="Edm.Decimal" Precision="24" Scale="3"
+						  sap:unit="Currency" sap:label="Criticallity of Overdue Credit"
+						  sap:quickinfo="Aggregated Amount"/>
+				<Property Name="CANumberOfContractAccounts" Type="Edm.String" MaxLength="12"
+						  sap:display-format="UpperCase" sap:text="ContractAccountName" sap:label="Contract Account"
+						  sap:quickinfo="Contract Account Number"/>
+				<Property Name="ContractAccountName" Type="Edm.String" MaxLength="35" sap:label="Contract Acct Name"
+						  sap:quickinfo="Description of Contract Account"/>
+				<Property Name="CANumberOfMethodsForIncgPayt" Type="Edm.String" MaxLength="30"
+						  sap:label="Incoming Payment Method" sap:quickinfo="Payment Method Name"/>
+				<Property Name="CANumberOfMethodsForOutgPayt" Type="Edm.String" MaxLength="30"
+						  sap:label="Outgoing Payment Method" sap:quickinfo="Payment Method Name"/>
+				<Property Name="CALastInvoicingDocInfoText" Type="Edm.String" MaxLength="50" sap:label="Last Invoice"
+						  sap:quickinfo="Comment" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+						  sap:filterable="false"/>
+				<Property Name="CALastPaymentInfoText" Type="Edm.String" MaxLength="50" sap:label="Last Payment"
+						  sap:quickinfo="Comment" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+						  sap:filterable="false"/>
+				<Property Name="CALastReturnInfoText" Type="Edm.String" MaxLength="50" sap:label="Last Return"
+						  sap:quickinfo="Comment" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+						  sap:filterable="false"/>
+				<Property Name="CALastDunningInfoText" Type="Edm.String" MaxLength="50" sap:label="Last Dunning Notice"
+						  sap:quickinfo="Comment" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+						  sap:filterable="false"/>
+				<Property Name="CALastDisputeInfoText" Type="Edm.String" MaxLength="50" sap:label="Last Dispute Case"
+						  sap:quickinfo="Comment" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+						  sap:filterable="false"/>
+				<Property Name="CALastWriteOffInfoText" Type="Edm.String" MaxLength="50" sap:label="Last Write-Off"
+						  sap:quickinfo="Comment" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+						  sap:filterable="false"/>
+				<Property Name="CADunByDunningProcedureIsUsed" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading=""/>
+				<Property Name="CADunByCollStrategyIsUsed" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading=""/>
+				<Property Name="CADisputesAreUsed" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading=""/>
+				<Property Name="CAInstallmentPlansAreUsed" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading=""/>
+				<Property Name="CAPromiseToPayIsUsed" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading=""/>
+				<Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Authorization Group"/>
+				<NavigationProperty Name="to_CAContractPartnerValueHelp"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_333D4FAFCBE6E15A0B89C55312CC4E97"
+									FromRole="FromRole_assoc_333D4FAFCBE6E15A0B89C55312CC4E97"
+									ToRole="ToRole_assoc_333D4FAFCBE6E15A0B89C55312CC4E97"/>
+				<NavigationProperty Name="to_CADunningNoticeCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_EAB46A1E04BC611F28F4D392B025F00B"
+									FromRole="FromRole_assoc_EAB46A1E04BC611F28F4D392B025F00B"
+									ToRole="ToRole_assoc_EAB46A1E04BC611F28F4D392B025F00B"/>
+				<NavigationProperty Name="to_CADunningNoticeCollectionCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"
+									FromRole="FromRole_assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"
+									ToRole="ToRole_assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"/>
+				<NavigationProperty Name="to_CAInstallmentPlanCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_7576066E2E52B012A96DCA6492AD91E0"
+									FromRole="FromRole_assoc_7576066E2E52B012A96DCA6492AD91E0"
+									ToRole="ToRole_assoc_7576066E2E52B012A96DCA6492AD91E0"/>
+				<NavigationProperty Name="to_CAInvoiceCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_50C4FE3AC1748EB36282C615D007620C"
+									FromRole="FromRole_assoc_50C4FE3AC1748EB36282C615D007620C"
+									ToRole="ToRole_assoc_50C4FE3AC1748EB36282C615D007620C"/>
+				<NavigationProperty Name="to_CAPromiseToPayCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_E13146B748094DB4F48CBA53B03D7F7D"
+									FromRole="FromRole_assoc_E13146B748094DB4F48CBA53B03D7F7D"
+									ToRole="ToRole_assoc_E13146B748094DB4F48CBA53B03D7F7D"/>
+				<NavigationProperty Name="to_CAReturnCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_B29FB451A033574783730A039E4043B1"
+									FromRole="FromRole_assoc_B29FB451A033574783730A039E4043B1"
+									ToRole="ToRole_assoc_B29FB451A033574783730A039E4043B1"/>
+				<NavigationProperty Name="to_CASubmittedCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_A1528E9B78CA02AE525F056D878B653B"
+									FromRole="FromRole_assoc_A1528E9B78CA02AE525F056D878B653B"
+									ToRole="ToRole_assoc_A1528E9B78CA02AE525F056D878B653B"/>
+				<NavigationProperty Name="to_CAWorklistItemCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_8BD1EE3F98E79875D31299420314E1BC"
+									FromRole="FromRole_assoc_8BD1EE3F98E79875D31299420314E1BC"
+									ToRole="ToRole_assoc_8BD1EE3F98E79875D31299420314E1BC"/>
+				<NavigationProperty Name="to_CAWriteOffCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_92534A6D665D5F6B65E6AACD20E3BD90"
+									FromRole="FromRole_assoc_92534A6D665D5F6B65E6AACD20E3BD90"
+									ToRole="ToRole_assoc_92534A6D665D5F6B65E6AACD20E3BD90"/>
+				<NavigationProperty Name="to_ContractacCBPCFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_7138621F524B991ECBAA2877A540DE5E"
+									FromRole="FromRole_assoc_7138621F524B991ECBAA2877A540DE5E"
+									ToRole="ToRole_assoc_7138621F524B991ECBAA2877A540DE5E"/>
+				<NavigationProperty Name="to_Correspondence"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_3045A7C0BB5EA147E0479523A1E2B70F"
+									FromRole="FromRole_assoc_3045A7C0BB5EA147E0479523A1E2B70F"
+									ToRole="ToRole_assoc_3045A7C0BB5EA147E0479523A1E2B70F"/>
+				<NavigationProperty Name="Parameters"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_BEC97A27E948DFECD0ECECF028826D4B"
+									FromRole="ToRole_assoc_BEC97A27E948DFECD0ECECF028826D4B"
+									ToRole="FromRole_assoc_BEC97A27E948DFECD0ECECF028826D4B" sap:filterable="false"/>
+				<NavigationProperty Name="to_FKK_PAYMENT_CFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_FKK_PAYMENT_CFO"
+									FromRole="FromRole_assoc_FKK_PAYMENT_CFO" ToRole="ToRole_assoc_FKK_PAYMENT_CFO"/>
+				<NavigationProperty Name="to_FKK_DISPUTE_CFO"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_FKK_DISPUTE_CFO"
+									FromRole="FromRole_assoc_FKK_DISPUTE_CFO" ToRole="ToRole_assoc_FKK_DISPUTE_CFO"/>
+			</EntityType>
+			<EntityType Name="C_CACustomerFOFsParameters" sap:semantics="parameters" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="P_DisplayCurrency"/>
+				</Key>
+				<Property Name="P_DisplayCurrency" Type="Edm.String" Nullable="false" MaxLength="5"
+						  sap:parameter="mandatory" sap:label="Display Currency" sap:creatable="false"
+						  sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:value-list="standard"
+						  sap:semantics="currency-code"/>
+				<NavigationProperty Name="Set"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_BEC97A27E948DFECD0ECECF028826D4B"
+									FromRole="FromRole_assoc_BEC97A27E948DFECD0ECECF028826D4B"
+									ToRole="ToRole_assoc_BEC97A27E948DFECD0ECECF028826D4B"/>
+			</EntityType>
+			<EntityType Name="C_CADunningNoticeCFOType" sap:label="Dunning Notice" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CAMassRunDate"/>
+					<PropertyRef Name="CAMassRunID"/>
+					<PropertyRef Name="BusinessPartner"/>
+					<PropertyRef Name="ContractAccount"/>
+					<PropertyRef Name="CADunningCounter"/>
+				</Key>
+				<Property Name="CAMassRunDate" Type="Edm.DateTime" Nullable="false" Precision="0"
+						  sap:display-format="Date" sap:label="Date ID"/>
+				<Property Name="CAMassRunID" Type="Edm.String" Nullable="false" MaxLength="6"
+						  sap:display-format="UpperCase" sap:label="Identification"
+						  sap:quickinfo="Additional Identification Characteristic"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Contract Account"/>
+				<Property Name="CADunningCounter" Type="Edm.String" Nullable="false" MaxLength="6"
+						  sap:display-format="NonNegative" sap:label="Dunning Counter"
+						  sap:quickinfo="Counter for Several Dunning Notices to a Business Partner"/>
+				<Property Name="CADunningNoticeUUID" Type="Edm.String" MaxLength="42"/>
+				<Property Name="CAIssueDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Date of Issue"/>
+				<Property Name="CADunningLevel" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:text="CADunningLevelName" sap:label="Dunning Level"
+						  sap:quickinfo="Component of the Version Number"/>
+				<Property Name="OldDunningLevel" Type="Edm.String" MaxLength="2" sap:display-format="NonNegative"
+						  sap:text="to_DunningLevel/CADunningLevel_Text" sap:label="Dunning level"
+						  sap:quickinfo="Dunning Level" sap:value-list="standard"/>
+				<Property Name="CADunningLevelName" Type="Edm.String" MaxLength="50" sap:label="Name"
+						  sap:quickinfo="Name of Dunning Level"/>
+				<Property Name="CADunningBalance" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Dunning Balance"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Transaction Currency"
+						  sap:semantics="currency-code"/>
+				<Property Name="CADunningProcedure" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:text="CADunningProcedureName" sap:label="Dunning Procedure" sap:value-list="standard"/>
+				<Property Name="CADunningProcedureName" Type="Edm.String" MaxLength="50" sap:label="Description"
+						  sap:quickinfo="Description of Dunning Procedure"/>
+				<NavigationProperty Name="to_DunningLevel"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_A197A06A11699709AA9A033CE9B2B25F"
+									FromRole="FromRole_assoc_A197A06A11699709AA9A033CE9B2B25F"
+									ToRole="ToRole_assoc_A197A06A11699709AA9A033CE9B2B25F"/>
+				<NavigationProperty Name="to_DunningProcedure"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_3C9817251C45D0A071DB3F5E712336CA"
+									FromRole="FromRole_assoc_3C9817251C45D0A071DB3F5E712336CA"
+									ToRole="ToRole_assoc_3C9817251C45D0A071DB3F5E712336CA"/>
+			</EntityType>
+			<EntityType Name="C_CADunningNoticeCollectionCFOType" sap:label="Dunning Notice from Collection Strategy"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CAMassRunDate"/>
+					<PropertyRef Name="CAMassRunID"/>
+					<PropertyRef Name="BusinessPartner"/>
+					<PropertyRef Name="ContractAccount"/>
+					<PropertyRef Name="CADunningCounter"/>
+				</Key>
+				<Property Name="CAMassRunDate" Type="Edm.String" Nullable="false" MaxLength="8"/>
+				<Property Name="CAMassRunID" Type="Edm.String" Nullable="false" MaxLength="6"
+						  sap:display-format="UpperCase" sap:label="Identification"
+						  sap:quickinfo="Additional Identification Characteristic"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Contract Account"/>
+				<Property Name="CADunningCounter" Type="Edm.String" Nullable="false" MaxLength="6"
+						  sap:display-format="NonNegative" sap:label="Dunning Counter"
+						  sap:quickinfo="Counter for Several Dunning Notices to a Business Partner"/>
+				<Property Name="CADunningNoticeUUID" Type="Edm.String" MaxLength="42"/>
+				<Property Name="CAIssueDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Date of Issue"/>
+				<Property Name="CACollectionStep" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:text="CACollectionStepName" sap:label="Collection Step" sap:value-list="standard"/>
+				<Property Name="CACollectionStepName" Type="Edm.String" MaxLength="50" sap:label="Name"
+						  sap:quickinfo="Name of Collection Step"/>
+				<Property Name="CADunningBalance" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Dunning Balance"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Transaction Currency"
+						  sap:semantics="currency-code"/>
+				<Property Name="CACollectionStrategy" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:text="CACollectionStrategyName" sap:label="Collection Strategy"
+						  sap:value-list="standard"/>
+				<Property Name="CACollectionStrategyName" Type="Edm.String" MaxLength="50" sap:label="Name"
+						  sap:quickinfo="Name of Collection Strategy"/>
+				<NavigationProperty Name="to_CollectionStep"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_EB558828A406D0BE120878A5F0841631"
+									FromRole="FromRole_assoc_EB558828A406D0BE120878A5F0841631"
+									ToRole="ToRole_assoc_EB558828A406D0BE120878A5F0841631"/>
+				<NavigationProperty Name="to_CollectionStrategy"
+									Relationship="O2C_FICA_CUSTOMERFO_SRV.assoc_7088394776741709734F2DA69F38EE6B"
+									FromRole="FromRole_assoc_7088394776741709734F2DA69F38EE6B"
+									ToRole="ToRole_assoc_7088394776741709734F2DA69F38EE6B"/>
+			</EntityType>
+			<EntityType Name="C_CAInstallmentPlanCFOType" sap:label="Installment Plan" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="BusinessPartner"/>
+					<PropertyRef Name="ContractAccount"/>
+					<PropertyRef Name="CAInstallmentPlan"/>
+				</Key>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Contract Account"
+						  sap:quickinfo="Contract Account Number"/>
+				<Property Name="CAInstallmentPlan" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Install.Plan No."
+						  sap:quickinfo="Installment plan number in Contract A/R &amp; A/P"/>
+				<Property Name="CAInstallmentPlanStartDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Start date inst.plan" sap:quickinfo="Start date of installment plan"/>
+				<Property Name="CAInstallmentPlanStatus" Type="Edm.String" MaxLength="50" sap:label="c"
+						  sap:quickinfo="Comment"/>
+				<Property Name="AmountInDisplayCurrency" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign" sap:filterable="false"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Transaction Currency"
+						  sap:semantics="currency-code"/>
+				<Property Name="CAInstlmntPlanDactvtnRsn" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:text="CAInstlmntPlanDactvtnRsnName" sap:label="Deactivation reason"
+						  sap:quickinfo="Reason for deactivation"/>
+				<Property Name="CAInstlmntPlanDactvtnRsnName" Type="Edm.String" MaxLength="30"
+						  sap:label="Deactivation reason" sap:quickinfo="Reason for deactivation"/>
+				<Property Name="OpenAmountInDisplayCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Open Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="OpenDueAmountInDisplayCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Due Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Company Code"/>
+			</EntityType>
+			<EntityType Name="C_CAInvoiceCFOType" sap:label="Invoice" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CAInvoicingDocument"/>
+					<PropertyRef Name="BusinessPartner"/>
+				</Key>
+				<Property Name="CAInvoicingDocument" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="NonNegative" sap:label="Invoicing Document"
+						  sap:quickinfo="Number of Invoicing Document"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="CANetDueDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Net Due Date" sap:quickinfo="Due date for net payment"/>
+				<Property Name="CAClearingStatus" Type="Edm.String" MaxLength="100" sap:display-format="UpperCase"
+						  sap:label="" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+						  sap:filterable="false"/>
+				<Property Name="AmountInDisplayCurrency" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="OpenAmountInDisplayCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Open Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="OpenDueAmountInDisplayCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Due Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Currency"
+						  sap:quickinfo="Transaction Currency" sap:semantics="currency-code"/>
+				<Property Name="CAInvcgBaseDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Invoice Date" sap:quickinfo="Baseline Date for Period Assignment in Invoicing"/>
+				<Property Name="CAInvcgDocHasControlDoc" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="CFC Control Document"
+						  sap:quickinfo="Control Document for Clarif. Case (Sim. Invoicing Document)"/>
+				<Property Name="CAInvcgDocIsLockedForPrinting" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Printing Lock"
+						  sap:quickinfo="Invoicing Document Locked for Printing"/>
+				<Property Name="CAInvcgDocLockedForPrintText" Type="Edm.String" MaxLength="250"
+						  sap:label="Printing Lock" sap:quickinfo="Description (250 Characters)"/>
+				<Property Name="CAInvcgDocumentPrintDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Print Date" sap:quickinfo="Print Date of Invoicing Document"/>
+				<Property Name="ContractAccount" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:label="Contract Account" sap:quickinfo="Contract Account Number"/>
+				<Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Company Code"/>
+				<Property Name="CAProviderContractAuthznGroup" Type="Edm.String" MaxLength="4"
+						  sap:display-format="UpperCase" sap:label="Authorization Group"/>
+			</EntityType>
+			<EntityType Name="C_CAPromiseToPayCFOType" sap:label="Promise to Pay" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CAPromiseToPay"/>
+					<PropertyRef Name="BusinessPartner"/>
+					<PropertyRef Name="ContractAccount"/>
+				</Key>
+				<Property Name="CAPromiseToPay" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Promise to Pay"
+						  sap:quickinfo="Identification of Promise to Pay"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Contract Account"
+						  sap:quickinfo="Contract Account Number"/>
+				<Property Name="CAPromisedPaymentDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"/>
+				<Property Name="StartDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"/>
+				<Property Name="CAPromiseToPayStatus" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase"
+						  sap:text="CAPromiseToPayStatusName" sap:label="Statuses"
+						  sap:quickinfo="Status of Promise to Pay"/>
+				<Property Name="CAPromiseToPayStatusName" Type="Edm.String" MaxLength="60" sap:label="Short Descript."
+						  sap:quickinfo="Short Text for Fixed Values"/>
+				<Property Name="CAPromisedAmountInTransCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="PaymentCurrency"/>
+				<Property Name="CAOpenPromisedAmtInTransCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="PaymentCurrency" sap:label="Open Amount"/>
+				<Property Name="CAAmountInLocalCurrency" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="PaymentCurrency" sap:label="Due Amount"/>
+				<Property Name="CAPrmsToPayWthdrwlReasonName" Type="Edm.String" MaxLength="50"
+						  sap:label="Withdrawal Reason" sap:quickinfo="Text"/>
+				<Property Name="PaymentCurrency" Type="Edm.String" MaxLength="5" sap:label="Pmnt Currency"
+						  sap:quickinfo="Currency for Automatic Payment" sap:semantics="currency-code"/>
+			</EntityType>
+			<EntityType Name="C_CAReturnCFOType" sap:label="Returns" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="BusinessPartner"/>
+					<PropertyRef Name="ContractAccount"/>
+					<PropertyRef Name="CAReturnDocumentNumber"/>
+				</Key>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Contract Account"
+						  sap:quickinfo="Contract Account Number"/>
+				<Property Name="CAReturnDocumentNumber" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Returns Document"
+						  sap:quickinfo="Number of the return document"/>
+				<Property Name="DocumentDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Journal Entry Date"/>
+				<Property Name="CAReturnReason" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase"
+						  sap:text="CAReturnReasonName" sap:label="Return Reason"/>
+				<Property Name="CAReturnReasonName" Type="Edm.String" MaxLength="50" sap:label="Name"
+						  sap:quickinfo="Name of Returns Reason"/>
+				<Property Name="HouseBank" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase"
+						  sap:label="House Bank" sap:quickinfo="House Bank Key"/>
+				<Property Name="CAReturnAmount" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Returns Amount"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Transaction Currency"
+						  sap:semantics="currency-code"/>
+			</EntityType>
+			<EntityType Name="C_CASubmittedCFOType" sap:label="Submitted Items" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CADocumentNumber"/>
+					<PropertyRef Name="CAGrpgCodeForTransfToCollAgcy"/>
+				</Key>
+				<Property Name="CADocumentNumber" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Document Number"
+						  sap:quickinfo="Document Number in Contract Accounts Receivable and Payable"/>
+				<Property Name="CAGrpgCodeForTransfToCollAgcy" Type="Edm.String" Nullable="false" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Collection Item"/>
+				<Property Name="BusinessPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase"
+						  sap:label="Business Partner" sap:quickinfo="Business Partner Number"/>
+				<Property Name="SortField" Type="Edm.Byte" sap:label="INT1" sap:quickinfo="1 Byte Unsigned Integer"/>
+				<Property Name="CADateOfTransferToCollAgcy" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Submission Date"
+						  sap:quickinfo="Date For Submission of Receivable To Collection Agency"/>
+				<Property Name="CATransferToCollAgcyStatusName" Type="Edm.String" MaxLength="60" sap:label="Name"
+						  sap:quickinfo="Name of Submission Status of Receivable"/>
+				<Property Name="CAAmountInTransactionCurrency" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Transaction Currency"
+						  sap:semantics="currency-code"/>
+			</EntityType>
+			<EntityType Name="C_CAWorklistItemCFOType" sap:label="Worklist" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="BusinessPartner"/>
+					<PropertyRef Name="CAWorklistItemUUID"/>
+				</Key>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="CAWorklistItemUUID" Type="Edm.String" Nullable="false" MaxLength="32"
+						  sap:display-format="UpperCase" sap:label="CGUID" sap:quickinfo="Unique Identification"/>
+				<Property Name="CAWorklistNumber" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase"
+						  sap:text="CAWorklistTitle" sap:label="Worklist ID"/>
+				<Property Name="CAWorklistTitle" Type="Edm.String" MaxLength="60" sap:display-format="UpperCase"
+						  sap:label="Title" sap:quickinfo="Title of Created Worklist"/>
+				<Property Name="CreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Created On" sap:quickinfo="Date on Which Record Was Created"/>
+				<Property Name="CAClrfctnStatusName" Type="Edm.String" MaxLength="30" sap:label="Status name"
+						  sap:quickinfo="Name of Status"/>
+				<Property Name="CAWorklistItemAmtInTransCrcy" Type="Edm.Decimal" Precision="24" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Amount" sap:quickinfo="Aggregated Amount"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Transaction Currency"
+						  sap:semantics="currency-code"/>
+				<Property Name="CAWorklistPriority" Type="Edm.String" MaxLength="50" sap:label="Priority"
+						  sap:quickinfo="Comment"/>
+				<Property Name="CAWorklistDueDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Due By"/>
+			</EntityType>
+			<EntityType Name="C_CAWriteOffCFOType" sap:label="Write-Offs" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CAWriteOffDocumentNumber"/>
+					<PropertyRef Name="CADocumentNumber"/>
+					<PropertyRef Name="CARepetitionItemNumber"/>
+					<PropertyRef Name="CABPItemNumber"/>
+					<PropertyRef Name="CASubItemNumber"/>
+					<PropertyRef Name="BusinessPartner"/>
+				</Key>
+				<Property Name="CAWriteOffDocumentNumber" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Write-Off Document"/>
+				<Property Name="CADocumentNumber" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:label="Document"/>
+				<Property Name="CARepetitionItemNumber" Type="Edm.String" Nullable="false" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Repetition Item"
+						  sap:quickinfo="Repetition Item in Contract Account Document"/>
+				<Property Name="CABPItemNumber" Type="Edm.String" Nullable="false" MaxLength="4"
+						  sap:display-format="NonNegative" sap:label="Item"
+						  sap:quickinfo="Item number in contract account document"/>
+				<Property Name="CASubItemNumber" Type="Edm.String" Nullable="false" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Subitem"
+						  sap:quickinfo="Subitem for a Partial Clearing in Document"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="CAWriteOffDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Date"/>
+				<Property Name="CAWriteOffReason" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:text="CAWriteOffReasonName" sap:label="Write-Off Reason"/>
+				<Property Name="CAWriteOffReasonName" Type="Edm.String" MaxLength="50" sap:label="Description"
+						  sap:quickinfo="Name of Write-Off Reason"/>
+				<Property Name="CAAmountInTransactionCurrency" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Transaction Currency"
+						  sap:semantics="currency-code"/>
+			</EntityType>
+			<EntityType Name="C_ContractacCBPCFOType" sap:label="Contract Account" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ContractAccount"/>
+					<PropertyRef Name="BusinessPartner"/>
+				</Key>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:text="ContractAccountName" sap:label="Contract Account"
+						  sap:value-list="standard"/>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number" sap:value-list="standard"/>
+				<Property Name="ContractAccountName" Type="Edm.String" MaxLength="35" sap:label="Contract Acct Name"
+						  sap:quickinfo="Description of Contract Account"/>
+				<Property Name="CAPaymentMethodForIncgPayment" Type="Edm.String" MaxLength="30"
+						  sap:label="Payment Method Name"/>
+				<Property Name="CAPaymentMethodForOutgPayment" Type="Edm.String" MaxLength="30"
+						  sap:label="Payment Method Name"/>
+				<Property Name="OpenAmountInDisplayCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Amount"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="OpenDueAmountInDisplayCrcy" Type="Edm.Decimal" Precision="14" Scale="3"
+						  sap:unit="TransactionCurrency" sap:label="Due Amount (Balance)"
+						  sap:quickinfo="Amount in Transaction Currency with +/- Sign"/>
+				<Property Name="CADunningProcedureName" Type="Edm.String" MaxLength="50" sap:label="Dunning Procedure"
+						  sap:quickinfo="Description of Dunning Procedure"/>
+				<Property Name="CACollectionStrategyName" Type="Edm.String" MaxLength="50" sap:visible="false"
+						  sap:label="Collection Strategy" sap:quickinfo="Name of Collection Strategy"/>
+				<Property Name="CABillgCycle" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Billing Cycle"/>
+				<Property Name="CABillgCycleText" Type="Edm.String" MaxLength="50" sap:label="Billing Cycle"
+						  sap:quickinfo="Name of Billing Cycle"/>
+				<Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase"
+						  sap:label="Country Key"/>
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" sap:label="Currency"
+						  sap:quickinfo="Currency Key" sap:semantics="currency-code"/>
+				<Property Name="CAInvcgChargeAndDiscountKey" Type="Edm.String" MaxLength="8"
+						  sap:text="CAInvcgChrgAndDiscKeyText" sap:label="Cash Discount"/>
+				<Property Name="CAInvcgChrgAndDiscKeyText" Type="Edm.String" MaxLength="50"
+						  sap:label="Charge/Discount Text" sap:quickinfo="Name of Charge and Discount Key"/>
+				<Property Name="CAIncomingPaymentLockReason" Type="Edm.String" MaxLength="50"
+						  sap:label="Active Incoming Payment Lock"/>
+				<Property Name="CAOutgoingPaymentLockReason" Type="Edm.String" MaxLength="50"
+						  sap:label="Active Outgoing Payment Lock" sap:quickinfo="Comment"/>
+				<Property Name="CADunningLockReason" Type="Edm.String" MaxLength="50" sap:label="Dunning Locks"
+						  sap:quickinfo="Comment"/>
+				<Property Name="CAPostingLockReason" Type="Edm.String" MaxLength="50" sap:label="Active Posting Lock"
+						  sap:quickinfo="Comment"/>
+				<Property Name="CAInvcgLockReason" Type="Edm.String" MaxLength="50" sap:label="Active Invoicing Lock"
+						  sap:quickinfo="Comment"/>
+				<Property Name="CAAuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Authorization Group"/>
+				<Property Name="CAStandardCompanyCode" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Standard CompanyCode" sap:quickinfo="Standard Company Code"
+						  sap:value-list="standard"/>
+				<Property Name="ContractAccountCategory" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Cont Acct Category" sap:quickinfo="Contract Account Category"
+						  sap:value-list="standard"/>
+			</EntityType>
+			<EntityType Name="I_BusinessPartnerVHType" sap:label="Business Partner Value Help" sap:value-list="true"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="BusinessPartner"/>
+				</Key>
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"
+						  sap:display-format="UpperCase" sap:label="Business Partner"
+						  sap:quickinfo="Business Partner Number"/>
+				<Property Name="FormOfAddress" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Title" sap:quickinfo="Form-of-Address Key"/>
+				<Property Name="FormOfAddressName" Type="Edm.String" MaxLength="30" sap:label="Title"
+						  sap:quickinfo="Title text"/>
+				<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name"
+						  sap:quickinfo="First Name of Business Partner (Person)"/>
+				<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name"
+						  sap:quickinfo="Last Name of Business Partner (Person)"/>
+				<Property Name="BirthDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Date of Birth" sap:quickinfo="Date of Birth of Business Partner"/>
+				<Property Name="BusinessPartnerCategory" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase"
+						  sap:label="Business Partner Category"/>
+				<Property Name="BusinessPartnerIDByExtSystem" Type="Edm.String" MaxLength="20"
+						  sap:display-format="UpperCase" sap:label="External BP Number"
+						  sap:quickinfo="Business Partner Number in External System"/>
+				<Property Name="BusinessPartnerName" Type="Edm.String" MaxLength="81"
+						  sap:label="Business Partner Name"/>
+				<Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Authorization Group"/>
+				<Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Purpose Completed"
+						  sap:quickinfo="Business Purpose Completed Flag"/>
+			</EntityType>
+			<EntityType Name="I_CACollectionStepType" sap:label="Collection Step" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CACollectionStep"/>
+				</Key>
+				<Property Name="CACollectionStep" Type="Edm.String" Nullable="false" MaxLength="4"
+						  sap:display-format="UpperCase" sap:text="CACollectionStep_Text" sap:label="Collection Step"/>
+				<Property Name="CACollectionStep_Text" Type="Edm.String" MaxLength="50" sap:label="Name"
+						  sap:quickinfo="Name of Collection Step" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="CACollectionStepLevel" Type="Edm.String" MaxLength="2" sap:display-format="NonNegative"
+						  sap:label="Collection Level"/>
+				<Property Name="CACollectionStepType" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Coll. Step Cat." sap:quickinfo="Collection Step Category"/>
+				<Property Name="CAAltvCollectionStep" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+						  sap:label="Alt. Coll. Step" sap:quickinfo="Alternative Collection Step"/>
+				<Property Name="CADaysToNextDunning" Type="Edm.String" MaxLength="3" sap:display-format="NonNegative"
+						  sap:label="Interval" sap:quickinfo="Interval to Next Dunning"/>
+				<Property Name="CAFactoryCalendarIsUsedForDun" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Factory calendar"
+						  sap:quickinfo="Days in arrears+dunning freq. by factory calendar"/>
+				<Property Name="FactoryCalendar" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Factory Calendar" sap:quickinfo="Factory calendar key"/>
+				<Property Name="CAItemGroupIsClosed" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Item Group" sap:quickinfo="Close Item Group"/>
+				<Property Name="CADaysToPaymentDeadline" Type="Edm.String" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Payment deadline"
+						  sap:quickinfo="Payment Deadline in Days"/>
+				<Property Name="CACreditWorthinessRatingValue" Type="Edm.String" MaxLength="2"
+						  sap:display-format="NonNegative" sap:label="Creditworthiness No."
+						  sap:quickinfo="Creditworthiness Number"/>
+				<Property Name="CAInterestCode" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Interest Key"/>
+				<Property Name="CAPostingCodeForDunInterest" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Update key"
+						  sap:quickinfo="Posting Key for Dunning Interest"/>
+				<Property Name="CAInterestIsCalculated" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Determine Interest"/>
+				<Property Name="CAIntrstIsCalculatedBfrCharges" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Interest before Charges"
+						  sap:quickinfo="Calculation of Interest before Charges in Dunning Program"/>
+				<Property Name="CADunningChargesSchema" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Charges Schedule"/>
+				<Property Name="CAIntrstAndChargeIsAddedToHist" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Dun Documents Immed." sap:quickinfo="Dun New Documents Immediately"/>
+				<Property Name="CADunningSuccessCanBeEvaluated" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Success Valuation" sap:quickinfo="Subsequent Success Valuation of Dunning"/>
+			</EntityType>
+			<EntityType Name="I_CACollectionStrategyType" sap:label="Collection Strategy" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CACollectionStrategy"/>
+				</Key>
+				<Property Name="CACollectionStrategy" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="UpperCase" sap:text="CACollectionStrategy_Text"
+						  sap:label="Collection Strategy"/>
+				<Property Name="CACollectionStrategy_Text" Type="Edm.String" MaxLength="50" sap:label="Name"
+						  sap:quickinfo="Name of Collection Strategy" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="I_CADunningLevelType" sap:label="Dunning Level" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CADunningProcedure"/>
+					<PropertyRef Name="CADunningLevel"/>
+				</Key>
+				<Property Name="CADunningProcedure" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="UpperCase" sap:label="Dunning Procedure"/>
+				<Property Name="CADunningLevel" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="NonNegative" sap:text="CADunningLevel_Text" sap:label="Dunning level"
+						  sap:quickinfo="Dunning Level"/>
+				<Property Name="CADunningLevel_Text" Type="Edm.String" MaxLength="50" sap:label="Name"
+						  sap:quickinfo="Name of Dunning Level" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="CANumberOfDaysInArrears" Type="Edm.String" MaxLength="4"
+						  sap:display-format="NonNegative" sap:label="Days in arrears"
+						  sap:quickinfo="Number Of Days in Arrears"/>
+				<Property Name="CADunningFrequencyInDays" Type="Edm.String" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Dunning frequency"
+						  sap:quickinfo="Dunning frequency in days"/>
+				<Property Name="CADaysToPaymentDeadline" Type="Edm.String" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Payment deadline"
+						  sap:quickinfo="Payment Deadline in Days"/>
+				<Property Name="CAAllItemsArePrinted" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Print All Items"/>
+				<Property Name="CADunningNoticeIsAlwaysCreated" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Always dun" sap:quickinfo="Always Dun Dunning Level"/>
+				<Property Name="CACreditWorthinessRatingValue" Type="Edm.String" MaxLength="2"
+						  sap:display-format="NonNegative" sap:label="Creditworthiness No."
+						  sap:quickinfo="Creditworthiness Number"/>
+				<Property Name="CADunningLevelIsOptional" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Optional dun. level" sap:quickinfo="Dunning Level is Optional"/>
+				<Property Name="CADunningLevelIsOnlyForIntRsn" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Suspension level"
+						  sap:quickinfo="Entry in Dunning History only Technically Conditional"/>
+				<Property Name="CAInterestCode" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Interest Key"/>
+				<Property Name="CAPostingCodeForDunInterest" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Update key"
+						  sap:quickinfo="Posting Key for Dunning Interest"/>
+				<Property Name="CAInterestIsCalculated" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Determine Interest"/>
+				<Property Name="CADunningChargesSchema" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Charges Schedule"/>
+				<Property Name="CADunningLevelCategory" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Dunning Level Cat." sap:quickinfo="Dunning Level Category"/>
+				<Property Name="CADunningLevelSettingCode" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Set dunning level"
+						  sap:quickinfo="Set Dunning Level"/>
+				<Property Name="CANumberOfDaysInArrearsExt" Type="Edm.String" MaxLength="4"
+						  sap:display-format="NonNegative" sap:label="altern.days/arrears"
+						  sap:quickinfo="Number of days in arrears for external program"/>
+				<Property Name="CADunningFrequencyInDaysExt" Type="Edm.String" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Alternat. dun. freq."
+						  sap:quickinfo="Dunning frequency in days for external program"/>
+				<Property Name="CAOnlyItmsOfLastDunLvlAreAllwd" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="already dunned" sap:quickinfo="Only Items from Previous Dunning Level"/>
+				<Property Name="CADunningRecipientDetnCode" Type="Edm.String" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Dunning recipient"
+						  sap:quickinfo="Control for Dunning Recipient"/>
+				<Property Name="CAIntrstIsCalculatedBfrCharges" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Interest before Charges"
+						  sap:quickinfo="Calculation of Interest before Charges in Dunning Program"/>
+				<Property Name="CADaysBeforeDueDateForReminder" Type="Edm.String" MaxLength="3"
+						  sap:display-format="NonNegative" sap:label="Reminder Days"
+						  sap:quickinfo="Number of Days for Reminder before Due Date"/>
+				<Property Name="CAMinimalPctOfAmountStillOpen" Type="Edm.Decimal" Precision="3" Scale="1"
+						  sap:label="Limit Percentage" sap:quickinfo="Dunning Proposal: Limit Percentage Rate"/>
+				<Property Name="CAIntrstAndChargeIsAddedToHist" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Dun Documents Immed." sap:quickinfo="Dun New Documents Immediately"/>
+				<Property Name="CADunningSuccessCanBeEvaluated" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Success Valuation" sap:quickinfo="Subsequent Success Valuation of Dunning"/>
+			</EntityType>
+			<EntityType Name="I_CADunningProcedureType" sap:label="Dunning Procedure" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CADunningProcedure"/>
+				</Key>
+				<Property Name="CADunningProcedure" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="UpperCase" sap:text="CADunningProcedure_Text"
+						  sap:label="Dunning Procedure"/>
+				<Property Name="CADunningProcedure_Text" Type="Edm.String" MaxLength="50" sap:label="Description"
+						  sap:quickinfo="Description of Dunning Procedure" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="CADunningProcedureCategory" Type="Edm.String" MaxLength="2"
+						  sap:display-format="UpperCase" sap:label="Category"
+						  sap:quickinfo="Dunning Procedure Category"/>
+				<Property Name="CAAltvDunProcedForInstallments" Type="Edm.String" MaxLength="2"
+						  sap:display-format="UpperCase" sap:label="For Installment"
+						  sap:quickinfo="Alternative Dunning Procedure For Installments"/>
+				<Property Name="CAAltvDunProcedForReturns" Type="Edm.String" MaxLength="2"
+						  sap:display-format="UpperCase" sap:label="For Returns"
+						  sap:quickinfo="Alternative Dunning Procedure For Returns"/>
+				<Property Name="CAProcessControlAtLastDunLevel" Type="Edm.String" MaxLength="1"
+						  sap:display-format="NonNegative" sap:label="Last Dunning Level"
+						  sap:quickinfo="Behaviour at Last Dunning Level"/>
+				<Property Name="CAFactoryCalendarIsUsedForDun" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Days in Arears and Dunning Frequency"
+						  sap:quickinfo="Days in arrears+dunning freq. by factory calendar"/>
+				<Property Name="FactoryCalendar" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Factory Calendar" sap:quickinfo="Factory calendar key"/>
+				<Property Name="CADunningLevelMustNotBeReduced" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Do Not Reduce Dunning Levels"/>
+				<Property Name="CAProcessControlForCredits" Type="Edm.String" MaxLength="1"
+						  sap:display-format="NonNegative" sap:label="Behavior for Credit"
+						  sap:quickinfo="Behavior if Credit Exists"/>
+			</EntityType>
+			<EntityType Name="I_CompanyCodeStdVHType" sap:label="Company Code" sap:value-list="true"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="CompanyCode"/>
+				</Key>
+				<Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4"
+						  sap:display-format="UpperCase" sap:text="CompanyCodeName" sap:label="Company Code"/>
+				<Property Name="CompanyCodeName" Type="Edm.String" MaxLength="25" sap:label="Company Name"
+						  sap:quickinfo="Name of Company Code or Company"/>
+			</EntityType>
+			<EntityType Name="I_ContrAcctCatStdVHType" sap:label="Contract Account Category" sap:value-list="true"
+						sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ContractAccountCategory"/>
+					<PropertyRef Name="CAApplicationArea"/>
+				</Key>
+				<Property Name="ContractAccountCategory" Type="Edm.String" Nullable="false" MaxLength="2"
+						  sap:display-format="UpperCase" sap:text="ContractAccountCategory_Text"
+						  sap:label="Contract Account Category"/>
+				<Property Name="ContractAccountCategory_Text" Type="Edm.String" MaxLength="50" sap:label="Category Name"
+						  sap:quickinfo="Description of Contract Account Category" sap:creatable="false"
+						  sap:updatable="false"/>
+				<Property Name="CAApplicationArea" Type="Edm.String" Nullable="false" MaxLength="1"
+						  sap:display-format="UpperCase" sap:label="Application Area" sap:quickinfo="Application area"/>
+			</EntityType>
+			<EntityType Name="I_ContractAccountHeaderStdVHType" sap:label="Contract Account Header"
+						sap:value-list="true" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ContractAccount"/>
+				</Key>
+				<Property Name="ContractAccount" Type="Edm.String" Nullable="false" MaxLength="12"
+						  sap:display-format="UpperCase" sap:text="ContractAccountName" sap:label="Contract Account"/>
+				<Property Name="ContractAccountName" Type="Edm.String" MaxLength="35" sap:label="Description"
+						  sap:quickinfo="Description of Contract Account"/>
+				<Property Name="ContractAccountCategory" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase"
+						  sap:label="Category" sap:quickinfo="Contract Account Category"/>
+			</EntityType>
+			<EntityType Name="I_CurrencyType" sap:label="Currency" sap:value-list="true" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="Currency"/>
+				</Key>
+				<Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5" sap:text="Currency_Text"
+						  sap:label="Currency" sap:quickinfo="Currency Key" sap:semantics="currency-code"/>
+				<Property Name="Currency_Text" Type="Edm.String" MaxLength="40" sap:label="Description"
+						  sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Decimals" Type="Edm.Byte" sap:label="Decimal Places"
+						  sap:quickinfo="Number of decimal places"/>
+				<Property Name="CurrencyISOCode" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase"
+						  sap:label="ISO Code" sap:quickinfo="ISO Currency Code"/>
+				<Property Name="AlternativeCurrencyKey" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase"
+						  sap:label="Alternative Key"/>
+				<Property Name="IsPrimaryCurrencyForISOCrcy" Type="Edm.Boolean" sap:display-format="UpperCase"
+						  sap:label="Primary" sap:quickinfo="Primary SAP Currency Code for ISO Code"/>
+			</EntityType>
+			<EntityType Name="FKK_PAYMENT_CFO" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="OPBEL"/>
+				</Key>
+				<Property Name="MANDT" Type="Edm.String" MaxLength="3" sap:label="Client"/>
+				<Property Name="OPBEL" Type="Edm.String" Nullable="false" MaxLength="12" sap:label="Document Number"/>
+				<Property Name="BLDAT" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Document Date"/>
+				<Property Name="BETRW" Type="Edm.Decimal" Precision="14" Scale="3" sap:unit="WAERS"
+						  sap:label="Assigned"/>
+				<Property Name="WAERS" Type="Edm.String" MaxLength="5" sap:label="Currency"
+						  sap:semantics="currency-code"/>
+				<Property Name="HERKF" Type="Edm.String" MaxLength="40" sap:label="Doc.Origin Descriptn"/>
+			</EntityType>
+			<EntityType Name="FKK_DISPUTE_CFO" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="EXT_KEY"/>
+				</Key>
+				<Property Name="MANDT" Type="Edm.String" MaxLength="3" sap:label="Client"/>
+				<Property Name="EXT_KEY" Type="Edm.String" Nullable="false" MaxLength="12" sap:label="Case ID"/>
+				<Property Name="CREATE_TIME" Type="Edm.Decimal" Precision="15" Scale="0" sap:label="Created On"/>
+				<Property Name="FICA_INT_REASON" Type="Edm.String" MaxLength="50"/>
+				<Property Name="STAT_ORDERNO" Type="Edm.String" MaxLength="50"/>
+				<Property Name="PRIORITY" Type="Edm.String" MaxLength="50"/>
+				<Property Name="FICA_DISPUTED_AM" Type="Edm.Decimal" Precision="16" Scale="3"
+						  sap:unit="FIN_DISPUTE_CURR" sap:label="Disputed Amount"/>
+				<Property Name="FICA_CREDITED_AM" Type="Edm.Decimal" Precision="16" Scale="3"
+						  sap:unit="FIN_DISPUTE_CURR" sap:label="Credited"/>
+				<Property Name="FIN_DISPUTE_CURR" Type="Edm.String" MaxLength="5" sap:label="Currency"
+						  sap:semantics="currency-code"/>
+				<Property Name="BLDAT" Type="Edm.DateTime" Precision="0" sap:display-format="Date"
+						  sap:label="Document Date"/>
+				<Property Name="PROFILE_ID" Type="Edm.String" MaxLength="8" sap:label="Status Profile"/>
+			</EntityType>
+			<Association Name="assoc_EB558828A406D0BE120878A5F0841631" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCollectionCFOType" Multiplicity="1"
+					 Role="FromRole_assoc_EB558828A406D0BE120878A5F0841631"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.I_CACollectionStepType" Multiplicity="0..1"
+					 Role="ToRole_assoc_EB558828A406D0BE120878A5F0841631"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_EB558828A406D0BE120878A5F0841631">
+						<PropertyRef Name="CACollectionStep"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_EB558828A406D0BE120878A5F0841631">
+						<PropertyRef Name="CACollectionStep"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_7088394776741709734F2DA69F38EE6B" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCollectionCFOType" Multiplicity="1"
+					 Role="FromRole_assoc_7088394776741709734F2DA69F38EE6B"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.I_CACollectionStrategyType" Multiplicity="0..1"
+					 Role="ToRole_assoc_7088394776741709734F2DA69F38EE6B"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_7088394776741709734F2DA69F38EE6B">
+						<PropertyRef Name="CACollectionStrategy"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_7088394776741709734F2DA69F38EE6B">
+						<PropertyRef Name="CACollectionStrategy"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_EAB46A1E04BC611F28F4D392B025F00B" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_EAB46A1E04BC611F28F4D392B025F00B"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_EAB46A1E04BC611F28F4D392B025F00B"/>
+			</Association>
+			<Association Name="assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCollectionCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"/>
+			</Association>
+			<Association Name="assoc_7576066E2E52B012A96DCA6492AD91E0" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_7576066E2E52B012A96DCA6492AD91E0"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CAInstallmentPlanCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_7576066E2E52B012A96DCA6492AD91E0"/>
+			</Association>
+			<Association Name="assoc_50C4FE3AC1748EB36282C615D007620C" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_50C4FE3AC1748EB36282C615D007620C"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CAInvoiceCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_50C4FE3AC1748EB36282C615D007620C"/>
+			</Association>
+			<Association Name="assoc_E13146B748094DB4F48CBA53B03D7F7D" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_E13146B748094DB4F48CBA53B03D7F7D"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CAPromiseToPayCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_E13146B748094DB4F48CBA53B03D7F7D"/>
+			</Association>
+			<Association Name="assoc_B29FB451A033574783730A039E4043B1" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_B29FB451A033574783730A039E4043B1"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CAReturnCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_B29FB451A033574783730A039E4043B1"/>
+			</Association>
+			<Association Name="assoc_A1528E9B78CA02AE525F056D878B653B" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_A1528E9B78CA02AE525F056D878B653B"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CASubmittedCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_A1528E9B78CA02AE525F056D878B653B"/>
+			</Association>
+			<Association Name="assoc_8BD1EE3F98E79875D31299420314E1BC" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_8BD1EE3F98E79875D31299420314E1BC"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CAWorklistItemCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_8BD1EE3F98E79875D31299420314E1BC"/>
+			</Association>
+			<Association Name="assoc_92534A6D665D5F6B65E6AACD20E3BD90" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_92534A6D665D5F6B65E6AACD20E3BD90"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CAWriteOffCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_92534A6D665D5F6B65E6AACD20E3BD90"/>
+			</Association>
+			<Association Name="assoc_7138621F524B991ECBAA2877A540DE5E" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_7138621F524B991ECBAA2877A540DE5E"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_ContractacCBPCFOType" Multiplicity="*"
+					 Role="ToRole_assoc_7138621F524B991ECBAA2877A540DE5E"/>
+			</Association>
+			<Association Name="assoc_3045A7C0BB5EA147E0479523A1E2B70F" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_3045A7C0BB5EA147E0479523A1E2B70F"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustFinOvwCorrespondenceType" Multiplicity="*"
+					 Role="ToRole_assoc_3045A7C0BB5EA147E0479523A1E2B70F"/>
+			</Association>
+			<Association Name="assoc_FKK_PAYMENT_CFO" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_FKK_PAYMENT_CFO"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.FKK_PAYMENT_CFO" Multiplicity="*"
+					 Role="ToRole_assoc_FKK_PAYMENT_CFO"/>
+			</Association>
+			<Association Name="assoc_FKK_DISPUTE_CFO" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_FKK_DISPUTE_CFO"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO" Multiplicity="*"
+					 Role="ToRole_assoc_FKK_DISPUTE_CFO"/>
+			</Association>
+			<Association Name="assoc_333D4FAFCBE6E15A0B89C55312CC4E97" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="1"
+					 Role="FromRole_assoc_333D4FAFCBE6E15A0B89C55312CC4E97"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CAContractPartnerValueHelpType" Multiplicity="0..1"
+					 Role="ToRole_assoc_333D4FAFCBE6E15A0B89C55312CC4E97"/>
+			</Association>
+			<Association Name="assoc_BEC97A27E948DFECD0ECECF028826D4B" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsParameters" Multiplicity="1"
+					 Role="FromRole_assoc_BEC97A27E948DFECD0ECECF028826D4B"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType" Multiplicity="*"
+					 Role="ToRole_assoc_BEC97A27E948DFECD0ECECF028826D4B"/>
+			</Association>
+			<Association Name="assoc_A197A06A11699709AA9A033CE9B2B25F" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCFOType" Multiplicity="1"
+					 Role="FromRole_assoc_A197A06A11699709AA9A033CE9B2B25F"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.I_CADunningLevelType" Multiplicity="0..1"
+					 Role="ToRole_assoc_A197A06A11699709AA9A033CE9B2B25F"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_A197A06A11699709AA9A033CE9B2B25F">
+						<PropertyRef Name="CADunningLevel"/>
+						<PropertyRef Name="CADunningProcedure"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_A197A06A11699709AA9A033CE9B2B25F">
+						<PropertyRef Name="OldDunningLevel"/>
+						<PropertyRef Name="CADunningProcedure"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_3C9817251C45D0A071DB3F5E712336CA" sap:content-version="1">
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCFOType" Multiplicity="1"
+					 Role="FromRole_assoc_3C9817251C45D0A071DB3F5E712336CA"/>
+				<End Type="O2C_FICA_CUSTOMERFO_SRV.I_CADunningProcedureType" Multiplicity="0..1"
+					 Role="ToRole_assoc_3C9817251C45D0A071DB3F5E712336CA"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_3C9817251C45D0A071DB3F5E712336CA">
+						<PropertyRef Name="CADunningProcedure"/>
+					</Principal>
+					<Dependent Role="FromRole_assoc_3C9817251C45D0A071DB3F5E712336CA">
+						<PropertyRef Name="CADunningProcedure"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<EntityContainer Name="O2C_FICA_CUSTOMERFO_SRV_Entities" m:IsDefaultEntityContainer="true"
+							 sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+				<EntitySet Name="FKK_PAYMENT_CFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.FKK_PAYMENT_CFO"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="FKK_DISPUTE_CFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CAContractPartnerValueHelp"
+						   EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CAContractPartnerValueHelpType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<EntitySet Name="C_CACustFinOvwCorrespondence"
+						   EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CACustFinOvwCorrespondenceType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CACustomerFOFsSet" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:addressable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CACustomerFOFs" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsParameters"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false"
+						   sap:content-version="1"/>
+				<EntitySet Name="C_CADunningNoticeCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CADunningNoticeCollectionCFO"
+						   EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCollectionCFOType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CAInstallmentPlanCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CAInstallmentPlanCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CAInvoiceCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CAInvoiceCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CAPromiseToPayCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CAPromiseToPayCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CAReturnCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CAReturnCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CASubmittedCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CASubmittedCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CAWorklistItemCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CAWorklistItemCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_CAWriteOffCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_CAWriteOffCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="C_ContractacCBPCFO" EntityType="O2C_FICA_CUSTOMERFO_SRV.C_ContractacCBPCFOType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_BusinessPartnerVH" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_BusinessPartnerVHType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<EntitySet Name="I_CACollectionStep" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_CACollectionStepType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_CACollectionStrategy" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_CACollectionStrategyType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_CADunningLevel" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_CADunningLevelType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_CADunningProcedure" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_CADunningProcedureType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_CompanyCodeStdVH" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_CompanyCodeStdVHType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true"
+						   sap:content-version="1"/>
+				<EntitySet Name="I_ContrAcctCatStdVH" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_ContrAcctCatStdVHType"
+						   sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_ContractAccountHeaderStdVH"
+						   EntityType="O2C_FICA_CUSTOMERFO_SRV.I_ContractAccountHeaderStdVHType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+				<EntitySet Name="I_Currency" EntityType="O2C_FICA_CUSTOMERFO_SRV.I_CurrencyType" sap:creatable="false"
+						   sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<AssociationSet Name="assoc_EB558828A406D0BE120878A5F0841631"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_EB558828A406D0BE120878A5F0841631"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CADunningNoticeCollectionCFO"
+						 Role="FromRole_assoc_EB558828A406D0BE120878A5F0841631"/>
+					<End EntitySet="I_CACollectionStep" Role="ToRole_assoc_EB558828A406D0BE120878A5F0841631"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_8BD1EE3F98E79875D31299420314E1BC"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_8BD1EE3F98E79875D31299420314E1BC"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_8BD1EE3F98E79875D31299420314E1BC"/>
+					<End EntitySet="C_CAWorklistItemCFO" Role="ToRole_assoc_8BD1EE3F98E79875D31299420314E1BC"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_B29FB451A033574783730A039E4043B1"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_B29FB451A033574783730A039E4043B1"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_B29FB451A033574783730A039E4043B1"/>
+					<End EntitySet="C_CAReturnCFO" Role="ToRole_assoc_B29FB451A033574783730A039E4043B1"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_7088394776741709734F2DA69F38EE6B"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_7088394776741709734F2DA69F38EE6B"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CADunningNoticeCollectionCFO"
+						 Role="FromRole_assoc_7088394776741709734F2DA69F38EE6B"/>
+					<End EntitySet="I_CACollectionStrategy" Role="ToRole_assoc_7088394776741709734F2DA69F38EE6B"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_BEC97A27E948DFECD0ECECF028826D4B"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_BEC97A27E948DFECD0ECECF028826D4B"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFs" Role="FromRole_assoc_BEC97A27E948DFECD0ECECF028826D4B"/>
+					<End EntitySet="C_CACustomerFOFsSet" Role="ToRole_assoc_BEC97A27E948DFECD0ECECF028826D4B"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_FKK_DISPUTE_CFO" Association="O2C_FICA_CUSTOMERFO_SRV.assoc_FKK_DISPUTE_CFO"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_FKK_DISPUTE_CFO"/>
+					<End EntitySet="FKK_DISPUTE_CFO" Role="ToRole_assoc_FKK_DISPUTE_CFO"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_E13146B748094DB4F48CBA53B03D7F7D"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_E13146B748094DB4F48CBA53B03D7F7D"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_E13146B748094DB4F48CBA53B03D7F7D"/>
+					<End EntitySet="C_CAPromiseToPayCFO" Role="ToRole_assoc_E13146B748094DB4F48CBA53B03D7F7D"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_92534A6D665D5F6B65E6AACD20E3BD90"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_92534A6D665D5F6B65E6AACD20E3BD90"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_92534A6D665D5F6B65E6AACD20E3BD90"/>
+					<End EntitySet="C_CAWriteOffCFO" Role="ToRole_assoc_92534A6D665D5F6B65E6AACD20E3BD90"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_50C4FE3AC1748EB36282C615D007620C"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_50C4FE3AC1748EB36282C615D007620C"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_50C4FE3AC1748EB36282C615D007620C"/>
+					<End EntitySet="C_CAInvoiceCFO" Role="ToRole_assoc_50C4FE3AC1748EB36282C615D007620C"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_7576066E2E52B012A96DCA6492AD91E0"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_7576066E2E52B012A96DCA6492AD91E0"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_7576066E2E52B012A96DCA6492AD91E0"/>
+					<End EntitySet="C_CAInstallmentPlanCFO" Role="ToRole_assoc_7576066E2E52B012A96DCA6492AD91E0"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_EAB46A1E04BC611F28F4D392B025F00B"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_EAB46A1E04BC611F28F4D392B025F00B"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_EAB46A1E04BC611F28F4D392B025F00B"/>
+					<End EntitySet="C_CADunningNoticeCFO" Role="ToRole_assoc_EAB46A1E04BC611F28F4D392B025F00B"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_A1528E9B78CA02AE525F056D878B653B"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_A1528E9B78CA02AE525F056D878B653B"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_A1528E9B78CA02AE525F056D878B653B"/>
+					<End EntitySet="C_CASubmittedCFO" Role="ToRole_assoc_A1528E9B78CA02AE525F056D878B653B"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"/>
+					<End EntitySet="C_CADunningNoticeCollectionCFO"
+						 Role="ToRole_assoc_8F3AFF5D89AA8DB1E3C660DAC6D92E75"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_7138621F524B991ECBAA2877A540DE5E"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_7138621F524B991ECBAA2877A540DE5E"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_7138621F524B991ECBAA2877A540DE5E"/>
+					<End EntitySet="C_ContractacCBPCFO" Role="ToRole_assoc_7138621F524B991ECBAA2877A540DE5E"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_A197A06A11699709AA9A033CE9B2B25F"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_A197A06A11699709AA9A033CE9B2B25F"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CADunningNoticeCFO" Role="FromRole_assoc_A197A06A11699709AA9A033CE9B2B25F"/>
+					<End EntitySet="I_CADunningLevel" Role="ToRole_assoc_A197A06A11699709AA9A033CE9B2B25F"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_FKK_PAYMENT_CFO" Association="O2C_FICA_CUSTOMERFO_SRV.assoc_FKK_PAYMENT_CFO"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_FKK_PAYMENT_CFO"/>
+					<End EntitySet="FKK_PAYMENT_CFO" Role="ToRole_assoc_FKK_PAYMENT_CFO"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_3045A7C0BB5EA147E0479523A1E2B70F"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_3045A7C0BB5EA147E0479523A1E2B70F"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_3045A7C0BB5EA147E0479523A1E2B70F"/>
+					<End EntitySet="C_CACustFinOvwCorrespondence" Role="ToRole_assoc_3045A7C0BB5EA147E0479523A1E2B70F"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_3C9817251C45D0A071DB3F5E712336CA"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_3C9817251C45D0A071DB3F5E712336CA"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CADunningNoticeCFO" Role="FromRole_assoc_3C9817251C45D0A071DB3F5E712336CA"/>
+					<End EntitySet="I_CADunningProcedure" Role="ToRole_assoc_3C9817251C45D0A071DB3F5E712336CA"/>
+				</AssociationSet>
+				<AssociationSet Name="assoc_333D4FAFCBE6E15A0B89C55312CC4E97"
+								Association="O2C_FICA_CUSTOMERFO_SRV.assoc_333D4FAFCBE6E15A0B89C55312CC4E97"
+								sap:creatable="false" sap:updatable="false" sap:deletable="false"
+								sap:content-version="1">
+					<End EntitySet="C_CACustomerFOFsSet" Role="FromRole_assoc_333D4FAFCBE6E15A0B89C55312CC4E97"/>
+					<End EntitySet="C_CAContractPartnerValueHelp" Role="ToRole_assoc_333D4FAFCBE6E15A0B89C55312CC4E97"/>
+				</AssociationSet>
+			</EntityContainer>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType/BusinessPartner"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Wertehilfe Vertragspartner"/>
+						<PropertyValue Property="CollectionPath" String="C_CAContractPartnerValueHelp"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="BusinessPartner"/>
+									<PropertyValue Property="ValueListProperty" String="BusinessPartner"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="BusinessPartnerFullName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="FirstName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="LastName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="OrganizationBPName1"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="OrganizationBPName2"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="GroupBusinessPartnerName1"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="GroupBusinessPartnerName2"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="BusinessPartnerCategory"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="SearchTerm1"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="SearchTerm2"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="StreetName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="PostalCode"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CityName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Country"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="BusinessPartnerRole"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="AuthorizationGroup"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="IsBusinessPurposeCompleted"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsParameters/P_DisplayCurrency"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Currency"/>
+						<PropertyValue Property="CollectionPath" String="I_Currency"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="P_DisplayCurrency"/>
+									<PropertyValue Property="ValueListProperty" String="Currency"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Currency_Text"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Decimals"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CurrencyISOCode"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="AlternativeCurrencyKey"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="IsPrimaryCurrencyForISOCrcy"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCFOType/OldDunningLevel"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Mahnstufe"/>
+						<PropertyValue Property="CollectionPath" String="I_CADunningLevel"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="CADunningProcedure"/>
+									<PropertyValue Property="ValueListProperty" String="CADunningProcedure"/>
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="OldDunningLevel"/>
+									<PropertyValue Property="ValueListProperty" String="CADunningLevel"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CADunningLevel_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCFOType/CADunningProcedure"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Mahnverfahren"/>
+						<PropertyValue Property="CollectionPath" String="I_CADunningProcedure"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="CADunningProcedure"/>
+									<PropertyValue Property="ValueListProperty" String="CADunningProcedure"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CADunningProcedure_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCollectionCFOType/CACollectionStep"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Collectionschritt"/>
+						<PropertyValue Property="CollectionPath" String="I_CACollectionStep"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="CACollectionStep"/>
+									<PropertyValue Property="ValueListProperty" String="CACollectionStep"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CACollectionStep_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CADunningNoticeCollectionCFOType/CACollectionStrategy"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Collection-Strategie"/>
+						<PropertyValue Property="CollectionPath" String="I_CACollectionStrategy"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="CACollectionStrategy"/>
+									<PropertyValue Property="ValueListProperty" String="CACollectionStrategy"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CACollectionStrategy_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_ContractacCBPCFOType/ContractAccount"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Contract Account Header"/>
+						<PropertyValue Property="CollectionPath" String="I_ContractAccountHeaderStdVH"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ContractAccount"/>
+									<PropertyValue Property="ValueListProperty" String="ContractAccount"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ContractAccountName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ContractAccountCategory"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_ContractacCBPCFOType/BusinessPartner"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Business Partner Value Help"/>
+						<PropertyValue Property="CollectionPath" String="I_BusinessPartnerVH"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="BusinessPartner"/>
+									<PropertyValue Property="ValueListProperty" String="BusinessPartner"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="FormOfAddress"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="FormOfAddressName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="FirstName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="LastName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="BirthDate"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="BusinessPartnerCategory"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="BusinessPartnerIDByExtSystem"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="BusinessPartnerName"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="AuthorizationGroup"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="IsBusinessPurposeCompleted"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_ContractacCBPCFOType/CAStandardCompanyCode"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Company Code"/>
+						<PropertyValue Property="CollectionPath" String="I_CompanyCodeStdVH"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="CAStandardCompanyCode"/>
+									<PropertyValue Property="ValueListProperty" String="CompanyCode"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CompanyCodeName"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_ContractacCBPCFOType/ContractAccountCategory"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ValueList">
+					<Record>
+						<PropertyValue Property="Label" String="Contract Account Category"/>
+						<PropertyValue Property="CollectionPath" String="I_ContrAcctCatStdVH"/>
+						<PropertyValue Property="SearchSupported" Bool="false"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="ContractAccountCategory"/>
+									<PropertyValue Property="ValueListProperty" String="ContractAccountCategory"/>
+								</Record>
+								<Record Type="Common.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="CAApplicationArea"/>
+									<PropertyValue Property="ValueListProperty" String="CAApplicationArea"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="ContractAccountCategory_Text"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.O2C_FICA_CUSTOMERFO_SRV_Entities"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+				<Annotation Term="Aggregation.ApplySupported">
+					<Record>
+						<PropertyValue Property="Transformations">
+							<Collection>
+								<String>aggregate</String>
+								<String>groupby</String>
+								<String>filter</String>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Rollup" EnumMember="None"/>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.O2C_FICA_CUSTOMERFO_SRV_Entities/C_CACustomerFOFs"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>P_DisplayCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.NavigationRestrictions">
+					<Record>
+						<PropertyValue Property="RestrictedProperties">
+							<Collection>
+								<Record>
+									<PropertyValue Property="NavigationProperty" NavigationPropertyPath="Parameters"/>
+									<PropertyValue Property="FilterRestrictions">
+										<Record>
+											<PropertyValue Property="Filterable" Bool="false"/>
+										</Record>
+									</PropertyValue>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>P_DisplayCurrency</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.O2C_FICA_CUSTOMERFO_SRV_Entities/C_CACustomerFOFsSet"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>CALastInvoicingDocInfoText</PropertyPath>
+								<PropertyPath>CALastPaymentInfoText</PropertyPath>
+								<PropertyPath>CALastReturnInfoText</PropertyPath>
+								<PropertyPath>CALastDunningInfoText</PropertyPath>
+								<PropertyPath>CALastDisputeInfoText</PropertyPath>
+								<PropertyPath>CALastWriteOffInfoText</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>CALastInvoicingDocInfoText</PropertyPath>
+								<PropertyPath>CALastPaymentInfoText</PropertyPath>
+								<PropertyPath>CALastReturnInfoText</PropertyPath>
+								<PropertyPath>CALastDunningInfoText</PropertyPath>
+								<PropertyPath>CALastDisputeInfoText</PropertyPath>
+								<PropertyPath>CALastWriteOffInfoText</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.O2C_FICA_CUSTOMERFO_SRV_Entities/C_CAInvoiceCFO"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>CAClearingStatus</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>CAClearingStatus</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>BusinessPartner</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.I_CurrencyType/Currency"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.UnitSpecificScale" Path="Decimals"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsParameters/P_Currency"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="com.sap.vocabularies.Common.v1.ValueList">
+					<Record>
+						<PropertyValue Property="CollectionPath" String="I_Currency"/>
+						<PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="com.sap.vocabularies.Common.v1.ValueListParameterInOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="P_Currency"/>
+									<PropertyValue Property="ValueListProperty" String="Currency"/>
+								</Record>
+								<Record Type="com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Currency_Text"/>
+								</Record>
+								<Record Type="com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="Decimals"/>
+								</Record>
+								<Record Type="com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="CurrencyISOCode"/>
+								</Record>
+								<Record Type="com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="AlternativeCurrencyKey"/>
+								</Record>
+								<Record Type="com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="IsPrimaryCurrencyForISOCrcy"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_PAYMENT_CFO"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="com.sap.vocabularies.UI.v1.LineItem">
+					<Collection/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="com.sap.vocabularies.UI.v1.LineItem">
+					<Collection/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType/AddressLine1"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="com.sap.vocabularies.PersonalData.v1.IsPotentiallySensitive"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_PAYMENT_CFO/OPBEL"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticObject" String="CADocument"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_PAYMENT_CFO/MANDT"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Hidden"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_PAYMENT_CFO/WAERS"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Hidden"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_PAYMENT_CFO"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="OPBEL"/>
+							<PropertyValue Property="Label" String="Payment"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BLDAT"/>
+							<PropertyValue Property="Label" String="Document Date"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BETRW"/>
+							<PropertyValue Property="Label" String="Payment Amount"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="HERKF"/>
+							<PropertyValue Property="Label" String="Origin"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO/EXT_KEY"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.SemanticObject" String="CADisputeCase"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO/MANDT"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Hidden"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO/FIN_DISPUTE_CURR"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Hidden"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO/PROFILE_ID"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Hidden"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO/CREATE_TIME"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Hidden"/>
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.FKK_DISPUTE_CFO"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="UI.LineItem">
+					<Collection>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="EXT_KEY"/>
+							<PropertyValue Property="Label" String="Clarif. Case"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="BLDAT"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="STAT_ORDERNO"/>
+							<PropertyValue Property="Label" String="Status"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="FICA_DISPUTED_AM"/>
+							<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="FICA_INT_REASON"/>
+							<PropertyValue Property="Label" String="Registration Reason"/>
+						</Record>
+						<Record Type="UI.DataField">
+							<PropertyValue Property="Value" Path="PRIORITY"/>
+							<PropertyValue Property="Label" String="Priority Name"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="O2C_FICA_CUSTOMERFO_SRV.C_CACustomerFOFsType"
+						 xmlns="http://docs.oasis-open.org/odata/ns/edm">
+				<Annotation Term="com.sap.vocabularies.UI.v1.Facets">
+					<Collection>
+						<Record Type="com.sap.vocabularies.UI.v1.CollectionFacet">
+							<PropertyValue Property="Label" String="General Information"/>
+							<PropertyValue Property="ID" String="GeneralInformation"/>
+							<PropertyValue Property="Facets">
+								<Collection>
+									<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+										<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FG1"/>
+									</Record>
+									<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+										<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FG2"/>
+									</Record>
+									<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+										<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#FG3"/>
+									</Record>
+								</Collection>
+							</PropertyValue>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_ContractacCBPCFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Contract Accounts"/>
+							<PropertyValue Property="ID" String="LI_Contract"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_CAInvoiceCFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Invoicing Documents"/>
+							<PropertyValue Property="ID" String="LI_Invoice"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_FKK_PAYMENT_CFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Payments"/>
+							<PropertyValue Property="ID" String="LI_Payment"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_CAReturnCFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Returns"/>
+							<PropertyValue Property="ID" String="LI_Return"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_CAInstallmentPlanCFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Installment Plans"/>
+							<PropertyValue Property="ID" String="LI_Install"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_CAWorklistItemCFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Worklist Items"/>
+							<PropertyValue Property="ID" String="LI_Workitem"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_CAWriteOffCFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Write-Offs"/>
+							<PropertyValue Property="ID" String="LI_WriteOff"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_Correspondence/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Correspondences"/>
+							<PropertyValue Property="ID" String="LI_Corr"/>
+						</Record>
+						<Record Type="com.sap.vocabularies.UI.v1.ReferenceFacet">
+							<PropertyValue Property="Target" AnnotationPath="to_CADunningNoticeCFO/@UI.LineItem"/>
+							<PropertyValue Property="Label" String="Dunning Notices (Dunning Procedure)"/>
+							<PropertyValue Property="ID" String="LI_DuningNt"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<atom:link rel="self"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/O2C_FICA_CUSTOMERFO_SRV/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+			<atom:link rel="latest-version"
+					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/O2C_FICA_CUSTOMERFO_SRV/$metadata"
+					   xmlns:atom="http://www.w3.org/2005/Atom"/>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

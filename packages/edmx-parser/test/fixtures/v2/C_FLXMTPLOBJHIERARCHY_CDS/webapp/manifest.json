@@ -1,0 +1,232 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{manageHierarchy}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-DFS-OF-FMP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/C_FLXMTPLOBJHIERARCHY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_FLXMTPLOBJHIERARCHY_CDS_VAN"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "C_FLXMTPLOBJHIERARCHY_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_FLXMTPLOBJHIERARCHY_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_FLXMTPLOBJHIERARCHY_CDS_VAN.xml"
+                }
+            },
+            "DFS_FMPO_HIERARCHY_Service": {
+                "uri": "/sap/opu/odata/sap/DFS_FMPO_HIERARCHY_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata_hier.xml"
+                }
+            },
+            "DFS_FMPO_FLXMTPLOBJ_SRV": {
+                "uri": "/sap/opu/odata/sap/DFS_FMPO_FLXMTPLOBJ_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/DFS_FMPO_FLXMTPLOBJ_SRV/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "C_FlxMtPlObjTP": {
+                    "semanticObject": "FlexibleMaterialPlanningObject",
+                    "action": "manageMPO"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "DFS_FMPO_HIERARCHY_Model": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "DFS_FMPO_HIERARCHY_Service",
+                "preload": true
+            },
+            "FMPO_Model": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "DFS_FMPO_FLXMTPLOBJ_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4dfs.fmpo.strus1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_FLXMTPLOBJHIERARCHY": {
+                                "EntitySet": "C_FLXMTPLOBJHIERARCHY",
+                                "Actions": {
+                                    "ActionC_FLXMTPLOBJHIERARCHY1": {
+                                        "id": "ActionDisplayChildbutton",
+                                        "text": "{@i18n>ActionC_FLXMTPLOBJHIERARCHY1}",
+                                        "press": "onDisplayChild",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_FLXMTPLOBJHIERARCHY2": {
+                                        "id": "ActionAddParentbutton",
+                                        "text": "{@i18n>ActionAddParent}",
+                                        "press": "onAddParent",
+                                        "requiresSelection": true
+                                    },
+                                    "ActionC_FLXMTPLOBJHIERARCHY3": {
+                                        "id": "ActionRemoveParentbutton",
+                                        "text": "{@i18n>ActionRemoveParent}",
+                                        "press": "onRemoveParent",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|C_FLXMTPLOBJHIERARCHY": {
+                "entitySet": "C_FLXMTPLOBJHIERARCHY",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "tableType": "TreeTable",
+                        "variantManagementHidden": false,
+                        "gridTable": false,
+                        "multiSelect": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_FLXMTPLOBJHIERARCHY": {
+                        "entitySet": "C_FLXMTPLOBJHIERARCHY",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4119"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

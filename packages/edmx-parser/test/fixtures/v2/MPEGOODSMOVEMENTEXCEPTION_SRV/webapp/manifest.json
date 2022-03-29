@@ -1,0 +1,195 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-PEO-SFE",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MPEGOODSMOVEMENTEXCEPTION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MPEGOODSMOVEMENTEXCEPTI_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MPEGOODSMOVEMENTEXCEPTI_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MPEGOODSMOVEMENTEXCEPTI_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MPEGOODSMOVEMENTEXCEPTI_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MfgGoodsMovementExcptnTP": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MfgGoodsMovementExcptnTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MfgGoodsMovementExcptnTP": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MfgGoodsMovementExcptnTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.mpe.failmatmov.reprocesss1.ext.controller.ListReportExtension",
+                        "sap.ui.generic.app": {
+                            "C_MfgGoodsMovementExcptnTP": {
+                                "EntitySet": "C_MfgGoodsMovementExcptnTP",
+                                "Actions": {
+                                    "ReplaceStorageLocation": {
+                                        "id": "idReplaceStorLocButton",
+                                        "text": "{@i18n>replaceStorLocButton}",
+                                        "press": "onOpenStorageLocationDialog",
+                                        "global": false,
+                                        "requiresSelection": true
+                                    },
+                                    "ReplaceBatch": {
+                                        "id": "idReplaceBatchButton",
+                                        "text": "{@i18n>replaceBatchButton}",
+                                        "press": "onOpenBatchDialog",
+                                        "global": false,
+                                        "requiresSelection": true
+                                    },
+                                    "ReplacePostingDate": {
+                                        "id": "idReplacePostgDteButton",
+                                        "text": "{@i18n>replacePostgDteButton}",
+                                        "press": "onOpenPostingDateDialog",
+                                        "global": false,
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_MfgGoodsMovementExcptnTP": {
+                "entitySet": "C_MfgGoodsMovementExcptnTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "multiSelect": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MfgGoodsMovementExcptnTP": {
+                        "entitySet": "C_MfgGoodsMovementExcptnTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "navToListOnSave": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F3100"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

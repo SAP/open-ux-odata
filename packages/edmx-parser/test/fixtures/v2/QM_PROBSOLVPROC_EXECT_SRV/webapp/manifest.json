@@ -1,0 +1,342 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "QM-QN",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/QM_PROBSOLVPROC_EXECT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["QM_PROBSOLVPROC_EXECT_ANNO_MDL", "annotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "QM_PROBSOLVPROC_EXECT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='QM_PROBSOLVPROC_EXECT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/QM_PROBSOLVPROC_EXECT_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "outCreateQTask": {
+                    "semanticObject": "QualityTask",
+                    "action": "process",
+                    "parameters": {
+                        "QualityTaskOrigin": {},
+                        "ProbSolvingProc": {},
+                        "ProbSolvingProcStp": {},
+                        "preferredMode": {}
+                    }
+                },
+                "outboundEditDisplayQualityTask": {
+                    "semanticObject": "QualityTask",
+                    "action": "process",
+                    "parameters": {
+                        "QualityTaskInternalId": {},
+                        "DraftUUID": {},
+                        "IsActiveEntity": {},
+                        "preferredMode": {}
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ProbSolvingProcExect": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ProbSolvingProcExect/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProbSolvingProcExect": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProbSolvingProcExect/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ProbSolvingProcStepExect": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_ProbSolvingProcStepExect/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.qm.probsolvproc.executes1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_ProbSolvingProcStepExect": {
+                                "EntitySet": "C_ProbSolvingProcStepExect",
+                                "Sections": {
+                                    "to_ProbSolvingProcPrtcpnt::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "ca_team",
+                                        "Actions": {
+                                            "createTeamMember": {
+                                                "id": "createTeamMember",
+                                                "text": "{i18n>ADD_PARTNER}",
+                                                "press": "onCreateTeamMemberPress",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_ProbSolvingProcStepQltyTask--ca_freeTasks::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "ca_freeTasks",
+                                        "Actions": {
+                                            "createTask": {
+                                                "id": "createTask",
+                                                "text": "{i18n>CREATE_OBJECT}",
+                                                "press": "onCreateTaskPress",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+
+                                    "to_ProbSolvingProcStepQltyTask--ca_plannedTasks::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "ca_plannedTasks",
+                                        "Actions": {
+                                            "createTaskSuccessor": {
+                                                "id": "createTaskSuccessor",
+                                                "text": "{i18n>CREATE_SUCC_TASK}",
+                                                "press": "onCreateTaskSuccessorPress",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+
+                                    "to_ProbSolvingProcCause::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "ca_causes",
+                                        "Actions": {
+                                            "createCause": {
+                                                "id": "createCause",
+                                                "text": "{i18n>CREATE_OBJECT}",
+                                                "press": "onCreateCausePress",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_ProbSolvingProcStepQltyTask|ca_freeTasks": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcStepQltyTask_ca_freeTasks_column",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProbSolvingProcStepQltyTask|ca_freeTasks": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcStepQltyTask_ca_freeTasks_cells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_ProbSolvingProcCauseDsp|ca_causesDsp": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcCauseDsp_ca_causesDsp_column",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProbSolvingProcCauseDsp|ca_causesDsp": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcCauseDsp_ca_causesDsp_cells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_ProbSolvingProcStepQltyTask|ca_plannedTasks": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcStepQltyTask_ca_freeTasks_column",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProbSolvingProcStepQltyTask|ca_plannedTasks": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcStepQltyTask_ca_freeTasks_cells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_ProbSolvingProcStepQltyTask|ca_finishedTasks": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcStepQltyTask_ca_freeTasks_column",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ProbSolvingProcStepQltyTask|ca_finishedTasks": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.qm.probsolvproc.executes1.ext.fragments.C_ProbSolvingProcStepQltyTask_ca_freeTasks_cells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "inboundParameters": {
+                "ProbSolvingProcType": {
+                    "useForCreate": true
+                }
+            },
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            },
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|C_ProbSolvingProcExect": {
+                "entitySet": "C_ProbSolvingProcExect",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_ProbSolvingProcExect": {
+                        "entitySet": "C_ProbSolvingProcExect",
+                        "defaultLayoutType": "OneColumn",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": {
+                            "ObjectPage|to_ProbSolvingProcStepExect": {
+                                "navigationProperty": "to_ProbSolvingProcStepExect",
+                                "entitySet": "C_ProbSolvingProcStepExect",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true
+                                    }
+                                },
+                                "pages": {
+                                    "ObjectPage|to_ProbSolvingProcStepQltyTask": {
+                                        "navigationProperty": "to_ProbSolvingProcStepQltyTask",
+                                        "entitySet": "C_ProbSolvingProcStepQltyTask",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    "ObjectPage|to_ProbSolvingProcCause": {
+                                        "navigationProperty": "to_ProbSolvingProcCause",
+                                        "entitySet": "C_ProbSolvingProcCause",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4197"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

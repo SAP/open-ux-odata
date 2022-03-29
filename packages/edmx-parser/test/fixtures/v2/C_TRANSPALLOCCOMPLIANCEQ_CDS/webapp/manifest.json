@@ -1,0 +1,200 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2673"],
+        "archeType": "analytical"
+    },
+    "sap.app": {
+        "id": "scm.tm.transportationallocationovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "TM-CF-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_TRANSPALLOCCOMPLIANCEQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_TRANSPALLOCCOMPLIANCEQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_TRANSPALLOCCOMPLIANCEQ_CDS_VAN"],
+                    "localUri": "localService/C_TRANSPALLOCCOMPLIANCEQ_CDS/metadata.xml"
+                }
+            },
+            "C_TRANSPALLOCCOMPLIANCEQ_CDS_VAN": {
+                "uri": "localService/C_TRANSPALLOCCOMPLIANCEQ_CDS/C_TRANSPALLOCCOMPLIANCEQ_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_TRANSPALLOCCOMPLIANCEQ_CDS/C_TRANSPALLOCCOMPLIANCEQ_CDS_VAN.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.56.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.44.3"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_TRANSPALLOCCOMPLIANCEQ_CDS": {
+                "preload": true,
+                "dataSource": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+        "globalFilterEntityType": "C_TRANSPALLOCCOMPLIANCEQResult",
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "card00": {
+                "model": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_weightLoad_title}}",
+                    "subTitle": "{{card_List_weightLoad_subTitle}}",
+                    "entitySet": "C_TRANSPALLOCCOMPLIANCEQResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "TrAlcCurGrossWeightInDspUnit",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#WeightLoad",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TradeLane",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TALComplianceSel",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card01": {
+                "model": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_volumeLoad_title}}",
+                    "subTitle": "{{card_List_volumeLoad_subTitle}}",
+                    "entitySet": "C_TRANSPALLOCCOMPLIANCEQResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "TrAlcCurGrossVolumeInDspUnit",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#VolumeLoad",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TradeLane",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TALComplianceSel",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card02": {
+                "model": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_containerLoad_title}}",
+                    "subTitle": "{{card_List_containerLoad_subTitle}}",
+                    "entitySet": "C_TRANSPALLOCCOMPLIANCEQResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "TrAlcCurNmbrOfCtnsInDspUnit",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ContainerLoad",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TradeLane",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TALComplianceSel",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card03": {
+                "model": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_trModeCatUtilization_title}}",
+                    "subTitle": "{{card_List_trModeCatUtilization_subTitle}}",
+                    "entitySet": "C_TRANSPALLOCCOMPLIANCEQResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "TransportationModeCategoryDesc",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TrModeCatUtilization",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TransportationMode",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TALComplianceSel",
+                    "addODataSelect": true
+                }
+            },
+            "card04": {
+                "model": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_utilizationWeight_title}}",
+                    "subTitle": "{{card_AnalyticalLine_utilizationWeight_subTitle}}",
+                    "entitySet": "C_TRANSPALLOCCOMPLIANCEQResults",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#UtilizationLine",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#UtilizationWeightLine",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Time",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TALComplianceSel",
+                    "addODataSelect": true
+                }
+            },
+            "card05": {
+                "model": "C_TRANSPALLOCCOMPLIANCEQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_utilizationContainer_title}}",
+                    "subTitle": "{{card_AnalyticalLine_utilizationContainer_subTitle}}",
+                    "entitySet": "C_TRANSPALLOCCOMPLIANCEQResults",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#UtilizationLine",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#UtilizationContainerLine",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Time",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TALComplianceSel",
+                    "addODataSelect": true
+                }
+            }
+        }
+    },
+
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/scm.tm.businessshareovps1/webapp",
+        "_version": "1.1.0"
+    }
+}

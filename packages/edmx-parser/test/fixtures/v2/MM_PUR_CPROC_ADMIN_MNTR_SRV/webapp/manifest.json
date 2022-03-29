@@ -1,0 +1,166 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "MM-PUR-HUB-MON",
+        "resources": "resources.json",
+        "dataSources": {
+            "MM_PUR_CPROC_ADMIN_MNTR_SRV": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_CPROC_ADMIN_MNTR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["localAnnotations"],
+                    "localUri": "localService/MM_PUR_CPROC_ADMIN_MNTR_SRV/metadata.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {},
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "MM_PUR_CPROC_ADMIN_MNTR_SRV": {
+                "dataSource": "MM_PUR_CPROC_ADMIN_MNTR_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "ui.s2p.mm.central.proc.operations.monitor.s1.ext.controller.CrossNav"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3912"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "MM_PUR_CPROC_ADMIN_MNTR_SRV",
+        "smartVariantRequired": false,
+        "containerLayout": "fixed",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": false,
+        "cards": {
+            "RequisitionCard": {
+                "model": "MM_PUR_CPROC_ADMIN_MNTR_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "condensed",
+                    "entitySet": "CentralRequisitionSet",
+                    "title": "{{Central_Req_Title}}",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfErrors",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Central_PR_Annotations",
+                    "customParams": "getParameters"
+                }
+            },
+            "ContractCard": {
+                "model": "MM_PUR_CPROC_ADMIN_MNTR_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "condensed",
+                    "entitySet": "CentralContractSet",
+                    "title": "{{Central_Contract_Title}}",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfErrors",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Central_CTR_Annotations",
+                    "customParams": "getParameters"
+                }
+            },
+            "PurchasingCard": {
+                "model": "MM_PUR_CPROC_ADMIN_MNTR_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "listType": "condensed",
+                    "entitySet": "CentralPurchasingSet",
+                    "title": "{{Central_Purch_Title}}",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfErrors",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Central_CPUR_Annotations",
+                    "customParams": "getParameters"
+                }
+            }
+        }
+    }
+}

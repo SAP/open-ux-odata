@@ -1,0 +1,702 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-DFS-OF-FE",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/DFS_POS_DEFENSEPOSITION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["DFS_POS_DEFENSEPOSITION_ANNO_MDL", "annotation"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "DFS_POS_DEFENSEPOSITION_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='DFS_POS_DEFENSEPOSITION_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/DFS_POS_DEFENSEPOSITION_ANNO_MDL.xml"
+                }
+            },
+            "DFS_FE_FRCELMNTORG_SRV": {
+                "uri": "/sap/opu/odata/sap/DFS_FE_FRCELMNTORG_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/DFS_FE_FRCELMNTORG_SRV/metadata.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "DefensePosition",
+                    "action": "managePOS"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "componentUsages": {
+            "ChangedocReuseComponent": {
+                "name": "sap.nw.core.changedocs.lib.reuse.changedocscomponent"
+            },
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_DFS_PositionHeaderTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_DFS_PositionHeaderTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_DFS_PositionHeaderTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_DFS_PositionHeaderTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "femodel": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "DFS_FE_FRCELMNTORG_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4dfs.pos.cruds1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_DFS_PositionHeaderTP": {
+                                "EntitySet": "C_DFS_PositionHeaderTP",
+                                "Actions": {
+                                    "ActionC_DFS_PositionHeaderTP1": {
+                                        "id": "ActionC_DFS_PositionHeaderTP1button",
+                                        "text": "{@i18n>ActionC_DFS_PositionHeaderTP1}",
+                                        "press": "onCreatePosition"
+                                    },
+                                    "ActionC_DFS_PositionHeaderTP2": {
+                                        "id": "ActionC_DFS_PositionHeaderTP2button",
+                                        "text": "{@i18n>ActionC_DFS_PositionHeaderTP2}",
+                                        "press": "onCopyPosition",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "s4dfs.pos.cruds1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_DFS_PositionHeaderTP": {
+                                "EntitySet": "C_DFS_PositionHeaderTP",
+                                "Header": {
+                                    "Actions": {
+                                        "Action_Position_Copy": {
+                                            "id": "ActionPositionCopy",
+                                            "text": "{@i18n>ActionC_DFS_PositionHeaderTP2}",
+                                            "press": "onCopyPosition",
+                                            "requiresSelection": true
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "to_PositionNameTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionNameTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "NameCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "NameCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionDescriptionTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionDescriptionTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "DescriptionCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "DescriptionCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionEmployeeGroupTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionEmployeeGroupTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "EGCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "EGCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionRankTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionRankTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "RankCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "RankCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionSpcfcCharcsTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionSpcfcCharcsTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "SpcfcCharCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "SpcfcCharCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionVacancyTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionVacancyTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "VacancyCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "VacancyCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionNATOTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionNATOTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "NATOCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "NATOCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PosToFrcElmntStrucTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PosToFrcElmntStrucTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "OrgStrucCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "OrgStrucCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PosToFrcElmntWartimeTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PosToFrcElmntWartimeTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "WartimeCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "WartimeCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PosToFrcElmntPeacetimeTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PosToFrcElmntPeacetimeTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "PeacetimeCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "PeacetimeCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionToJobTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionToJobTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "JobCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "JobCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionToQualifnTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionToQualifnTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "QualCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "QualCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionToQualifnBlockTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionToQualifnBlockTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "QualBlockCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "QualBlockCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionToTaskTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionToTaskTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "TaskCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "TaskCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionConventionTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionConventionTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "ConventionCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "ConventionCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionBlockedPosTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionBlockedPosTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "BlockPosCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "BlockPosCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PositionToStdWrkflwTskTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PositionToStdWrkflwTskTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "StandardWFCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "StandardWFCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    },
+                                    "to_PosToPersonStrucRelshp::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_PosToPersonStrucRelshp::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionShowAll": {
+                                                "id": "ActualPersonnelCA_showAll",
+                                                "text": "{i18n>ActionShowAll}",
+                                                "press": "onShowAllItems"
+                                            },
+                                            "ActionShowActiveOnly": {
+                                                "id": "ActualPersonnelCA_showActive",
+                                                "text": "{i18n>ActionShowActiveOnly}",
+                                                "press": "onShowActiveItems"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_DFS_PositionHeaderTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.pos.cruds1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_DFS_PositionHeaderTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.pos.cruds1.ext.view.DesignationColumn"
+                        },
+                        "ResponsiveTableCellsExtension|C_DFS_PositionHeaderTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.pos.cruds1.ext.view.DesignationCell"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+            },
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|C_DFS_PositionHeaderTP": {
+                "entitySet": "C_DFS_PositionHeaderTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_DFS_PositionHeaderTP": {
+                        "entitySet": "C_DFS_PositionHeaderTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{Attachments}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "PLOGI",
+                                    "objectKey": "{=${HasActiveEntity}||${IsActiveEntity}?${DfsPositionID}:${DraftUUID}}",
+                                    "isGuid": "{=!(${HasActiveEntity}||${IsActiveEntity})}",
+                                    "flavor": "withDocType",
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": true,
+                                            "DIRDETAILS": true
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true,
+                                            "DOWNLOAD": true
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_PositionNameTP": {
+                                "navigationProperty": "to_PositionNameTP",
+                                "entitySet": "C_DFS_PositionNameTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionDescriptionTP": {
+                                "navigationProperty": "to_PositionDescriptionTP",
+                                "entitySet": "C_DFS_PositionDescriptionTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionEmployeeGroupTP": {
+                                "navigationProperty": "to_PositionEmployeeGroupTP",
+                                "entitySet": "C_DFS_PositionEmployeeGroupTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionRankTP": {
+                                "navigationProperty": "to_PositionRankTP",
+                                "entitySet": "C_DFS_PositionRankTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionSpcfcCharcsTP": {
+                                "navigationProperty": "to_PositionSpcfcCharcsTP",
+                                "entitySet": "C_DFS_PositionSpcfcCharcsTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionVacancyTP": {
+                                "navigationProperty": "to_PositionVacancyTP",
+                                "entitySet": "C_DFS_PositionVacancyTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionNATOTP": {
+                                "navigationProperty": "to_PositionNATOTP",
+                                "entitySet": "C_DFS_PositionNATOTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionToQualifnTP": {
+                                "navigationProperty": "to_PositionToQualifnTP",
+                                "entitySet": "C_DFS_PositionToQualifnTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionToQualifnBlockTP": {
+                                "navigationProperty": "to_PositionToQualifnBlockTP",
+                                "entitySet": "C_DFS_PositionToQualifnBlockTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionToJobTP": {
+                                "navigationProperty": "to_PositionToJobTP",
+                                "entitySet": "C_DFS_PositionToJobTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PosToFrcElmntWartimeTP": {
+                                "navigationProperty": "to_PosToFrcElmntWartimeTP",
+                                "entitySet": "C_DFS_PosToFrcElmntWartimeTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PosToFrcElmntPeacetimeTP": {
+                                "navigationProperty": "to_PosToFrcElmntPeacetimeTP",
+                                "entitySet": "C_DFS_PosToFrcElmntPeacetimeTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionToTaskTP": {
+                                "navigationProperty": "to_PositionToTaskTP",
+                                "entitySet": "C_DFS_PositionToTaskTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionConventionTP": {
+                                "navigationProperty": "to_PositionConventionTP",
+                                "entitySet": "C_DFS_PositionConventionTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PosToFrcElmntStrucTP": {
+                                "navigationProperty": "to_PosToFrcElmntStrucTP",
+                                "entitySet": "C_DFS_PosToFrcElmntStrucTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PosToPersonStrucRelshp": {
+                                "navigationProperty": "to_PosToPersonStrucRelshp",
+                                "entitySet": "C_DFS_PosToPersonStrucRelshp",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionBlockedPosTP": {
+                                "navigationProperty": "to_PositionBlockedPosTP",
+                                "entitySet": "C_DFS_PositionBlockedPosTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_PositionToStdWrkflwTskTP": {
+                                "navigationProperty": "to_PositionToStdWrkflwTskTP",
+                                "entitySet": "C_DFS_PositionToStdWrkflwTskTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4435"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

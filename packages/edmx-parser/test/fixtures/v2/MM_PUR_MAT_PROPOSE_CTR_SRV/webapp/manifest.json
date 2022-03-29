@@ -1,0 +1,198 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "s2p.mm.pur.mat.propose.ctrs1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-PUR-RFQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_MAT_PROPOSE_CTR_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["MM_PUR_MAT_PROPOSE_CTR_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/mainService/metadata.xml"
+                }
+            },
+            "MM_PUR_MAT_PROPOSE_CTR_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_MAT_PROPOSE_CTR_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/mainService/MM_PUR_MAT_PROPOSE_CTR_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties",
+                "settings": {
+                    "bundleName": "s2p.mm.pur.mat.propose.ctrs1.i18n.i18n"
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_PurchaseContractProposal": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_PurchaseContractProposal/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "ResponsiveTableColumnsExtension|C_PurchaseContractProposal": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s2p.mm.pur.mat.propose.ctrs1.ext.fragment.TableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_PurchaseContractProposal": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s2p.mm.pur.mat.propose.ctrs1.ext.fragment.TableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "s2p.mm.pur.mat.propose.ctrs1.ext.controller.AnalyticalListPageExt",
+                        "sap.ui.generic.app": {
+                            "C_PurchaseContractProposal": {
+                                "EntitySet": "C_PurchaseContractProposal",
+                                "Actions": {
+                                    "toggleScaled": {
+                                        "id": "toggleScaled",
+                                        "text": "{i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_PurchaseContractProposal>showScaledButton}",
+                                        "press": "onToggleScaled",
+                                        "filter": "chart",
+                                        "requiresSelection": false
+                                    },
+                                    "CreateRFQ": {
+                                        "id": "createRFQ",
+                                        "text": "Create RFQ",
+                                        "press": "onCreateRFQ",
+                                        "filter": "table",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "AnalyticalListPage|C_PurchaseContractProposal": {
+                "entitySet": "C_PurchaseContractProposal",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "multiSelect": true,
+                        "autoHide": true,
+                        "showGoButtonOnFilterBar": true,
+                        "condensedTableLayout": true,
+                        "keyPerformanceIndicators": {},
+                        "chartPresentationQualifier": "chartQualifier",
+                        "qualifier": "tableQualifier",
+                        "hideVisualFilter": true,
+                        "showItemNavigationOnChart": false,
+                        "defaultContentView": "charttable",
+                        "defaultFilterMode": "compact",
+                        "tableType": "ResponsiveTable"
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3356"],
+        "archeType": "analytical"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,358 @@
+{
+    "_version": "1.11.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CA-ATP-PAL",
+        "resources": "resources.json",
+        "dataSources": {
+            "ATP_PRODALLOCOVERVIEW": {
+                "uri": "/sap/opu/odata/sap/ATP_PRODALLOCOVERVIEW/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ATP_PRODALLOCOVERVIEW_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/ATP_PRODALLOCOVERVIEW/metadata.xml"
+                }
+            },
+            "ATP_PRODALLOCOVERVIEW_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ATP_PRODALLOCOVERVIEW_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ATP_PRODALLOCOVERVIEW/ATP_PRODALLOCOVERVIEW_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.layout": { "lazy": false },
+                "sap.ui.comp": { "lazy": true },
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "ATP_PRODALLOCOVERVIEW": {
+                "preload": true,
+                "dataSource": "ATP_PRODALLOCOVERVIEW",
+                "settings": {
+                    "defaultCountMode": "Inline",
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.ovp.app.Main": {
+                        "SmartFilterBarControlConfigurationExtension|C_ProdAllocOvwFltrType": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.atp.prodallocoverviews1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "i2d.atp.prodallocoverviews1.ext.controller.OverViewPageExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3474"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "ATP_PRODALLOCOVERVIEW",
+        "globalFilterEntityType": "C_ProdAllocOvwFltrType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": false,
+        "showDateInRelativeFormat": false,
+        "cards": {
+            "card00": {
+                "model": "ATP_PRODALLOCOVERVIEW",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card00_title}}",
+                    "subTitle": "{{card00_to_03_subtitle}}",
+                    "entitySet": "C_ProdAllocOvwPeriods",
+                    "sortBy": "ProdAllocPeriodLoadInPercent",
+                    "sortOrder": "descending",
+                    "addODataSelect": false,
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Overload",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    }
+                }
+            },
+            "card01": {
+                "model": "ATP_PRODALLOCOVERVIEW",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card01_title}}",
+                    "subTitle": "{{card00_to_03_subtitle}}",
+                    "entitySet": "C_ProdAllocOvwPeriods",
+                    "sortBy": "ProdAllocPeriodLoadInPercent",
+                    "sortOrder": "ascending",
+                    "addODataSelect": false,
+                    "customParams": "getParams",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{card01_value_le_20}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Underload20",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card01_value_le_15}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Underload15",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card01_value_le_10}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Underload10",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card01_value_le_5}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Underload05",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card01_value_eq_0}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Underload0",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card01_value_eq_0_unplan}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Underload0Unplanned",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        }
+                    ]
+                }
+            },
+            "card02": {
+                "model": "ATP_PRODALLOCOVERVIEW",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card02_title}}",
+                    "subTitle": "{{card00_to_03_subtitle}}",
+                    "entitySet": "C_ProdAllocOvwPeriods",
+                    "sortBy": "ProdAllocPeriodLoadInPercent",
+                    "sortOrder": "descending",
+                    "addODataSelect": false,
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{card02_value_ge_80}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Highload80",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card02_value_ge_85}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Highload85",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card02_value_ge_90}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Highload90",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card02_value_ge_95}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Highload95",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card02_value_eq_100}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Highload100",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        }
+                    ]
+                }
+            },
+            "card03": {
+                "model": "ATP_PRODALLOCOVERVIEW",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card03_title}}",
+                    "subTitle": "{{card00_to_03_subtitle}}",
+                    "entitySet": "C_ProdAllocOvwCharcValCombn",
+                    "listType": "extended",
+                    "listFlavor": "bar",
+                    "sortBy": "ProdAllocPeriodLoadInPercent",
+                    "sortOrder": "descending",
+                    "addODataSelect": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#cvcOverView",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    }
+                }
+            },
+            "card04": {
+                "model": "ATP_PRODALLOCOVERVIEW",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card04_title}}",
+                    "entitySet": "C_ProdAllocOvwOrderItem",
+                    "colorPalette": [
+                        {
+                            "color": "sapUiChartPaletteSemanticGood",
+                            "legendText": "{{card05_status_eq_full_ontime}}"
+                        },
+                        {
+                            "color": "sapUiChartPaletteSemanticCritical",
+                            "legendText": "{{card05_status_eq_full_later}}"
+                        },
+                        {
+                            "color": "sapUiChartPaletteSemanticBad",
+                            "legendText": "{{card05_status_eq_unconfirmed}}"
+                        }
+                    ],
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ATPStatus",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#StatusSelVar",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TotalNrOfProdAllocOrderItems",
+                    "showFilterInHeader": false,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card05": {
+                "model": "ATP_PRODALLOCOVERVIEW",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card04_title}}",
+                    "subTitle": "{{card05_subtitle}}",
+                    "entitySet": "C_ProdAllocOvwOrderItemTable",
+                    "sortBy": "RequestedDeliveryDate",
+                    "sortOrder": "ascending",
+                    "addODataSelect": false,
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    },
+                    "tabs": [
+                        {
+                            "value": "{{card05_status_eq_unconfirmed}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Unconfirmed",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card05_status_eq_full_later}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FullLater",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card05_status_eq_full_ontime}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FullOnTime",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        },
+                        {
+                            "value": "{{card05_all_status_values}}",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                        }
+                    ]
+                }
+            },
+            "card06": {
+                "model": "ATP_PRODALLOCOVERVIEW",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card06_title}}",
+                    "subTitle": "{{card06_subtitle}}",
+                    "entitySet": "C_ProdAllocOvwAgedData",
+                    "sortBy": "ProdAllocObjPeriodAgedToDate",
+                    "sortOrder": "descending",
+                    "addODataSelect": false,
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#Default",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AgedData",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    }
+                }
+            }
+        }
+    }
+}

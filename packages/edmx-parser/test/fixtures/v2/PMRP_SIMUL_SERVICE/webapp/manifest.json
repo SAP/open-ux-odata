@@ -1,0 +1,360 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PP-MRP",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/PMRP_SIMUL_SERVICE/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["PMRP_SIMUL_SERVICE_VAN", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "PMRP_SIMUL_SERVICE_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='PMRP_SIMUL_SERVICE_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/PMRP_SIMUL_SERVICE_VAN.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "PMRP_SIMULATION_SERVICE": {
+                "uri": "/sap/opu/odata/sap/PMRP_SIMULATION_SERVICE/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PMRP_SIMULATION_SERVICE/metadata.xml"
+                }
+            },
+            "PMRP_SIMURES_SERVICE": {
+                "uri": "/sap/opu/odata/sap/PMRP_SIMURES_SERVICE/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PMRP_SIMURES_SERVICE/metadata.xml"
+                }
+            },
+            "PMRP_SIMULTLD_SERVICE": {
+                "uri": "/sap/opu/odata/sap/PMRP_SIMULTLD_SERVICE/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PMRP_SIMULTLD_SERVICE/metadata.xml"
+                }
+            },
+            "PMRP_SIMUTLD_SERVICE": {
+                "uri": "/sap/opu/odata/sap/PMRP_SIMUTLD_SERVICE/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PMRP_SIMUTLD_SERVICE/metadata.xml"
+                }
+            },
+
+            "PMRP_SIMUL_SERVICE": {
+                "uri": "/sap/opu/odata/sap/PMRP_SIMUL_SERVICE/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/PMRP_SIMUL_SERVICE/metadata.xml"
+                }
+            },
+
+            "PMRP_CAPACITY_SERVICE": {
+                "uri": "/sap/opu/odata/sap/PMRP_CAPACITY_SERVICE/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/PMRP_CAPACITY_SERVICE/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.table": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.viz": {
+                    "lazy": true
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": true
+                },
+                "sap.ui.unified": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.i2d.mpe.lib.commons1": {
+                    "minVersion": "11.4.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|PmrpSimulation": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/PmrpSimulation/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|PmrpSimulation": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/PmrpSimulation/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "simulation_srv_model": {
+                "dataSource": "PMRP_SIMULATION_SERVICE",
+                "type": "sap.ui.model.odata.ODataModel",
+                "uri": "/sap/opu/odata/sap/PMRP_SIMULATION_SERVICE"
+            },
+            "simulation_res_model": {
+                "dataSource": "PMRP_SIMURES_SERVICE",
+                "type": "sap.ui.model.odata.ODataModel",
+                "uri": "/sap/opu/odata/sap/PMRP_SIMURES_SERVICE"
+            },
+            "SIMULTLD_srv_model": {
+                "type": "sap.ui.model.odata.ODataModel",
+                "uri": "/sap/opu/odata/sap/PMRP_SIMULTLD_SERVICE"
+            },
+
+            "PMRP_SIMUL_SERVICE": {
+                "dataSource": "PMRP_SIMUL_SERVICE",
+                "type": "sap.ui.model.odata.ODataModel",
+                "uri": "/sap/opu/odata/sap/PMRP_SIMUL_SERVICE/"
+            },
+            "PMRP_SIMULTLD_SERVICE": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "PMRP_SIMUTLD_SERVICE",
+                "preload": true
+            },
+            "PMRP_SIMUTLD_MDL": {
+                "type": "sap.ui.model.odata.ODataModel",
+                "uri": "/sap/opu/odata/sap/PMRP_SIMUTLD_SERVICE"
+            },
+            "PMRP_CAPACITY_SERVICE": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "uri": "/sap/opu/odata/sap/PMRP_CAPACITY_SERVICE"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.pp.pmrpsim.simulates1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "PmrpSimulation": {
+                                "EntitySet": "PmrpSimulation",
+                                "Actions": {
+                                    "ActionDisregard": {
+                                        "id": "ActionOverrideButton",
+                                        "text": "{@i18n>ActionOverride}",
+                                        "press": "onPressOverride",
+                                        "tooltip": "{@i18n>ActionOverride}"
+                                    },
+                                    "ActionLog": {
+                                        "id": "LogButton",
+                                        "text": "{@i18n>ActionLogs}",
+                                        "press": "onActionLogs",
+                                        "global": true,
+                                        "type": "Transparent"
+                                    },
+                                    "ActionPmrpSimulation1": {
+                                        "id": "ActionCopySimulationbutton",
+                                        "text": "{@i18n>ActionCopySimulation}",
+                                        "press": "onPressCopySimulation",
+                                        "tooltip": "{@i18n>ActionCopySimulation}"
+                                    },
+                                    "ActionPmrpSimulation2": {
+                                        "id": "ActionRenameSimulationbutton",
+                                        "text": "{@i18n>ActionRenameSimulation}",
+                                        "press": "onPressRenameSimulation"
+                                    },
+                                    "ActionPmrpSimulation3": {
+                                        "id": "ActionDeleteSimulationbutton",
+                                        "text": "{@i18n>ActionDeleteSimulation}",
+                                        "press": "onPressDeleteSimulation"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.pp.pmrpsim.simulates1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "PmrpSimulation": {
+                                "EntitySet": "PmrpSimulation",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionPmrpSimulationHeader3": {
+                                            "id": "ActionPmrpSimulationHeader3button",
+                                            "text": "{@i18n>SimulationSummaryLinkText}",
+                                            "press": "handleSimulationSummaryNavigation",
+                                            "tooltip": "{@i18n>SimulationSummaryLinkText}"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|PmrpSimulation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.pp.pmrpsim.simulates1.ext.view.CustomSimulationColumn"
+                        },
+                        "ResponsiveTableCellsExtension|PmrpSimulation": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.pp.pmrpsim.simulates1.ext.view.CustomSimulationCell",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|PmrpSimulation|GeneralInformation": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "i2d.pp.pmrpsim.simulates1.ext.view.tldsimulation"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|PmrpSimulation": {
+                "entitySet": "PmrpSimulation",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|PmrpSimulation": {
+                        "entitySet": "PmrpSimulation",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "pages": {
+                            "ObjectPage|toSummary01Key": {
+                                "navigationProperty": "to_ChangeInDemandKey",
+                                "entitySet": "SimulationSummary",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3934"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

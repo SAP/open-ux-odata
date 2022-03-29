@@ -1,0 +1,439 @@
+{
+    "_version": "1.6.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-FIO-PUR-SQ-SCH",
+        "crossNavigation": {
+            "inbounds": {
+                "ManageSA": {
+                    "semanticObject": "PurchaseSchedulingAgreement",
+                    "action": "manage"
+                }
+            }
+        },
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_SCHEDG_AGRMT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_SCHEDG_AGRMT_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_SCHEDG_AGRMT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_SCHEDG_AGRMT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_SCHEDG_AGRMT_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ssuite.fnd.om.outputcontrol": {
+                    "minVersion": "10.4.0",
+                    "lazy": true
+                },
+                "sap.ui.s2p.mm.lib.reuse.text": {
+                    "minVersion": "10.3.0",
+                    "lazy": true
+                },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.ui.s2p.mm.lib.reuse.text.component": {
+                    "minVersion": "10.3.0",
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_Schedgagrmthdr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_Schedgagrmthdr/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Schedgagrmthdr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Schedgagrmthdr/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Schedgagrmtitm": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Schedgagrmtitm/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Schedgagrmtreleasedoc": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Schedgagrmtitm/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_Schedgagrmthdr": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.CustomColumnListPage",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_Schedgagrmthdr": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.CustomCellListPage",
+                            "type": "XML"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_Schedgagrmthdr": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_Schedgagrmtitm|rfSchItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.HeaderObjectPageItemTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_Schedgagrmtitm|rfSchItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.HeaderObjectPageItemTableCells",
+                            "type": "XML"
+                        },
+                        "BeforeFacet|C_Schedgagrmthdr|RfPartners": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.HeaderOutput",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>Output Control}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "AfterFacet|C_Schedgagrmthdr|RfPartners": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.view.HeaderNotes",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{@Notes}}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "BeforeFacet|C_Schedgagrmtitm|RfAccounting": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.view.ItemNotes",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{@Notes}}",
+                                "enableLazyLoading": true
+                            }
+                        },
+                        "AfterFacet|C_Schedgagrmtreleasedoc|RFReldocSlines": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.view.OUTPUT_CONTROL_ITEMRELEASE",
+                            "sap.ui.generic.app": {
+                                "title": "{@i18n>OutputControls}"
+                            }
+                        },
+                        "SmartFormExtension|C_Schedgagrmthdr|com.sap.vocabularies.UI.v1.FieldGroup::Delivery": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.DeliveryPaymentSmartFormExtension",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_Schedgagrmtitm|RfQtynPrice2": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.fragment.QuantityPriceSmartFormExtension",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_Schedgagrmthdr": {
+                                "EntitySet": "C_Schedgagrmthdr",
+                                "Actions": {
+                                    "ActionC_Schedgagrmthdr1": {
+                                        "id": "ActionC_Schedgagrmthdr1button",
+                                        "text": "{@i18n>ActionC_Schedgagrmthdr1}",
+                                        "press": "onClickRenewAction"
+                                    },
+                                    "ActionC_Schedgagrmthdr2": {
+                                        "id": "ActionC_Schedgagrmthdr2button",
+                                        "text": "{@i18n>ActionC_Schedgagrmthdr2}",
+                                        "press": "onClickReleaseAction"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_Schedgagrmthdr": {
+                                "EntitySet": "C_Schedgagrmthdr",
+                                "Sections": {
+                                    "rfSchItem": {
+                                        "id": "rfSchItem",
+                                        "Actions": {
+                                            "ActionC_SchedgagrmthdrSections1": {
+                                                "id": "ActionC_SchedgagrmthdrSections1button",
+                                                "text": "{@i18n>ActionC_SchedgagrmthdrSections1}",
+                                                "press": "onClickActionC_SchedgagrmthdrSections1"
+                                            }
+                                        }
+                                    },
+                                    "RfHconditions": {
+                                        "id": "RfHconditions",
+                                        "Actions": {
+                                            "conditionId": {
+                                                "id": "conditionId",
+                                                "text": "{@i18n>AdvanceCondition}",
+                                                "press": "onClickAdvanceCondition"
+                                            }
+                                        }
+                                    }
+                                },
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_SchedgagrmthdrHeader1": {
+                                            "id": "ActionC_SchedgagrmthdrHeader1button",
+                                            "text": "{@i18n>ActionC_SchedgagrmthdrHeader1}",
+                                            "press": "onClickSaveInPreparation",
+                                            "determining": true
+                                        }
+                                    }
+                                }
+                            },
+                            "C_Schedgagrmtitm": {
+                                "EntitySet": "C_Schedgagrmtitm",
+                                "Sections": {
+                                    "RfIConditions": {
+                                        "id": "RfIConditions",
+                                        "Actions": {
+                                            "idFilterItemCondition": {
+                                                "id": "idFilterItemCondition",
+                                                "text": "{@i18n>FilterItemCondition}",
+                                                "press": "onClickItemConditionAction"
+                                            },
+                                            "idCopyItemCondition": {
+                                                "id": "idCopyItemCondition",
+                                                "text": "{@i18n>CopyItemCondition}",
+                                                "press": "onClickCopyItemConditionAction"
+                                            },
+                                            "idDeleteItemCondition": {
+                                                "id": "idDeleteItemCondition",
+                                                "text": "{@i18n>DeleteItemCondition}",
+                                                "press": "onClickDeleteItmCondition"
+                                            },
+                                            "idCreateItemCondition": {
+                                                "id": "idCreateItemCondition",
+                                                "text": "{@i18n>CreateItemCondition}",
+                                                "press": "onClickItemConditionAction"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": [
+            {
+                "entitySet": "C_Schedgagrmthdr",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_Schedgagrmthdr",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "RfPartners": {
+                                        "navigationProperty": "to_SchedgAgrmtPartnerWD",
+                                        "entitySet": "C_SchedgAgrmtPartner",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{Attachments}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "BUS2013",
+                                    "objectKey": "{parts:[{path:'SchedulingAgreement'},{path:'DraftUUID'}],formatter:'ui.s2p.mm.pur.schedulingagrmt.maintain.s1.ext.util.formatter.returnAttachmentKey'}"
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_SchedgAgrmtItmWithDraft",
+                                "entitySet": "C_Schedgagrmtitm",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true,
+                                        "inboundParameters": {
+                                            "DraftUUID": "guid'00000000-0000-0000-0000-000000000000'",
+                                            "IsActiveEntity": true
+                                        }
+                                    }
+                                },
+                                "pages": [
+                                    {
+                                        "navigationProperty": "to_SchedglineWithDraft",
+                                        "entitySet": "C_Schedgline",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    {
+                                        "navigationProperty": "to_SchedagrmtacctWithDraft",
+                                        "entitySet": "C_Schedagrmtacct",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    {
+                                        "navigationProperty": "to_Schedgagrmtitmcndwithdraft",
+                                        "entitySet": "C_Schedgagrmntitmcnd",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    },
+                                    {
+                                        "navigationProperty": "to_Schedgagrmtreleasedoc",
+                                        "entitySet": "C_Schedgagrmtreleasedoc",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "navigationProperty": "to_Schedgagrmthdrcndwithdraft",
+                                "entitySet": "C_Schedgagrmnthdrcnd",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            {
+                                "navigationProperty": "to_SchedgAgrmtPartnerWD",
+                                "entitySet": "C_SchedgAgrmtPartner",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2179"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

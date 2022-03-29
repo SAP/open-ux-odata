@@ -1,0 +1,356 @@
+{
+    "_version": "1.5.0",
+
+    "sap.app": {
+        "id": "fin.fc.grir.reconcile",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "ach": "FI-FIO-GL",
+        "resources": "resources.json",
+
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FAC_GRIR_RECONCILIATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAC_GRIR_RECONCILIATION_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+
+            "clearingService": {
+                "uri": "/sap/opu/odata/sap/ODATA_GRIR_WRITEOFF_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata3.xml"
+                }
+            },
+
+            "MLService": {
+                "uri": "/sap/opu/odata/sap/ODATA_GRIR_ML_INFERE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata2.xml"
+                }
+            },
+
+            "FAC_GRIR_RECONCILIATION_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAC_GRIR_RECONCILIATION_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAC_GRIR_RECONCILIATION_ANNO_MDL.xml"
+                }
+            },
+
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+
+        "sourceTemplate": {
+            "id": "ALP_WebIDE_Plugin.analyticallistpage",
+            "version": "1.0.0"
+        }
+    },
+
+    "sap.ui": {
+        "technology": "UI5",
+
+        "icons": {
+            "icon": ""
+        },
+
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.ui.core": { "lazy": false },
+                "sap.ui.generic.app": { "lazy": false },
+                "sap.ui.layout": { "lazy": false },
+                "sap.ui.table": { "lazy": false },
+                "sap.ui.unified": { "lazy": false },
+                "sap.fin.central.lib": { "lazy": false },
+                "sap.suite.ui.generic.template": { "lazy": false },
+                "sap.suite.ui.commons": { "lazy": false },
+                "s4.cfnd.sit.reuse": { "lazy": true }
+            },
+            "components": {
+                "s4.cfnd.sit.reuse.pc": {
+                    "lazy": true
+                }
+            }
+        },
+
+        "models": {
+            "situationModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.AnalyticalListPage|C_GRIRAccountReconciliation": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/AnalyticalListPage/C_GRIRAccountReconciliation/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_GRIRAccountReconciliation": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_GRIRAccountReconciliation/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "kpi": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "clearingService": {
+                "preload": true,
+                "dataSource": "clearingService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "MLModel": {
+                "dataSource": "MLService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "controllerName": "fin.fc.grir.reconcile.ext.controller.ALPExtension",
+                        "sap.ui.generic.app": {
+                            "C_GRIRAccountReconciliation": {
+                                "EntitySet": "C_GRIRAccountReconciliation",
+                                "Actions": {
+                                    "UpdateItems": {
+                                        "id": "UpdateItemsCustomAction",
+                                        "text": "{i18n>BUTTON_ASSIGN_ITEM}",
+                                        "requiresSelection": true,
+                                        "press": "onPressAssign"
+                                    },
+                                    "PostClearing": {
+                                        "id": "PostClearingCustomAction",
+                                        "text": "{@i18n>WriteOffButton}",
+                                        "requiresSelection": true,
+                                        "press": "onPressPostClearing"
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.fc.grir.reconcile.ext.controller.ObjectPageExtension",
+                        "sap.ui.generic.app": {
+                            "C_GRIRAccountReconciliation": {
+                                "EntitySet": "C_GRIRAccountReconciliation",
+                                "Header": {
+                                    "Actions": {
+                                        "UpdateItem": {
+                                            "id": "UpdateItemCustomAction",
+                                            "text": "{i18n>BUTTON_ASSIGN_ITEM}",
+                                            "press": "onPressAssign",
+                                            "importance": "com.sap.vocabularies.UI.v1.ImportanceType/High"
+                                        },
+                                        "PostClearing": {
+                                            "id": "PostClearingCustomAction",
+                                            "text": "{@i18n>WriteOffButton}",
+                                            "press": "onPressPostClearing",
+                                            "importance": "com.sap.vocabularies.UI.v1.ImportanceType/High"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.AnalyticalListPage.view.AnalyticalListPage": {
+                        "SmartFilterBarControlConfigurationExtension|C_GRIRAccountReconciliation": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.FilterBarExtension",
+                            "type": "XML"
+                        },
+                        "AnalyticalTableColumnsExtension|C_GRIRAccountReconciliation": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.CustomColumns",
+                            "type": "XML"
+                        }
+                    },
+
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AnalyticalTableColumnsExtension|C_GRIROplAccountingDocItem|to_GRIROplAccountingDocItem::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.CustomColumnsFIOpenItems",
+                            "type": "XML"
+                        },
+                        "AnalyticalTableColumnsExtension|C_GRIRPurchaseOrderHistory|to_GRIRPurchaseOrderHistory::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.CustomColumnsPOHistory",
+                            "type": "XML"
+                        },
+                        "GridTableColumnsExtension|I_GRIRProcessHistory|to_GRIRProcessHistory::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.CustomColumnsActionLog",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_GRIRAccountReconciliation|com.sap.vocabularies.UI.v1.FieldGroup::FirstSectionDummyFieldGroup": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.OverviewSection",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "Amounts"
+                            }
+                        },
+                        "ReplaceFacet|C_GRIRAccountReconciliation|com.sap.vocabularies.UI.v1.FieldGroup::NoteFieldGroup": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.NotesSection",
+                            "type": "XML"
+                        },
+                        "ReplaceFacet|C_GRIRAccountReconciliation|com.sap.vocabularies.UI.v1.FieldGroup::TimelineFieldGroup": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.fc.grir.reconcile.ext.fragment.TimelineSection",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+
+        "contentDensities": {
+            "compact": true,
+            "cozy": false
+        }
+    },
+
+    "sap.ui.generic.app": {
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+            }
+        },
+
+        "pages": [
+            {
+                "entitySet": "C_GRIRAccountReconciliation",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "qualifier": "ALPTable",
+                        "tableSettings": {
+                            "multiSelect": true,
+                            "selectAll": true
+                        },
+                        "chartPresentationQualifier": "ALPChart",
+                        "multiSelect": true,
+                        "defaultContentView": "charttable",
+                        "defaultFilterMode": "compact",
+                        "autoHide": true,
+                        "smartVariantManagement": false,
+                        "showGoButtonOnFilterBar": false,
+                        "condensedTableLayout": true,
+                        "showItemNavigationOnChart": false,
+                        "keyPerformanceIndicators": {
+                            "KPINumberOfPurchaseOrderItems": {
+                                "model": "kpi",
+                                "entitySet": "C_GRIRAccountReconciliation",
+                                "qualifier": "KPINumberOfPurchaseOrderItems",
+                                "detailNavigation": "OverviewPage"
+                            }
+                        }
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_GRIRAccountReconciliation",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "embeddedComponents": {
+                            "simple::Root": {
+                                "id": "simple::Root",
+                                "componentName": "s4.cfnd.sit.reuse.pc",
+                                "title": "{{situationFacetLabel}}",
+                                "HiddenByDefault": true,
+                                "settings": {
+                                    "anchorObjectKey": "{path:'PurchasingDocumentItemUniqueID'}",
+                                    "anchorObjectType": "PurchasingDocumentItemUniqueID",
+                                    "preselectedSituationInstanceId": "{path:'situationModel>/preselectedSituationInstanceId'}",
+                                    "situationModelName": "situationModel",
+                                    "situationDataProperty": "/situationData",
+                                    "selectedSituationProperty": "/selectedSituation"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+
+    "sap.fiori": {
+        "registrationIds": ["F3302"],
+        "archeType": "analytical"
+    }
+}

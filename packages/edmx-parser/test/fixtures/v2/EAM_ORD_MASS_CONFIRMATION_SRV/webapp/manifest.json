@@ -1,0 +1,251 @@
+{
+    "_version": "1.4.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PM-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EAM_ORD_MASS_CONFIRMATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["EAM_ORD_MASS_CONFIRMATI_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EAM_ORD_MASS_CONFIRMATI_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EAM_ORD_MASS_CONFIRMATI_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EAM_ORD_MASS_CONFIRMATI_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "uiExtModelData": {
+                "uri": "ext/uiExtModel.json",
+                "type": "JSON"
+            }
+        },
+
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "MaintenanceOrderOperationList": {
+                    "semanticObject": "MaintenanceOrder",
+                    "action": "listOrderAndOperation"
+                }
+            }
+        },
+
+        "offline": false,
+        "sourceTemplate": {
+            "id": "LROP.worklist",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MaintOrdConfForCreateTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MaintOrdConfForCreateTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MaintOrdConfForCreateTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MaintOrdConfForCreateTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "uiExtModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "dataSource": "uiExtModelData"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_MaintOrdConfForCreateTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.eam.ordermassconfirmation.creates1.ext.fragment.TimeConfTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MaintOrdConfForCreateTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.eam.ordermassconfirmation.creates1.ext.fragment.TimeConfTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.eam.ordermassconfirmation.creates1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_MaintOrdConfForCreateTP": {
+                                "EntitySet": "C_MaintOrdConfForCreateTP",
+                                "Actions": {
+                                    "ActionC_MaintOrdConfForCreateTP1": {
+                                        "id": "idPost",
+                                        "text": "{@i18n>ActionC_MaintOrdConfForCreateTP1}",
+                                        "press": "onClickPost",
+                                        "determining": true
+                                    },
+                                    "ActionC_MaintOrdConfForCreateTP2": {
+                                        "id": "idCheck",
+                                        "text": "{@i18n>ActionC_MaintOrdConfForCreateTP2}",
+                                        "press": "onClickCheck",
+                                        "determining": true
+                                    },
+                                    "ActionC_MaintOrdConfForCreateTP3": {
+                                        "id": "idCancel",
+                                        "text": "{@i18n>ActionC_MaintOrdConfForCreateTP3}",
+                                        "press": "onClickCancel",
+                                        "determining": true
+                                    },
+                                    "ActionC_MaintOrdConfForCreateTP5": {
+                                        "id": "idCloseandReturn",
+                                        "text": "{@i18n>ActionC_MaintOrdConfForCreateTP5}",
+                                        "press": "onClickClose",
+                                        "determining": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.2.0",
+        "settings": {},
+        "pages": [
+            {
+                "entitySet": "C_MaintOrdConfForCreateTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "quickVariantSelectionX": {
+                            "showCounts": true,
+                            "variants": {
+                                "0": {
+                                    "key": "Ready",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Ready",
+                                    "showCounts": true
+                                },
+                                "1": {
+                                    "key": "Error",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Error",
+                                    "showCounts": true
+                                },
+                                "2": {
+                                    "key": "Post",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Post",
+                                    "showCounts": true
+                                }
+                            }
+                        },
+                        "multiSelect": false,
+                        "variantManagementHidden": true,
+                        "isWorklist": true
+                    }
+                }
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3925"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}
