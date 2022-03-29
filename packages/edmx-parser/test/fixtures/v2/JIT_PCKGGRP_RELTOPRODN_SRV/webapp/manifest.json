@@ -1,0 +1,303 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{APP_TITLE}}",
+        "description": "{{APP_DESCRIPTION}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "LE-JIT",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/JIT_PCKGGRP_RELTOPRODN_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["JIT_PCKGGRP_RELTOPRODN_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "JIT_PCKGGRP_RELTOPRODN_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='JIT_PCKGGRP_RELTOPRODN_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/JIT_PCKGGRP_RELTOPRODN_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "jitsupplycustomer": {
+                    "semanticObject": "JITSupplyToCustomer",
+                    "action": "manage",
+                    "parameters": {
+                        "InternalJITCallNumber": { "required": true }
+                    }
+                },
+                "sequencedreleasetoproduction": {
+                    "semanticObject": "JITPackageUnit",
+                    "action": "releaseToProduction",
+                    "parameters": {
+                        "JITPckgGrpUUID": { "required": true }
+                    }
+                },
+                "applicationlog": {
+                    "semanticObject": "JITApplicationLog",
+                    "action": "analyzeJITLogs",
+                    "parameters": {
+                        "LogObjectId": {
+                            "required": true
+                        },
+                        "LogExternalId": {
+                            "required": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.suite.ui.microchart": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_JITPckgGrpRelToProdn": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_JITPckgGrpRelToProdn/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_JITPckgGrpRelToProdn": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_JITPckgGrpRelToProdn/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_JITPckgGrpItmRelToProdn": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_JITPckgGrpItmRelToProdn/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "icd.discreteindustries.releasesequencedjitcallstoproduction.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_JITPckgGrpRelToProdn": {
+                                "EntitySet": "C_JITPckgGrpRelToProdn",
+                                "Actions": {
+                                    "ReleaseToProduction": {
+                                        "id": "sReleaseToProductionButton",
+                                        "text": "{@i18n>RELEASE_TO_PRODUCTION}",
+                                        "press": "onReleaseToProductionButtonPress",
+                                        "requiresSelection": true
+                                    },
+                                    "RecallFromProduction": {
+                                        "id": "sRecallFromProductionButton",
+                                        "text": "{@i18n>RECALL_FROM_PRODUCTION}",
+                                        "press": "onRecallFromProductionButtonPress",
+                                        "requiresSelection": true
+                                    },
+                                    "Print": {
+                                        "id": "sPrintButton",
+                                        "text": "{@i18n>PRINT}",
+                                        "press": "onPrintButtonPress",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "icd.discreteindustries.releasesequencedjitcallstoproduction.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_JITPckgGrpRelToProdn": {
+                                "EntitySet": "C_JITPckgGrpRelToProdn",
+                                "Header": {},
+                                "Sections": {
+                                    "pckgDetail": {
+                                        "id": "pckgDetail",
+                                        "Actions": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_JITPckgGrpRelToProdn": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "icd.discreteindustries.releasesequencedjitcallstoproduction.ext.fragment.ListPageResponsiveTableColumn"
+                        },
+                        "ResponsiveTableCellsExtension|C_JITPckgGrpRelToProdn": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "icd.discreteindustries.releasesequencedjitcallstoproduction.ext.fragment.ListPageResponsiveTableCell"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_JITPckgGrpRelToProdn": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "icd.discreteindustries.releasesequencedjitcallstoproduction.ext.fragment.Customfilter"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_JITPckgGrpItmRelToProdn|pckgDetail": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "icd.discreteindustries.releasesequencedjitcallstoproduction.ext.fragment.ObjectPageResponsiveTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_JITPckgGrpItmRelToProdn|pckgDetail": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "icd.discreteindustries.releasesequencedjitcallstoproduction.ext.fragment.ObjectPageResponsiveTableCell",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|C_JITPckgGrpRelToProdn": {
+                "entitySet": "C_JITPckgGrpRelToProdn",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true,
+                        "multiSelect": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_JITPckgGrpRelToProdn": {
+                        "entitySet": "C_JITPckgGrpRelToProdn",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "pckgDetail": {
+                                        "navigationProperty": "to_JITPckgGrpItmRelToProdn",
+                                        "entitySet": "C_JITPckgGrpItmRelToProdn",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4331"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

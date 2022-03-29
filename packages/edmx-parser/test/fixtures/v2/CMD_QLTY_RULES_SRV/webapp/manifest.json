@@ -1,0 +1,292 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CA-MDG-ADQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CMD_QLTY_RULES_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CMD_QLTY_RULES_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "CMD_QLTY_RULES_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CMD_QLTY_RULES_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CMD_QLTY_RULES_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "default": {
+                    "semanticObject": "MDQualityBusinessRule",
+                    "action": "manage"
+                }
+            },
+            "outbounds": {
+                "toExportApp": {
+                    "semanticObject": "MDQualityRuleExport",
+                    "action": "manage"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MDQualityBusinessRuleTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MDQualityBusinessRuleTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQualityBusinessRuleTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MDQualityBusinessRuleTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyBusinessRuleUsageTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MDQltyBusinessRuleUsageTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyBusRuleDimnAssignment": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MDQltyBusRuleDimnAssignment/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MDQltyBusRuleMsgAssignmentTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_MDQltyBusRuleMsgAssignmentTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                },
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "mdm.cmd.mdq.ruless1.ext.controller.customListReport",
+                        "sap.ui.generic.app": {
+                            "C_MDQualityBusinessRuleTP": {
+                                "EntitySet": "C_MDQualityBusinessRuleTP",
+                                "Actions": {
+                                    "Create": {
+                                        "id": "Create",
+                                        "text": "",
+                                        "press": "onCreate",
+                                        "requiresSelection": false
+                                    },
+                                    "Export": {
+                                        "id": "Export",
+                                        "text": "{i18n>EXPORT}",
+                                        "press": "onExport",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "mdm.cmd.mdq.ruless1.ext.controller.customObjectPage",
+                        "sap.ui.generic.app": {
+                            "C_MDQualityBusinessRuleTP": {
+                                "EntitySet": "C_MDQualityBusinessRuleTP",
+                                "Sections": {
+                                    "Usage": {
+                                        "id": "Usage",
+                                        "Actions": {
+                                            "AddUsage": {
+                                                "id": "AddUsage",
+                                                "text": "",
+                                                "press": "onPressAddUsage",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_MDQltyBusinessRuleUsageTP|Usage": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.mdq.ruless1.ext.fragment.customUsageTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MDQltyBusinessRuleUsageTP|Usage": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.mdq.ruless1.ext.fragment.customUsageTableCells",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MDQualityBusinessRuleTP|to_MDQltyBusRuleMsgAssignmentTP::com.sap.vocabularies.UI.v1.FieldGroup::MessageAssignmentTypeGroup": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "mdm.cmd.mdq.ruless1.ext.fragment.messageAssignmentType"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "forceGlobalRefresh": false
+            },
+            "useColumnLayoutForSmartForm": false
+        },
+        "pages": {
+            "ListReport|C_MDQualityBusinessRuleTP": {
+                "entitySet": "C_MDQualityBusinessRuleTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true,
+                        "tableSettings": {
+                            "multiSelect": true
+                        }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MDQualityBusinessRuleTP": {
+                        "entitySet": "C_MDQualityBusinessRuleTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "editableHeaderContent": true,
+                                "showConfirmationOnDraftActivate": true,
+                                "navToListOnSave": false,
+                                "allowDeepLinking": true,
+                                "sections": {
+                                    "Usage": {
+                                        "navigationProperty": "to_MDQltyBusinessRuleUsageTP",
+                                        "entitySet": "C_MDQltyBusinessRuleUsageTP",
+                                        "tableSettings": {
+                                            "multiSelect": false
+                                        }
+                                    },
+                                    "to_MDQltyBusRuleDimnAssignment::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "navigationProperty": "to_MDQltyBusRuleDimnAssignment",
+                                        "entitySet": "C_MDQltyBusRuleDimnAssignment",
+                                        "tableSettings": {
+                                            "multiSelect": false
+                                        }
+                                    },
+                                    "LinkedMinedRules": {
+                                        "navigationProperty": "to_MDQltyMinedRuleLinkageTP",
+                                        "entitySet": "C_MDQltyMinedRuleLinkageTP",
+                                        "tableSettings": {
+                                            "multiSelect": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3820"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

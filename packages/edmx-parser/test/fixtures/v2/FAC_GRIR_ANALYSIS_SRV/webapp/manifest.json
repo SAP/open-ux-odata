@@ -1,0 +1,647 @@
+{
+    "_version": "1.5.0",
+
+    "sap.app": {
+        "id": "fin.fc.grir.overview",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FI-FIO-GL",
+        "resources": "resources.json",
+
+        "dataSources": {
+            "FAC_GRIR_ANALYSIS_SRV": {
+                "uri": "/sap/opu/odata/sap/FAC_GRIR_ANALYSIS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FAC_GRIR_ANALYSIS_ANNO_MDL", "frontendAnnotations"],
+                    "localUri": "localService/FAC_GRIR_ANALYSIS_SRV/metadata.xml"
+                }
+            },
+
+            "FAC_GRIR_ANALYSIS_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAC_GRIR_ANALYSIS_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FAC_GRIR_ANALYSIS_SRV/FAC_GRIR_ANALYSIS_ANNO_MDL.xml"
+                }
+            },
+
+            "frontendAnnotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/frontendAnnotations.xml",
+                "settings": {
+                    "localUri": "annotations/frontendAnnotations.xml"
+                }
+            }
+        },
+
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+
+    "sap.ui": {
+        "technology": "UI5",
+
+        "icons": {
+            "icon": ""
+        },
+
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": { "lazy": false }
+            }
+        },
+
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "analyticalPOIinformation": {
+                "preload": false,
+                "dataSource": "FAC_GRIR_ANALYSIS_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "analyticalPOIsurplusInformation": {
+                "preload": false,
+                "dataSource": "FAC_GRIR_ANALYSIS_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "analyticalFIOIinformation": {
+                "preload": false,
+                "dataSource": "FAC_GRIR_ANALYSIS_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "listFIOIamounts": {
+                "preload": false,
+                "dataSource": "FAC_GRIR_ANALYSIS_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "analyticalFIOIamounts": {
+                "preload": false,
+                "dataSource": "FAC_GRIR_ANALYSIS_SRV",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            }
+        },
+
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.fc.grir.overview.ext.controller.OVPExtension"
+                    }
+                }
+            }
+        },
+
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+
+    "sap.ovp": {
+        "globalFilterModel": "analyticalFIOIamounts",
+        "globalFilterEntityType": "C_GRIRProcDigestInGlobalCrcyType",
+
+        "cards": {
+            "A01.PurchaseOrderItemsDonutChart.ProcessInformation": {
+                "model": "analyticalPOIinformation",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.POItemsProcessInformation.title}}",
+                    "subTitle": "{{card.POItems.subtitle}}",
+                    "entitySet": "C_GRIRPurgDocItemDigest",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ResponsiblePersonDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending4Status",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byResponsiblePerson}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ResponsibleDepartmentDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending4Status",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byResponsibleDepartment}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ProcessStatusDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending4Status",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byProcessStepStatus}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProcessPriority",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ProcessPriorityBarChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortByPriority",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byProcessPriority}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RootCauseDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending4Status",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byProcessRootCause}}"
+                        }
+                    ]
+                }
+            },
+
+            "A02.PurchaseOrderItemsDonutChart.IRSurplus": {
+                "model": "analyticalPOIsurplusInformation",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.POItemsIRSurplus.title}}",
+                    "subTitle": "{{card.POItems.subtitle}}",
+                    "entitySet": "C_GRIRPurgDocItemDigest",
+                    "customParams": "getIRSurplus",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CompanyCodeDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byCompanyCode}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SupplierDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.bySupplier}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingOrganizationDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPurchasingOrganization}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingGroupDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPurchasingGroup}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MaterialGroupDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byMaterialGroup}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlantDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPlant}}"
+                        }
+                    ]
+                }
+            },
+
+            "A03.PurchaseOrderItemsDonutChart.GRSurplus": {
+                "model": "analyticalPOIsurplusInformation",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.POItemsGRSurplus.title}}",
+                    "subTitle": "{{card.POItems.subtitle}}",
+                    "entitySet": "C_GRIRPurgDocItemDigest",
+                    "customParams": "getGRSurplus",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CompanyCodeDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byCompanyCode}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SupplierDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.bySupplier}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingOrganizationDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPurchasingOrganization}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingGroupDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPurchasingGroup}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MaterialGroupDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byMaterialGroup}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRSurplus",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlantDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPlant}}"
+                        }
+                    ]
+                }
+            },
+
+            "A04.PurchaseOrderItemsDonutChart.GRIREQ": {
+                "model": "analyticalPOIinformation",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.POItemsGREQIR.title}}",
+                    "subTitle": "{{card.POItems.subtitle}}",
+                    "entitySet": "C_GRIRPurgDocItemDigest",
+                    "customParams": "getGReqIR",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRIREQ",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CompanyCodeDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byCompanyCode}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRIREQ",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SupplierDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.bySupplier}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRIREQ",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingOrganizationDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPurchasingOrganization}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRIREQ",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingGroupDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPurchasingGroup}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRIREQ",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MaterialGroupDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byMaterialGroup}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#GRIREQ",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlantDonutChart4POI",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfPurchaseOrderItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfPurchaseOrderItemsDescending",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Navigate2ALP",
+                            "value": "{{selector.byPlant}}"
+                        }
+                    ]
+                }
+            },
+
+            "B01.OpenItemsDonutChart": {
+                "model": "analyticalFIOIinformation",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.maintitle.overview}}",
+                    "subTitle": "{{card.subtitle.number}}",
+                    "entitySet": "C_GRIRProcessDigest",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CompanyCodeDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.byCompanyCode}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SupplierDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.bySupplier}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingOrganizationDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.byPurchasingOrganization}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PurchasingGroupDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.byPurchasingGroup}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MaterialGroupDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.byMaterialGroup}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ControllingAreaDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.byControllingArea}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ProfitCenterDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.byProfitCenter}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PlantDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortNumberOfOpenItemsDescending",
+                            "value": "{{selector.byPlant}}"
+                        }
+                    ]
+                }
+            },
+
+            "B02.OpenItemsByPostingDate.01": {
+                "model": "analyticalFIOIinformation",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.OpenFIItemsByPostingDate.title}}",
+                    "subTitle": "{{card.subtitle}}",
+                    "entitySet": "C_GRIRProcessDigest",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OpenItemsByPostingDate",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOpenItems"
+                }
+            },
+
+            "B03.OpenItemsBalAbsAmtDonutChart": {
+                "model": "analyticalFIOIamounts",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.maintitle.number}}",
+                    "subTitle": "{{card.subtitle}}",
+                    "entitySet": "C_GRIRProcDigestInGlobalCrcy",
+                    "valueSelectionInfo": "{{card.subtitle.currency}}",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsGlobCurBarChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byGlobalCurrency}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsCompanyCodeDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byCompanyCode}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsSupplierDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.bySupplier}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsPurchasingOrganizationDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byPurchasingOrganization}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsPurchasingGroupDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byPurchasingGroup}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsMaterialGroupDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byMaterialGroup}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsControllingAreaDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byControllingArea}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsProfitCenterDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byProfitCenter}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BalAbsPlantDonutChart",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byPlant}}"
+                        }
+                    ]
+                }
+            },
+
+            "B04.OverallAmountBubbleChart": {
+                "model": "analyticalFIOIamounts",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card.maintitle.overview2}}",
+                    "subTitle": "{{card.subtitle}}",
+                    "entitySet": "C_GRIRProcDigestInGlobalCrcy",
+                    "valueSelectionInfo": "{{card.subtitle.currency}}",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4CompanyCode",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.byCompanyCode}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4Supplier",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.bySupplier}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4PurchasingOrganization",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.byPurchasingOrganization}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4PurchasingGroup",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.byPurchasingGroup}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4MaterialGroup",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.byMaterialGroup}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4ControllingArea",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.byControllingArea}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4ProfitCenter",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.byProfitCenter}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverallAmountBubbleChart4Plant",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AmountInGlobalCurrency",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescendingMaxItems",
+                            "value": "{{selector.byPlant}}"
+                        }
+                    ]
+                }
+            },
+
+            "B05.OpenItemsByCompanyCode.list": {
+                "model": "listFIOIamounts",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card.OpenFIItemsByCompanyCode.list.title}}",
+                    "subTitle": "{{card.OpenFIItemsByXY.list.subtitle}}",
+                    "entitySet": "C_GRIRProcDigestInGlobalCrcy",
+                    "valueSelectionInfo": "{{card.subtitle.currency}}",
+                    "listFlavor": "bar",
+                    "listType": "condensed",
+                    "addODataSelect": "true",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CompanyCodeDebit",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DebitAmountInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortDebitAmountDescending",
+                            "value": "{{selector.byDebitAmount}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CompanyCodeCredit",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CreditAmountInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortCreditAmountDescending",
+                            "value": "{{selector.byCreditAmount}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#CompanyCodeBalAbsAmount",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byBalAbsAmount}}"
+                        }
+                    ]
+                }
+            },
+
+            "B06.OpenItemsBySupplier.list": {
+                "model": "listFIOIamounts",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card.OpenFIItemsBySupplier.list.title}}",
+                    "subTitle": "{{card.OpenFIItemsByXY.list.subtitle}}",
+                    "entitySet": "C_GRIRProcDigestInGlobalCrcy",
+                    "valueSelectionInfo": "{{card.subtitle.currency}}",
+                    "listFlavor": "bar",
+                    "listType": "condensed",
+                    "addODataSelect": "true",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#SupplierDebit",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DebitAmountInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortDebitAmountDescending",
+                            "value": "{{selector.byDebitAmount}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#SupplierCredit",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CreditAmountInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortCreditAmountDescending",
+                            "value": "{{selector.byCreditAmount}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#SupplierBalAbsAmount",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BalanceAbsoluteAmtInGlobalCrcy",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortBalanceAbsAmtDescending",
+                            "value": "{{selector.byBalAbsAmount}}"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+
+    "sap.fiori": {
+        "registrationIds": ["F3303"],
+        "archeType": "transactional"
+    }
+}

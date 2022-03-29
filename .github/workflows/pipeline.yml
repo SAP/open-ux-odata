@@ -16,16 +16,16 @@ jobs:
         timeout-minutes: 15
         steps:
             - name: Checkout code repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                   fetch-depth: 0
             - name: Setup pnpm
-              uses: pnpm/action-setup@v2.0.1
+              uses: pnpm/action-setup@v2.2.1
               with:
                   version: 6.26.1
                   run_install: true
             - name: Cache pnpm modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-pnpm-modules
               with:
@@ -45,33 +45,33 @@ jobs:
               run: pnpm run lint
             - name: Run unit tests
               run: pnpm run test
-            - name: Run SonarCloud scan
-              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '12.x'
-              uses: sonarsource/sonarcloud-github-action@master
-              env:
-                  GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #            - name: Run SonarCloud scan
+    #              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '12.x'
+    #              uses: sonarsource/sonarcloud-github-action@master
+    #              env:
+    #                  GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+    #                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     version:
         # Run version job only on pushes to the main branch. The job depends on completion of the build job.
-        if: github.repository == 'SAP/open-ux-tools' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.repository == 'SAP/open-ux-odata' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
         needs: build
         outputs:
             changes: ${{ steps.changesetVersion.outputs.changes }} # map step output to job output
         steps:
             - name: Checkout code repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                   fetch-depth: 0
                   token: ${{ secrets.ACCESS_PAT }}
             - name: Setup pnpm
-              uses: pnpm/action-setup@v2.0.1
+              uses: pnpm/action-setup@v2.2.1
               with:
                   version: 6.26.1
                   run_install: true
             - name: Cache pnpm modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-pnpm-modules
               with:
@@ -105,19 +105,19 @@ jobs:
     release:
         # Run release job only on pushes to the main branch. The job depends on completion of the build job.
         # This job needs to run after the version job commit has been merged - so check if that step returns 'false'
-        if: github.repository == 'SAP/open-ux-tools' && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.version.outputs.changes == 'false'
+        if: github.repository == 'SAP/open-ux-odata' && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.version.outputs.changes == 'false'
         runs-on: ubuntu-latest
         needs: version
         steps:
             - name: Checkout code repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
             - name: Setup pnpm
-              uses: pnpm/action-setup@v2.0.1
+              uses: pnpm/action-setup@v2.2.1
               with:
                   version: 6.26.1
                   run_install: true
             - name: Cache pnpm modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-pnpm-modules
               with:
@@ -136,7 +136,7 @@ jobs:
             - name: Setup npmrc with npmjs.com token
               run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPMJS_TOKEN }}" > .npmrc
             - name: 'Publish to npmjs'
-              uses: changesets/action@v1.2.1
+              uses: changesets/action@v1.2.2
               with:
                   publish: pnpm ci:publish
               env:

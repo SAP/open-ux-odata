@@ -1,0 +1,270 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CRM-S4-SRV-SVO",
+        "resources": "resources.json",
+        "dataSources": {
+            "CRMS4_SERV_MANGMT_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/CRMS4_SERV_MANGMT_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CRMS4_SERV_MANGMT_OVP_ANNO_MDL", "annotations"],
+                    "localUri": "localService/CRMS4_SERV_MANGMT_OVP_SRV/metadata.xml"
+                }
+            },
+            "CRMS4_SERV_MANGMT_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CRMS4_SERV_MANGMT_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/CRMS4_SERV_MANGMT_OVP_SRV/CRMS4_SERV_MANGMT_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "CRMS4_SERV_MANGMT_OVP_SRV": {
+                "dataSource": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3607"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "CRMS4_SERV_MANGMT_OVP_SRV",
+        "globalFilterEntityType": "C_ServiceMgmtOvPgGlobalFltrType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "card00_ExpiredServiceContracts": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Title_ExpiredServiceContracts}}",
+                    "entitySet": "C_ServiceContractAnalyticsQryResults",
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ExpiredServiceContracts",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Expiry",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfExpiredSrvcContracts",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{ByNumber}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ExpiredServiceContractsByTCV",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Expiry",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfExpiredSrvcContracts",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{ByContractValue}}"
+                        }
+                    ]
+                }
+            },
+            "card01_Top5ContractsbyTCV": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{title_Top5ContractsbyTCV}}",
+                    "description": "{{Desc_Top5ContractsbyTCV}}",
+                    "entitySet": "C_ServiceContractAnalyticsQryResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "staticParameters": {
+                        "EvaluationId": ".E.1552286825690"
+                    },
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Top5ContractsbyTCV",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#HighestValue",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TCV",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{HighestValue}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Top5ContractsbyTCV",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#LowestValue",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TCV",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{LowestValue}}"
+                        }
+                    ],
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card02_ErroneousServiceOrders": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Title_ErroneousServiceOrders}}",
+                    "entitySet": "C_ServiceOrderCard",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ServiceOrderOVP",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfErroneousServiceOrders"
+                }
+            },
+            "card03_IncompleteServiceOrder": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Title_IncompleteServiceOrder}}",
+                    "description": "{{Desc_IncompleteServiceOrder}}",
+                    "entitySet": "C_ServiceOrderAnalyticsQryResults",
+                    "addODataSelect": true,
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#IncompleteServiceOrder",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Incomplete",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfIncompleteServiceOrders",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1"
+                }
+            },
+            "card04_OverdueServiceOrders": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Title_OverdueServiceOrders}}",
+                    "description": "{{Desc_OverdueServiceOrders}}",
+                    "entitySet": "C_ServiceOrderAnalyticsQryResults",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#OverdueServiceOrders",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Overdue",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NumberOfOverdueServiceOrders",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1"
+                }
+            },
+            "card05_ServiceConfirmation": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Title_ServiceConfirmation}}",
+                    "entitySet": "C_ServiceConfirmationCard",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ServiceConfirmationErr",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#NmbrOfErroneousSrvcConf"
+                }
+            },
+            "card06_AverageLeadTime": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{Title_AverageLeadTime}}",
+                    "entitySet": "C_ServiceDocItemAnalyticsQry",
+                    "addODataSelect": true,
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AverageLeadTime",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#AverageLeadTime",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#AverageLeadTime"
+                }
+            },
+            "card07_ReleaseForBilling": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{Title_ReleaseForBilling}}",
+                    "entitySet": "C_SrvcConfRelBillingCard",
+                    "listType": "condensed",
+                    "sortBy": "NumberOfServiceConfirmations",
+                    "listFlavor": "bar",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#bar"
+                }
+            },
+            "card08_Top5ContractsbyProfit": {
+                "model": "CRMS4_SERV_MANGMT_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{Title_Top5ContractsbyProfit}}",
+                    "description": "{{Desc_Top5ContractsbyProfit}}",
+                    "entitySet": "C_ServiceContractAnalyticsQryResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "staticParameters": {
+                        "EvaluationId": ".E.1552286825690"
+                    },
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Top5ContractsbyProfit",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MostProfitable",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TCV",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{MostProfitable}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Top5ContractsbyProfit",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#LeastProfitable",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TCV",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "value": "{{LeastProfitable}}"
+                        }
+                    ],
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 1
+                    }
+                }
+            }
+        }
+    }
+}

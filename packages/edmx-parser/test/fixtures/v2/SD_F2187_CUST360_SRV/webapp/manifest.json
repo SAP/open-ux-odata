@@ -1,0 +1,613 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "SD-SLS",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/SD_F2187_CUST360_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["SD_F2187_CUST360_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "SD_F2187_CUST360_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='SD_F2187_CUST360_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/SD_F2187_CUST360_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "copilot.intent",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "displaySalesQuotation": {
+                    "semanticObject": "SalesQuotation",
+                    "action": "displayFactSheet"
+                },
+                "displaySalesOrder": {
+                    "semanticObject": "SalesOrder",
+                    "action": "displayFactSheet"
+                },
+                "displaySalesContract": {
+                    "semanticObject": "SalesContract",
+                    "action": "displayFactSheet"
+                },
+                "displayCustomerReturn": {
+                    "semanticObject": "CustomerReturn",
+                    "action": "displayFactSheet"
+                },
+                "displayCreditMemoRequest": {
+                    "semanticObject": "CreditMemoRequest",
+                    "action": "displayFactSheet"
+                },
+                "displayDebitMemoRequest": {
+                    "semanticObject": "DebitMemoRequest",
+                    "action": "displayFactSheet"
+                },
+                "displaySchedulingAgreement": {
+                    "semanticObject": "SalesSchedulingAgreement",
+                    "action": "displayFactSheet"
+                },
+                "displayBillingDocument": {
+                    "semanticObject": "BillingDocument",
+                    "action": "displayFactSheet"
+                },
+                "displayIssue": {
+                    "semanticObject": "SalesOrder",
+                    "action": "manageFulfillment"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "fullWidth": true,
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.cus.sd.lib.processflow": {
+                    "lazy": true
+                },
+                "cus.sd.lib.worklist": {
+                    "lazy": false
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "minVersion": "1.30.0",
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.processflow.component.sales": {
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.processflow.component.billing": {
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.processflow.component.creditmemorequest": {
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.processflow.component.debitmemorequest": {
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.processflow.component.salesquotation": {
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.processflow.component.customerreturn": {
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.processflow.component.salesschedulingagreement": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_Customer360_F2187": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_Customer360_F2187/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_Customer360_F2187": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_Customer360_F2187/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "component": "sap.suite.ui.generic.template.ListReport",
+            "minVersion": "1.1.0",
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_SalesOrderWl_F1873|to_SalesOrders::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SalesOrderWl_F1873|to_SalesOrders::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_QuotationWl_F1852|to_SalesQuotations::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.ProcessflowQuotationsTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_QuotationWl_F1852|to_SalesQuotations::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.ProcessflowQuotationsTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_Customer360_Returns|to_Returns::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.ProcessflowReturnsTableColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_Customer360_Returns|to_Returns::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.ProcessflowReturnsTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_CreditMemoRequestWl_F1989|to_CreditMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableColumnCMR",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CreditMemoRequestWl_F1989|to_CreditMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableCellsCMR",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_DebitMemoRequestWl_F1988|to_DebitMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableColumnDMR",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_DebitMemoRequestWl_F1988|to_DebitMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableCellsDMR",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_BillingDocument_F2187|to_Invoices::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableColumnBilling",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_BillingDocument_F2187|to_Invoices::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableCellsBilling",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_SalesSchedgAgrmt|to_SchedulingAgreements::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableColumnSchedgAgrmt",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SalesSchedgAgrmt|to_SchedulingAgreements::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.StatusTableCellsSchedgAgrmt",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_Customer360_Issues|to_Issues::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.SalesDocumentTableCellsIssues",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_Customer360_Issues|to_Issues::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.customer360.objectpage.ext.fragments.SalesDocumentTableColumnIssues",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "cus.sd.customer360.objectpage.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_Customer360_F2187": {
+                                "EntitySet": "C_Customer360_F2187",
+                                "Sections": {
+                                    "to_SalesQuotations::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                                        "id": "to_SalesQuotations::com.sap.vocabularies.UI.v1.LineItem::Customer360",
+                                        "Actions": {
+                                            "CreateSalesQuotation": {
+                                                "id": "CreateQuotationAction",
+                                                "text": "{{createQuotation}}",
+                                                "press": "onPressCreateQuotationsAction",
+                                                "requiresSelection": false
+                                            },
+                                            "ManageSalesQuotations": {
+                                                "id": "ManageSalesQuotationsAction",
+                                                "text": "{{manageSalesQuotations}}",
+                                                "press": "onPressManageSalesQuotationsAction",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_SalesOrders::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                                        "id": "to_SalesOrders::com.sap.vocabularies.UI.v1.LineItem::Customer360",
+                                        "Actions": {
+                                            "CreateSalesOrder": {
+                                                "id": "CreateSalesOrdersAction",
+                                                "text": "{{createSalesOrder}}",
+                                                "press": "onPressCreateSalesOrdersAction",
+                                                "requiresSelection": false
+                                            },
+                                            "ManageSalesOrders": {
+                                                "id": "ManageSalesOrdersAction",
+                                                "text": "{{manageSalesOrders}}",
+                                                "press": "onPressManageSalesOrdersAction",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_SalesContracts::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                                        "id": "to_SalesContracts::com.sap.vocabularies.UI.v1.LineItem::Customer360",
+                                        "Actions": {
+                                            "CreateContract": {
+                                                "id": "CreateContractsAction",
+                                                "text": "{{createContract}}",
+                                                "press": "onPressCreateContractsAction",
+                                                "requiresSelection": false
+                                            },
+                                            "ManageContracts": {
+                                                "id": "ManageSalesContractsAction",
+                                                "text": "{{manageSalesContracts}}",
+                                                "press": "onPressManageSalesContractsAction",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_CreditMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                                        "id": "to_CreditMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360",
+                                        "Actions": {
+                                            "CreateCreditMemoRequest": {
+                                                "id": "CreateCMRAction",
+                                                "text": "{{createCMR}}",
+                                                "press": "onPressCreateCMRAction",
+                                                "requiresSelection": false
+                                            },
+                                            "ManageCreditMemoRequests": {
+                                                "id": "ManageCMRAction",
+                                                "text": "{{manageCMR}}",
+                                                "press": "onPressManageCMRAction",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_DebitMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                                        "id": "to_DebitMemoRequests::com.sap.vocabularies.UI.v1.LineItem::Customer360",
+                                        "Actions": {
+                                            "CreateDebitMemoRequest": {
+                                                "id": "CreateDMRAction",
+                                                "text": "{{createDMR}}",
+                                                "press": "onPressCreateDMRAction",
+                                                "requiresSelection": false
+                                            },
+                                            "ManageDebitMemoRequests": {
+                                                "id": "ManageDMRAction",
+                                                "text": "{{manageDMR}}",
+                                                "press": "onPressManageDMRAction",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_SchedulingAgreements::com.sap.vocabularies.UI.v1.LineItem::Customer360": {
+                                        "id": "to_SchedulingAgreements::com.sap.vocabularies.UI.v1.LineItem::Customer360",
+                                        "Actions": {
+                                            "CreateSchedulingAgreements": {
+                                                "id": "CreateSchedgAgrmtAction",
+                                                "text": "{{createSchedgAgrmt}}",
+                                                "press": "onPressCreateSchedgAgrmtAction",
+                                                "requiresSelection": false
+                                            },
+                                            "ManageSchedulingAgreements": {
+                                                "id": "ManageSchedgAgrmtAction",
+                                                "text": "{{manageSchedgAgrmt}}",
+                                                "press": "onPressManageSchedgAgrmtAction",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_Issues::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_Issues::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "SalesOrderFulfillmentMonitor": {
+                                                "id": "ResolveSalesOrderIssuesAction",
+                                                "text": "{{resolveSalesOrderIssues}}",
+                                                "press": "onPressResolveSalesOrderIssuesAction",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.2.0",
+        "pages": [
+            {
+                "entitySet": "C_Customer360_F2187",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_Customer360_F2187",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentUsage": "attachmentReuseComponent",
+                                "title": "{{AttachmentsFacetLabel}}",
+                                "settings": {
+                                    "mode": "{='D'}",
+                                    "objectType": "BUS1006",
+                                    "objectKey": "{parts:[{path:'Customer'},{path:'BusinessPartner'}],formatter:'cus.sd.customer360.objectpage.ext.util.formatter.returnAttachmentKey'}",
+                                    "isGuid": true,
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "SOURCE": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": true,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": false,
+                                            "DELETE": false,
+                                            "ADD": false,
+                                            "ADDURL": false,
+                                            "DOWNLOAD": true
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "pages": [
+                            {
+                                "navigationProperty": "to_SalesArea",
+                                "entitySet": "C_Customer360_Salesarea",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            {
+                                "entitySet": "C_QuotationWl_F1852",
+                                "navigationProperty": "to_SalesQuotations",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displaySalesQuotation"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_SalesOrderWl_F1873",
+                                "navigationProperty": "to_SalesOrders",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displaySalesOrder"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_SalesContractWl_F1851",
+                                "navigationProperty": "to_SalesContracts",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displaySalesContract"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_Customer360_Returns",
+                                "navigationProperty": "to_Returns",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displayCustomerReturn"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_CreditMemoRequestWl_F1989",
+                                "navigationProperty": "to_CreditMemoRequests",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displayCreditMemoRequest"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_DebitMemoRequestWl_F1988",
+                                "navigationProperty": "to_DebitMemoRequests",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displayDebitMemoRequest"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_SalesSchedgAgrmt",
+                                "navigationProperty": "to_SchedulingAgreements",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displaySchedulingAgreement"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_BillingDocument_F2187",
+                                "navigationProperty": "to_Invoices",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displayBillingDocument"
+                                    }
+                                }
+                            },
+                            {
+                                "entitySet": "C_Customer360_Issues",
+                                "navigationProperty": "to_Issues",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "navigation": {
+                                    "display": {
+                                        "path": "sap.app.crossNavigation.outbounds",
+                                        "target": "displayIssue"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "contextAnalysis": {
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2187"],
+        "archeType": "factsheet"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

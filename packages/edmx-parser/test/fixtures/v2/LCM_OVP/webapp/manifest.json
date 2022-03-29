@@ -1,0 +1,561 @@
+{
+    "_version": "1.1.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "ui.s2p.lcm.ovp",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "LCM-LT",
+        "resources": "resources.json",
+        "dataSources": {
+            "LCM_OVP": {
+                "uri": "/sap/opu/odata/sap/LCM_OVP/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["LCM_OVP_ANNO_MDL", "annotation1"],
+                    "localUri": "localService/LCM_OVP/metadata.xml"
+                }
+            },
+            "LCM_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='LCM_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/LCM_OVP/LCM_OVP_ANNO_MDL.xml"
+                }
+            },
+            "annotation1": {
+                "uri": "localService/LCM_OVP/annotation1.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/LCM_OVP/annotation1.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "dependencies": {
+            "minUI5Version": "1.36.1",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.36.1",
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "LCM_OVP_TRANSACTIONAL": {
+                "dataSource": "LCM_OVP",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                },
+                "preload": true
+            },
+            "LCM_OVP_ANALYTICAL": {
+                "dataSource": "LCM_OVP",
+                "settings": {
+                    "defaultCountMode": "None"
+                },
+                "preload": true
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "ui.s2p.lcm.ovp.ext.customConfiguration"
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.ovp.app.Main": {
+                        "SmartFilterBarControlConfigurationExtension|C_LglCntntMOvwPgSmrtFilterType": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.lcm.ovp.ext.fragment.CustomFilters",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "LCM_OVP_TRANSACTIONAL",
+        "globalFilterEntityType": "C_LglCntntMOvwPgSmrtFilterType",
+        "cards": {
+            "card01": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card03_title_new}}",
+                    "entitySet": "C_LegalTransactionHealthByQtr",
+                    "staticParameters": {
+                        "customParameter": "currentQuarter"
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#LTHealthChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SegmentAmount",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#LglCntntMNumerator",
+                    "valueSelectionInfo": "{{totalAmountTitle}}",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                }
+            },
+            "card02": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{contextStatusCard_title}}",
+                    "entitySet": "C_LglCntntMContextStatusByQtr",
+                    "staticParameters": {
+                        "customParameter": "currentQuarter"
+                    },
+                    "sortBy": "LglCntntMContextValidToDate",
+                    "sortOrder": "ascending",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CtxStatusChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SegmentAmount",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#StatusVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#StatusNav",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#LglCntntMNumerator",
+                    "valueSelectionInfo": "{{totalAmountTitle}}"
+                }
+            },
+            "card03": {
+                "model": "LCM_OVP_TRANSACTIONAL",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "description": "{{card01_description}}",
+                    "entitySet": "C_LglCntntMCntxtExprgFrmToday",
+                    "title": "{{card01_title}}",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "LglCntntMContextValidToDate",
+                    "sortOrder": "ascending",
+                    "showDateInRelativeFormat": false,
+                    "staticParameters": {
+                        "customParameter": "withoutEmptyValidTo"
+                    },
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Context",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#allStatuses",
+                            "value": "{{allStatusesTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#expiredContextNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Context",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#active",
+                            "value": "{{activeStatusTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#expiredContextNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Context",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#inactive",
+                            "value": "{{inactiveStatusTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#expiredContextNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Context",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ready",
+                            "value": "{{readyStatusTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#expiredContextNav"
+                        }
+                    ]
+                }
+            },
+            "card04": {
+                "model": "LCM_OVP_TRANSACTIONAL",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "description": "{{card02_description}}",
+                    "entitySet": "C_LegalTransactionAtRisk",
+                    "title": "{{card02_title}}",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "LglCntntMCreatedUTCDateTime",
+                    "sortOrder": "descending",
+                    "showDateInRelativeFormat": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LegalTr",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#atRisk",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                }
+            },
+            "card05": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "description": "{{averageTimeDocDraftCard_description}}",
+                    "title": "{{averageTimeDocDraftCard_title}}",
+                    "entitySet": "C_LglCntntMAvgTimeTo1stDocDrft",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AvgLTToDocTimeChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card06": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "description": "{{averageTimeFinalDocCard_description}}",
+                    "title": "{{averageTimeFinalDocDrafCard_title}}",
+                    "entitySet": "C_LglCntntMAvgTimeToFnlDoc",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#AvgLTToFinalDocChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#AcceptedDocs",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "upcomingRemindersCard": {
+                "model": "LCM_OVP_TRANSACTIONAL",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "description": "{{upcomingRemindersCard_description}}",
+                    "entitySet": "C_LglCntntMUpcomingReminders",
+                    "title": "{{upcomingRemindersCard_title}}",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "LegalTransactionReminderDate",
+                    "sortOrder": "ascending",
+                    "showDateInRelativeFormat": false,
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcReminders",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#allHealth",
+                            "value": "{{allStatusesTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcReminders",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#atRisk",
+                            "value": "{{atRiskHealthTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcReminders",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#pending",
+                            "value": "{{pendingHealthTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcReminders",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#onTrack",
+                            "value": "{{onTrackHealthTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcReminders",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#canceled",
+                            "value": "{{canceledHealthTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcReminders",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#terminated",
+                            "value": "{{terminatedHealthTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcReminders",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#expired",
+                            "value": "{{expiredHealthTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                        }
+                    ]
+                }
+            },
+            "upcomingDatesCard": {
+                "model": "LCM_OVP_TRANSACTIONAL",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "description": "{{upcomingDatesCard_description}}",
+                    "entitySet": "C_LglCntntMUpcomingDates",
+                    "title": "{{upcomingDatesCard_title}}",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "LglCntntMFromDate",
+                    "sortOrder": "ascending",
+                    "showDateInRelativeFormat": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#UpcDates",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ltNav"
+                }
+            },
+            "docStampsCard": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{docStampsCard_title}}",
+                    "entitySet": "C_LglCntntMDocStampsByQtr",
+                    "staticParameters": {
+                        "customParameter": "currentQuarter"
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DocStampsChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SegmentAmount",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#LglCntntMNumerator",
+                    "valueSelectionInfo": "{{totalAmountTitle}}",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#StampsNav"
+                }
+            },
+            "docStatusCard": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{docStatusCard_title}}",
+                    "entitySet": "C_LglCntntMDocStatusByQtr",
+                    "staticParameters": {
+                        "customParameter": "currentQuarter",
+                        "LglCntntMIsRstrcdDocCntnt": false
+                    },
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DocStatusChart",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SegmentAmount",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#LglCntntMNumerator",
+                    "valueSelectionInfo": "{{totalAmountTitle}}",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DocStatusNav"
+                }
+            },
+            "openDocCard": {
+                "model": "LCM_OVP_TRANSACTIONAL",
+                "template": "sap.ovp.cards.stack",
+                "settings": {
+                    "title": "{{openDocCard_title}}",
+                    "description": "{{openDocCard_description}}",
+                    "entitySet": "C_LglCntntMOpenDocument",
+                    "staticParameters": {
+                        "customParameter": "initialOrInProcessStatuses"
+                    },
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DocActions",
+                    "objectStreamCardsSettings": {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.Facets#OpenDocuments",
+                        "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#DocActions",
+                        "customActions": [
+                            {
+                                "text": "{{edit_btn}}",
+                                "press": "onEditPress",
+                                "position": 1
+                            },
+                            {
+                                "text": "{{download_btn_text}}",
+                                "press": "onDownloadPress",
+                                "position": 2
+                            }
+                        ]
+                    }
+                }
+            },
+            "signedDocCard": {
+                "model": "LCM_OVP_TRANSACTIONAL",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{signedDocCard_title}}",
+                    "description": "{{signedDocCard_description}}",
+                    "entitySet": "C_LglCntntMSignedAcceptedDoc",
+                    "staticParameters": {
+                        "LglCntntMIsRstrcdDocCntnt": false
+                    },
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "LglCntntMCreatedUTCDateTime",
+                    "sortOrder": "descending",
+                    "showDateInRelativeFormat": false,
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#SignDocs",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SignedDocs",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SortByDateTime",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#SignDocNav"
+                }
+            },
+            "pendinTasksCard": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{pendinTasksCard_title}}",
+                    "entitySet": "C_LglCntntMLglTransPndgTsk",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "valueSelectionInfo": "{{totalAmountTasksTitle}}",
+                    "staticParameters": {
+                        "taskStatuses": "READY,WAITING",
+                        "LglCntntMIsMyLegalTransaction": true
+                    },
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "value": "{{allTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Approve",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "value": "{{approveTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Process",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "value": "{{processTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Revise",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "value": "{{reviseTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Information",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "value": "{{informationTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Review",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MyPndgTasks",
+                            "value": "{{reviewTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        }
+                    ]
+                }
+            },
+            "taskCompletionCard": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{taskCompletionCard_title}}",
+                    "description": "{{taskCompletionCard_description}}",
+                    "entitySet": "C_LglCntntMTskCompltnByType",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "valueSelectionInfo": "{{totalAmountTasksTitleForYear}}",
+                    "staticParameters": {
+                        "currentYear": true,
+                        "taskStatuses": "COMPLETED"
+                    },
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "value": "{{allTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Approve",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "value": "{{approveTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Process",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "value": "{{processTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Revise",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "value": "{{reviseTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Information",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "value": "{{informationTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Review",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TaskCompletion",
+                            "value": "{{reviewTasksTypeTitle}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total"
+                        }
+                    ]
+                }
+            },
+            "taskProcessingTimeCard": {
+                "model": "LCM_OVP_ANALYTICAL",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{taskProcessingTimeCard_title}}",
+                    "description": "{{taskProcessingTimeCard_description}}",
+                    "entitySet": "C_LglCntntMAvgProcgTskTme",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ProcessingTime",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant",
+                    "selectionPresentationAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LegalTrTask",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#Total",
+                    "valueSelectionInfo": "{{totalAmountTasksTitleForYear}}",
+                    "staticParameters": {
+                        "currentYear": true,
+                        "LegalTransactionTaskStatus": "COMPLETED"
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2933"],
+        "archeType": "transactional"
+    }
+}

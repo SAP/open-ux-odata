@@ -1,0 +1,336 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-PUR-HUB-REQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_REQ_EXT_MANAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_REQ_EXT_MANAGE_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_REQ_EXT_MANAGE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_REQ_EXT_MANAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_REQ_EXT_MANAGE_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.s4.cfnd.lib.businessprocessflow": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.nw.core.gbt.notes.lib.reuse": {
+                    "lazy": false
+                }
+            },
+            "components": {
+                "sap.s4.cfnd.lib.businessprocessflow.component.smarttemplate": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_ExtPurchaseRequisitionItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ExtPurchaseRequisitionItem/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ExtPurchaseRequisitionItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ExtPurchaseRequisitionItem/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_ExtPurReqnAcctAssgmt": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_ExtPurReqnAcctAssgmt/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.extpr.manage.s1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_ExtPurchaseRequisitionItem": {
+                                "EntitySet": "C_ExtPurchaseRequisitionItem",
+                                "Actions": {
+                                    "ActionC_ExtPurchaseRequisitionItem1": {
+                                        "id": "CreatePurchaseOrderButton",
+                                        "text": "{@i18n>ActionC_ExtPurchaseRequisitionItem1}",
+                                        "press": "onClickCreatePurchaseOrder"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem4": {
+                                        "id": "ActionC_ExtPurchaseRequisitionItem4button",
+                                        "text": "{@i18n>ActionC_ExtPurchaseRequisitionItem4}",
+                                        "press": "onClickActionC_ExtPurchaseRequisitionItem4"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem2": {
+                                        "id": "ActionC_ExtPurchaseRequisitionItem2button",
+                                        "text": "{@i18n>ActionC_ExtPurchaseRequisitionItem2}",
+                                        "press": "onClickActionC_ExtPurchaseRequisitionItem2"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem3": {
+                                        "id": "AddPRtoPOButton",
+                                        "text": "{@i18n>ActionAddtoPO}",
+                                        "press": "onClickActionAddPRtoPO"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem5": {
+                                        "id": "CreateCRFQ",
+                                        "text": "{@i18n>ActionCreateCRFQ}",
+                                        "press": "onClickCreateCRFQ"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem6": {
+                                        "id": "idDeferPurchaseRequisitions",
+                                        "text": "{@i18n>deferPurchaseRequisitions}",
+                                        "press": "onDeferPurchaseRequisitions"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem7": {
+                                        "id": "idResumeDeferredPurchaseRequisitions",
+                                        "text": "{@i18n>resumeDeferredPurchaseRequisitions}",
+                                        "press": "onResumeDeferredPurchaseRequisitions"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem8": {
+                                        "id": "idClosePrItems",
+                                        "text": "{@i18n>closePrItems}",
+                                        "press": "onClosePrItems"
+                                    },
+                                    "ActionC_ExtPurchaseRequisitionItem9": {
+                                        "id": "AddPRtoCCTRButton",
+                                        "text": "{@i18n>ActionAddtoCCTR}",
+                                        "press": "onClickActionAddPRtoCCTR"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.extpr.manage.s1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_ExtPurchaseRequisitionItem": {
+                                "EntitySet": "C_ExtPurchaseRequisitionItem",
+                                "Sections": {
+                                    "to_ExtPurReqnAssignedSOS::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_ExtPurReqnAssignedSOS::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionC_ExtPurchaseRequisitionItemSections1": {
+                                                "id": "ActionC_ExtPurchaseRequisitionItemSections1button",
+                                                "text": "{@i18n>ActionC_ExtPurchaseRequisitionItemSections1}",
+                                                "press": "onClickActionAssignSourceoOfSupply"
+                                            }
+                                        }
+                                    }
+                                },
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_ExtPurchaseRequisitionItemHeader1": {
+                                            "id": "ActionC_ExtPurchaseRequisitionItemHeader1button",
+                                            "text": "{@i18n>ActionC_ExtPurchaseRequisitionItemHeader1}",
+                                            "press": "onClickActionC_ExtPurchaseRequisitionItemHeader1"
+                                        },
+                                        "ActionC_ExtPurchaseRequisitionItemSections2": {
+                                            "id": "ActionC_ExtPurchaseRequisitionItemSections2button",
+                                            "text": "{@i18n>ActionC_ExtPurchaseRequisitionItemSections2}",
+                                            "press": "onClickActionRefreshProxyPR"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_ExtPurchaseRequisitionItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.extpr.manage.s1.ext.fragment.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ExtPurchaseRequisitionItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.extpr.manage.s1.ext.fragment.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "SmartFilterBarControlConfigurationExtension|C_ExtPurchaseRequisitionItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.extpr.manage.s1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterHeaderDataPoint|C_ExtPurchaseRequisitionItem|ProcmtHubPurRequisitionType": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.extpr.manage.s1.ext.fragment.HeaderExtensionFacet",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_ExtPurReqnAssignedSOS|to_ExtPurReqnAssignedSOS::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.extpr.manage.s1.ext.fragment.ObjectPageResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ExtPurReqnAssignedSOS|to_ExtPurReqnAssignedSOS::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.extpr.manage.s1.ext.fragment.ObjectPageResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_ExtPurchaseRequisitionItem": {
+                "entitySet": "C_ExtPurchaseRequisitionItem",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": {
+                    "ObjectPage|C_ExtPurchaseRequisitionItem": {
+                        "entitySet": "C_ExtPurchaseRequisitionItem",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "embeddedComponents": {
+                            "ProcessFlow": {
+                                "id": "ProcessFlow",
+                                "componentName": "sap.s4.cfnd.lib.businessprocessflow.component.smarttemplate",
+                                "propogateModel": true,
+                                "title": "{{processFlow}}",
+                                "settings": {
+                                    "layoutID": "ProcmtHubPRItemHistorySet",
+                                    "docID": "{parts:[{path:'ProcmtHubPurchaseRequisition'},{path:'ProcurementHubSourceSystem'}],formatter:'ui.s2p.mm.extpr.manage.s1.model.formatter.concatHubSystem'}",
+                                    "item": "{parts:[{path:'ProcmtHubPurRequisitionItem'}]}",
+                                    "keyName": "PurchaseRequisition",
+                                    "itemKeyName": "PurchaseRequisitionItem",
+                                    "serviceField": "MM_PROCMTHUB_PR_HISTORY"
+                                }
+                            },
+                            "header::Notes": {
+                                "id": "header::Notes",
+                                "componentName": "sap.nw.core.gbt.notes.lib.reuse.notes4smarttemplate",
+                                "title": "{{NotesFacet}}",
+                                "settings": {
+                                    "objectId": "{parts:[{path:'ProcmtHubPurchaseRequisition'},{path:'ProcmtHubPurRequisitionItem'},{path:'ProcurementHubSourceSystem'}],formatter: 'ui.s2p.mm.extpr.manage.s1.model.formatter.purgReqnItemKey'}",
+                                    "objectNodeType": "PrmtHbRpldPurchaseReqnItem",
+                                    "noteTypes": "{path:'NoteTypeListText',formatter:'ui.s2p.mm.extpr.manage.s1.model.formatter.returnNotesJSON'}"
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_ExtPurReqnAcctAssgmt": {
+                                "navigationProperty": "to_ExtPurReqnAcctAssgmt",
+                                "entitySet": "C_ExtPurReqnAcctAssgmt",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3290"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

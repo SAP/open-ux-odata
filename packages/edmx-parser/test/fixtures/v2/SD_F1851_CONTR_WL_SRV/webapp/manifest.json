@@ -1,0 +1,220 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "SD-SLS",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/SD_F1851_CONTR_WL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["SD_F1851_CONTR_WL_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "SD_F1851_CONTR_WL_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='SD_F1851_CONTR_WL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/SD_F1851_CONTR_WL_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "copilot.intent",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "displaySalesContract": {
+                    "semanticObject": "SalesContract",
+                    "action": "display"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://Fiori2/F0021",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "cus.sd.lib.worklist": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_SalesContractWl_F1851": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_SalesContractWl_F1851/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SalesContractWl_F1851": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SalesContractWl_F1851/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_SalesContractWl_F1851": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "cus.sd.salescontracts.manage.ext.fragments.CustomFilter",
+                            "type": "XML"
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "cus.sd.salescontracts.manage.ext.controllers.CustomLogic",
+                        "sap.ui.generic.app": {
+                            "C_SalesContractWl_F1851": {
+                                "EntitySet": "C_SalesContractWl_F1851",
+                                "Actions": {
+                                    "create": {
+                                        "id": "CreateSalesContract",
+                                        "text": "{i18n|sap.suite.ui.generic.template.ListReport|C_SalesContractWl_F1851>CREATE_CONTRACT}",
+                                        "press": "onPressCreate"
+                                    },
+                                    "subsequentDocument": {
+                                        "id": "SubsequentDocument",
+                                        "text": "{{subsequentDocument}}",
+                                        "press": "onPressCreateSubsequentDocument",
+                                        "requiresSelection": "true"
+                                    },
+                                    "rejectAllItems": {
+                                        "id": "rejectAllItems",
+                                        "text": "{{rejectAllItems}}",
+                                        "press": "onRejectAllItems",
+                                        "requiresSelection": "true"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.2.0",
+        "pages": [
+            {
+                "entitySet": "C_SalesContractWl_F1851",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_SalesContractWl_F1851",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "navigation": {
+                            "display": {
+                                "path": "sap.app.crossNavigation.outbounds",
+                                "target": "displaySalesContract"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F1851"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    },
+    "sap.copilot": {
+        "_version": "1.0.0",
+        "digitalAssistant": {
+            "intentDefinition": {
+                "ManageSalesContractsSkill": {
+                    "uri": "/copilot/ManageSalesContractsSkill.xml",
+                    "dataSources": ["mainService"],
+                    "i18n": "/copilot/i18n/i18n.properties"
+                }
+            }
+        }
+    }
+}

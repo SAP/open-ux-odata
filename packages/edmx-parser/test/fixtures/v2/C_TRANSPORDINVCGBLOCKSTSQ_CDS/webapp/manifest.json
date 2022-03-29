@@ -1,0 +1,264 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2672"],
+        "archeType": "analytical"
+    },
+    "sap.app": {
+        "id": "scm.tm.freightsettlementcostovps1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "TM-CF-ANA",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_TRANSPORDINVCGBLOCKSTSQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_TRANSPORDINVCGBLOCKSTSQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_TRANSPORDINVCGBLOCKSTSQ_CDS_VAN"],
+                    "localUri": "localService/C_TRANSPORDINVCGBLOCKSTSQ_CDS/metadata.xml"
+                }
+            },
+            "C_TRANSPORDINVCGBLOCKSTSQ_CDS_VAN": {
+                "uri": "localService/C_TRANSPORDINVCGBLOCKSTSQ_CDS/C_TRANSPORDINVCGBLOCKSTSQ_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_TRANSPORDINVCGBLOCKSTSQ_CDS/C_TRANSPORDINVCGBLOCKSTSQ_CDS_VAN.xml"
+                }
+            },
+            "C_FREIGHTSETTLEMENTCOSTQ_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FREIGHTSETTLEMENTCOSTQ_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_FREIGHTSETTLEMENTCOSTQ_CDS_VAN"],
+                    "localUri": "localService/C_FREIGHTSETTLEMENTCOSTQ_CDS/metadata.xml"
+                }
+            },
+            "C_FREIGHTSETTLEMENTCOSTQ_CDS_VAN": {
+                "uri": "localService/C_FREIGHTSETTLEMENTCOSTQ_CDS/C_FREIGHTSETTLEMENTCOSTQ_CDS_VAN.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_FREIGHTSETTLEMENTCOSTQ_CDS/C_FREIGHTSETTLEMENTCOSTQ_CDS_VAN.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.smartovptemplate",
+            "version": "1.41.1"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.56.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "1.44.3"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_TRANSPORDINVCGBLOCKSTSQ_CDS": {
+                "preload": true,
+                "dataSource": "C_TRANSPORDINVCGBLOCKSTSQ_CDS",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "C_FREIGHTSETTLEMENTCOSTQ_CDS": {
+                "preload": true,
+                "dataSource": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "settings": {
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "_version": "1.1.0",
+        "globalFilterModel": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+        "globalFilterEntityType": "C_FREIGHTSETTLEMENTCOSTQResult",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "card01": {
+                "model": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalLine_timeInvoice_title}}",
+                    "subTitle": "{{card_AnalyticalLine_timeInvoice_subTitle}}",
+                    "entitySet": "C_FREIGHTSETTLEMENTCOSTQResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FreightSettlementCost",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#TimeInvoiceLine",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#TimeInvoiceLine",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CostAmount",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TimeInvoiceLine"
+                }
+            },
+            "card02": {
+                "model": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{card_AnalyticalBubble_modeCat_title}}",
+                    "subTitle": "{{card_AnalyticalBubble_modeCat_subTitle}}",
+                    "entitySet": "C_FREIGHTSETTLEMENTCOSTQResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FreightSettlementCost",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ModeCatBubble",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ModeCatBubble",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CostAmount",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ModeCatBubble"
+                }
+            },
+            "card03": {
+                "model": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card_Table_logisticNetwork_title}}",
+                    "subTitle": "{{card_Table_logisticNetwork_subTitle}}",
+                    "entitySet": "C_FREIGHTSETTLEMENTCOSTQResults",
+                    "sortBy": "CostAmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FreightSettlementCost",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#LogisticNetwork",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#LogisticNetwork",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card05": {
+                "model": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_carrier_title}}",
+                    "subTitle": "{{card_List_carrier_subTitle}}",
+                    "entitySet": "C_FREIGHTSETTLEMENTCOSTQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "CostAmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FreightSettlementCost",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#Carrier",
+                    "enableLocaleCurrencyFormatting": false,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#Carrier",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card06": {
+                "model": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_modeCat_title}}",
+                    "subTitle": "{{card_List_modeCat_subTitle}}",
+                    "entitySet": "C_FREIGHTSETTLEMENTCOSTQResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "CostAmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FreightSettlementCost",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ModeCat",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ModeCat",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card07": {
+                "model": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_chargeType_title}}",
+                    "subTitle": "{{card_List_chargeType_subTitle}}",
+                    "entitySet": "C_FREIGHTSETTLEMENTCOSTQResults",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "sortBy": "CostAmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FreightSettlementCost",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ChargeType",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#ChargeType",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card09": {
+                "model": "C_FREIGHTSETTLEMENTCOSTQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_purchOrg_title}}",
+                    "subTitle": "{{card_List_purchOrg_subTitle}}",
+                    "entitySet": "C_FREIGHTSETTLEMENTCOSTQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "CostAmountInDisplayCurrency",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#FreightSettlementCost",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PurchOrg",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#PurchOrg",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            },
+            "card10": {
+                "model": "C_TRANSPORDINVCGBLOCKSTSQ_CDS",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{card_List_torFsdBlock_title}}",
+                    "subTitle": "{{card_List_torFsdBlock_subTitle}}",
+                    "entitySet": "C_TRANSPORDINVCGBLOCKSTSQResults",
+                    "listType": "condensed",
+                    "listFlavor": "standard",
+                    "sortBy": "NumberOfInvcgBlkdTranspOrds",
+                    "sortOrder": "descending",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#TorFsdBlock",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TorFsdBlock",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#TorFsdBlock",
+                    "addODataSelect": true,
+                    "ignoreSapText": true
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/scm.tm.freightsettlementcostovps1/webapp",
+        "_version": "1.1.0"
+    }
+}

@@ -3,3 +3,6 @@ dist/
 node_modules/
 typings/
 **/__snapshots__
+
+# Generated vocabularies type file
+packages/vocabularies-types/src/generated

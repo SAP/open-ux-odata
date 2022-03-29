@@ -1,0 +1,208 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PM-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EAM_OBJPG_PURCH_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EAM_OBJPG_PURCH_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EAM_OBJPG_PURCH_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EAM_OBJPG_PURCH_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EAM_OBJPG_PURCH_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "DisplayMaterialFactSheet": {
+                    "semanticObject": "Material",
+                    "action": "displayFactSheet",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                },
+                "DisplayPurchaseRequisitionItemFactSheet": {
+                    "semanticObject": "PurchaseRequisitionItem",
+                    "action": "displayFactSheet",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                },
+                "DisplayPurchaseOrderFactSheet": {
+                    "semanticObject": "PurchaseOrder",
+                    "action": "displayFactSheet",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                },
+                "DisplayMaintenanceOrderOperationFactSheet": {
+                    "semanticObject": "MaintenanceOrder",
+                    "action": "displayOperationFactSheet",
+                    "parameters": {
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MaintOrdCompPurReqItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_MaintOrdCompPurReqItem/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "component": "i2d.eam.procurement.monitors1",
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_MaintOrdCompPurReqItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.eam.procurement.monitors1.ext.fragments.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MaintOrdCompPurReqItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "i2d.eam.procurement.monitors1.ext.fragments.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                },
+
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "i2d.eam.procurement.monitors1.ext.controller.ListReportExtension"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3065"],
+        "archeType": "transactional"
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_MaintOrdCompPurReqItem": {
+                "entitySet": "C_MaintOrdCompPurReqItem",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                }
+            }
+        }
+    }
+}

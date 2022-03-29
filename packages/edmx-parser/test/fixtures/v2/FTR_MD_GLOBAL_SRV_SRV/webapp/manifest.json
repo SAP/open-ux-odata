@@ -1,0 +1,451 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FIN-FIO-TRM",
+        "resources": "resources.json",
+        "dataSources": {
+            "FTR_MD_GLOBAL_SRV_SRV": {
+                "uri": "/sap/opu/odata/sap/FTR_MD_GLOBAL_SRV_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/FTR_MD_GLOBAL_SRV_SRV/metadata.xml",
+                    "annotations": ["annotation_GlobalSet", "FTR_MD_GLOBAL_SRV_ANNO_MDL"]
+                }
+            },
+            "FTR_MD_GLOBAL_SRV_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FTR_MD_GLOBAL_SRV_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FTR_MD_GLOBAL_SRV_SRV/FTR_MD_GLOBAL_SRV_ANNO_MDL.xml"
+                }
+            },
+            "C_FXSPOTRATEHISTORY_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FXSPOTRATEHISTORY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_FXSPOTRATEHISTORY_CDS/metadata.xml",
+                    "annotations": ["annotation_FXHistoryChart"]
+                }
+            },
+            "annotation_GlobalSet": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_GlobalSet.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_GlobalSet.xml"
+                }
+            },
+            "annotation_FXHistoryChart": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_FXHistoryChart.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_FXHistoryChart.xml"
+                }
+            },
+            "C_SECURITYPRICEREPORTING_CDS": {
+                "uri": "/sap/opu/odata/sap/C_SECURITYPRICEREPORTING_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_SECURITYPRICEREPORTING_CDS/metadata.xml",
+                    "annotations": ["annotation_SecurityPriceReporting"]
+                }
+            },
+            "annotation_SecurityPriceReporting": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_SecurityPriceReporting.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_SecurityPriceReporting.xml"
+                }
+            },
+            "FTR_MD_SECPRICE_DEVIATION_SRV": {
+                "uri": "/sap/opu/odata/sap/FTR_MD_SECPRICE_DEVIATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/FTR_MD_SECPRICE_DEVIATION_SRV/metadata.xml",
+                    "annotations": ["annotation_SecurityPrice_Deviation"]
+                }
+            },
+            "annotation_SecurityPrice_Deviation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_SecurityPrice_Deviation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_SecurityPrice_Deviation.xml"
+                }
+            },
+            "C_FXSWAPRATEKEYDATE_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FXSWAPRATEKEYDATE_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_FXSWAPRATEKEYDATE_CDS/metadata.xml",
+                    "annotations": ["annotation_fxswaprate"]
+                }
+            },
+            "annotation_fxswaprate": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_fxswaprate.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_fxswaprate.xml"
+                }
+            },
+            "C_FXSPOTRATEDEVIATION_CDS": {
+                "uri": "/sap/opu/odata/sap/C_FXSPOTRATEDEVIATION_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_FXSPOTRATEDEVIATION_CDS/metadata.xml",
+                    "annotations": ["annotation_fxdeviation"]
+                }
+            },
+            "annotation_fxdeviation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_fxdeviation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_fxdeviation.xml"
+                }
+            },
+            "C_MKTDATAREFINTRSTRATERPTG_CDS": {
+                "uri": "/sap/opu/odata/sap/C_MKTDATAREFINTRSTRATERPTG_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_MKTDATAREFINTRSTRATERPTG_CDS/metadata.xml",
+                    "annotations": ["annotation_MktDataRefIntrstRateRPTG"]
+                }
+            },
+            "annotation_MktDataRefIntrstRateRPTG": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_MktDataRefIntrstRateRPTG.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_MktDataRefIntrstRateRPTG.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "FTR_MD_GLOBAL_SRV_SRV": {
+                "preload": true,
+                "dataSource": "FTR_MD_GLOBAL_SRV_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_FXSPOTRATEHISTORY_CDS": {
+                "preload": true,
+                "dataSource": "C_FXSPOTRATEHISTORY_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_SECURITYPRICEREPORTING_CDS": {
+                "preload": true,
+                "dataSource": "C_SECURITYPRICEREPORTING_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "FTR_MD_SECPRICE_DEVIATION_SRV": {
+                "preload": true,
+                "dataSource": "FTR_MD_SECPRICE_DEVIATION_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_FXSWAPRATEKEYDATE_CDS": {
+                "preload": true,
+                "dataSource": "C_FXSWAPRATEKEYDATE_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_FXSPOTRATEDEVIATION_CDS": {
+                "preload": true,
+                "dataSource": "C_FXSPOTRATEDEVIATION_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_MKTDATAREFINTRSTRATERPTG_CDS": {
+                "preload": true,
+                "dataSource": "C_MKTDATAREFINTRSTRATERPTG_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.trm.marketdata.ovp.ext.controller.PageControllerExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3941"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "FTR_MD_GLOBAL_SRV_SRV",
+        "globalFilterEntityType": "C_MarketDataOverViewSelType",
+        "containerLayout": "resizable",
+        "enableLiveFilter": true,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "card_00": {
+                "model": "C_FXSPOTRATEHISTORY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{FX_HIST_TITLE}}",
+                    "subTitle": "{{FX_HIST_SUBTITLE}}",
+                    "entitySet": "C_FXSpotRateHistoryResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab1",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ExchRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ExchRate",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#showDetails",
+                            "value": "{{card_fx_dropdown_value_ByDay}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab2",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ExchRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ExchRate",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#showDetails",
+                            "value": "{{card_fx_dropdown_value_ByMonth}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab3",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ExchRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ExchRate",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#showDetails",
+                            "value": "{{card_fx_dropdown_value_By3Month}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab4",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ExchRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ExchRate",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#showDetails",
+                            "value": "{{card_fx_dropdown_value_By6Month}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab5",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ExchRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ExchRate",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#showDetails",
+                            "value": "{{card_fx_dropdown_value_ByYear}}"
+                        }
+                    ],
+                    "ChartProperties": {
+                        "plotArea": {
+                            "isSmoothed": true
+                        }
+                    }
+                }
+            },
+            "card_02": {
+                "model": "C_FXSPOTRATEDEVIATION_CDS",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{FX_SPOT_Deviation}}",
+                    "entitySet": "C_FXSpotRateDeviationResults",
+                    "sortBy": "FXSpotRateDvtnInPct",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "defaultSpan": {
+                        "rows": 6,
+                        "cols": 1
+                    },
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Para",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#FXTable",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#present",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#showDetails"
+                }
+            },
+            "card_03": {
+                "model": "C_FXSWAPRATEKEYDATE_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{FX_SWAP_TITLE}}",
+                    "subTitle": "{{FX_SWAP_SUBTITLE}}",
+                    "entitySet": "C_FXSwapRateKeyDateResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#Para",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#swaprate",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#swaprate",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#swaprate",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#showDetails",
+                    "ChartProperties": {
+                        "plotArea": {
+                            "isSmoothed": true
+                        }
+                    }
+                }
+            },
+            "card_03A_MktDataRefIntRate": {
+                "model": "C_MKTDATAREFINTRSTRATERPTG_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{MKTDATAREFINTRATE_TITLE}}",
+                    "subTitle": "{{MKTDATAREFINTRATE_SUBTITLE}}",
+                    "entitySet": "C_MktDataRefIntrstRateRptgResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MktDataRefIntRate1",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MktDataRefIntRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MktDataRefIntRate",
+                            "value": "{{card_mktdatarefintrate_dropdown_value_By5Day}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MktDataRefIntRate"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MktDataRefIntRate2",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MktDataRefIntRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MktDataRefIntRate",
+                            "value": "{{card_mktdatarefintrate_dropdown_value_By1Month}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MktDataRefIntRate"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MktDataRefIntRate3",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MktDataRefIntRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MktDataRefIntRate",
+                            "value": "{{card_mktdatarefintrate_dropdown_value_By3Month}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MktDataRefIntRate"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MktDataRefIntRate4",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MktDataRefIntRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MktDataRefIntRate",
+                            "value": "{{card_mktdatarefintrate_dropdown_value_By6Month}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MktDataRefIntRate"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#MktDataRefIntRate5",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#MktDataRefIntRate",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#MktDataRefIntRate",
+                            "value": "{{card_mktdatarefintrate_dropdown_value_By1Year}}",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#MktDataRefIntRate"
+                        }
+                    ],
+                    "ChartProperties": {
+                        "plotArea": {
+                            "isSmoothed": true
+                        }
+                    }
+                }
+            },
+            "card_04_SecPriceRep": {
+                "model": "C_SECURITYPRICEREPORTING_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{SECPRICE_History}}",
+                    "subTitle": "{{SECPRICE_His_subtitle}}",
+                    "entitySet": "C_SecurityPriceReportingResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab1",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SecurityPrice",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SecurityPrice",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#toMarketDate",
+                            "value": "{{card_fx_dropdown_value_ByDay}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab2",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SecurityPrice",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SecurityPrice",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#toMarketDate",
+                            "value": "{{card_fx_dropdown_value_ByMonth}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab3",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SecurityPrice",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SecurityPrice",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#toMarketDate",
+                            "value": "{{card_fx_dropdown_value_By3Month}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab4",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SecurityPrice",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SecurityPrice",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#toMarketDate",
+                            "value": "{{card_fx_dropdown_value_By6Month}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#tab5",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#SecurityPrice",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#SecurityPrice",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#toMarketDate",
+                            "value": "{{card_fx_dropdown_value_ByYear}}"
+                        }
+                    ],
+                    "ChartProperties": {
+                        "plotArea": {
+                            "isSmoothed": true
+                        }
+                    }
+                }
+            },
+            "card_05_SecPriceDev": {
+                "model": "FTR_MD_SECPRICE_DEVIATION_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{Security_Price_Deviation}}",
+                    "subTitle": "{{Curr_SECPRICE_subtitle}}",
+                    "entitySet": "SecPrices_Results",
+                    "sortBy": "ScrtyPrcAbsDvtnAmtInPriceCrcy",
+                    "sortOrder": "descending",
+                    "addODataSelect": true,
+                    "defaultSpan": {
+                        "rows": 6,
+                        "cols": 1
+                    },
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SecurityPriceParameter",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#SecurityPriceTable",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#defaultViewSetting",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification#toMarketDate"
+                }
+            }
+        }
+    }
+}

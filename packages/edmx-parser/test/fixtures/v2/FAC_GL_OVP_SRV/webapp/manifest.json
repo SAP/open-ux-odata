@@ -1,0 +1,560 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FI-FIO-GL",
+        "resources": "resources.json",
+        "dataSources": {
+            "FAC_GL_OVP_SRV": {
+                "uri": "/sap/opu/odata/sap/FAC_GL_OVP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/FAC_GL_OVP_SRV/metadata.xml",
+                    "annotations": [
+                        "FAC_GL_OVP_ANNO_MDL",
+                        "ANN_JournalEntryToBeVerified",
+                        "ANN_GLAcctBalanceOvw",
+                        "ANN_TaxRecon"
+                    ],
+                    "maxAge": 30
+                }
+            },
+            "C_GLDAYSPYBLOUTSTDGINDRCT_CDS": {
+                "uri": "/sap/opu/odata/sap/C_GLDAYSPYBLOUTSTDGINDRCT_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_GLDAYSPYBLOUTSTDGINDRCT_CD_VAN", "ANN_DPOIndrct"]
+                }
+            },
+            "C_GLDAYSPYBLOUTSTDGINDRCT_CD_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_GLDAYSPYBLOUTSTDGINDRCT_CD_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "ANN_DPOIndrct": {
+                "uri": "./annotations/ANN_DPOIndrct.xml",
+                "type": "ODataAnnotation"
+            },
+
+            "C_GLDAYSSALESOUTSTDGOVW_CDS": {
+                "uri": "/sap/opu/odata/sap/C_GLDAYSSALESOUTSTDGOVW_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_GLDAYSSALESOUTSTDGOVW_CDS_VAN", "ANN_DSO"]
+                }
+            },
+            "C_GLDAYSSALESOUTSTDGOVW_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_GLDAYSSALESOUTSTDGOVW_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "ANN_DSO": {
+                "uri": "./annotations/ANN_DSO.xml",
+                "type": "ODataAnnotation"
+            },
+            "ANN_JournalEntryToBeVerified": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/ANN_JournalEntryToBeVerified.xml",
+                "settings": {
+                    "localUri": "annotations/ANN_JournalEntryToBeVerified.xml"
+                }
+            },
+            "ANN_GLAcctBalanceOvw": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/ANN_GLAcctBalanceOvw.xml",
+                "settings": {
+                    "localUri": "annotations/ANN_GLAcctBalanceOvw.xml"
+                }
+            },
+            "ANN_TaxRecon": {
+                "uri": "annotations/ANN_TaxRecon.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/ANN_TaxRecon.xml"
+                }
+            },
+            "C_GLREVENUEEXPENSESOVW_CDS": {
+                "uri": "/sap/opu/odata/sap/C_GLREVENUEEXPENSESOVW_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_GLREVENUEEXPENSESOVW_CDS_VAN", "ANN_RevenueExpenses"]
+                }
+            },
+            "C_GLREVENUEEXPENSESOVW_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_GLREVENUEEXPENSESOVW_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "ANN_RevenueExpenses": {
+                "uri": "./annotations/ANN_RevenueExpenses.xml",
+                "type": "ODataAnnotation"
+            },
+            "FAC_GL_OVP_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FAC_GL_OVP_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation"
+            },
+            "IWPGW_TASKPROCESSING_V2": {
+                "uri": "/sap/opu/odata/IWPGW/TASKPROCESSING;mo;v=2/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["IWPGW_TASKPROCESSING_V2_ANNO_MDL_LOCAL"]
+                }
+            },
+            "IWPGW_TASKPROCESSING_V2_ANNO_MDL_LOCAL": {
+                "uri": "./annotations/IWPGW_TASKPROCESSING_V2.xml",
+                "type": "ODataAnnotation"
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2445"],
+        "archeType": "analytical"
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.32.0",
+            "libs": {
+                "sap.ovp": {
+                    "lazy": false,
+                    "minVersion": "1.32.0"
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_GLDAYSPYBLOUTSTDGINDRCT_CDS": {
+                "preload": true,
+                "dataSource": "C_GLDAYSPYBLOUTSTDGINDRCT_CDS",
+                "settings": {}
+            },
+            "C_GLDAYSSALESOUTSTDGOVW_CDS": {
+                "preload": true,
+                "dataSource": "C_GLDAYSSALESOUTSTDGOVW_CDS",
+                "settings": {}
+            },
+            "C_GLREVENUEEXPENSESOVW_CDS1": {
+                "preload": true,
+                "dataSource": "C_GLREVENUEEXPENSESOVW_CDS",
+                "settings": {}
+            },
+            "C_GLREVENUEEXPENSESOVW_CDS2": {
+                "preload": true,
+                "dataSource": "C_GLREVENUEEXPENSESOVW_CDS",
+                "settings": {}
+            },
+            "FAC_GL_OVP_SRV": {
+                "preload": true,
+                "dataSource": "FAC_GL_OVP_SRV",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "IWPGW_TASKPROCESSING_V2": {
+                "preload": true,
+                "dataSource": "IWPGW_TASKPROCESSING_V2"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.gl.glaccount.ovp.ext.CustomParams"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "FAC_GL_OVP_SRV",
+        "globalFilterEntityType": "C_GLGlobalFilterOvwResult",
+        "enableLiveFilter": false,
+        "showDateInRelativeFormat": false,
+        "considerAnalyticalParameters": true,
+        "containerLayout": "resizable",
+        "cards": {
+            "card00_Revenue": {
+                "model": "C_GLREVENUEEXPENSESOVW_CDS1",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{revenue_title}}",
+                    "subTitle": "{{revenue_subTitle}}",
+                    "valueSelectionInfo": "{{revenueExpenses_KPI_subTitle}}",
+                    "entitySet": "C_GLREVENUEEXPENSESOVWResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsRevLast3Mo",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GLOverviewPageRevenueKPI",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Revenue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last3Mo}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsRevLast6Mo",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GLOverviewPageRevenueKPI",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Revenue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last6Mo}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsRevAll",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GLOverviewPageRevenueKPI",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Revenue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "value": "{{JournalEntryToBeVerified_Tab_All}}"
+                        }
+                    ]
+                }
+            },
+            "card01_Expenses": {
+                "model": "C_GLREVENUEEXPENSESOVW_CDS2",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{expenses_title}}",
+                    "subTitle": "{{expenses_subTitle}}",
+                    "entitySet": "C_GLREVENUEEXPENSESOVWResults",
+                    "valueSelectionInfo": "{{revenueExpenses_KPI_subTitle}}",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsExpLast3Mo",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GLOverviewPageExpensesKPI",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Expenses",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last3Mo}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsExpLast6Mo",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GLOverviewPageExpensesKPI",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Expenses",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last6Mo}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsExpLastAll",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#GLOverviewPageExpensesKPI",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#Expenses",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "value": "{{JournalEntryToBeVerified_Tab_All}}"
+                        }
+                    ]
+                }
+            },
+            "card04_JournalEntryToBeVerified": {
+                "model": "FAC_GL_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card04_title}}",
+                    "description": "{{card04_subtitle}}",
+                    "entitySet": "C_GLJrnlEntrToBeVerifiedOvwResults",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1WkSubmitted",
+                            "value": "{{JournalEntryToBeVerified_Tab_LastWk}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1MoSubmitted",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last1Mo}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params3MoSubmitted",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last3Mo}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params6MoSubmitted",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last6Mo}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsAllSubmitted",
+                            "value": "{{JournalEntryToBeVerified_Tab_All}}"
+                        }
+                    ]
+                }
+            },
+            "card12_JournalEntryToBeVerifiedOther": {
+                "model": "FAC_GL_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card12_title}}",
+                    "description": "{{card04_subtitle}}",
+                    "entitySet": "C_GLJrnlEntrToBeVerifiedOvwResults",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1WkOther",
+                            "value": "{{JournalEntryToBeVerified_Tab_LastWk}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1MoOther",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last1Mo}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params3MoOther",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last3Mo}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params6MoOther",
+                            "value": "{{JournalEntryToBeVerified_Tab_Last6Mo}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#paramsAllOther",
+                            "value": "{{JournalEntryToBeVerified_Tab_All}}"
+                        }
+                    ]
+                }
+            },
+            "card05_GLAccountBalance": {
+                "model": "FAC_GL_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{card05_title}}",
+                    "description": "{{card05_subtitle}}",
+                    "customParams": "GLAccountBalance",
+                    "entitySet": "C_GLAccountBalanceOvwResults",
+                    "sortBy": "BalanceAmountInDisplayCurrency",
+                    "sortOrder": "ascending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params"
+                }
+            },
+            "card06_QuickLinks": {
+                "model": "FAC_GL_OVP_SRV",
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{quickLinks_cardTitle}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{quickLinks_displayAccountLineItems}}",
+                            "imageUri": "sap-icon://Fiori5/F0706",
+                            "imageAltText": "{{quickLinks_displayAccountLineItems}}",
+                            "semanticObject": "GLAccount",
+                            "action": "displayGLLineItemReportingView"
+                        },
+                        {
+                            "title": "{{quickLinks_manageJournalEntries}}",
+                            "imageUri": "sap-icon://Fiori5/F0718",
+                            "imageAltText": "{{quickLinks_manageJournalEntries}}",
+                            "semanticObject": "AccountingDocument",
+                            "action": "manage"
+                        },
+                        {
+                            "title": "{{quickLinks_postGeneralJournalEntries}}",
+                            "imageUri": "sap-icon://Fiori5/F0717",
+                            "imageAltText": "{{quickLinks_postGeneralJournalEntries}}",
+                            "semanticObject": "AccountingDocument",
+                            "action": "postGLDocument"
+                        },
+                        {
+                            "title": "{{quickLinks_postCashJournalEntries}}",
+                            "imageUri": "sap-icon://Fiori2/F0021",
+                            "imageAltText": "{{quickLinks_postCashJournalEntries}}",
+                            "semanticObject": "CashJournal",
+                            "action": "enterCashJournalEntry"
+                        },
+                        {
+                            "title": "{{quickLinks_clearAccounts}}",
+                            "imageUri": "sap-icon://Fiori6/F0773",
+                            "imageAltText": "{{quickLinks_clearAccounts}}",
+                            "semanticObject": "AccountingDocument",
+                            "action": "manageManualclearing"
+                        },
+                        {
+                            "title": "{{quickLinks_scheduleGeneralLedgerJobs}}",
+                            "imageUri": "sap-icon://Fiori6/F0849",
+                            "imageAltText": "{{quickLinks_scheduleGeneralLedgerJobs}}",
+                            "semanticObject": "ApplicationJob",
+                            "action": "show"
+                        },
+                        {
+                            "title": "{{quickLinks_processBatchInputSession}}",
+                            "imageUri": "sap-icon://Fiori2/F0021",
+                            "imageAltText": "{{quickLinks_processBatchInputSession}}",
+                            "semanticObject": "ClosingReport",
+                            "action": "processBatchInputSession"
+                        }
+                    ]
+                }
+            },
+            "card07_MyInbox": {
+                "model": "IWPGW_TASKPROCESSING_V2",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{myInboxt_cardTitle}}",
+                    "subTitle": "{{myInbox_cardSubTitle}}",
+                    "entitySet": "TaskCollection",
+                    "listType": "condensed",
+                    "tabs": [
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityAll",
+                            "value": "{{myInbox_Card_PriorityAll}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityVeryHigh",
+                            "value": "{{myInbox_Card_PriorityVeryHigh}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityHigh",
+                            "value": "{{myInbox_Card_PriorityHigh}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityMedium",
+                            "value": "{{myInbox_Card_PriorityMedium}}"
+                        },
+                        {
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriorityDate",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PriorityLow",
+                            "value": "{{myInbox_Card_PriorityLow}}"
+                        }
+                    ]
+                }
+            },
+            "card08_TaxRecon": {
+                "model": "FAC_GL_OVP_SRV",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{taxRecon_cardTitle}}",
+                    "description": "{{taxRecon_subTitle}}",
+                    "entitySet": "C_GLTaxReconciliationOvwResults",
+                    "sortBy": "TaxRecnclnAmtInCoCodeCrcy",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 2
+                    }
+                }
+            },
+            "card09_DisplayItemChangeLog": {
+                "model": "FAC_GL_OVP_SRV",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{itemChangeLog_cardTitle}}",
+                    "description": "{{itemChangeLog_listCard_subTitle}}",
+                    "entitySet": "C_GLDisplayItemChangeLog",
+                    "listType": "extended",
+                    "listFlavor": "standard",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                    "staticParameters": {
+                        "NavToPage": "JournalEntryHistory"
+                    }
+                }
+            },
+            "card10_DPOIndrct": {
+                "model": "C_GLDAYSPYBLOUTSTDGINDRCT_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{DPOIndrct_cardTitle}}",
+                    "entitySet": "C_GLDAYSPYBLOUTSTDGINDRCTResults",
+                    "subTitle": "{{DPOIndrct_subTitle}}",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DaysPayablesOutstanding",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DPO",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                    "valueSelectionInfo": "{{DPOIndrct_KPI_subTitle}}",
+                    "staticParameters": {
+                        "EvaluationId": ".SAP.FI.AP.DAYSPYBLOUTSTDG.LAST12M"
+                    }
+                }
+            },
+            "card11_DSO": {
+                "model": "C_GLDAYSSALESOUTSTDGOVW_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{DSO_cardTitle}}",
+                    "entitySet": "C_GLDAYSSALESOUTSTDGOVWResults",
+                    "subTitle": "{{DSO_subTitle}}",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#DaysSalesOutstanding",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#DSO",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#presentVar",
+                    "valueSelectionInfo": "{{DSO_KPI_subTitle}}",
+                    "staticParameters": {
+                        "EvaluationId": ".SAP.FI.AR.DAYSSALESOUTSTDG.LAST12M"
+                    }
+                }
+            }
+        }
+    }
+}

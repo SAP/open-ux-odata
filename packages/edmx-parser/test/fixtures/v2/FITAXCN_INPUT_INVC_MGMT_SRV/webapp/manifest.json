@@ -1,0 +1,423 @@
+{
+    "_version": "1.7.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "XX-CSC-CN-EFI",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FITAXCN_INPUT_INVC_MGMT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FITAXCN_INPUT_INVC_MGMT_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "BFService": {
+                "uri": "/sap/opu/odata/sap/FITAXCN_INPUT_BF_STATUS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/bfmetadata.xml"
+                }
+            },
+            "BindingService": {
+                "uri": "/sap/opu/odata/sap/FITAXCN_INVC_BND_SRV/",
+                "type": "OData"
+            },
+            "FITAXCN_INPUT_INVC_MGMT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FITAXCN_INPUT_INVC_MGMT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FITAXCN_INPUT_INVC_MGMT_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "invoiceManage": {
+                    "semanticObject": "TaxInvoice",
+                    "action": "manageVATInvoice",
+                    "signature": {
+                        "parameters": {
+                            "CompanyCode": {
+                                "defaultValue": {
+                                    "value": "UserDefault.CompanyCode",
+                                    "format": "reference"
+                                },
+                                "required": false
+                            },
+                            "TaxEntity": {
+                                "defaultValue": {
+                                    "value": "UserDefault.CN_TaxEntityID",
+                                    "format": "reference"
+                                },
+                                "required": false
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "invoiceCreate": {
+                    "semanticObject": "TaxInvoice",
+                    "action": "createVATInvoice",
+                    "signature": {
+                        "parameters": {
+                            "CompanyCode": {
+                                "defaultValue": {
+                                    "value": "UserDefault.CompanyCode",
+                                    "format": "reference"
+                                },
+                                "required": false
+                            },
+                            "TaxEntity": {
+                                "defaultValue": {
+                                    "value": "UserDefault.CN_TaxEntityID",
+                                    "format": "reference"
+                                },
+                                "required": false
+                            },
+                            "PurchasingOrganization": {
+                                "required": false
+                            },
+                            "PurchasingGroup": {
+                                "required": false
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "invoiceDisplay": {
+                    "semanticObject": "TaxInvoice",
+                    "action": "displayVATInvoice",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "invoiceChange": {
+                    "semanticObject": "TaxInvoice",
+                    "action": "editVATInvoice",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": { "lazy": false },
+                "sap.suite.ui.generic.template": { "lazy": false },
+                "sap.ui.generic.app": { "lazy": false },
+                "sap.m": { "lazy": false },
+                "sap.ui.comp": { "lazy": false },
+                "sap.ui.layout": { "lazy": false },
+                "sap.uxap": { "lazy": false },
+                "sap.ndc": { "lazy": false },
+                "sap.se.mi.plm.lib.attachmentservice": {
+                    "minVersion": "11.2.0",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.suite.ui.generic.template.ListReport": {
+                    "minVersion": "1.3.0"
+                },
+                "sap.suite.ui.generic.template.ObjectPage": {
+                    "minVersion": "1.3.0"
+                },
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {
+                    "minVersion": "11.2.0",
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_CN_TaxInputInvcTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_CN_TaxInputInvcTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CN_TaxInputInvcTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CN_TaxInputInvcTP/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "BFService": {
+                "dataSource": "BFService",
+                "preload": true
+            },
+            "BindingService": {
+                "dataSource": "BindingService",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "gs.fin.aptaxinvoice.ext.controller.ListReportExtension",
+                        "sap.ui.generic.app": {
+                            "C_CN_TaxInputInvcTP": {
+                                "EntitySet": "C_CN_TaxInputInvcTP",
+                                "Actions": {
+                                    "ActScanInvoice": {
+                                        "id": "ActScanInvoice",
+                                        "text": "{{XBUT_Scan}}",
+                                        "press": "onActScanInvoice",
+                                        "requiresSelection": false
+                                    },
+                                    "ActUploadInvoice": {
+                                        "id": "ActUploadInvoice",
+                                        "text": "{{XBUT_Upload}}",
+                                        "press": "onActUploadInvoice",
+                                        "requiresSelection": false
+                                    },
+                                    "ActEnterInvoice": {
+                                        "id": "ActEnterInvoice",
+                                        "text": "{{XBUT_Enter_Invoice}}",
+                                        "press": "onActEnterInvoice",
+                                        "requiresSelection": true,
+                                        "applicablePath": "Edit_ac"
+                                    },
+                                    "ActListSignOffInvoice": {
+                                        "id": "ActListSignOffInvoice",
+                                        "text": "{{XBUT_Signoff_Invoice}}",
+                                        "press": "onActSignOffInvoice",
+                                        "requiresSelection": true,
+                                        "applicablePath": "Sign_off_ac"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "gs.fin.aptaxinvoice.ext.controller.DetailsExtension",
+                        "sap.ui.generic.app": {
+                            "C_CN_TaxInputInvcTP": {
+                                "EntitySet": "C_CN_TaxInputInvcTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActSignOffInvoice": {
+                                            "id": "ActSignOffInvoice",
+                                            "text": "{{XBUT_Signoff_Invoice}}",
+                                            "press": "onActSignOffInvoice",
+                                            "applicablePath": "Sign_off_ac"
+                                        },
+                                        "ActEnterSupplierInvoice": {
+                                            "id": "ActEnterSupplierInvoice",
+                                            "text": "{{XBUT_Enter_Invoice}}",
+                                            "press": "onActEnterSupplierInvoice",
+                                            "applicablePath": "Edit_ac"
+                                        },
+                                        "ActVoidInvoice": {
+                                            "id": "ActVoidInvoice",
+                                            "text": "{{XBUT_Void_Invoice}}",
+                                            "press": "onActVoidInvoice",
+                                            "applicablePath": "Void_ac"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "to_BindingRecd::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_BindingRecd::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActAddBindingRecd": {
+                                                "id": "ActAddBindingRecd",
+                                                "text": "{{XBUT_Add_Reference}}",
+                                                "press": "onActAddBindingRecd",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    },
+                                    "to_TransferItem::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_TransferItem::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActAddTransfItem": {
+                                                "id": "ActAddTransfItem",
+                                                "text": "{{XBUT_Add_Transfer_Item}}",
+                                                "press": "onActAddTransfItem",
+                                                "requiresSelection": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_CN_TaxInputInvcTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.aptaxinvoice.ext.fragments.ListReportResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CN_TaxInputInvcTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.aptaxinvoice.ext.fragments.ListReportResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_CN_TaxTransfItemTP|to_TransferItem::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.aptaxinvoice.ext.fragments.ObjectPageTransferItemResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CN_TaxTransfItemTP|to_TransferItem::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.aptaxinvoice.ext.fragments.ObjectPageTransferItemResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_CN_TaxInvcBindgRecd|to_BindingRecd::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.aptaxinvoice.ext.fragments.ObjectPageReferenceDocResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CN_TaxInvcBindgRecd|to_BindingRecd::com.sap.vocabularies.UI.v1.LineItem": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "gs.fin.aptaxinvoice.ext.fragments.ObjectPageReferenceDocResponsiveTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|C_CN_TaxInputInvcTP": {
+                "entitySet": "C_CN_TaxInputInvcTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true,
+                        "smartVariantManagement": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_CN_TaxInputInvcTP": {
+                        "entitySet": "C_CN_TaxInputInvcTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": false,
+                                "gridTable": false,
+                                "editableHeaderContent": false,
+                                "sections": {
+                                    "to_BindingRecd::com.sap.vocabularies.UI.v1.LineItem": {},
+                                    "to_ChangeLog::com.sap.vocabularies.UI.v1.LineItem": {},
+                                    "to_TransferItem::com.sap.vocabularies.UI.v1.LineItem": {}
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_InvoiceItem": {
+                                "navigationProperty": "to_InvoiceItem",
+                                "entitySet": "C_CN_TaxInputInvoiceItemTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        },
+                        "embeddedComponents": {
+                            "vat_invoice::Attachments": {
+                                "id": "vat_invoice::Attachments",
+                                "afterFacetWithAnnotationPath": "to_BindingRecd/@com.sap.vocabularies.UI.v1.LineItem",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{XFLD_Attachments}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable} ? 'C' : 'D' }",
+                                    "objectType": "TXI_HDR",
+                                    "objectKey": "{=${CN_TaxInvcUUID}?${CN_TaxInvcUUID}:${DraftUUID}}"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2325"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

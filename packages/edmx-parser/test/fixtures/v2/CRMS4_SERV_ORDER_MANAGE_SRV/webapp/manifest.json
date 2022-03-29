@@ -1,0 +1,412 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "CRM-S4-SRV-SVO",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/CRMS4_SERV_ORDER_MANAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["CRMS4_SERV_ORDER_MANAGE_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/mainService/metadata.xml"
+                }
+            },
+            "CRMS4_SERV_ORDER_MANAGE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='CRMS4_SERV_ORDER_MANAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/mainService/CRMS4_SERV_ORDER_MANAGE_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            },
+            "API_SERVICE_ORDER_SRV": {
+                "uri": "/sap/opu/odata/sap/API_SERVICE_ORDER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "API_SERVICE_CONFIRMATION_SRV": {
+                "uri": "/sap/opu/odata/sap/API_SERVICE_CONFIRMATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/API_SERVICE_CONFIRMATION_SRV/metadata.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "PurchaseOrder": {
+                    "semanticObject": "PurchaseOrder",
+                    "action": "displayFactSheet"
+                },
+                "PurchaseRequisition": {
+                    "semanticObject": "PurchaseRequisition",
+                    "action": "maintain"
+                },
+                "MaterialMovement": {
+                    "semanticObject": "MaterialMovement",
+                    "action": "displayFactSheet"
+                },
+                "SupplierInvoice": {
+                    "semanticObject": "SupplierInvoice",
+                    "action": "displayFactSheet"
+                },
+                "ServiceContract": {
+                    "semanticObject": "ServiceContract",
+                    "action": "display"
+                },
+                "ServiceOrder": {
+                    "semanticObject": "ServiceOrder",
+                    "action": "displayFactSheet"
+                },
+                "ServiceConfirmation": {
+                    "semanticObject": "ServiceConfirmation",
+                    "action": "displayFactSheet"
+                },
+                "CreditMemoRequest": {
+                    "semanticObject": "CreditMemoRequest",
+                    "action": "displayFactSheet"
+                },
+                "ServiceQuotation": {
+                    "semanticObject": "ServiceQuotation",
+                    "action": "displayFactSheet"
+                },
+                "BillingDocumentRequest": {
+                    "semanticObject": "BillingDocumentRequest",
+                    "action": "displayFactSheet"
+                },
+                "Shell": {
+                    "semanticObject": "Shell",
+                    "action": "startWCF",
+                    "parameters": {
+                        "wcf-target-id": {
+                            "value": {
+                                "value": "TBT116MCR"
+                            }
+                        }
+                    }
+                },
+                "BillingDocument": {
+                    "semanticObject": "BillingDocument",
+                    "action": "displayFactSheet"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "componentUsages": {
+            "ChangedocReuseComponent": {
+                "name": "sap.nw.core.changedocs.lib.reuse.changedocscomponent"
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.suite.ui.commons": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.collaboration": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {}
+            },
+            "components": {
+                "sap.nw.core.changedocs.lib.reuse": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_SrvcOrderListRptAndObjPg": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_SrvcOrderListRptAndObjPg/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_SrvcOrderListRptAndObjPg": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_SrvcOrderListRptAndObjPg/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "APIServOrder_Model": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "API_SERVICE_ORDER_SRV",
+                "preload": true
+            },
+            "APIServConfirmation_Model": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "API_SERVICE_CONFIRMATION_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "s4crm.serv.manageorders1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_SrvcOrderListRptAndObjPg": {
+                                "EntitySet": "C_SrvcOrderListRptAndObjPg",
+                                "Header": {
+                                    "Actions": {
+                                        "Edit": {
+                                            "id": "Edit",
+                                            "text": "{@i18n>edit}",
+                                            "press": "onPressEdit"
+                                        },
+                                        "ReleaseBill": {
+                                            "id": "RelfrBill",
+                                            "text": "{@i18n>releaseBill}",
+                                            "press": "onPressReleaseBill"
+                                        },
+                                        "release": {
+                                            "id": "Release",
+                                            "text": "{@i18n>release}",
+                                            "press": "onPressRelease"
+                                        },
+                                        "createSC": {
+                                            "id": "createSCobjPg",
+                                            "text": "{@i18n>createServiceConfirmation}",
+                                            "press": "onClickSCobjPg"
+                                        },
+                                        "rejectAll": {
+                                            "id": "RejectAll",
+                                            "text": "{@i18n>rejectAll}",
+                                            "press": "rejectAll"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4crm.serv.manageorders1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_SrvcOrderListRptAndObjPg": {
+                                "EntitySet": "C_SrvcOrderListRptAndObjPg",
+                                "Actions": {
+                                    "createSO": {
+                                        "id": "createSo",
+                                        "text": "{@i18n>CreateSO}",
+                                        "press": "onPressCreateSO",
+                                        "requiresSelection": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_SrvcOrderListRptAndObjPg": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.tableExtensions.ResponsiveTableColumnsEdit",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SrvcOrderListRptAndObjPg": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.tableExtensions.ResponsiveTableCellsEdit",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|C_ServiceDocObjPgErrorLog|ErrorLogs": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.ErrorLogsTableColumnsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_ServiceDocObjPgErrorLog|ErrorLogs": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.ErrorLogsTableCellsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_SrvcDocObjPgTransHistory|TransactionHistory": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.TransactionHistoryTableColumnsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SrvcDocObjPgTransHistory|TransactionHistory": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.TransactionHistoryTableCellsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_SrvcOrderObjPgPricingDets|PriceDetails": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.tableExtensions.HeaderPriceTableColumnsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SrvcOrderObjPgPricingDets|PriceDetails": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.tableExtensions.HeaderPriceTableCellsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_SrvcDocItemTransHistory|TransactionHistory": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.TransactionHistoryTableColumnsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SrvcDocItemTransHistory|TransactionHistory": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.TransactionHistoryTableCellsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_SrvcOrderItmObjPgPricingDets|PriceDetails": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.PriceDetailsTableColumnsExtension",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_SrvcOrderItmObjPgPricingDets|PriceDetails": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4crm.serv.manageorders1.ext.fragment.PriceDetailsTableCellsExtension",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_SrvcOrderListRptAndObjPg": {
+                "entitySet": "C_SrvcOrderListRptAndObjPg",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_SrvcOrderListRptAndObjPg": {
+                        "entitySet": "C_SrvcOrderListRptAndObjPg",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "embeddedComponents": {
+                            "changedoccomponent": {
+                                "id": "changedoccomponent",
+                                "componentUsage": "ChangedocReuseComponent",
+                                "title": "{{changeDocuments}}",
+                                "settings": {
+                                    "objectClass": ["CRM_ORDER"],
+                                    "objectId": "{parts: [{path: 'ServiceOrderUUID'}], formatter: 'sap.nw.core.changedocs.lib.reuse.changedocscomponent.arrayFormatter'}",
+                                    "startDate": "{PostingDate}"
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_SrvOrderItemListRptAndObjPg": {
+                                "navigationProperty": "to_SrvOrderItemListRptAndObjPg",
+                                "entitySet": "C_SrvOrderItemListRptAndObjPg",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3571"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

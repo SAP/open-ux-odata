@@ -1,0 +1,397 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "FI-RA-CP",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_RAGLOBALFILTEROVW_CDS": {
+                "uri": "/sap/opu/odata/sap/C_RAGLOBALFILTEROVW_CDS/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": ["C_RAGLOBALFILTEROVW_CDS_VAN"],
+                    "localUri": "localService/C_RAGLOBALFILTEROVW_CDS/metadata.xml"
+                }
+            },
+            "C_RAGLOBALFILTEROVW_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_RAGLOBALFILTEROVW_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_RAGLOBALFILTEROVW_CDS/C_RAGLOBALFILTEROVW_CDS_VAN.xml"
+                }
+            },
+            "RecognizedRevenueByQtrOvw": {
+                "uri": "/sap/opu/odata/sap/C_RARECGDREVNBYQUARTEROVW_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["RecognizedRevenueByQtrOvwAnno0"],
+                    "localUri": "localService/RecognizedRevenueByQtrOvw/metadata.xml"
+                }
+            },
+            "RecognizedRevenueByQtrOvwAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_RARECGDREVNBYQUARTEROVW_CD_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/RecognizedRevenueByQtrOvw/RecognizedRevenueByQtrOvw_annotations_0.xml"
+                }
+            },
+            "NumberOfRAContractByStatus": {
+                "uri": "/sap/opu/odata/sap/C_NMBROFRACONTRACTSBYSTS_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["NumberOfRAContractByStatusAnno0"],
+                    "localUri": "localService/NumberOfRAContractByStatus/metadata.xml"
+                }
+            },
+            "NumberOfRAContractByStatusAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_NMBROFRACONTRACTSBYSTS_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/NumberOfRAContractByStatus/NumberOfRAContractByStatus_annotations_0.xml"
+                }
+            },
+            "RecgdRevnByFlfmtType": {
+                "uri": "/sap/opu/odata/sap/C_RARECGDREVNBYFLFMTTYPE_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["RecgdRevnByFlfmtTypeAnno0"],
+                    "localUri": "localService/RecgdRevnByFlfmtType/metadata.xml"
+                }
+            },
+            "RecgdRevnByFlfmtTypeAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_RARECGDREVNBYFLFMTTYPE_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/RecgdRevnByFlfmtType/RecgdRevnByFlfmtType_annotations_0.xml"
+                }
+            },
+            "RecgdRevnTrendOvw": {
+                "uri": "/sap/opu/odata/sap/C_RARECGDREVNTRENDOVW_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["RecgdRevnTrendOvwAnno0"],
+                    "localUri": "localService/RecgdRevnTrendOvw/metadata.xml"
+                }
+            },
+            "RecgdRevnTrendOvwAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_RARECGDREVNTRENDOVW_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/RecgdRevnTrendOvw/RecgdRevnTrendOvw_annotations_0.xml"
+                }
+            },
+            "FARR_OVERVIEW_PAGE": {
+                "uri": "/sap/opu/odata/sap/FARR_OVERVIEW_PAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FARR_OVERVIEW_PAGEAnno0"],
+                    "localUri": "localService/FARR_OVERVIEW_PAGE/metadata.xml"
+                }
+            },
+            "FARR_OVERVIEW_PAGEAnno0": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FARR_OVERVIEW_PAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FARR_OVERVIEW_PAGE/FARR_OVERVIEW_PAGE_annotations_0.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "OVP.cardtemplate",
+            "version": "0.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_belize"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ovp": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_RAGLOBALFILTEROVW_CDS": {
+                "preload": true,
+                "dataSource": "C_RAGLOBALFILTEROVW_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "RecognizedRevenueByQtrOvw": {
+                "preload": true,
+                "dataSource": "RecognizedRevenueByQtrOvw",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "NumberOfRAContractByStatus": {
+                "preload": true,
+                "dataSource": "NumberOfRAContractByStatus",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "RecgdRevnByFlfmtType": {
+                "preload": true,
+                "dataSource": "RecgdRevnByFlfmtType",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "RecgdRevnTrendOvw": {
+                "preload": true,
+                "dataSource": "RecgdRevnTrendOvw",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "FARR_OVERVIEW_PAGE": {
+                "preload": true,
+                "dataSource": "FARR_OVERVIEW_PAGE",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.ovp.app.Main": {
+                        "controllerName": "fin.rar.overview.page.ext.custom"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4067"],
+        "archeType": "analytical"
+    },
+    "sap.ovp": {
+        "globalFilterModel": "C_RAGLOBALFILTEROVW_CDS",
+        "globalFilterEntityType": "C_RAGlobalFilterOvwResult",
+        "enableLiveFilter": false,
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "card01_recognizedRevenueOvw": {
+                "model": "RecognizedRevenueByQtrOvw",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{recognizedRevenueOvw_title}}",
+                    "subTitle": "{{recognizedRevenueOvw_subTitle}}",
+                    "entitySet": "C_RARecgdRevnByQuarterOvwResults",
+                    "addODataSelect": false,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecRevOverview",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecRevOverview",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RAYearlyRecgdRevnInDspCrcy",
+                    "navigation": "dataPointNav",
+                    "customParams": "RevnByQuarterCustomParams"
+                }
+            },
+            "card03_RevnPrcByPerfOblgnName": {
+                "model": "FARR_OVERVIEW_PAGE",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{revnPrcByPerfOblgnName_title}}",
+                    "subTitle": "{{revnPrcByPerfOblgnName_subTitle}}",
+                    "addODataSelect": false,
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 3,
+                        "showOnlyHeader": false
+                    },
+                    "tabs": [
+                        {
+                            "entitySet": "C_RAPrcByPerfOblgnNameOvwResults",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#PriceForPOBName",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PriceForPOBName",
+                            "value": "{{topPriceForPOBNameDropdownValue}}"
+                        },
+                        {
+                            "entitySet": "C_RARevnByPerfOblgnNameOvwResults",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#RevenueForPOBName",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RevenueForPOBName",
+                            "value": "{{topRevenueForPOBNameDropdownValue}}"
+                        }
+                    ]
+                }
+            },
+            "card04_revenueTrendOvw": {
+                "model": "RecgdRevnTrendOvw",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{recgdRevnTrendOvw_title}}",
+                    "subTitle": "{{recgdRevnTrendOvw_subTitle}}",
+                    "entitySet": "C_RARecgdRevnTrendOvwResults",
+                    "addODataSelect": false,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecgdRevnTrendOvw",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecgdRevnTrendOvw",
+                    "navigation": "dataPointNav"
+                }
+            },
+            "card05_RelatedApps": {
+                "template": "sap.ovp.cards.linklist",
+                "settings": {
+                    "title": "{{relatedAppsTitle}}",
+                    "listFlavor": "standard",
+                    "staticContent": [
+                        {
+                            "title": "{{manageRevenueContractsTitle}}",
+                            "imageUri": "sap-icon://sales-order-item",
+                            "imageAltText": "{{relatedAppsManageRevenueContractsImgAltText}}",
+                            "semanticObject": "RevenueAccountingContract",
+                            "action": "manageContract",
+                            "customParams": "QuickLinkCustomParams"
+                        },
+                        {
+                            "title": "{{revenueScheduleTitle}}",
+                            "imageUri": "sap-icon://expense-report",
+                            "imageAltText": "{{relatedAppsRevenueScheduleImgAltText}}",
+                            "semanticObject": "RevenueAccountingContract",
+                            "action": "manageRevenueSchedule",
+                            "customParams": "QuickLinkCustomParams"
+                        },
+                        {
+                            "title": "{{journalEntriesByContractTitle}}",
+                            "imageUri": "sap-icon://display",
+                            "imageAltText": "{{relatedAppsJournalEntriesByContractImgAltText}}",
+                            "semanticObject": "RevenueAccountingContract",
+                            "action": "displayReconciliationForFIUser",
+                            "customParams": "QuickLinkCustomParams"
+                        },
+                        {
+                            "title": "{{comparisonOfGLAccountsTitle}}",
+                            "imageUri": "sap-icon://compare-2",
+                            "imageAltText": "{{relatedAppsComparisonOfGLAccountsImgAltText}}",
+                            "semanticObject": "RevenueAccountingContract",
+                            "action": "displayReconciliationForGLAccounts",
+                            "customParams": "QuickLinkCustomParams"
+                        },
+                        {
+                            "title": "{{shiftContractsToNextPeriodTitle}}",
+                            "imageUri": "sap-icon://move",
+                            "imageAltText": "{{relatedAppsShiftContractsToNextPeriodImgAltText}}",
+                            "semanticObject": "RevenueAccountingContract",
+                            "action": "shiftToNextPeriod",
+                            "customParams": "QuickLinkCustomParams"
+                        },
+                        {
+                            "title": "{{disaggregationOfRevenueTitle}}",
+                            "imageUri": "sap-icon://Fiori2/FFS01",
+                            "imageAltText": "{{relatedAppsdisaggregationOfRevenueImgAltText}}",
+                            "semanticObject": "RevenueAccountingAnalytics",
+                            "action": "disaggregateRevenue",
+                            "customParams": "QuickLinkCustomParams"
+                        },
+                        {
+                            "title": "{{manualFulfillmentTitle}}",
+                            "imageUri": "sap-icon://request",
+                            "imageAltText": "{{relatedAppsmanualFulfillmentImgAltText}}",
+                            "semanticObject": "RevenueAccountingContract",
+                            "action": "manualfulfillment",
+                            "customParams": "QuickLinkCustomParams"
+                        }
+                    ],
+                    "defaultSpan": {
+                        "rows": 11,
+                        "cols": 1
+                    }
+                }
+            },
+            "card06_numberOfContractByStatusOvw": {
+                "model": "NumberOfRAContractByStatus",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{numberOfContractByStatusOvw_title}}",
+                    "subTitle": "{{numberOfContractByStatusOvw_subTitle}}",
+                    "entitySet": "C_NmbrOfRAContractsByStsResults",
+                    "addODataSelect": false,
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ContrByStatus",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ContrByStatus"
+                }
+            },
+            "card07_RecgdRevnByFlfmtType": {
+                "model": "RecgdRevnByFlfmtType",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{recgdRevnByFlfmtType_title}}",
+                    "subTitle": "{{recgdRevnByFlfmtType_subTitle}}",
+                    "entitySet": "C_RARecgdRevnByFlfmtTypeResults",
+                    "addODataSelect": false,
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RevByTiming",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#RevByTiming"
+                }
+            },
+            "card02_RARevnPrcByCustOvw": {
+                "model": "FARR_OVERVIEW_PAGE",
+                "template": "sap.ovp.cards.table",
+                "settings": {
+                    "title": "{{RARevnPrcByCustOvw_title}}",
+                    "addODataSelect": false,
+                    "defaultSpan": {
+                        "rows": 5,
+                        "cols": 3,
+                        "showOnlyHeader": false
+                    },
+                    "tabs": [
+                        {
+                            "entitySet": "C_RAContractualPrcByCustOvwResults",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params1",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ContractualPrice",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ContractualPrice",
+                            "value": "{{topCustContractualPriceDropdownValue}}"
+                        },
+                        {
+                            "entitySet": "C_RARecgdRevnByCustOvwResults",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#params",
+                            "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#RecognizedRevenue",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecognizedRevenue",
+                            "value": "{{topCustRecognizedRevenueDropdownValue}}"
+                        }
+                    ],
+                    "customParams": "RevnByCustCustomParams"
+                }
+            }
+        }
+    }
+}

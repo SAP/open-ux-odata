@@ -1,0 +1,722 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{ehs.fnd.matlbsdcmpstn.mans1.appTitle}}",
+        "description": "{{ehs.fnd.matlbsdcmpstn.mans1.appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "EHS-SUS-FND",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/EHS_FND_MBCMPS_MANAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["EHS_FND_MBCMPS_MANAGE_ANNO_MDL", "annotation1"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "EHS_FND_MBCMPS_MANAGE_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='EHS_FND_MBCMPS_MANAGE_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/EHS_FND_MBCMPS_MANAGE_ANNO_MDL.xml"
+                }
+            },
+            "annotation1": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation1.xml",
+                "settings": {
+                    "localUri": "annotations/annotation1.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "DisplayBOM": {
+                    "semanticObject": "MaterialBOM",
+                    "action": "displayBOM",
+                    "additionalParameters": "allowed",
+                    "parameters": {
+                        "BillOfMaterial": {
+                            "value": {},
+                            "required": false
+                        },
+                        "BillOfMaterialCategory": {
+                            "value": {},
+                            "required": true
+                        },
+                        "BillOfMaterialVariant": {
+                            "value": {},
+                            "required": true
+                        },
+                        "BillOfMaterialVariantUsage": {
+                            "value": {},
+                            "required": true
+                        },
+                        "BillOfMaterialVersion": {
+                            "value": {},
+                            "required": false
+                        },
+                        "ChangeNumber": {
+                            "value": {},
+                            "required": false
+                        },
+                        "EngineeringChangeDocument": {
+                            "value": {},
+                            "required": false
+                        },
+                        "IsVersionBillOfMaterial": {
+                            "value": {},
+                            "required": false
+                        },
+                        "Material": {
+                            "value": {},
+                            "required": true
+                        },
+                        "Plant": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ValidityDate": {
+                            "value": {},
+                            "required": false
+                        },
+                        "preferredMode": {
+                            "value": {
+                                "value": "display"
+                            }
+                        }
+                    }
+                },
+                "displayUnpackagedChemicalInfo": {
+                    "semanticObject": "UnpackagedChemicalInfo",
+                    "action": "manageBasicData",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "ChmlCmplncInfoNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ChmlCmplncInfoIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "displaySubstance": {
+                    "semanticObject": "CompanySubstance",
+                    "action": "manage",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CompanySubstanceNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "CompanySubstanceIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "manageResultCCICompliancePatternSubstListChk": {
+                    "semanticObject": "CompliancePatternSubstListChk",
+                    "action": "manageResultCCI",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CmplRqRsltNavgnLink": {
+                            "value": {},
+                            "required": false
+                        },
+                        "CmplRqRsltIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "manageResultCCICompliancePatternSupplierInfo": {
+                    "semanticObject": "CompliancePatternSupplierInfo",
+                    "action": "manageResultCCI",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CmplRqRsltNavgnLink": {
+                            "value": {},
+                            "required": false
+                        },
+                        "CmplRqRsltIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "manageResultCCICompliancePatternSimpleCheck": {
+                    "semanticObject": "CompliancePatternSimpleCheck",
+                    "action": "manageResultCCI",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "CmplRqRsltNavgnLink": {
+                            "value": {},
+                            "required": false
+                        },
+                        "CmplRqRsltIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                },
+                "displayRawMatChemicalInfo": {
+                    "semanticObject": "RawMaterialChemicalInfo",
+                    "action": "manageCompliance",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "ChmlCompositionNavgnLink": {
+                            "value": {},
+                            "required": true
+                        },
+                        "ChmlCompositionIsActiveEntity": {
+                            "value": {},
+                            "required": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.f": {
+                    "lazy": true
+                },
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ushell": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ehs.fnd.lib.reuse.pc": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "reusepc_i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.ehs.fnd.lib.reuse.pc.i18n.i18n"
+                }
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_MatlBasedCompositionTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MatlBasedCompositionTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MatlBsdBeforeProdnCompTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MatlBsdAfterProdnCompTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_MatlBsdProducedSubstTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ehs.fnd.matlbsdcmpstn.mans1.ext.controller.ObjectPageExtension",
+                        "sap.ui.generic.app": {
+                            "C_MatlBasedCompositionTP": {
+                                "EntitySet": "C_MatlBasedCompositionTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionReleaseComposition": {
+                                            "id": "ActionReleaseComposition",
+                                            "text": "{@i18n>ehs.fnd.matlbsdcmpstn.mans1.button.release.text}",
+                                            "press": "onReleaseComposition"
+                                        },
+                                        "sap.ehs.fnd.lib.reuse.pc.fnd.controller.AdminDataDialogAction": {
+                                            "id": "AdminDataDialogAction",
+                                            "text": "{reusepc_i18n>common.adminDataPopup.header.action}",
+                                            "press": "onOpenAdminPopup"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "BeforeProductionComponents": {
+                                        "id": "BeforeProductionComponents",
+                                        "Actions": {
+                                            "sap.ehs.fnd.lib.reuse.pc.fnd.controller.RawMatAssignmentDialogController": {
+                                                "id": "AssignRawMat",
+                                                "text": "{i18n>CREATE_OBJECT}",
+                                                "press": "AssignRawMat"
+                                            }
+                                        }
+                                    },
+                                    "ProducedSubstancesLI": {
+                                        "id": "ProducedSubstancesLI",
+                                        "Actions": {
+                                            "ActionDeleteProducedSubstance": {
+                                                "id": "DeleteProducedSubstance",
+                                                "text": "{i18n>DELETE}",
+                                                "press": "onDeleteProducedSubstance"
+                                            },
+                                            "sap.ehs.fnd.lib.reuse.pc.fnd.controller.SubstanceAssignmentDialogController": {
+                                                "id": "AssignSubstance",
+                                                "text": "{i18n>CREATE_OBJECT}",
+                                                "press": "AssignSubstance"
+                                            }
+                                        }
+                                    },
+                                    "LegalDeviationLI": {
+                                        "id": "LegalDeviationLI",
+                                        "Actions": {
+                                            "ActionAddLegalDeviation": {
+                                                "id": "ActionAddLegalDeviation",
+                                                "text": "{@i18n>ehs.fnd.matlbsdcmpstn.mans1.LegalDeviationAssignmentDialog.create.button.text}",
+                                                "press": "onClickActionAddLegalDeviation"
+                                            }
+                                        }
+                                    },
+                                    "DepObjSubstCompLI": {
+                                        "id": "DepObjSubstCompLI",
+                                        "Actions": {
+                                            "ActionRefreshDepObjComp": {
+                                                "id": "ActionRefreshDepObjComp",
+                                                "text": "{@i18n>ehs.fnd.matlbsdcmpstn.mans1.LegalDeviationAssignmentDialog.refresh.button.text}",
+                                                "press": "onClickActionRefreshDepObjComp"
+                                            }
+                                        }
+                                    },
+                                    "DepObjReqLI": {
+                                        "id": "DepObjReqLI",
+                                        "Actions": {
+                                            "sap.ehs.fnd.lib.reuse.pc.crr.controller.MassRelease": {
+                                                "id": "Release",
+                                                "text": "{reusepc_i18n>crr.release.button}",
+                                                "press": "onReleaseCR",
+                                                "requiresSelection": true
+                                            },
+                                            "sap.ehs.fnd.lib.reuse.pc.crr.controller.ChangeProcessorDialog": {
+                                                "id": "ChangeProcessor",
+                                                "text": "{reusepc_i18n>crr.processor.assignment.button.text}",
+                                                "press": "onChangeProcessor",
+                                                "requiresSelection": true
+                                            },
+                                            "ActionRefreshDepObjReq": {
+                                                "id": "ActionRefreshDepObjReq",
+                                                "text": "{@i18n>ehs.fnd.matlbsdcmpstn.mans1.LegalDeviationAssignmentDialog.refresh.button.text}",
+                                                "press": "onClickActionRefreshDepObjReq"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeHeaderFacet|C_MatlBasedCompositionTP|headerEditable::HeaderInformationProductID": {
+                            "id": "HeaderIcon",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.fnd.fragment.ObjectPageHeaderIcon",
+                            "type": "XML"
+                        },
+                        "ReplaceHeaderFacet|C_MatlBasedCompositionTP|headerEditable::HeaderInformationProductID": {
+                            "id": "roleHeaderView",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "sap.ehs.fnd.lib.reuse.pc.cci.view.RoleHeaderView",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "AfterHeaderFacet|C_MatlBasedCompositionTP|headerEditable::HeaderInformationProductID": {
+                            "id": "ReleaseStatus",
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "sap.ehs.fnd.lib.reuse.pc.fnd.view.ProcessingStatusMessageStrip"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MatlBsdBeforeProdnCompTP|BeforeProductionComponents": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.BeforeProductionColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MatlBsdBeforeProdnCompTP|BeforeProductionComponents": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.BeforeProductionCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MatlBsdAfterProdnCompTP|AfterProductionComponents": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.AfterProductionColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MatlBsdAfterProdnCompTP|AfterProductionComponents": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.AfterProductionCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MatlBsdProducedSubstTP|ProducedSubstancesLI": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.ProducedSubstancesColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MatlBsdProducedSubstTP|ProducedSubstancesLI": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.ProducedSubstancesCells",
+                            "type": "XML"
+                        },
+                        "BeforeHeaderFacet|C_MatlBsdBeforeProdnCompTP|headerEditable::BeforeProductionHeaderID": {
+                            "id": "roleHeaderViewBfrProdn",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "sap.ehs.fnd.lib.reuse.pc.cci.view.RoleHeaderView",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "BeforeHeaderFacet|C_MatlBsdAfterProdnCompTP|headerEditable::AfterProductionHeaderID": {
+                            "id": "roleHeaderViewAfterProdn",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "sap.ehs.fnd.lib.reuse.pc.cci.view.RoleHeaderView",
+                            "type": "XML",
+                            "bVisibleOnEdit": true
+                        },
+                        "SmartFormExtension|C_MatlBsdBeforeProdnCompTP|CurrConcentration": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdBeforeProdnCompTP|ConcentrationLimit": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationRangeFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdBeforeProdnCompTP|ConcentrationUoM": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.UnitOfMeasureFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdAfterProdnCompTP|CurrConcentration": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdAfterProdnCompTP|ConcentrationLimit": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationRangeFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdAfterProdnCompTP|ConcentrationUoM": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.UnitOfMeasureFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdAfterProdnCompTP|CurrConcentrationBefore": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationBeforeProdFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdAfterProdnCompTP|ConcentrationLimitBefore": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationRangeBeforeProdFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdAfterProdnCompTP|ConcentrationUoMBefore": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.UnitOfMeasureBeforeProdFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdProducedSubstTP|CurrConcentration": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdProducedSubstTP|ConcentrationLimit": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.ConcentrationRangeFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdProducedSubstTP|ConcentrationUoM": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.UnitOfMeasureFieldGroup",
+                            "type": "XML"
+                        },
+                        "SmartFormExtension|C_MatlBsdProducedSubstTP|RoleInComposition": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ehs.fnd.matlbsdcmpstn.mans1.ext.fragment.form.RoleInCmpstnFieldGroup",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_MatlBsdCmpstnDvtnInSubst|DeviationInProducedSubstancesLi": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.DeviationsInProducedSubstancesColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_MatlBsdCmpstnDvtnInSubst|DeviationInProducedSubstancesLi": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.composition.fragment.matlBased.table.DeviationsInProducedSubstancesCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_CmplRqRsltMarketability|DepObjReqLI": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.crr.fragment.ComplianceRequirementTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_CmplRqRsltMarketability|DepObjReqLI": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.crr.fragment.ComplianceRequirementWithoutDraftTableCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|C_AssociatedProductComposition|DepObjSubstCompLI": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.fragment.CompositionNavigationTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|C_AssociatedProductComposition|DepObjSubstCompLI": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sap.ehs.fnd.lib.reuse.pc.cci.fragment.CompositionNavigationTableCells",
+                            "type": "XML"
+                        }
+                    }
+                }
+            }
+        },
+        "config": {
+            "sap.ehs.fnd.lib.reuse.pc": {
+                "sap.ehs.fnd.lib.reuse.pc.crr.controller.ChangeProcessorDialog": {
+                    "EntitySets": {
+                        "ProcessorVH": "/C_CmplRqRsltProcessorVH"
+                    },
+                    "FunctionImports": {
+                        "ChangeProcessor": "/C_CmplRqRsltTPChange_processor"
+                    }
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.fragment.ObjectPageHeaderIcon": {
+                    "IconConfiguration": {
+                        "static_icon": "COMPOSITION"
+                    }
+                },
+                "sap.ehs.fnd.lib.reuse.pc.cci.controller.RoleHeaderExtension": {
+                    "CCIView": "UP"
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.RawMatAssignmentDialogController": {
+                    "EntitySets": "C_MatlBasedCmpstnCompVHSet",
+                    "ObjectsUUIDColumn": "ChmlCompositionUUID",
+                    "ParameterNameColumn": "P_ChmlCompositionUUID"
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.SubstanceAssignmentDialogController": {
+                    "EntitySets": "C_MatlBasedProducedSubstanceVHSet",
+                    "ObjectsUUIDColumn": "ChmlCompositionUUID",
+                    "ParameterNameColumn": "P_ChmlCompositionUUID"
+                },
+                "sap.ehs.fnd.lib.reuse.pc.fnd.controller.ProcessingStatusMessageStrip": {
+                    "Properties": {
+                        "MessageStripText": "{= ${ChmlCompositionStatus} === 'IP' ? ${reusepc_i18n>fnd.releasestatus.messagestrip.text.inprogress} : ${parts: [{path: 'reusepc_i18n>fnd.releasestatus.messagestrip.text.historic'},{path: 'ValidityStartDateTime', type:'sap.ui.model.odata.type.DateTime', constraints:{displayFormat:'Date'}},{path: 'ValidityEndDateTime', type:'sap.ui.model.odata.type.DateTime', constraints:{displayFormat:'Date'}}], formatter: 'jQuery.sap.formatMessage'}}",
+                        "isMessageStripVisible": "{= ${ChmlCompositionStatus} === 'IP' || ${ChmlCompositionStatus} === 'OD'}",
+                        "isLinkVisible": "{= ${MatlBsdCmpstnReldNavgnLink} !== '00000000-0000-0000-0000-000000000000'}"
+                    },
+                    "NavigationConfiguration": {
+                        "SemanticObject": "UnpackagedChemicalInfo",
+                        "SemanticObjectAction": "displayMatlBasedCompositionReleased",
+                        "NavigationParameters": [
+                            {
+                                "Name": "MatlBsdCmpstnReldNavgnLink",
+                                "Value": "{MatlBsdCmpstnReldNavgnLink}"
+                            },
+                            {
+                                "Name": "MatlBsdCmpstnReldIsActive",
+                                "Value": "{MatlBsdCmpstnReldIsActive}"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "useColumnLayoutForSmartForm": false,
+            "showDraftToggle": true
+        },
+        "pages": {
+            "ListReport|C_MatlBasedCompositionTP": {
+                "entitySet": "C_MatlBasedCompositionTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_MatlBasedCompositionTP": {
+                        "entitySet": "C_MatlBasedCompositionTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "sections": {
+                                    "DepObjReqLI": {
+                                        "navigationProperty": "to_CmplRqRsltMarketability",
+                                        "entitySet": "C_CmplRqRsltMarketability",
+                                        "quickVariantSelection": {
+                                            "showCounts": true,
+                                            "variants": {
+                                                "0": {
+                                                    "key": "UpMktProdCmplncInPrgrs",
+                                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProdCmplncInPrgrs"
+                                                },
+                                                "1": {
+                                                    "key": "UpMktProdCmplncReld",
+                                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#ProdCmplncRlsd"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_MatlBsdComponentBeforeProd": {
+                                "navigationProperty": "to_MatlBsdComponentBeforeProd",
+                                "entitySet": "C_MatlBsdBeforeProdnCompTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                },
+                                "pages": {
+                                    "ObjectPage|to_AssociatedBillOfMaterials": {
+                                        "navigationProperty": "to_AssociatedBillOfMaterials",
+                                        "entitySet": "C_ChmlCompositionRefBOM",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                                            "settings": {
+                                                "hideChevronForUnauthorizedExtNav": true
+                                            }
+                                        },
+                                        "navigation": {
+                                            "display": {
+                                                "path": "sap.app.crossNavigation.outbounds",
+                                                "target": "DisplayBOM"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ObjectPage|to_MatlBsdComponentAfterProd": {
+                                "navigationProperty": "to_MatlBsdComponentAfterProd",
+                                "entitySet": "C_MatlBsdAfterProdnCompTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_ProducedSubstance": {
+                                "navigationProperty": "to_ProducedSubstance",
+                                "entitySet": "C_MatlBsdProducedSubstTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_LegalDeviation": {
+                                "navigationProperty": "to_LegalDeviation",
+                                "entitySet": "C_MatlBsdCmpstnLglDeviationTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_CmplRqRsltMarketability": {
+                                "navigationProperty": "to_CmplRqRsltMarketability",
+                                "entitySet": "C_CmplRqRsltMarketability",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4096"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

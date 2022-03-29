@@ -1,0 +1,264 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "scm.ewm.picklistpapers1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "SCM-EWM-FIO",
+        "resources": "resources.json",
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/SCWM/PICKLIST_PAPER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml",
+                    "annotations": []
+                }
+            },
+            "defaultParametersService": {
+                "uri": "/sap/opu/odata/SCWM/USER_DEFAULTPARAMETER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/defaultParamsMetadata.xml"
+                }
+            },
+            "annotation": {
+                "uri": "/sap/opu/odata/SCWM/PICKLIST_PAPER_SRV/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "EWMPickingWarehouseTask-manage": {
+                    "semanticObject": "EWMPickingWarehouseTask",
+                    "action": "manage"
+                },
+                "EWMPutawayWarehouseTask-manage": {
+                    "semanticObject": "EWMPutawayWarehouseTask",
+                    "action": "manage"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": false
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "services": {
+            "ShellUIService": {
+                "factoryName": "sap.ushell.ui5service.ShellUIService"
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.layout": {
+                    "lazy": false
+                },
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.f": {
+                    "lazy": false
+                },
+                "sap.uxap": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|WarehouseTaskSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/WarehouseTaskSet/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|WarehouseTaskSet": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/WarehouseTaskSet/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "scm.ewm.picklistpapers1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "WarehouseTaskSet": {
+                                "EntitySet": "WarehouseTaskSet",
+                                "Actions": {
+                                    "ActionConfirm": {
+                                        "id": "ConfirmButton",
+                                        "text": "{@i18n>confirm}",
+                                        "press": "onClickConfirmButton",
+                                        "requiresSelection": true,
+                                        "applicablePath": "IS_OPEN_WT"
+                                    },
+                                    "ActioCancel": {
+                                        "id": "CancelButton",
+                                        "text": "{@i18n>cancel}",
+                                        "press": "onClickCancelButton",
+                                        "requiresSelection": true,
+                                        "applicablePath": "IS_OPEN_WT"
+                                    },
+                                    "ActionPrint": {
+                                        "id": "Printbutton",
+                                        "text": "{@i18n>print}",
+                                        "press": "onClickPrintButton",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "scm.ewm.picklistpapers1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "WarehouseTaskSet": {
+                                "EntitySet": "WarehouseTaskSet",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionConfirm": {
+                                            "id": "ConfirmButton",
+                                            "text": "{@i18n>confirm}",
+                                            "press": "onClickConfirmButton",
+                                            "applicablePath": "IS_OPEN_WT",
+                                            "determining": true
+                                        },
+                                        "ActionCancel": {
+                                            "id": "CancelButton",
+                                            "text": "{@i18n>cancelTask}",
+                                            "press": "onClickCancelButton",
+                                            "applicablePath": "IS_OPEN_WT",
+                                            "determining": true
+                                        },
+                                        "ActionClose": {
+                                            "id": "CloseButton",
+                                            "text": "{@i18n>cancel}",
+                                            "press": "onClickCloseButton",
+                                            "applicablePath": "IS_OPEN_WT",
+                                            "determining": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|WarehouseTaskSet|ConfirmationFacet": {
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "scm.ewm.picklistpapers1.ext.view.ConfirmationSection",
+                            "id": "confirmation-section",
+                            "type": "XML",
+                            "sap.ui.generic.app": {
+                                "title": "{{confirmationData}}"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "flexEnabled": true
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "pages": {
+            "ListReport|WarehouseTaskSet": {
+                "entitySet": "WarehouseTaskSet",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "tableType": "ResponsiveTable",
+                        "multiSelect": true,
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|WarehouseTaskSet": {
+                        "entitySet": "WarehouseTaskSet",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3880", "F4150"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

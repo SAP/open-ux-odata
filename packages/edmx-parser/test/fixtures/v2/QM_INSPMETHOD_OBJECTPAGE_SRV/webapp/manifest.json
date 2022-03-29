@@ -1,0 +1,229 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{QM_TITLE_APP}}",
+        "description": "{{QM_TITLE_DESCRIPTION}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "QM-FIO-IM",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/QM_INSPMETHOD_OBJECTPAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["QM_INSPMETHOD_OBJECTPAG_ANNO_MDL", "LO_VCHCLF_ANNO_MDL", "localAnnotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "QM_INSPMETHOD_OBJECTPAG_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='QM_INSPMETHOD_OBJECTPAG_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/QM_INSPMETHOD_OBJECTPAG_ANNO_MDL.xml"
+                }
+            },
+            "LO_VCHCLF_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='LO_VCHCLF_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/LO_VCHCLF_ANNO_MDL.xml"
+                }
+            },
+            "localAnnotations": {
+                "uri": "annotations/annotations.xml",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smarttemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.i2d.lo.lib.vchclf": {
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_InspMethodObjPage": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_InspMethodObjPage/i18n.properties"
+            },
+            "": {
+                "preload": true,
+                "dataSource": "mainService",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "i2d.qm.inspmethodobjectpages1.ext.controller.NavigationExt",
+                        "sap.ui.generic.app": {
+                            "C_InspMethodObjPage": {
+                                "EntitySet": "C_InspMethodObjPage",
+                                "Header": {
+                                    "Actions": {
+                                        "navEditMode": {
+                                            "id": "navEditMode",
+                                            "text": "{@i18n>@EDIT}",
+                                            "press": "onNavEditMode"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "useColumnLayoutForSmartForm": false
+        },
+        "pages": [
+            {
+                "entitySet": "C_InspMethodObjPage",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_InspMethodObjPage",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{QM_TAB_TITLE_DOCUMENTS}}",
+                                "settings": {
+                                    "mode": "D",
+                                    "objectKey": "{LinkedSAPObjectKey}",
+                                    "objectType": "QMTBDOC",
+                                    "isDraft": false,
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": true,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": false,
+                                            "DELETE": false,
+                                            "ADD": false,
+                                            "ADDURL": false,
+                                            "DOWNLOAD": true
+                                        }
+                                    }
+                                }
+                            },
+                            "classificationComponentContainer": {
+                                "id": "classificationComponentContainer",
+                                "componentName": "sap.i2d.lo.lib.vchclf.components.classification",
+                                "title": "{{Classification}}",
+                                "settings": {
+                                    "semanticObject": "InspectionMethod",
+                                    "objectKey": "{= ${ClfnObjectID}}",
+                                    "uiMode": "Display"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F0311A"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "_version": "1.2.0",
+        "uri": ""
+    }
+}

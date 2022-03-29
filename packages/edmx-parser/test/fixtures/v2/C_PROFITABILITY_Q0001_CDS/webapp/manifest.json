@@ -1,0 +1,242 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "description": "{{app_description}}",
+        "ach": "CO-FIO",
+        "resources": "resources.json",
+        "dataSources": {
+            "C_PROFITABILITY_Q0001_CDS": {
+                "uri": "/sap/opu/odata/sap/C_PROFITABILITY_Q0001_CDS/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["C_PROFITABILITY_Q0001_CDS_VAN"],
+                    "localUri": "localService/C_PROFITABILITY_Q0001_CDS/metadata.xml"
+                }
+            },
+            "C_PROFITABILITY_Q0001_CDS_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='C_PROFITABILITY_Q0001_CDS_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/C_PROFITABILITY_Q0001_CDS/C_PROFITABILITY_Q0001_CDS_VAN.xml"
+                }
+            }
+        }
+    },
+    "sap.copilot": {
+        "contextAnalysis": {
+            "_version": "1.0.0",
+            "allowAddingObjectsFromAppScreenToCollection": false
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.46.0",
+            "libs": {
+                "sap.ovp": {
+                    "minVersion": "",
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "C_PROFITABILITY_Q0001_CDS": {
+                "preload": true,
+                "dataSource": "C_PROFITABILITY_Q0001_CDS",
+                "settings": {
+                    "defaultCountMode": "None",
+                    "useBatch": false
+                }
+            },
+            "C_PROFITABILITY_Q0001_CDS_WIC": {
+                "preload": true,
+                "dataSource": "C_PROFITABILITY_Q0001_CDS",
+                "settings": {
+                    "defaultCountMode": "Inline",
+                    "useBatch": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "C_PROFITABILITY_Q0001_CDS",
+        "globalFilterEntityType": "C_PROFITABILITY_Q0001Result",
+        "considerAnalyticalParameters": true,
+        "enableLiveFilter": false,
+        "cards": {
+            "PROJPROFOVP_card02": {
+                "model": "C_PROFITABILITY_Q0001_CDS_WIC",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{PROJPROFOVP_card02_title}}",
+                    "subTitle": "{{PROJPROFOVP_card02_subTitle}}",
+                    "entitySet": "C_PROFITABILITY_Q0001Results",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "ignoreSapText": true,
+                    "addODataSelect": "true",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#TopProjectByMargin",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#TopProjectByMargin",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "PROJPROFOVP_card04": {
+                "model": "C_PROFITABILITY_Q0001_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{PROJPROFOVP_card04_title}}",
+                    "subTitle": "{{PROJPROFOVP_card04_subTitle}}",
+                    "entitySet": "C_PROFITABILITY_Q0001Results",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedMarginWaterfall",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RecognizedMarginAmtInCCCrcy",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "PROJPROFOVP_card06": {
+                "model": "C_PROFITABILITY_Q0001_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{PROJPROFOVP_card06_title}}",
+                    "subTitle": "{{PROJPROFOVP_card06_subTitle}}",
+                    "entitySet": "C_PROFITABILITY_Q0001Results",
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    },
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedMarginScatterBySalesOrganzation",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{PROJPROFOVP_card06_dropdown_value0}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedMarginScatterByMaterialGroup",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{PROJPROFOVP_card06_dropdown_value1}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedMarginScatterByCustomerGroup",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{PROJPROFOVP_card06_dropdown_value2}}"
+                        }
+                    ]
+                }
+            },
+
+            "PROJPROFOVP_card07WIP": {
+                "model": "C_PROFITABILITY_Q0001_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{PROJPROFOVP_card07WIP_title}}",
+                    "subTitle": "{{PROJPROFOVP_card07WIP_subTitle}}",
+                    "entitySet": "C_PROFITABILITY_Q0001Results",
+                    "tabs": [
+                        {
+                            "value": "{{PROJPROFOVP_card07WIP_dropdown_value0}}",
+                            "ignoreSapText": true,
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#WIPRevCOS",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AssetLiabilityAmtInCCCrcy",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        },
+                        {
+                            "value": "{{PROJPROFOVP_card07WIP_dropdown_value1}}",
+                            "ignoreSapText": true,
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#WIPRevCOSByProdSoldGroup",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AssetLiabilityAmtInCCCrcy",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        },
+                        {
+                            "value": "{{PROJPROFOVP_card07WIP_dropdown_value2}}",
+                            "ignoreSapText": true,
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#WIPRevCOSByCustomerGroup",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#AssetLiabilityAmtInCCCrcy",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                        }
+                    ]
+                }
+            },
+            "PROJPROFOVP_card08": {
+                "model": "C_PROFITABILITY_Q0001_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{PROJPROFOVP_card08_title}}",
+                    "subTitle": "{{PROJPROFOVP_card08_subTitle}}",
+                    "entitySet": "C_PROFITABILITY_Q0001Results",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#RecognizedRevenueDonut",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedRevenueDonut",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#RecognizedRevnAmtInCCCrcy",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "PROJPROFOVP_card09": {
+                "model": "C_PROFITABILITY_Q0001_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{PROJPROFOVP_card09_title}}",
+                    "subTitle": "{{PROJPROFOVP_card09_subTitle}}",
+                    "entitySet": "C_PROFITABILITY_Q0001Results",
+                    "defaultSpan": {
+                        "rows": 1,
+                        "cols": 2
+                    },
+                    "tabs": [
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedMarginByPC",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecognizedMarginByCenter",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{PROJPROFOVP_card09_dropdown_value0}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedMarginByOPC",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#RecognizedMarginByCenter",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{PROJPROFOVP_card09_dropdown_value1}}"
+                        },
+                        {
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#RecognizedMarginByResources",
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#RecognizedMarginByResources",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{PROJPROFOVP_card09_dropdown_value2}}"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": ["F2794"],
+        "archeType": "analytical"
+    }
+}

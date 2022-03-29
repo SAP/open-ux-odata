@@ -1,0 +1,275 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "MM-PUR-RFQ",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/MM_PUR_CQTN_MAINTAIN_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["MM_PUR_CQTN_MAINTAIN_ANNO_MDL", "annotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MM_PUR_CQTN_MAINTAIN_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='MM_PUR_CQTN_MAINTAIN_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/MM_PUR_CQTN_MAINTAIN_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "ssuite.fnd.addr.reuse1": {
+                    "minVersion": "11.11.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.cus.sd.lib.pricing": {
+                    "minVersion": "11.11.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_CentralSupplierQuotationTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_CentralSupplierQuotationTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CentralSupplierQuotationTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CentralSupplierQuotationTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_CntrlSupplierQuotationItemTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_CntrlSupplierQuotationItemTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "customModel": {
+                "type": "sap.ui.model.json.JSONModel"
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_CentralSupplierQuotationTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.central.qtn.maintains1.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ReplaceFacet|C_CntrlSupplierQuotationItemTP|Pricing": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "ui.s2p.mm.pur.central.qtn.maintains1.ext.view.Pricing"
+                        },
+                        "ReplaceFacet|C_CntrlSupplierQtanItemDistrTP|DistributionGenInfo": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "ui.s2p.mm.pur.central.qtn.maintains1.ext.fragment.DistributionGeneralInfo",
+                            "sap.ui.generic.app": {
+                                "title": "{i18n>/@GENERAL_INFO_FACET_LABEL}",
+                                "enableLazyLoading": true
+                            }
+                        }
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "ui.s2p.mm.pur.central.qtn.maintains1.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "ui.s2p.mm.pur.central.qtn.maintains1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_CentralSupplierQuotationTP": {
+                                "EntitySet": "C_CentralSupplierQuotationTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionC_CentralSupplierQuotationTPHeader1": {
+                                            "id": "idAction_createPO",
+                                            "text": "{@i18n>CreatePurchaseOrderLabel}",
+                                            "press": "onPressCreatePurchaseOrder"
+                                        },
+                                        "ActionC_CentralSupplierQuotationTPHeader2": {
+                                            "id": "idAction_CreateContract",
+                                            "text": "{@i18n>CreateContractLabel}",
+                                            "press": "onPressCreateContract"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": [
+            {
+                "entitySet": "C_CentralSupplierQuotationTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_CentralSupplierQuotationTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showRelatedApps": true,
+                                "sections": {
+                                    "Items": {
+                                        "navigationProperty": "to_CntrlSupplierQuotationItemTP",
+                                        "entitySet": "C_CntrlSupplierQuotationItemTP",
+                                        "createMode": "inline"
+                                    }
+                                }
+                            }
+                        },
+                        "embeddedComponents": {},
+                        "pages": [
+                            {
+                                "navigationProperty": "to_CntrlSupplierQuotationItemTP",
+                                "entitySet": "C_CntrlSupplierQuotationItemTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage",
+                                    "settings": {
+                                        "allowDeepLinking": true,
+                                        "sections": {
+                                            "Distribution": {
+                                                "navigationProperty": "to_CntrlSupplierQtanItemDistrTP",
+                                                "entitySet": "C_CntrlSupplierQtanItemDistrTP"
+                                            }
+                                        }
+                                    }
+                                },
+                                "embeddedComponents": {
+                                    "AddressReuse": {
+                                        "id": "AddressReuse",
+                                        "componentName": "ssuite.fnd.addr.reuse1.addresscomponent",
+                                        "title": "{{DeliveryAddress}}",
+                                        "settings": {
+                                            "configurationID": "DeliveryAddress",
+                                            "associationPath": "to_AddressTP",
+                                            "isEditable": "false"
+                                        }
+                                    }
+                                },
+                                "pages": [
+                                    {
+                                        "navigationProperty": "to_CntrlSupplierQtanItemDistrTP",
+                                        "entitySet": "C_CntrlSupplierQtanItemDistrTP",
+                                        "component": {
+                                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                                            "settings": {}
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3975"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

@@ -1,0 +1,237 @@
+{
+    "_version": "1.7.0",
+    "start_url": "start.html",
+    "sap.app": {
+        "id": "cus.sd.ovp.sm",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{app_title}}",
+        "ach": "SD-FIO-HBA",
+        "resources": "resources.json",
+        "dataSources": {
+            "SD_OVP_SM": {
+                "uri": "/sap/opu/odata/sap/SD_OVP_SM/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/SD_OVP_SM/metadata.xml",
+                    "annotations": ["annotation"],
+                    "maxAge": 30
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            },
+            "C_PROFITMARGINBYMONTHQUERY_CDS": {
+                "uri": "/sap/opu/odata/sap/C_PROFITMARGINBYMONTHQUERY_CDS/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/C_PROFITMARGINBYMONTHQUERY_CDS/metadata.xml",
+                    "annotations": ["annotation_PM"],
+                    "maxAge": 30
+                }
+            },
+            "annotation_PM": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation_PM.xml",
+                "settings": {
+                    "localUri": "annotations/annotation_PM.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponent",
+            "version": "0.0.0"
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F2601"],
+        "archeType": "analytical"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.ovp": {
+                    "lazy": false
+                }
+            }
+        },
+        "models": {
+            "@i18n": {
+                "preload": false,
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "SD_OVP_SM_AC": {
+                "preload": true,
+                "dataSource": "SD_OVP_SM",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            },
+            "SD_OVP_SM": {
+                "preload": true,
+                "dataSource": "SD_OVP_SM",
+                "settings": {
+                    "defaultCountMode": "Inline"
+                }
+            },
+            "C_PROFITMARGINBYMONTHQUERY_CDS": {
+                "preload": true,
+                "dataSource": "C_PROFITMARGINBYMONTHQUERY_CDS",
+                "settings": {
+                    "defaultCountMode": "None"
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ovp": {
+        "globalFilterModel": "SD_OVP_SM",
+        "globalFilterEntityType": "C_SalesManagerSelectionResult",
+        "considerAnalyticalParameters": true,
+        "cards": {
+            "card00_IncomingSales": {
+                "model": "SD_OVP_SM_AC",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{incomingSales_title}}",
+                    "subTitle": "{{incomingSales_subTitle}}",
+                    "entitySet": "C_SalesOrderByMonthResults",
+                    "tabs": [
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IS",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ISA",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IS",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISA",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{incomingSales_value1}}"
+                        },
+                        {
+                            "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#IS",
+                            "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ISN",
+                            "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#IS",
+                            "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ISN",
+                            "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification",
+                            "value": "{{incomingSales_value2}}"
+                        }
+                    ]
+                }
+            },
+            "card01_CustomerReturns": {
+                "model": "SD_OVP_SM_AC",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{customerReturns_title}}",
+                    "subTitle": "{{incomingSales_subTitle}}",
+                    "entitySet": "C_CustReturnItemByMonthResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#CR",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#CR",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#CR",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#CR",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card02_IncompleteDocs": {
+                "model": "SD_OVP_SM_AC",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{incompleteDocs_title}}",
+                    "subTitle": "{{incompleteDocs_subTitle}}",
+                    "entitySet": "C_IncompleteSalesDocByCat",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ID",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ID",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#ID",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card03_BackOrders": {
+                "model": "SD_OVP_SM_AC",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{backOrders_title}}",
+                    "subTitle": "{{backOrders_subTitle}}",
+                    "entitySet": "C_BackOrderItem",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#BKO",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#BKO",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#BKO"
+                }
+            },
+            "card04_ProfitMargin": {
+                "model": "C_PROFITMARGINBYMONTHQUERY_CDS",
+                "template": "sap.ovp.cards.charts.analytical",
+                "settings": {
+                    "title": "{{profitMargin_title}}",
+                    "subTitle": "{{incomingSales_subTitle}}",
+                    "entitySet": "C_PROFITMARGINBYMONTHQUERYResults",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#PM",
+                    "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#PM",
+                    "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PM",
+                    "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#PM",
+                    "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+                }
+            },
+            "card05_BlockedOrders": {
+                "model": "SD_OVP_SM",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{blockedOrders_title}}",
+                    "subTitle": "{{blockedOrders_subTitle}}",
+                    "entitySet": "C_BlockedSalesOrderResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "TotalNetAmountInDisplayCrcy",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#BO",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#BO",
+                    "addODataSelect": true
+                }
+            },
+            "card06_OverdueOrders": {
+                "model": "SD_OVP_SM",
+                "template": "sap.ovp.cards.list",
+                "settings": {
+                    "title": "{{overdueOrders_title}}",
+                    "subTitle": "{{blockedOrders_subTitle}}",
+                    "entitySet": "C_OverdueSalesOrderResults",
+                    "listType": "condensed",
+                    "listFlavor": "bar",
+                    "sortBy": "TotalNetAmountInDisplayCrcy",
+                    "sortOrder": "descending",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#OO",
+                    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#OO",
+                    "addODataSelect": true
+                }
+            }
+        }
+    }
+}

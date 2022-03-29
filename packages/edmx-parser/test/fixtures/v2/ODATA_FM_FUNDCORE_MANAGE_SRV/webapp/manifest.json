@@ -1,0 +1,213 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "PSM-FM-MD",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ODATA_FM_FUNDCORE_MANAGE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["ODATA_FM_FUNDCORE_MANAG_ANNO_MDL"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "ODATA_FM_FUNDCORE_MANAG_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ODATA_FM_FUNDCORE_MANAG_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/ODATA_FM_FUNDCORE_MANAG_ANNO_MDL.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.comp": {
+                    "lazy": true
+                },
+                "sap.uxap": {
+                    "lazy": true
+                },
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.generic.app": {},
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                },
+                "sap.nw.core.changedocs.lib.reuse": {
+                    "lazy": true
+                }
+            }
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            },
+            "ChangedocReuseComponent": {
+                "name": "sap.nw.core.changedocs.lib.reuse.changedocscomponent"
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_FundCoreTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_FundCoreTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_FundCoreTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_FundCoreTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {}
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false
+        },
+        "pages": [
+            {
+                "entitySet": "C_FundCoreTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "gridTable": false,
+                        "multiSelect": true,
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": [
+                    {
+                        "entitySet": "C_FundCoreTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{Attachments}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "FMFINCODE",
+                                    "objectKey": "{=${HasActiveEntity}||${IsActiveEntity}?(${FinancialManagementArea}+'   ').slice(0,4)+${Fund}:${DraftUUID}}",
+                                    "isGuid": "{=!(${HasActiveEntity}||${IsActiveEntity})}",
+                                    "flavor": "",
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": true,
+                                            "DIRDETAILS": false
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true,
+                                            "DOWNLOAD": true
+                                        }
+                                    }
+                                }
+                            },
+                            "changedoccomponent": {
+                                "id": "changedoccomponent",
+                                "componentUsage": "ChangedocReuseComponent",
+                                "title": "{{reuseTitle}}",
+                                "settings": {
+                                    "objectClass": ["FMFONDS"],
+                                    "objectId": "{parts: [{path: 'ObjectKey'}], formatter: 'sap.nw.core.changedocs.lib.reuse.changedocscomponent.arrayFormatter'}",
+                                    "startDate": "{=  ${FundCreatedAt} === null || ${FundCreatedAt} === undefined  ? ${ValidityStartDate} : ${FundCreatedAt} }"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3633"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

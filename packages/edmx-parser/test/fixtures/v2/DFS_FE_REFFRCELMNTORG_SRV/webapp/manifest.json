@@ -1,0 +1,1486 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "IS-DFS-OF-FE",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/DFS_FE_REFFRCELMNTORG_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["DFS_FE_REFFRCELMNTORG_ANNO_MDL", "annotation1"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "feService": {
+                "uri": "/sap/opu/odata/sap/DFS_FE_FRCELMNTORG_SRV/",
+                "type": "OData"
+            },
+            "DFS_FE_REFFRCELMNTORG_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='DFS_FE_REFFRCELMNTORG_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/DFS_FE_REFFRCELMNTORG_ANNO_MDL.xml"
+                }
+            },
+            "annotation1": {
+                "type": "ODataAnnotation",
+                "uri": "annotation1.xml",
+                "settings": {
+                    "localUri": "annotation1.xml"
+                }
+            },
+            "DFS_POS_DEFENSEPOSITION_SRV": {
+                "uri": "/sap/opu/odata/sap/DFS_POS_DEFENSEPOSITION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/DFS_POS_DEFENSEPOSITION_SRV/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "createRFE": {
+                    "semanticObject": "ReferenceForceElement",
+                    "action": "manageRFE",
+                    "signature": {
+                        "parameters": {
+                            "ForceElementOrgID": {},
+                            "DraftUUID": {},
+                            "IsActiveEntity": {}
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "CreateAssignmentSUP": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageSUP",
+                    "parameters": {
+                        "ForceElementOrgSrceID": {},
+                        "ForceElementOrgSrceUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentSUP": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageSUP",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentSUPBY": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageSUPBY",
+                    "parameters": {
+                        "ForceElementOrgTargetID": {},
+                        "ForceElementOrgTargetUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentSUPBY": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageSUPBY",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentMNT": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMNT",
+                    "parameters": {
+                        "ForceElementOrgSrceID": {},
+                        "ForceElementOrgSrceUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentMNT": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMNT",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentMNTBY": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMNTBY",
+                    "parameters": {
+                        "ForceElementOrgTargetID": {},
+                        "ForceElementOrgTargetUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentMNTBY": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMNTBY",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentFMPO": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageFMPO",
+                    "parameters": {
+                        "ForceElementOrgSrceID": {},
+                        "ForceElementOrgSrceUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentFMPO": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageFMPO",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentFEPROD": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "managePROD",
+                    "parameters": {
+                        "ForceElementOrgSrceID": {},
+                        "ForceElementOrgSrceUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentFEPROD": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "managePROD",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentFECAP": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageCAP",
+                    "parameters": {
+                        "ForceElementOrgSrceID": {},
+                        "ForceElementOrgSrceUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentFECAP": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageCAP",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentFEMETL": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMETL",
+                    "parameters": {
+                        "ForceElementOrgSrceID": {},
+                        "ForceElementOrgSrceUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentFEMETL": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMETL",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentFEMNTCAP": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMNTCAP",
+                    "parameters": {
+                        "ForceElementOrgSrceID": {},
+                        "ForceElementOrgSrceUUID": {},
+                        "DfsAssgmtSourceType": {},
+                        "DfsAssgmtType": {}
+                    }
+                },
+                "EditDisplayAssignmentFEMNTCAP": {
+                    "semanticObject": "ForceElementAssignment",
+                    "action": "manageMNTCAP",
+                    "parameters": {
+                        "DfsAssgmtUUID": {}
+                    }
+                },
+                "CreateAssignmentFETOPOSSTRUC": {
+                    "semanticObject": "ForceElementStructure",
+                    "action": "manageFEPosStr",
+                    "parameters": {
+                        "DfsObjectIDForEdit": {},
+                        "DfsObjectID": {}
+                    }
+                },
+                "EditDisplayAssignmentFETOPOSSTRUC": {
+                    "semanticObject": "ForceElementStructure",
+                    "action": "manageFEPosStr",
+                    "parameters": {
+                        "DfsObjectID": {
+                            "required": true
+                        },
+                        "DfsPositionID": {
+                            "required": true
+                        },
+                        "DfsObjectPlngStatus": {
+                            "required": true
+                        },
+                        "DfsPositionValdtyStartDate": {
+                            "required": true
+                        },
+                        "DfsPositionValdtyEndDate": {
+                            "required": true
+                        }
+                    }
+                },
+                "orgStruct": {
+                    "semanticObject": "ForceElementStructure",
+                    "action": "manageOrgstr",
+                    "parameters": {
+                        "FrcElmntOrgConcatenatedID": {
+                            "required": true
+                        },
+                        "FrcElmntOrgDraftUUID": {
+                            "required": true
+                        },
+                        "DraftUUID": {
+                            "required": true
+                        },
+                        "FrcElmntOrgRelatedOrgID": {
+                            "required": true
+                        },
+                        "FrcElmntOrgValdtyStartDate": {
+                            "required": true
+                        },
+                        "FrcElmntOrgValdtyEndDate": {
+                            "required": true
+                        },
+                        "FrcElmntOrgPlngStatus": {
+                            "required": true
+                        },
+                        "IsActiveEntity": {
+                            "required": true
+                        },
+                        "preferredMode": {
+                            "value": {
+                                "value": "display",
+                                "format": "plain"
+                            },
+                            "required": false
+                        }
+                    }
+                },
+                "ForceElement": {
+                    "semanticObject": "ForceElement",
+                    "action": "manageFE",
+                    "parameters": {
+                        "ForceElementOrgID": {},
+                        "DraftUUID": {},
+                        "IsActiveEntity": {}
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [
+                {
+                    "uri": "/ext/helper/Assignment.js"
+                },
+                {
+                    "uri": "/ext/util/Formatter.js"
+                }
+            ],
+            "css": [
+                {
+                    "uri": "css/style.css",
+                    "id": ""
+                }
+            ]
+        },
+        "componentUsages": {
+            "ChangedocReuseComponent": {
+                "name": "sap.nw.core.changedocs.lib.reuse.changedocscomponent"
+            },
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                "settings": {}
+            }
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.m": {
+                    "lazy": true
+                },
+                "sap.ui.core": {},
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.i2d.lo.lib.vchclf": {
+                    "minVersion": "11.12.0-SNAPSHOT",
+                    "lazy": true
+                },
+                "sap.s4h.cfnd.featuretoggle": {
+                    "minVersion": "11.10.0-SNAPSHOT",
+                    "lazy": true
+                }
+            },
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent": {
+                    "lazy": true
+                },
+                "sap.nw.core.changedocs.lib.reuse": {
+                    "lazy": true
+                }
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_FrcElmntOrgRefOrgTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_FrcElmntOrgRefOrgTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_FrcElmntOrgRefOrgTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_FrcElmntOrgRefOrgTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_FrcElmntOrgRefOrgNameTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_FrcElmntOrgRefOrgNameTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "FEServiceModel": {
+                "dataSource": "feService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "dfsPosition": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "DFS_POS_DEFENSEPOSITION_SRV",
+                "preload": true
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "s4dfs.rfe.cruds1.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "C_FrcElmntOrgRefOrgTP": {
+                                "EntitySet": "C_FrcElmntOrgRefOrgTP",
+                                "Actions": {
+                                    "Action_RefFE_Create": {
+                                        "id": "Action_RefFE_Create",
+                                        "text": "{@i18n>Action_RefFECreate}",
+                                        "press": "onClickCreateAction"
+                                    },
+                                    "Action_FE_Show_Hierarchy": {
+                                        "id": "ActionFEShowHierarchy",
+                                        "text": "{@i18n>ActionFE_ShowHierarchy}",
+                                        "press": "onClickActionFEShowHierarchy",
+                                        "requiresSelection": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "s4dfs.rfe.cruds1.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_FrcElmntOrgRefOrgTP": {
+                                "EntitySet": "C_FrcElmntOrgRefOrgTP",
+                                "Header": {
+                                    "Actions": {
+                                        "Action_RefFE_CreateChild": {
+                                            "id": "RefFE_CreateChild",
+                                            "text": "{@i18n>AC_GenCreateChild}",
+                                            "press": "onClickcreate"
+                                        },
+                                        "Action_RefFE_Copy": {
+                                            "id": "Action_RefFE_Copy",
+                                            "text": "{@i18n>Action_RefFECopy}",
+                                            "press": "onCopyRFEClick"
+                                        },
+                                        "Action_CopyRFEtoFE": {
+                                            "id": "ActionCopyRFEtoFE",
+                                            "text": "{@i18n>Action_CopyRFEtoFE}",
+                                            "press": "onClickCopyRFEtoFE"
+                                        },
+                                        "Action_CreateMultiPosRFE": {
+                                            "id": "ActionCreateMutiPosRFE",
+                                            "text": "{@i18n>Action_CreateMultiPos}",
+                                            "press": "onClickCreateMultiPosRFE",
+                                            "requiresSelection": true
+                                        },
+                                        "Action_OrgMeasureVisible": {
+                                            "id": "ActionOrgMeasureVisible",
+                                            "text": "{@i18n>Action_OrgMeasure}",
+                                            "press": "onClickActionOrgMeasure"
+                                        },
+                                        "Action_OrgMeasure": {
+                                            "id": "ActionOrgMeasure",
+                                            "text": "{@i18n>Action_OrgMeasure}",
+                                            "press": "onClickOrgMeasure",
+                                            "requiresSelection": true
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "to_FrcElmntOrgStrucRelshpTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_FrcElmntOrgStrucRelshpTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "ActionFE_CreateOrg": {
+                                                "id": "Action_FECreateOrg",
+                                                "text": "{@i18n>Action_FECreateOrg}",
+                                                "press": "onCreateOrgStruct"
+                                            },
+                                            "Action_Org_Submit": {
+                                                "id": "Action_Org_Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onOrgRelChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "Action_Org_Approve": {
+                                                "id": "Action_Org_Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onOrgRelChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "Action_Org_Reject": {
+                                                "id": "Action_Org_Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onOrgRelChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "Action_Org_Activate": {
+                                                "id": "Action_Org_Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onOrgRelChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "Action_Org_Resubmit": {
+                                                "id": "Action_Org_Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onOrgRelChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_RFE_Refresh": {
+                                                "id": "AC_RFE_Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToSupFeList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToSupFeList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_SUPCreate": {
+                                                "id": "SUP__CreateAssignmentSUP",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_SUPSubmit": {
+                                                "id": "SUP__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPApprove": {
+                                                "id": "SUP__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPReject": {
+                                                "id": "SUP__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPActivate": {
+                                                "id": "SUP__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPResubmit": {
+                                                "id": "SUP__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPDeactivate": {
+                                                "id": "SUP__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPDelimit": {
+                                                "id": "SUP__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPDel": {
+                                                "id": "SUP__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPRefresh": {
+                                                "id": "SUP__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToSupByFeList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToSupByFeList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_SUPBYCreate": {
+                                                "id": "SUPBY__CreateAssignmentSUPBY",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_SUPBYSubmit": {
+                                                "id": "SUPBY__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYApprove": {
+                                                "id": "SUPBY__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYReject": {
+                                                "id": "SUPBY__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYActivate": {
+                                                "id": "SUPBY__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYResubmit": {
+                                                "id": "SUPBY__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYDeactivate": {
+                                                "id": "SUPBY__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYDelimit": {
+                                                "id": "SUPBY__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYDel": {
+                                                "id": "SUPBY__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_SUPBYRefresh": {
+                                                "id": "SUPBY__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToMaintFeList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToMaintFeList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_MNTCreate": {
+                                                "id": "MNT__CreateAssignmentMNT",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_MNTSubmit": {
+                                                "id": "MNT__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTApprove": {
+                                                "id": "MNT__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTReject": {
+                                                "id": "MNT__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTActivate": {
+                                                "id": "MNT__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTResubmit": {
+                                                "id": "MNT__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTDeactivate": {
+                                                "id": "MNT__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTDelimit": {
+                                                "id": "MNT__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTDel": {
+                                                "id": "MNT__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTRefresh": {
+                                                "id": "MNT__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToMaintByFeList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToMaintByFeList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_MNTBYCreate": {
+                                                "id": "MNTBY__CreateAssignmentMNTBY",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_MNTBYSubmit": {
+                                                "id": "MNTBY__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYApprove": {
+                                                "id": "MNTBY__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYReject": {
+                                                "id": "MNTBY__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYActivate": {
+                                                "id": "MNTBY__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYResubmit": {
+                                                "id": "MNTBY__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYDeactivate": {
+                                                "id": "MNTBY__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYDelimit": {
+                                                "id": "MNTBY__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYDel": {
+                                                "id": "MNTBY__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTBYRefresh": {
+                                                "id": "MNTBY__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToFlxMtPlObjList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToFlxMtPlObjList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_FMPOCreate": {
+                                                "id": "FMPO__CreateAssignmentFMPO",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_FMPOSubmit": {
+                                                "id": "FMPO__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPOApprove": {
+                                                "id": "FMPO__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPOReject": {
+                                                "id": "FMPO__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPOActivate": {
+                                                "id": "FMPO__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPOResubmit": {
+                                                "id": "FMPO__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPODeactivate": {
+                                                "id": "FMPO__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPODelimit": {
+                                                "id": "FMPO__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPODel": {
+                                                "id": "FMPO__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_FMPORefresh": {
+                                                "id": "FMPO__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToProdList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToProdList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_PRODCreate": {
+                                                "id": "PROD__CreateAssignmentFEPROD",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_PRODSubmit": {
+                                                "id": "PROD__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODApprove": {
+                                                "id": "PROD__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODReject": {
+                                                "id": "PROD__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODActivate": {
+                                                "id": "PROD__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODResubmit": {
+                                                "id": "PROD__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODDeactivate": {
+                                                "id": "PROD__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODDelimit": {
+                                                "id": "PROD__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODDel": {
+                                                "id": "PROD__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_PRODRefresh": {
+                                                "id": "PROD__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToMsnEsnlTskList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToMsnEsnlTskList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_METLCreate": {
+                                                "id": "METL__CreateAssignmentFEMETL",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_METLSubmit": {
+                                                "id": "METL__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLApprove": {
+                                                "id": "METL__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLReject": {
+                                                "id": "METL__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLActivate": {
+                                                "id": "METL__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLResubmit": {
+                                                "id": "METL__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLDeactivate": {
+                                                "id": "METL__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLDelimit": {
+                                                "id": "METL__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLDel": {
+                                                "id": "METL__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_METLRefresh": {
+                                                "id": "METL__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToCapbltObjList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToCapbltObjList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_CAPCreate": {
+                                                "id": "CAP__CreateAssignmentFECAP",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_CAPSubmit": {
+                                                "id": "CAP__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPApprove": {
+                                                "id": "CAP__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPReject": {
+                                                "id": "CAP__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPActivate": {
+                                                "id": "CAP__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPResubmit": {
+                                                "id": "CAP__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPDeactivate": {
+                                                "id": "CAP__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPDelimit": {
+                                                "id": "CAP__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPDel": {
+                                                "id": "CAP__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_CAPRefresh": {
+                                                "id": "CAP__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_AssgmtFeToMaintCapbltLi::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_AssgmtFeToMaintCapbltLi::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_MNTCAPCreate": {
+                                                "id": "MNTCA__CreateAssignmentFEMNTCAP",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "AC_ASSGMT_MNTCAPSubmit": {
+                                                "id": "MNTCA__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPApprove": {
+                                                "id": "MNTCA__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPReject": {
+                                                "id": "MNTCA__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPActivate": {
+                                                "id": "MNTCA__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPResubmit": {
+                                                "id": "MNTCA__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPDeactivate": {
+                                                "id": "MNTCA__Deactivate",
+                                                "text": "{@i18n>AC_GenDeactivate}",
+                                                "press": "onChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPDelimit": {
+                                                "id": "MNTCA__Delimit",
+                                                "text": "{@i18n>AC_GenDelimit}",
+                                                "press": "onDelimitAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPDel": {
+                                                "id": "MNTCA__Delete",
+                                                "text": "{@i18n>AC_GenDel}",
+                                                "press": "onDeleteAssgmt",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_ASSGMT_MNTCAPRefresh": {
+                                                "id": "MNTCA__Refresh",
+                                                "text": "{@i18n>AC_GenFresh}",
+                                                "press": "onRefreshAssgmt"
+                                            }
+                                        }
+                                    },
+                                    "to_FrcElmntOrgNameTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_FrcElmntOrgNameTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_Org_NameSubmit": {
+                                                "id": "NameCA__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_NameApprove": {
+                                                "id": "NameCA__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_NameReject": {
+                                                "id": "NameCA__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_NameActivate": {
+                                                "id": "NameCA__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_NameResubmit": {
+                                                "id": "NameCA__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_FrcElmntOrgDescriptionTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_FrcElmntOrgDescriptionTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_Org_DESCSubmit": {
+                                                "id": "DescriptionCA__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_DESCApprove": {
+                                                "id": "DescriptionCA__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_DESCReject": {
+                                                "id": "DescriptionCA__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_DESCActivate": {
+                                                "id": "DescriptionCA__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_DESCResubmit": {
+                                                "id": "DescriptionCA__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_FrcElmntOrgCharcsTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_FrcElmntOrgCharcsTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_Org_CHARSubmit": {
+                                                "id": "CharacteristicCA__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_CHARApprove": {
+                                                "id": "CharacteristicCA__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_CHARReject": {
+                                                "id": "CharacteristicCA__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_CHARActivate": {
+                                                "id": "CharacteristicCA__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_CHARResubmit": {
+                                                "id": "CharacteristicCA__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_FrcElmntOrgReadinessTP::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_FrcElmntOrgReadinessTP::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_Org_READDSubmit": {
+                                                "id": "ReadinessCA__Submit",
+                                                "text": "{@i18n>AC_GenSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_READDApprove": {
+                                                "id": "ReadinessCA__Approve",
+                                                "text": "{@i18n>AC_GenApprove}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_READDReject": {
+                                                "id": "ReadinessCA__Reject",
+                                                "text": "{@i18n>AC_GenReject}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_READActivate": {
+                                                "id": "ReadinessCA__Activate",
+                                                "text": "{@i18n>AC_GenActivate}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            },
+                                            "AC_Org_READDResubmit": {
+                                                "id": "ReadinessCA__Resubmit",
+                                                "text": "{@i18n>AC_GenReSubmit}",
+                                                "press": "onOrgChangeStatus",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    },
+                                    "to_FrcElmntToPosStrucRelshpList::com.sap.vocabularies.UI.v1.LineItem": {
+                                        "id": "to_FrcElmntToPosStrucRelshpList::com.sap.vocabularies.UI.v1.LineItem",
+                                        "Actions": {
+                                            "AC_ASSGMT_POSCreate": {
+                                                "id": "POSSTRUC__CreateAssignmentFETOPOSSTRUC",
+                                                "text": "{@i18n>AC_GenCreate}",
+                                                "press": "onCreateAssgmt"
+                                            },
+                                            "Action_CopyPosOrg": {
+                                                "id": "ActionCopyPosOrg",
+                                                "text": "{@i18n>Action_CopyMultiPos}",
+                                                "press": "onClickCopyPos",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|C_FrcElmntOrgRefOrgTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.rfe.cruds1.ext.view.SymbolCodeImage"
+                        },
+                        "ResponsiveTableCellsExtension|C_FrcElmntOrgRefOrgTP": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "s4dfs.rfe.cruds1.ext.view.SymbolCodeCell"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "BeforeHeaderFacet|C_FrcElmntOrgRefOrgTP|headerEditable::com.sap.vocabularies.UI.v1.DataPoint::FEObjID": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "s4dfs.rfe.cruds1.ext.view.HeaderMilSymbol"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "flexibleColumnLayout": {
+                "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+                "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+            }
+        },
+        "pages": {
+            "ListReport|C_FrcElmntOrgRefOrgTP": {
+                "entitySet": "C_FrcElmntOrgRefOrgTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": true
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_FrcElmntOrgRefOrgTP": {
+                        "entitySet": "C_FrcElmntOrgRefOrgTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "showConfirmationOnDraftActivate": true,
+                                "allTableMultiSelect": true
+                            }
+                        },
+                        "embeddedComponents": {
+                            "simple::Attachments": {
+                                "id": "simple::Attachments",
+                                "componentName": "sap.se.mi.plm.lib.attachmentservice.attachment.components.stcomponent",
+                                "title": "{{Attachments}}",
+                                "settings": {
+                                    "mode": "{= ${ui>/editable}?'C':'D'}",
+                                    "objectType": "PLOGI",
+                                    "objectKey": "{=${HasActiveEntity}||${IsActiveEntity}?${ForceElementOrgID}:${DraftUUID}}",
+                                    "isGuid": "{=!(${HasActiveEntity}||${IsActiveEntity})}",
+                                    "flavor": "withDocType",
+                                    "attributeHandling": {
+                                        "_VisibleAttributes": {
+                                            "UPLOADEDBY": true,
+                                            "UPLOADEDON": true,
+                                            "FILESIZE": true,
+                                            "ENABLELINK": true,
+                                            "ATTACHMENTSTATUS": true,
+                                            "ATTACHMENTTITLE": true,
+                                            "SOURCE": true,
+                                            "DIRDETAILS": true
+                                        },
+                                        "_VisibleActions": {
+                                            "RENAME": true,
+                                            "DELETE": true,
+                                            "ADD": true,
+                                            "ADDURL": true,
+                                            "DOWNLOAD": true
+                                        }
+                                    }
+                                }
+                            },
+                            "classificationComponentContainer": {
+                                "id": "classificationComponentContainer",
+                                "componentName": "sap.i2d.lo.lib.vchclf.components.classification",
+                                "title": "{{Classification}}",
+                                "settings": {
+                                    "semanticObject": "ReferenceForceElement",
+                                    "technicalObject": "PLOGI",
+                                    "objectKey": "{parts:[{path:'IsActiveEntity'},{path:'HasActiveEntity'},{path:'FrcElmntOrgPlanVersion'},{path:'FrcElmntOrgType'},{path:'ForceElementOrgID'}],formatter:'s4dfs.rfe.cruds1.ext.util.Formatter.formatClassificationKey'}",
+                                    "draftKey": "{DraftUUID}",
+                                    "uiMode": "{= ${IsActiveEntity} ? 'Display': (${HasActiveEntity} ? 'Edit' : 'Create') }"
+                                }
+                            }
+                        },
+                        "pages": {
+                            "ObjectPage|to_FrcElmntOrgNameTP": {
+                                "navigationProperty": "to_FrcElmntOrgNameTP",
+                                "entitySet": "C_FrcElmntOrgRefOrgNameTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_FrcElmntOrgCharcsTP": {
+                                "navigationProperty": "to_FrcElmntOrgCharcsTP",
+                                "entitySet": "C_FrcElmntOrgRefOrgCharcsTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_FrcElmntOrgReadinessTP": {
+                                "navigationProperty": "to_FrcElmntOrgReadinessTP",
+                                "entitySet": "C_FrcElmntOrgRefOrgReadinessTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_FrcElmntOrgDescriptionTP": {
+                                "navigationProperty": "to_FrcElmntOrgDescriptionTP",
+                                "entitySet": "C_FrcElmntOrgRefOrgDescTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToSupFeList": {
+                                "navigationProperty": "to_AssgmtFeToSupFeList",
+                                "entitySet": "C_DFS_AssgmtFeToSupFeList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToSupByFeList": {
+                                "navigationProperty": "to_AssgmtFeToSupByFeList",
+                                "entitySet": "C_DFS_AssgmtFeToSupByFeList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToMaintFeList": {
+                                "navigationProperty": "to_AssgmtFeToMaintFeList",
+                                "entitySet": "C_DFS_AssgmtFeToMaintFeList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToMaintByFeList": {
+                                "navigationProperty": "to_AssgmtFeToMaintByFeList",
+                                "entitySet": "C_DFS_AssgmtFeToMaintByFeList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToFlxMtPlObjList": {
+                                "navigationProperty": "to_AssgmtFeToFlxMtPlObjList",
+                                "entitySet": "C_DFS_AssgmtFeToFlxMtPlObjList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToProdList": {
+                                "navigationProperty": "to_AssgmtFeToProdList",
+                                "entitySet": "C_DFS_AssgmtFeToProdList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToMsnEsnlTskList": {
+                                "navigationProperty": "to_AssgmtFeToMsnEsnlTskList",
+                                "entitySet": "C_DFS_AssgmtFeToMsnEsnlTskList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToCapbltObjList": {
+                                "navigationProperty": "to_AssgmtFeToCapbltObjList",
+                                "entitySet": "C_DFS_AssgmtFeToCapbltObjList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_AssgmtFeToMaintCapbltLi": {
+                                "navigationProperty": "to_AssgmtFeToMaintCapbltLi",
+                                "entitySet": "C_DFS_AssgmtFeToMaintCapbltLi",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_FrcElmntOrgStrucRelshpTP": {
+                                "navigationProperty": "to_FrcElmntOrgStrucRelshpTP",
+                                "entitySet": "C_FrcElmntOrgStrucRelshpTP",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            },
+                            "ObjectPage|to_FrcElmntToPosStrucRelshpList": {
+                                "navigationProperty": "to_FrcElmntToPosStrucRelshpList",
+                                "entitySet": "C_FrcElmntToPosStrucRelshpList",
+                                "component": {
+                                    "name": "sap.suite.ui.generic.template.ObjectPage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F4126"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}

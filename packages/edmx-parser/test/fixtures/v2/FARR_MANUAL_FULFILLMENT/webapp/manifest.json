@@ -1,0 +1,250 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "${project.artifactId}",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "${project.version}"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "ach": "FI-RA-FF",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/FARR_MANUAL_FULFILLMENT/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["FARR_MANUAL_FULFILLMENT_ANNO_MDL", "annotations"],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "FARR_MANUAL_FULFILLMENT_ANNO_MDL": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='FARR_MANUAL_FULFILLMENT_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/FARR_MANUAL_FULFILLMENT_ANNO_MDL.xml"
+                }
+            },
+            "annotations": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotations.xml",
+                "settings": {
+                    "localUri": "annotations/annotations.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {},
+            "outbounds": {
+                "WebdynproManualFulfillment": {
+                    "semanticObject": "PerformanceObligation",
+                    "action": "manuallyFulfill"
+                },
+                "RevenueSchedule": {
+                    "semanticObject": "RevenueAccountingContract",
+                    "action": "manageRevenueSchedule"
+                },
+                "ChangeHistory": {
+                    "semanticObject": "PerformanceObligation",
+                    "action": "displayFulfillmentHistory"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": ["sap_hcb", "sap_belize"]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "${sap.ui5.dist.version}",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.m": {
+                    "lazy": false
+                },
+                "sap.ui.comp": {
+                    "lazy": false
+                },
+                "sap.ui.layout": {
+                    "lazy": true
+                },
+                "sap.ui.table": {
+                    "lazy": false
+                },
+                "sap.fin.rar.lib": {
+                    "lazy": true
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|C_RAManualFulfillmentTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/C_RAManualFulfillmentTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_RAManualFulfillmentTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_RAManualFulfillmentTP/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|C_RAPerfOblgnAggrgdFlfmtTP": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/C_RAPerfOblgnAggrgdFlfmtTP/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "fin.rar.manual.fulfillment.ext.controller.ListReportExt"
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "fin.rar.manual.fulfillment.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "C_RAManualFulfillmentTP": {
+                                "EntitySet": "C_RAManualFulfillmentTP",
+                                "Header": {
+                                    "Actions": {
+                                        "ActionRevenueSchedule": {
+                                            "id": "ActionRevenueSchedulebutton",
+                                            "text": "{@i18n>btnRevenueSchedule}",
+                                            "press": "onClickActionRevenueSchedule"
+                                        }
+                                    }
+                                },
+                                "Sections": {
+                                    "PobsFulfillmentFacet": {
+                                        "id": "PobsFulfillmentFacet",
+                                        "Actions": {
+                                            "ActionChangeHistory": {
+                                                "id": "ActionChangeHistoryButton",
+                                                "text": "{@i18n>btnChangeHistory}",
+                                                "requiresSelection": "true",
+                                                "press": "onClickActionChangeHistory"
+                                            },
+                                            "ActionToggleShowPob": {
+                                                "id": "ActionToggleShowPobButton",
+                                                "text": "{i18n|sap.suite.ui.generic.template.ObjectPage|C_RAManualFulfillmentTP>btnShowAllPob}",
+                                                "press": "onToggleShowPob"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "SmartFilterBarControlConfigurationExtension|C_RAManualFulfillmentTP": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manual.fulfillment.ext.fragment.Customfilter",
+                            "type": "XML"
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "AfterHeaderFacet|C_RAManualFulfillmentTP|headerEditable::ContractStatusFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.mvc.View",
+                            "viewName": "fin.rar.manual.fulfillment.ext.view.ContractStatusCompDate"
+                        },
+                        "ResponsiveTableColumnsExtension|C_RAPerfOblgnAggrgdFlfmtTP|PobsFulfillmentFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manual.fulfillment.ext.fragment.PobFulfillmentColumn"
+                        },
+                        "ResponsiveTableCellsExtension|C_RAPerfOblgnAggrgdFlfmtTP|PobsFulfillmentFacet": {
+                            "type": "XML",
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "fin.rar.manual.fulfillment.ext.fragment.PobFulfillmentCell"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {},
+        "pages": {
+            "ListReport|C_RAManualFulfillmentTP": {
+                "entitySet": "C_RAManualFulfillmentTP",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "smartVariantManagement": false
+                    }
+                },
+                "pages": {
+                    "ObjectPage|C_RAManualFulfillmentTP": {
+                        "entitySet": "C_RAManualFulfillmentTP",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage",
+                            "settings": {
+                                "allTableMultiSelect": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": ["F3881"],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    }
+}
