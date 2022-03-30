@@ -49,8 +49,8 @@ importers:
 
     packages/annotation-converter:
         specifiers:
-            '@sap-ux/edmx-parser': 0.5.0
-            '@sap-ux/vocabularies-types': 0.5.0
+            '@sap-ux/edmx-parser': workspace:*
+            '@sap-ux/vocabularies-types': workspace:*
         devDependencies:
             '@sap-ux/edmx-parser': link:../edmx-parser
             '@sap-ux/vocabularies-types': link:../vocabularies-types
