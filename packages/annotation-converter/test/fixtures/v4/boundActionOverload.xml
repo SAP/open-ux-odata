@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+	<edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+		<edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="https://github.com/oasis-tcs/odata-vocabularies/blob/master/vocabularies/Org.OData.Core.V1.xml">
+		<edmx:Include Alias="Core" Namespace="Org.OData.Core.V1" />
+	</edmx:Reference>
+	<edmx:Reference Uri="/sap/opu/odata4/sap/c_salesordermanage_srv/srvd/sap/c_salesordermanage_sd/0001/$metadata">
+		<edmx:Include Alias="SalesOrderService" Namespace="com.c_salesordermanage_sd" />
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="com.local.SalesOrder" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="com.c_salesordermanage_sd.DummyBoundAction">
+				<Annotation Term="UI.Hidden" Bool="true" />
+			</Annotations>
+			<Annotations Target="com.c_salesordermanage_sd.DummyBoundAction(com.c_salesordermanage_sd.SalesOrderManage)">
+				<Annotation Term="UI.Hidden" Path="_it/Delivered" />
+			</Annotations>
+			<Annotations Target="com.c_salesordermanage_sd.DummyBoundAction(com.c_salesordermanage_sd.SalesOrderItem)">
+				<Annotation Term="Core.OperationAvailable" Path="_it/owner/_ShipToParty/isVerified" />
+			</Annotations>
+			<Annotations Target="com.c_salesordermanage_sd.DummyBoundAction">
+				<Annotation Term="Core.OperationAvailable" Path="Yolo" />
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

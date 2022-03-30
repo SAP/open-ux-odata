@@ -30,7 +30,7 @@ import type {
     PathExpression,
     Apply,
     Expression,
-    Annotation,
+    RawAnnotation,
     RawV2NavigationProperty,
     RawV4NavigationProperty
 } from '@sap-ux/vocabularies-types';
@@ -882,9 +882,9 @@ function parseAnnotation(
     annotation: EDMX.Annotation,
     currentTarget: string,
     annotationsLists: AnnotationList[]
-): Annotation {
+): RawAnnotation {
     const { Term, Qualifier, ...others } = annotation._attributes;
-    const outAnnotation: Partial<Annotation> = {
+    const outAnnotation: Partial<RawAnnotation> = {
         term: unalias(Term),
         qualifier: Qualifier
     };
@@ -920,18 +920,18 @@ function parseAnnotation(
         console.error(`Cannot parse ${JSON.stringify(annotation)}, expression type is not supported`);
     }
 
-    return outAnnotation as Annotation;
+    return outAnnotation as RawAnnotation;
 }
 
 function parseAnnotations(
     annotations: EDMX.Annotation[],
     currentTarget: string,
     annotationsLists: AnnotationList[]
-): Annotation[] {
+): RawAnnotation[] {
     return annotations.map((annotation) => parseAnnotation(annotation, currentTarget, annotationsLists));
 }
 
-function createAnnotationList(target: string, annotations: Annotation[]): AnnotationList {
+function createAnnotationList(target: string, annotations: RawAnnotation[]): AnnotationList {
     return {
         target: target,
         annotations: annotations
