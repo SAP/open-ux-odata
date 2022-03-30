@@ -17,7 +17,7 @@
         "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u"
     },
     "dependencies": {
-        "@sap-ux/vocabularies-types": "0.5.0",
+        "@sap-ux/vocabularies-types": "workspace:*",
         "xml-js": "1.6.11"
     }
 }

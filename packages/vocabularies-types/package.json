@@ -20,9 +20,9 @@
         "index.d.ts"
     ],
     "devDependencies": {
-        "@types/mkdirp": "^1.0.2",
-        "axios": "^0.26.1",
-        "mkdirp": "^1.0.4"
+        "@types/mkdirp": "1.0.2",
+        "axios": "0.26.1",
+        "mkdirp": "1.0.4"
     },
     "engines": {
         "pnpm": ">=6.26.1",
