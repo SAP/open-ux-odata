@@ -1,0 +1,295 @@
+<!--
+
+    Copyright (C) 2009-2021 SAP SE or an SAP affiliate company. All rights reserved.
+
+-->
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+		<edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+	</edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata4/sap/c_slsordreqfrmextsrc_srv/srvd/sap/c_slsordreqfrmextsource_sd/0001/$metadata">
+        <edmx:Include Namespace="com.sap.gateway.srvd.c_slsordreqfrmextsource_sd.v0001" Alias="SalesOrderRequest"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="sor">
+        	<Annotations Target="SalesOrderRequest.CreateSalesOrderRequest">
+				<Annotation Term="Core.OperationAvailable" Bool="false"/>
+			</Annotations>
+			<Annotations Target="SalesOrderRequest.CreateFollowOnSalesOrder">
+				<Annotation Term="Common.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetEntities">
+ 							<Collection>
+								<NavigationPropertyPath></NavigationPropertyPath>
+ 								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+ 								<NavigationPropertyPath>_DerivedItem</NavigationPropertyPath>
+								<NavigationPropertyPath>SalesOrder</NavigationPropertyPath>
+								<NavigationPropertyPath>SlsOrdReqSimlnStsCriticality</NavigationPropertyPath>
+								<NavigationPropertyPath>SlsOrdReqSmltdAmtDiffCritlty</NavigationPropertyPath>
+								<NavigationPropertyPath>TotalNetAmount</NavigationPropertyPath>
+								<NavigationPropertyPath>SalesOrderReqSimulationStatus</NavigationPropertyPath>
+								<NavigationPropertyPath>SlsOrdReqSimlnStsDescription</NavigationPropertyPath>
+								<NavigationPropertyPath>TransactionCurrency</NavigationPropertyPath>
+								<NavigationPropertyPath>__OperationControl/SimulateFollowOnSalesOrder</NavigationPropertyPath>
+								<NavigationPropertyPath>__OperationControl/CreateFollowOnSalesOrder</NavigationPropertyPath>
+								<NavigationPropertyPath>__OperationControl/AnalyzeFileContent</NavigationPropertyPath>
+ 							</Collection>
+ 						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrderRequest.SimulateFollowOnSalesOrder">
+				<Annotation Term="Common.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetEntities">
+ 							<Collection>
+								<NavigationPropertyPath></NavigationPropertyPath>
+ 								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+ 								<NavigationPropertyPath>_DerivedItem</NavigationPropertyPath>
+								<NavigationPropertyPath>SalesOrder</NavigationPropertyPath>
+								<NavigationPropertyPath>SlsOrdReqSimlnStsCriticality</NavigationPropertyPath>
+								<NavigationPropertyPath>SlsOrdReqSmltdAmtDiffCritlty</NavigationPropertyPath>
+								<NavigationPropertyPath>TotalNetAmount</NavigationPropertyPath>
+								<NavigationPropertyPath>SalesOrderReqSimulationStatus</NavigationPropertyPath>
+								<NavigationPropertyPath>SlsOrdReqSimlnStsDescription</NavigationPropertyPath>
+								<NavigationPropertyPath>TransactionCurrency</NavigationPropertyPath>
+								<NavigationPropertyPath>__OperationControl/SimulateFollowOnSalesOrder</NavigationPropertyPath>
+								<NavigationPropertyPath>__OperationControl/CreateFollowOnSalesOrder</NavigationPropertyPath>
+								<NavigationPropertyPath>__OperationControl/AnalyzeFileContent</NavigationPropertyPath>
+ 							</Collection>
+ 						</PropertyValue>
+						 <PropertyValue Property="TriggerAction" String="com.sap.gateway.srvd.c_slsordreqfrmextsource_sd.v0001.Validate" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrderRequest.AnalyzeFileContent">
+				<Annotation Term="Common.SideEffects">
+					<Record>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SalesOrderReqExtractionStatus</PropertyPath>
+								<PropertyPath>SlsOrdReqXtrctnStsCriticality</PropertyPath>
+								<PropertyPath>SlsOrdReqXtrctnStsDescription</PropertyPath>
+								<PropertyPath>__OperationControl/AnalyzeFileContent</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrderRequest.SalesOrderRequestType/SoldToParty">
+				<Annotation Term="Common.SemanticObject" String="Customer"/>
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection>
+						<Record Type="Common.SemanticObjectMappingType">
+							<PropertyValue Property="LocalProperty" PropertyPath="SoldToParty"/>
+							<PropertyValue Property="SemanticObjectProperty" String="Customer"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrderRequest.SalesOrderRequestType/ShipToParty">
+				<Annotation Term="Common.SemanticObject" String="Customer"/>
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection>
+						<Record Type="Common.SemanticObjectMappingType">
+							<PropertyValue Property="LocalProperty" PropertyPath="ShipToParty"/>
+							<PropertyValue Property="SemanticObjectProperty" String="Customer"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrderRequest.SalesOrderRequestType">
+				<Annotation Term="Common.SideEffects" Qualifier="SoldToPartySideEffect" >
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>SoldToParty</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SoldToPartyStreetName</PropertyPath>
+								<PropertyPath>SoldToPartyHouseNumber</PropertyPath>
+								<PropertyPath>SoldToPartyPostalCode</PropertyPath>
+								<PropertyPath>SoldToPartyCityName</PropertyPath>
+								<PropertyPath>SoldToPartyCountryName</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.SideEffects" Qualifier="ShipToPartySideEffect">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>ShipToParty</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>ShipToPartyStreetName</PropertyPath>
+								<PropertyPath>ShipToPartyHouseNumber</PropertyPath>
+								<PropertyPath>ShipToPartyPostalCode</PropertyPath>
+								<PropertyPath>ShipToPartyCityName</PropertyPath>
+								<PropertyPath>ShipToPartyCountryName</PropertyPath>
+								<PropertyPath>SlsOrdReqSimlnStsCriticality</PropertyPath>
+								<PropertyPath>SlsOrdReqSmltdAmtDiffCritlty</PropertyPath>
+								<PropertyPath>TotalNetAmount</PropertyPath>
+								<PropertyPath>SalesOrderReqSimulationStatus</PropertyPath>
+								<PropertyPath>SlsOrdReqSimlnStsDescription</PropertyPath>
+								<PropertyPath>TransactionCurrency</PropertyPath>
+								<PropertyPath>__OperationControl/SimulateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/CreateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/AnalyzeFileContent</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.SideEffects" Qualifier="MandantoryCheck">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<!--<NavigationPropertyPath/>-->
+								<PropertyPath>SalesOrderType</PropertyPath>
+								<PropertyPath>SoldToParty</PropertyPath>
+								<PropertyPath>ShipToParty</PropertyPath>
+								<PropertyPath>SalesOrganization</PropertyPath>
+								<PropertyPath>DistributionChannel</PropertyPath>
+								<PropertyPath>OrganizationDivision</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="SourceEntities">
+							<Collection>
+								<NavigationPropertyPath>_Item</NavigationPropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SAP__Messages</PropertyPath>
+								<PropertyPath>ProcessingStatusDesc</PropertyPath>
+								<PropertyPath>SlsOrdReqProcgStsCriticality</PropertyPath>
+								<PropertyPath>SlsOrdReqSimlnStsCriticality</PropertyPath>
+								<PropertyPath>SlsOrdReqSmltdAmtDiffCritlty</PropertyPath>
+								<PropertyPath>TotalNetAmount</PropertyPath>
+								<PropertyPath>SalesOrderReqSimulationStatus</PropertyPath>
+								<PropertyPath>SlsOrdReqSimlnStsDescription</PropertyPath>
+								<PropertyPath>TransactionCurrency</PropertyPath>
+								<PropertyPath>__OperationControl/SimulateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/CreateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/AnalyzeFileContent</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TriggerAction" String="com.sap.gateway.srvd.c_slsordreqfrmextsource_sd.v0001.Validate" />
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.SideEffects" Qualifier="RequestDateSideEffect">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>RequestedDeliveryDate</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SlsOrdReqSimlnStsCriticality</PropertyPath>
+								<PropertyPath>SlsOrdReqSmltdAmtDiffCritlty</PropertyPath>
+								<PropertyPath>TotalNetAmount</PropertyPath>
+								<PropertyPath>SalesOrderReqSimulationStatus</PropertyPath>
+								<PropertyPath>SlsOrdReqSimlnStsDescription</PropertyPath>
+								<PropertyPath>TransactionCurrency</PropertyPath>
+								<PropertyPath>__OperationControl/SimulateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/CreateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/AnalyzeFileContent</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.SideEffects" Qualifier="CustomerRefSideEffect">
+					<Record>
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>PurchaseOrderByCustomer</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>SlsOrdReqSimlnStsCriticality</PropertyPath>
+								<PropertyPath>SlsOrdReqSmltdAmtDiffCritlty</PropertyPath>
+								<PropertyPath>TotalNetAmount</PropertyPath>
+								<PropertyPath>SalesOrderReqSimulationStatus</PropertyPath>
+								<PropertyPath>SlsOrdReqSimlnStsDescription</PropertyPath>
+								<PropertyPath>TransactionCurrency</PropertyPath>
+								<PropertyPath>__OperationControl/SimulateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/CreateFollowOnSalesOrder</PropertyPath>
+								<PropertyPath>__OperationControl/AnalyzeFileContent</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant" Qualifier="All">
+					<Record Type="UI.SelectionVariantType">
+						<PropertyValue Property="SelectOptions">
+							<Collection>
+							<Record Type="UI.SelectOptionType">
+								<PropertyValue Property="PropertyName" PropertyPath="SalesOrderReqProcessingStatus" />
+								<PropertyValue Property="Ranges">
+									<Collection/>
+								</PropertyValue>
+							</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Text" String="{i18n&gt;filter_variant_all}" />
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant" Qualifier="InProcess">
+					<Record Type="UI.SelectionVariantType">
+						<PropertyValue Property="SelectOptions">
+							<Collection>
+							<Record Type="UI.SelectOptionType">
+								<PropertyValue Property="PropertyName" PropertyPath="SalesOrderReqProcessingStatus" />
+								<PropertyValue Property="Ranges">
+									<Collection>
+										<Record Type="UI.SelectionRangeType">
+										<PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/NE" />
+										<PropertyValue Property="Low" String="C" />
+										</Record>
+									</Collection>
+								</PropertyValue>
+							</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Text" String="{i18n&gt;filter_variant_inprocess}" />
+					</Record>
+				</Annotation>
+				<Annotation Term="UI.SelectionVariant" Qualifier="Completed">
+					<Record Type="UI.SelectionVariantType">
+						<PropertyValue Property="SelectOptions">
+							<Collection>
+							<Record Type="UI.SelectOptionType">
+								<PropertyValue Property="PropertyName" PropertyPath="SalesOrderReqProcessingStatus" />
+								<PropertyValue Property="Ranges">
+									<Collection>
+										<Record Type="UI.SelectionRangeType">
+										<PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/EQ" />
+										<PropertyValue Property="Low" String="C" />
+										</Record>
+									</Collection>
+								</PropertyValue>
+							</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Text" String="{i18n&gt;filter_variant_completed}" />
+					</Record>
+				</Annotation>
+			</Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

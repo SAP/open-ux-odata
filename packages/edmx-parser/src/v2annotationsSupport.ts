@@ -1,4 +1,4 @@
-import type { Annotation, PropertyValue } from '@sap-ux/vocabularies-types';
+import type { RawAnnotation, PropertyValue } from '@sap-ux/vocabularies-types';
 import { CoreAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Core';
 import { CapabilitiesAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Capabilities';
 import { CommonAnnotationTerms, FieldControlType } from '@sap-ux/vocabularies-types/vocabularies/Common';
@@ -58,8 +58,8 @@ export function convertV2Annotations(
     attributes: V2annotationsSupport,
     objectType: ObjectType,
     objectName: string
-): Annotation[] {
-    const annotations: Annotation[] = [];
+): RawAnnotation[] {
+    const annotations: RawAnnotation[] = [];
     if (attributes['sap:schema-version']) {
         annotations.push({
             term: CoreAnnotationTerms.SchemaVersion,

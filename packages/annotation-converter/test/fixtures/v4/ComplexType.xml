@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+	<edmx:DataServices>
+		<Schema Namespace="MyService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<EntityContainer Name="EntityContainer">
+				<EntitySet Name="TestEntity" EntityType="MyService.TestEntity"/>
+			</EntityContainer>
+			<EntityType Name="TestEntity">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+				<Property Name="complexProperty1" Type="MyService.TestEntity_complexProperty1"/>
+			</EntityType>
+			<ComplexType Name="TestEntity_complexProperty1">
+				<Property Name="simpleProperty" Type="Edm.Date"/>
+				<Property Name="complexProperty2" Type="MyService.TestEntity_complexProperty1_complexProperty2"/>
+			</ComplexType>
+			<ComplexType Name="TestEntity_complexProperty1_complexProperty2">
+				<Property Name="simpleProperty" Type="Edm.TimeOfDay"/>
+				<Property Name="complexProperty3"
+						  Type="MyService.TestEntity_complexProperty1_complexProperty2_complexProperty3"/>
+			</ComplexType>
+			<ComplexType Name="TestEntity_complexProperty1_complexProperty2_complexProperty3">
+				<Property Name="simpleProperty" Type="Edm.Boolean"/>
+			</ComplexType>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>
