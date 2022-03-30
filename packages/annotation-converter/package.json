@@ -17,7 +17,7 @@
         "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u"
     },
     "devDependencies": {
-        "@sap-ux/vocabularies-types": "0.5.0",
-        "@sap-ux/edmx-parser": "0.5.0"
+        "@sap-ux/vocabularies-types": "workspace:*",
+        "@sap-ux/edmx-parser": "workspace:*"
     }
 }
