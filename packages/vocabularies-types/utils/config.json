@@ -5,13 +5,13 @@
     "Aggregation": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Aggregation.V1.json",
     "Validation": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.json",
     "Measures": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.json",
-    "Analytics": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/Analytics.json",
-    "Common": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/Common.json",
-    "CodeList": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/CodeList.json",
-    "Communication": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/Communication.json",
-    "Hierarchy": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/Hierarchy.json",
-    "PersonalData": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/PersonalData.json",
-    "Session": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/Session.json",
-    "UI": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/UI.json",
-    "HTML5": "https://raw.githubusercontent.com/SAP/odata-vocabularies/master/vocabularies/HTML5.json"
+    "Analytics": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/Analytics.json",
+    "Common": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/Common.json",
+    "CodeList": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/CodeList.json",
+    "Communication": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/Communication.json",
+    "Hierarchy": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/Hierarchy.json",
+    "PersonalData": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/PersonalData.json",
+    "Session": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/Session.json",
+    "UI": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/UI.json",
+    "HTML5": "https://raw.githubusercontent.com/SAP/odata-vocabularies/main/vocabularies/HTML5.json"
 }

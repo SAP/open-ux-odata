@@ -47,13 +47,22 @@ importers:
             ts-node: 10.7.0_700a101d4d091bc4ae03b3dcc2f412b4
             typescript: 4.6.3
 
+    packages/annotation-converter:
+        specifiers:
+            '@sap-ux/edmx-parser': 0.5.0
+            '@sap-ux/vocabularies-types': 0.5.0
+        devDependencies:
+            '@sap-ux/edmx-parser': link:../edmx-parser
+            '@sap-ux/vocabularies-types': link:../vocabularies-types
+
     packages/edmx-parser:
         specifiers:
             '@sap-ux/vocabularies-types': 0.5.0
             xml-js: 1.6.11
         dependencies:
-            '@sap-ux/vocabularies-types': link:../vocabularies-types
             xml-js: 1.6.11
+        devDependencies:
+            '@sap-ux/vocabularies-types': link:../vocabularies-types
 
     packages/vocabularies-types:
         specifiers:

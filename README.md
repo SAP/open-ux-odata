@@ -13,8 +13,9 @@ This repository contains a collection of utilities around the OData protocol tha
 
 ## Modules
 
-[@sap-ux/vocabularies-types](./packages/vocabularies-types) : An opinionated set of types representing the OData vocabularies.
-[@sap-ux/edmx-parser](./packages/edmx-parser) : A simple parser of OData metadata document (v2 and v4) that generates an object representation.
+- [@sap-ux/vocabularies-types](./packages/vocabularies-types) : An opinionated set of types representing the OData vocabularies.
+- [@sap-ux/edmx-parser](./packages/edmx-parser) : A simple parser of OData metadata document (v2 and v4) that generates an object representation.
+- [@sap-ux/annotation-converter](./packages/annotation-converter) : A tool that allows to provide a convenient API on top of the metadata and annotations.
 
 ## Requirements
 Everything is released as node modules requiring node with a version matching `">=12.22.5 < 13.0.0 || >= 14.16.0 < 15.0.0 || >=16.1.0 < 17.0.0"`.

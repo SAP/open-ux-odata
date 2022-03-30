@@ -1,0 +1,1709 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_SESSION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.Session.v1" Alias="Session" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI" />
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="com.sap.gateway.srvd.c_salesordermanage_sd.v0001" Alias="SAP__self">
+			<EntityType Name="SalesDocApprovalStatusType">
+				<Key>
+					<PropertyRef Name="SalesDocApprovalStatus" />
+				</Key>
+				<Property Name="SalesDocApprovalStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SalesDocApprovalStatus_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="SalesOrderItemType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+					<PropertyRef Name="SalesOrderItem" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrderItem" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="HigherLevelItem" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="SalesOrderItemCategory" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesOrderItemText" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="18" />
+				<Property Name="MaterialByCustomer" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="PurchaseOrderByCustomer" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="RequestedDeliveryDate" Type="Edm.Date" />
+				<Property Name="ConfirmedDeliveryDate" Type="Edm.Date" />
+				<Property Name="ConfdDelivQtyInOrderQtyUnit" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" />
+				<Property Name="OrderQuantityUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="RequestedQuantity" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" />
+				<Property Name="RequestedQuantityUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="ItemGrossWeight" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" />
+				<Property Name="ItemNetWeight" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" />
+				<Property Name="ItemWeightUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="ItemVolume" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" />
+				<Property Name="ItemVolumeUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="PricingDate" Type="Edm.Date" />
+				<Property Name="BillingDocumentDate" Type="Edm.Date" />
+				<Property Name="MaterialGroup" Type="Edm.String" Nullable="false" MaxLength="9" />
+				<Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ShippingPoint" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ShippingType" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Route" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="DeliveryPriority" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="PartialDeliveryIsAllowed" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="MaxNmbrOfPartialDelivery" Type="Edm.Decimal" Nullable="false" Precision="1" />
+				<Property Name="IncotermsClassification" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="IncotermsLocation1" Type="Edm.String" Nullable="false" MaxLength="70" />
+				<Property Name="IncotermsLocation2" Type="Edm.String" Nullable="false" MaxLength="70" />
+				<Property Name="IncotermsVersion" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CustomerPaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CustomerPriceGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="MaterialPricingGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ItemBillingBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="SalesDocumentRjcnReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="TransactionCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="NetAmount" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="variable" />
+				<Property Name="SDProcessStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SDDocumentRejectionStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DeliveryStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="BillingBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="ItemGeneralIncompletionStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DeliveryBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="ChmlCmplncStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DangerousGoodsStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SafetyDataSheetStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="BusinessArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ProfitCenter" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="WBSElementExternalID" Type="Edm.String" Nullable="false" MaxLength="24" />
+				<Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" />
+				<Property Name="BillingBlockStatusCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="DeliveryBlockStatusCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="BillingBlockCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="ItmGenIncompltnStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="SDDocRejectionStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="DeliveryStatusCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="ChmlCmplncStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="DngrsGdsStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="SftyDataShtStatCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="RemoveBillingBlockIsHidden" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="__CreateByAssociationControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemCbAControl" />
+				<Property Name="__EntityControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.EntityControl" />
+				<Property Name="__FieldControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemControl" />
+				<Property Name="__OperationControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemOperationControl" />
+				<Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SAP__Message)" Nullable="false" />
+				<NavigationProperty Name="_BillingBlockStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingBlockStatusType" />
+				<NavigationProperty Name="_BusinessArea" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BusinessAreaType" />
+				<NavigationProperty Name="_ChmlCmplncStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ChmlCmplncStatusType" />
+				<NavigationProperty Name="_CustomerPaymentTerms" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPaymentTermsType" />
+				<NavigationProperty Name="_CustomerPriceGroup" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPriceGroupType" />
+				<NavigationProperty Name="_DangerousGoodsStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DangerousGoodsStatusType" />
+				<NavigationProperty Name="_DeliveryBlockStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryBlockStatusType" />
+				<NavigationProperty Name="_DeliveryPriority" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryPriorityType" />
+				<NavigationProperty Name="_DeliveryStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryStatusType" />
+				<NavigationProperty Name="_IncotermsClassification" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.IncotermsClassificationType" />
+				<NavigationProperty Name="_IncotermsVersion" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.IncotermsVersionType" />
+				<NavigationProperty Name="_ItemBillingBlockReason" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingBlockReasonType" />
+				<NavigationProperty Name="_ItemCategory" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemCategoryType" />
+				<NavigationProperty
+					Name="_ItemGeneralIncompletionStatus"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemGeneralIncompletionStatusType"
+				/>
+				<NavigationProperty Name="_ItemPartner" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemPartnerType)" Partner="_Item">
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+				<NavigationProperty
+					Name="_ItemPricingElement"
+					Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemPricingElementType)"
+					Partner="_Item"
+				>
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+				<NavigationProperty Name="_ItemVolumeUnit" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UnitOfMeasureType" />
+				<NavigationProperty Name="_ItemWeightUnit" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UnitOfMeasureType" />
+				<NavigationProperty Name="_Material" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.MaterialType" />
+				<NavigationProperty Name="_MaterialGroup" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.MaterialGroupType" />
+				<NavigationProperty Name="_OrderQuantityUnit" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UnitOfMeasureType" />
+				<NavigationProperty Name="_PartialDeliveryItem" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PartialDeliveryItemType" />
+				<NavigationProperty Name="_Plant" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PlantType" />
+				<NavigationProperty Name="_ProductPricingGroup" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ProductPricingGroupType" />
+				<NavigationProperty Name="_ProfitCenter" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ProfitCenterType" />
+				<NavigationProperty Name="_RequestedQuantityUnit" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UnitOfMeasureType" />
+				<NavigationProperty Name="_Route" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RouteType" />
+				<NavigationProperty Name="_SafetyDataSheetStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SafetyDataSheetStatusType" />
+				<NavigationProperty Name="_SalesDocumentRjcnReason" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesDocumentRjcnReasonType" />
+				<NavigationProperty
+					Name="_SalesOrder"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType"
+					Nullable="false"
+					Partner="_Item"
+				/>
+				<NavigationProperty
+					Name="_ScheduleLine"
+					Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderScheduleLineType)"
+					Partner="_Item"
+				>
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+				<NavigationProperty
+					Name="_SDDocumentRejectionStatus"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SDDocumentRejectionStatusType"
+				/>
+				<NavigationProperty Name="_SDProcessStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ProcessStatusType" />
+				<NavigationProperty Name="_ShippingPoint" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ShippingPointType" />
+				<NavigationProperty Name="_ShippingType" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ShippingTypeType" />
+				<NavigationProperty Name="_StorageLocation" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.StorageLocationType" />
+				<NavigationProperty Name="_Text" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemTextType)" Partner="_Item">
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+			</EntityType>
+			<EntityType Name="SlsPricingProcedureType">
+				<Key>
+					<PropertyRef Name="PricingProcedure" />
+				</Key>
+				<Property Name="PricingProcedure" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="PricingProcedure_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="ConditionUsage" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="ConditionApplication" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</EntityType>
+			<EntityType Name="LongTextIDType">
+				<Key>
+					<PropertyRef Name="LongTextID" />
+				</Key>
+				<Property Name="LongTextID" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="LongTextID_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="TextObjectCategory" Type="Edm.String" Nullable="false" MaxLength="10" />
+			</EntityType>
+			<EntityType Name="ItemPartnerType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+					<PropertyRef Name="SalesOrderItem" />
+					<PropertyRef Name="PartnerFunction" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrderItem" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="PartnerFunction" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<Property Name="PartnerIsSpecificForSDDocItem" Type="Edm.Boolean" Nullable="false" />
+				<NavigationProperty
+					Name="_Item"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType"
+					Nullable="false"
+					Partner="_ItemPartner"
+				/>
+				<NavigationProperty Name="_PartnerFunction" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PartnerFunctionType" />
+				<NavigationProperty Name="_SalesOrder" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+			</EntityType>
+			<EntityType Name="SalesOrderManageType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrderType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SoldToParty" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="DistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="OrganizationDivision" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ReferenceDistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="SalesOffice" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesGroup" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="SalesDistrict" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="PurchaseOrderByCustomer" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="CustomerPurchaseOrderType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CustomerPurchaseOrderDate" Type="Edm.Date" />
+				<Property Name="CustomerGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="SDDocumentReason" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="PricingDate" Type="Edm.Date" />
+				<Property Name="SDPricingProcedure" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="CustomerPriceGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ShippingCondition" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="CompleteDeliveryIsDefined" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="ShippingType" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="IncotermsClassification" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="IncotermsVersion" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="IncotermsLocation1" Type="Edm.String" Nullable="false" MaxLength="70" />
+				<Property Name="IncotermsLocation2" Type="Edm.String" Nullable="false" MaxLength="70" />
+				<Property Name="HeaderBillingBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="DeliveryBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="SalesOrderApprovalReason" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CustomerPaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="BillingCompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="PaymentMethod" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="TotalNetAmount" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="variable" />
+				<Property Name="TransactionCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="OverallSDProcessStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallDeliveryBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallBillingBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallDeliveryStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="TotalCreditCheckStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallSDDocumentRejectionSts" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="TotalBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="HdrGeneralIncompletionStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OvrlItmGeneralIncompletionSts" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallSDDocReferenceStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SalesDocApprovalStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallChmlCmplncStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallDangerousGoodsStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallSafetyDataSheetStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" />
+				<Property Name="SalesOrderDate" Type="Edm.Date" />
+				<Property Name="ControllingArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CreatedByUser" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="SalesDocumentCreationDateTime" Type="Edm.DateTimeOffset" Precision="7" />
+				<Property Name="LastChangedByUser" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="DeliveryBlockStatusCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="BillingBlockStatusCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="BillingBlockCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="DeliveryBlockCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="OvrlSDDocRejectionStsCritlty" Type="Edm.Byte" Nullable="false" />
+				<Property Name="TotalCreditCheckStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="OvrlDeliveryStatusCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="TotalBlockStatusCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="HdrGenIncompltnStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="OvrlItmGenIncompltnStsCritlty" Type="Edm.Byte" Nullable="false" />
+				<Property Name="SalesDocApprovalStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="OvrlChmlCmplncStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="OvrlDngrsGdsStsCriticality" Type="Edm.Byte" Nullable="false" />
+				<Property Name="OvrlSftyDataSheetStsCritlty" Type="Edm.Byte" Nullable="false" />
+				<Property Name="RemoveBillingBlockIsHidden" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="RemoveDeliveryBlockIsHidden" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="SetBillingBlockIsHidden" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="SetDeliveryBlockIsHidden" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="UpdatePricesIsHidden" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="SalesOrderTypeName" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="isUpdatable" Type="Edm.Boolean" Nullable="false" DefaultValue="true" />
+				<Property Name="__CreateByAssociationControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageCbAControl" />
+				<Property Name="__FieldControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageControl" />
+				<Property Name="__OperationControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageOperationControl" />
+				<Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SAP__Message)" Nullable="false" />
+				<NavigationProperty Name="_BillingCompanyCode" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingCompanyCodeType" />
+				<NavigationProperty Name="_ControllingArea" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ControllingAreaType" />
+				<NavigationProperty Name="_CreatedByUser" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UserType" />
+				<NavigationProperty Name="_CreditLimitDetails" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CreditLimitDetailsType" />
+				<NavigationProperty Name="_CustomerGroup" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerGroupType" />
+				<NavigationProperty Name="_CustomerPaymentTerms" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPaymentTermsType" />
+				<NavigationProperty Name="_CustomerPriceGroup" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPriceGroupType" />
+				<NavigationProperty
+					Name="_CustomerPurchaseOrderType"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPurchaseOrderTypeType"
+				/>
+				<NavigationProperty Name="_DeliveryBlockReason" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryBlockReasonType" />
+				<NavigationProperty Name="_DistributionChannel" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DistributionChannelType" />
+				<NavigationProperty
+					Name="_HdrGeneralIncompletionStatus"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.HdrGeneralIncompletionStatusType"
+				/>
+				<NavigationProperty Name="_HeaderBillingBlockReason" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingBlockReasonType" />
+				<NavigationProperty Name="_IncotermsClassification" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.IncotermsClassificationType" />
+				<NavigationProperty Name="_IncotermsVersion" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.IncotermsVersionType" />
+				<NavigationProperty
+					Name="_Item"
+					Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType)"
+					Partner="_SalesOrder"
+				>
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+				<NavigationProperty Name="_LastChangedByUser" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UserType" />
+				<NavigationProperty Name="_OrganizationDivision" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OrganizationDivisionType" />
+				<NavigationProperty
+					Name="_OverallBillingBlockStatus"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallBillingBlockStatusType"
+				/>
+				<NavigationProperty Name="_OverallChmlCmplncStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallChmlCmplncStatusType" />
+				<NavigationProperty
+					Name="_OverallDangerousGoodsStatus"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallDangerousGoodsStatusType"
+				/>
+				<NavigationProperty
+					Name="_OverallDeliveryBlockStatus"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallDeliveryBlockStatusType"
+				/>
+				<NavigationProperty Name="_OverallDeliveryStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallDeliveryStatusType" />
+				<NavigationProperty
+					Name="_OverallSDDocReferenceStatus"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallSDDocReferenceStatusType"
+				/>
+				<NavigationProperty
+					Name="_OverallSDDocumentRejectionSts"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallSDDocumentRjcnStatusType"
+				/>
+				<NavigationProperty Name="_OverallSDProcessStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallSDProcessStatusType" />
+				<NavigationProperty
+					Name="_OvrlItmGeneralIncompletionSts"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OvrlItmGeneralIncompletionStsType"
+				/>
+				<NavigationProperty Name="_OvrlSftyDataSheetSts" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OvrlSftyDataSheetStsType" />
+				<NavigationProperty
+					Name="_Partner"
+					Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.HeaderPartnerType)"
+					Partner="_SalesOrder"
+				>
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+				<NavigationProperty Name="_PaymentMethodVH" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PaymentMethodType" />
+				<NavigationProperty Name="_SalesDistrict" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesDistrictType" />
+				<NavigationProperty Name="_SalesDocApprovalStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesDocApprovalStatusType" />
+				<NavigationProperty Name="_SalesGroup" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesGroupType" />
+				<NavigationProperty Name="_SalesOffice" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOfficeType" />
+				<NavigationProperty Name="_SalesOrderApprovalReason" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderApprovalReasonType" />
+				<NavigationProperty Name="_SalesOrderType" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderTypeType" />
+				<NavigationProperty Name="_SalesOrganization" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrganizationType" />
+				<NavigationProperty Name="_SDDocumentReason" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SDDocumentReasonType" />
+				<NavigationProperty Name="_SDPricingProcedure" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SlsPricingProcedureType" />
+				<NavigationProperty Name="_ShippingCondition" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ShippingConditionType" />
+				<NavigationProperty Name="_ShippingType" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ShippingTypeType" />
+				<NavigationProperty
+					Name="_ShipToParty"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.HeaderShipToPartyType"
+					Nullable="false"
+					Partner="_SalesOrder"
+				>
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+				<NavigationProperty Name="_SlsVolumeNetAmtYearToDate" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesVolumeType" />
+				<NavigationProperty Name="_SoldToParty" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerType">
+					<ReferentialConstraint Property="SoldToParty" ReferencedProperty="Customer" />
+				</NavigationProperty>
+				<NavigationProperty
+					Name="_Text"
+					Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderTextType)"
+					Partner="_SalesOrder"
+				>
+					<OnDelete Action="Cascade" />
+				</NavigationProperty>
+				<NavigationProperty Name="_TotalBlockStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TotalBlockStatusType" />
+				<NavigationProperty Name="_TotalCreditCheckStatus" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TotalCreditCheckStatusType" />
+				<NavigationProperty Name="_TransactionCurrency" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TransactionCurrencyType" />
+			</EntityType>
+			<EntityType Name="ChmlCmplncStatusType">
+				<Key>
+					<PropertyRef Name="ChmlCmplncStatus" />
+				</Key>
+				<Property Name="ChmlCmplncStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="ChmlCmplncStatus_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="OverallChmlCmplncStatusType">
+				<Key>
+					<PropertyRef Name="OverallChmlCmplncStatus" />
+				</Key>
+				<Property Name="OverallChmlCmplncStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallChmlCmplncStatus_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="OverallBillingBlockStatusType">
+				<Key>
+					<PropertyRef Name="OverallBillingBlockStatus" />
+				</Key>
+				<Property Name="OverallBillingBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallBillingBlockStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="CustomerPriceGroupType">
+				<Key>
+					<PropertyRef Name="CustomerPriceGroup" />
+				</Key>
+				<Property Name="CustomerPriceGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="CustomerPriceGroup_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="OverallDeliveryStatusType">
+				<Key>
+					<PropertyRef Name="OverallDeliveryStatus" />
+				</Key>
+				<Property Name="OverallDeliveryStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallDeliveryStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="FormOfAddressType">
+				<Key>
+					<PropertyRef Name="FormOfAddress" />
+				</Key>
+				<Property Name="FormOfAddress" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="FormOfAddress_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+			</EntityType>
+			<EntityType Name="ItemGeneralIncompletionStatusType">
+				<Key>
+					<PropertyRef Name="ItemGeneralIncompletionStatus" />
+				</Key>
+				<Property Name="ItemGeneralIncompletionStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="ItemGeneralIncompletionStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="RouteType">
+				<Key>
+					<PropertyRef Name="Route" />
+				</Key>
+				<Property Name="Route" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="Route_Text" Type="Edm.String" Nullable="false" MaxLength="40" />
+			</EntityType>
+			<EntityType Name="CustomerPurchaseOrderTypeType">
+				<Key>
+					<PropertyRef Name="CustomerPurchaseOrderType" />
+				</Key>
+				<Property Name="CustomerPurchaseOrderType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CustomerPurchaseOrderType_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="PaymentMethodType">
+				<Key>
+					<PropertyRef Name="BillingCompanyCode" />
+					<PropertyRef Name="PaymentMethod" />
+				</Key>
+				<Property Name="BillingCompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="PaymentMethod" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="PaymentMethodName" Type="Edm.String" Nullable="false" MaxLength="30" />
+			</EntityType>
+			<EntityType Name="UserType">
+				<Key>
+					<PropertyRef Name="UserID" />
+				</Key>
+				<Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="UserDescription" Type="Edm.String" Nullable="false" MaxLength="80" />
+			</EntityType>
+			<EntityType Name="PartialDeliveryItemType">
+				<Key>
+					<PropertyRef Name="PartialDeliveryIsAllowed" />
+				</Key>
+				<Property Name="PartialDeliveryIsAllowed" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="PartialDeliveryIsAllowed_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="UnitOfMeasureType">
+				<Key>
+					<PropertyRef Name="UnitOfMeasure" />
+				</Key>
+				<Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="UnitOfMeasure_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="UnitOfMeasureSAPCode" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="UnitOfMeasureISOCode" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="IsPrimaryUnitForISOCode" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="UnitOfMeasureNumberOfDecimals" Type="Edm.Int16" Nullable="false" />
+				<Property Name="UnitOfMeasureIsCommercial" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="UnitOfMeasureDimension" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="SIUnitCnvrsnRateNumerator" Type="Edm.Int32" Nullable="false" />
+				<Property Name="SIUnitCnvrsnRateDenominator" Type="Edm.Int32" Nullable="false" />
+				<Property Name="SIUnitCnvrsnRateExponent" Type="Edm.Int16" Nullable="false" />
+				<Property Name="SIUnitCnvrsnAdditiveValue" Type="Edm.Decimal" Nullable="false" Precision="9" Scale="6" />
+				<Property Name="UnitOfMeasureDspExponent" Type="Edm.Int16" Nullable="false" />
+				<Property Name="UnitOfMeasureDspNmbrOfDcmls" Type="Edm.Int16" Nullable="false" />
+				<Property Name="UnitOfMeasureTemperature" Type="Edm.Double" Nullable="false" />
+				<Property Name="UnitOfMeasureTemperatureUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="UnitOfMeasurePressure" Type="Edm.Double" Nullable="false" />
+				<Property Name="UnitOfMeasurePressureUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+			</EntityType>
+			<EntityType Name="DeliveryPriorityType">
+				<Key>
+					<PropertyRef Name="DeliveryPriority" />
+				</Key>
+				<Property Name="DeliveryPriority" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="DeliveryPriority_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="OrganizationDivisionType">
+				<Key>
+					<PropertyRef Name="Division" />
+				</Key>
+				<Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Division_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="TotalBlockStatusType">
+				<Key>
+					<PropertyRef Name="TotalBlockStatus" />
+				</Key>
+				<Property Name="TotalBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="TotalBlockStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="SDDocumentRejectionStatusType">
+				<Key>
+					<PropertyRef Name="SDDocumentRejectionStatus" />
+				</Key>
+				<Property Name="SDDocumentRejectionStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SDDocumentRejectionStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="SalesDistrictType">
+				<Key>
+					<PropertyRef Name="SalesDistrict" />
+				</Key>
+				<Property Name="SalesDistrict" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="SalesDistrict_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="OvrlSftyDataSheetStsType">
+				<Key>
+					<PropertyRef Name="OverallSafetyDataSheetStatus" />
+				</Key>
+				<Property Name="OverallSafetyDataSheetStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallSafetyDataSheetStatus_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="SalesDocumentRjcnReasonType">
+				<Key>
+					<PropertyRef Name="SalesDocumentRjcnReason" />
+				</Key>
+				<Property Name="SalesDocumentRjcnReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="SalesDocumentRjcnReason_Text" Type="Edm.String" Nullable="false" MaxLength="40" />
+			</EntityType>
+			<EntityType Name="SalesOrderTypeType">
+				<Key>
+					<PropertyRef Name="SalesOrderType" />
+				</Key>
+				<Property Name="SalesOrderType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesOrderType_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="SalesOrderProcessingType" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OrderTypeForBillingRequest" Type="Edm.String" Nullable="false" MaxLength="4" />
+			</EntityType>
+			<EntityType Name="BusinessPartnerType">
+				<Key>
+					<PropertyRef Name="SalesDocument" />
+					<PropertyRef Name="PartnerFunction" />
+				</Key>
+				<Property Name="SalesDocument" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="PartnerFunction" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<Property Name="PhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="PhoneNumberExtension" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="MobilePhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="MobilePhoneNumberExtension" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="FaxNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="FaxNumberExtension" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="EmailAddress" Type="Edm.String" Nullable="false" MaxLength="241" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+			</EntityType>
+			<EntityType Name="TotalCreditCheckStatusType">
+				<Key>
+					<PropertyRef Name="TotalCreditCheckStatus" />
+				</Key>
+				<Property Name="TotalCreditCheckStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="TotalCreditCheckStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="CustomerGroupType">
+				<Key>
+					<PropertyRef Name="CustomerGroup" />
+				</Key>
+				<Property Name="CustomerGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="CustomerGroup_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="CountryType">
+				<Key>
+					<PropertyRef Name="Country" />
+				</Key>
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="Country_Text" Type="Edm.String" Nullable="false" MaxLength="50" />
+				<Property Name="CountryThreeLetterISOCode" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="CountryThreeDigitISOCode" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="CountryCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="IndexBasedCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="HardCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="TaxCalculationProcedure" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="CountryAlternativeCode" Type="Edm.String" Nullable="false" MaxLength="3" />
+			</EntityType>
+			<EntityType Name="SalesOrderItemCategoryType">
+				<Key>
+					<PropertyRef Name="SalesDocumentItemCategory" />
+				</Key>
+				<Property Name="SalesDocumentItemCategory" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesDocumentItemCategory_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="BillingRelevanceCode" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="ScheduleLineIsAllowed" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="PricingRelevance" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="TextDeterminationProcedure" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</EntityType>
+			<EntityType Name="SafetyDataSheetStatusType">
+				<Key>
+					<PropertyRef Name="SafetyDataSheetStatus" />
+				</Key>
+				<Property Name="SafetyDataSheetStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SafetyDataSheetStatus_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="MaterialType">
+				<Key>
+					<PropertyRef Name="Material" />
+				</Key>
+				<Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="18" />
+				<Property Name="Material_Text" Type="Edm.String" Nullable="false" MaxLength="40" />
+			</EntityType>
+			<EntityType Name="ProfitCenterType">
+				<Key>
+					<PropertyRef Name="ControllingArea" />
+					<PropertyRef Name="ProfitCenter" />
+				</Key>
+				<Property Name="ControllingArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ControllingArea_Text" Type="Edm.String" Nullable="false" MaxLength="25" />
+				<Property Name="ProfitCenter" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="ProfitCenter_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="ValidityEndDate" Type="Edm.Date" />
+				<Property Name="ProfitCtrResponsiblePersonName" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ProfitCtrResponsibleUser" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="ValidityStartDate" Type="Edm.Date" />
+				<Property Name="Department" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="ProfitCenterStandardHierarchy" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="Segment" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="Segment_Text" Type="Edm.String" Nullable="false" MaxLength="50" />
+				<Property Name="ProfitCenterIsBlocked" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="FormulaPlanningTemplate" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="FormOfAddress" Type="Edm.String" Nullable="false" MaxLength="15" />
+				<Property Name="AddressName" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="AdditionalName" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="ProfitCenterAddrName3" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="ProfitCenterAddrName4" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="StreetAddressName" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="POBox" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CityName" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="PostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="POBoxPostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="District" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="Region" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="TaxJurisdiction" Type="Edm.String" Nullable="false" MaxLength="15" />
+				<Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="PhoneNumber1" Type="Edm.String" Nullable="false" MaxLength="16" />
+				<Property Name="PhoneNumber2" Type="Edm.String" Nullable="false" MaxLength="16" />
+				<Property Name="TeleboxNumber" Type="Edm.String" Nullable="false" MaxLength="15" />
+				<Property Name="TelexNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="FaxNumber" Type="Edm.String" Nullable="false" MaxLength="31" />
+				<Property Name="TeletexNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="DataCommunicationPhoneNumber" Type="Edm.String" Nullable="false" MaxLength="14" />
+				<Property Name="ProfitCenterPrinterName" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ProfitCenterCreatedByUser" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="ProfitCenterCreationDate" Type="Edm.Date" />
+				<NavigationProperty Name="_Company" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingCompanyCodeType" />
+				<NavigationProperty Name="_ControllingArea" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ControllingAreaType" Nullable="false" />
+				<NavigationProperty Name="_Country" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CountryType" />
+				<NavigationProperty Name="_Language" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.LanguageType" />
+				<NavigationProperty Name="_Region" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RegionType" />
+			</EntityType>
+			<EntityType Name="HeaderPartnerType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+					<PropertyRef Name="PartnerFunction" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="PartnerFunction" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SemanticObjectName" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="AddressID" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<Property Name="PhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="MobilePhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="PostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CityName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<NavigationProperty Name="_BusinessPartner" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BusinessPartnerType" />
+				<NavigationProperty Name="_PartnerFunction" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PartnerFunctionType" />
+				<NavigationProperty
+					Name="_SalesOrder"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType"
+					Nullable="false"
+					Partner="_Partner"
+				/>
+			</EntityType>
+			<EntityType Name="OvrlItmGeneralIncompletionStsType">
+				<Key>
+					<PropertyRef Name="OvrlItmGeneralIncompletionSts" />
+				</Key>
+				<Property Name="OvrlItmGeneralIncompletionSts" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OvrlItmGeneralIncompletionSts_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="CustomerSalesAreaType">
+				<Key>
+					<PropertyRef Name="Customer" />
+					<PropertyRef Name="SalesOrganization" />
+					<PropertyRef Name="DistributionChannel" />
+					<PropertyRef Name="Division" />
+				</Key>
+				<Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="DistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="CustomerName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<Property Name="PostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CityName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="OrganizationBPName1" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="OrganizationBPName2" Type="Edm.String" Nullable="false" MaxLength="35" />
+			</EntityType>
+			<EntityType Name="OverallSDDocReferenceStatusType">
+				<Key>
+					<PropertyRef Name="OverallSDDocReferenceStatus" />
+				</Key>
+				<Property Name="OverallSDDocReferenceStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallSDDocReferenceStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="SalesOfficeType">
+				<Key>
+					<PropertyRef Name="SalesOffice" />
+				</Key>
+				<Property Name="SalesOffice" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesOffice_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="SalesGroupType">
+				<Key>
+					<PropertyRef Name="SalesGroup" />
+				</Key>
+				<Property Name="SalesGroup" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="SalesGroup_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="DeliveryStatusType">
+				<Key>
+					<PropertyRef Name="DeliveryStatus" />
+				</Key>
+				<Property Name="DeliveryStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DeliveryStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="PartnerFunctionType">
+				<Key>
+					<PropertyRef Name="PartnerFunction" />
+				</Key>
+				<Property Name="PartnerFunction" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="PartnerFunction_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="SDDocumentPartnerType" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</EntityType>
+			<EntityType Name="DeliveryBlockStatusType">
+				<Key>
+					<PropertyRef Name="DeliveryBlockStatus" />
+				</Key>
+				<Property Name="DeliveryBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DeliveryBlockStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="CustomerType">
+				<Key>
+					<PropertyRef Name="Customer" />
+				</Key>
+				<Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CustomerName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<Property Name="OrganizationBPName1" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="OrganizationBPName2" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="BusinessPartnerImageURL" Type="Edm.String" Nullable="false" />
+				<Property Name="PostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CityName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="InternationalPhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="EmailAddress" Type="Edm.String" Nullable="false" MaxLength="241" />
+			</EntityType>
+			<EntityType Name="BillingBlockStatusType">
+				<Key>
+					<PropertyRef Name="BillingBlockStatus" />
+				</Key>
+				<Property Name="BillingBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="BillingBlockStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="SalesOrderTextType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+					<PropertyRef Name="Language" />
+					<PropertyRef Name="LongTextID" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="LongTextID" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="LongTextIDForEdit" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="LanguageForEdit" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="LongText" Type="Edm.String" Nullable="false" />
+				<Property Name="TextDeterminationProcedureItem" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="__EntityControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.EntityControl" />
+				<Property Name="__FieldControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderTextControl" />
+				<Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SAP__Message)" Nullable="false" />
+				<NavigationProperty Name="_Language" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.LanguageType" />
+				<NavigationProperty Name="_LongTextID" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.LongTextIDType" />
+				<NavigationProperty
+					Name="_SalesOrder"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType"
+					Nullable="false"
+					Partner="_Text"
+				/>
+			</EntityType>
+			<EntityType Name="ProcessStatusType">
+				<Key>
+					<PropertyRef Name="SDProcessStatus" />
+				</Key>
+				<Property Name="SDProcessStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SDProcessStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="IncotermsClassificationType">
+				<Key>
+					<PropertyRef Name="IncotermsClassification" />
+				</Key>
+				<Property Name="IncotermsClassification" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="IncotermsClassification_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="LocationIsMandatory" Type="Edm.Boolean" Nullable="false" />
+			</EntityType>
+			<EntityType Name="MaterialGroupType">
+				<Key>
+					<PropertyRef Name="MaterialGroup" />
+				</Key>
+				<Property Name="MaterialGroup" Type="Edm.String" Nullable="false" MaxLength="9" />
+				<Property Name="MaterialGroup_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="BusinessAreaType">
+				<Key>
+					<PropertyRef Name="BusinessArea" />
+				</Key>
+				<Property Name="BusinessArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="BusinessArea_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+			</EntityType>
+			<EntityType Name="ShippingTypeType">
+				<Key>
+					<PropertyRef Name="ShippingType" />
+				</Key>
+				<Property Name="ShippingType" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ShippingType_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="RegionType">
+				<Key>
+					<PropertyRef Name="Country" />
+					<PropertyRef Name="Region" />
+				</Key>
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="Region" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="Region_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="ProvincialTaxCode" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<NavigationProperty Name="_Country" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CountryType" Nullable="false" />
+			</EntityType>
+			<EntityType Name="ItemTextType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+					<PropertyRef Name="SalesOrderItem" />
+					<PropertyRef Name="Language" />
+					<PropertyRef Name="LongTextID" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrderItem" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="LongTextID" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="LongTextIDForEdit" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="LanguageForEdit" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="LongText" Type="Edm.String" Nullable="false" />
+				<Property Name="TextDeterminationProcedureItem" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="__EntityControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.EntityControl" />
+				<Property Name="__FieldControl" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemTextControl" />
+				<Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SAP__Message)" Nullable="false" />
+				<NavigationProperty
+					Name="_Item"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType"
+					Nullable="false"
+					Partner="_Text"
+				/>
+				<NavigationProperty Name="_Language" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.LanguageType" />
+				<NavigationProperty Name="_SalesOrder" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+			</EntityType>
+			<EntityType Name="SalesOrderApprovalReasonType">
+				<Key>
+					<PropertyRef Name="SalesOrderApprovalReason" />
+				</Key>
+				<Property Name="SalesOrderApprovalReason" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesOrderApprovalReason_Text" Type="Edm.String" Nullable="false" MaxLength="40" />
+			</EntityType>
+			<EntityType Name="ItemPricingElementType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+					<PropertyRef Name="SalesOrderItem" />
+					<PropertyRef Name="PricingProcedureStep" />
+					<PropertyRef Name="PricingProcedureCounter" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrderItem" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="PricingProcedureStep" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="PricingProcedureCounter" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="ConditionApplication" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ConditionType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ConditionCalculationType" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="ConditionRateValue" Type="Edm.Decimal" Nullable="false" Precision="24" Scale="9" />
+				<Property Name="ConditionRateAmount" Type="Edm.Decimal" Nullable="false" Precision="24" Scale="9" />
+				<Property Name="ConditionRateRatio" Type="Edm.Decimal" Nullable="false" Precision="24" Scale="9" />
+				<Property Name="ConditionBaseAmount" Type="Edm.Decimal" Nullable="false" Precision="24" Scale="9" />
+				<Property Name="ConditionBaseQuantity" Type="Edm.Decimal" Nullable="false" Precision="24" Scale="9" />
+				<Property Name="ConditionQuantity" Type="Edm.Decimal" Nullable="false" Precision="5" />
+				<Property Name="ConditionAmount" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="variable" />
+				<Property Name="ConditionCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="TransactionCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="ConditionQuantityUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="ConditionRateRatioUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="ConditionIsForStatistics" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SAP__Message)" Nullable="false" />
+				<NavigationProperty Name="_ConditionCurrency" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TransactionCurrencyType" />
+				<NavigationProperty Name="_ConditionQuantityUnit" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UnitOfMeasureType" />
+				<NavigationProperty
+					Name="_Item"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType"
+					Nullable="false"
+					Partner="_ItemPricingElement"
+				/>
+				<NavigationProperty Name="_PricingConditionType" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PricingConditionTypeType" />
+				<NavigationProperty Name="_SalesOrder" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+				<NavigationProperty Name="_TransactionCurrency" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TransactionCurrencyType" />
+			</EntityType>
+			<EntityType Name="CreditLimitDetailsType">
+				<Key>
+					<PropertyRef Name="SalesDocument" />
+				</Key>
+				<Property Name="SalesDocument" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CustomerCreditExposureAmount" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable" />
+				<Property Name="CustomerCreditLimitAmount" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable" />
+				<Property Name="CustomerIsAboveThreshold" Type="Edm.Int32" Nullable="false" />
+				<Property Name="RemainingCreditAmtInDspCrcy" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable" />
+				<Property Name="DisplayCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="CustomerCreditLimitCriticality" Type="Edm.Byte" Nullable="false" />
+			</EntityType>
+			<EntityType Name="HdrGeneralIncompletionStatusType">
+				<Key>
+					<PropertyRef Name="HdrGeneralIncompletionStatus" />
+				</Key>
+				<Property Name="HdrGeneralIncompletionStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="HdrGeneralIncompletionStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="BillingBlockReasonType">
+				<Key>
+					<PropertyRef Name="BillingBlockReason" />
+				</Key>
+				<Property Name="BillingBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="BillingBlockReason_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="OverallDangerousGoodsStatusType">
+				<Key>
+					<PropertyRef Name="OverallDangerousGoodsStatus" />
+				</Key>
+				<Property Name="OverallDangerousGoodsStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallDangerousGoodsStatus_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="ControllingAreaType">
+				<Key>
+					<PropertyRef Name="ControllingArea" />
+				</Key>
+				<Property Name="ControllingArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="FiscalYearVariant" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ControllingAreaName" Type="Edm.String" Nullable="false" MaxLength="25" />
+				<Property Name="ControllingAreaCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="ChartOfAccounts" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ChartOfAccounts_Text" Type="Edm.String" Nullable="false" MaxLength="50" />
+				<Property Name="CostCenterStandardHierarchy" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="ProfitCenterStandardHierarchy" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="FinancialManagementArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ControllingAreaCurrencyRole" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="CtrlgStdFinStatementVersion" Type="Edm.String" Nullable="false" MaxLength="42" />
+				<Property Name="CtrlgStdFinStatementVersion_Text" Type="Edm.String" Nullable="false" MaxLength="50" />
+				<Property Name="ProfitCenterAccountingCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<NavigationProperty Name="_Currency" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TransactionCurrencyType" />
+			</EntityType>
+			<EntityType Name="SalesOrderScheduleLineType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+					<PropertyRef Name="SalesOrderItem" />
+					<PropertyRef Name="ScheduleLine" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SalesOrderItem" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="ScheduleLine" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="OrderQuantityUnit" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="ScheduleLineOrderQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" />
+				<Property Name="ConfdOrderQtyByMatlAvailCheck" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" />
+				<Property Name="DeliveredQtyInOrderQtyUnit" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" />
+				<Property Name="OpenConfdDelivQtyInOrdQtyUnit" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" />
+				<Property Name="RequestedDeliveryDate" Type="Edm.Date" />
+				<Property Name="ConfirmedDeliveryDate" Type="Edm.Date" />
+				<Property Name="DelivBlockReasonForSchedLine" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<NavigationProperty Name="_DelivBlockReasonForSchedLine" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryBlockReasonType" />
+				<NavigationProperty
+					Name="_Item"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType"
+					Nullable="false"
+					Partner="_ScheduleLine"
+				/>
+				<NavigationProperty Name="_OrderQuantityUnit" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UnitOfMeasureType" />
+				<NavigationProperty Name="_SalesOrder" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" />
+			</EntityType>
+			<EntityType Name="PlantType">
+				<Key>
+					<PropertyRef Name="Plant" />
+				</Key>
+				<Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="PlantName" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="ValuationArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="PlantCustomer" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="PlantSupplier" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="FactoryCalendar" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="DefaultPurchasingOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="AddressID" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="PlantCategory" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</EntityType>
+			<EntityType Name="ShippingPointType">
+				<Key>
+					<PropertyRef Name="ShippingPoint" />
+				</Key>
+				<Property Name="ShippingPoint" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ShippingPoint_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="ActiveDepartureCountry" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="AddressID" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="PickingConfirmation" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<NavigationProperty Name="_ActiveDepartureCountry" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CountryType" />
+			</EntityType>
+			<EntityType Name="IncotermsVersionType">
+				<Key>
+					<PropertyRef Name="IncotermsVersion" />
+				</Key>
+				<Property Name="IncotermsVersion" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="IncotermsVersion_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+			</EntityType>
+			<EntityType Name="PricingConditionTypeType">
+				<Key>
+					<PropertyRef Name="ConditionApplication" />
+					<PropertyRef Name="ConditionType" />
+				</Key>
+				<Property Name="ConditionApplication" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ConditionType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ConditionType_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="ConditionCalculationType" Type="Edm.String" Nullable="false" MaxLength="1" />
+			</EntityType>
+			<EntityType Name="OverallSDDocumentRjcnStatusType">
+				<Key>
+					<PropertyRef Name="OverallSDDocumentRejectionSts" />
+				</Key>
+				<Property Name="OverallSDDocumentRejectionSts" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallSDDocumentRejectionSts_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="CustomerPaymentTermsType">
+				<Key>
+					<PropertyRef Name="CustomerPaymentTerms" />
+				</Key>
+				<Property Name="CustomerPaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CustomerPaymentTerms_Text" Type="Edm.String" Nullable="false" MaxLength="30" />
+			</EntityType>
+			<EntityType Name="StorageLocationType">
+				<Key>
+					<PropertyRef Name="Plant" />
+					<PropertyRef Name="StorageLocation" />
+				</Key>
+				<Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="StorageLocationName" Type="Edm.String" Nullable="false" MaxLength="16" />
+				<Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="DistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="IsStorLocAuthznCheckActive" Type="Edm.Boolean" Nullable="false" />
+				<NavigationProperty Name="_Plant" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PlantType" Nullable="false" />
+			</EntityType>
+			<EntityType Name="BillingCompanyCodeType">
+				<Key>
+					<PropertyRef Name="CompanyCode" />
+				</Key>
+				<Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CompanyCodeName" Type="Edm.String" Nullable="false" MaxLength="25" />
+				<Property Name="CityName" Type="Edm.String" Nullable="false" MaxLength="25" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ChartOfAccounts" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="FiscalYearVariant" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Company" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="CreditControlArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CreditControlArea_Text" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="CountryChartOfAccounts" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="FinancialManagementArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="AddressID" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="TaxableEntity" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="VATRegistration" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="ExtendedWhldgTaxIsActive" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="ControllingArea" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="ControllingArea_Text" Type="Edm.String" Nullable="false" MaxLength="25" />
+				<Property Name="FieldStatusVariant" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="NonTaxableTransactionTaxCode" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="DocDateIsUsedForTaxDetn" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="TaxRptgDateIsActive" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="CashDiscountBaseAmtIsNetAmt" Type="Edm.Boolean" Nullable="false" />
+				<NavigationProperty Name="_ControllingArea" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ControllingAreaType" />
+				<NavigationProperty Name="_Country" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CountryType" />
+				<NavigationProperty Name="_Currency" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TransactionCurrencyType" />
+				<NavigationProperty Name="_Language" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.LanguageType" />
+			</EntityType>
+			<EntityType Name="DeliveryBlockReasonType">
+				<Key>
+					<PropertyRef Name="DeliveryBlockReason" />
+				</Key>
+				<Property Name="DeliveryBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="DeliveryBlockReason_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="DeliveryDueListBlock" Type="Edm.Boolean" Nullable="false" />
+			</EntityType>
+			<EntityType Name="OverallDeliveryBlockStatusType">
+				<Key>
+					<PropertyRef Name="OverallDeliveryBlockStatus" />
+				</Key>
+				<Property Name="OverallDeliveryBlockStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallDeliveryBlockStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="OverallSDProcessStatusType">
+				<Key>
+					<PropertyRef Name="OverallSDProcessStatus" />
+				</Key>
+				<Property Name="OverallSDProcessStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="OverallSDProcessStatus_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="SalesVolumeType">
+				<Key>
+					<PropertyRef Name="SalesDocument" />
+				</Key>
+				<Property Name="SalesDocument" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="NetSlsVolumeNetAmtInDC" Type="Edm.Decimal" Nullable="false" Precision="19" Scale="variable" />
+				<Property Name="DisplayCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+			</EntityType>
+			<EntityType Name="ShippingConditionType">
+				<Key>
+					<PropertyRef Name="ShippingCondition" />
+				</Key>
+				<Property Name="ShippingCondition" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ShippingCondition_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="TransactionCurrencyType">
+				<Key>
+					<PropertyRef Name="Currency" />
+				</Key>
+				<Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="Currency_Text" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="Decimals" Type="Edm.Byte" Nullable="false" />
+				<Property Name="CurrencyISOCode" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="AlternativeCurrencyKey" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="IsPrimaryCurrencyForISOCrcy" Type="Edm.Boolean" Nullable="false" />
+			</EntityType>
+			<EntityType Name="DangerousGoodsStatusType">
+				<Key>
+					<PropertyRef Name="DangerousGoodsStatus" />
+				</Key>
+				<Property Name="DangerousGoodsStatus" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DangerousGoodsStatus_Text" Type="Edm.String" Nullable="false" MaxLength="60" />
+			</EntityType>
+			<EntityType Name="SDDocumentReasonType">
+				<Key>
+					<PropertyRef Name="SDDocumentReason" />
+				</Key>
+				<Property Name="SDDocumentReason" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="SDDocumentReason_Text" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="RetroBillingUsage" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="SelfBillingValueItem" Type="Edm.String" Nullable="false" MaxLength="1" />
+			</EntityType>
+			<EntityType Name="DistributionChannelType">
+				<Key>
+					<PropertyRef Name="DistributionChannel" />
+				</Key>
+				<Property Name="DistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="DistributionChannel_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="LanguageType">
+				<Key>
+					<PropertyRef Name="Language" />
+				</Key>
+				<Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Language_Text" Type="Edm.String" Nullable="false" MaxLength="16" />
+				<Property Name="LanguageISOCode" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</EntityType>
+			<EntityType Name="ProductPricingGroupType">
+				<Key>
+					<PropertyRef Name="ProductPricingGroup" />
+				</Key>
+				<Property Name="ProductPricingGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="ProductPricingGroup_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+			</EntityType>
+			<EntityType Name="HeaderShipToPartyType">
+				<Key>
+					<PropertyRef Name="SalesOrder" />
+				</Key>
+				<Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="BusinessPartnerName1" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="BusinessPartnerName2" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="BusinessPartnerName3" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="BusinessPartnerName4" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="FormOfAddress" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="PostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CityName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="District" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="Region" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="StreetName" Type="Edm.String" Nullable="false" MaxLength="60" />
+				<Property Name="StreetPrefixName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="AdditionalStreetPrefixName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="StreetSuffixName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="AdditionalStreetSuffixName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="HouseNumber" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="PhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="PhoneNumberExtension" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="MobilePhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="MobilePhoneNumberExtension" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="FaxNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="FaxNumberExtension" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="EmailAddress" Type="Edm.String" Nullable="false" MaxLength="241" />
+				<Property Name="POBox" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="POBoxPostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CorrespondenceLanguage" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="TaxJurisdiction" Type="Edm.String" Nullable="false" MaxLength="15" />
+				<Property Name="TransportZone" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SAP__Message)" Nullable="false" />
+				<NavigationProperty Name="_Country" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CountryType" />
+				<NavigationProperty Name="_FormOfAddress" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.FormOfAddressType" />
+				<NavigationProperty Name="_Region" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RegionType" />
+				<NavigationProperty
+					Name="_SalesOrder"
+					Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType"
+					Nullable="false"
+					Partner="_ShipToParty"
+				/>
+				<NavigationProperty Name="_ShipToPartyVH" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerType" />
+			</EntityType>
+			<EntityType Name="SalesOrganizationType">
+				<Key>
+					<PropertyRef Name="SalesOrganization" />
+				</Key>
+				<Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesOrganization_Text" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="SalesOrganizationCurrency" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="IntercompanyBillingCustomer" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="AddressID" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<NavigationProperty Name="_CompanyCode" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingCompanyCodeType" />
+			</EntityType>
+			<ComplexType Name="SalesOrderItemControl">
+				<Property Name="Batch" Type="Edm.Byte" Nullable="false" />
+				<Property Name="BillingDocumentDate" Type="Edm.Byte" Nullable="false" />
+				<Property Name="CustomerPriceGroup" Type="Edm.Byte" Nullable="false" />
+				<Property Name="DeliveryPriority" Type="Edm.Byte" Nullable="false" />
+				<Property Name="IncotermsClassification" Type="Edm.Byte" Nullable="false" />
+				<Property Name="IncotermsLocation1" Type="Edm.Byte" Nullable="false" />
+				<Property Name="IncotermsLocation2" Type="Edm.Byte" Nullable="false" />
+				<Property Name="Material" Type="Edm.Byte" Nullable="false" />
+				<Property Name="MaterialByCustomer" Type="Edm.Byte" Nullable="false" />
+				<Property Name="MaterialGroup" Type="Edm.Byte" Nullable="false" />
+				<Property Name="MaterialPricingGroup" Type="Edm.Byte" Nullable="false" />
+				<Property Name="MaxNmbrOfPartialDelivery" Type="Edm.Byte" Nullable="false" />
+				<Property Name="PartialDeliveryIsAllowed" Type="Edm.Byte" Nullable="false" />
+				<Property Name="Plant" Type="Edm.Byte" Nullable="false" />
+				<Property Name="PricingDate" Type="Edm.Byte" Nullable="false" />
+				<Property Name="ProfitCenter" Type="Edm.Byte" Nullable="false" />
+				<Property Name="PurchaseOrderByCustomer" Type="Edm.Byte" Nullable="false" />
+				<Property Name="RequestedDeliveryDate" Type="Edm.Byte" Nullable="false" />
+				<Property Name="RequestedQuantity" Type="Edm.Byte" Nullable="false" />
+				<Property Name="RequestedQuantityUnit" Type="Edm.Byte" Nullable="false" />
+				<Property Name="Route" Type="Edm.Byte" Nullable="false" />
+				<Property Name="ShippingPoint" Type="Edm.Byte" Nullable="false" />
+				<Property Name="ShippingType" Type="Edm.Byte" Nullable="false" />
+				<Property Name="StorageLocation" Type="Edm.Byte" Nullable="false" />
+				<Property Name="WBSElementExternalID" Type="Edm.Byte" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="SalesOrderManageControl">
+				<Property Name="CustomerPaymentTerms" Type="Edm.Byte" Nullable="false" />
+				<Property Name="IncotermsLocation2" Type="Edm.Byte" Nullable="false" />
+				<Property Name="SoldToParty" Type="Edm.Byte" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="SalesOrderTextControl">
+				<Property Name="LanguageForEdit" Type="Edm.Byte" Nullable="false" />
+				<Property Name="LongTextIDForEdit" Type="Edm.Byte" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="ItemTextControl">
+				<Property Name="LanguageForEdit" Type="Edm.Byte" Nullable="false" />
+				<Property Name="LongTextIDForEdit" Type="Edm.Byte" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="SalesOrderItemCbAControl">
+				<Property Name="_Text" Type="Edm.Boolean" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="SalesOrderManageCbAControl">
+				<Property Name="_Item" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="_Text" Type="Edm.Boolean" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="SalesOrderItemOperationControl">
+				<Property Name="RemoveBillingBlockItem" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="SetBillingBlockItem" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="UpdatePrices" Type="Edm.Boolean" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="SalesOrderManageOperationControl">
+				<Property Name="RemoveBillingBlock" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="RemoveDeliveryBlock" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="SetBillingBlock" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="SetDeliveryBlock" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="UpdatePrices" Type="Edm.Boolean" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="EntityControl">
+				<Property Name="Deletable" Type="Edm.Boolean" Nullable="false" />
+			</ComplexType>
+			<ComplexType Name="SAP__Message">
+				<Property Name="code" Type="Edm.String" Nullable="false" />
+				<Property Name="message" Type="Edm.String" Nullable="false" />
+				<Property Name="longtextUrl" Type="Edm.String" Nullable="true" />
+				<Property Name="numericSeverity" Type="Edm.Byte" Nullable="false" />
+				<Property Name="target" Type="Edm.String" Nullable="false" />
+				<Property Name="transition" Type="Edm.Boolean" Nullable="false" />
+			</ComplexType>
+			<Action Name="UpdatePrices" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType" Nullable="false" />
+				<Parameter Name="PricingType" Type="Edm.String" Nullable="false" MaxLength="1" />
+			</Action>
+			<Action Name="SetBillingBlockItem" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType" Nullable="false" />
+				<Parameter Name="ItemBillingBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</Action>
+			<Action Name="UpdatePrices" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+				<Parameter Name="PricingType" Type="Edm.String" Nullable="false" MaxLength="1" />
+			</Action>
+			<Action Name="DiscardChanges" />
+			<Action Name="PrepareForEdit" EntitySetPath="_it" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+				<ReturnType Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+			</Action>
+			<Action Name="CreateWithSalesOrderType" EntitySetPath="_it" IsBound="true">
+				<Parameter Name="_it" Type="Collection(com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType)" Nullable="false" />
+				<Parameter Name="SalesOrderType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Parameter Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Parameter Name="DistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Parameter Name="OrganizationDivision" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<ReturnType Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+			</Action>
+			<Action Name="RemoveDeliveryBlock" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+			</Action>
+			<Action Name="SetBillingBlock" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+				<Parameter Name="HeaderBillingBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</Action>
+			<Action Name="SaveChanges" EntitySetPath="_it" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+				<ReturnType Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+			</Action>
+			<Action Name="RemoveBillingBlock" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+			</Action>
+			<Action Name="SetDeliveryBlock" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType" Nullable="false" />
+				<Parameter Name="DeliveryBlockReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+			</Action>
+			<Action Name="RemoveBillingBlockItem" IsBound="true">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType" Nullable="false" />
+			</Action>
+			<EntityContainer Name="Container">
+				<EntitySet Name="BillingBlockReason" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingBlockReasonType" />
+				<EntitySet Name="BillingBlockStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingBlockStatusType" />
+				<EntitySet Name="BillingCompanyCode" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BillingCompanyCodeType">
+					<NavigationPropertyBinding Path="_ControllingArea" Target="ControllingArea" />
+					<NavigationPropertyBinding Path="_Country" Target="Country" />
+					<NavigationPropertyBinding Path="_Currency" Target="TransactionCurrency" />
+					<NavigationPropertyBinding Path="_Language" Target="Language" />
+				</EntitySet>
+				<EntitySet Name="BusinessArea" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BusinessAreaType" />
+				<EntitySet Name="BusinessPartner" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.BusinessPartnerType" />
+				<EntitySet Name="ChmlCmplncStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ChmlCmplncStatusType" />
+				<EntitySet Name="ControllingArea" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ControllingAreaType">
+					<NavigationPropertyBinding Path="_Currency" Target="TransactionCurrency" />
+				</EntitySet>
+				<EntitySet Name="Country" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CountryType" />
+				<EntitySet Name="CreditLimitDetails" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CreditLimitDetailsType" />
+				<EntitySet Name="Customer" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerType" />
+				<EntitySet Name="CustomerGroup" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerGroupType" />
+				<EntitySet Name="CustomerPaymentTerms" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPaymentTermsType" />
+				<EntitySet Name="CustomerPriceGroup" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPriceGroupType" />
+				<EntitySet Name="CustomerPurchaseOrderType" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerPurchaseOrderTypeType" />
+				<EntitySet Name="CustomerSalesArea" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CustomerSalesAreaType" />
+				<EntitySet Name="DangerousGoodsStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DangerousGoodsStatusType" />
+				<EntitySet Name="DeliveryBlockReason" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryBlockReasonType" />
+				<EntitySet Name="DeliveryBlockStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryBlockStatusType" />
+				<EntitySet Name="DeliveryPriority" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryPriorityType" />
+				<EntitySet Name="DeliveryStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DeliveryStatusType" />
+				<EntitySet Name="DistributionChannel" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DistributionChannelType" />
+				<EntitySet Name="FormOfAddress" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.FormOfAddressType" />
+				<EntitySet
+					Name="HdrGeneralIncompletionStatus"
+					EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.HdrGeneralIncompletionStatusType"
+				/>
+				<EntitySet Name="HeaderPartner" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.HeaderPartnerType">
+					<NavigationPropertyBinding Path="_BusinessPartner" Target="BusinessPartner" />
+					<NavigationPropertyBinding Path="_PartnerFunction" Target="PartnerFunction" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+				</EntitySet>
+				<EntitySet Name="HeaderShipToParty" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.HeaderShipToPartyType">
+					<NavigationPropertyBinding Path="_Country" Target="Country" />
+					<NavigationPropertyBinding Path="_FormOfAddress" Target="FormOfAddress" />
+					<NavigationPropertyBinding Path="_Region" Target="Region" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+					<NavigationPropertyBinding Path="_ShipToPartyVH" Target="Customer" />
+				</EntitySet>
+				<EntitySet Name="IncotermsClassification" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.IncotermsClassificationType" />
+				<EntitySet Name="IncotermsVersion" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.IncotermsVersionType" />
+				<EntitySet
+					Name="ItemGeneralIncompletionStatus"
+					EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemGeneralIncompletionStatusType"
+				/>
+				<EntitySet Name="ItemPartner" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemPartnerType">
+					<NavigationPropertyBinding Path="_Item" Target="SalesOrderItem" />
+					<NavigationPropertyBinding Path="_PartnerFunction" Target="PartnerFunction" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+				</EntitySet>
+				<EntitySet Name="ItemPricingElement" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemPricingElementType">
+					<NavigationPropertyBinding Path="_ConditionCurrency" Target="TransactionCurrency" />
+					<NavigationPropertyBinding Path="_ConditionQuantityUnit" Target="UnitOfMeasure" />
+					<NavigationPropertyBinding Path="_Item" Target="SalesOrderItem" />
+					<NavigationPropertyBinding Path="_PricingConditionType" Target="PricingConditionType" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+					<NavigationPropertyBinding Path="_TransactionCurrency" Target="TransactionCurrency" />
+				</EntitySet>
+				<EntitySet Name="ItemText" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ItemTextType">
+					<NavigationPropertyBinding Path="_Item" Target="SalesOrderItem" />
+					<NavigationPropertyBinding Path="_Language" Target="Language" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+				</EntitySet>
+				<EntitySet Name="Language" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.LanguageType" />
+				<EntitySet Name="LongTextID" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.LongTextIDType" />
+				<EntitySet Name="Material" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.MaterialType" />
+				<EntitySet Name="MaterialGroup" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.MaterialGroupType" />
+				<EntitySet Name="OrganizationDivision" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OrganizationDivisionType" />
+				<EntitySet Name="OverallBillingBlockStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallBillingBlockStatusType" />
+				<EntitySet Name="OverallChmlCmplncStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallChmlCmplncStatusType" />
+				<EntitySet
+					Name="OverallDangerousGoodsStatus"
+					EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallDangerousGoodsStatusType"
+				/>
+				<EntitySet Name="OverallDeliveryBlockStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallDeliveryBlockStatusType" />
+				<EntitySet Name="OverallDeliveryStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallDeliveryStatusType" />
+				<EntitySet
+					Name="OverallSDDocReferenceStatus"
+					EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallSDDocReferenceStatusType"
+				/>
+				<EntitySet
+					Name="OverallSDDocumentRjcnStatus"
+					EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallSDDocumentRjcnStatusType"
+				/>
+				<EntitySet Name="OverallSDProcessStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OverallSDProcessStatusType" />
+				<EntitySet
+					Name="OvrlItmGeneralIncompletionSts"
+					EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OvrlItmGeneralIncompletionStsType"
+				/>
+				<EntitySet Name="OvrlSftyDataSheetSts" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.OvrlSftyDataSheetStsType" />
+				<EntitySet Name="PartialDeliveryItem" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PartialDeliveryItemType" />
+				<EntitySet Name="PartnerFunction" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PartnerFunctionType" />
+				<EntitySet Name="PaymentMethod" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PaymentMethodType" />
+				<EntitySet Name="Plant" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PlantType" />
+				<EntitySet Name="PricingConditionType" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PricingConditionTypeType" />
+				<EntitySet Name="ProcessStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ProcessStatusType" />
+				<EntitySet Name="ProductPricingGroup" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ProductPricingGroupType" />
+				<EntitySet Name="ProfitCenter" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ProfitCenterType">
+					<NavigationPropertyBinding Path="_Company" Target="BillingCompanyCode" />
+					<NavigationPropertyBinding Path="_ControllingArea" Target="ControllingArea" />
+					<NavigationPropertyBinding Path="_Country" Target="Country" />
+					<NavigationPropertyBinding Path="_Language" Target="Language" />
+					<NavigationPropertyBinding Path="_Region" Target="Region" />
+				</EntitySet>
+				<EntitySet Name="Region" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RegionType">
+					<NavigationPropertyBinding Path="_Country" Target="Country" />
+				</EntitySet>
+				<EntitySet Name="Route" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.RouteType" />
+				<EntitySet Name="SafetyDataSheetStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SafetyDataSheetStatusType" />
+				<EntitySet Name="SalesDistrict" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesDistrictType" />
+				<EntitySet Name="SalesDocApprovalStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesDocApprovalStatusType" />
+				<EntitySet Name="SalesDocumentRjcnReason" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesDocumentRjcnReasonType" />
+				<EntitySet Name="SalesGroup" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesGroupType" />
+				<EntitySet Name="SalesOffice" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOfficeType" />
+				<EntitySet Name="SalesOrderApprovalReason" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderApprovalReasonType" />
+				<EntitySet Name="SalesOrderItem" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemType">
+					<NavigationPropertyBinding Path="_BillingBlockStatus" Target="BillingBlockStatus" />
+					<NavigationPropertyBinding Path="_BusinessArea" Target="BusinessArea" />
+					<NavigationPropertyBinding Path="_ChmlCmplncStatus" Target="ChmlCmplncStatus" />
+					<NavigationPropertyBinding Path="_CustomerPaymentTerms" Target="CustomerPaymentTerms" />
+					<NavigationPropertyBinding Path="_CustomerPriceGroup" Target="CustomerPriceGroup" />
+					<NavigationPropertyBinding Path="_DangerousGoodsStatus" Target="DangerousGoodsStatus" />
+					<NavigationPropertyBinding Path="_DeliveryBlockStatus" Target="DeliveryBlockStatus" />
+					<NavigationPropertyBinding Path="_DeliveryPriority" Target="DeliveryPriority" />
+					<NavigationPropertyBinding Path="_DeliveryStatus" Target="DeliveryStatus" />
+					<NavigationPropertyBinding Path="_IncotermsClassification" Target="IncotermsClassification" />
+					<NavigationPropertyBinding Path="_IncotermsVersion" Target="IncotermsVersion" />
+					<NavigationPropertyBinding Path="_ItemBillingBlockReason" Target="BillingBlockReason" />
+					<NavigationPropertyBinding Path="_ItemCategory" Target="SalesOrderItemCategory" />
+					<NavigationPropertyBinding Path="_ItemGeneralIncompletionStatus" Target="ItemGeneralIncompletionStatus" />
+					<NavigationPropertyBinding Path="_ItemPartner" Target="ItemPartner" />
+					<NavigationPropertyBinding Path="_ItemPricingElement" Target="ItemPricingElement" />
+					<NavigationPropertyBinding Path="_ItemVolumeUnit" Target="UnitOfMeasure" />
+					<NavigationPropertyBinding Path="_ItemWeightUnit" Target="UnitOfMeasure" />
+					<NavigationPropertyBinding Path="_Material" Target="Material" />
+					<NavigationPropertyBinding Path="_MaterialGroup" Target="MaterialGroup" />
+					<NavigationPropertyBinding Path="_OrderQuantityUnit" Target="UnitOfMeasure" />
+					<NavigationPropertyBinding Path="_PartialDeliveryItem" Target="PartialDeliveryItem" />
+					<NavigationPropertyBinding Path="_Plant" Target="Plant" />
+					<NavigationPropertyBinding Path="_ProductPricingGroup" Target="ProductPricingGroup" />
+					<NavigationPropertyBinding Path="_ProfitCenter" Target="ProfitCenter" />
+					<NavigationPropertyBinding Path="_RequestedQuantityUnit" Target="UnitOfMeasure" />
+					<NavigationPropertyBinding Path="_Route" Target="Route" />
+					<NavigationPropertyBinding Path="_SafetyDataSheetStatus" Target="SafetyDataSheetStatus" />
+					<NavigationPropertyBinding Path="_SalesDocumentRjcnReason" Target="SalesDocumentRjcnReason" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+					<NavigationPropertyBinding Path="_ScheduleLine" Target="SalesOrderScheduleLine" />
+					<NavigationPropertyBinding Path="_SDDocumentRejectionStatus" Target="SDDocumentRejectionStatus" />
+					<NavigationPropertyBinding Path="_SDProcessStatus" Target="ProcessStatus" />
+					<NavigationPropertyBinding Path="_ShippingPoint" Target="ShippingPoint" />
+					<NavigationPropertyBinding Path="_ShippingType" Target="ShippingType" />
+					<NavigationPropertyBinding Path="_StorageLocation" Target="StorageLocation" />
+					<NavigationPropertyBinding Path="_Text" Target="ItemText" />
+				</EntitySet>
+				<EntitySet Name="SalesOrderItemCategory" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderItemCategoryType" />
+				<EntitySet Name="SalesOrderManage" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderManageType">
+					<NavigationPropertyBinding Path="_BillingCompanyCode" Target="BillingCompanyCode" />
+					<NavigationPropertyBinding Path="_ControllingArea" Target="ControllingArea" />
+					<NavigationPropertyBinding Path="_CreatedByUser" Target="User" />
+					<NavigationPropertyBinding Path="_CreditLimitDetails" Target="CreditLimitDetails" />
+					<NavigationPropertyBinding Path="_CustomerGroup" Target="CustomerGroup" />
+					<NavigationPropertyBinding Path="_CustomerPaymentTerms" Target="CustomerPaymentTerms" />
+					<NavigationPropertyBinding Path="_CustomerPriceGroup" Target="CustomerPriceGroup" />
+					<NavigationPropertyBinding Path="_CustomerPurchaseOrderType" Target="CustomerPurchaseOrderType" />
+					<NavigationPropertyBinding Path="_DeliveryBlockReason" Target="DeliveryBlockReason" />
+					<NavigationPropertyBinding Path="_DistributionChannel" Target="DistributionChannel" />
+					<NavigationPropertyBinding Path="_HdrGeneralIncompletionStatus" Target="HdrGeneralIncompletionStatus" />
+					<NavigationPropertyBinding Path="_HeaderBillingBlockReason" Target="BillingBlockReason" />
+					<NavigationPropertyBinding Path="_IncotermsClassification" Target="IncotermsClassification" />
+					<NavigationPropertyBinding Path="_IncotermsVersion" Target="IncotermsVersion" />
+					<NavigationPropertyBinding Path="_Item" Target="SalesOrderItem" />
+					<NavigationPropertyBinding Path="_LastChangedByUser" Target="User" />
+					<NavigationPropertyBinding Path="_OrganizationDivision" Target="OrganizationDivision" />
+					<NavigationPropertyBinding Path="_OverallBillingBlockStatus" Target="OverallBillingBlockStatus" />
+					<NavigationPropertyBinding Path="_OverallChmlCmplncStatus" Target="OverallChmlCmplncStatus" />
+					<NavigationPropertyBinding Path="_OverallDangerousGoodsStatus" Target="OverallDangerousGoodsStatus" />
+					<NavigationPropertyBinding Path="_OverallDeliveryBlockStatus" Target="OverallDeliveryBlockStatus" />
+					<NavigationPropertyBinding Path="_OverallDeliveryStatus" Target="OverallDeliveryStatus" />
+					<NavigationPropertyBinding Path="_OverallSDDocReferenceStatus" Target="OverallSDDocReferenceStatus" />
+					<NavigationPropertyBinding Path="_OverallSDDocumentRejectionSts" Target="OverallSDDocumentRjcnStatus" />
+					<NavigationPropertyBinding Path="_OverallSDProcessStatus" Target="OverallSDProcessStatus" />
+					<NavigationPropertyBinding Path="_OvrlItmGeneralIncompletionSts" Target="OvrlItmGeneralIncompletionSts" />
+					<NavigationPropertyBinding Path="_OvrlSftyDataSheetSts" Target="OvrlSftyDataSheetSts" />
+					<NavigationPropertyBinding Path="_Partner" Target="HeaderPartner" />
+					<NavigationPropertyBinding Path="_PaymentMethodVH" Target="PaymentMethod" />
+					<NavigationPropertyBinding Path="_SalesDistrict" Target="SalesDistrict" />
+					<NavigationPropertyBinding Path="_SalesDocApprovalStatus" Target="SalesDocApprovalStatus" />
+					<NavigationPropertyBinding Path="_SalesGroup" Target="SalesGroup" />
+					<NavigationPropertyBinding Path="_SalesOffice" Target="SalesOffice" />
+					<NavigationPropertyBinding Path="_SalesOrderApprovalReason" Target="SalesOrderApprovalReason" />
+					<NavigationPropertyBinding Path="_SalesOrderType" Target="SalesOrderType" />
+					<NavigationPropertyBinding Path="_SalesOrganization" Target="SalesOrganization" />
+					<NavigationPropertyBinding Path="_SDDocumentReason" Target="SDDocumentReason" />
+					<NavigationPropertyBinding Path="_SDPricingProcedure" Target="SlsPricingProcedure" />
+					<NavigationPropertyBinding Path="_ShippingCondition" Target="ShippingCondition" />
+					<NavigationPropertyBinding Path="_ShippingType" Target="ShippingType" />
+					<NavigationPropertyBinding Path="_ShipToParty" Target="HeaderShipToParty" />
+					<NavigationPropertyBinding Path="_SlsVolumeNetAmtYearToDate" Target="SalesVolume" />
+					<NavigationPropertyBinding Path="_SoldToParty" Target="Customer" />
+					<NavigationPropertyBinding Path="_Text" Target="SalesOrderText" />
+					<NavigationPropertyBinding Path="_TotalBlockStatus" Target="TotalBlockStatus" />
+					<NavigationPropertyBinding Path="_TotalCreditCheckStatus" Target="TotalCreditCheckStatus" />
+					<NavigationPropertyBinding Path="_TransactionCurrency" Target="TransactionCurrency" />
+				</EntitySet>
+				<EntitySet Name="SalesOrderScheduleLine" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderScheduleLineType">
+					<NavigationPropertyBinding Path="_DelivBlockReasonForSchedLine" Target="DeliveryBlockReason" />
+					<NavigationPropertyBinding Path="_Item" Target="SalesOrderItem" />
+					<NavigationPropertyBinding Path="_OrderQuantityUnit" Target="UnitOfMeasure" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+				</EntitySet>
+				<EntitySet Name="SalesOrderText" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderTextType">
+					<NavigationPropertyBinding Path="_Language" Target="Language" />
+					<NavigationPropertyBinding Path="_LongTextID" Target="LongTextID" />
+					<NavigationPropertyBinding Path="_SalesOrder" Target="SalesOrderManage" />
+				</EntitySet>
+				<EntitySet Name="SalesOrderType" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrderTypeType" />
+				<EntitySet Name="SalesOrganization" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesOrganizationType">
+					<NavigationPropertyBinding Path="_CompanyCode" Target="BillingCompanyCode" />
+				</EntitySet>
+				<EntitySet Name="SalesVolume" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SalesVolumeType" />
+				<EntitySet Name="SDDocumentReason" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SDDocumentReasonType" />
+				<EntitySet Name="SDDocumentRejectionStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SDDocumentRejectionStatusType" />
+				<EntitySet Name="ShippingCondition" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ShippingConditionType" />
+				<EntitySet Name="ShippingPoint" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ShippingPointType">
+					<NavigationPropertyBinding Path="_ActiveDepartureCountry" Target="Country" />
+				</EntitySet>
+				<EntitySet Name="ShippingType" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.ShippingTypeType" />
+				<EntitySet Name="SlsPricingProcedure" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SlsPricingProcedureType" />
+				<EntitySet Name="StorageLocation" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.StorageLocationType">
+					<NavigationPropertyBinding Path="_Plant" Target="Plant" />
+				</EntitySet>
+				<EntitySet Name="TotalBlockStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TotalBlockStatusType" />
+				<EntitySet Name="TotalCreditCheckStatus" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TotalCreditCheckStatusType" />
+				<EntitySet Name="TransactionCurrency" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.TransactionCurrencyType" />
+				<EntitySet Name="UnitOfMeasure" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UnitOfMeasureType" />
+				<EntitySet Name="User" EntityType="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.UserType" />
+				<ActionImport Name="DiscardChanges" Action="com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DiscardChanges" />
+			</EntityContainer>
+			<Annotations>
+				<Annotation Term="UI.DataFieldDefault">
+					<Record Type="UI.DataField">
+						<PropertyValue Property="Value" Path="NetAmount" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="I'm a crappy target">
+				<Annotation Term="UI.DataFieldDefault">
+					<Record Type="UI.DataField">
+						<PropertyValue Property="Value" Path="NetAmount" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrder.SalesOrderItemType/NetAmount">
+				<Annotation Term="IM.ACRAPPYTERM">
+					<Record Type="UI.DataField">
+						<PropertyValue Property="Value" Path="NetAmount" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrder.SalesOrderItemType/NetAmount">
+				<Annotation Term="UI.DataFieldDefault">
+					<Record Type="IM.ACRAPPYTYPE">
+						<PropertyValue Property="Value" Path="NetAmount" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SalesOrder.SalesOrderItemType/NetAmount">
+				<Annotation Term="UI.DataFieldDefault">
+					<Record Type="UI.DataField">
+						<PropertyValue Property="Value" Crap="NetAmount" />
+					</Record>
+				</Annotation>
+			</Annotations>
+		</Schema>
+
+	</edmx:DataServices>
+</edmx:Edmx>

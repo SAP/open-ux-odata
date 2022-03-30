@@ -24,7 +24,7 @@ import type {
     RecordAnnotations,
     CollectionAnnotations
 } from './vocabularies/Edm_Types';
-import type { AnnotationList, FullyQualifiedName, SimpleIdentifier } from './BaseEdm';
+import type { AnnotationList, FullyQualifiedName, RawAnnotation, SimpleIdentifier } from './BaseEdm';
 // Generated EDM Types for the converter
 
 export type PropertyPath = {
@@ -530,3 +530,7 @@ export type RawV2NavigationProperty = {
 };
 
 export type RawV4NavigationProperty = RemoveAnnotationAndType<BaseNavigationProperty>;
+
+export type Annotation = RawAnnotation & {
+    fullyQualifiedName: string;
+};

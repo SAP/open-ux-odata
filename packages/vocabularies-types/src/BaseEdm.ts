@@ -85,25 +85,25 @@ export type Collection =
 
 export type AnnotationList = {
     target: FullyQualifiedName;
-    annotations: Annotation[];
+    annotations: RawAnnotation[];
 };
 
-export type Annotation = {
+export type RawAnnotation = {
     term: FullyQualifiedName;
     qualifier?: SimpleIdentifier;
     value?: Expression;
     collection?: Collection;
     record?: AnnotationRecord;
-    annotations?: Annotation[];
+    annotations?: RawAnnotation[];
 };
 
 export type PropertyValue = {
     name: SimpleIdentifier;
     value: Expression;
-    annotations?: Annotation[];
+    annotations?: RawAnnotation[];
 };
 export type AnnotationRecord = {
     type?: FullyQualifiedName;
     propertyValues: PropertyValue[];
-    annotations?: Annotation[];
+    annotations?: RawAnnotation[];
 };

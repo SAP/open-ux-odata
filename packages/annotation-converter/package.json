@@ -1,5 +1,5 @@
 {
-    "name": "@sap-ux/edmx-parser",
+    "name": "@sap-ux/annotation-converter",
     "version": "0.5.0",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -16,10 +16,8 @@
         "test": "jest --ci --forceExit --detectOpenHandles --colors",
         "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u"
     },
-    "dependencies": {
-        "xml-js": "1.6.11"
-    },
     "devDependencies": {
-        "@sap-ux/vocabularies-types": "0.5.0"
+        "@sap-ux/vocabularies-types": "0.5.0",
+        "@sap-ux/edmx-parser": "0.5.0"
     }
 }
