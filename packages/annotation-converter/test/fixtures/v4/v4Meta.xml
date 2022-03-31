@@ -2150,7 +2150,7 @@
                 </Record>
                 <Record Type="UI.DataFieldWithUrl">
                   <PropertyValue Property="Label" String="FLP"/>
-                  <PropertyValue Property="Url" String="http://google.com"/>
+                  <PropertyValue Property="Url" String="http://shell.example"/>
                   <PropertyValue Property="Value" String="Shell Home"/>
                   <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                 </Record>
