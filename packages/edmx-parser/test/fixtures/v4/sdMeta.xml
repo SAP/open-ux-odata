@@ -1713,7 +1713,7 @@
                 </Record>
                 <Record Type="UI.DataFieldWithUrl">
                   <PropertyValue Property="Label" String="FLP"/>
-                  <PropertyValue Property="Url" String="http://veui5infra.dhcp.wdf.sap.corp:8080/sapui5-sdk-internal/test-resources/sap/fe/internal/demokit/flpSandbox.html?useBackendUrl=http://mo-c6baae9ee.mo.sap.corp:4004/#Shell-home"/>
+                  <PropertyValue Property="Url" String="http://shell.example"/>
                   <PropertyValue Property="Value" String="Shell Home"/>
                   <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                 </Record>
