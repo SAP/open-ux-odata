@@ -734,7 +734,7 @@ describe('Annotation Converter', () => {
 
     it('can revert Apply expression', async () => {
         const parsedEDMX = parse(await loadFixture('v2/metadataWithApply.xml'));
-        const rawData: any = (parsedEDMX.schema.annotations.serviceFile?.[77]?.annotations?.[3]?.collection?.[2] as any)
+        const rawData: any = (parsedEDMX.schema.annotations.serviceFile?.[83]?.annotations?.[3]?.collection?.[2] as any)
             ?.propertyValues;
         const convertedTypes = convert(parsedEDMX);
         const dfWithUrlApply: any = convertedTypes.entityTypes[1].annotations?.UI?.LineItem?.[2];
