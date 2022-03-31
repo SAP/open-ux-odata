@@ -67,7 +67,7 @@ export function convertV2Annotations(
             convertEntitySetAnnotations(attributes, annotations);
             break;
         case 'EntityType':
-            convertEntityTypeAnnotations(attributes, objectName, annotations);
+            convertEntityTypeAnnotations(attributes, annotations);
             break;
         case 'NavigationProperty':
             convertNavigationPropertyAnnotations(attributes, objectName, annotations);
@@ -694,14 +694,9 @@ export function convertPropertyAnnotations(
  * Convert annotations specific to properties.
  *
  * @param attributes The V2 Annotations to evaluate
- * @param objectName The name of the property
  * @param annotations The raw annotation array
  */
-export function convertEntityTypeAnnotations(
-    attributes: V2annotationsSupport,
-    objectName: string,
-    annotations: RawAnnotation[]
-) {
+export function convertEntityTypeAnnotations(attributes: V2annotationsSupport, annotations: RawAnnotation[]) {
     if (attributes['sap:semantics'] === 'aggregate') {
         annotations.push({
             term: AggregationAnnotationTerms.ApplySupported,
