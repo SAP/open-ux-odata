@@ -1,13 +1,9 @@
 import type {
     AnnotationList,
     AnnotationRecord,
-    AnnotationTerm,
     Expression,
     PathExpression,
     PropertyValue,
-    AnnotationPathExpression,
-    NavigationPropertyPathExpression,
-    PropertyPathExpression,
     RawMetadata,
     Reference,
     ComplexType,
@@ -33,6 +29,8 @@ import type {
     RawAssociationEnd,
     RawAnnotation
 } from '@sap-ux/vocabularies-types';
+import type { ReferencesWithMap } from './utils';
+import { defaultReferences, unalias } from './utils';
 
 /**
  *
@@ -310,27 +308,6 @@ enum TermToTypes {
     'com.sap.vocabularies.HTML5.v1.CssDefaults' = 'com.sap.vocabularies.HTML5.v1.CssDefaultsType'
 }
 
-export const defaultReferences: ReferencesWithMap = [
-    { alias: 'Capabilities', namespace: 'Org.OData.Capabilities.V1', uri: '' },
-    { alias: 'Aggregation', namespace: 'Org.OData.Aggregation.V1', uri: '' },
-    { alias: 'Validation', namespace: 'Org.OData.Validation.V1', uri: '' },
-    { namespace: 'Org.OData.Core.V1', alias: 'Core', uri: '' },
-    { namespace: 'Org.OData.Measures.V1', alias: 'Measures', uri: '' },
-    { namespace: 'com.sap.vocabularies.Common.v1', alias: 'Common', uri: '' },
-    { namespace: 'com.sap.vocabularies.UI.v1', alias: 'UI', uri: '' },
-    { namespace: 'com.sap.vocabularies.Session.v1', alias: 'Session', uri: '' },
-    { namespace: 'com.sap.vocabularies.Analytics.v1', alias: 'Analytics', uri: '' },
-    { namespace: 'com.sap.vocabularies.CodeList.v1', alias: 'CodeList', uri: '' },
-    { namespace: 'com.sap.vocabularies.PersonalData.v1', alias: 'PersonalData', uri: '' },
-    { namespace: 'com.sap.vocabularies.Communication.v1', alias: 'Communication', uri: '' },
-    { namespace: 'com.sap.vocabularies.HTML5.v1', alias: 'HTML5', uri: '' }
-];
-
-type ReferencesWithMap = Reference[] & {
-    referenceMap?: Record<string, Reference>;
-    reverseReferenceMap?: Record<string, Reference>;
-};
-
 /**
  * Transform an unaliased string representation annotation to the aliased version.
  *
@@ -340,8 +317,8 @@ type ReferencesWithMap = Reference[] & {
  */
 function alias(references: ReferencesWithMap, unaliasedValue: string): string {
     if (!references.reverseReferenceMap) {
-        references.reverseReferenceMap = references.reduce((map: Record<string, Reference>, reference) => {
-            map[reference.namespace] = reference;
+        references.reverseReferenceMap = references.reduce((map: Record<string, Reference>, ref) => {
+            map[ref.namespace] = ref;
             return map;
         }, {});
     }
@@ -349,8 +326,8 @@ function alias(references: ReferencesWithMap, unaliasedValue: string): string {
         return unaliasedValue;
     }
     const lastDotIndex = unaliasedValue.lastIndexOf('.');
-    const namespace = unaliasedValue.substr(0, lastDotIndex);
-    const value = unaliasedValue.substr(lastDotIndex + 1);
+    const namespace = unaliasedValue.substring(0, lastDotIndex);
+    const value = unaliasedValue.substring(lastDotIndex + 1);
     const reference = references.reverseReferenceMap[namespace];
     if (reference) {
         return `${reference.alias}.${value}`;
@@ -360,36 +337,6 @@ function alias(references: ReferencesWithMap, unaliasedValue: string): string {
         return `${preAlias}@${alias(references, postAlias.join('@'))}`;
     } else {
         return unaliasedValue;
-    }
-}
-
-/**
- * Transform an aliased string representation annotation to the unaliased version.
- *
- * @param references currentReferences for the project
- * @param aliasedValue the aliased value
- * @returns the unaliased string representing the same
- */
-function unalias(references: ReferencesWithMap, aliasedValue: string | undefined): string | undefined {
-    if (!references.referenceMap) {
-        references.referenceMap = references.reduce((map: Record<string, Reference>, reference) => {
-            map[reference.alias] = reference;
-            return map;
-        }, {});
-    }
-    if (!aliasedValue) {
-        return aliasedValue;
-    }
-    const [alias, ...value] = aliasedValue.split('.');
-    const reference = references.referenceMap[alias];
-    if (reference) {
-        return `${reference.namespace}.${value.join('.')}`;
-    } else if (aliasedValue.indexOf('@') !== -1) {
-        // Try to see if it's an annotation Path like to_SalesOrder/@UI.LineItem
-        const [preAlias, ...postAlias] = aliasedValue.split('@');
-        return `${preAlias}@${unalias(references, postAlias.join('@'))}`;
-    } else {
-        return aliasedValue;
     }
 }
 
@@ -534,7 +481,6 @@ function _resolveTarget(
     if (!path) {
         return undefined;
     }
-    //const propertyPath = path;
     const aVisitedObjects: any[] = [];
     if (currentTarget && currentTarget._type === 'Property') {
         currentTarget = objectMap[currentTarget.fullyQualifiedName.split('/')[0]];
@@ -546,8 +492,8 @@ function _resolveTarget(
     pathSplit.forEach((pathPart) => {
         // Separate out the annotation
         if (pathPart.indexOf('@') !== -1) {
-            const [path, annotationPath] = pathPart.split('@');
-            targetPathSplit.push(path);
+            const [splittedPath, annotationPath] = pathPart.split('@');
+            targetPathSplit.push(splittedPath);
             targetPathSplit.push(`@${annotationPath}`);
         } else {
             targetPathSplit.push(pathPart);
@@ -612,7 +558,7 @@ function _resolveTarget(
             currentPath = combinePath(currentValue.type, pathPart);
         } else if (currentValue._type === 'ActionParameter' && !currentValue.isEntitySet) {
             currentPath = combinePath(
-                currentTarget.fullyQualifiedName.substr(0, currentTarget.fullyQualifiedName.lastIndexOf('/')),
+                currentTarget.fullyQualifiedName.substring(0, currentTarget.fullyQualifiedName.lastIndexOf('/')),
                 pathPart
             );
             if (!objectMap[currentPath]) {
@@ -621,7 +567,7 @@ function _resolveTarget(
                     lastIdx = currentTarget.fullyQualifiedName.length;
                 }
                 currentPath = combinePath(
-                    (objectMap[currentTarget.fullyQualifiedName.substr(0, lastIdx)] as Action).sourceType,
+                    (objectMap[currentTarget.fullyQualifiedName.substring(0, lastIdx)] as Action).sourceType,
                     pathPart
                 );
             }
@@ -630,8 +576,8 @@ function _resolveTarget(
             if (pathPart !== 'name' && currentValue[pathPart] !== undefined) {
                 return currentValue[pathPart];
             } else if (pathPart === '$AnnotationPath' && currentValue.$target) {
-                const currentContext = objectMap[currentValue.fullyQualifiedName.split('@')[0]];
-                const subTarget: any = _resolveTarget(objectMap, currentContext, currentValue.value, false, true);
+                const contextToResolve = objectMap[currentValue.fullyQualifiedName.split('@')[0]];
+                const subTarget: any = _resolveTarget(objectMap, contextToResolve, currentValue.value, false, true);
                 subTarget.visitedObjects.forEach((visitedSubObject: any) => {
                     if (aVisitedObjects.indexOf(visitedSubObject) === -1) {
                         aVisitedObjects.push(visitedSubObject);
@@ -660,7 +606,7 @@ function _resolveTarget(
                 return currentValue.$target;
             } else if (pathPart.startsWith('$Path') && currentValue.$target) {
                 const intermediateTarget = currentValue.$target;
-                currentPath = combinePath(intermediateTarget.fullyQualifiedName, pathPart.substr(5));
+                currentPath = combinePath(intermediateTarget.fullyQualifiedName, pathPart.substring(5));
             } else if (currentValue.hasOwnProperty('$Type') && !objectMap[currentPath]) {
                 // This is now an annotation value
                 const entityType = objectMap[currentValue.fullyQualifiedName.split('@')[0]];
@@ -712,7 +658,6 @@ function _resolveTarget(
             };
             addAnnotationErrorMessage(path, oErrorMsg);
         }
-        // console.log("Missing target " + path);
     }
     if (pathOnly) {
         return currentPath;
@@ -1314,8 +1259,6 @@ function resolveNavigationProperties(
                 name: navProp.name,
                 fullyQualifiedName: navProp.fullyQualifiedName,
                 partner: (navProp as any).hasOwnProperty('partner') ? (navProp as any).partner : undefined,
-                // targetTypeName: FullyQualifiedName;
-                // targetType: EntityType;
                 isCollection: (navProp as any).hasOwnProperty('isCollection') ? (navProp as any).isCollection : false,
                 containsTarget: (navProp as any).hasOwnProperty('containsTarget')
                     ? (navProp as any).containsTarget
@@ -1411,7 +1354,7 @@ function linkEntityTypeToEntitySet(
  * @param references
  */
 function linkEntityTypeToSingleton(
-    singletons: Singleton[] = [],
+    singletons: Singleton[],
     objectMap: Record<string, any>,
     references: ReferencesWithMap
 ): void {
@@ -1449,7 +1392,7 @@ function linkPropertiesToComplexTypes(entityTypes: EntityType[], objectMap: Reco
             if (property.type.indexOf('Edm') !== 0) {
                 let complexType: ComplexType | TypeDefinition;
                 if (property.type.startsWith('Collection')) {
-                    const complexTypeName = property.type.substr(11, property.type.length - 12);
+                    const complexTypeName = property.type.substring(11, property.type.length - 1);
                     complexType = objectMap[complexTypeName] as ComplexType;
                 } else {
                     complexType = objectMap[property.type] as ComplexType;
@@ -1497,8 +1440,6 @@ function prepareComplexTypes(
                 name: navProp.name,
                 fullyQualifiedName: navProp.fullyQualifiedName,
                 partner: (navProp as any).hasOwnProperty('partner') ? (navProp as any).partner : undefined,
-                // targetTypeName: FullyQualifiedName;
-                // targetType: EntityType;
                 isCollection: (navProp as any).hasOwnProperty('isCollection') ? (navProp as any).isCollection : false,
                 containsTarget: (navProp as any).hasOwnProperty('containsTarget')
                     ? (navProp as any).containsTarget
@@ -1610,7 +1551,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     linkEntityTypeToSingleton(rawMetadata.schema.singletons as Singleton[], objectMap, rawMetadata.references);
     linkPropertiesToComplexTypes(rawMetadata.schema.entityTypes as EntityType[], objectMap);
     prepareComplexTypes(rawMetadata.schema.complexTypes as ComplexType[], rawMetadata.schema.associations, objectMap);
-    const toResolve: Resolveable[] = [];
+    const unresolvedTargets: Resolveable[] = [];
     const unresolvedAnnotations: AnnotationList[] = [];
 
     Object.keys(rawMetadata.schema.annotations).forEach((annotationSource) => {
@@ -1659,7 +1600,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
                             rawMetadata,
                             currentTarget,
                             objectMap,
-                            toResolve,
+                            unresolvedTargets,
                             annotationSource,
                             unresolvedAnnotations
                         );
@@ -1733,7 +1674,6 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
             ANNOTATION_ERRORS.push({
                 message: 'The following annotation target was not found on the service ' + currentTargetName
             });
-            // console.log("Missing target again " + currentTargetName);
         } else if (typeof currentTarget === 'object') {
             if (!currentTarget.annotations) {
                 currentTarget.annotations = {};
@@ -1747,13 +1687,13 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
                     currentTarget.annotations._annotations = {};
                 }
 
-                const vocTermWithQualifier = `${vocTerm}${annotation.qualifier ? `#${annotation.qualifier}` : ''}`;
+                const vocTermWithQualifier = `${vocTerm}${annotation.qualifier ? '#' + annotation.qualifier : ''}`;
                 currentTarget.annotations[vocAlias][vocTermWithQualifier] = convertAnnotation(
                     annotation as Annotation,
                     rawMetadata,
                     currentTarget,
                     objectMap,
-                    toResolve,
+                    unresolvedTargets,
                     (annotationList as any).__source,
                     extraUnresolvedAnnotations
                 );
@@ -1777,29 +1717,29 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
             });
         }
     });
-    toResolve.forEach((resolveable) => {
-        const toResolve = resolveable.toResolve;
-        const targetStr = toResolve.$target;
+    unresolvedTargets.forEach((resolvable) => {
+        const targetToResolve = resolvable.toResolve;
+        const targetStr = targetToResolve.$target;
         const resolvedTarget = objectMap[targetStr];
-        const { annotationsTerm, annotationType } = toResolve;
-        delete toResolve.annotationType;
-        delete toResolve.annotationsTerm;
+        const { annotationsTerm, annotationType } = targetToResolve;
+        delete targetToResolve.annotationType;
+        delete targetToResolve.annotationsTerm;
 
-        if (resolveable.inline && !(resolvedTarget instanceof String)) {
+        if (resolvable.inline && !(resolvedTarget instanceof String)) {
             // inline the resolved target
-            let keys: keyof typeof toResolve;
-            for (keys in toResolve) {
-                delete toResolve[keys];
+            let keys: keyof typeof targetToResolve;
+            for (keys in targetToResolve) {
+                delete targetToResolve[keys];
             }
 
-            Object.assign(toResolve, resolvedTarget);
+            Object.assign(targetToResolve, resolvedTarget);
         } else {
             // assign the resolved target
-            toResolve.$target = resolvedTarget;
+            targetToResolve.$target = resolvedTarget;
         }
 
         if (!resolvedTarget) {
-            toResolve.targetString = targetStr;
+            targetToResolve.targetString = targetStr;
             if (annotationsTerm && annotationType) {
                 const oErrorMsg = {
                     message:
@@ -1822,8 +1762,8 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
                 };
                 addAnnotationErrorMessage(targetStr, oErrorMsg);
             } else {
-                const property = toResolve.term;
-                const path = toResolve.path;
+                const property = targetToResolve.term;
+                const path = targetToResolve.path;
                 const termInfo = targetStr ? targetStr.split('/')[0] : targetStr;
                 const oErrorMsg = {
                     message:
@@ -1869,216 +1809,4 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     };
     convertedOutput.resolvePath = createGlobalResolve(convertedOutput as ConvertedMetadata, objectMap);
     return convertedOutput as ConvertedMetadata;
-}
-
-function revertValueToGenericType(references: Reference[], value: any): Expression | undefined {
-    let result: Expression | undefined;
-    if (typeof value === 'string') {
-        const valueMatches = value.match(/(\w+)\.\w+\/.*/);
-        if (valueMatches && references.find((ref) => ref.alias === valueMatches[1])) {
-            result = {
-                type: 'EnumMember',
-                EnumMember: value
-            };
-        } else {
-            result = {
-                type: 'String',
-                String: value
-            };
-        }
-    } else if (Array.isArray(value)) {
-        result = {
-            type: 'Collection',
-            Collection: value.map((anno) => revertCollectionItemToGenericType(references, anno)) as any[]
-        };
-    } else if (typeof value === 'boolean') {
-        result = {
-            type: 'Bool',
-            Bool: value
-        };
-    } else if (typeof value === 'number') {
-        if (value.toString() === value.toFixed()) {
-            result = {
-                type: 'Int',
-                Int: value
-            };
-        } else {
-            result = {
-                type: 'Decimal',
-                Decimal: value
-            };
-        }
-    } else if (typeof value === 'object' && value.isDecimal && value.isDecimal()) {
-        result = {
-            type: 'Decimal',
-            Decimal: value.valueOf()
-        };
-    } else if (typeof value === 'object' && value.isString && value.isString()) {
-        const valueMatches = value.match(/(\w+)\.\w+\/.*/);
-        if (valueMatches && references.find((ref) => ref.alias === valueMatches[1])) {
-            result = {
-                type: 'EnumMember',
-                EnumMember: value.valueOf()
-            };
-        } else {
-            result = {
-                type: 'String',
-                String: value.valueOf()
-            };
-        }
-    } else if (value.type === 'Path') {
-        result = {
-            type: 'Path',
-            Path: value.path
-        };
-    } else if (value.type === 'AnnotationPath') {
-        result = {
-            type: 'AnnotationPath',
-            AnnotationPath: value.value
-        };
-    } else if (value.type === 'Apply') {
-        result = {
-            type: 'Apply',
-            Apply: value.Apply
-        };
-    } else if (value.type === 'Null') {
-        result = {
-            type: 'Null'
-        };
-    } else if (value.type === 'PropertyPath') {
-        result = {
-            type: 'PropertyPath',
-            PropertyPath: value.value
-        };
-    } else if (value.type === 'NavigationPropertyPath') {
-        result = {
-            type: 'NavigationPropertyPath',
-            NavigationPropertyPath: value.value
-        };
-    } else if (Object.prototype.hasOwnProperty.call(value, '$Type')) {
-        result = {
-            type: 'Record',
-            Record: revertCollectionItemToGenericType(references, value) as AnnotationRecord
-        };
-    }
-    return result;
-}
-
-function revertCollectionItemToGenericType(
-    references: Reference[],
-    collectionItem: any
-):
-    | AnnotationRecord
-    | string
-    | PropertyPathExpression
-    | PathExpression
-    | NavigationPropertyPathExpression
-    | AnnotationPathExpression
-    | undefined {
-    if (typeof collectionItem === 'string') {
-        return collectionItem;
-    } else if (typeof collectionItem === 'object') {
-        if (collectionItem.hasOwnProperty('$Type')) {
-            // Annotation Record
-            const outItem: AnnotationRecord = {
-                type: collectionItem.$Type,
-                propertyValues: [] as any[]
-            };
-            // Could validate keys and type based on $Type
-            Object.keys(collectionItem).forEach((collectionKey) => {
-                if (
-                    collectionKey !== '$Type' &&
-                    collectionKey !== 'term' &&
-                    collectionKey !== '__source' &&
-                    collectionKey !== 'qualifier' &&
-                    collectionKey !== 'ActionTarget' &&
-                    collectionKey !== 'fullyQualifiedName' &&
-                    collectionKey !== 'annotations'
-                ) {
-                    const value = collectionItem[collectionKey];
-                    outItem.propertyValues.push({
-                        name: collectionKey,
-                        value: revertValueToGenericType(references, value) as Expression
-                    });
-                } else if (collectionKey === 'annotations') {
-                    const annotations = collectionItem[collectionKey];
-                    outItem.annotations = [];
-                    Object.keys(annotations)
-                        .filter((key) => key !== '_annotations')
-                        .forEach((key) => {
-                            Object.keys(annotations[key]).forEach((term) => {
-                                const parsedAnnotation = revertTermToGenericType(references, annotations[key][term]);
-                                if (!parsedAnnotation.term) {
-                                    const unaliasedTerm = unalias(references, `${key}.${term}`);
-                                    if (unaliasedTerm) {
-                                        const qualifiedSplit = unaliasedTerm.split('#');
-                                        parsedAnnotation.term = qualifiedSplit[0];
-                                        if (qualifiedSplit.length > 1) {
-                                            parsedAnnotation.qualifier = qualifiedSplit[1];
-                                        }
-                                    }
-                                }
-                                outItem.annotations?.push(parsedAnnotation);
-                            });
-                        });
-                }
-            });
-            return outItem;
-        } else if (collectionItem.type === 'PropertyPath') {
-            return {
-                type: 'PropertyPath',
-                PropertyPath: collectionItem.value
-            };
-        } else if (collectionItem.type === 'AnnotationPath') {
-            return {
-                type: 'AnnotationPath',
-                AnnotationPath: collectionItem.value
-            };
-        } else if (collectionItem.type === 'NavigationPropertyPath') {
-            return {
-                type: 'NavigationPropertyPath',
-                NavigationPropertyPath: collectionItem.value
-            };
-        }
-    }
-}
-
-export function revertTermToGenericType(references: Reference[], annotation: AnnotationTerm<any>): RawAnnotation {
-    const baseAnnotation: RawAnnotation = {
-        term: annotation.term,
-        qualifier: annotation.qualifier
-    };
-    if (Array.isArray(annotation)) {
-        // Collection
-        if (annotation.hasOwnProperty('annotations')) {
-            baseAnnotation.annotations = [];
-            const currentAnnotations = (annotation as any).annotations;
-            Object.keys(currentAnnotations)
-                .filter((key) => key !== '_annotations')
-                .forEach((key) => {
-                    Object.keys(currentAnnotations[key]).forEach((term) => {
-                        const parsedAnnotation = revertTermToGenericType(references, currentAnnotations[key][term]);
-                        if (!parsedAnnotation.term) {
-                            const unaliasedTerm = unalias(references, `${key}.${term}`);
-                            if (unaliasedTerm) {
-                                const qualifiedSplit = unaliasedTerm.split('#');
-                                parsedAnnotation.term = qualifiedSplit[0];
-                                if (qualifiedSplit.length > 1) {
-                                    parsedAnnotation.qualifier = qualifiedSplit[1];
-                                }
-                            }
-                        }
-                        baseAnnotation.annotations?.push(parsedAnnotation);
-                    });
-                });
-        }
-        return {
-            ...baseAnnotation,
-            collection: annotation.map((anno) => revertCollectionItemToGenericType(references, anno)) as any[]
-        };
-    } else if (annotation.hasOwnProperty('$Type')) {
-        return { ...baseAnnotation, record: revertCollectionItemToGenericType(references, annotation) as any };
-    } else {
-        return { ...baseAnnotation, value: revertValueToGenericType(references, annotation) };
-    }
 }
