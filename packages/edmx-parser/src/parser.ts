@@ -261,7 +261,7 @@ function parseNavigationProperties(
                 });
                 const v2Annotations = convertV2Annotations(
                     attributes as V2annotationsSupport,
-                    'Property',
+                    'NavigationProperty',
                     attributes.Name
                 );
                 if (v2Annotations.length > 0) {
