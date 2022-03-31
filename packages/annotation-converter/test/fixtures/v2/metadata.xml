@@ -2080,10 +2080,10 @@
 					</Record>
 				</Annotation>
 			</Annotations>
-			<atom:link rel="self" href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_CUSTOMER_OP_SRV/$metadata"
+			<atom:link rel="self" href="https://internalHost:443/sap/opu/odata/sap/C_CUSTOMER_OP_SRV/$metadata"
 					   xmlns:atom="http://www.w3.org/2005/Atom"/>
 			<atom:link rel="latest-version"
-					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_CUSTOMER_OP_SRV/$metadata"
+					   href="https://internalHost:443/sap/opu/odata/sap/C_CUSTOMER_OP_SRV/$metadata"
 					   xmlns:atom="http://www.w3.org/2005/Atom"/>
 		</Schema>
 	</edmx:DataServices>

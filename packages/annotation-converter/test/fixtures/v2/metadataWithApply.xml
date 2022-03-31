@@ -584,10 +584,10 @@
 			</Annotations>
 			<atom:link xmlns:atom="http://www.w3.org/2005/Atom"
 					   rel="self"
-					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_SUPLREVALRSPEVALUATEST_CDS/$metadata"/>
+					   href="https://internalHost:443/sap/opu/odata/sap/C_SUPLREVALRSPEVALUATEST_CDS/$metadata"/>
 			<atom:link xmlns:atom="http://www.w3.org/2005/Atom"
 					   rel="latest-version"
-					   href="https://ccw-715.wdf.sap.corp:443/sap/opu/odata/sap/C_SUPLREVALRSPEVALUATEST_CDS/$metadata"/>
+					   href="https://internalHost:443/sap/opu/odata/sap/C_SUPLREVALRSPEVALUATEST_CDS/$metadata"/>
 		</Schema>
 	</edmx:DataServices>
 </edmx:Edmx>

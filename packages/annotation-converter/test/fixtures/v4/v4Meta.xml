@@ -2150,7 +2150,7 @@
                 </Record>
                 <Record Type="UI.DataFieldWithUrl">
                   <PropertyValue Property="Label" String="FLP"/>
-                  <PropertyValue Property="Url" String="http://veui5infra.dhcp.wdf.sap.corp:8080/sapui5-sdk-internal/test-resources/sap/fe/templates/internal/demokit/flpSandbox.html?useBackendUrl=http://10.236.138.74:8080#Shell-home"/>
+                  <PropertyValue Property="Url" String="http://google.com"/>
                   <PropertyValue Property="Value" String="Shell Home"/>
                   <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                 </Record>
