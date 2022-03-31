@@ -4,6 +4,7 @@ import { CapabilitiesAnnotationTerms } from '@sap-ux/vocabularies-types/vocabula
 import { CommonAnnotationTerms, FieldControlType } from '@sap-ux/vocabularies-types/vocabularies/Common';
 import { MeasuresAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Measures';
 import { UIAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/UI';
+import { AggregationAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 
 export type V2annotationsSupport = {
     'sap:schema-version'?: string;
@@ -41,10 +42,11 @@ export type V2annotationsSupport = {
     'sap:maxoccurs'?: string;
     'sap:parameter'?: string;
     'sap:attribute-for'?: string;
+    'sap:semantics'?: string;
     // Leaving out the hiearchy / aggregation relate ones :)
 };
 
-export type ObjectType = 'EntitySet' | 'Singleton' | 'Property' | 'NavigationProperty';
+export type ObjectType = 'EntitySet' | 'EntityType' | 'Singleton' | 'Property' | 'NavigationProperty';
 
 /**
  * Convert v2 annotation that were defined on the schema as standard v4 annotations.
@@ -52,7 +54,7 @@ export type ObjectType = 'EntitySet' | 'Singleton' | 'Property' | 'NavigationPro
  * @param attributes the attribute of the current object
  * @param objectType the object type
  * @param objectName the object name
- * @returns the converted annotation
+ * @returns the converted annotations
  */
 export function convertV2Annotations(
     attributes: V2annotationsSupport,
@@ -60,16 +62,359 @@ export function convertV2Annotations(
     objectName: string
 ): RawAnnotation[] {
     const annotations: RawAnnotation[] = [];
-    if (attributes['sap:schema-version']) {
+    switch (objectType) {
+        case 'EntitySet':
+            convertEntitySetAnnotations(attributes, annotations);
+            break;
+        case 'EntityType':
+            convertEntityTypeAnnotations(attributes, objectName, annotations);
+            break;
+        case 'NavigationProperty':
+            convertNavigationPropertyAnnotations(attributes, objectName, annotations);
+            break;
+        case 'Property':
+            convertPropertyAnnotations(attributes, objectName, annotations);
+            break;
+        case 'Singleton':
+            break;
+        default:
+            break;
+    }
+    convertGenericAnnotations(attributes, objectName, annotations);
+    return annotations;
+}
+
+/**
+ * Convert annotation that can apply to all kind of objects.
+ *
+ * @param attributes the attribute of the current object
+ * @param objectName the object name
+ * @param annotations the raw annotation array
+ */
+export function convertGenericAnnotations(
+    attributes: V2annotationsSupport,
+    objectName: string,
+    annotations: RawAnnotation[]
+) {
+    /**
+     * Push to annotation if the condition evaluates to true.
+     *
+     * @param condition the condition to evaluate
+     * @param value the target value
+     */
+    function pushToAnnotations(condition: boolean, value: any) {
+        if (condition) {
+            annotations.push(value);
+        }
+    }
+
+    pushToAnnotations(attributes['sap:schema-version'] !== undefined, {
+        term: CoreAnnotationTerms.SchemaVersion,
+        value: {
+            type: 'String',
+            String: attributes['sap:schema-version']
+        }
+    });
+
+    pushToAnnotations(attributes['sap:searchable'] !== undefined, {
+        term: CapabilitiesAnnotationTerms.SearchRestrictions,
+        record: {
+            propertyValues: [
+                {
+                    name: 'Searchable',
+                    value: {
+                        type: 'Bool',
+                        Bool: attributes['sap:searchable'] === 'true'
+                    }
+                }
+            ]
+        }
+    });
+    pushToAnnotations(attributes['sap:pageable'] !== undefined, {
+        term: CapabilitiesAnnotationTerms.TopSupported,
+        value: {
+            type: 'Bool',
+            Bool: attributes['sap:pageable'] === 'true'
+        }
+    });
+
+    pushToAnnotations(attributes['sap:pageable'] !== undefined, {
+        term: CapabilitiesAnnotationTerms.SkipSupported,
+        value: {
+            type: 'Bool',
+            Bool: attributes['sap:pageable'] === 'true'
+        }
+    });
+
+    pushToAnnotations(attributes['sap:topable'] !== undefined, {
+        term: CapabilitiesAnnotationTerms.TopSupported,
+        value: {
+            type: 'Bool',
+            Bool: attributes['sap:topable'] === 'true'
+        }
+    });
+
+    pushToAnnotations(attributes['sap:requires-filter'] !== undefined, {
+        term: CapabilitiesAnnotationTerms.FilterRestrictions,
+        record: {
+            propertyValues: [
+                {
+                    name: 'RequiresFilter',
+                    value: {
+                        type: 'Bool',
+                        Bool: attributes['sap:requires-filter'] === 'true'
+                    }
+                }
+            ]
+        }
+    });
+    pushToAnnotations(attributes['sap:required-in-filter'] !== undefined, {
+        term: CapabilitiesAnnotationTerms.FilterRestrictions,
+        record: {
+            propertyValues: [
+                {
+                    name: 'RequiredProperties',
+                    value: {
+                        type: 'Collection',
+                        Collection: [
+                            {
+                                type: 'PropertyPath',
+                                PropertyPath: objectName
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    });
+
+    pushToAnnotations(attributes['sap:filter-restricton'] !== undefined, {
+        term: CapabilitiesAnnotationTerms.FilterRestrictions,
+        record: {
+            propertyValues: [
+                {
+                    name: 'FilterExpressionRestrictions',
+                    value: {
+                        type: 'Collection',
+                        Collection: [
+                            {
+                                type: 'Record',
+                                propertyValues: [
+                                    {
+                                        name: 'FilterExpressionRestrictions',
+                                        value: {
+                                            type: 'String',
+                                            String: attributes['sap:filter-restricton']
+                                        }
+                                    },
+                                    {
+                                        name: 'Property',
+                                        value: {
+                                            type: 'PropertyPath',
+                                            PropertyPath: objectName
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    });
+    pushToAnnotations(attributes['sap:sortable'] === 'false', {
+        term: CapabilitiesAnnotationTerms.SortRestrictions,
+        record: {
+            propertyValues: [
+                {
+                    name: 'NonSortableProperties',
+                    value: {
+                        type: 'PropertyPath',
+                        PropertyPath: objectName
+                    }
+                }
+            ]
+        }
+    });
+    pushToAnnotations(attributes['sap:visible'] === 'false', {
+        term: UIAnnotationTerms.Hidden,
+        value: {
+            type: 'Bool',
+            Bool: true
+        }
+    });
+    pushToAnnotations(attributes['sap:label'] !== undefined, {
+        term: CommonAnnotationTerms.Label,
+        value: {
+            type: 'String',
+            String: attributes['sap:label']
+        }
+    });
+    pushToAnnotations(attributes['sap:heading'] !== undefined, {
+        term: CommonAnnotationTerms.Heading,
+        value: {
+            type: 'String',
+            String: attributes['sap:heading']
+        }
+    });
+
+    pushToAnnotations(attributes['sap:quickinfo'] !== undefined, {
+        term: CommonAnnotationTerms.QuickInfo,
+        value: {
+            type: 'String',
+            String: attributes['sap:quickinfo']
+        }
+    });
+    pushToAnnotations(attributes['sap:text'] !== undefined, {
+        term: CommonAnnotationTerms.Text,
+        value: {
+            type: 'Path',
+            Path: attributes['sap:text']
+        }
+    });
+
+    pushToAnnotations(attributes['sap:unit'] !== undefined, {
+        term: MeasuresAnnotationTerms.Unit,
+        value: {
+            type: 'Path',
+            Path: attributes['sap:unit']
+        }
+    });
+    pushToAnnotations(attributes['sap:unit'] !== undefined, {
+        term: MeasuresAnnotationTerms.ISOCurrency,
+        value: {
+            type: 'Path',
+            Path: attributes['sap:unit']
+        }
+    });
+
+    pushToAnnotations(attributes['sap:precision'] !== undefined, {
+        term: MeasuresAnnotationTerms.Scale,
+        value: {
+            type: 'Int',
+            Int: parseInt(attributes['sap:precision'] as string, 10)
+        }
+    });
+    pushToAnnotations(attributes['sap:value-list'] === 'fixed-value', {
+        term: CommonAnnotationTerms.ValueListWithFixedValues,
+        value: {
+            type: 'Bool',
+            Bool: true
+        }
+    });
+
+    pushToAnnotations(attributes['sap:display-format'] === 'NonNegative', {
+        term: CommonAnnotationTerms.IsDigitSequence,
+        value: {
+            type: 'Bool',
+            Bool: true
+        }
+    });
+
+    pushToAnnotations(attributes['sap:display-format'] === 'UpperCase', {
+        term: CommonAnnotationTerms.IsUpperCase,
+        value: {
+            type: 'Bool',
+            Bool: true
+        }
+    });
+
+    if (attributes['sap:lower-boundary'] || attributes['sap:upper-boundary']) {
+        const pv: PropertyValue[] = [];
+        if (attributes['sap:lower-boundary']) {
+            pv.push({
+                name: 'LowerBoundary',
+                value: {
+                    type: 'PropertyPath',
+                    PropertyPath: attributes['sap:lower-boundary']
+                }
+            });
+        }
+        if (attributes['sap:upper-boundary']) {
+            pv.push({
+                name: 'UpperBoundary',
+                value: {
+                    type: 'PropertyPath',
+                    PropertyPath: attributes['sap:upper-boundary']
+                }
+            });
+        }
         annotations.push({
-            term: CoreAnnotationTerms.SchemaVersion,
-            value: {
-                type: 'String',
-                String: attributes['sap:schema-version']
+            term: CommonAnnotationTerms.Interval,
+            record: {
+                propertyValues: pv
             }
         });
     }
-    if (attributes['sap:creatable'] && objectType === 'EntitySet') {
+    pushToAnnotations(attributes['sap:field-control'] !== undefined, {
+        term: CommonAnnotationTerms.FieldControl,
+        value: {
+            type: 'Path',
+            Path: attributes['sap:field-control']
+        }
+    });
+
+    pushToAnnotations(attributes['sap:applicable-path'] !== undefined, {
+        term: CoreAnnotationTerms.OperationAvailable,
+        value: {
+            type: 'Path',
+            Path: attributes['sap:applicable-path']
+        }
+    });
+    pushToAnnotations(attributes['sap:minoccurs'] !== undefined, {
+        term: CommonAnnotationTerms.MinOccurs,
+        value: {
+            type: 'Int',
+            Int: parseInt(attributes['sap:minoccurs'] as string, 10)
+        }
+    });
+
+    pushToAnnotations(attributes['sap:maxoccurs'] !== undefined, {
+        term: CommonAnnotationTerms.MaxOccurs,
+        value: {
+            type: 'Int',
+            Int: parseInt(attributes['sap:maxoccurs'] as string, 10)
+        }
+    });
+
+    pushToAnnotations(attributes['sap:parameter'] === 'mandatory', {
+        term: CommonAnnotationTerms.FieldControl,
+        value: {
+            type: 'EnumMember',
+            EnumMember: FieldControlType.Mandatory
+        }
+    });
+
+    pushToAnnotations(attributes['sap:parameter'] === 'optional', {
+        term: CommonAnnotationTerms.FieldControl,
+        value: {
+            type: 'EnumMember',
+            EnumMember: FieldControlType.Optional
+        }
+    });
+
+    pushToAnnotations(attributes['sap:attribute-for'] !== undefined, {
+        term: CommonAnnotationTerms.Attributes,
+        value: {
+            type: 'Collection',
+            Collection: [
+                {
+                    type: 'PropertyPath',
+                    PropertyPath: objectName
+                }
+            ]
+        }
+    });
+}
+
+/**
+ * Convert annotations specific to entityset.
+ *
+ * @param attributes The V2 Annotations to evaluate
+ * @param annotations The raw annotation array
+ */
+export function convertEntitySetAnnotations(attributes: V2annotationsSupport, annotations: RawAnnotation[]) {
+    if (attributes['sap:creatable']) {
         annotations.push({
             term: CapabilitiesAnnotationTerms.InsertRestrictions,
             record: {
@@ -85,7 +430,85 @@ export function convertV2Annotations(
             }
         });
     }
-    if (attributes['sap:creatable'] && objectType === 'NavigationProperty') {
+    if (attributes['sap:updatable']) {
+        annotations.push({
+            term: CapabilitiesAnnotationTerms.UpdateRestrictions,
+            record: {
+                propertyValues: [
+                    {
+                        name: 'Updatable',
+                        value: {
+                            type: 'Bool',
+                            Bool: attributes['sap:updatable'] === 'true'
+                        }
+                    }
+                ]
+            }
+        });
+    }
+    if (attributes['sap:updatable-path']) {
+        annotations.push({
+            term: CapabilitiesAnnotationTerms.UpdateRestrictions,
+            record: {
+                propertyValues: [
+                    {
+                        name: 'Updatable',
+                        value: {
+                            type: 'Path',
+                            Path: attributes['sap:updatable-path']
+                        }
+                    }
+                ]
+            }
+        });
+    }
+    if (attributes['sap:deletable']) {
+        annotations.push({
+            term: CapabilitiesAnnotationTerms.DeleteRestrictions,
+            record: {
+                propertyValues: [
+                    {
+                        name: 'Deletable',
+                        value: {
+                            type: 'Bool',
+                            Bool: attributes['sap:updatable'] === 'true'
+                        }
+                    }
+                ]
+            }
+        });
+    }
+    if (attributes['sap:deletable-path']) {
+        annotations.push({
+            term: CapabilitiesAnnotationTerms.DeleteRestrictions,
+            record: {
+                propertyValues: [
+                    {
+                        name: 'Deletable',
+                        value: {
+                            type: 'Path',
+                            Path: attributes['sap:deletable-path']
+                        }
+                    }
+                ]
+            }
+        });
+    }
+}
+
+/**
+ * Convert annotations specific to navigation properties.
+ *
+ * @param attributes The V2 Annotations to evaluate
+ * @param objectName The name of the navigation property
+ * @param annotations The raw annotation array
+ */
+export function convertNavigationPropertyAnnotations(
+    attributes: V2annotationsSupport,
+    objectName: string,
+    annotations: RawAnnotation[]
+) {
+    if (attributes['sap:creatable']) {
         annotations.push({
             term: CapabilitiesAnnotationTerms.NavigationRestrictions,
             record: {
@@ -121,7 +544,7 @@ export function convertV2Annotations(
             }
         });
     }
-    if (attributes['sap:creatable-path'] && objectType === 'NavigationProperty') {
+    if (attributes['sap:creatable-path']) {
         annotations.push({
             term: CapabilitiesAnnotationTerms.NavigationRestrictions,
             record: {
@@ -157,206 +580,7 @@ export function convertV2Annotations(
             }
         });
     }
-    if (attributes['sap:updatable'] && objectType === 'EntitySet') {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.UpdateRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'Updatable',
-                        value: {
-                            type: 'Bool',
-                            Bool: attributes['sap:updatable'] === 'true'
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    if (attributes['sap:updatable-path'] && objectType === 'EntitySet') {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.UpdateRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'Updatable',
-                        value: {
-                            type: 'Path',
-                            Path: attributes['sap:updatable-path']
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    if (attributes['sap:deletable'] && objectType === 'EntitySet') {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.DeleteRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'Deletable',
-                        value: {
-                            type: 'Bool',
-                            Bool: attributes['sap:updatable'] === 'true'
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    if (attributes['sap:deletable-path'] && objectType === 'EntitySet') {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.DeleteRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'Deletable',
-                        value: {
-                            type: 'Path',
-                            Path: attributes['sap:deletable-path']
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    if (
-        attributes['sap:creatable'] === 'true' &&
-        attributes['sap:updatable'] === 'false' &&
-        objectType === 'Property'
-    ) {
-        annotations.push({
-            term: CoreAnnotationTerms.Immutable,
-            value: {
-                type: 'Bool',
-                Bool: true
-            }
-        });
-    }
-    if (
-        attributes['sap:creatable'] === 'false' &&
-        attributes['sap:updatable'] === 'false' &&
-        objectType === 'Property'
-    ) {
-        annotations.push({
-            term: CoreAnnotationTerms.Computed,
-            value: {
-                type: 'Bool',
-                Bool: true
-            }
-        });
-    }
-    if (attributes['sap:updatable-path'] && objectType === 'Property') {
-        annotations.push({
-            term: CommonAnnotationTerms.FieldControl,
-            value: {
-                type: 'Path',
-                Path: attributes['sap:updatable-path']
-            }
-        });
-    }
-    if (attributes['sap:searchable']) {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.SearchRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'Searachable',
-                        value: {
-                            type: 'Bool',
-                            Bool: attributes['sap:searchable'] === 'true'
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    if (attributes['sap:pageable']) {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.TopSupported,
-            value: {
-                type: 'Bool',
-                Bool: attributes['sap:pageable'] === 'true'
-            }
-        });
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.SkipSupported,
-            value: {
-                type: 'Bool',
-                Bool: attributes['sap:pageable'] === 'true'
-            }
-        });
-    }
-    if (attributes['sap:topable']) {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.TopSupported,
-            value: {
-                type: 'Bool',
-                Bool: attributes['sap:topable'] === 'true'
-            }
-        });
-    }
-    if (attributes['sap:requires-filter']) {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.FilterRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'RequiresFilter',
-                        value: {
-                            type: 'Bool',
-                            Bool: attributes['sap:requires-filter'] === 'true'
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    if (attributes['sap:required-in-filter']) {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.FilterRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'RequiredProperties',
-                        value: {
-                            type: 'Collection',
-                            Collection: [
-                                {
-                                    type: 'PropertyPath',
-                                    PropertyPath: objectName
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        });
-    }
-    if (attributes['sap:filterable'] === 'false' && objectType === 'Property') {
-        annotations.push({
-            term: CapabilitiesAnnotationTerms.FilterRestrictions,
-            record: {
-                propertyValues: [
-                    {
-                        name: 'NonFilterableProperties',
-                        value: {
-                            type: 'Collection',
-                            Collection: [
-                                {
-                                    type: 'PropertyPath',
-                                    PropertyPath: objectName
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        });
-    }
-
-    if (attributes['sap:filterable'] === 'false' && objectType === 'NavigationProperty') {
+    if (attributes['sap:filterable'] === 'false') {
         annotations.push({
             term: CapabilitiesAnnotationTerms.NavigationRestrictions,
             record: {
@@ -402,35 +626,60 @@ export function convertV2Annotations(
             }
         });
     }
+}
 
-    if (attributes['sap:filter-restricton']) {
+/**
+ * Convert annotations specific to properties.
+ *
+ * @param attributes The V2 Annotations to evaluate
+ * @param objectName The name of the property
+ * @param annotations The raw annotation array
+ */
+export function convertPropertyAnnotations(
+    attributes: V2annotationsSupport,
+    objectName: string,
+    annotations: RawAnnotation[]
+) {
+    if (attributes['sap:creatable'] === 'true' && attributes['sap:updatable'] === 'false') {
+        annotations.push({
+            term: CoreAnnotationTerms.Immutable,
+            value: {
+                type: 'Bool',
+                Bool: true
+            }
+        });
+    }
+    if (attributes['sap:creatable'] === 'false' && attributes['sap:updatable'] === 'false') {
+        annotations.push({
+            term: CoreAnnotationTerms.Computed,
+            value: {
+                type: 'Bool',
+                Bool: true
+            }
+        });
+    }
+    if (attributes['sap:updatable-path']) {
+        annotations.push({
+            term: CommonAnnotationTerms.FieldControl,
+            value: {
+                type: 'Path',
+                Path: attributes['sap:updatable-path']
+            }
+        });
+    }
+    if (attributes['sap:filterable'] === 'false') {
         annotations.push({
             term: CapabilitiesAnnotationTerms.FilterRestrictions,
             record: {
                 propertyValues: [
                     {
-                        name: 'FilterExpressionRestrictions',
+                        name: 'NonFilterableProperties',
                         value: {
                             type: 'Collection',
                             Collection: [
                                 {
-                                    type: 'Record',
-                                    propertyValues: [
-                                        {
-                                            name: 'FilterExpressionRestrictions',
-                                            value: {
-                                                type: 'String',
-                                                String: attributes['sap:filter-restricton']
-                                            }
-                                        },
-                                        {
-                                            name: 'Property',
-                                            value: {
-                                                type: 'PropertyPath',
-                                                PropertyPath: objectName
-                                            }
-                                        }
-                                    ]
+                                    type: 'PropertyPath',
+                                    PropertyPath: objectName
                                 }
                             ]
                         }
@@ -439,214 +688,57 @@ export function convertV2Annotations(
             }
         });
     }
-    if (attributes['sap:sortable'] === 'false') {
+}
+
+/**
+ * Convert annotations specific to properties.
+ *
+ * @param attributes The V2 Annotations to evaluate
+ * @param objectName The name of the property
+ * @param annotations The raw annotation array
+ */
+export function convertEntityTypeAnnotations(
+    attributes: V2annotationsSupport,
+    objectName: string,
+    annotations: RawAnnotation[]
+) {
+    if (attributes['sap:semantics'] === 'aggregate') {
         annotations.push({
-            term: CapabilitiesAnnotationTerms.SortRestrictions,
+            term: AggregationAnnotationTerms.ApplySupported,
             record: {
                 propertyValues: [
                     {
-                        name: 'NonSortableProperties',
+                        /**
+                         Only properties marked as `Groupable` can be used in the `groupby` transformation, and only those marked as `Aggregatable` can be used in the  `aggregate` transformation
+                         */
+                        name: 'PropertyRestrictions',
                         value: {
-                            type: 'PropertyPath',
-                            PropertyPath: objectName
+                            type: 'Collection',
+                            Collection: []
+                        }
+                    },
+                    {
+                        /**
+                         A non-empty collection indicates that only the listed properties of the annotated target are supported by the `groupby` transformation
+                         */
+                        name: 'GroupableProperties',
+                        value: {
+                            type: 'Collection',
+                            Collection: []
+                        }
+                    },
+                    {
+                        /**
+                         A non-empty collection indicates that only the listed properties of the annotated target can be used in the `aggregate` transformation, optionally restricted to the specified aggregation methods
+                         */
+                        name: 'AggregatableProperties',
+                        value: {
+                            type: 'Collection',
+                            Collection: []
                         }
                     }
                 ]
             }
         });
     }
-    if (attributes['sap:visible'] === 'false') {
-        annotations.push({
-            term: UIAnnotationTerms.Hidden,
-            value: {
-                type: 'Bool',
-                Bool: true
-            }
-        });
-    }
-    if (attributes['sap:label']) {
-        annotations.push({
-            term: CommonAnnotationTerms.Label,
-            value: {
-                type: 'String',
-                String: attributes['sap:label']
-            }
-        });
-    }
-    if (attributes['sap:heading']) {
-        annotations.push({
-            term: CommonAnnotationTerms.Heading,
-            value: {
-                type: 'String',
-                String: attributes['sap:heading']
-            }
-        });
-    }
-    if (attributes['sap:quickinfo']) {
-        annotations.push({
-            term: CommonAnnotationTerms.QuickInfo,
-            value: {
-                type: 'String',
-                String: attributes['sap:quickinfo']
-            }
-        });
-    }
-    if (attributes['sap:text']) {
-        annotations.push({
-            term: CommonAnnotationTerms.Text,
-            value: {
-                type: 'Path',
-                Path: attributes['sap:text']
-            }
-        });
-    }
-    if (attributes['sap:unit']) {
-        annotations.push({
-            term: MeasuresAnnotationTerms.Unit,
-            value: {
-                type: 'Path',
-                Path: attributes['sap:unit']
-            }
-        });
-        annotations.push({
-            term: MeasuresAnnotationTerms.ISOCurrency,
-            value: {
-                type: 'Path',
-                Path: attributes['sap:unit']
-            }
-        });
-    }
-    if (attributes['sap:precision']) {
-        annotations.push({
-            term: MeasuresAnnotationTerms.Scale,
-            value: {
-                type: 'Int',
-                Int: parseInt(attributes['sap:precision'], 10)
-            }
-        });
-    }
-    if (attributes['sap:value-list'] === 'fixed-value') {
-        annotations.push({
-            term: CommonAnnotationTerms.ValueListWithFixedValues,
-            value: {
-                type: 'Bool',
-                Bool: true
-            }
-        });
-    }
-    if (attributes['sap:display-format'] === 'NonNegative') {
-        annotations.push({
-            term: CommonAnnotationTerms.IsDigitSequence,
-            value: {
-                type: 'Bool',
-                Bool: true
-            }
-        });
-    }
-    if (attributes['sap:display-format'] === 'UpperCase') {
-        annotations.push({
-            term: CommonAnnotationTerms.IsUpperCase,
-            value: {
-                type: 'Bool',
-                Bool: true
-            }
-        });
-    }
-    if (attributes['sap:lower-boundary'] || attributes['sap:upper-boundary']) {
-        const pv: PropertyValue[] = [];
-        if (attributes['sap:lower-boundary']) {
-            pv.push({
-                name: 'LowerBoundary',
-                value: {
-                    type: 'PropertyPath',
-                    PropertyPath: attributes['sap:lower-boundary']
-                }
-            });
-        }
-        if (attributes['sap:upper-boundary']) {
-            pv.push({
-                name: 'UpperBoundary',
-                value: {
-                    type: 'PropertyPath',
-                    PropertyPath: attributes['sap:upper-boundary']
-                }
-            });
-        }
-        annotations.push({
-            term: CommonAnnotationTerms.Interval,
-            record: {
-                propertyValues: pv
-            }
-        });
-    }
-    if (attributes['sap:field-control']) {
-        annotations.push({
-            term: CommonAnnotationTerms.FieldControl,
-            value: {
-                type: 'Path',
-                Path: attributes['sap:field-control']
-            }
-        });
-    }
-    if (attributes['sap:applicable-path']) {
-        annotations.push({
-            term: CoreAnnotationTerms.OperationAvailable,
-            value: {
-                type: 'Path',
-                Path: attributes['sap:applicable-path']
-            }
-        });
-    }
-    if (attributes['sap:minoccurs']) {
-        annotations.push({
-            term: CommonAnnotationTerms.MinOccurs,
-            value: {
-                type: 'Int',
-                Int: parseInt(attributes['sap:minoccurs'], 10)
-            }
-        });
-    }
-    if (attributes['sap:maxoccurs']) {
-        annotations.push({
-            term: CommonAnnotationTerms.MaxOccurs,
-            value: {
-                type: 'Int',
-                Int: parseInt(attributes['sap:maxoccurs'], 10)
-            }
-        });
-    }
-    if (attributes['sap:parameter'] === 'mandatory') {
-        annotations.push({
-            term: CommonAnnotationTerms.FieldControl,
-            value: {
-                type: 'EnumMember',
-                EnumMember: FieldControlType.Mandatory
-            }
-        });
-    }
-    if (attributes['sap:parameter'] === 'optional') {
-        annotations.push({
-            term: CommonAnnotationTerms.FieldControl,
-            value: {
-                type: 'EnumMember',
-                EnumMember: FieldControlType.Optional
-            }
-        });
-    }
-    if (attributes['sap:attribute-for']) {
-        annotations.push({
-            term: CommonAnnotationTerms.Attributes,
-            value: {
-                type: 'Collection',
-                Collection: [
-                    {
-                        type: 'PropertyPath',
-                        PropertyPath: objectName
-                    }
-                ]
-            }
-        });
-    }
-
-    return annotations;
 }

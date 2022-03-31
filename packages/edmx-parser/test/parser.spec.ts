@@ -29,6 +29,11 @@ describe('Parser', function () {
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
+    it('can convertTypes a v2 edmx file with analytics', async () => {
+        const xmlFile = await loadFixture('v2/metadata_analytics.xml');
+        const schema: RawMetadata = parse(xmlFile);
+        expect(schema).toMatchSnapshot();
+    });
 
     it('can convertTypes a weird edmx file', async () => {
         const xmlFile = await loadFixture('weirdCollection.metadata.xml');

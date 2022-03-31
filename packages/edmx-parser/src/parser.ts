@@ -321,7 +321,7 @@ function parseAssociations(associations: EDMX.Association[], namespace: string):
 
 function parseEntityTypes(
     entityTypes: EDMX.EntityType[],
-    annotations: AnnotationList[],
+    annotationLists: AnnotationList[],
     namespace: string
 ): RawEntityType[] {
     return entityTypes.reduce((outArray: RawEntityType[], entityType) => {
@@ -331,15 +331,15 @@ function parseEntityTypes(
             ensureArray(entityType.Property),
             entityKeyNames,
             entityTypeFQN,
-            annotations
+            annotationLists
         );
         const navigationProperties = parseNavigationProperties(
             ensureArray(entityType.NavigationProperty),
             entityType,
             entityTypeFQN,
-            annotations
+            annotationLists
         );
-        outArray.push({
+        const outEntityType: RawEntityType = {
             _type: 'EntityType',
             name: entityType._attributes.Name,
             fullyQualifiedName: entityTypeFQN,
@@ -347,7 +347,16 @@ function parseEntityTypes(
             entityProperties,
             actions: {},
             navigationProperties: navigationProperties
-        });
+        };
+        const v2Annotations = convertV2Annotations(
+            entityType._attributes as V2annotationsSupport,
+            'EntityType',
+            entityType._attributes.Name
+        );
+        if (v2Annotations.length > 0) {
+            annotationLists.push(createAnnotationList(outEntityType.fullyQualifiedName, v2Annotations));
+        }
+        outArray.push(outEntityType);
         return outArray;
     }, []);
 }
@@ -382,11 +391,7 @@ function parseComplexTypes(
     }, []);
 }
 
-function parseTypeDefinitions(
-    typeDefinitions: EDMX.TypeDefinition[],
-    annotationLists: AnnotationList[],
-    namespace: string
-): RawTypeDefinition[] {
+function parseTypeDefinitions(typeDefinitions: EDMX.TypeDefinition[], namespace: string): RawTypeDefinition[] {
     return typeDefinitions.reduce((outArray: RawTypeDefinition[], typeDefinition) => {
         const typeDefinitionFQN = `${namespace}.${typeDefinition._attributes.Name}`;
         outArray.push({
@@ -618,7 +623,7 @@ function parseRecord(
  * @returns true if the collection if of the right type
  */
 function isExpressionOfType<K>(annotation: any, propertyNameToCheck: string): annotation is K {
-    return (annotation as any)[propertyNameToCheck] != null;
+    return annotation[propertyNameToCheck] != null;
 }
 
 function parseModelPath(
@@ -964,7 +969,7 @@ function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema 
     const annotations: AnnotationList[] = [];
     const entityTypes = parseEntityTypes(ensureArray(edmSchema.EntityType), annotations, namespace);
     const complexTypes = parseComplexTypes(ensureArray(edmSchema.ComplexType), annotations, namespace);
-    const typeDefinitions = parseTypeDefinitions(ensureArray(edmSchema.TypeDefinition), annotations, namespace);
+    const typeDefinitions = parseTypeDefinitions(ensureArray(edmSchema.TypeDefinition), namespace);
     let entitySets: RawEntitySet[] = [];
     let singletons: RawSingleton[] = [];
     let associationSets: RawAssociationSet[] = [];
@@ -1001,45 +1006,7 @@ function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema 
     }
     actions = actions.concat(parseActions(ensureArray(edmSchema.Action), namespace));
     actions = actions.concat(parseActions(ensureArray(edmSchema.Function), namespace, true));
-    // const actionImports = parseActionImports(ensureArray(edmSchema.EntityContainer.ActionImport), namespace);
     const associations = parseAssociations(ensureArray(edmSchema.Association), namespace);
-    if (associationSets.length > 0) {
-        // V2 case
-        entitySets.forEach((entitySet) => {
-            const entityType = entityTypes.find(
-                (entityType) => entityType.fullyQualifiedName === entitySet.entityTypeName
-            );
-            entityType?.navigationProperties.forEach((navProp: any) => {
-                const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
-                const associationSet = associationSets.find((assoc) => assoc.association === v2NavProp.relationship);
-                if (associationSet) {
-                    const associationEndEntitySets = associationSet.associationEnd.map(
-                        (associationEnd: RawAssociationSetEnd) => {
-                            return entitySets.find((entitySet) => entitySet.name === associationEnd.entitySet);
-                        }
-                    );
-                    const targetEntitySet = associationEndEntitySets.find(
-                        (associationEntitySet: any) =>
-                            associationEntitySet?.fullyQualifiedName !== entitySet.fullyQualifiedName
-                    );
-                    if (targetEntitySet) {
-                        entitySet.navigationPropertyBinding[navProp.name] = targetEntitySet;
-                    }
-                }
-            });
-        });
-    }
-    if (associations.length > 0) {
-        entityTypes.forEach((entityType) => {
-            entityType.navigationProperties.forEach((navProp: any) => {
-                const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
-                const association = associations.find((assoc) => assoc.fullyQualifiedName === v2NavProp.relationship);
-                if (association && association.referentialConstraints) {
-                    v2NavProp.referentialConstraint = association.referentialConstraints;
-                }
-            });
-        });
-    }
 
     parseAnnotationLists(ensureArray(edmSchema.Annotations), annotations);
     const annotationMap: { [id: string]: AnnotationList[] } = {};
@@ -1108,29 +1075,29 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
     if (schemas.length === 1) {
         return schemas[0];
     }
-    const associations = schemas.reduce((associations: RawAssociation[], schema) => {
-        return associations.concat(schema.associations);
+    const associations = schemas.reduce((associationsToReduce: RawAssociation[], schema) => {
+        return associationsToReduce.concat(schema.associations);
     }, []);
-    const associationSets = schemas.reduce((associationSets: RawAssociationSet[], schema) => {
-        return associationSets.concat(schema.associationSets);
+    const associationSets = schemas.reduce((associationSetsToReduce: RawAssociationSet[], schema) => {
+        return associationSetsToReduce.concat(schema.associationSets);
     }, []);
-    const entitySets = schemas.reduce((entitySets: RawEntitySet[], schema) => {
-        return entitySets.concat(schema.entitySets);
+    const entitySets = schemas.reduce((entitySetsToReduce: RawEntitySet[], schema) => {
+        return entitySetsToReduce.concat(schema.entitySets);
     }, []);
-    const singletons = schemas.reduce((singletons: RawSingleton[], schema) => {
-        return singletons.concat(schema.singletons);
+    const singletons = schemas.reduce((singletonsToReduce: RawSingleton[], schema) => {
+        return singletonsToReduce.concat(schema.singletons);
     }, []);
-    const entityTypes = schemas.reduce((entityTypes: RawEntityType[], schema) => {
-        return entityTypes.concat(schema.entityTypes);
+    const entityTypes = schemas.reduce((entityTypesToReduce: RawEntityType[], schema) => {
+        return entityTypesToReduce.concat(schema.entityTypes);
     }, []);
-    const actions = schemas.reduce((actions: RawAction[], schema) => {
-        return actions.concat(schema.actions);
+    const actions = schemas.reduce((actionsToReduce: RawAction[], schema) => {
+        return actionsToReduce.concat(schema.actions);
     }, []);
-    const complexTypes = schemas.reduce((complexTypes: RawComplexType[], schema) => {
-        return complexTypes.concat(schema.complexTypes);
+    const complexTypes = schemas.reduce((complexTypesToReduces: RawComplexType[], schema) => {
+        return complexTypesToReduces.concat(schema.complexTypes);
     }, []);
-    const typeDefinitions = schemas.reduce((typeDefinitions: RawTypeDefinition[], schema) => {
-        return typeDefinitions.concat(schema.typeDefinitions);
+    const typeDefinitions = schemas.reduce((typeDefinitionsToReduce: RawTypeDefinition[], schema) => {
+        return typeDefinitionsToReduce.concat(schema.typeDefinitions);
     }, []);
     let annotationMap = {};
     schemas.forEach((schema) => {
@@ -1144,43 +1111,40 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
             namespace = schema.namespace;
         }
     });
-    if (associationSets.length > 0) {
-        // V2 case
-        entitySets.forEach((entitySet) => {
-            const entityType = entityTypes.find(
-                (entityType) => entityType.fullyQualifiedName === entitySet.entityTypeName
-            );
-            entityType?.navigationProperties.forEach((navProp: any) => {
-                const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
-                const associationSet = associationSets.find((assoc) => assoc.association === v2NavProp.relationship);
-                if (associationSet) {
-                    const associationEndEntitySets = associationSet.associationEnd.map(
-                        (associationEnd: RawAssociationSetEnd) => {
-                            return entitySets.find((entitySet) => entitySet.name === associationEnd.entitySet);
-                        }
-                    );
-                    const targetEntitySet = associationEndEntitySets.find(
-                        (associationEntitySet: any) =>
-                            associationEntitySet?.fullyQualifiedName !== entitySet.fullyQualifiedName
-                    );
-                    if (targetEntitySet) {
-                        entitySet.navigationPropertyBinding[navProp.name] = targetEntitySet;
+
+    // V2 case
+    entitySets.forEach((entitySet) => {
+        const entityType = entityTypes.find(
+            (rawEntityType) => rawEntityType.fullyQualifiedName === entitySet.entityTypeName
+        );
+        entityType?.navigationProperties.forEach((navProp: any) => {
+            const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
+            const associationSet = associationSets.find((assoc) => assoc.association === v2NavProp.relationship);
+            if (associationSet) {
+                const associationEndEntitySets = associationSet.associationEnd.map(
+                    (associationEnd: RawAssociationSetEnd) => {
+                        return entitySets.find((rawEntitySet) => rawEntitySet.name === associationEnd.entitySet);
                     }
+                );
+                const targetEntitySet = associationEndEntitySets.find(
+                    (associationEntitySet: any) =>
+                        associationEntitySet?.fullyQualifiedName !== entitySet.fullyQualifiedName
+                );
+                if (targetEntitySet) {
+                    entitySet.navigationPropertyBinding[navProp.name] = targetEntitySet;
                 }
-            });
+            }
         });
-    }
-    if (associations.length > 0) {
-        entityTypes.forEach((entityType) => {
-            entityType.navigationProperties.forEach((navProp: any) => {
-                const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
-                const association = associations.find((assoc) => assoc.fullyQualifiedName === v2NavProp.relationship);
-                if (association && association.referentialConstraints) {
-                    v2NavProp.referentialConstraint = association.referentialConstraints;
-                }
-            });
+    });
+    entityTypes.forEach((entityType) => {
+        entityType.navigationProperties.forEach((navProp: any) => {
+            const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
+            const association = associations.find((assoc) => assoc.fullyQualifiedName === v2NavProp.relationship);
+            if (association && association.referentialConstraints) {
+                v2NavProp.referentialConstraint = association.referentialConstraints;
+            }
         });
-    }
+    });
     return {
         associations,
         associationSets,
