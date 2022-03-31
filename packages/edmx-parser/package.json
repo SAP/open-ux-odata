@@ -20,6 +20,6 @@
         "xml-js": "1.6.11"
     },
     "devDependencies": {
-        "@sap-ux/vocabularies-types": "0.5.0"
+        "@sap-ux/vocabularies-types": "workspace:*"
     }
 }

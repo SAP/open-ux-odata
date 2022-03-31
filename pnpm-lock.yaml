@@ -49,15 +49,15 @@ importers:
 
     packages/annotation-converter:
         specifiers:
-            '@sap-ux/edmx-parser': 0.5.0
-            '@sap-ux/vocabularies-types': 0.5.0
+            '@sap-ux/edmx-parser': workspace:*
+            '@sap-ux/vocabularies-types': workspace:*
         devDependencies:
             '@sap-ux/edmx-parser': link:../edmx-parser
             '@sap-ux/vocabularies-types': link:../vocabularies-types
 
     packages/edmx-parser:
         specifiers:
-            '@sap-ux/vocabularies-types': 0.5.0
+            '@sap-ux/vocabularies-types': workspace:*
             xml-js: 1.6.11
         dependencies:
             xml-js: 1.6.11
@@ -66,9 +66,9 @@ importers:
 
     packages/vocabularies-types:
         specifiers:
-            '@types/mkdirp': ^1.0.2
-            axios: ^0.26.1
-            mkdirp: ^1.0.4
+            '@types/mkdirp': 1.0.2
+            axios: 0.26.1
+            mkdirp: 1.0.4
         devDependencies:
             '@types/mkdirp': 1.0.2
             axios: 0.26.1
