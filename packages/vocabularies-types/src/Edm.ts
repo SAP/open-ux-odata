@@ -205,6 +205,11 @@ export type PropertyAnnotationValue<P> =
     | LeAnnotationExpression<P>
     | IfAnnotationExpression<P>;
 
+export type IDecimal = {
+    isDecimal(): boolean;
+    valueOf(): number;
+    toString(): string;
+};
 export type InstancePath = string;
 export type Byte = Number;
 export type Int16 = Number;
@@ -212,8 +217,8 @@ export type Int32 = Number;
 export type Int64 = Number;
 export type Time = string;
 export type Binary = string;
-export type Decimal = Number;
-export type Double = Number;
+export type Decimal = IDecimal | Number;
+export type Double = IDecimal | Number;
 
 export type Date = string;
 export type Guid = any;

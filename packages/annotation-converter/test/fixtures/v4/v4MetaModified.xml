@@ -2009,8 +2009,10 @@
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="isVerified"/>
+              <Annotation Term="UI.Importance" Qualifier="Alternative" EnumMember="UI.ImportanceType/Low"/>
             </Record>
           </Collection>
+          <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
         </Annotation>
       </Annotations>
       <Annotations Target="com.c_salesordermanage_sd.EntityContainer/HeaderPartner">

@@ -30,7 +30,7 @@ import type {
     RawAnnotation
 } from '@sap-ux/vocabularies-types';
 import type { ReferencesWithMap } from './utils';
-import { defaultReferences, unalias } from './utils';
+import { Decimal, defaultReferences, unalias } from './utils';
 
 /**
  *
@@ -704,7 +704,7 @@ function parseValue(
         case 'Bool':
             return propertyValue.Bool;
         case 'Decimal':
-            return propertyValue.Decimal;
+            return Decimal(propertyValue.Decimal);
         case 'Date':
             return propertyValue.Date;
         case 'EnumMember':
