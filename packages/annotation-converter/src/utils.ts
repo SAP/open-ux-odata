@@ -49,3 +49,17 @@ export function unalias(references: ReferencesWithMap, aliasedValue: string | un
         return aliasedValue;
     }
 }
+
+export function Decimal(value: number) {
+    return {
+        isDecimal() {
+            return true;
+        },
+        valueOf() {
+            return value;
+        },
+        toString() {
+            return value.toString();
+        }
+    };
+}

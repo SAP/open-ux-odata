@@ -11,49 +11,26 @@ import type {
 } from '@sap-ux/vocabularies-types';
 import { unalias } from './utils';
 
-function revertValueToGenericType(references: Reference[], value: any): Expression | undefined {
+/**
+ * Revert an object to its raw type equivalent.
+ *
+ * @param references the current reference
+ * @param value the value to revert
+ * @returns the raw value
+ */
+function revertObjectToRawType(references: Reference[], value: any) {
     let result: Expression | undefined;
-    if (typeof value === 'string') {
-        const valueMatches = value.split('.');
-        if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {
-            result = {
-                type: 'EnumMember',
-                EnumMember: value
-            };
-        } else {
-            result = {
-                type: 'String',
-                String: value
-            };
-        }
-    } else if (Array.isArray(value)) {
+    if (Array.isArray(value)) {
         result = {
             type: 'Collection',
-            Collection: value.map((anno) => revertCollectionItemToGenericType(references, anno)) as any[]
+            Collection: value.map((anno) => revertCollectionItemToRawType(references, anno)) as any[]
         };
-    } else if (typeof value === 'boolean') {
-        result = {
-            type: 'Bool',
-            Bool: value
-        };
-    } else if (typeof value === 'number') {
-        if (value.toString() === value.toFixed()) {
-            result = {
-                type: 'Int',
-                Int: value
-            };
-        } else {
-            result = {
-                type: 'Decimal',
-                Decimal: value
-            };
-        }
-    } else if (typeof value === 'object' && value.isDecimal && value.isDecimal()) {
+    } else if (value.isDecimal?.()) {
         result = {
             type: 'Decimal',
             Decimal: value.valueOf()
         };
-    } else if (typeof value === 'object' && value.isString && value.isString()) {
+    } else if (value.isString?.()) {
         const valueMatches = value.split('.');
         if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {
             result = {
@@ -98,13 +75,107 @@ function revertValueToGenericType(references: Reference[], value: any): Expressi
     } else if (Object.prototype.hasOwnProperty.call(value, '$Type')) {
         result = {
             type: 'Record',
-            Record: revertCollectionItemToGenericType(references, value) as AnnotationRecord
+            Record: revertCollectionItemToRawType(references, value) as AnnotationRecord
         };
     }
     return result;
 }
 
-function revertCollectionItemToGenericType(
+/**
+ * Revert a value to its raw value depending on its type.
+ *
+ * @param references the current set of reference
+ * @param value the value to revert
+ * @returns the raw expression
+ */
+function revertValueToRawType(references: Reference[], value: any): Expression | undefined {
+    let result: Expression | undefined;
+    switch (typeof value) {
+        case 'string':
+            const valueMatches = value.split('.');
+            if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {
+                result = {
+                    type: 'EnumMember',
+                    EnumMember: value
+                };
+            } else {
+                result = {
+                    type: 'String',
+                    String: value
+                };
+            }
+            break;
+        case 'boolean':
+            result = {
+                type: 'Bool',
+                Bool: value
+            };
+            break;
+
+        case 'number':
+            if (value.toString() === value.toFixed()) {
+                result = {
+                    type: 'Int',
+                    Int: value
+                };
+            } else {
+                result = {
+                    type: 'Decimal',
+                    Decimal: value
+                };
+            }
+            break;
+        case 'object':
+        default:
+            result = revertObjectToRawType(references, value);
+            break;
+    }
+    return result;
+}
+
+const restrictedKeys = ['$Type', 'term', '__source', 'qualifier', 'ActionTarget', 'fullyQualifiedName', 'annotations'];
+
+/**
+ * Revert the current embedded annotations to their raw type.
+ *
+ * @param references the current set of reference
+ * @param currentAnnotations the collection item to evaluate
+ * @param targetAnnotations the place where we need to add the annotation
+ */
+function revertAnnotationsToRawType(
+    references: Reference[],
+    currentAnnotations: any,
+    targetAnnotations: RawAnnotation[]
+) {
+    Object.keys(currentAnnotations)
+        .filter((key) => key !== '_annotations')
+        .forEach((key) => {
+            Object.keys(currentAnnotations[key]).forEach((term) => {
+                const parsedAnnotation = revertTermToGenericType(references, currentAnnotations[key][term]);
+                if (!parsedAnnotation.term) {
+                    const unaliasedTerm = unalias(references, `${key}.${term}`);
+                    if (unaliasedTerm) {
+                        const qualifiedSplit = unaliasedTerm.split('#');
+                        parsedAnnotation.term = qualifiedSplit[0];
+                        if (qualifiedSplit.length > 1) {
+                            // Sub Annotation with a qualifier, not sure when that can happen in real scenarios
+                            parsedAnnotation.qualifier = qualifiedSplit[1];
+                        }
+                    }
+                }
+                targetAnnotations.push(parsedAnnotation);
+            });
+        });
+}
+
+/**
+ * Revert the current collection item to the corresponding raw annotation.
+ *
+ * @param references the current set of reference
+ * @param collectionItem the collection item to evaluate
+ * @returns the raw type equivalent
+ */
+function revertCollectionItemToRawType(
     references: Reference[],
     collectionItem: any
 ):
@@ -126,41 +197,15 @@ function revertCollectionItemToGenericType(
             };
             // Could validate keys and type based on $Type
             Object.keys(collectionItem).forEach((collectionKey) => {
-                if (
-                    collectionKey !== '$Type' &&
-                    collectionKey !== 'term' &&
-                    collectionKey !== '__source' &&
-                    collectionKey !== 'qualifier' &&
-                    collectionKey !== 'ActionTarget' &&
-                    collectionKey !== 'fullyQualifiedName' &&
-                    collectionKey !== 'annotations'
-                ) {
+                if (restrictedKeys.indexOf(collectionKey) === -1) {
                     const value = collectionItem[collectionKey];
                     outItem.propertyValues.push({
                         name: collectionKey,
-                        value: revertValueToGenericType(references, value) as Expression
+                        value: revertValueToRawType(references, value) as Expression
                     });
                 } else if (collectionKey === 'annotations') {
-                    const annotations = collectionItem[collectionKey];
                     outItem.annotations = [];
-                    Object.keys(annotations)
-                        .filter((key) => key !== '_annotations')
-                        .forEach((key) => {
-                            Object.keys(annotations[key]).forEach((term) => {
-                                const parsedAnnotation = revertTermToGenericType(references, annotations[key][term]);
-                                if (!parsedAnnotation.term) {
-                                    const unaliasedTerm = unalias(references, `${key}.${term}`);
-                                    if (unaliasedTerm) {
-                                        const qualifiedSplit = unaliasedTerm.split('#');
-                                        parsedAnnotation.term = qualifiedSplit[0];
-                                        if (qualifiedSplit.length > 1) {
-                                            parsedAnnotation.qualifier = qualifiedSplit[1];
-                                        }
-                                    }
-                                }
-                                outItem.annotations?.push(parsedAnnotation);
-                            });
-                        });
+                    revertAnnotationsToRawType(references, collectionItem[collectionKey], outItem.annotations);
                 }
             });
             return outItem;
@@ -183,6 +228,13 @@ function revertCollectionItemToGenericType(
     }
 }
 
+/**
+ * Revert an annotation term to it's generic or raw equivalent.
+ *
+ * @param references the reference of the current context
+ * @param annotation the annotation term to revert
+ * @returns the raw annotation
+ */
 export function revertTermToGenericType(references: Reference[], annotation: AnnotationTerm<any>): RawAnnotation {
     const baseAnnotation: RawAnnotation = {
         term: annotation.term,
@@ -191,34 +243,17 @@ export function revertTermToGenericType(references: Reference[], annotation: Ann
     if (Array.isArray(annotation)) {
         // Collection
         if (annotation.hasOwnProperty('annotations')) {
+            // Annotation on a collection itself, not sure when that happens if at all
             baseAnnotation.annotations = [];
-            const currentAnnotations = (annotation as any).annotations;
-            Object.keys(currentAnnotations)
-                .filter((key) => key !== '_annotations')
-                .forEach((key) => {
-                    Object.keys(currentAnnotations[key]).forEach((term) => {
-                        const parsedAnnotation = revertTermToGenericType(references, currentAnnotations[key][term]);
-                        if (!parsedAnnotation.term) {
-                            const unaliasedTerm = unalias(references, `${key}.${term}`);
-                            if (unaliasedTerm) {
-                                const qualifiedSplit = unaliasedTerm.split('#');
-                                parsedAnnotation.term = qualifiedSplit[0];
-                                if (qualifiedSplit.length > 1) {
-                                    parsedAnnotation.qualifier = qualifiedSplit[1];
-                                }
-                            }
-                        }
-                        baseAnnotation.annotations?.push(parsedAnnotation);
-                    });
-                });
+            revertAnnotationsToRawType(references, (annotation as any).annotations, baseAnnotation.annotations);
         }
         return {
             ...baseAnnotation,
-            collection: annotation.map((anno) => revertCollectionItemToGenericType(references, anno)) as any[]
+            collection: annotation.map((anno) => revertCollectionItemToRawType(references, anno)) as any[]
         };
     } else if (annotation.hasOwnProperty('$Type')) {
-        return { ...baseAnnotation, record: revertCollectionItemToGenericType(references, annotation) as any };
+        return { ...baseAnnotation, record: revertCollectionItemToRawType(references, annotation) as any };
     } else {
-        return { ...baseAnnotation, value: revertValueToGenericType(references, annotation) };
+        return { ...baseAnnotation, value: revertValueToRawType(references, annotation) };
     }
 }
