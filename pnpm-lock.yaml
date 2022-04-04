@@ -10,15 +10,15 @@ importers:
             '@typescript-eslint/parser': 5.17.0
             eslint: 8.12.0
             eslint-config-prettier: 8.5.0
-            eslint-import-resolver-typescript: 2.7.0
+            eslint-import-resolver-typescript: 2.7.1
             eslint-plugin-import: 2.25.4
-            eslint-plugin-jsdoc: 38.1.4
+            eslint-plugin-jsdoc: 38.1.6
             eslint-plugin-prettier: 4.0.0
             eslint-plugin-promise: 6.0.0
             husky: 7.0.4
             jest: 27.5.1
             jest-sonar: 0.2.12
-            prettier: 2.6.1
+            prettier: 2.6.2
             pretty-quick: 3.1.3
             rimraf: 3.0.2
             ts-jest: 27.1.4
@@ -32,16 +32,16 @@ importers:
             '@typescript-eslint/parser': 5.17.0_eslint@8.12.0+typescript@4.6.3
             eslint: 8.12.0
             eslint-config-prettier: 8.5.0_eslint@8.12.0
-            eslint-import-resolver-typescript: 2.7.0_dae71b730d6620b67a20047a747b2eda
+            eslint-import-resolver-typescript: 2.7.1_dae71b730d6620b67a20047a747b2eda
             eslint-plugin-import: 2.25.4_eslint@8.12.0
-            eslint-plugin-jsdoc: 38.1.4_eslint@8.12.0
-            eslint-plugin-prettier: 4.0.0_b253a92c95b42c3296c682f11cccb3bd
+            eslint-plugin-jsdoc: 38.1.6_eslint@8.12.0
+            eslint-plugin-prettier: 4.0.0_f2c91d0f54113167d2bd9214a5ab5a36
             eslint-plugin-promise: 6.0.0_eslint@8.12.0
             husky: 7.0.4
             jest: 27.5.1_ts-node@10.7.0
             jest-sonar: 0.2.12
-            prettier: 2.6.1
-            pretty-quick: 3.1.3_prettier@2.6.1
+            prettier: 2.6.2
+            pretty-quick: 3.1.3_prettier@2.6.2
             rimraf: 3.0.2
             ts-jest: 27.1.4_9985e1834e803358b7be1e6ce5ca0eea
             ts-node: 10.7.0_b65123e3711dd1b8aac681d23988aad6
@@ -2616,10 +2616,10 @@ packages:
             resolve: 1.22.0
         dev: true
 
-    /eslint-import-resolver-typescript/2.7.0_dae71b730d6620b67a20047a747b2eda:
+    /eslint-import-resolver-typescript/2.7.1_dae71b730d6620b67a20047a747b2eda:
         resolution:
             {
-                integrity: sha512-MNHS3u5pebvROX4MjGP9coda589ZGfL1SqdxUV4kSrcclfDRWvNE2D+eljbnWVMvWDVRgT89nhscMHPKYGcObQ==
+                integrity: sha512-00UbgGwV8bSgUv34igBDbTOtKhqoRMy9bFjNehT40bXg6585PNIct8HhXZ0SybqB9rWtXj9crcku8ndDn/gIqQ==
             }
         engines: { node: '>=4' }
         peerDependencies:
@@ -2673,10 +2673,10 @@ packages:
             tsconfig-paths: 3.14.1
         dev: true
 
-    /eslint-plugin-jsdoc/38.1.4_eslint@8.12.0:
+    /eslint-plugin-jsdoc/38.1.6_eslint@8.12.0:
         resolution:
             {
-                integrity: sha512-x4sG6oJ+wj7aOGXtTaUeA4EL6kkgGsaFyIf+237/cdSXmC5zKKROccZxNZVUkaXE5QEiBGi7pyRfWNZYf+2OFg==
+                integrity: sha512-n4s95oYlg0L43Bs8C0dkzIldxYf8pLCutC/tCbjIdF7VDiobuzPI+HZn9Q0BvgOvgPNgh5n7CSStql25HUG4Tw==
             }
         engines: { node: ^12 || ^14 || ^16 || ^17 }
         peerDependencies:
@@ -2695,7 +2695,7 @@ packages:
             - supports-color
         dev: true
 
-    /eslint-plugin-prettier/4.0.0_b253a92c95b42c3296c682f11cccb3bd:
+    /eslint-plugin-prettier/4.0.0_f2c91d0f54113167d2bd9214a5ab5a36:
         resolution:
             {
                 integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==
@@ -2711,7 +2711,7 @@ packages:
         dependencies:
             eslint: 8.12.0
             eslint-config-prettier: 8.5.0_eslint@8.12.0
-            prettier: 2.6.1
+            prettier: 2.6.2
             prettier-linter-helpers: 1.0.0
         dev: true
 
@@ -5237,10 +5237,10 @@ packages:
         hasBin: true
         dev: true
 
-    /prettier/2.6.1:
+    /prettier/2.6.2:
         resolution:
             {
-                integrity: sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==
+                integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==
             }
         engines: { node: '>=10.13.0' }
         hasBin: true
@@ -5258,7 +5258,7 @@ packages:
             react-is: 17.0.2
         dev: true
 
-    /pretty-quick/3.1.3_prettier@2.6.1:
+    /pretty-quick/3.1.3_prettier@2.6.2:
         resolution:
             {
                 integrity: sha512-kOCi2FJabvuh1as9enxYmrnBC6tVMoVOenMaBqRfsvBHB0cbpYHjdQEpSglpASDFEXVwplpcGR4CLEaisYAFcA==
@@ -5274,7 +5274,7 @@ packages:
             ignore: 5.2.0
             mri: 1.2.0
             multimatch: 4.0.0
-            prettier: 2.6.1
+            prettier: 2.6.2
         dev: true
 
     /prompts/2.4.2:
