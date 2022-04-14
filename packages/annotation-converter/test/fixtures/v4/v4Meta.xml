@@ -4172,6 +4172,9 @@
         <Annotation Term="Common.Label" String="Sched.lines allowed"/>
         <Annotation Term="Common.QuickInfo" String="Schedule lines allowed"/>
       </Annotations>
+      <Annotations Target="com.c_salesordermanage_sd.SalesOrderManage/_Item">
+        <Annotation Term="Common.Label" String="Item Navigation Property"/>
+      </Annotations>
       <Annotations Target="com.c_salesordermanage_sd.SalesOrderManage">
         <Annotation Term="Common.Label" String="Manage Sales Order"/>
         <Annotation Term="Common.SemanticKey">
