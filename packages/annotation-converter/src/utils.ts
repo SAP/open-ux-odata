@@ -1,5 +1,4 @@
-import type { Reference } from '@sap-ux/vocabularies-types';
-import type { ComplexType, TypeDefinition } from '@sap-ux/vocabularies-types';
+import type { Reference, ComplexType, TypeDefinition } from '@sap-ux/vocabularies-types';
 export const defaultReferences: ReferencesWithMap = [
     { alias: 'Capabilities', namespace: 'Org.OData.Capabilities.V1', uri: '' },
     { alias: 'Aggregation', namespace: 'Org.OData.Aggregation.V1', uri: '' },
