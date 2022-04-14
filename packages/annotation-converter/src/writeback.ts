@@ -90,38 +90,42 @@ function revertObjectToRawType(references: Reference[], value: any) {
  */
 function revertValueToRawType(references: Reference[], value: any): Expression | undefined {
     let result: Expression | undefined;
-    switch (typeof value) {
+    const valueConstructor = value?.constructor.name;
+    switch (valueConstructor) {
+        case 'String':
         case 'string':
-            const valueMatches = value.split('.');
+            const valueMatches = value.toString().split('.');
             if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {
                 result = {
                     type: 'EnumMember',
-                    EnumMember: value
+                    EnumMember: value.toString()
                 };
             } else {
                 result = {
                     type: 'String',
-                    String: value
+                    String: value.toString()
                 };
             }
             break;
+        case 'Boolean':
         case 'boolean':
             result = {
                 type: 'Bool',
-                Bool: value
+                Bool: value.valueOf()
             };
             break;
 
+        case 'Number':
         case 'number':
             if (value.toString() === value.toFixed()) {
                 result = {
                     type: 'Int',
-                    Int: value
+                    Int: value.valueOf()
                 };
             } else {
                 result = {
                     type: 'Decimal',
-                    Decimal: value
+                    Decimal: value.valueOf()
                 };
             }
             break;

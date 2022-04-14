@@ -351,7 +351,10 @@ Object {
     Object {
       "qualifier": undefined,
       "term": "com.sap.vocabularies.UI.v1.Importance",
-      "value": undefined,
+      "value": Object {
+        "EnumMember": "UI.ImportanceType/High",
+        "type": "EnumMember",
+      },
     },
   ],
   "collection": Array [
