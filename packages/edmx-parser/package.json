@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/edmx-parser",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "SAP Fiori OData - EDMX File parser",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",

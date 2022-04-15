@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.3
+
+### Patch Changes
+
+-   b7bd95f: The description and content of the package was ajusted
+
 ## 0.5.2
 
 ### Patch Changes

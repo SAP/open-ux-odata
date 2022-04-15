@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/vocabularies-types",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "SAP Fiori OData - TS types for vocabularies",
     "license": "Apache-2.0",
     "typings": "index.d.ts",
