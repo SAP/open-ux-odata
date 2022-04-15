@@ -1,8 +1,9 @@
 {
     "name": "@sap-ux/vocabularies-types",
     "version": "0.5.2",
+    "description": "SAP Fiori OData - TS types for vocabularies",
     "license": "Apache-2.0",
-    "types": "dist/index.d.ts",
+    "typings": "index.d.ts",
     "scripts": {
         "build": "pnpm clean && pnpm generate_types && tsc",
         "clean": "rimraf vocabularies && rimraf *.d.ts && rimraf src/vocabularies",
@@ -16,8 +17,10 @@
     },
     "files": [
         "LICENSE",
-        "dist",
-        "index.d.ts"
+        "vocabularies",
+        "index.d.ts",
+        "Edm.d.ts",
+        "BaseEdm.d.ts"
     ],
     "devDependencies": {
         "@types/mkdirp": "1.0.2",
