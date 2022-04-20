@@ -2,6 +2,14 @@
     "name": "@sap-ux/vocabularies-types",
     "version": "0.5.3",
     "description": "SAP Fiori OData - TS types for vocabularies",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SAP/open-ux-odata.git",
+        "directory": "packages/vocabularies-types"
+    },
+    "bugs": {
+        "url": "https://github.com/SAP/open-ux-odata/issues?q=is%3Aopen+is%3Aissue+label%3Abug+label%3Avocabularies-types"
+    },
     "license": "Apache-2.0",
     "typings": "index.d.ts",
     "scripts": {
