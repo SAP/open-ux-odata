@@ -345,7 +345,7 @@ export type BaseNavigationProperty = {
     annotations: NavigationPropertyAnnotations;
     isCollection: boolean;
     containsTarget: boolean;
-    referentialConstraint?: ReferentialConstraint[];
+    referentialConstraint: ReferentialConstraint[];
 };
 export type SingleNavigationProperty = BaseNavigationProperty & {
     isCollection: false;
@@ -392,7 +392,7 @@ export type Singleton = {
 export type EntityContainer = {
     _type: 'EntityContainer';
     name?: string;
-    fullyQualifiedName?: string;
+    fullyQualifiedName: string;
     annotations: EntityContainerAnnotations;
 };
 

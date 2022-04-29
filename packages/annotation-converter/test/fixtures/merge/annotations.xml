@@ -1,0 +1,76 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/fe/core/mock/action-visibility/$metadata">
+        <edmx:Include Alias="ActionVisibility" Namespace="sap.fe.core.ActionVisibility" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="sap.fe.core.ActionVisibility.LocalService">
+            <Annotations Target="sap.fe.core.ActionVisibility.RootElement">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Prop1"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ID"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Bound Action 1" />
+                            <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.boundAction1" />
+                            <PropertyValue Property="Determining" Bool="true" />
+                            <Annotation Term="UI.Hidden" Path="isBoundAction1Hidden" />
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Bound Action 2" />
+                            <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.boundAction2" />
+                            <PropertyValue Property="Determining" Bool="true" />
+                            <Annotation Term="UI.Hidden" Path="isBoundAction2Hidden" />
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Bound Header Action 1" />
+                            <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.boundHeaderAction1" />
+                            <PropertyValue Property="Determining" Bool="false" />
+                            <Annotation Term="UI.Hidden">
+                                <Eq>
+                                    <Path>isBoundAction1Hidden</Path>
+                                    <Bool>true</Bool>
+                                </Eq>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Bound Header Action 2" />
+                            <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.boundHeaderAction2" />
+                            <PropertyValue Property="Determining" Bool="false" />
+                            <Annotation Term="UI.Hidden">
+                                <Not>
+                                    <Path>isBoundAction2Hidden</Path>
+                                </Not>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="isBoundAction1Hidden" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="isBoundAction2Hidden" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="isBoundAction3Hidden" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

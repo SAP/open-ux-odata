@@ -606,13 +606,14 @@ function parseRecord(
     annotationsLists: AnnotationList[]
 ): AnnotationRecord {
     const recordAnnotations = parseAnnotations(ensureArray(record.Annotation), currentTarget, annotationsLists);
-    if (recordAnnotations && recordAnnotations.length > 0) {
-        annotationsLists.push(createAnnotationList(currentTarget, recordAnnotations));
-    }
-    return {
+    const outRecord: AnnotationRecord = {
         type: record._attributes ? unalias(record._attributes.Type) : undefined,
         propertyValues: parsePropertyValues(ensureArray(record.PropertyValue), currentTarget, annotationsLists)
     };
+    if (recordAnnotations && recordAnnotations.length > 0) {
+        outRecord.annotations = recordAnnotations;
+    }
+    return outRecord;
 }
 
 /**
@@ -907,7 +908,7 @@ function parseAnnotation(
             annotationsLists
         );
         if (annotationAnnotations && annotationAnnotations.length > 0) {
-            annotationsLists.push(createAnnotationList(currentAnnotationTarget, annotationAnnotations));
+            outAnnotation.annotations = annotationAnnotations;
         }
     }
     const keys = Object.keys(annotation).filter((keyValue) => keyValue !== '_attributes' && keyValue !== 'Annotation');
@@ -974,7 +975,8 @@ function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema 
     let singletons: RawSingleton[] = [];
     let associationSets: RawAssociationSet[] = [];
     let entityContainer: RawEntityContainer = {
-        _type: 'EntityContainer'
+        _type: 'EntityContainer',
+        fullyQualifiedName: ''
     };
     let actions: RawAction[] = [];
     if (edmSchema.EntityContainer) {

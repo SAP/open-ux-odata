@@ -529,4 +529,19 @@ describe('Annotation Converter', () => {
             (convertedTypes.entityTypes[1].entityProperties[48].targetType as TypeDefinition).underlyingType
         ).toEqual('Edm.String');
     });
+
+    it('merge data properly', async () => {
+        const parsedMetadata = parse(await loadFixture('merge/metadata.xml'));
+        const parsedAnnotations = parse(await loadFixture('merge/annotations.xml'));
+        const convertedTypes = convert(merge(parsedMetadata, parsedAnnotations));
+        expect(convertedTypes.entityTypes[0].annotations?.UI?.LineItem?.length).toEqual(2);
+        expect(
+            convertedTypes.entityTypes[0].annotations?.UI?.LineItem?.[0]?.annotations?.UI?.Importance
+        ).toBeUndefined();
+        const convertedMetadataTypes = convert(parsedMetadata);
+        expect(convertedMetadataTypes.entityTypes[0].annotations?.UI?.LineItem?.length).toEqual(11);
+        expect(
+            convertedMetadataTypes.entityTypes[0].annotations?.UI?.LineItem?.[0]?.annotations?.UI?.Importance?.toString()
+        ).toEqual('UI.ImportanceType/High');
+    });
 });
