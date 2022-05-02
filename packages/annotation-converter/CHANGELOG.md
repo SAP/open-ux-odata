@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.5
+
+### Patch Changes
+
+-   5d321f3: fix: make sure the annotation source is consistent
+
 ## 0.5.4
 
 ### Patch Changes
