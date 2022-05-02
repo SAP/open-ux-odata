@@ -1117,13 +1117,9 @@ function processAnnotations(
     bOverrideExisting: boolean
 ) {
     const currentTarget = currentContext.currentTarget;
-    if (currentTargetName !== currentTarget.fullyQualifiedName) {
-        currentTargetName = currentTarget.fullyQualifiedName;
-    }
+    currentTargetName = currentTarget.fullyQualifiedName;
     annotationList.annotations.forEach((annotation: RawAnnotation) => {
-        if ((annotation as any).__source) {
-            currentContext.currentSource = (annotation as any).__source;
-        }
+        currentContext.currentSource = (annotation as any).__source || (annotationList as any).__source;
         const [vocAlias, vocTerm] = splitTerm(defaultReferences, annotation.term);
         ensureAnnotations(currentTarget, vocAlias);
 
