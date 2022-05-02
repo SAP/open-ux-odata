@@ -13,7 +13,7 @@
     </edmx:Reference>
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="sap.fe.core.ActionVisibility.LocalService">
-            <Annotations Target="sap.fe.core.ActionVisibility.RootElement">
+            <Annotations Target="ActionVisibility.RootElement">
                 <Annotation Term="UI.LineItem">
                     <Collection>
                         <Record Type="UI.DataField">

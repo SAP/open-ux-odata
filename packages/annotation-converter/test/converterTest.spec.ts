@@ -532,13 +532,14 @@ describe('Annotation Converter', () => {
 
     it('merge data properly', async () => {
         const parsedMetadata = parse(await loadFixture('merge/metadata.xml'));
-        const parsedAnnotations = parse(await loadFixture('merge/annotations.xml'));
+        const parsedAnnotations = parse(await loadFixture('merge/annotations.xml'), 'annotation.xml');
         const convertedTypes = convert(merge(parsedMetadata, parsedAnnotations));
         expect(convertedTypes.entityTypes[0].annotations?.UI?.LineItem?.length).toEqual(2);
         expect(
             convertedTypes.entityTypes[0].annotations?.UI?.LineItem?.[0]?.annotations?.UI?.Importance
         ).toBeUndefined();
-        const convertedMetadataTypes = convert(parsedMetadata);
+        const parsedMetadata2 = parse(await loadFixture('merge/metadata.xml'));
+        const convertedMetadataTypes = convert(parsedMetadata2);
         expect(convertedMetadataTypes.entityTypes[0].annotations?.UI?.LineItem?.length).toEqual(11);
         expect(
             convertedMetadataTypes.entityTypes[0].annotations?.UI?.LineItem?.[0]?.annotations?.UI?.Importance?.toString()

@@ -13,7 +13,7 @@
         <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
     </edmx:Reference>
     <edmx:DataServices>
-        <Schema Namespace="sap.fe.core.ActionVisibility" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Schema Namespace="sap.fe.core.ActionVisibility" xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="ActionVisibilityRoot">
             <EntityContainer Name="EntityContainer">
                 <EntitySet Name="RootElement" EntityType="sap.fe.core.ActionVisibility.RootElement">
                     <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
@@ -120,7 +120,7 @@
                 <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
                 <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
             </Action>
-            <Annotations Target="sap.fe.core.ActionVisibility.RootElement">
+            <Annotations Target="ActionVisibilityRoot.RootElement">
                 <Annotation Term="UI.LineItem">
                     <Collection>
                         <Record Type="UI.DataField">
