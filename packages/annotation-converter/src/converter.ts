@@ -1111,13 +1111,12 @@ function ensureAnnotations(currentTarget: any, vocAlias: string) {
 }
 function processAnnotations(
     currentContext: ConversionContext,
-    currentTargetName: string,
     annotationList: AnnotationList,
     objectMap: Record<string, any>,
     bOverrideExisting: boolean
 ) {
     const currentTarget = currentContext.currentTarget;
-    currentTargetName = currentTarget.fullyQualifiedName;
+    const currentTargetName = currentTarget.fullyQualifiedName;
     annotationList.annotations.forEach((annotation: RawAnnotation) => {
         currentContext.currentSource = (annotation as any).__source || (annotationList as any).__source;
         const [vocAlias, vocTerm] = splitTerm(defaultReferences, annotation.term);
@@ -1339,7 +1338,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
                     rawMetadata: rawMetadata,
                     unresolvedAnnotations: unresolvedTargets
                 };
-                processAnnotations(currentContext, currentTargetName, annotationList, objectMap, bOverrideExisting);
+                processAnnotations(currentContext, annotationList, objectMap, bOverrideExisting);
             });
         }
     });
@@ -1366,7 +1365,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
                 rawMetadata: rawMetadata,
                 unresolvedAnnotations: unresolvedTargets
             };
-            processAnnotations(currentContext, currentTargetName, annotationList, objectMap, false);
+            processAnnotations(currentContext, annotationList, objectMap, false);
         }
     });
     processUnresolvedTargets(unresolvedTargets, objectMap);
