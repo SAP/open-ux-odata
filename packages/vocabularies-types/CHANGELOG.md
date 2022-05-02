@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.5.4
+
+### Patch Changes
+
+-   412c6a8: fix: embedded annotation should not be taken to top level
+
 ## 0.5.3
 
 ### Patch Changes
