@@ -309,6 +309,10 @@ export type Property = {
     isKey: boolean;
 };
 
+export type RecordComplexType = {
+    annotations?: RecordAnnotations;
+};
+
 export type ComplexType = {
     _type: 'ComplexType';
     name: SimpleIdentifier;
