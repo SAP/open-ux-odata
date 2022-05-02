@@ -1121,6 +1121,9 @@ function processAnnotations(
         currentTargetName = currentTarget.fullyQualifiedName;
     }
     annotationList.annotations.forEach((annotation: RawAnnotation) => {
+        if ((annotation as any).__source) {
+            currentContext.currentSource = (annotation as any).__source;
+        }
         const [vocAlias, vocTerm] = splitTerm(defaultReferences, annotation.term);
         ensureAnnotations(currentTarget, vocAlias);
 
@@ -1285,6 +1288,7 @@ function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationLi
                         }
                     );
                     if (findIndex !== -1) {
+                        (annotation as any).__source = annotationSource;
                         annotationListPerTarget[currentTargetName].annotations.splice(findIndex, 1, annotation);
                     } else {
                         annotationListPerTarget[currentTargetName].annotations.push(annotation);
