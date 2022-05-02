@@ -1002,7 +1002,7 @@ function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema 
             parseFunctionImport(
                 ensureArray(edmSchema.EntityContainer.FunctionImport),
                 entitySets,
-                entityContainer.fullyQualifiedName as string
+                entityContainer.fullyQualifiedName
             )
         );
     }

@@ -1261,27 +1261,12 @@ function processUnresolvedTargets(unresolvedTargets: Resolveable[], objectMap: R
 }
 
 /**
- * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
+ * Merge annotation from different source together by overwriting at the term level.
  *
  * @param rawMetadata
- * @returns the converted representation of the metadata.
+ * @returns the resulting merged annotations
  */
-export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
-    ANNOTATION_ERRORS = [];
-    const objectMap = buildObjectMap(rawMetadata);
-    resolveNavigationProperties(
-        rawMetadata.schema.entityTypes as EntityType[],
-        rawMetadata.schema.associations,
-        objectMap
-    );
-    (rawMetadata.schema.entityContainer as EntityContainer).annotations = {};
-    linkActionsToEntityType(rawMetadata.schema.namespace, rawMetadata.schema.actions as Action[], objectMap);
-    linkEntityTypeToEntitySet(rawMetadata.schema.entitySets as EntitySet[], objectMap, rawMetadata.references);
-    linkEntityTypeToSingleton(rawMetadata.schema.singletons as Singleton[], objectMap, rawMetadata.references);
-    linkPropertiesToComplexTypes(rawMetadata.schema.entityTypes as EntityType[], objectMap);
-    prepareComplexTypes(rawMetadata.schema.complexTypes as ComplexType[], rawMetadata.schema.associations, objectMap);
-    const unresolvedTargets: Resolveable[] = [];
-    const unresolvedAnnotations: AnnotationList[] = [];
+function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationList> {
     const annotationListPerTarget: Record<string, AnnotationList> = {};
     Object.keys(rawMetadata.schema.annotations).forEach((annotationSource) => {
         rawMetadata.schema.annotations[annotationSource].forEach((annotationList: AnnotationList) => {
@@ -1308,6 +1293,31 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
             }
         });
     });
+    return annotationListPerTarget;
+}
+/**
+ * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
+ *
+ * @param rawMetadata
+ * @returns the converted representation of the metadata.
+ */
+export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
+    ANNOTATION_ERRORS = [];
+    const objectMap = buildObjectMap(rawMetadata);
+    resolveNavigationProperties(
+        rawMetadata.schema.entityTypes as EntityType[],
+        rawMetadata.schema.associations,
+        objectMap
+    );
+    (rawMetadata.schema.entityContainer as EntityContainer).annotations = {};
+    linkActionsToEntityType(rawMetadata.schema.namespace, rawMetadata.schema.actions as Action[], objectMap);
+    linkEntityTypeToEntitySet(rawMetadata.schema.entitySets as EntitySet[], objectMap, rawMetadata.references);
+    linkEntityTypeToSingleton(rawMetadata.schema.singletons as Singleton[], objectMap, rawMetadata.references);
+    linkPropertiesToComplexTypes(rawMetadata.schema.entityTypes as EntityType[], objectMap);
+    prepareComplexTypes(rawMetadata.schema.complexTypes as ComplexType[], rawMetadata.schema.associations, objectMap);
+    const unresolvedTargets: Resolveable[] = [];
+    const unresolvedAnnotations: AnnotationList[] = [];
+    const annotationListPerTarget: Record<string, AnnotationList> = mergeAnnotations(rawMetadata);
     Object.keys(annotationListPerTarget).forEach((currentTargetName) => {
         const annotationList = annotationListPerTarget[currentTargetName];
         const objectMapElement = objectMap[currentTargetName];
