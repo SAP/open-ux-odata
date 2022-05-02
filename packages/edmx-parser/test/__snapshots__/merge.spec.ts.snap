@@ -1,0 +1,4529 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Merger can parse an edmx file 1`] = `
+MergedRawMetadata {
+  "_actions": Array [
+    Object {
+      "_type": "Action",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction1(sap.fe.core.ActionVisibility.RootElement)",
+      "isBound": true,
+      "isFunction": false,
+      "name": "boundAction1",
+      "parameters": Array [
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction1(sap.fe.core.ActionVisibility.RootElement)/self",
+          "isEntitySet": true,
+          "name": "self",
+          "type": "sap.fe.core.ActionVisibility.RootElement",
+        },
+      ],
+      "returnType": "sap.fe.core.ActionVisibility.RootElement",
+      "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+    },
+    Object {
+      "_type": "Action",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction2(sap.fe.core.ActionVisibility.RootElement)",
+      "isBound": true,
+      "isFunction": false,
+      "name": "boundAction2",
+      "parameters": Array [
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction2(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isEntitySet": true,
+          "name": "in",
+          "type": "sap.fe.core.ActionVisibility.RootElement",
+        },
+      ],
+      "returnType": "sap.fe.core.ActionVisibility.RootElement",
+      "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+    },
+    Object {
+      "_type": "Action",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction3(sap.fe.core.ActionVisibility.RootElement)",
+      "isBound": true,
+      "isFunction": false,
+      "name": "boundAction3",
+      "parameters": Array [
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction3(sap.fe.core.ActionVisibility.RootElement)/self",
+          "isEntitySet": true,
+          "name": "self",
+          "type": "sap.fe.core.ActionVisibility.RootElement",
+        },
+      ],
+      "returnType": "sap.fe.core.ActionVisibility.RootElement",
+      "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+    },
+    Object {
+      "_type": "Action",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)",
+      "isBound": true,
+      "isFunction": false,
+      "name": "draftPrepare",
+      "parameters": Array [
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isEntitySet": true,
+          "name": "in",
+          "type": "sap.fe.core.ActionVisibility.RootElement",
+        },
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/SideEffectsQualifier",
+          "isEntitySet": false,
+          "name": "SideEffectsQualifier",
+          "type": "Edm.String",
+        },
+      ],
+      "returnType": "sap.fe.core.ActionVisibility.RootElement",
+      "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+    },
+    Object {
+      "_type": "Action",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)",
+      "isBound": true,
+      "isFunction": false,
+      "name": "draftPrepare",
+      "parameters": Array [
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/in",
+          "isEntitySet": true,
+          "name": "in",
+          "type": "sap.fe.core.ActionVisibility.SubElement",
+        },
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/SideEffectsQualifier",
+          "isEntitySet": false,
+          "name": "SideEffectsQualifier",
+          "type": "Edm.String",
+        },
+      ],
+      "returnType": "sap.fe.core.ActionVisibility.SubElement",
+      "sourceType": "sap.fe.core.ActionVisibility.SubElement",
+    },
+    Object {
+      "_type": "Action",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftActivate(sap.fe.core.ActionVisibility.RootElement)",
+      "isBound": true,
+      "isFunction": false,
+      "name": "draftActivate",
+      "parameters": Array [
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftActivate(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isEntitySet": true,
+          "name": "in",
+          "type": "sap.fe.core.ActionVisibility.RootElement",
+        },
+      ],
+      "returnType": "sap.fe.core.ActionVisibility.RootElement",
+      "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+    },
+    Object {
+      "_type": "Action",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)",
+      "isBound": true,
+      "isFunction": false,
+      "name": "draftEdit",
+      "parameters": Array [
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isEntitySet": true,
+          "name": "in",
+          "type": "sap.fe.core.ActionVisibility.RootElement",
+        },
+        Object {
+          "_type": "ActionParameter",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/PreserveChanges",
+          "isEntitySet": false,
+          "name": "PreserveChanges",
+          "type": "Edm.Boolean",
+        },
+      ],
+      "returnType": "sap.fe.core.ActionVisibility.RootElement",
+      "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+    },
+  ],
+  "_annotations": Object {
+    "annoFile": Array [
+      Object {
+        "annotations": Array [
+          Object {
+            "collection": Array [
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "Prop1",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "ID",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+            ],
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.LineItem",
+          },
+          Object {
+            "collection": Array [
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "type": "Unknown",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Header Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundHeaderAction1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": false,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "type": "Unknown",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Header Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundHeaderAction2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": false,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction3Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+            ],
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Identification",
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement",
+      },
+    ],
+    "serviceFile": Array [
+      Object {
+        "annotations": Array [
+          Object {
+            "collection": Array [
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Importance",
+                    "value": Object {
+                      "EnumMember": "UI.ImportanceType/High",
+                      "type": "EnumMember",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "ID",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Importance",
+                    "value": Object {
+                      "EnumMember": "UI.ImportanceType/Low",
+                      "type": "EnumMember",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "Prop1",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction1",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction2",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Menu Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.menuAction1",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Menu Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.menuAction2",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "_Elements/isBoundAction3Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 3",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction3",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 1 Inline",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Inline",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "Sibling/isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Sibling isBoundAction2 Hidden",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "Sibling/isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Inline",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+            ],
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.LineItem",
+          },
+          Object {
+            "qualifier": undefined,
+            "record": Object {
+              "propertyValues": Array [
+                Object {
+                  "name": "TypeName",
+                  "value": Object {
+                    "String": "Root Element",
+                    "type": "String",
+                  },
+                },
+                Object {
+                  "name": "TypeNamePlural",
+                  "value": Object {
+                    "String": "Root Elements",
+                    "type": "String",
+                  },
+                },
+                Object {
+                  "name": "Title",
+                  "value": Object {
+                    "Record": Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "Prop1",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    "type": "Record",
+                  },
+                },
+                Object {
+                  "name": "Description",
+                  "value": Object {
+                    "Record": Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "Prop2",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    "type": "Record",
+                  },
+                },
+              ],
+              "type": "com.sap.vocabularies.UI.v1.HeaderInfoType",
+            },
+            "term": "com.sap.vocabularies.UI.v1.HeaderInfo",
+          },
+          Object {
+            "collection": Array [
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Facets",
+                    "value": Object {
+                      "Collection": Array [
+                        Object {
+                          "propertyValues": Array [
+                            Object {
+                              "name": "Label",
+                              "value": Object {
+                                "String": "Identification",
+                                "type": "String",
+                              },
+                            },
+                            Object {
+                              "name": "Target",
+                              "value": Object {
+                                "AnnotationPath": "@UI.Identification",
+                                "type": "AnnotationPath",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                        },
+                        Object {
+                          "propertyValues": Array [
+                            Object {
+                              "name": "ID",
+                              "value": Object {
+                                "String": "GeneralInformation",
+                                "type": "String",
+                              },
+                            },
+                            Object {
+                              "name": "Label",
+                              "value": Object {
+                                "String": "General Information",
+                                "type": "String",
+                              },
+                            },
+                            Object {
+                              "name": "Facets",
+                              "value": Object {
+                                "Collection": Array [
+                                  Object {
+                                    "propertyValues": Array [
+                                      Object {
+                                        "name": "Label",
+                                        "value": Object {
+                                          "String": "General Information",
+                                          "type": "String",
+                                        },
+                                      },
+                                      Object {
+                                        "name": "Target",
+                                        "value": Object {
+                                          "AnnotationPath": "@UI.FieldGroup#GeneralInformation",
+                                          "type": "AnnotationPath",
+                                        },
+                                      },
+                                    ],
+                                    "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                                  },
+                                ],
+                                "type": "Collection",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+                        },
+                        Object {
+                          "propertyValues": Array [
+                            Object {
+                              "name": "ID",
+                              "value": Object {
+                                "String": "SubElements",
+                                "type": "String",
+                              },
+                            },
+                            Object {
+                              "name": "Label",
+                              "value": Object {
+                                "String": "Sub Elements",
+                                "type": "String",
+                              },
+                            },
+                            Object {
+                              "name": "Target",
+                              "value": Object {
+                                "AnnotationPath": "_Elements/@UI.LineItem",
+                                "type": "AnnotationPath",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+              },
+            ],
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Facets",
+          },
+          Object {
+            "collection": Array [
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Header Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundHeaderAction1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": false,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Header Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundHeaderAction2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Determining",
+                    "value": Object {
+                      "Bool": false,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction3Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+            ],
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Identification",
+          },
+          Object {
+            "qualifier": "GeneralInformation",
+            "record": Object {
+              "propertyValues": Array [
+                Object {
+                  "name": "Label",
+                  "value": Object {
+                    "String": "General Information",
+                    "type": "String",
+                  },
+                },
+                Object {
+                  "name": "Data",
+                  "value": Object {
+                    "Collection": Array [
+                      Object {
+                        "propertyValues": Array [
+                          Object {
+                            "name": "Value",
+                            "value": Object {
+                              "Path": "ID",
+                              "type": "Path",
+                            },
+                          },
+                        ],
+                        "type": "com.sap.vocabularies.UI.v1.DataField",
+                      },
+                      Object {
+                        "propertyValues": Array [
+                          Object {
+                            "name": "Value",
+                            "value": Object {
+                              "Path": "Prop1",
+                              "type": "Path",
+                            },
+                          },
+                        ],
+                        "type": "com.sap.vocabularies.UI.v1.DataField",
+                      },
+                      Object {
+                        "propertyValues": Array [
+                          Object {
+                            "name": "Value",
+                            "value": Object {
+                              "Path": "Prop2",
+                              "type": "Path",
+                            },
+                          },
+                        ],
+                        "type": "com.sap.vocabularies.UI.v1.DataField",
+                      },
+                    ],
+                    "type": "Collection",
+                  },
+                },
+              ],
+              "type": "com.sap.vocabularies.UI.v1.FieldGroupType",
+            },
+            "term": "com.sap.vocabularies.UI.v1.FieldGroup",
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "record": Object {
+              "propertyValues": Array [
+                Object {
+                  "name": "ActivationAction",
+                  "value": Object {
+                    "String": "sap.fe.core.ActionVisibility.draftActivate",
+                    "type": "String",
+                  },
+                },
+                Object {
+                  "name": "EditAction",
+                  "value": Object {
+                    "String": "sap.fe.core.ActionVisibility.draftEdit",
+                    "type": "String",
+                  },
+                },
+                Object {
+                  "name": "PreparationAction",
+                  "value": Object {
+                    "String": "sap.fe.core.ActionVisibility.draftPrepare",
+                    "type": "String",
+                  },
+                },
+              ],
+              "type": "com.sap.vocabularies.Common.v1.DraftRootType",
+            },
+            "term": "com.sap.vocabularies.Common.v1.DraftRoot",
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "Org.OData.Core.V1.Computed",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/ID",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "First Prop",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/Prop1",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "Second Propyour ",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/Prop2",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "Bound Action 1 Hidden",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/isBoundAction1Hidden",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "Bound Action 2 Hidden",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/isBoundAction2Hidden",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "Bound Action 3 Hidden",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/isBoundAction3Hidden",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/IsActiveEntity",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/HasActiveEntity",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/HasDraftEntity",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.RootElement/DraftAdministrativeData",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "collection": Array [
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "SubProp1",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "owner/isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Owner -> boundAction1 Hidden",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "owner/isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction1",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "owner/isBoundAction1Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Menu Action 1",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.menuAction1",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "owner/Sibling/isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Owner -> Sibling boundAction2 Hidden",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "owner/Sibling/isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction2",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "owner/Sibling/isBoundAction2Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Menu Action 2",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.menuAction2",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "isBoundAction3Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "isBoundAction3Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 3 Inline",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction3",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Inline",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+              Object {
+                "propertyValues": Array [
+                  Object {
+                    "name": "Value",
+                    "value": Object {
+                      "Path": "Sibling/isBoundAction4Hidden",
+                      "type": "Path",
+                    },
+                  },
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Sibling boundAction4 Hidden",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataField",
+              },
+              Object {
+                "annotations": Array [
+                  Object {
+                    "qualifier": undefined,
+                    "term": "com.sap.vocabularies.UI.v1.Hidden",
+                    "value": Object {
+                      "Path": "Sibling/isBoundAction4Hidden",
+                      "type": "Path",
+                    },
+                  },
+                ],
+                "propertyValues": Array [
+                  Object {
+                    "name": "Label",
+                    "value": Object {
+                      "String": "Bound Action 4",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Action",
+                    "value": Object {
+                      "String": "sap.fe.core.ActionVisibility.boundAction4",
+                      "type": "String",
+                    },
+                  },
+                  Object {
+                    "name": "Inline",
+                    "value": Object {
+                      "Bool": true,
+                      "type": "Bool",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+              },
+            ],
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.LineItem",
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "record": Object {
+              "propertyValues": Array [
+                Object {
+                  "name": "PreparationAction",
+                  "value": Object {
+                    "String": "sap.fe.core.ActionVisibility.draftPrepare",
+                    "type": "String",
+                  },
+                },
+              ],
+              "type": "com.sap.vocabularies.Common.v1.DraftNodeType",
+            },
+            "term": "com.sap.vocabularies.Common.v1.DraftNode",
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "Org.OData.Core.V1.Computed",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/ID",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "Bound Action 3 Hidden",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/isBoundAction3Hidden",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "Bound Action 4 Hidden",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/isBoundAction4Hidden",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "Org.OData.Measures.V1.Unit",
+            "value": Object {
+              "Path": "quantityUoM",
+              "type": "Path",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/quantity",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/IsActiveEntity",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/HasActiveEntity",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/HasDraftEntity",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.SubElement/DraftAdministrativeData",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_DraftAdministrativeData}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_DraftUUID}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_CreationDateTime}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreationDateTime",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_CreatedByUser}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreatedByUser",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_DraftIsCreatedByMe}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsCreatedByMe",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_LastChangeDateTime}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangeDateTime",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_LastChangedByUser}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangedByUser",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_InProcessByUser}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/InProcessByUser",
+      },
+      Object {
+        "annotations": Array [
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.UI.v1.Hidden",
+            "value": Object {
+              "Bool": true,
+              "type": "Bool",
+            },
+          },
+          Object {
+            "qualifier": undefined,
+            "term": "com.sap.vocabularies.Common.v1.Label",
+            "value": Object {
+              "String": "{i18n>Draft_DraftIsProcessedByMe}",
+              "type": "String",
+            },
+          },
+        ],
+        "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsProcessedByMe",
+      },
+    ],
+  },
+  "_associationSets": Array [],
+  "_associations": Array [],
+  "_complexTypes": Array [],
+  "_entityContainer": Object {
+    "_type": "EntityContainer",
+    "fullyQualifiedName": "",
+    "name": "EntityContainer",
+  },
+  "_entitySets": Array [
+    Object {
+      "_type": "EntitySet",
+      "entityTypeName": "sap.fe.core.ActionVisibility.RootElement",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+      "name": "RootElement",
+      "navigationPropertyBinding": Object {
+        "Sibling": [Circular],
+        "SiblingEntity": [Circular],
+        "_Elements": Object {
+          "_type": "EntitySet",
+          "entityTypeName": "sap.fe.core.ActionVisibility.SubElement",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+          "name": "SubElement",
+          "navigationPropertyBinding": Object {
+            "Sibling": [Circular],
+            "SiblingEntity": [Circular],
+            "owner": [Circular],
+          },
+        },
+      },
+    },
+    Object {
+      "_type": "EntitySet",
+      "entityTypeName": "sap.fe.core.ActionVisibility.SubElement",
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+      "name": "SubElement",
+      "navigationPropertyBinding": Object {
+        "Sibling": [Circular],
+        "SiblingEntity": [Circular],
+        "owner": Object {
+          "_type": "EntitySet",
+          "entityTypeName": "sap.fe.core.ActionVisibility.RootElement",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+          "name": "RootElement",
+          "navigationPropertyBinding": Object {
+            "Sibling": [Circular],
+            "SiblingEntity": [Circular],
+            "_Elements": [Circular],
+          },
+        },
+      },
+    },
+  ],
+  "_entityTypes": Array [
+    Object {
+      "_type": "EntityType",
+      "actions": Object {},
+      "entityProperties": Array [
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/ID",
+          "name": "ID",
+          "nullable": false,
+          "type": "Edm.Int32",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Prop1",
+          "name": "Prop1",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Prop2",
+          "name": "Prop2",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/isBoundAction1Hidden",
+          "name": "isBoundAction1Hidden",
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/isBoundAction2Hidden",
+          "name": "isBoundAction2Hidden",
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/isBoundAction3Hidden",
+          "name": "isBoundAction3Hidden",
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Sibling_ID",
+          "name": "Sibling_ID",
+          "type": "Edm.Int32",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": true,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/IsActiveEntity",
+          "name": "IsActiveEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/HasActiveEntity",
+          "name": "HasActiveEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/HasDraftEntity",
+          "name": "HasDraftEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+      ],
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement",
+      "keys": Array [
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/ID",
+          "name": "ID",
+          "nullable": false,
+          "type": "Edm.Int32",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": true,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/IsActiveEntity",
+          "name": "IsActiveEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+      ],
+      "name": "RootElement",
+      "navigationProperties": Array [
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Sibling",
+          "isCollection": false,
+          "name": "Sibling",
+          "partner": undefined,
+          "referentialConstraint": Array [
+            Object {
+              "sourceProperty": "Sibling_ID",
+              "sourceTypeName": "RootElement",
+              "targetProperty": "ID",
+              "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+            },
+          ],
+          "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+        },
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/_Elements",
+          "isCollection": true,
+          "name": "_Elements",
+          "partner": "owner",
+          "referentialConstraint": Array [],
+          "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+        },
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": true,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/DraftAdministrativeData",
+          "isCollection": false,
+          "name": "DraftAdministrativeData",
+          "partner": undefined,
+          "referentialConstraint": Array [],
+          "targetTypeName": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+        },
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/SiblingEntity",
+          "isCollection": false,
+          "name": "SiblingEntity",
+          "partner": undefined,
+          "referentialConstraint": Array [],
+          "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+        },
+      ],
+    },
+    Object {
+      "_type": "EntityType",
+      "actions": Object {},
+      "entityProperties": Array [
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/ID",
+          "name": "ID",
+          "nullable": false,
+          "type": "Edm.Int32",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/SubProp1",
+          "name": "SubProp1",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/SubProp2",
+          "name": "SubProp2",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/isBoundAction3Hidden",
+          "name": "isBoundAction3Hidden",
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/isBoundAction4Hidden",
+          "name": "isBoundAction4Hidden",
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/owner_ID",
+          "name": "owner_ID",
+          "type": "Edm.Int32",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/sibling_ID",
+          "name": "sibling_ID",
+          "type": "Edm.Int32",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/quantity",
+          "name": "quantity",
+          "type": "Edm.Double",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/quantityUoM",
+          "name": "quantityUoM",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": true,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/IsActiveEntity",
+          "name": "IsActiveEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/HasActiveEntity",
+          "name": "HasActiveEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/HasDraftEntity",
+          "name": "HasDraftEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+      ],
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement",
+      "keys": Array [
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/ID",
+          "name": "ID",
+          "nullable": false,
+          "type": "Edm.Int32",
+        },
+        Object {
+          "_type": "Property",
+          "defaultValue": true,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/IsActiveEntity",
+          "name": "IsActiveEntity",
+          "nullable": false,
+          "type": "Edm.Boolean",
+        },
+      ],
+      "name": "SubElement",
+      "navigationProperties": Array [
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/owner",
+          "isCollection": false,
+          "name": "owner",
+          "partner": "_Elements",
+          "referentialConstraint": Array [
+            Object {
+              "sourceProperty": "owner_ID",
+              "sourceTypeName": "SubElement",
+              "targetProperty": "ID",
+              "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+            },
+          ],
+          "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+        },
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/Sibling",
+          "isCollection": false,
+          "name": "Sibling",
+          "partner": undefined,
+          "referentialConstraint": Array [
+            Object {
+              "sourceProperty": "sibling_ID",
+              "sourceTypeName": "SubElement",
+              "targetProperty": "ID",
+              "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+            },
+          ],
+          "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+        },
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": true,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/DraftAdministrativeData",
+          "isCollection": false,
+          "name": "DraftAdministrativeData",
+          "partner": undefined,
+          "referentialConstraint": Array [],
+          "targetTypeName": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+        },
+        Object {
+          "_type": "NavigationProperty",
+          "containsTarget": false,
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/SiblingEntity",
+          "isCollection": false,
+          "name": "SiblingEntity",
+          "partner": undefined,
+          "referentialConstraint": Array [],
+          "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+        },
+      ],
+    },
+    Object {
+      "_type": "EntityType",
+      "actions": Object {},
+      "entityProperties": Array [
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID",
+          "name": "DraftUUID",
+          "nullable": false,
+          "type": "Edm.Guid",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreationDateTime",
+          "name": "CreationDateTime",
+          "precision": 7,
+          "type": "Edm.DateTimeOffset",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreatedByUser",
+          "maxLength": 256,
+          "name": "CreatedByUser",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsCreatedByMe",
+          "name": "DraftIsCreatedByMe",
+          "type": "Edm.Boolean",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangeDateTime",
+          "name": "LastChangeDateTime",
+          "precision": 7,
+          "type": "Edm.DateTimeOffset",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangedByUser",
+          "maxLength": 256,
+          "name": "LastChangedByUser",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/InProcessByUser",
+          "maxLength": 256,
+          "name": "InProcessByUser",
+          "type": "Edm.String",
+        },
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsProcessedByMe",
+          "name": "DraftIsProcessedByMe",
+          "type": "Edm.Boolean",
+        },
+      ],
+      "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+      "keys": Array [
+        Object {
+          "_type": "Property",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID",
+          "name": "DraftUUID",
+          "nullable": false,
+          "type": "Edm.Guid",
+        },
+      ],
+      "name": "DraftAdministrativeData",
+      "navigationProperties": Array [],
+    },
+  ],
+  "_namespace": "sap.fe.core.ActionVisibility",
+  "_parserOutput": Array [
+    RawMetadataInstance {
+      "identification": "serviceFile",
+      "references": Array [
+        Object {
+          "alias": "Common",
+          "namespace": "com.sap.vocabularies.Common.v1",
+          "uri": "https://sap.github.io/odata-vocabularies/vocabularies/Common.xml",
+        },
+        Object {
+          "alias": "Core",
+          "namespace": "Org.OData.Core.V1",
+          "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml",
+        },
+        Object {
+          "alias": "Measures",
+          "namespace": "Org.OData.Measures.V1",
+          "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml",
+        },
+        Object {
+          "alias": "UI",
+          "namespace": "com.sap.vocabularies.UI.v1",
+          "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
+        },
+      ],
+      "schema": Object {
+        "actions": Array [
+          Object {
+            "_type": "Action",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction1(sap.fe.core.ActionVisibility.RootElement)",
+            "isBound": true,
+            "isFunction": false,
+            "name": "boundAction1",
+            "parameters": Array [
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction1(sap.fe.core.ActionVisibility.RootElement)/self",
+                "isEntitySet": true,
+                "name": "self",
+                "type": "sap.fe.core.ActionVisibility.RootElement",
+              },
+            ],
+            "returnType": "sap.fe.core.ActionVisibility.RootElement",
+            "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+          },
+          Object {
+            "_type": "Action",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction2(sap.fe.core.ActionVisibility.RootElement)",
+            "isBound": true,
+            "isFunction": false,
+            "name": "boundAction2",
+            "parameters": Array [
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction2(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isEntitySet": true,
+                "name": "in",
+                "type": "sap.fe.core.ActionVisibility.RootElement",
+              },
+            ],
+            "returnType": "sap.fe.core.ActionVisibility.RootElement",
+            "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+          },
+          Object {
+            "_type": "Action",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction3(sap.fe.core.ActionVisibility.RootElement)",
+            "isBound": true,
+            "isFunction": false,
+            "name": "boundAction3",
+            "parameters": Array [
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction3(sap.fe.core.ActionVisibility.RootElement)/self",
+                "isEntitySet": true,
+                "name": "self",
+                "type": "sap.fe.core.ActionVisibility.RootElement",
+              },
+            ],
+            "returnType": "sap.fe.core.ActionVisibility.RootElement",
+            "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+          },
+          Object {
+            "_type": "Action",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)",
+            "isBound": true,
+            "isFunction": false,
+            "name": "draftPrepare",
+            "parameters": Array [
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isEntitySet": true,
+                "name": "in",
+                "type": "sap.fe.core.ActionVisibility.RootElement",
+              },
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/SideEffectsQualifier",
+                "isEntitySet": false,
+                "name": "SideEffectsQualifier",
+                "type": "Edm.String",
+              },
+            ],
+            "returnType": "sap.fe.core.ActionVisibility.RootElement",
+            "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+          },
+          Object {
+            "_type": "Action",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)",
+            "isBound": true,
+            "isFunction": false,
+            "name": "draftPrepare",
+            "parameters": Array [
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/in",
+                "isEntitySet": true,
+                "name": "in",
+                "type": "sap.fe.core.ActionVisibility.SubElement",
+              },
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/SideEffectsQualifier",
+                "isEntitySet": false,
+                "name": "SideEffectsQualifier",
+                "type": "Edm.String",
+              },
+            ],
+            "returnType": "sap.fe.core.ActionVisibility.SubElement",
+            "sourceType": "sap.fe.core.ActionVisibility.SubElement",
+          },
+          Object {
+            "_type": "Action",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftActivate(sap.fe.core.ActionVisibility.RootElement)",
+            "isBound": true,
+            "isFunction": false,
+            "name": "draftActivate",
+            "parameters": Array [
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftActivate(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isEntitySet": true,
+                "name": "in",
+                "type": "sap.fe.core.ActionVisibility.RootElement",
+              },
+            ],
+            "returnType": "sap.fe.core.ActionVisibility.RootElement",
+            "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+          },
+          Object {
+            "_type": "Action",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)",
+            "isBound": true,
+            "isFunction": false,
+            "name": "draftEdit",
+            "parameters": Array [
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isEntitySet": true,
+                "name": "in",
+                "type": "sap.fe.core.ActionVisibility.RootElement",
+              },
+              Object {
+                "_type": "ActionParameter",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/PreserveChanges",
+                "isEntitySet": false,
+                "name": "PreserveChanges",
+                "type": "Edm.Boolean",
+              },
+            ],
+            "returnType": "sap.fe.core.ActionVisibility.RootElement",
+            "sourceType": "sap.fe.core.ActionVisibility.RootElement",
+          },
+        ],
+        "annotations": Object {
+          "serviceFile": Array [
+            Object {
+              "annotations": Array [
+                Object {
+                  "collection": Array [
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Importance",
+                          "value": Object {
+                            "EnumMember": "UI.ImportanceType/High",
+                            "type": "EnumMember",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "ID",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Importance",
+                          "value": Object {
+                            "EnumMember": "UI.ImportanceType/Low",
+                            "type": "EnumMember",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "Prop1",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction1",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction2",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Menu Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.menuAction1",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Menu Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.menuAction2",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "_Elements/isBoundAction3Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 3",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction3",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 1 Inline",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Inline",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "Sibling/isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Sibling isBoundAction2 Hidden",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "Sibling/isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Inline",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                  ],
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.LineItem",
+                },
+                Object {
+                  "qualifier": undefined,
+                  "record": Object {
+                    "propertyValues": Array [
+                      Object {
+                        "name": "TypeName",
+                        "value": Object {
+                          "String": "Root Element",
+                          "type": "String",
+                        },
+                      },
+                      Object {
+                        "name": "TypeNamePlural",
+                        "value": Object {
+                          "String": "Root Elements",
+                          "type": "String",
+                        },
+                      },
+                      Object {
+                        "name": "Title",
+                        "value": Object {
+                          "Record": Object {
+                            "propertyValues": Array [
+                              Object {
+                                "name": "Value",
+                                "value": Object {
+                                  "Path": "Prop1",
+                                  "type": "Path",
+                                },
+                              },
+                            ],
+                            "type": "com.sap.vocabularies.UI.v1.DataField",
+                          },
+                          "type": "Record",
+                        },
+                      },
+                      Object {
+                        "name": "Description",
+                        "value": Object {
+                          "Record": Object {
+                            "propertyValues": Array [
+                              Object {
+                                "name": "Value",
+                                "value": Object {
+                                  "Path": "Prop2",
+                                  "type": "Path",
+                                },
+                              },
+                            ],
+                            "type": "com.sap.vocabularies.UI.v1.DataField",
+                          },
+                          "type": "Record",
+                        },
+                      },
+                    ],
+                    "type": "com.sap.vocabularies.UI.v1.HeaderInfoType",
+                  },
+                  "term": "com.sap.vocabularies.UI.v1.HeaderInfo",
+                },
+                Object {
+                  "collection": Array [
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Facets",
+                          "value": Object {
+                            "Collection": Array [
+                              Object {
+                                "propertyValues": Array [
+                                  Object {
+                                    "name": "Label",
+                                    "value": Object {
+                                      "String": "Identification",
+                                      "type": "String",
+                                    },
+                                  },
+                                  Object {
+                                    "name": "Target",
+                                    "value": Object {
+                                      "AnnotationPath": "@UI.Identification",
+                                      "type": "AnnotationPath",
+                                    },
+                                  },
+                                ],
+                                "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                              },
+                              Object {
+                                "propertyValues": Array [
+                                  Object {
+                                    "name": "ID",
+                                    "value": Object {
+                                      "String": "GeneralInformation",
+                                      "type": "String",
+                                    },
+                                  },
+                                  Object {
+                                    "name": "Label",
+                                    "value": Object {
+                                      "String": "General Information",
+                                      "type": "String",
+                                    },
+                                  },
+                                  Object {
+                                    "name": "Facets",
+                                    "value": Object {
+                                      "Collection": Array [
+                                        Object {
+                                          "propertyValues": Array [
+                                            Object {
+                                              "name": "Label",
+                                              "value": Object {
+                                                "String": "General Information",
+                                                "type": "String",
+                                              },
+                                            },
+                                            Object {
+                                              "name": "Target",
+                                              "value": Object {
+                                                "AnnotationPath": "@UI.FieldGroup#GeneralInformation",
+                                                "type": "AnnotationPath",
+                                              },
+                                            },
+                                          ],
+                                          "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                                        },
+                                      ],
+                                      "type": "Collection",
+                                    },
+                                  },
+                                ],
+                                "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+                              },
+                              Object {
+                                "propertyValues": Array [
+                                  Object {
+                                    "name": "ID",
+                                    "value": Object {
+                                      "String": "SubElements",
+                                      "type": "String",
+                                    },
+                                  },
+                                  Object {
+                                    "name": "Label",
+                                    "value": Object {
+                                      "String": "Sub Elements",
+                                      "type": "String",
+                                    },
+                                  },
+                                  Object {
+                                    "name": "Target",
+                                    "value": Object {
+                                      "AnnotationPath": "_Elements/@UI.LineItem",
+                                      "type": "AnnotationPath",
+                                    },
+                                  },
+                                ],
+                                "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                              },
+                            ],
+                            "type": "Collection",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+                    },
+                  ],
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Facets",
+                },
+                Object {
+                  "collection": Array [
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Header Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundHeaderAction1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": false,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Header Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundHeaderAction2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": false,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction3Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                  ],
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Identification",
+                },
+                Object {
+                  "qualifier": "GeneralInformation",
+                  "record": Object {
+                    "propertyValues": Array [
+                      Object {
+                        "name": "Label",
+                        "value": Object {
+                          "String": "General Information",
+                          "type": "String",
+                        },
+                      },
+                      Object {
+                        "name": "Data",
+                        "value": Object {
+                          "Collection": Array [
+                            Object {
+                              "propertyValues": Array [
+                                Object {
+                                  "name": "Value",
+                                  "value": Object {
+                                    "Path": "ID",
+                                    "type": "Path",
+                                  },
+                                },
+                              ],
+                              "type": "com.sap.vocabularies.UI.v1.DataField",
+                            },
+                            Object {
+                              "propertyValues": Array [
+                                Object {
+                                  "name": "Value",
+                                  "value": Object {
+                                    "Path": "Prop1",
+                                    "type": "Path",
+                                  },
+                                },
+                              ],
+                              "type": "com.sap.vocabularies.UI.v1.DataField",
+                            },
+                            Object {
+                              "propertyValues": Array [
+                                Object {
+                                  "name": "Value",
+                                  "value": Object {
+                                    "Path": "Prop2",
+                                    "type": "Path",
+                                  },
+                                },
+                              ],
+                              "type": "com.sap.vocabularies.UI.v1.DataField",
+                            },
+                          ],
+                          "type": "Collection",
+                        },
+                      },
+                    ],
+                    "type": "com.sap.vocabularies.UI.v1.FieldGroupType",
+                  },
+                  "term": "com.sap.vocabularies.UI.v1.FieldGroup",
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "record": Object {
+                    "propertyValues": Array [
+                      Object {
+                        "name": "ActivationAction",
+                        "value": Object {
+                          "String": "sap.fe.core.ActionVisibility.draftActivate",
+                          "type": "String",
+                        },
+                      },
+                      Object {
+                        "name": "EditAction",
+                        "value": Object {
+                          "String": "sap.fe.core.ActionVisibility.draftEdit",
+                          "type": "String",
+                        },
+                      },
+                      Object {
+                        "name": "PreparationAction",
+                        "value": Object {
+                          "String": "sap.fe.core.ActionVisibility.draftPrepare",
+                          "type": "String",
+                        },
+                      },
+                    ],
+                    "type": "com.sap.vocabularies.Common.v1.DraftRootType",
+                  },
+                  "term": "com.sap.vocabularies.Common.v1.DraftRoot",
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "Org.OData.Core.V1.Computed",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/ID",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "First Prop",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/Prop1",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "Second Propyour ",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/Prop2",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "Bound Action 1 Hidden",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/isBoundAction1Hidden",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "Bound Action 2 Hidden",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/isBoundAction2Hidden",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "Bound Action 3 Hidden",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/isBoundAction3Hidden",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/IsActiveEntity",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/HasActiveEntity",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/HasDraftEntity",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement/DraftAdministrativeData",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "collection": Array [
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "SubProp1",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "owner/isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Owner -> boundAction1 Hidden",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "owner/isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction1",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "owner/isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Menu Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.menuAction1",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "owner/Sibling/isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Owner -> Sibling boundAction2 Hidden",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "owner/Sibling/isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction2",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "owner/Sibling/isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Menu Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.menuAction2",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction3Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction3Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 3 Inline",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction3",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Inline",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "Sibling/isBoundAction4Hidden",
+                            "type": "Path",
+                          },
+                        },
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Sibling boundAction4 Hidden",
+                            "type": "String",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "Sibling/isBoundAction4Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 4",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction4",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Inline",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                  ],
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.LineItem",
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "record": Object {
+                    "propertyValues": Array [
+                      Object {
+                        "name": "PreparationAction",
+                        "value": Object {
+                          "String": "sap.fe.core.ActionVisibility.draftPrepare",
+                          "type": "String",
+                        },
+                      },
+                    ],
+                    "type": "com.sap.vocabularies.Common.v1.DraftNodeType",
+                  },
+                  "term": "com.sap.vocabularies.Common.v1.DraftNode",
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "Org.OData.Core.V1.Computed",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/ID",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "Bound Action 3 Hidden",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/isBoundAction3Hidden",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "Bound Action 4 Hidden",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/isBoundAction4Hidden",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "Org.OData.Measures.V1.Unit",
+                  "value": Object {
+                    "Path": "quantityUoM",
+                    "type": "Path",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/quantity",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/IsActiveEntity",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/HasActiveEntity",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/HasDraftEntity",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.SubElement/DraftAdministrativeData",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_DraftAdministrativeData}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_DraftUUID}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_CreationDateTime}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreationDateTime",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_CreatedByUser}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreatedByUser",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_DraftIsCreatedByMe}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsCreatedByMe",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_LastChangeDateTime}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangeDateTime",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_LastChangedByUser}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangedByUser",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_InProcessByUser}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/InProcessByUser",
+            },
+            Object {
+              "annotations": Array [
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Hidden",
+                  "value": Object {
+                    "Bool": true,
+                    "type": "Bool",
+                  },
+                },
+                Object {
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.Common.v1.Label",
+                  "value": Object {
+                    "String": "{i18n>Draft_DraftIsProcessedByMe}",
+                    "type": "String",
+                  },
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsProcessedByMe",
+            },
+          ],
+        },
+        "associationSets": Array [],
+        "associations": Array [],
+        "complexTypes": Array [],
+        "entityContainer": Object {
+          "_type": "EntityContainer",
+          "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer",
+          "name": "EntityContainer",
+        },
+        "entitySets": Array [
+          Object {
+            "_type": "EntitySet",
+            "entityTypeName": "sap.fe.core.ActionVisibility.RootElement",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+            "name": "RootElement",
+            "navigationPropertyBinding": Object {
+              "Sibling": [Circular],
+              "SiblingEntity": [Circular],
+              "_Elements": Object {
+                "_type": "EntitySet",
+                "entityTypeName": "sap.fe.core.ActionVisibility.SubElement",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+                "name": "SubElement",
+                "navigationPropertyBinding": Object {
+                  "Sibling": [Circular],
+                  "SiblingEntity": [Circular],
+                  "owner": [Circular],
+                },
+              },
+            },
+          },
+          Object {
+            "_type": "EntitySet",
+            "entityTypeName": "sap.fe.core.ActionVisibility.SubElement",
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+            "name": "SubElement",
+            "navigationPropertyBinding": Object {
+              "Sibling": [Circular],
+              "SiblingEntity": [Circular],
+              "owner": Object {
+                "_type": "EntitySet",
+                "entityTypeName": "sap.fe.core.ActionVisibility.RootElement",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+                "name": "RootElement",
+                "navigationPropertyBinding": Object {
+                  "Sibling": [Circular],
+                  "SiblingEntity": [Circular],
+                  "_Elements": [Circular],
+                },
+              },
+            },
+          },
+        ],
+        "entityTypes": Array [
+          Object {
+            "_type": "EntityType",
+            "actions": Object {},
+            "entityProperties": Array [
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/ID",
+                "name": "ID",
+                "nullable": false,
+                "type": "Edm.Int32",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Prop1",
+                "name": "Prop1",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Prop2",
+                "name": "Prop2",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/isBoundAction1Hidden",
+                "name": "isBoundAction1Hidden",
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/isBoundAction2Hidden",
+                "name": "isBoundAction2Hidden",
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/isBoundAction3Hidden",
+                "name": "isBoundAction3Hidden",
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Sibling_ID",
+                "name": "Sibling_ID",
+                "type": "Edm.Int32",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": true,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/IsActiveEntity",
+                "name": "IsActiveEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/HasActiveEntity",
+                "name": "HasActiveEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/HasDraftEntity",
+                "name": "HasDraftEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+            ],
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement",
+            "keys": Array [
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/ID",
+                "name": "ID",
+                "nullable": false,
+                "type": "Edm.Int32",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": true,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/IsActiveEntity",
+                "name": "IsActiveEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+            ],
+            "name": "RootElement",
+            "navigationProperties": Array [
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/Sibling",
+                "isCollection": false,
+                "name": "Sibling",
+                "partner": undefined,
+                "referentialConstraint": Array [
+                  Object {
+                    "sourceProperty": "Sibling_ID",
+                    "sourceTypeName": "RootElement",
+                    "targetProperty": "ID",
+                    "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+                  },
+                ],
+                "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+              },
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/_Elements",
+                "isCollection": true,
+                "name": "_Elements",
+                "partner": "owner",
+                "referentialConstraint": Array [],
+                "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+              },
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": true,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/DraftAdministrativeData",
+                "isCollection": false,
+                "name": "DraftAdministrativeData",
+                "partner": undefined,
+                "referentialConstraint": Array [],
+                "targetTypeName": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+              },
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.RootElement/SiblingEntity",
+                "isCollection": false,
+                "name": "SiblingEntity",
+                "partner": undefined,
+                "referentialConstraint": Array [],
+                "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+              },
+            ],
+          },
+          Object {
+            "_type": "EntityType",
+            "actions": Object {},
+            "entityProperties": Array [
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/ID",
+                "name": "ID",
+                "nullable": false,
+                "type": "Edm.Int32",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/SubProp1",
+                "name": "SubProp1",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/SubProp2",
+                "name": "SubProp2",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/isBoundAction3Hidden",
+                "name": "isBoundAction3Hidden",
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/isBoundAction4Hidden",
+                "name": "isBoundAction4Hidden",
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/owner_ID",
+                "name": "owner_ID",
+                "type": "Edm.Int32",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/sibling_ID",
+                "name": "sibling_ID",
+                "type": "Edm.Int32",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/quantity",
+                "name": "quantity",
+                "type": "Edm.Double",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/quantityUoM",
+                "name": "quantityUoM",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": true,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/IsActiveEntity",
+                "name": "IsActiveEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/HasActiveEntity",
+                "name": "HasActiveEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/HasDraftEntity",
+                "name": "HasDraftEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+            ],
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement",
+            "keys": Array [
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/ID",
+                "name": "ID",
+                "nullable": false,
+                "type": "Edm.Int32",
+              },
+              Object {
+                "_type": "Property",
+                "defaultValue": true,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/IsActiveEntity",
+                "name": "IsActiveEntity",
+                "nullable": false,
+                "type": "Edm.Boolean",
+              },
+            ],
+            "name": "SubElement",
+            "navigationProperties": Array [
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/owner",
+                "isCollection": false,
+                "name": "owner",
+                "partner": "_Elements",
+                "referentialConstraint": Array [
+                  Object {
+                    "sourceProperty": "owner_ID",
+                    "sourceTypeName": "SubElement",
+                    "targetProperty": "ID",
+                    "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+                  },
+                ],
+                "targetTypeName": "sap.fe.core.ActionVisibility.RootElement",
+              },
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/Sibling",
+                "isCollection": false,
+                "name": "Sibling",
+                "partner": undefined,
+                "referentialConstraint": Array [
+                  Object {
+                    "sourceProperty": "sibling_ID",
+                    "sourceTypeName": "SubElement",
+                    "targetProperty": "ID",
+                    "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+                  },
+                ],
+                "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+              },
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": true,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/DraftAdministrativeData",
+                "isCollection": false,
+                "name": "DraftAdministrativeData",
+                "partner": undefined,
+                "referentialConstraint": Array [],
+                "targetTypeName": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+              },
+              Object {
+                "_type": "NavigationProperty",
+                "containsTarget": false,
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.SubElement/SiblingEntity",
+                "isCollection": false,
+                "name": "SiblingEntity",
+                "partner": undefined,
+                "referentialConstraint": Array [],
+                "targetTypeName": "sap.fe.core.ActionVisibility.SubElement",
+              },
+            ],
+          },
+          Object {
+            "_type": "EntityType",
+            "actions": Object {},
+            "entityProperties": Array [
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID",
+                "name": "DraftUUID",
+                "nullable": false,
+                "type": "Edm.Guid",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreationDateTime",
+                "name": "CreationDateTime",
+                "precision": 7,
+                "type": "Edm.DateTimeOffset",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/CreatedByUser",
+                "maxLength": 256,
+                "name": "CreatedByUser",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsCreatedByMe",
+                "name": "DraftIsCreatedByMe",
+                "type": "Edm.Boolean",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangeDateTime",
+                "name": "LastChangeDateTime",
+                "precision": 7,
+                "type": "Edm.DateTimeOffset",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangedByUser",
+                "maxLength": 256,
+                "name": "LastChangedByUser",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/InProcessByUser",
+                "maxLength": 256,
+                "name": "InProcessByUser",
+                "type": "Edm.String",
+              },
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsProcessedByMe",
+                "name": "DraftIsProcessedByMe",
+                "type": "Edm.Boolean",
+              },
+            ],
+            "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData",
+            "keys": Array [
+              Object {
+                "_type": "Property",
+                "fullyQualifiedName": "sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID",
+                "name": "DraftUUID",
+                "nullable": false,
+                "type": "Edm.Guid",
+              },
+            ],
+            "name": "DraftAdministrativeData",
+            "navigationProperties": Array [],
+          },
+        ],
+        "namespace": "sap.fe.core.ActionVisibility",
+        "singletons": Array [],
+        "typeDefinitions": Array [],
+      },
+      "version": "4.0",
+    },
+    RawMetadataInstance {
+      "identification": "annoFile",
+      "references": Array [
+        Object {
+          "alias": "Common",
+          "namespace": "com.sap.vocabularies.Common.v1",
+          "uri": "https://sap.github.io/odata-vocabularies/vocabularies/Common.xml",
+        },
+        Object {
+          "alias": "Core",
+          "namespace": "Org.OData.Core.V1",
+          "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml",
+        },
+        Object {
+          "alias": "UI",
+          "namespace": "com.sap.vocabularies.UI.v1",
+          "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
+        },
+        Object {
+          "alias": "ActionVisibility",
+          "namespace": "sap.fe.core.ActionVisibility",
+          "uri": "/sap/fe/core/mock/action-visibility/$metadata",
+        },
+      ],
+      "schema": Object {
+        "actions": Array [],
+        "annotations": Object {
+          "annoFile": Array [
+            Object {
+              "annotations": Array [
+                Object {
+                  "collection": Array [
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "Prop1",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "ID",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                  ],
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.LineItem",
+                },
+                Object {
+                  "collection": Array [
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "Path": "isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundAction2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": true,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "type": "Unknown",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Header Action 1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundHeaderAction1",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": false,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "annotations": Array [
+                        Object {
+                          "qualifier": undefined,
+                          "term": "com.sap.vocabularies.UI.v1.Hidden",
+                          "value": Object {
+                            "type": "Unknown",
+                          },
+                        },
+                      ],
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Label",
+                          "value": Object {
+                            "String": "Bound Header Action 2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Action",
+                          "value": Object {
+                            "String": "sap.fe.core.ActionVisibility.boundHeaderAction2",
+                            "type": "String",
+                          },
+                        },
+                        Object {
+                          "name": "Determining",
+                          "value": Object {
+                            "Bool": false,
+                            "type": "Bool",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction1Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction2Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                    Object {
+                      "propertyValues": Array [
+                        Object {
+                          "name": "Value",
+                          "value": Object {
+                            "Path": "isBoundAction3Hidden",
+                            "type": "Path",
+                          },
+                        },
+                      ],
+                      "type": "com.sap.vocabularies.UI.v1.DataField",
+                    },
+                  ],
+                  "qualifier": undefined,
+                  "term": "com.sap.vocabularies.UI.v1.Identification",
+                },
+              ],
+              "target": "sap.fe.core.ActionVisibility.RootElement",
+            },
+          ],
+        },
+        "associationSets": Array [],
+        "associations": Array [],
+        "complexTypes": Array [],
+        "entityContainer": Object {
+          "_type": "EntityContainer",
+          "fullyQualifiedName": "",
+        },
+        "entitySets": Array [],
+        "entityTypes": Array [],
+        "namespace": "sap.fe.core.ActionVisibility.LocalService",
+        "singletons": Array [],
+        "typeDefinitions": Array [],
+      },
+      "version": "4.0",
+    },
+  ],
+  "_references": Array [
+    Object {
+      "alias": "Common",
+      "namespace": "com.sap.vocabularies.Common.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/Common.xml",
+    },
+    Object {
+      "alias": "Core",
+      "namespace": "Org.OData.Core.V1",
+      "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml",
+    },
+    Object {
+      "alias": "Measures",
+      "namespace": "Org.OData.Measures.V1",
+      "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml",
+    },
+    Object {
+      "alias": "UI",
+      "namespace": "com.sap.vocabularies.UI.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
+    },
+    Object {
+      "alias": "Common",
+      "namespace": "com.sap.vocabularies.Common.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/Common.xml",
+    },
+    Object {
+      "alias": "Core",
+      "namespace": "Org.OData.Core.V1",
+      "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml",
+    },
+    Object {
+      "alias": "UI",
+      "namespace": "com.sap.vocabularies.UI.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
+    },
+    Object {
+      "alias": "ActionVisibility",
+      "namespace": "sap.fe.core.ActionVisibility",
+      "uri": "/sap/fe/core/mock/action-visibility/$metadata",
+    },
+  ],
+  "_singletons": Array [],
+  "_typeDefinitions": Array [],
+  "identification": "mergedParserInstance",
+  "version": "4.0",
+}
+`;

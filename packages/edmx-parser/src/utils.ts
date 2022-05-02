@@ -96,7 +96,8 @@ export class MergedRawMetadata implements RawMetadataInstance {
     _singletons: RawSingleton[] = [];
     _actions: RawAction[] = [];
     _entityContainer: RawEntityContainer = {
-        _type: 'EntityContainer'
+        _type: 'EntityContainer',
+        fullyQualifiedName: ''
     };
     _entityTypes: RawEntityType[] = [];
     _complexTypes: RawComplexType[] = [];

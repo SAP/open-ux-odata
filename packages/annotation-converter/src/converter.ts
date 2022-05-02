@@ -1261,6 +1261,41 @@ function processUnresolvedTargets(unresolvedTargets: Resolveable[], objectMap: R
 }
 
 /**
+ * Merge annotation from different source together by overwriting at the term level.
+ *
+ * @param rawMetadata
+ * @returns the resulting merged annotations
+ */
+function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationList> {
+    const annotationListPerTarget: Record<string, AnnotationList> = {};
+    Object.keys(rawMetadata.schema.annotations).forEach((annotationSource) => {
+        rawMetadata.schema.annotations[annotationSource].forEach((annotationList: AnnotationList) => {
+            const currentTargetName = unalias(rawMetadata.references, annotationList.target) as string;
+            (annotationList as any).__source = annotationSource;
+            if (!annotationListPerTarget[currentTargetName]) {
+                annotationListPerTarget[currentTargetName] = annotationList;
+            } else {
+                annotationList.annotations.forEach((annotation) => {
+                    const findIndex = annotationListPerTarget[currentTargetName].annotations.findIndex(
+                        (referenceAnnotation) => {
+                            return (
+                                referenceAnnotation.term === annotation.term &&
+                                referenceAnnotation.qualifier === annotation.qualifier
+                            );
+                        }
+                    );
+                    if (findIndex !== -1) {
+                        annotationListPerTarget[currentTargetName].annotations.splice(findIndex, 1, annotation);
+                    } else {
+                        annotationListPerTarget[currentTargetName].annotations.push(annotation);
+                    }
+                });
+            }
+        });
+    });
+    return annotationListPerTarget;
+}
+/**
  * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
  *
  * @param rawMetadata
@@ -1282,34 +1317,31 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     prepareComplexTypes(rawMetadata.schema.complexTypes as ComplexType[], rawMetadata.schema.associations, objectMap);
     const unresolvedTargets: Resolveable[] = [];
     const unresolvedAnnotations: AnnotationList[] = [];
-
-    Object.keys(rawMetadata.schema.annotations).forEach((annotationSource) => {
-        rawMetadata.schema.annotations[annotationSource].forEach((annotationList: AnnotationList) => {
-            const currentTargetName = unalias(rawMetadata.references, annotationList.target) as string;
-            const objectMapElement = objectMap[currentTargetName];
-            if (!objectMapElement && currentTargetName?.indexOf('@') > 0) {
-                (annotationList as any).__source = annotationSource;
-                unresolvedAnnotations.push(annotationList);
-            } else if (objectMapElement) {
-                let allTargets = [objectMapElement];
-                let bOverrideExisting = true;
-                if (objectMapElement._type === 'UnboundGenericAction') {
-                    allTargets = objectMapElement.actions;
-                    bOverrideExisting = false;
-                }
-                allTargets.forEach((currentTarget) => {
-                    const currentContext: ConversionContext = {
-                        additionalAnnotations: unresolvedAnnotations,
-                        currentSource: annotationSource,
-                        currentTarget: currentTarget,
-                        currentTerm: '',
-                        rawMetadata: rawMetadata,
-                        unresolvedAnnotations: unresolvedTargets
-                    };
-                    processAnnotations(currentContext, currentTargetName, annotationList, objectMap, bOverrideExisting);
-                });
+    const annotationListPerTarget: Record<string, AnnotationList> = mergeAnnotations(rawMetadata);
+    Object.keys(annotationListPerTarget).forEach((currentTargetName) => {
+        const annotationList = annotationListPerTarget[currentTargetName];
+        const objectMapElement = objectMap[currentTargetName];
+        if (!objectMapElement && currentTargetName?.indexOf('@') > 0) {
+            unresolvedAnnotations.push(annotationList);
+        } else if (objectMapElement) {
+            let allTargets = [objectMapElement];
+            let bOverrideExisting = true;
+            if (objectMapElement._type === 'UnboundGenericAction') {
+                allTargets = objectMapElement.actions;
+                bOverrideExisting = false;
             }
-        });
+            allTargets.forEach((currentTarget) => {
+                const currentContext: ConversionContext = {
+                    additionalAnnotations: unresolvedAnnotations,
+                    currentSource: (annotationList as any).__source,
+                    currentTarget: currentTarget,
+                    currentTerm: '',
+                    rawMetadata: rawMetadata,
+                    unresolvedAnnotations: unresolvedTargets
+                };
+                processAnnotations(currentContext, currentTargetName, annotationList, objectMap, bOverrideExisting);
+            });
+        }
     });
 
     const extraUnresolvedAnnotations: AnnotationList[] = [];

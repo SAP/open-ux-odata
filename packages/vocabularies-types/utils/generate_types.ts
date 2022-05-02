@@ -249,7 +249,7 @@ async function generateTypes(targetFolder: string) {
         vocabularyDef += 'import AnnotationTerm = Edm.AnnotationTerm;\n';
         vocabularyDef += 'import PropertyAnnotationValue = Edm.PropertyAnnotationValue;\n';
         vocabularyDef += 'import EnumValue = Edm.EnumValue;\n';
-        vocabularyDef += 'import ComplexType = Edm.ComplexType;\n';
+        vocabularyDef += 'import ComplexType = Edm.RecordComplexType;\n';
         // vocabularyDef += "    import AnnotationRecord = Edm.AnnotationRecord;\n";
         vocabularyDef += '\n';
         const vocabularyDefinition: SchemaWrapper = vocabularyData.content[vocabularyData.namespace];

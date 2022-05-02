@@ -14,7 +14,7 @@ const FilterDefaultValue = Object.assign('String', {
 describe('Writeback capabilities', () => {
     it('can revert Apply expression', async () => {
         const parsedEDMX = parse(await loadFixture('v2/metadataWithApply.xml'));
-        const rawData: any = (parsedEDMX.schema.annotations.serviceFile?.[83]?.annotations?.[3]?.collection?.[2] as any)
+        const rawData: any = (parsedEDMX.schema.annotations.serviceFile?.[77]?.annotations?.[3]?.collection?.[2] as any)
             ?.propertyValues;
         const convertedTypes = convert(parsedEDMX);
         const dfWithUrlApply: any = convertedTypes.entityTypes[1].annotations?.UI?.LineItem?.[2];
@@ -53,7 +53,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             convertedTypes.entityTypes[0].annotations?.UI?.LineItem
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile[11].annotations[2] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile[0].annotations[2] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(transformedFilterDefaultValue.collection.length).toEqual(target.collection.length);
@@ -70,7 +70,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             convertedTypes.entityTypes['13'].entityProperties['8']?.annotations?.Common?.ValueList
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile['224'].annotations['3'] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile['186'].annotations['3'] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
@@ -84,7 +84,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             convertedTypes.entityTypes[0].annotations?.UI?.SelectionFields
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile[11].annotations[1] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile[0].annotations[1] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
@@ -98,7 +98,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             (convertedTypes.entityTypes['39']?.annotations?.Common as any)?.['SideEffects#ShipToPartyChange']
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile['301'].annotations['5'] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile['203'].annotations['5'] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
@@ -113,7 +113,7 @@ describe('Writeback capabilities', () => {
                 'SideEffects#MaterialDetailsModelYearChange'
             ]
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile['177'].annotations['2'] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile['139'].annotations['2'] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
@@ -127,7 +127,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             convertedTypes.entitySets['38'].annotations?.Capabilities?.NavigationRestrictions
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile['302'].annotations['0'] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile['204'].annotations['0'] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
@@ -142,7 +142,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             (convertedTypes.entityTypes['41']?.annotations?.UI as any)['SelectionPresentationVariant#SPVPath']
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile['395'].annotations['37'] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile['245'].annotations['37'] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
@@ -172,7 +172,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             (convertedTypes.entityTypes['15'].annotations.UI as any)['DataPoint#Progress2']
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile['82'].annotations['2'] as any;
+        const target = parsedEDMX.schema.annotations.serviceFile['71'].annotations['2'] as any;
         delete target.fullyQualifiedName;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
@@ -187,7 +187,7 @@ describe('Writeback capabilities', () => {
     });
     it('can deal with Null', async () => {
         const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
-        const target = Object.assign({}, parsedEDMX.schema.annotations.serviceFile['451'].annotations['0'] as any);
+        const target = Object.assign({}, parsedEDMX.schema.annotations.serviceFile['293'].annotations['0'] as any);
         target.value = Object.assign({}, target.value);
         const convertedTypes = convert(parsedEDMX);
 
