@@ -1271,7 +1271,11 @@ function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationLi
             const currentTargetName = unalias(rawMetadata.references, annotationList.target) as string;
             (annotationList as any).__source = annotationSource;
             if (!annotationListPerTarget[currentTargetName]) {
-                annotationListPerTarget[currentTargetName] = annotationList;
+                annotationListPerTarget[currentTargetName] = {
+                    annotations: annotationList.annotations.concat(),
+                    target: currentTargetName
+                };
+                (annotationListPerTarget[currentTargetName] as any).__source = annotationSource;
             } else {
                 annotationList.annotations.forEach((annotation) => {
                     const findIndex = annotationListPerTarget[currentTargetName].annotations.findIndex(
@@ -1282,8 +1286,8 @@ function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationLi
                             );
                         }
                     );
+                    (annotation as any).__source = annotationSource;
                     if (findIndex !== -1) {
-                        (annotation as any).__source = annotationSource;
                         annotationListPerTarget[currentTargetName].annotations.splice(findIndex, 1, annotation);
                     } else {
                         annotationListPerTarget[currentTargetName].annotations.push(annotation);
