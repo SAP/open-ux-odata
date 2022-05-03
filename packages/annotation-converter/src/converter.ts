@@ -1282,8 +1282,8 @@ function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationLi
                             );
                         }
                     );
+                    (annotation as any).__source = annotationSource;
                     if (findIndex !== -1) {
-                        (annotation as any).__source = annotationSource;
                         annotationListPerTarget[currentTargetName].annotations.splice(findIndex, 1, annotation);
                     } else {
                         annotationListPerTarget[currentTargetName].annotations.push(annotation);
