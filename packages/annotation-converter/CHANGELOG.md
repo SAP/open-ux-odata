@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.6
+
+### Patch Changes
+
+-   0dc370d: fix: annotation source definition in all cases
+
 ## 0.5.5
 
 ### Patch Changes
