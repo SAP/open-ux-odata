@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.7
+
+### Patch Changes
+
+-   2ab7e09: Fix an issue with incorrect annotation format
+
 ## 0.5.6
 
 ### Patch Changes
