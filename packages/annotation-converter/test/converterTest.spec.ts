@@ -371,6 +371,8 @@ describe('Annotation Converter', () => {
         const parsedEDMX = parse(await loadFixture('v4/pathError.xml'));
         const convertedTypes = convert(parsedEDMX);
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
+        expect(convertedTypes.diagnostics).not.toBeNull();
+        expect(convertedTypes.diagnostics.length).toEqual(1);
     });
     it('dummy bound action', async () => {
         const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
