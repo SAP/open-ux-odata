@@ -372,7 +372,9 @@ describe('Annotation Converter', () => {
         const convertedTypes = convert(parsedEDMX);
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
         expect(convertedTypes.diagnostics).not.toBeNull();
-        expect(convertedTypes.diagnostics.length).toEqual(1);
+        expect(convertedTypes.diagnostics[0].message).toEqual(
+            'The following annotation target was not found on the service IncidentService.Incidents@com.sap.vocabularies.UI.v1.Facets/1/Target'
+        );
     });
     it('dummy bound action', async () => {
         const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
