@@ -1356,7 +1356,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         const currentTarget = targetSplit.slice(1).reduce((currentObj, path) => {
             return currentObj?.[path];
         }, objectMap[baseObj]);
-        if (!currentTarget) {
+        if (!currentTarget || typeof currentTarget !== 'object') {
             ANNOTATION_ERRORS.push({
                 message: 'The following annotation target was not found on the service ' + currentTargetName
             });

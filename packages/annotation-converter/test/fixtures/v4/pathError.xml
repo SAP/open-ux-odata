@@ -467,6 +467,9 @@
 				<Annotation Term="Common.Text" Path="name"/>
 				<Annotation Term="Common.Label" String="{i18n>IncidentStatus}"/>
 			</Annotations>
+			<Annotations Target="IncidentService.ThisIsNotARealIncident">
+				<Annotation Term="Common.Text" Path="name"/>
+			</Annotations>
 			<Annotations Target="IncidentService.Incidents">
 				<Annotation Term="Analytics.AggregatedProperties">
 					<Collection>
@@ -502,6 +505,21 @@
 							<PropertyValue Property="Label" String="sec form"/>
 							<PropertyValue Property="ID" String="secform"/>
 							<PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#secform"/>
+						</Record>
+						<Record Type="UI.ReferenceFacet">
+							<PropertyValue Property="Label" String="sec form"/>
+							<PropertyValue Property="ID" String="secform"/>
+							<PropertyValue Property="Target" String="@UI.FieldGroup#secform22">
+								<Annotation Term="Core.Messages">
+									<Collection>
+										<Record>
+											<PropertyValue Property="code" String="SY-530"></PropertyValue>
+											<PropertyValue Property="message" String="An exception was raised"></PropertyValue>
+											<PropertyValue Property="severity" String="error"></PropertyValue>
+										</Record>
+									</Collection>
+								</Annotation>
+							</PropertyValue>
 						</Record>
 					</Collection>
 				</Annotation>
