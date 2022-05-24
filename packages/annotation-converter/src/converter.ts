@@ -100,6 +100,7 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
         objectMap[typeDefinition.fullyQualifiedName] = typeDefinition;
     });
     rawMetadata.schema.entityTypes.forEach((entityType) => {
+        (entityType as EntityType).annotations = {}; // 'annotations' property is mandatory
         objectMap[entityType.fullyQualifiedName] = entityType;
         entityType.entityProperties.forEach((property) => {
             objectMap[property.fullyQualifiedName] = property;
@@ -150,8 +151,10 @@ function combinePath(currentTarget: string, path: string): string {
         return currentTarget + '/' + path;
     }
 }
+
 const ALL_ANNOTATION_ERRORS: any = {};
 let ANNOTATION_ERRORS: { message: string }[] = [];
+
 /**
  * @param path
  * @param oErrorMsg
@@ -532,6 +535,7 @@ function parseRecordType(recordDefinition: AnnotationRecord, context: Conversion
     }
     return targetType;
 }
+
 function parseRecord(
     recordDefinition: AnnotationRecord,
     currentFQN: string,
@@ -871,6 +875,7 @@ function prepareNavigationProperties(
         return outNavProp;
     });
 }
+
 /**
  * @param entityTypes
  * @param associations
@@ -1109,6 +1114,7 @@ function ensureAnnotations(currentTarget: any, vocAlias: string) {
         currentTarget.annotations._annotations = {};
     }
 }
+
 function processAnnotations(
     currentContext: ConversionContext,
     annotationList: AnnotationList,
@@ -1298,6 +1304,7 @@ function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationLi
     });
     return annotationListPerTarget;
 }
+
 /**
  * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
  *

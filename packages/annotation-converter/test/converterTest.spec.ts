@@ -5,6 +5,7 @@ import type {
     ActionParameter,
     Annotation,
     AnnotationPath,
+    ConvertedMetadata,
     EntitySet,
     EntityType,
     EnumValue,
@@ -548,5 +549,27 @@ describe('Annotation Converter', () => {
         expect(
             convertedMetadataTypes.entityTypes[0].annotations?.UI?.LineItem?.[0]?.annotations?.UI?.Importance?.toString()
         ).toEqual('UI.ImportanceType/High');
+    });
+
+    function checkAnnotationObject(convertedTypes: ConvertedMetadata) {
+        convertedTypes.entityTypes.forEach((entityType) => {
+            expect(entityType).toHaveProperty('annotations');
+            expect(entityType.annotations).not.toBeUndefined();
+            expect(entityType.annotations).not.toBeNull();
+        });
+    }
+
+    it('should return type-compliant entity types (no containment)', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/AnnoNoContainment.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        checkAnnotationObject(convertedTypes);
+    });
+
+    it('should return type-compliant entity types (with containments)', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/AnnoWithContainment.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        checkAnnotationObject(convertedTypes);
     });
 });
