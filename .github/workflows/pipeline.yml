@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest, windows-latest]
-                node-version: [14.x, 16.x, 18.x]
+                node-version: [12.x, 14.x, 16.x]
         runs-on: ${{ matrix.os }}
         timeout-minutes: 15
         steps:
@@ -46,7 +46,7 @@ jobs:
             - name: Run unit tests
               run: pnpm run test
             - name: Run SonarCloud scan
-              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
+              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '12.x'
               uses: sonarsource/sonarcloud-github-action@master
               env:
                   GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
