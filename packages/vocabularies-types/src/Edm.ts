@@ -219,7 +219,7 @@ export type Time = string;
 export type Binary = string;
 export type Decimal = IDecimal | Number;
 export type Double = IDecimal | Number;
-
+export type Untyped = any;
 export type Date = string;
 export type Guid = any;
 export type Duration = any;
