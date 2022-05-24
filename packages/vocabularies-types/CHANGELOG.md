@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.5.5
+
+### Patch Changes
+
+-   073a25e: Align with latest vocabularies
+
 ## 0.5.4
 
 ### Patch Changes
