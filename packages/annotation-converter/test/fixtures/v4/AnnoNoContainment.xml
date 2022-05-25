@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="MyEntities" EntityType="sap.fe.test.JestService.MyEntities">
+          <NavigationPropertyBinding Path="myText" Target="MyEntityTexts"/>
+        </EntitySet>
+        <EntitySet Name="MyEntityTexts" EntityType="sap.fe.test.JestService.MyEntityTexts"/>
+      </EntityContainer>
+      <EntityType Name="MyEntities">
+        <Key>
+          <PropertyRef Name="myPrimaryKey"/>
+        </Key>
+        <Property Name="myPrimaryKey" Type="Edm.String" Nullable="false"/>
+        <NavigationProperty Name="myText" Type="sap.fe.test.JestService.MyEntityTexts">
+          <OnDelete Action="Cascade"/>
+          <ReferentialConstraint Property="ID" ReferencedProperty="myPrimaryKey"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="MyEntityTexts">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+        <Property Name="name" Type="Edm.String"/>
+      </EntityType>
+      <Annotations Target="sap.fe.test.JestService.MyEntities/myPrimaryKey">
+        <Annotation Term="Common.Text" Path="myText/name">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.test.JestService.MyEntityTexts/ID">
+        <Annotation Term="Common.Text" Path="name"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
