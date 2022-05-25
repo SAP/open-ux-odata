@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.8
+
+### Patch Changes
+
+-   591a801: Ensure converted entity types comply to the type definition
+
 ## 0.5.7
 
 ### Patch Changes
