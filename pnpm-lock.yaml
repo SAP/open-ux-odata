@@ -118,10 +118,10 @@ importers:
     packages/fe-mockserver-plugin-cds:
         specifiers:
             '@sap-ux/fe-mockserver-core': workspace:*
-            '@sap/cds-compiler': ^2.12.0
+            '@sap/cds-compiler': ^2.15.2
         devDependencies:
             '@sap-ux/fe-mockserver-core': link:../fe-mockserver-core
-            '@sap/cds-compiler': 2.14.0
+            '@sap/cds-compiler': 2.15.2
 
     packages/ui5-middleware-fe-mockserver:
         specifiers:
@@ -1239,10 +1239,10 @@ packages:
             fastq: 1.13.0
         dev: true
 
-    /@sap/cds-compiler/2.14.0:
+    /@sap/cds-compiler/2.15.2:
         resolution:
             {
-                integrity: sha512-68adHOzFeMAowEB5w+4C8JkSXiobXgrMsBS4UitO9KWFCHxM0I9+5hWMCn8uR3lP9LEyFhJCU/501jSQ2f7fPA==
+                integrity: sha512-i4MmceDSsKX+6DieGBf3zo6EGjELNEVQLo7Wl0K2vP8gXJrtveFJQxHW6dsp/Cro7qh0C28WbBNTlPiHPjyygg==
             }
         engines: { node: '>=12' }
         hasBin: true
