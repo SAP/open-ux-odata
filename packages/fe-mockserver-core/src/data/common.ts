@@ -3,8 +3,8 @@ import type { ODataMetadata } from './metadata';
 import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
 import type { ILogger } from '@ui5/logger';
 import type ODataRequest from '../request/odataRequest';
-import { Action } from '@sap-ux/vocabularies-types';
-import { IFileLoader } from '../index';
+import type { Action } from '@sap-ux/vocabularies-types';
+import type { IFileLoader } from '../index';
 
 export interface EntitySetInterface {
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
