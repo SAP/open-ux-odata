@@ -1,0 +1,1254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:1 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "ID": "B-0",
+      "_back_ID": "A-0",
+      "_toOne_ID": "C-0",
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "ID": "B-1",
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "ID": "B-2-1",
+      "_toOne_ID": "C-0",
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "ID": "B-3",
+      "_back_ID": "A-3",
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "ID": "B-0",
+        "_back_ID": "A-0",
+        "_toOne_ID": "C-0",
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "ID": "B-1",
+        "value": "B1",
+      },
+      Object {
+        "ID": "B-2",
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "ID": "B-2-1",
+        "_toOne_ID": "C-0",
+        "value": "B21",
+      },
+      Object {
+        "ID": "B-2-2",
+        "_toOne_ID": "C-0",
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "ID": "B-3",
+        "_back_ID": "A-3",
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (with $select) --> 1:1 (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "_toOne": Object {
+        "value": "C",
+      },
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "_toOne": Object {
+        "value": "C1",
+      },
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "_toOne": Object {
+        "value": "C",
+      },
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "_toOne": Object {
+        "value": "C2",
+      },
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (with $select) --> 1:1 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "_toOne": Object {
+        "ID": "C-0",
+        "_back_ID": "B-0",
+        "value": "C",
+      },
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "_toOne": Object {
+        "ID": "C-1",
+        "value": "C1",
+      },
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "_toOne": Object {
+        "ID": "C-0",
+        "_back_ID": "B-0",
+        "value": "C",
+      },
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "_toOne": Object {
+        "ID": "C-2",
+        "value": "C2",
+      },
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (with $select) --> 1:n (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "_toMany": Array [
+        Object {
+          "value": "C",
+        },
+      ],
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "_toMany": Array [],
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "_toMany": Array [
+        Object {
+          "value": "C21",
+        },
+        Object {
+          "value": "C22",
+        },
+      ],
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "_toMany": Array [
+        Object {
+          "value": "C2",
+        },
+        Object {
+          "value": "C3",
+        },
+      ],
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (with $select) --> 1:n 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "_toMany": Array [
+        Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+      ],
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "_toMany": Array [],
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "_toMany": Array [
+        Object {
+          "ID": "C-2-1",
+          "value": "C21",
+        },
+        Object {
+          "ID": "C-2-2",
+          "value": "C22",
+        },
+      ],
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "_toMany": Array [
+        Object {
+          "ID": "C-2",
+          "value": "C2",
+        },
+        Object {
+          "ID": "C-3",
+          "value": "C3",
+        },
+      ],
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 --> 1:1 (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "ID": "B-0",
+      "_back_ID": "A-0",
+      "_toOne": Object {
+        "value": "C",
+      },
+      "_toOne_ID": "C-0",
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "ID": "B-1",
+      "_toOne": Object {
+        "value": "C1",
+      },
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "ID": "B-2-1",
+      "_toOne": Object {
+        "value": "C",
+      },
+      "_toOne_ID": "C-0",
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "ID": "B-3",
+      "_back_ID": "A-3",
+      "_toOne": Object {
+        "value": "C2",
+      },
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 --> 1:1 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "ID": "B-0",
+      "_back_ID": "A-0",
+      "_toOne": Object {
+        "ID": "C-0",
+        "_back_ID": "B-0",
+        "value": "C",
+      },
+      "_toOne_ID": "C-0",
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "ID": "B-1",
+      "_toOne": Object {
+        "ID": "C-1",
+        "value": "C1",
+      },
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "ID": "B-2-1",
+      "_toOne": Object {
+        "ID": "C-0",
+        "_back_ID": "B-0",
+        "value": "C",
+      },
+      "_toOne_ID": "C-0",
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "ID": "B-3",
+      "_back_ID": "A-3",
+      "_toOne": Object {
+        "ID": "C-2",
+        "value": "C2",
+      },
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 --> 1:n (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "ID": "B-0",
+      "_back_ID": "A-0",
+      "_toMany": Array [
+        Object {
+          "value": "C",
+        },
+      ],
+      "_toOne_ID": "C-0",
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "ID": "B-1",
+      "_toMany": Array [],
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "ID": "B-2-1",
+      "_toMany": Array [
+        Object {
+          "value": "C21",
+        },
+        Object {
+          "value": "C22",
+        },
+      ],
+      "_toOne_ID": "C-0",
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "ID": "B-3",
+      "_back_ID": "A-3",
+      "_toMany": Array [
+        Object {
+          "value": "C2",
+        },
+        Object {
+          "value": "C3",
+        },
+      ],
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 --> 1:n 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne": Object {
+      "ID": "B-0",
+      "_back_ID": "A-0",
+      "_toMany": Array [
+        Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+      ],
+      "_toOne_ID": "C-0",
+      "value": "B",
+    },
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toOne": Object {
+      "ID": "B-1",
+      "_toMany": Array [],
+      "value": "B1",
+    },
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toOne": Object {
+      "ID": "B-2-1",
+      "_toMany": Array [
+        Object {
+          "ID": "C-2-1",
+          "value": "C21",
+        },
+        Object {
+          "ID": "C-2-2",
+          "value": "C22",
+        },
+      ],
+      "_toOne_ID": "C-0",
+      "value": "B21",
+    },
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne": Object {
+      "ID": "B-3",
+      "_back_ID": "A-3",
+      "_toMany": Array [
+        Object {
+          "ID": "C-2",
+          "value": "C2",
+        },
+        Object {
+          "ID": "C-3",
+          "value": "C3",
+        },
+      ],
+      "value": "B3",
+    },
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (with $select) --> 1:1 (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "value": "C",
+        },
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "value": "C1",
+        },
+        "value": "B1",
+      },
+      Object {
+        "_toOne": Object {
+          "value": "C1",
+        },
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "value": "C",
+        },
+        "value": "B21",
+      },
+      Object {
+        "_toOne": Object {
+          "value": "C",
+        },
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "value": "C2",
+        },
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (with $select) --> 1:1 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "ID": "C-1",
+          "value": "C1",
+        },
+        "value": "B1",
+      },
+      Object {
+        "_toOne": Object {
+          "ID": "C-1",
+          "value": "C1",
+        },
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+        "value": "B21",
+      },
+      Object {
+        "_toOne": Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "_toOne": Object {
+          "ID": "C-2",
+          "value": "C2",
+        },
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (with $select) --> 1:n (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [
+          Object {
+            "value": "C",
+          },
+        ],
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [
+          Object {
+            "value": "C11",
+          },
+          Object {
+            "value": "C12",
+          },
+        ],
+        "value": "B1",
+      },
+      Object {
+        "_toMany": Array [],
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [],
+        "value": "B21",
+      },
+      Object {
+        "_toMany": Array [],
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [
+          Object {
+            "value": "C2",
+          },
+          Object {
+            "value": "C3",
+          },
+        ],
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (with $select) --> 1:n 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [
+          Object {
+            "ID": "C-0",
+            "_back_ID": "B-0",
+            "value": "C",
+          },
+        ],
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [
+          Object {
+            "ID": "C-1-1",
+            "value": "C11",
+          },
+          Object {
+            "ID": "C-1-2",
+            "value": "C12",
+          },
+        ],
+        "value": "B1",
+      },
+      Object {
+        "_toMany": Array [],
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [],
+        "value": "B21",
+      },
+      Object {
+        "_toMany": Array [],
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "_toMany": Array [
+          Object {
+            "ID": "C-2",
+            "value": "C2",
+          },
+          Object {
+            "ID": "C-3",
+            "value": "C3",
+          },
+        ],
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n --> 1:1 (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "ID": "B-0",
+        "_back_ID": "A-0",
+        "_toOne": Object {
+          "value": "C",
+        },
+        "_toOne_ID": "C-0",
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "ID": "B-1",
+        "_toOne": Object {
+          "value": "C1",
+        },
+        "value": "B1",
+      },
+      Object {
+        "ID": "B-2",
+        "_toOne": Object {
+          "value": "C1",
+        },
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "ID": "B-2-1",
+        "_toOne": Object {
+          "value": "C",
+        },
+        "_toOne_ID": "C-0",
+        "value": "B21",
+      },
+      Object {
+        "ID": "B-2-2",
+        "_toOne": Object {
+          "value": "C",
+        },
+        "_toOne_ID": "C-0",
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "ID": "B-3",
+        "_back_ID": "A-3",
+        "_toOne": Object {
+          "value": "C2",
+        },
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n --> 1:1 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "ID": "B-0",
+        "_back_ID": "A-0",
+        "_toOne": Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+        "_toOne_ID": "C-0",
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "ID": "B-1",
+        "_toOne": Object {
+          "ID": "C-1",
+          "value": "C1",
+        },
+        "value": "B1",
+      },
+      Object {
+        "ID": "B-2",
+        "_toOne": Object {
+          "ID": "C-1",
+          "value": "C1",
+        },
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "ID": "B-2-1",
+        "_toOne": Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+        "_toOne_ID": "C-0",
+        "value": "B21",
+      },
+      Object {
+        "ID": "B-2-2",
+        "_toOne": Object {
+          "ID": "C-0",
+          "_back_ID": "B-0",
+          "value": "C",
+        },
+        "_toOne_ID": "C-0",
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "ID": "B-3",
+        "_back_ID": "A-3",
+        "_toOne": Object {
+          "ID": "C-2",
+          "value": "C2",
+        },
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n --> 1:n (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "ID": "B-0",
+        "_back_ID": "A-0",
+        "_toMany": Array [
+          Object {
+            "value": "C",
+          },
+        ],
+        "_toOne_ID": "C-0",
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "ID": "B-1",
+        "_toMany": Array [
+          Object {
+            "value": "C11",
+          },
+          Object {
+            "value": "C12",
+          },
+        ],
+        "value": "B1",
+      },
+      Object {
+        "ID": "B-2",
+        "_toMany": Array [],
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "ID": "B-2-1",
+        "_toMany": Array [],
+        "_toOne_ID": "C-0",
+        "value": "B21",
+      },
+      Object {
+        "ID": "B-2-2",
+        "_toMany": Array [],
+        "_toOne_ID": "C-0",
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "ID": "B-3",
+        "_back_ID": "A-3",
+        "_toMany": Array [
+          Object {
+            "value": "C2",
+          },
+          Object {
+            "value": "C3",
+          },
+        ],
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n --> 1:n 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toMany": Array [
+      Object {
+        "ID": "B-0",
+        "_back_ID": "A-0",
+        "_toMany": Array [
+          Object {
+            "ID": "C-0",
+            "_back_ID": "B-0",
+            "value": "C",
+          },
+        ],
+        "_toOne_ID": "C-0",
+        "value": "B",
+      },
+    ],
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "_toMany": Array [
+      Object {
+        "ID": "B-1",
+        "_toMany": Array [
+          Object {
+            "ID": "C-1-1",
+            "value": "C11",
+          },
+          Object {
+            "ID": "C-1-2",
+            "value": "C12",
+          },
+        ],
+        "value": "B1",
+      },
+      Object {
+        "ID": "B-2",
+        "_toMany": Array [],
+        "value": "B2",
+      },
+    ],
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "_toMany": Array [
+      Object {
+        "ID": "B-2-1",
+        "_toMany": Array [],
+        "_toOne_ID": "C-0",
+        "value": "B21",
+      },
+      Object {
+        "ID": "B-2-2",
+        "_toMany": Array [],
+        "_toOne_ID": "C-0",
+        "value": "B22",
+      },
+    ],
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toMany": Array [
+      Object {
+        "ID": "B-3",
+        "_back_ID": "A-3",
+        "_toMany": Array [
+          Object {
+            "ID": "C-2",
+            "value": "C2",
+          },
+          Object {
+            "ID": "C-3",
+            "value": "C3",
+          },
+        ],
+        "value": "B3",
+      },
+    ],
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: root level only (with $select) 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "value": "A3",
+  },
+]
+`;
+
+exports[`Data Access with $expand spanning multiple levels List: root level only 1`] = `
+Array [
+  Object {
+    "ID": "A-0",
+    "_toOne_ID": "B-0",
+    "value": "A",
+  },
+  Object {
+    "ID": "A-1",
+    "value": "A1",
+  },
+  Object {
+    "ID": "A-2",
+    "value": "A2",
+  },
+  Object {
+    "ID": "A-3",
+    "_toOne_ID": "B-3",
+    "value": "A3",
+  },
+]
+`;

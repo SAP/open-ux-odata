@@ -225,6 +225,8 @@ export type Guid = any;
 export type Duration = any;
 export type DateTimeOffset = any;
 export type Untyped = any;
+export type Stream = any;
+
 export type GeographyPoint = any;
 
 export type Geometry = any;

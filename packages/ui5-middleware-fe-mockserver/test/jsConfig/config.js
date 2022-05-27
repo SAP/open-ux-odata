@@ -1,0 +1,15 @@
+module.exports = [
+    {
+        localPath: '../myAnnotation.xml',
+        urlPath: '/my/Annotation.xml',
+        type: 'annotation'
+    },
+    {
+        urlPath: '/my/service/URL',
+        metadataXmlPath: '../metadata.xml',
+        mockdataRootPath: '../mockData',
+        watch: false,
+        debug: false,
+        contextBasedIsolation: false
+    }
+];

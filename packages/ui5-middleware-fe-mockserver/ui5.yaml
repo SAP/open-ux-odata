@@ -1,0 +1,7 @@
+specVersion: '1.0'
+metadata:
+    name: sap-fe-mockserver
+kind: extension
+type: server-middleware
+middleware:
+    path: dist/index.js

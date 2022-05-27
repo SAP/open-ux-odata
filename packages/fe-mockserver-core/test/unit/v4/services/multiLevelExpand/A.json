@@ -1,0 +1,83 @@
+[
+    {
+        "ID": "A-0",
+        "value": "A",
+        "_toOne_ID": "B-0"
+    },
+    {
+        "ID": "A-1",
+        "value": "A1",
+        "_toOne": {
+            "ID": "B-1",
+            "value": "B1",
+            "_toOne": {
+                "ID": "C-1",
+                "value": "C1"
+            }
+        },
+        "_toMany": [
+            {
+                "ID": "B-1",
+                "value": "B1",
+                "_toOne": {
+                    "ID": "C-1",
+                    "value": "C1"
+                },
+                "_toMany": [
+                    {
+                        "ID": "C-1-1",
+                        "value": "C11"
+                    },
+                    {
+                        "ID": "C-1-2",
+                        "value": "C12"
+                    }
+                ]
+            },
+            {
+                "ID": "B-2",
+                "value": "B2",
+                "_toOne": {
+                    "ID": "C-1",
+                    "value": "C1"
+                }
+            }
+        ]
+    },
+    {
+        "ID": "A-2",
+        "value": "A2",
+        "_toOne": {
+            "ID": "B-2-1",
+            "value": "B21",
+            "_toOne_ID": "C-0",
+            "_toMany": [
+                {
+                    "ID": "C-2-1",
+                    "value": "C21"
+                },
+                {
+                    "ID": "C-2-2",
+                    "value": "C22"
+                }
+            ]
+        },
+        "_toMany": [
+            {
+                "ID": "B-2-1",
+                "value": "B21",
+                "_toOne_ID": "C-0"
+            },
+            {
+                "ID": "B-2-2",
+                "value": "B22",
+                "_toOne_ID": "C-0"
+            }
+        ]
+    },
+    {
+        "ID": "A-3",
+        "value": "A3",
+        "_toOne_ID": "B-3"
+    }
+]

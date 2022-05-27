@@ -1,0 +1,38 @@
+[
+    {
+        "ID": 1,
+        "Prop1": "First Prop",
+        "Prop2": "Second Prop",
+        "isBoundAction1Hidden": false,
+        "isBoundAction2Hidden": false,
+        "isBoundAction3Hidden": false,
+        "Sibling_ID": 2
+    },
+    {
+        "ID": 2,
+        "Prop1": "First Prop for Obj2",
+        "Prop2": "Second Prop for Obj3",
+        "isBoundAction1Hidden": true,
+        "isBoundAction2Hidden": true,
+        "isBoundAction3Hidden": false,
+        "Sibling_ID": 1
+    },
+    {
+        "ID": 3,
+        "Prop1": "First Prop for Obj3",
+        "Prop2": "Second Prop for Obj3",
+        "isBoundAction1Hidden": false,
+        "isBoundAction2Hidden": false,
+        "isBoundAction3Hidden": true,
+        "Sibling_ID": 3
+    },
+    {
+        "ID": 4,
+        "Prop1": "First Prop for Obj4",
+        "Prop2": "Second Prop for Obj4",
+        "isBoundAction1Hidden": true,
+        "isBoundAction2Hidden": true,
+        "isBoundAction3Hidden": true,
+        "Sibling_ID": 2
+    }
+]

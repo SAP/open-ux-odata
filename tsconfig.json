@@ -16,7 +16,7 @@
         "sourceMap": true,
         "strict": true,
         "strictPropertyInitialization": false,
-        "target": "ES6",
+        "target": "ESNext",
         "skipLibCheck": true
     }
 }
