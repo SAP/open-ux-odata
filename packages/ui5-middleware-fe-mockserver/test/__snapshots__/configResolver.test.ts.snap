@@ -4,7 +4,7 @@ exports[`The config resolver can also apply overrides per service 1`] = `
 Object {
   "annotations": Array [
     Object {
-      "localPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/myAnnotation.xml",
+      "localPath": "/myAnnotation.xml",
       "urlPath": "/my/Annotation.xml",
     },
   ],
@@ -16,16 +16,16 @@ Object {
     Object {
       "contextBasedIsolation": true,
       "debug": true,
-      "metadataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/metadata.cds",
-      "mockdataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/mockData",
+      "metadataPath": "/metadata.cds",
+      "mockdataPath": "/mockData",
       "noETag": true,
       "strictKeyMode": true,
       "urlPath": "/my/service/URL",
       "watch": true,
     },
     Object {
-      "metadataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/metadata.cds",
-      "mockdataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/mockData",
+      "metadataPath": "/metadata.cds",
+      "mockdataPath": "/mockData",
       "urlPath": "/my/other/service/URL",
     },
   ],
@@ -38,7 +38,7 @@ exports[`The config resolver can also resolve cds path or empty services 1`] = `
 Object {
   "annotations": Array [
     Object {
-      "localPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/myAnnotation.xml",
+      "localPath": "/myAnnotation.xml",
       "urlPath": "/my/Annotation.xml",
     },
   ],
@@ -48,8 +48,8 @@ Object {
   "metadataProcessor": undefined,
   "services": Array [
     Object {
-      "metadataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/metadata.cds",
-      "mockdataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/mockData",
+      "metadataPath": "/metadata.cds",
+      "mockdataPath": "/mockData",
       "urlPath": "/my/service/URL",
     },
   ],
@@ -75,7 +75,7 @@ exports[`The config resolver can resolve the configuration 1`] = `
 Object {
   "annotations": Array [
     Object {
-      "localPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/myAnnotation.xml",
+      "localPath": "/myAnnotation.xml",
       "urlPath": "/my/Annotation.xml",
     },
   ],
@@ -85,8 +85,8 @@ Object {
   "metadataProcessor": undefined,
   "services": Array [
     Object {
-      "metadataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/metadata.xml",
-      "mockdataPath": "/Users/i053631/SAPDevelop/Code/Github/open-ux-odata/packages/ui5-middleware-fe-mockserver/test/mockData",
+      "metadataPath": "/metadata.xml",
+      "mockdataPath": "/mockData",
       "strictKeyMode": true,
       "urlPath": "/my/service/URL",
     },

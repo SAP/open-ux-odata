@@ -1,4 +1,5 @@
 import { resolveConfig } from '../src/configResolver';
+import path from 'path';
 
 describe('The config resolver', () => {
     it('can resolve the configuration', () => {
@@ -22,7 +23,7 @@ describe('The config resolver', () => {
                 strictKeyMode: true,
                 contextBasedIsolation: true
             },
-            __dirname
+            '/'
         );
         expect(myBaseResolvedConfig).toMatchSnapshot();
         let myResolvedConfig = resolveConfig(
@@ -47,7 +48,7 @@ describe('The config resolver', () => {
                 strictKeyMode: true,
                 contextBasedIsolation: true
             },
-            __dirname
+            '/'
         );
         expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
         myResolvedConfig = resolveConfig(
@@ -71,30 +72,32 @@ describe('The config resolver', () => {
                 strictKeyMode: true,
                 contextBasedIsolation: true
             },
-            __dirname
+            '/'
         );
         expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
         myResolvedConfig = resolveConfig(
             {
-                mockFolder: '.',
+                mockFolder: __dirname,
                 watch: true,
                 debug: true,
                 strictKeyMode: true,
                 contextBasedIsolation: true
             },
-            __dirname
+            '/'
         );
+        myResolvedConfig = JSON.parse(JSON.stringify(myResolvedConfig).replace(new RegExp(__dirname, 'g'), ''));
         expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
         myResolvedConfig = resolveConfig(
             {
-                mockFolder: './jsConfig',
+                mockFolder: path.resolve(__dirname, 'jsConfig'),
                 watch: true,
                 debug: true,
                 strictKeyMode: true,
                 contextBasedIsolation: true
             },
-            __dirname
+            '/'
         );
+        myResolvedConfig = JSON.parse(JSON.stringify(myResolvedConfig).replace(new RegExp(__dirname, 'g'), ''));
         expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
     });
 
@@ -112,11 +115,11 @@ describe('The config resolver', () => {
                     mockdataRootPath: 'mockData'
                 }
             },
-            __dirname
+            '/'
         );
         expect(myBaseResolvedConfig).toMatchSnapshot();
 
-        const myBaseResolvedConfig2 = resolveConfig({}, __dirname);
+        const myBaseResolvedConfig2 = resolveConfig({}, '/');
         expect(myBaseResolvedConfig2).toMatchSnapshot();
     });
 
@@ -152,7 +155,7 @@ describe('The config resolver', () => {
                 contextBasedIsolation: true,
                 noETag: true
             },
-            __dirname
+            '/'
         );
         expect(myBaseResolvedConfig).toMatchSnapshot();
     });
