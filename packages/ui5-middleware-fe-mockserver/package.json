@@ -26,6 +26,7 @@
     },
     "files": [
         "dist",
-        "LICENSE"
+        "LICENSE",
+        "ui5.yaml"
     ]
 }
