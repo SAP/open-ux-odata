@@ -534,3 +534,22 @@ Object {
 `;
 
 exports[`V4 Requestor can update data through a call 3`] = `"Cannot convert undefined or null to object"`;
+
+exports[`V4 Requestor get one data 1`] = `
+Object {
+  "@odata.context": "$metadata#RootElement(ID=2)",
+  "@odata.metadataEtag": "W/\\"5eca-S4loLm2mnROdb6MLU94VQPWBjMI\\"",
+  "HasActiveEntity": true,
+  "HasDraftEntity": false,
+  "ID": 2,
+  "IsActiveEntity": true,
+  "Prop1": "First Prop for Obj2",
+  "Prop2": "Second Prop for Obj3",
+  "Sibling_ID": 1,
+  "isBoundAction1Hidden": true,
+  "isBoundAction2Hidden": true,
+  "isBoundAction3Hidden": false,
+}
+`;
+
+exports[`V4 Requestor get one data 2`] = `""`;
