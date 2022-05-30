@@ -17,8 +17,9 @@ This repository contains a collection of utilities around the OData protocol tha
 - [@sap-ux/edmx-parser](./packages/edmx-parser) : A simple parser of OData metadata document (v2 and v4) that generates an object representation.
 - [@sap-ux/annotation-converter](./packages/annotation-converter) : A tool that allows to provide a convenient API on top of the metadata and annotations.
 
-- [@sap-ux/fe-mockserver-core]
-- [@sap-ux/fe-mockserver-plugin-cds]
+- [@sap-ux/fe-mockserver-core](./packages/fe-mockserver-core) : The core middleware for the mockserver.
+- [@sap-ux/fe-mockserver-plugin-cds](./packages/fe-mockserver-plugin-cds) : A CDS plugin to automatically convert CDS file and use them in the mockserver.
+- [@sap-ux/ui5-middleware-fe-mockserver](./packages/ui5-middleware-fe-mockserver) : The ui5 middleware for mockserver that works out of the box for the ui5 tooling.
 
 ## Requirements
 Everything is released as node modules requiring node with a version matching `">=12.22.5 < 13.0.0 || >= 14.16.0 < 15.0.0 || >=16.1.0 < 17.0.0"`.
@@ -82,7 +83,7 @@ pnpm test
 **Note**: if the test run fails due to dependency issues, run `pnpm install && pnpm build` in the root of the repository again to make sure all projects are up-to-date.
 
 ### Debug packages
-When analyzing a problem, it is helpful to be able to debug the modules. How to debug them depends on the IDE you are using. In this section, it is described how you could debug with VSCode. 
+When analyzing a problem, it is helpful to be able to debug the modules. How to debug them depends on the IDE you are using. In this section, it is described how you could debug with VSCode.
 
 Each of the packages has an extensive set of unit tests covering as many as possible different scenarios, therefore, as a starting point for debugging, it is a good idea to use the tests. The easiest (but not the only) way to debug a specific test in VSCode is to open a `JavaScript Debug Terminal` and then go to the package that needs to be debugged. Using the debug terminal, execute all tests with `pnpm test` or a specific one, e.g. execute `pnpm test -- test/basic.test.ts` in the `my-awesome-module` directory (`./packages/my-awesome-module`). When running either of the commands in the debug terminal, breakpoints set in VSCode will be active.
 
@@ -101,7 +102,7 @@ pnpm changeset
 
 This command brings up an [inquirer.js](https://github.com/SBoudrias/Inquirer.js/) style command line interface with prompts to capture changed packages, bump versions (patch, minor or major) and a message to be included in the changelog files. The changeset configuration files in the `.changeset` folder at the root need to be committed and pushed to the branch. These files will be used in the GitHub Actions workflow to bump versions and publish the packages.
 
-The general recommendation is to run this changeset command after a feature or bug fix is completed and before creating a pull request. 
+The general recommendation is to run this changeset command after a feature or bug fix is completed and before creating a pull request.
 
 A GitHub bot [changeset-bot](https://github.com/apps/changeset-bot) has been enabled that adds a comment to pull requests with changeset information from the branch and includes a warning when no changesets are found.
 
