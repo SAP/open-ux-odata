@@ -122,7 +122,7 @@ export async function createMockMiddleware(
                     });
             }
             const oDataHandlerInstance = await serviceRouter(mockService, dataAccess);
-            if (mockService.contextBasedIsolation) {
+            if (mockService.contextBasedIsolation || newConfig.contextBasedIsolation) {
                 const subRouter = new Router();
                 subRouter.use(`${mockService.urlPath}`, oDataHandlerInstance);
                 subRouter.use(`${encode(mockService.urlPath)}`, oDataHandlerInstance);
