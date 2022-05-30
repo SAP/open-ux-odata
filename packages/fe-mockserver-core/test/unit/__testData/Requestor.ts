@@ -409,7 +409,7 @@ export class ODataV4Requestor extends ODataRequestor {
      * @param sEntityPath
      * @param keyDefinition
      */
-    public getObject<T>(sEntityPath: string, keyDefinition: ODataKey): ODataV4ObjectRequest<T> {
+    public getObject<T>(sEntityPath: string, keyDefinition: any): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest(this.odataRootUri, sEntityPath, keyDefinition);
     }
 
