@@ -1,0 +1,146 @@
+import path from 'path';
+import fs from 'fs';
+import type {
+    ConfigAnnotation,
+    ConfigService,
+    FileBasedServerConfig,
+    FolderBasedServerConfig,
+    MockserverConfiguration,
+    ServerConfig,
+    ServiceConfig
+} from '@sap-ux/fe-mockserver-core';
+
+function isFolderBasedConfig(serverConfig: ServerConfig): serverConfig is FolderBasedServerConfig {
+    return (serverConfig as FolderBasedServerConfig).mockFolder !== undefined;
+}
+
+function isAnnotationConfig(serverConfig: ConfigAnnotation | ConfigService): serverConfig is ConfigAnnotation {
+    return (serverConfig as ConfigAnnotation).type?.toLowerCase() === 'annotation';
+}
+
+function prepareFolderBasedConfig(
+    currentBasePath: string,
+    inAnnotations: ConfigAnnotation[],
+    inServices: ConfigService[]
+) {
+    let mockConfig;
+    if (fs.existsSync(path.join(currentBasePath, 'config.js'))) {
+        mockConfig = require(path.join(currentBasePath, 'config.js'));
+    } else {
+        mockConfig = JSON.parse(fs.readFileSync(path.join(currentBasePath, 'config.json')).toString('utf-8'));
+    }
+    mockConfig.forEach((mockConfigEntry: ConfigAnnotation | ConfigService) => {
+        if (isAnnotationConfig(mockConfigEntry)) {
+            delete mockConfigEntry.type;
+            inAnnotations.push(mockConfigEntry);
+        } else {
+            inServices.push(mockConfigEntry);
+        }
+    });
+}
+
+function prepareFileBasedConfig(inConfig: FileBasedServerConfig) {
+    let inServiceFromConfig = inConfig.service ? inConfig.service : inConfig.services;
+    if (!Array.isArray(inServiceFromConfig) && inServiceFromConfig !== undefined) {
+        inServiceFromConfig = [inServiceFromConfig];
+    } else if (inServiceFromConfig === undefined) {
+        inServiceFromConfig = [];
+    }
+    const inServices = inServiceFromConfig as ConfigService[];
+    let inAnnotationsFromConfig = inConfig.annotations;
+    if (!Array.isArray(inAnnotationsFromConfig) && inAnnotationsFromConfig !== undefined) {
+        inAnnotationsFromConfig = [inAnnotationsFromConfig];
+    } else if (inAnnotationsFromConfig === undefined) {
+        inAnnotationsFromConfig = [];
+    }
+
+    const inAnnotations = inAnnotationsFromConfig as ConfigAnnotation[];
+    inAnnotations.forEach((annotationConfig: ConfigAnnotation) => annotationConfig.type === 'Annotation');
+    return { inServices, inAnnotations };
+}
+
+/**
+ * Ensure that each service configuration is properly resolved including all file path.
+ *
+ * @param inServices
+ * @param currentBasePath
+ * @param inConfig
+ * @returns an up to date configuration for one service
+ */
+function processServicesConfig(
+    inServices: ConfigService[],
+    currentBasePath: string,
+    inConfig: FileBasedServerConfig | FolderBasedServerConfig
+) {
+    return inServices.map((inService) => {
+        const myServiceConfig: ServiceConfig = {
+            watch: inService.watch,
+            urlPath: inService.urlPath,
+            noETag: inService.noETag,
+            debug: inService.debug,
+            strictKeyMode: inService.strictKeyMode,
+            contextBasedIsolation: inService.contextBasedIsolation
+        } as any;
+        const metadataPath = inService.metadataPath || inService.metadataXmlPath || inService.metadataCdsPath;
+        if (metadataPath) {
+            myServiceConfig.metadataPath = path.resolve(currentBasePath, metadataPath);
+        }
+        const mockDataPath = inService.mockdataPath || inService.mockdataRootPath;
+        if (mockDataPath) {
+            myServiceConfig.mockdataPath = path.resolve(currentBasePath, mockDataPath);
+        }
+
+        if (!inService.urlPath) {
+            myServiceConfig.urlPath = inService.urlBasePath + '/' + inService.name;
+        }
+
+        if (inConfig.watch && !inService.hasOwnProperty('watch')) {
+            myServiceConfig.watch = inConfig.watch;
+        }
+        if (inConfig.noETag && !inService.hasOwnProperty('noETag')) {
+            myServiceConfig.noETag = inConfig.noETag;
+        }
+        if (inConfig.debug && !inService.hasOwnProperty('debug')) {
+            myServiceConfig.debug = inConfig.debug;
+        }
+        if (inConfig.strictKeyMode && !inService.hasOwnProperty('strictKeyMode')) {
+            myServiceConfig.strictKeyMode = inConfig.strictKeyMode;
+        }
+        if (inConfig.contextBasedIsolation && !inService.hasOwnProperty('contextBasedIsolation')) {
+            myServiceConfig.contextBasedIsolation = inConfig.contextBasedIsolation;
+        }
+
+        return myServiceConfig;
+    });
+}
+
+export function resolveConfig(inConfig: ServerConfig, basePath: string): MockserverConfiguration {
+    let inServices: ConfigService[] = [];
+    let inAnnotations: ConfigAnnotation[] = [];
+    let currentBasePath: string = basePath;
+    if (isFolderBasedConfig(inConfig)) {
+        inConfig.mockFolder = path.resolve(basePath, inConfig.mockFolder);
+        currentBasePath = inConfig.mockFolder;
+        prepareFolderBasedConfig(currentBasePath, inAnnotations, inServices);
+    } else {
+        const __ret = prepareFileBasedConfig(inConfig);
+        inServices = __ret.inServices;
+        inAnnotations = __ret.inAnnotations;
+    }
+    const annotations = inAnnotations.map((inAnnotation) => {
+        inAnnotation.localPath = path.resolve(currentBasePath, inAnnotation.localPath);
+        return inAnnotation;
+    });
+    const services = processServicesConfig(inServices, currentBasePath, inConfig);
+
+    return {
+        contextBasedIsolation: !!inConfig.contextBasedIsolation,
+        watch: !!inConfig.watch,
+        strictKeyMode: !!inConfig.strictKeyMode,
+        debug: !!inConfig.debug,
+        annotations: annotations,
+        services: services,
+        fileLoader: inConfig.fileLoader,
+        metadataProcessor: inConfig.metadataProcessor
+    };
+}

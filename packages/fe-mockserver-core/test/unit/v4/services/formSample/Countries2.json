@@ -1,0 +1,38 @@
+[
+    {
+        "Country_Code": "DE",
+        "Name": "Germany",
+        "PeopleCount": 700,
+        "IsHot": false
+    },
+    {
+        "Country_Code": "FR",
+        "Name": "France",
+        "PeopleCount": 300,
+        "IsHot": false
+    },
+    {
+        "Country_Code": "IN",
+        "Name": "India",
+        "PeopleCount": 7000,
+        "IsHot": true
+    },
+    {
+        "Country_Code": "IR",
+        "Name": "Ireland",
+        "PeopleCount": 30,
+        "IsHot": false
+    },
+    {
+        "Country_Code": "US",
+        "Name": "USA",
+        "PeopleCount": 700,
+        "IsHot": false
+    },
+    {
+        "Country_Code": "LV",
+        "Name": "Latvia",
+        "PeopleCount": 20,
+        "IsHot": false
+    }
+]

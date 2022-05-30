@@ -8,7 +8,7 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "lib": ["es6"],
+        "lib": ["ES2019"],
         "module": "commonjs",
         "moduleResolution": "node",
         "noEmit": false,
@@ -16,7 +16,7 @@
         "sourceMap": true,
         "strict": true,
         "strictPropertyInitialization": false,
-        "target": "ES6",
+        "target": "ES2019",
         "skipLibCheck": true
     }
 }

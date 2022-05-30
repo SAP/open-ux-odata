@@ -1,0 +1,38 @@
+[
+    {
+        "ID": 1,
+        "owner_ID": 1,
+        "sibling_ID": 2,
+        "SubProp1": "First Prop for 1-1",
+        "SubProp2": "Second Prop for 1-1",
+        "isBoundAction3Hidden": false,
+        "isBoundAction4Hidden": false
+    },
+    {
+        "ID": 2,
+        "owner_ID": 1,
+        "sibling_ID": 1,
+        "SubProp1": "First Prop for 1-2",
+        "SubProp2": "Second Prop for 1-2",
+        "isBoundAction3Hidden": true,
+        "isBoundAction4Hidden": true
+    },
+    {
+        "ID": 3,
+        "owner_ID": 1,
+        "sibling_ID": 3,
+        "SubProp1": "First Prop for 1-3",
+        "SubProp2": "Second Prop for 1-3",
+        "isBoundAction3Hidden": false,
+        "isBoundAction4Hidden": false
+    },
+    {
+        "ID": 4,
+        "owner_ID": 4,
+        "sibling_ID": 3,
+        "SubProp1": "First Prop for 4-1",
+        "SubProp2": "Second Prop for 4-2",
+        "isBoundAction3Hidden": false,
+        "isBoundAction4Hidden": false
+    }
+]

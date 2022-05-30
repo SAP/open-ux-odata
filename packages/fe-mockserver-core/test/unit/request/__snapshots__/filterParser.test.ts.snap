@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter Parser can deal with empty values 1`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": "Customer",
+      "literal": "'1'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "CompanyCode",
+      "literal": "'0001'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "Currency",
+      "literal": "'EUR'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "SalesOrganization",
+      "literal": "'1010'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "DistributionChannel",
+      "literal": "'01'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "Division",
+      "literal": "'01'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "PartnerCounter",
+      "literal": "''",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "IBAN",
+      "literal": "''",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "CardNumber",
+      "literal": "'2922870'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "PaymentCardType",
+      "literal": "''",
+      "operator": "eq",
+    },
+  ],
+  "operator": "AND",
+}
+`;
+
+exports[`Filter Parser it can deal with v2 specific guid 1`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": "ProdCmplncSrvcReqFailureUUID",
+      "literal": "guid%2700000000-0000-0000-0002-000000000000%27",
+      "operator": "eq",
+    },
+  ],
+}
+`;
+
+exports[`Filter Parser v2 complex filter 1`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": "AdvncdPlngDisplayHorizonDte",
+      "literal": "datetime'2021-01-01T00:00:00'",
+      "operator": "ge",
+    },
+    Object {
+      "identifier": "AdvncdPlngDisplayHorizonDte",
+      "literal": "datetime'2021-12-31T00:00:00'",
+      "operator": "le",
+    },
+  ],
+  "isGroup": true,
+  "operator": "AND",
+}
+`;
+
+exports[`Filter Parser v2 complex filter 2`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 1'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 10'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 2'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 3'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 4'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 5'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 6'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 7'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 8'",
+      "operator": "eq",
+    },
+    Object {
+      "identifier": "AdvncdPlngResourceName",
+      "literal": "'AdvncdPlngResourceName 9'",
+      "operator": "eq",
+    },
+  ],
+  "isGroup": true,
+  "operator": "OR",
+}
+`;
+
+exports[`Filter Parser v2 complex filter 3`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": "SimulationSessionUUID",
+      "literal": "guid'd535d9a2-fdea-4e1e-84e6-2c135fcbcd08'",
+      "operator": "eq",
+    },
+  ],
+}
+`;
+
+exports[`Filter Parser v2 complex filter 4`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "expressions": Array [
+        Object {
+          "expressions": Array [
+            Object {
+              "identifier": "AdvncdPlngDisplayHorizonDte",
+              "literal": "datetime'2021-01-01T00:00:00'",
+              "operator": "ge",
+            },
+            Object {
+              "identifier": "AdvncdPlngDisplayHorizonDte",
+              "literal": "datetime'2021-12-31T00:00:00'",
+              "operator": "le",
+            },
+          ],
+          "isGroup": true,
+          "operator": "AND",
+        },
+        Object {
+          "expressions": Array [
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 1'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 10'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 2'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 3'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 4'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 5'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 6'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 7'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 8'",
+              "operator": "eq",
+            },
+            Object {
+              "identifier": "AdvncdPlngResourceName",
+              "literal": "'AdvncdPlngResourceName 9'",
+              "operator": "eq",
+            },
+          ],
+          "isGroup": true,
+          "operator": "OR",
+        },
+        Object {
+          "identifier": "PlanningVersionExternal",
+          "literal": "'000'",
+          "operator": "eq",
+        },
+      ],
+      "isGroup": true,
+      "operator": "AND",
+    },
+    Object {
+      "identifier": "SimulationSessionUUID",
+      "literal": "guid'd535d9a2-fdea-4e1e-84e6-2c135fcbcd08'",
+      "operator": "eq",
+    },
+  ],
+  "operator": "AND",
+}
+`;

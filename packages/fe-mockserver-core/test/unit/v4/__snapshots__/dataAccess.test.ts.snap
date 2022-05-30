@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Access $expand depending on target key property name 1:* - key property names are different 1`] = `
+Object {
+  "ID": "",
+  "_differentIdMany": Array [],
+}
+`;
+
+exports[`Data Access $expand depending on target key property name 1:* - key property names are equal 1`] = `
+Object {
+  "ID": "",
+  "_sameIdMany": Array [],
+}
+`;
+
+exports[`Data Access $expand depending on target key property name 1:1 - key property names are different 1`] = `
+Object {
+  "ID": "",
+  "_differentId": Object {
+    "ID_B": "",
+  },
+}
+`;
+
+exports[`Data Access $expand depending on target key property name 1:1 - key property names are equal 1`] = `
+Object {
+  "ID": "",
+  "_sameId": Object {
+    "ID": "",
+  },
+}
+`;
+
+exports[`Data Access v4metadata - GET with $filter involving a navigation property that is null for some elements 1`] = `
+Array [
+  Object {
+    "ID": 0,
+    "part2": Object {
+      "ID": 0,
+      "number": 1,
+    },
+    "part2_ID": 0,
+  },
+]
+`;

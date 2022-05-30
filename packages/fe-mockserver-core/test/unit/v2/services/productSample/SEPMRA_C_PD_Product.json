@@ -1,0 +1,30 @@
+[
+    {
+        "Product": "Acme_Boomerang",
+        "DraftUUID": "",
+        "Price": 3,
+        "Name": "Acme Boomerang",
+        "Supplier": "Acme DE"
+    },
+    {
+        "Product": "Acme_TNT",
+        "DraftUUID": "",
+        "Price": 1,
+        "Name": "Acme TNT",
+        "Supplier": "Acme DE"
+    },
+    {
+        "Product": "Acme_Trap",
+        "DraftUUID": "",
+        "Price": 2,
+        "Name": "Acme Trap v2",
+        "Supplier": "Acme FR"
+    },
+    {
+        "Product": "Acme_Safe",
+        "DraftUUID": "",
+        "Price": 3,
+        "Name": "Acme Extra Comfy Safe",
+        "Supplier": "Acme FR"
+    }
+]

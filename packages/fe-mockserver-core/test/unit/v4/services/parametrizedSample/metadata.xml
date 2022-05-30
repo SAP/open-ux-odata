@@ -1,0 +1,1150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm" Version="4.0">
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList" />
+	</edmx:Reference>
+	<edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value"
+	>
+		<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI" />
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema Namespace="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001" Alias="SAP__self">
+			<EntityType Name="CustomerParameters">
+				<Key>
+					<PropertyRef Name="P_CompanyCode" />
+				</Key>
+				<Property Name="P_CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<NavigationProperty
+					Name="Set"
+					Type="Collection(com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType)"
+					Partner="Parameters"
+					ContainsTarget="true"
+				/>
+			</EntityType>
+			<EntityType Name="CustomerType">
+				<Key>
+					<PropertyRef Name="Customer" />
+					<PropertyRef Name="CompanyCode" />
+					<PropertyRef Name="SalesOrganization" />
+					<PropertyRef Name="DistributionChannel" />
+					<PropertyRef Name="Division" />
+					<PropertyRef Name="PartnerCounter" />
+					<PropertyRef Name="IBAN" />
+					<PropertyRef Name="CardNumber" />
+					<PropertyRef Name="PaymentCardType" />
+				</Key>
+				<Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="DistributionChannel" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="PartnerCounter" Type="Edm.String" Nullable="false" MaxLength="13" />
+				<Property Name="IBAN" Type="Edm.String" Nullable="false" MaxLength="34" />
+				<Property Name="CardNumber" Type="Edm.String" Nullable="false" MaxLength="25" />
+				<Property Name="PaymentCardType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="PersonnelNumber" Type="Edm.String" Nullable="false" MaxLength="8" />
+				<Property Name="AccountingClerk" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="AccountingClerkName" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="PaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="BusinessPartnerName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<Property Name="CityName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="CreditScore" Type="Edm.Decimal" Scale="2" Precision="23" Nullable="false" />
+				<Property Name="CreditScore2" Type="Edm.Decimal" Scale="2" Precision="23" Nullable="false" />
+				<Property Name="PhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="EmailAddress" Type="Edm.String" Nullable="false" MaxLength="241" />
+				<Property Name="DunningProcedure" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="DunningBlock" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="CustomerAccountGroup" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="AccountGroupName" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="OrganizationBPName1" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="OrganizationBPName2" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="GroupBusinessPartnerName1" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="GroupBusinessPartnerName2" Type="Edm.String" Nullable="false" MaxLength="40" />
+				<Property Name="BusinessPartnerType" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="LegalForm" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="LegalEntityOfOrganization" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="BusinessPartnerIDByExtSystem" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="IsMarkedForArchiving" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="BusinessPartnerIsBlocked" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="ContactPermission" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="StreetName" Type="Edm.String" Nullable="false" MaxLength="60" />
+				<Property Name="PostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="Region" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="AddressTimeZone" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="POBox" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="POBoxPostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CompanyPostalCode" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="CorrespondenceLanguage" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="MobilePhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="FaxNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="PrfrdCommMediumType" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="SearchTerm1" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="SearchTerm2" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="PostingIsBlocked" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="AuthorizationGroup" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="CreatedByUser" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="VATRegistration" Type="Edm.String" Nullable="false" MaxLength="20" />
+				<Property Name="TaxNumber1" Type="Edm.String" Nullable="false" MaxLength="16" />
+				<Property Name="TaxNumber2" Type="Edm.String" Nullable="false" MaxLength="11" />
+				<Property Name="TaxNumber3" Type="Edm.String" Nullable="false" MaxLength="18" />
+				<Property Name="TaxNumber4" Type="Edm.String" Nullable="false" MaxLength="18" />
+				<Property Name="TaxNumber5" Type="Edm.String" Nullable="false" MaxLength="60" />
+				<Property Name="VATLiability" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="ResponsibleType" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="TaxNumberType" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="SalesOffice" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="SalesGroup" Type="Edm.String" Nullable="false" MaxLength="3" />
+				<Property Name="CustomerPaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="LastDunnedOn" Type="Edm.Date" />
+				<Property Name="LegDunningProcedureOn" Type="Edm.Date" />
+				<Property Name="DunningLevel" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="PhysicalInventoryBlockInd" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="CreditMemoPaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="PaymentMethodsList" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="HouseBank" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="PaymentBlockingReason" Type="Edm.String" Nullable="false" MaxLength="1" />
+				<Property Name="DunningNoticeGroup" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="AccountByCustomer" Type="Edm.String" Nullable="false" MaxLength="12" />
+				<Property Name="UserAtCustomer" Type="Edm.String" Nullable="false" MaxLength="15" />
+				<Property Name="AccountingClerkPhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30" />
+				<Property Name="AccountingClerkInternetAddress" Type="Edm.String" Nullable="false" MaxLength="130" />
+				<Property Name="ReconciliationAccount" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="InterestCalculationCode" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="DunningRecipient" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="DunningClerk" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="IntrstCalcFrequencyInMonths" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="InterestCalculationDate" Type="Edm.Date" />
+				<Property Name="LastInterestCalcRunDate" Type="Edm.Date" />
+				<Property Name="BPCustomerNumber" Type="Edm.String" Nullable="false" MaxLength="10" />
+				<Property Name="BusinessPartnerIsVIP" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="CustomerIsUnwanted" Type="Edm.Boolean" Nullable="false" />
+				<Property Name="UndesirabilityReason" Type="Edm.String" Nullable="false" MaxLength="2" />
+				<Property Name="UndesirabilityComment" Type="Edm.String" Nullable="false" MaxLength="35" />
+				<Property Name="TradingPartner" Type="Edm.String" Nullable="false" MaxLength="6" />
+				<Property Name="LastCustomerContactDate" Type="Edm.Date" />
+				<Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="5" />
+				<Property Name="SystemStatusShortName" Type="Edm.String" Nullable="false" MaxLength="4" />
+				<Property Name="AddressText" Type="Edm.String" Nullable="false" MaxLength="50" />
+				<Property Name="CustomerListKeyField1" Type="Edm.String" Nullable="false" MaxLength="8" />
+				<Property Name="CustomerListKeyField2" Type="Edm.String" Nullable="false" MaxLength="8" />
+				<Property Name="CustomerListKeyField3" Type="Edm.String" Nullable="false" MaxLength="8" />
+				<Property Name="CustomerListKeyField4" Type="Edm.String" Nullable="false" MaxLength="8" />
+				<Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<NavigationProperty Name="Parameters" Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerParameters" Nullable="false" />
+				<NavigationProperty Name="_CreditLimitDetails" Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CreditLimitDetailsType">
+					<ReferentialConstraint Property="CardNumber" ReferencedProperty="CardNumber" />
+				</NavigationProperty>
+			</EntityType>
+			<EntityType Name="CreditLimitDetailsType">
+				<Key>
+					<PropertyRef Name="CardNumber" />
+				</Key>
+				<Property Name="CardNumber" Type="Edm.String" MaxLength="10" Nullable="false" />
+				<Property Name="CustomerCreditExposureAmount" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="Delivered" Type="Edm.Boolean" />
+				<Property Name="CustomerCreditExposureAmountHidden" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="CustomerCreditForecast" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="CustomerCreditExposureAmount_text" Type="Edm.String" MaxLength="15" />
+				<Property Name="CustomerCreditLimitAmount" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="MaximumCreditValue" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="CustomerCreditLimitAmount_text" Type="Edm.String" MaxLength="15" />
+				<Property Name="TransactionCurrency" Type="Edm.String" MaxLength="5" />
+				<Property Name="CustomerIsAboveThreshold" Type="Edm.Int32" />
+				<Property Name="ToleranceRangeLow" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="ToleranceRangeHigh" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="DeviationRangeLow" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="DeviationRangeHigh" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="AcceptanceRangeLow" Type="Edm.Decimal" Scale="2" Precision="23" />
+				<Property Name="AcceptanceRangeHigh" Type="Edm.Decimal" Scale="2" Precision="23" />
+			</EntityType>
+			<EntityContainer Name="Container">
+				<EntitySet Name="Customer" EntityType="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerParameters">
+					<NavigationPropertyBinding Path="Set/Parameters" Target="Customer" />
+					<NavigationPropertyBinding Path="Set/_CreditLimitDetails" Target="CreditLimitDetails" />
+				</EntitySet>
+				<EntitySet Name="CreditLimitDetails" EntityType="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CreditLimitDetailsType" />
+				<ActionImport Name="UnboundAction" Action="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.UnboundAction" />
+			</EntityContainer>
+			<Action Name="UnboundAction" IsBound="false">
+				<Parameter Name="MessageText" Type="Edm.String" MaxLength="4" />
+				<ReturnType Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType" />
+			</Action>
+			<Action Name="UnBlockBusinessPartner" IsBound="true" EntitySetPath="_it">
+				<Parameter Name="_it" Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType" />
+				<Parameter Name="BusinessPartnerName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<ReturnType Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType" />
+			</Action>
+			<Action Name="DummyStaticAction" IsBound="true" EntitySetPath="_it">
+				<Parameter Name="_it" Type="Collection(com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType)" />
+				<Parameter Name="MessageText" Type="Edm.String" MaxLength="4" />
+				<ReturnType Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType" />
+			</Action>
+			<Annotations Target="SAP__self.CustomerParameters/P_CompanyCode">
+				<Annotation Term="SAP__core.Computed" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_companycodestdvh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Company Code" />
+				<Annotation Term="SAP__common.Heading" String="CoCd" />
+			</Annotations>
+			<Annotations Target="SAP__self.Container/Customer">
+				<Annotation Term="SAP__capabilities.NavigationRestrictions">
+					<Record>
+						<PropertyValue Property="RestrictedProperties">
+							<Collection>
+								<Record>
+									<PropertyValue Property="NavigationProperty" NavigationPropertyPath="Set" />
+									<PropertyValue Property="InsertRestrictions">
+										<Record>
+											<PropertyValue Property="Insertable" Bool="false" />
+										</Record>
+									</PropertyValue>
+									<PropertyValue Property="UpdateRestrictions">
+										<Record>
+											<PropertyValue Property="Updatable" Bool="false" />
+										</Record>
+									</PropertyValue>
+									<PropertyValue Property="DeleteRestrictions">
+										<Record>
+											<PropertyValue Property="Deletable" Bool="false" />
+										</Record>
+									</PropertyValue>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__capabilities.SearchRestrictions">
+					<Record>
+						<PropertyValue Property="Searchable" Bool="false" />
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__capabilities.FilterRestrictions">
+					<Record>
+						<PropertyValue Property="NonFilterableProperties">
+							<Collection>
+								<PropertyPath>P_CompanyCode</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__capabilities.SortRestrictions">
+					<Record>
+						<PropertyValue Property="NonSortableProperties">
+							<Collection>
+								<PropertyPath>P_CompanyCode</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__capabilities.InsertRestrictions">
+					<Record>
+						<PropertyValue Property="Insertable" Bool="false" />
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__capabilities.DeleteRestrictions">
+					<Record>
+						<PropertyValue Property="Deletable" Bool="false" />
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__capabilities.UpdateRestrictions">
+					<Record>
+						<PropertyValue Property="Updatable" Bool="false" />
+						<PropertyValue Property="QueryOptions">
+							<Record>
+								<PropertyValue Property="SelectSupported" Bool="true" />
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerParameters">
+				<Annotation Term="SAP__common.ResultContext" />
+				<Annotation Term="SAP__UI.LineItem">
+					<Collection>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="P_CompanyCode" />
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/Customer">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_customer_vh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.customer'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.SemanticObject" String="Customer" />
+				<Annotation Term="SAP__common.Label" String="Customer" />
+				<Annotation Term="SAP__common.QuickInfo" String="Customer Number" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CompanyCode">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Company Code" />
+				<Annotation Term="SAP__common.Heading" String="CoCd" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/SalesOrganization">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Sales Organization" />
+				<Annotation Term="SAP__common.Heading" String="SOrg." />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/DistributionChannel">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Distribution Channel" />
+				<Annotation Term="SAP__common.Heading" String="DChl" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/Division">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Division" />
+				<Annotation Term="SAP__common.Heading" String="Dv" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/IBAN">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="IBAN" />
+				<Annotation Term="SAP__common.QuickInfo" String="IBAN (International Bank Account Number)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CardNumber">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Card Number" />
+				<Annotation Term="SAP__common.QuickInfo" String="Payment Cards: Card Number" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PaymentCardType">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/p_paymentcardtypevaluehelp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.paymentcardtype'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Payment Card Type" />
+				<Annotation Term="SAP__common.Heading" String="Type" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PersonnelNumber">
+				<Annotation Term="SAP__common.IsDigitSequence" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Personnel Number" />
+				<Annotation Term="SAP__common.Heading" String="Pers.No." />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AccountingClerk">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_accountingclerkstdvh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.accountingclerk'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Clerk Abbrev." />
+				<Annotation Term="SAP__common.QuickInfo" String="Accounting Clerk Abbreviation" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PaymentTerms">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_paymentterms/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.paymentterms'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Financial Pyt Terms" />
+				<Annotation Term="SAP__common.Heading" String="Financial Payment Terms" />
+				<Annotation Term="SAP__common.QuickInfo" String="Terms of Payment Key Sales Data" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PhoneNumber">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Phone" />
+				<Annotation Term="SAP__common.QuickInfo" String="Landline telephone number" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/DunningProcedure">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/p_dunningprocedurevaluehelp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.dunningprocedure'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Dunning Procedure" />
+				<Annotation Term="SAP__common.Heading" String="Procedure" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/DunningBlock">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_dunningblockingreasoncode/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.dunningblock'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Dunning Block" />
+				<Annotation Term="SAP__common.Heading" String="Block" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CustomerAccountGroup">
+				<Annotation Term="SAP__common.Text" Path="AccountGroupName">
+					<Annotation Term="SAP__UI.TextArrangement" EnumMember="SAP__UI.TextArrangementType/TextLast" />
+				</Annotation>
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_customeraccountgroupstdvh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.customeraccountgroup'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Customer Acct Group" />
+				<Annotation Term="SAP__common.Heading" String="Customer Account Group" />
+				<Annotation Term="SAP__common.QuickInfo" String="Customer Account Group" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/BusinessPartnerType">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="BP Type" />
+				<Annotation Term="SAP__common.Heading" String="Type" />
+				<Annotation Term="SAP__common.QuickInfo" String="Business Partner Type" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/LegalForm">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/c_legalformvhtemp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.legalform'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Legal Form" />
+				<Annotation Term="SAP__common.QuickInfo" String="Legal Form of Organization" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/LegalEntityOfOrganization">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/p_bplegalentityvaluehelp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.legalentityoforganization'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Legal Entity" />
+				<Annotation Term="SAP__common.QuickInfo" String="Legal Entity of Organization" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/BusinessPartnerIDByExtSystem">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_businesspartnervh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.businesspartneridbyextsystem'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="External BP Number" />
+				<Annotation Term="SAP__common.QuickInfo" String="Business Partner Number in External System" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/IsMarkedForArchiving">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Archiving Flag" />
+				<Annotation Term="SAP__common.QuickInfo" String="Central Archiving Flag" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/BusinessPartnerIsBlocked">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Central Block" />
+				<Annotation Term="SAP__common.QuickInfo" String="Central Block for Business Partner" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/ContactPermission">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Contact" />
+				<Annotation Term="SAP__common.QuickInfo" String="Business Partner: Contact Permission" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PostalCode">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Postal Code" />
+				<Annotation Term="SAP__common.Heading" String="Post. Code" />
+				<Annotation Term="SAP__common.QuickInfo" String="City Postal Code" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/Country">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_country/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.country'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Country Key" />
+				<Annotation Term="SAP__common.Heading" String="Ctr" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/Region">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_region/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.region'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Region" />
+				<Annotation Term="SAP__common.Heading" String="Rg" />
+				<Annotation Term="SAP__common.QuickInfo" String="Region (State, Province, County)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AddressTimeZone">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Time Zone" />
+				<Annotation Term="SAP__common.QuickInfo" String="Address Time Zone" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/POBox">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="PO Box" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/POBoxPostalCode">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="PO Box Postal Code" />
+				<Annotation Term="SAP__common.Heading" String="Postl Code" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CompanyPostalCode">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Company Postal Code" />
+				<Annotation Term="SAP__common.Heading" String="Postl Code" />
+				<Annotation Term="SAP__common.QuickInfo" String="Company Postal Code (for Large Customers)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/MobilePhoneNumber">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Mobile" />
+				<Annotation Term="SAP__common.QuickInfo" String="Mobile phone number" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/FaxNumber">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Fax" />
+				<Annotation Term="SAP__common.QuickInfo" String="First Fax No.: Area Code + Number" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PrfrdCommMediumType">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Communication Method" />
+				<Annotation Term="SAP__common.Heading" String="Comm. Method" />
+				<Annotation Term="SAP__common.QuickInfo" String="Communication Method (Key) (Business Address Services)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/SearchTerm1">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Search Term 1" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/SearchTerm2">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Search Term 2" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/Supplier">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/c_lcmsuppliervaluehelp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.supplier'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Supplier" />
+				<Annotation Term="SAP__common.QuickInfo" String="Account Number of Supplier" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PostingIsBlocked">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Posting Block" />
+				<Annotation Term="SAP__common.Heading" String="B" />
+				<Annotation Term="SAP__common.QuickInfo" String="Central posting block" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AuthorizationGroup">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Authorization" />
+				<Annotation Term="SAP__common.Heading" String="AuGr" />
+				<Annotation Term="SAP__common.QuickInfo" String="Authorization Group" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CreatedByUser">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Created By" />
+				<Annotation Term="SAP__common.QuickInfo" String="Name of Person who Created the Object" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/VATRegistration">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="VAT Registration No." />
+				<Annotation Term="SAP__common.QuickInfo" String="VAT Registration Number" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/TaxNumber1">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Tax Number 1" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/TaxNumber2">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Tax Number 2" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/TaxNumber3">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Tax Number 3" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/TaxNumber4">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Tax Number 4" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/TaxNumber5">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Tax Number 5" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/VATLiability">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Liable for VAT" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/ResponsibleType">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Tax Type" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/TaxNumberType">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Tax Number Type" />
+				<Annotation Term="SAP__common.Heading" String="Tax No.Ty." />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/SalesOffice">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Sales Office" />
+				<Annotation Term="SAP__common.Heading" String="SOff." />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/SalesGroup">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Sales Group" />
+				<Annotation Term="SAP__common.Heading" String="SGrp" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CustomerPaymentTerms">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_paymentterms/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.customerpaymentterms'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Sales Pyt Terms" />
+				<Annotation Term="SAP__common.Heading" String="Sales Payment Terms" />
+				<Annotation Term="SAP__common.QuickInfo" String="Terms of Payment Key Sales Data" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/DunningLevel">
+				<Annotation Term="SAP__common.IsDigitSequence" />
+				<Annotation Term="SAP__common.Label" String="Dunning Level" />
+				<Annotation Term="SAP__common.Heading" String="Dun" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PhysicalInventoryBlockInd">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Co.code post.block" />
+				<Annotation Term="SAP__common.Heading" String="B" />
+				<Annotation Term="SAP__common.QuickInfo" String="Posting block for company code" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CreditMemoPaymentTerms">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_paymentterms/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.creditmemopaymentterms'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Credit Memo Pyt Term" />
+				<Annotation Term="SAP__common.Heading" String="CrPT" />
+				<Annotation Term="SAP__common.QuickInfo" String="Payment Terms Key for Credit Memos" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PaymentMethodsList">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Payment Methods" />
+				<Annotation Term="SAP__common.Heading" String="Methods" />
+				<Annotation Term="SAP__common.QuickInfo" String="List of Respected Payment Methods" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/HouseBank">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="House Bank" />
+				<Annotation Term="SAP__common.Heading" String="House Bk" />
+				<Annotation Term="SAP__common.QuickInfo" String="Short Key for a House Bank" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PaymentBlockingReason">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/p_paymentblckrsnvaluehelp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.paymentblockingreason'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Payment Block" />
+				<Annotation Term="SAP__common.Heading" String="Block Ind." />
+				<Annotation Term="SAP__common.QuickInfo" String="Block Key for Payment" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/DunningNoticeGroup">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Grouping Key" />
+				<Annotation Term="SAP__common.Heading" String="Grpng Key" />
+				<Annotation Term="SAP__common.QuickInfo" String="Key for Dunning Notice Grouping" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AccountByCustomer">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Acct at cust." />
+				<Annotation Term="SAP__common.Heading" String="Account at Customer" />
+				<Annotation Term="SAP__common.QuickInfo" String="Our account number at customer" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AccountingClerkPhoneNumber">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Acct.clerks tel.no." />
+				<Annotation Term="SAP__common.Heading" String="Accting clerk's telephone no." />
+				<Annotation Term="SAP__common.QuickInfo" String="Accounting clerk's telephone number at business partner" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/ReconciliationAccount">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Recon. Account" />
+				<Annotation Term="SAP__common.Heading" String="Reconciliation Account in General Ledger" />
+				<Annotation Term="SAP__common.QuickInfo" String="Reconciliation Account in General Ledger" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/InterestCalculationCode">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/p_interestcalculationcodevh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.interestcalculationcode'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Interest Indic." />
+				<Annotation Term="SAP__common.Heading" String="Interest Indicator" />
+				<Annotation Term="SAP__common.QuickInfo" String="Interest Calculation Indicator" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/DunningRecipient">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Dunning Recipient" />
+				<Annotation Term="SAP__common.Heading" String="Recipient" />
+				<Annotation Term="SAP__common.QuickInfo" String="Account Number of the Dunning Recipient" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/DunningClerk">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_accountingclerkstdvh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.dunningclerk'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Dunning Clerk" />
+				<Annotation Term="SAP__common.Heading" String="Clerk" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/IntrstCalcFrequencyInMonths">
+				<Annotation Term="SAP__common.IsDigitSequence" />
+				<Annotation Term="SAP__common.Label" String="Int.Calc.Freq." />
+				<Annotation Term="SAP__common.Heading" String="Interest Calc. Frequency" />
+				<Annotation Term="SAP__common.QuickInfo" String="Interest Calculation Frequency in Months" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/BPCustomerNumber">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Previous Account No." />
+				<Annotation Term="SAP__common.Heading" String="Pre.Ac.No." />
+				<Annotation Term="SAP__common.QuickInfo" String="Previous Master Record Number" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/BusinessPartnerIsVIP">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="VIP Business Partner" />
+				<Annotation Term="SAP__common.Heading" String="Business Partner Is VIP" />
+				<Annotation Term="SAP__common.QuickInfo" String="Business Partner Is VIP" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CustomerIsUnwanted">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.Label" String="Unwanted Customer" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/UndesirabilityReason">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Reason Undes." />
+				<Annotation Term="SAP__common.Heading" String="Rsn.Undes" />
+				<Annotation Term="SAP__common.QuickInfo" String="Reason for Undesirability" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/TradingPartner">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/p_globalcompanyvaluehelp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.tradingpartner'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Trading Partner No." />
+				<Annotation Term="SAP__common.Heading" String="Tr.prt" />
+				<Annotation Term="SAP__common.QuickInfo" String="Company ID of trading partner" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/Status">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Status" />
+				<Annotation Term="SAP__common.Heading" String="Stat." />
+				<Annotation Term="SAP__common.QuickInfo" String="Object Status" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CustomerListKeyField1">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="char8" />
+				<Annotation Term="SAP__common.QuickInfo" String="Character field, 8 characters long" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CustomerListKeyField2">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="char8" />
+				<Annotation Term="SAP__common.QuickInfo" String="Character field, 8 characters long" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CustomerListKeyField3">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="char8" />
+				<Annotation Term="SAP__common.QuickInfo" String="Character field, 8 characters long" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CustomerListKeyField4">
+				<Annotation Term="SAP__common.IsUpperCase" />
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="char8" />
+				<Annotation Term="SAP__common.QuickInfo" String="Character field, 8 characters long" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/BusinessPartnerName">
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/i_businesspartnervh/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.businesspartnername'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="Name of Customer" />
+				<Annotation Term="SAP__common.Heading" String="Customer" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CityName">
+				<Annotation Term="SAP__common.ValueListReferences">
+					<Collection>
+						<String
+						>../../../../srvd_f4/sap/p_cityvaluehelp/0001;ps='srvd-zrc_arcustomer_definition-0001';va='com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-z_arcustomer2.cityname'/$metadata</String>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__common.Label" String="City" />
+			</Annotations>
+			<Annotations Target="SAP__self.CreditLimitDetailsType">
+				<Annotation Term="SAP__UI.Chart" Qualifier="CreditLimitChart">
+					<Record Type="SAP__UI.ChartDefinitionType">
+						<PropertyValue Property="ChartType" EnumMember="SAP__UI.ChartType/Bullet" />
+						<PropertyValue Property="Description" String="Credit Exposure" />
+						<PropertyValue Property="MeasureAttributes">
+							<Collection>
+								<Record Type="SAP__UI.ChartMeasureAttributeType">
+									<PropertyValue Property="Measure" PropertyPath="CustomerCreditExposureAmount" />
+									<PropertyValue Property="Role" EnumMember="SAP__UI.ChartMeasureRoleType/Axis1" />
+									<PropertyValue Property="DataPoint" AnnotationPath="@SAP__UI.DataPoint#CustomerCreditExposureAmount" />
+								</Record>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Measures">
+							<Collection>
+								<PropertyPath>CustomerCreditExposureAmount</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Title" String="Credit Limit Consumption" />
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__UI.DataPoint" Qualifier="CustomerCreditExposureAmount">
+					<Record Type="SAP__UI.DataPointType">
+						<!-- <PropertyValue Property="CriticalityCalculation">
+							<Record Type="SAP__UI.CriticalityCalculationType">
+								<PropertyValue Property="AcceptanceRangeHighValue" Path="AcceptanceRangeHigh"/>
+								<PropertyValue Property="AcceptanceRangeLowValue" Path="AcceptanceRangeLow"/>
+								<PropertyValue Property="DeviationRangeHighValue" Path="DeviationRangeHigh"/>
+								<PropertyValue Property="DeviationRangeLowValue" Path="DeviationRangeLow"/>
+								<PropertyValue Property="ImprovementDirection" EnumMember="SAP__UI.ImprovementDirectionType/Maximize"/>
+								<PropertyValue Property="ToleranceRangeHighValue" Path="ToleranceRangeHigh"/>
+								<PropertyValue Property="ToleranceRangeLowValue" Path="ToleranceRangeLow"/>
+							</Record>
+						</PropertyValue> -->
+						<PropertyValue Property="Criticality" Path="CustomerIsAboveThreshold" />
+						<PropertyValue Property="Description" String="Bullet Micro Chart" />
+						<PropertyValue Property="ForecastValue" Path="CustomerCreditForecast" />
+						<PropertyValue Property="MaximumValue" Decimal="7000" />
+						<PropertyValue Property="MinimumValue" Decimal="200" />
+						<PropertyValue Property="TargetValue" Path="CustomerCreditLimitAmount" />
+						<PropertyValue Property="Title" String="Exposure Amount" />
+						<PropertyValue Property="Value" Path="CustomerCreditExposureAmount" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType">
+				<Annotation Term="SAP__common.Label" String="Customer List" />
+				<Annotation Term="SAP__UI.HeaderInfo">
+					<Record>
+						<PropertyValue Property="TypeName" String="Customer" />
+						<PropertyValue Property="TypeNamePlural" String="Items" />
+						<PropertyValue Property="Title">
+							<Record Type="SAP__UI.DataField">
+								<PropertyValue Property="Value" Path="Customer" />
+							</Record>
+						</PropertyValue>
+						<PropertyValue Property="Description">
+							<Record Type="SAP__UI.DataField">
+								<PropertyValue Property="Value" Path="BusinessPartnerName" />
+							</Record>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__UI.LineItem">
+					<Collection>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="Customer" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="BusinessPartnerName" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="CityName" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="PhoneNumber" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="EmailAddress" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="AccountingClerk" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="PaymentTerms" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="DunningProcedure" />
+						</Record>
+						<Record Type="SAP__UI.DataField">
+							<PropertyValue Property="Value" Path="DunningBlock" />
+						</Record>
+						<Record Type="SAP__UI.DataFieldForAction">
+							<PropertyValue Property="Label" String="Unbound Action" />
+							<PropertyValue Property="Action" String="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.EntityContainer/UnboundAction" />
+						</Record>
+						<Record Type="SAP__UI.DataFieldForAction">
+							<PropertyValue Property="Label" String="Unblock Partner" />
+							<PropertyValue Property="Action" String="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.UnBlockBusinessPartner" />
+						</Record>
+						<Record Type="SAP__UI.DataFieldForAction">
+							<PropertyValue Property="Label" String="Static Action" />
+							<PropertyValue
+								Property="Action"
+								String="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.DummyStaticAction(com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType)"
+							/>
+						</Record>
+						<Record Type="SAP__UI.DataFieldForAnnotation">
+							<PropertyValue Property="Target" AnnotationPath="_CreditLimitDetails/@SAP__UI.Chart#CreditLimitChart" />
+							<PropertyValue Property="Label" String="Credit Limit Details" />
+						</Record>
+					</Collection>
+				</Annotation>
+				<Annotation Term="SAP__UI.SelectionFields">
+					<Collection>
+						<PropertyPath>Customer</PropertyPath>
+						<PropertyPath>CityName</PropertyPath>
+						<PropertyPath>AccountingClerk</PropertyPath>
+						<PropertyPath>DunningProcedure</PropertyPath>
+						<PropertyPath>PaymentTerms</PropertyPath>
+					</Collection>
+				</Annotation>
+				<Annotation Term="Communication.Contact">
+					<Record>
+						<PropertyValue Property="fn" Path="FullName" />
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SAP__self.Container">
+				<Annotation Term="SAP__aggregation.ApplySupported">
+					<Record>
+						<PropertyValue Property="Transformations">
+							<Collection>
+								<String>aggregate</String>
+								<String>groupby</String>
+								<String>filter</String>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="Rollup" EnumMember="None" />
+					</Record>
+				</Annotation>
+				<Annotation Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true" />
+				<Annotation Term="SAP__capabilities.FilterFunctions">
+					<Collection>
+						<String>eq</String>
+						<String>ne</String>
+						<String>gt</String>
+						<String>ge</String>
+						<String>lt</String>
+						<String>le</String>
+						<String>and</String>
+						<String>or</String>
+						<String>contains</String>
+						<String>startswith</String>
+						<String>endswith</String>
+						<String>any</String>
+						<String>all</String>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/EmailAddress">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="E-Mail" />
+				<Annotation Term="SAP__common.QuickInfo" String="E-Mail Address" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/StreetName">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Street" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/UserAtCustomer">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="User at Customer" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AccountingClerkInternetAddress">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Clrk's internet add." />
+				<Annotation Term="SAP__common.Heading" String="Clerk's internet address" />
+				<Annotation Term="SAP__common.QuickInfo" String="Internet address of partner company clerk" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/LastInterestCalcRunDate">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Last Int. Calc." />
+				<Annotation Term="SAP__common.Heading" String="LastIntCal" />
+				<Annotation Term="SAP__common.QuickInfo" String="Date of Last Interest Calculation Run" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/UndesirabilityComment">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Comment" />
+				<Annotation Term="SAP__common.Heading" String="Comment on Undesirability" />
+				<Annotation Term="SAP__common.QuickInfo" String="Comment on Undesirability" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/SystemStatusShortName">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Status Short Name" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AddressText">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Notes" />
+				<Annotation Term="SAP__common.Heading" String="Address notes" />
+				<Annotation Term="SAP__common.QuickInfo" String="Address notes" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/FullName">
+				<Annotation Term="SAP__UI.HiddenFilter" />
+				<Annotation Term="SAP__common.Label" String="Full Name" />
+				<Annotation Term="SAP__common.QuickInfo" String="Full Name of Person" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/PartnerCounter">
+				<Annotation Term="SAP__UI.Hidden" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AccountingClerkName">
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Acctg Clerk Name" />
+				<Annotation Term="SAP__common.Heading" String="Name of Accounting Clerk" />
+				<Annotation Term="SAP__common.QuickInfo" String="Name of Accounting Clerk" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/FirstName">
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="First Name" />
+				<Annotation Term="SAP__common.QuickInfo" String="First Name of Business Partner (Person)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/LastName">
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Last Name" />
+				<Annotation Term="SAP__common.QuickInfo" String="Last Name of Business Partner (Person)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/OrganizationBPName1">
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Name 1" />
+				<Annotation Term="SAP__common.QuickInfo" String="Name 1 of organization" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/OrganizationBPName2">
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Name 2" />
+				<Annotation Term="SAP__common.QuickInfo" String="Name 2 of organization" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/GroupBusinessPartnerName1">
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Name 1" />
+				<Annotation Term="SAP__common.QuickInfo" String="Name 1 (group)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/GroupBusinessPartnerName2">
+				<Annotation Term="SAP__UI.Hidden" />
+				<Annotation Term="SAP__common.Label" String="Name 2" />
+				<Annotation Term="SAP__common.QuickInfo" String="Name 2 (group)" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/AccountGroupName">
+				<Annotation Term="SAP__common.Label" String="Name" />
+				<Annotation Term="SAP__common.QuickInfo" String="Account Group Name" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/CorrespondenceLanguage">
+				<Annotation Term="SAP__common.Label" String="Language Key" />
+				<Annotation Term="SAP__common.Heading" String="Language" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/LastDunnedOn">
+				<Annotation Term="SAP__common.Label" String="Last Dunned" />
+				<Annotation Term="SAP__common.Heading" String="Date" />
+				<Annotation Term="SAP__common.QuickInfo" String="Date of Last Dunning Notice" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/LegDunningProcedureOn">
+				<Annotation Term="SAP__common.Label" String="Legal Dunn.Proc.From" />
+				<Annotation Term="SAP__common.Heading" String="Leg.Dunn.Proc" />
+				<Annotation Term="SAP__common.QuickInfo" String="Date of the Legal Dunning Proceedings" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/InterestCalculationDate">
+				<Annotation Term="SAP__common.Label" String="Last Key Date" />
+				<Annotation Term="SAP__common.Heading" String="Key Date Lst Int.Calc" />
+				<Annotation Term="SAP__common.QuickInfo" String="Key Date of Last Interest Calculation" />
+			</Annotations>
+			<Annotations Target="SAP__self.CustomerType/LastCustomerContactDate">
+				<Annotation Term="SAP__common.Label" String="Last Contact Date" />
+				<Annotation Term="SAP__common.QuickInfo" String="Date of Last Customer Contact" />
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

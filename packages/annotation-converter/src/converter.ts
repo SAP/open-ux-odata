@@ -1181,7 +1181,8 @@ function processAnnotations(
             currentTarget.annotations[vocAlias][vocTermWithQualifier].annotations = annotation.annotations;
         }
         currentTarget.annotations._annotations[`${vocAlias}.${vocTermWithQualifier}`] =
-            currentTarget.annotations[vocAlias][vocTermWithQualifier];
+            currentTarget.annotations._annotations[unalias(defaultReferences, `${vocAlias}.${vocTermWithQualifier}`)!] =
+                currentTarget.annotations[vocAlias][vocTermWithQualifier];
         objectMap[annotationTarget] = currentTarget.annotations[vocAlias][vocTermWithQualifier];
     });
 }
