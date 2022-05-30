@@ -33,8 +33,6 @@ async function handlePart(
     for (const headerName in partRequest.responseHeaders) {
         batchResponse += `${headerName}: ${partRequest.responseHeaders[headerName]}${NL}`;
     }
-    // sap-messages
-    // content-Length
     batchResponse += NL; // End of part header
     if (responseData) {
         batchResponse += responseData;

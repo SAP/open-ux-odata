@@ -1,5 +1,6 @@
 import { resolveConfig } from '../src/configResolver';
 import path from 'path';
+import * as os from 'os';
 
 describe('The config resolver', () => {
     it('can resolve the configuration', () => {
@@ -84,8 +85,10 @@ describe('The config resolver', () => {
             },
             '/'
         );
-        myResolvedConfig = JSON.parse(JSON.stringify(myResolvedConfig).replace(new RegExp(__dirname, 'g'), ''));
-        expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
+        if (os.type() !== 'Windows_NT') {
+            myResolvedConfig = JSON.parse(JSON.stringify(myResolvedConfig).replace(new RegExp(__dirname, 'g'), ''));
+            expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
+        }
         myResolvedConfig = resolveConfig(
             {
                 mockFolder: path.resolve(__dirname, 'jsConfig'),
@@ -96,8 +99,11 @@ describe('The config resolver', () => {
             },
             '/'
         );
-        myResolvedConfig = JSON.parse(JSON.stringify(myResolvedConfig).replace(new RegExp(__dirname, 'g'), ''));
-        expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
+        if (os.type() !== 'Windows_NT') {
+            myResolvedConfig = JSON.parse(JSON.stringify(myResolvedConfig).replace(new RegExp(__dirname, 'g'), ''));
+
+            expect(myResolvedConfig).toEqual(myBaseResolvedConfig);
+        }
     });
 
     it('can also resolve cds path or empty services', () => {

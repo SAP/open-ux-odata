@@ -229,9 +229,9 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             }
             const deleteKeyValues = Object.assign({}, keys);
             deleteKeyValues.IsActiveEntity = true;
-            const activeData = this.performGET(deleteKeyValues, false, tenantId, true) as DraftElement;
-            if (activeData) {
-                activeData.HasDraftEntity = false;
+            const newActiveData = this.performGET(deleteKeyValues, false, tenantId, true) as DraftElement;
+            if (newActiveData) {
+                newActiveData.HasDraftEntity = false;
             }
         }
         const activeVersionOfDeletedKeys: any = Object.assign({}, keyValues);

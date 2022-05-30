@@ -224,9 +224,9 @@ export class MockDataEntitySet implements EntitySetInterface {
     ) {
         if (entitySetDefinition._type === 'EntityType') {
             this.entitySetDefinition = null;
-            this.entityTypeDefinition = entitySetDefinition as EntityType;
+            this.entityTypeDefinition = entitySetDefinition;
         } else {
-            this.entitySetDefinition = entitySetDefinition as EntitySet;
+            this.entitySetDefinition = entitySetDefinition;
             this.entityTypeDefinition = this.entitySetDefinition.entityType;
         }
 
@@ -376,51 +376,51 @@ export class MockDataEntitySet implements EntitySetInterface {
             case 'Edm.Int16':
             case 'Edm.Int32':
             case 'Edm.Int64': {
-                const testValue = parseInt(literal, 10);
+                const intTestValue = parseInt(literal, 10);
                 switch (operator) {
                     case 'gt':
-                        isValid = mockValue > testValue;
+                        isValid = mockValue > intTestValue;
                         break;
                     case 'ge':
-                        isValid = mockValue >= testValue;
+                        isValid = mockValue >= intTestValue;
                         break;
                     case 'lt':
-                        isValid = mockValue < testValue;
+                        isValid = mockValue < intTestValue;
                         break;
                     case 'le':
-                        isValid = mockValue <= testValue;
+                        isValid = mockValue <= intTestValue;
                         break;
                     case 'ne':
-                        isValid = mockValue !== testValue;
+                        isValid = mockValue !== intTestValue;
                         break;
                     case 'eq':
                     default:
-                        isValid = mockValue === testValue;
+                        isValid = mockValue === intTestValue;
                         break;
                 }
                 break;
             }
             case 'Edm.Decimal': {
-                const testValue = parseFloat(literal);
+                const decimalTestValue = parseFloat(literal);
                 switch (operator) {
                     case 'gt':
-                        isValid = mockValue > testValue;
+                        isValid = mockValue > decimalTestValue;
                         break;
                     case 'ge':
-                        isValid = mockValue >= testValue;
+                        isValid = mockValue >= decimalTestValue;
                         break;
                     case 'lt':
-                        isValid = mockValue < testValue;
+                        isValid = mockValue < decimalTestValue;
                         break;
                     case 'le':
-                        isValid = mockValue <= testValue;
+                        isValid = mockValue <= decimalTestValue;
                         break;
                     case 'ne':
-                        isValid = mockValue !== testValue;
+                        isValid = mockValue !== decimalTestValue;
                         break;
                     case 'eq':
                     default:
-                        isValid = mockValue === testValue;
+                        isValid = mockValue === decimalTestValue;
                         break;
                 }
                 break;
@@ -529,8 +529,8 @@ export class MockDataEntitySet implements EntitySetInterface {
         }
         if (Object.keys(keyValues).length === 1 && Object.values(keyValues)[0] === undefined) {
             let keyValue;
-            Object.keys(keyValues).forEach((keyName) => {
-                keyValue = keyName;
+            Object.keys(keyValues).forEach((currentKeyName) => {
+                keyValue = currentKeyName;
                 if (keyValue.startsWith("'")) {
                     keyValue = keyValue.substr(1, keyValue.length - 2);
                 }
@@ -542,7 +542,7 @@ export class MockDataEntitySet implements EntitySetInterface {
             Object.keys(keyValues).forEach((keyName) => {
                 outKeys[keyName] = keyValues[keyName];
                 if (outKeys[keyName]?.startsWith && outKeys[keyName].startsWith("'")) {
-                    outKeys[keyName] = outKeys[keyName].substr(1, outKeys[keyName].length - 2);
+                    outKeys[keyName] = outKeys[keyName].substring(1, outKeys[keyName].length - 1);
                 }
             });
         }
@@ -622,7 +622,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 if (keyProp.name === 'IsActiveEntity') {
                     postData['IsActiveEntity'] = false;
                 } else {
-                    postData[keyProp.name] = currentMockData.generateKey(keyProp as Property);
+                    postData[keyProp.name] = currentMockData.generateKey(keyProp);
                 }
             }
         });

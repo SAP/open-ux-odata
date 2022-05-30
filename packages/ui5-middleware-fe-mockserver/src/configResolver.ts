@@ -75,6 +75,7 @@ function processServicesConfig(
     return inServices.map((inService) => {
         const myServiceConfig: ServiceConfig = {
             watch: inService.watch,
+            urlPath: inService.urlPath,
             noETag: inService.noETag,
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
@@ -91,8 +92,6 @@ function processServicesConfig(
 
         if (!inService.urlPath) {
             myServiceConfig.urlPath = inService.urlBasePath + '/' + inService.name;
-        } else {
-            myServiceConfig.urlPath = inService.urlPath;
         }
 
         if (inConfig.watch && !inService.hasOwnProperty('watch')) {

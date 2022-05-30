@@ -50,8 +50,28 @@ async function loadMetadata(service: ServiceConfigEx, metadataProcessor: IMetada
     if (!service.noETag) {
         service.ETag = etag(edmx, { weak: true });
     }
-    return await ODataMetadata.parse(edmx, service.urlPath + '/$metadata', service.ETag);
+    return ODataMetadata.parse(edmx, service.urlPath + '/$metadata', service.ETag);
 }
+
+function prepareCatalogAndAnnotation(app: IRouter, newConfig: MockserverConfiguration, fileLoader: IFileLoader) {
+    // Prepare the catalog service
+    app.use('/sap/opu/odata/IWFND/CATALOGSERVICE;v=2', catalogServiceRouter(newConfig.services as ServiceConfigEx[]));
+    // Prepare the annotation files
+    for (const mockAnnotation of newConfig.annotations || []) {
+        const escapedPath = escapeRegex(mockAnnotation.urlPath);
+        app.get(escapedPath, async (_req: IncomingMessage, res: ServerResponse) => {
+            try {
+                const data = await fileLoader.loadFile(mockAnnotation.localPath);
+                res.setHeader('Content-Type', 'application/xml');
+                res.write(data);
+                res.end();
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
+}
+
 /**
  * Creates and configure the different middleware for each mocked service.
  *
@@ -102,7 +122,7 @@ export async function createMockMiddleware(
                     });
             }
             const oDataHandlerInstance = await serviceRouter(mockService, dataAccess);
-            if (newConfig.contextBasedIsolation || mockService.contextBasedIsolation) {
+            if (mockService.contextBasedIsolation) {
                 const subRouter = new Router();
                 subRouter.use(`${mockService.urlPath}`, oDataHandlerInstance);
                 subRouter.use(`${encode(mockService.urlPath)}`, oDataHandlerInstance);
@@ -116,26 +136,10 @@ export async function createMockMiddleware(
             app.use(`${encode(mockService.urlPath)}`, oDataHandlerInstance);
         } catch (e) {
             log.error(e as any);
-            //log.error('Failed to start ' + JSON.stringify(mockService, null, 4));
             throw new Error('Failed to start ' + JSON.stringify(mockService, null, 4));
         }
     });
-    // Prepare the catalog service
-    app.use('/sap/opu/odata/IWFND/CATALOGSERVICE;v=2', catalogServiceRouter(newConfig.services as ServiceConfigEx[]));
-    // Prepare the annotation files
-    for (const mockAnnotation of newConfig.annotations || []) {
-        const escapedPath = escapeRegex(mockAnnotation.urlPath);
-        app.get(escapedPath, async (_req: IncomingMessage, res: ServerResponse) => {
-            try {
-                const data = await fileLoader.loadFile(mockAnnotation.localPath);
-                res.setHeader('Content-Type', 'application/xml');
-                res.write(data);
-                res.end();
-            } catch (error) {
-                console.error(error);
-            }
-        });
-    }
+    prepareCatalogAndAnnotation(app, newConfig, fileLoader);
 
     await Promise.all(oDataHandlerPromises);
 }

@@ -1,9 +1,8 @@
-import type { EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
+import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import type { ODataMetadata } from './metadata';
 import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
 import type { ILogger } from '@ui5/logger';
 import type ODataRequest from '../request/odataRequest';
-import type { Action } from '@sap-ux/vocabularies-types';
 import type { IFileLoader } from '../index';
 
 export interface EntitySetInterface {
