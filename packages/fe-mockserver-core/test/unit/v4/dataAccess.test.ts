@@ -16,8 +16,8 @@ describe('Data Access', () => {
     const fileLoader = new FileSystemLoader();
     const metadataProvider = new CDSMetadataProvider(fileLoader);
     beforeAll(async () => {
-        const baseDir = join(__dirname, 'services', '/FormSample');
-        const baseStickyDir = join(__dirname, 'services', '/StickySample');
+        const baseDir = join(__dirname, 'services', 'formSample');
+        const baseStickyDir = join(__dirname, 'services', 'stickySample');
 
         const edmx = await metadataProvider.loadMetadata(join(baseDir, '/FormTemplate.cds'));
         const stickyEdmx = readFileSync(join(baseStickyDir, 'metadata.xml'), 'utf8');
@@ -780,9 +780,9 @@ describe('Data Access', () => {
         expect(countryData[0].Country_Code).toEqual('DE');
         expect(countryData[0].PeopleCount).toEqual(70);
 
-        const baseDir = join(__dirname, 'services', '/FormSample');
-        const cdsContent = readFileSync(join(baseDir, '/FormTemplate2.cds'), 'utf8');
-        const edmx = await metadataProvider.loadMetadata(join(baseDir, '/FormTemplate2.cds'));
+        const baseDir = join(__dirname, 'services', 'formSample');
+        const cdsContent = readFileSync(join(baseDir, 'FormTemplate2.cds'), 'utf8');
+        const edmx = await metadataProvider.loadMetadata(join(baseDir, 'FormTemplate2.cds'));
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
         dataAccess.reloadData(metadata);
 
