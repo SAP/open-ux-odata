@@ -99,6 +99,19 @@ describe('V4 Requestor', function () {
         const dataRes = await dataRequestor.getList<any>('RootElement').executeAsBatch(true);
         expect(dataRes.length).toBe(4);
     });
+    it('get one data', async () => {
+        // const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
+        // const dataRes = await dataRequestor.createData<any>('/RootElement', { ID: 555 }).execute('POST');
+        // expect(dataRes).toMatchSnapshot();
+        let dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
+        let dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 2 }).executeAsBatch();
+        expect(dataRes).toMatchSnapshot();
+
+        dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
+        dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 233 }).executeAsBatch();
+        expect(dataRes).toMatchSnapshot();
+    });
+
     it('can create data through a call', async () => {
         // const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         // const dataRes = await dataRequestor.createData<any>('/RootElement', { ID: 555 }).execute('POST');
