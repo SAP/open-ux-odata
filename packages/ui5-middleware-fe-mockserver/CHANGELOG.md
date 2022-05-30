@@ -1,5 +1,11 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.0.2
+
+### Patch Changes
+
+-   beb31e8: Include the ui5.yaml to run the middleware
+
 ## 2.0.1
 
 ### Patch Changes
