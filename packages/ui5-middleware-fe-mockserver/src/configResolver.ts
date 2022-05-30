@@ -73,7 +73,13 @@ function processServicesConfig(
     inConfig: FileBasedServerConfig | FolderBasedServerConfig
 ) {
     return inServices.map((inService) => {
-        const myServiceConfig: ServiceConfig = {} as any;
+        const myServiceConfig: ServiceConfig = {
+            watch: inService.watch,
+            noETag: inService.noETag,
+            debug: inService.debug,
+            strictKeyMode: inService.strictKeyMode,
+            contextBasedIsolation: inService.contextBasedIsolation
+        } as any;
         const metadataPath = inService.metadataPath || inService.metadataXmlPath || inService.metadataCdsPath;
         if (metadataPath) {
             myServiceConfig.metadataPath = path.resolve(currentBasePath, metadataPath);

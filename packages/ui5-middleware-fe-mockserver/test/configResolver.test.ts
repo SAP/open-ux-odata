@@ -25,7 +25,6 @@ describe('The config resolver', () => {
             },
             '/'
         );
-        expect(myBaseResolvedConfig).toMatchSnapshot();
         let myResolvedConfig = resolveConfig(
             {
                 annotations: {
@@ -117,10 +116,10 @@ describe('The config resolver', () => {
             },
             '/'
         );
-        expect(myBaseResolvedConfig).toMatchSnapshot();
-
+        expect(myBaseResolvedConfig.services[0].metadataPath).toBeDefined();
         const myBaseResolvedConfig2 = resolveConfig({}, '/');
-        expect(myBaseResolvedConfig2).toMatchSnapshot();
+        expect(myBaseResolvedConfig2.services).toBeDefined();
+        expect(myBaseResolvedConfig2.services.length).toBe(0);
     });
 
     it('can also apply overrides per service', () => {
@@ -157,6 +156,15 @@ describe('The config resolver', () => {
             },
             '/'
         );
-        expect(myBaseResolvedConfig).toMatchSnapshot();
+        expect(myBaseResolvedConfig.services[0].watch).toBe(true);
+        expect(myBaseResolvedConfig.services[1].watch).toBe(false);
+        expect(myBaseResolvedConfig.services[0].debug).toBe(true);
+        expect(myBaseResolvedConfig.services[1].debug).toBe(false);
+        expect(myBaseResolvedConfig.services[0].strictKeyMode).toBe(true);
+        expect(myBaseResolvedConfig.services[1].strictKeyMode).toBe(false);
+        expect(myBaseResolvedConfig.services[0].contextBasedIsolation).toBe(true);
+        expect(myBaseResolvedConfig.services[1].contextBasedIsolation).toBe(false);
+        expect(myBaseResolvedConfig.services[0].noETag).toBe(true);
+        expect(myBaseResolvedConfig.services[1].noETag).toBe(false);
     });
 });
