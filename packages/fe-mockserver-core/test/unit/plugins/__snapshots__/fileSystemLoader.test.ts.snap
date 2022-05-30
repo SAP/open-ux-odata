@@ -9,9 +9,13 @@ Array [
 `;
 
 exports[`Filesystem Loader can load json / text files 1`] = `
-"[{
-  \\"name\\": \\"Value\\"
-}, {
-  \\"name\\": \\"Second one\\"
-}]"
+"[
+    {
+        \\"name\\": \\"Value\\"
+    },
+    {
+        \\"name\\": \\"Second one\\"
+    }
+]
+"
 `;

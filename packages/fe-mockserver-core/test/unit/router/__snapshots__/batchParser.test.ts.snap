@@ -3,7 +3,6 @@
 exports[`Batch Parser can parse correct batch content 1`] = `
 Batch {
   "boundary": "boundary111",
-  "changeSetErrorResponse": undefined,
   "isChangeSet": false,
   "parts": Array [
     Object {
@@ -23,7 +22,6 @@ Batch {
 exports[`Batch Parser can parse correct batch content with changeset 1`] = `
 Batch {
   "boundary": "batch_id-1653467757956-971",
-  "changeSetErrorResponse": undefined,
   "isChangeSet": false,
   "parts": Array [
     Batch {
