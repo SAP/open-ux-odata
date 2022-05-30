@@ -817,9 +817,7 @@ describe('Data Access', () => {
 
             const edmx = await metadataProvider.loadMetadata(join(baseDir, '/service.cds'));
             metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
-
             dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
-            metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
         });
         test('1:1 - key property names are equal', async () => {
             const odataRequest = new ODataRequest({ method: 'GET', url: `/A('1')?$expand=_sameId` }, dataAccess);
@@ -839,6 +837,142 @@ describe('Data Access', () => {
         test('1:* - key property names are different', async () => {
             const odataRequest = new ODataRequest(
                 { method: 'GET', url: `/A('1')?$expand=_differentIdMany` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+    });
+
+    describe('$select handling with structured complex types', () => {
+        let dataAccess!: DataAccess;
+        let metadata!: ODataMetadata;
+
+        beforeAll(async () => {
+            const baseDir = join(__dirname, 'services', 'complexType');
+            const edmx = readFileSync(join(baseDir, 'metadata.xml'), 'utf8');
+
+            metadata = await ODataMetadata.parse(edmx, `/TestService/$metadata`);
+            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        });
+
+        test(`can read /A`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A('A1')` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A?$expand=b`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A?$expand=b` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')?$expand=b`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A('A1')?$expand=b` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')/b`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A('A1')/b` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A?$select=complex`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A?$select=complex` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A?$select=complex/value1`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A?$select=complex/value1` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')?$select=complex`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A('A1')?$select=complex` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')?$select=complex/value1`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A('A1')?$select=complex/value1` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A?$expand=b($select=complex)`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A?$expand=b($select=complex)` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A?$expand=b($select=complex/value1)`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A?$expand=b($select=complex/value1)` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')?$expand=b($select=complex)`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A('A1')?$expand=b($select=complex)` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')?$expand=b($select=complex/value1)`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A('A1')?$expand=b($select=complex/value1)` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')/b?$select=complex`, async () => {
+            const odataRequest = new ODataRequest({ method: 'GET', url: `/A('A1')/b?$select=complex` }, dataAccess);
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')/b?$select=complex/value1`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A('A1')/b?$select=complex/value1` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')/b('B1')?$select=complex`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A('A1')/b('B1')?$select=complex` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
+        test(`can read /A('A1')/b('B1')?$select=complex/value1`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A('A1')/b('B1')?$select=complex/value1` },
                 dataAccess
             );
             const data = await dataAccess.getData(odataRequest);
