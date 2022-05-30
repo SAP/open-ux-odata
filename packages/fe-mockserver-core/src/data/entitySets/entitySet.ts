@@ -457,9 +457,9 @@ export class MockDataEntitySet implements EntitySetInterface {
             case 'Edm.Guid':
             default:
                 if (literal && literal.startsWith("guid'")) {
-                    isValid = mockValue === literal.substr(5, literal.length - 6);
+                    isValid = mockValue === literal.substring(5, literal.length - 1);
                 } else if (literal && literal.startsWith("'")) {
-                    isValid = mockValue === literal.substr(1, literal.length - 2);
+                    isValid = mockValue === literal.substring(1, literal.length - 1);
                 } else {
                     isValid = mockValue === literal;
                 }
@@ -493,12 +493,12 @@ export class MockDataEntitySet implements EntitySetInterface {
             switch (keyProp.type) {
                 case 'Edm.Guid':
                     if (keyValues[keyName] && keyValues[keyName].startsWith("guid'")) {
-                        return mockData[keyName] === keyValues[keyName].substr(5, keyValues[keyName].length - 6);
+                        return mockData[keyName] === keyValues[keyName].substring(5, keyValues[keyName].length - 1);
                     }
                     return mockData[keyName] === keyValues[keyName];
                 case 'Edm.String':
                     if (keyValues[keyName] && keyValues[keyName].startsWith("'")) {
-                        return mockData[keyName] === keyValues[keyName].substr(1, keyValues[keyName].length - 2);
+                        return mockData[keyName] === keyValues[keyName].substring(1, keyValues[keyName].length - 1);
                     }
                     return mockData[keyName] === keyValues[keyName];
                 case 'Edm.Int32':
@@ -532,7 +532,7 @@ export class MockDataEntitySet implements EntitySetInterface {
             Object.keys(keyValues).forEach((currentKeyName) => {
                 keyValue = currentKeyName;
                 if (keyValue.startsWith("'")) {
-                    keyValue = keyValue.substr(1, keyValue.length - 2);
+                    keyValue = keyValue.substring(1, keyValue.length - 1);
                 }
             });
             const keyName = this.entityTypeDefinition.keys[0].name;
