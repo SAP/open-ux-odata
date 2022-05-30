@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.9
+
+### Patch Changes
+
+-   069270b: Initial open source release of the SAP UX FE Mockserver
+
 ## 0.5.8
 
 ### Patch Changes

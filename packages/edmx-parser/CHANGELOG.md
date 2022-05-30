@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.5
+
+### Patch Changes
+
+-   069270b: Initial open source release of the SAP UX FE Mockserver
+
 ## 0.5.4
 
 ### Patch Changes
