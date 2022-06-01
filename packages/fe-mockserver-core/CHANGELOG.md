@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.0.3
+
+### Patch Changes
+
+-   e96f8fc: Fixes an issue that resulted in empty objects being returned if the query contains a path in a \$select option
+
 ## 1.0.2
 
 ### Patch Changes
