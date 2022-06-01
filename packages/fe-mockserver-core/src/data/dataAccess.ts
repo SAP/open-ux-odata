@@ -2,7 +2,14 @@ import type { ODataMetadata } from './metadata';
 import { MockDataEntitySet } from './entitySets/entitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
 import { StickyMockEntitySet } from './entitySets/stickyEntitySet';
-import type { EntitySet, EntityType, Property, ReferentialConstraint, Singleton } from '@sap-ux/vocabularies-types';
+import type {
+    EntitySet,
+    EntityType,
+    Property,
+    ReferentialConstraint,
+    Singleton,
+    NavigationProperty
+} from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
 import type { ILogger } from '@ui5/logger';
 import { getLogger } from '@ui5/logger';
@@ -385,6 +392,68 @@ export class DataAccess implements DataAccessInterface {
         return this.metadata;
     }
 
+    private apply$Select(expandDefinition: ExpandDefinition, expandData: any[], entityType: EntityType) {
+        // preprocess the selected property names
+        let selectedPropertyNames = Object.keys(expandDefinition.properties);
+        if (selectedPropertyNames.includes('*') || selectedPropertyNames.length === 0) {
+            // select all
+            selectedPropertyNames = ['*'];
+        } else {
+            // select the specified properties plus all key properties
+            selectedPropertyNames = selectedPropertyNames
+                .map((property) => property.split('/', 1)[0]) // reduce paths to their first segment ($select=foo/bar ~> $select=foo), accepting too much data in the response for simplicity
+                .concat(...entityType.keys.map((key) => key.name)); // always include key properties
+        }
+
+        const expandedNavProps = Object.keys(expandDefinition.expand).reduce((navigationProperties, navPropName) => {
+            const navigationProperty = entityType.navigationProperties.find((navProp) => navProp.name === navPropName);
+            if (navigationProperty) {
+                navigationProperties.push(navigationProperty);
+            }
+            return navigationProperties;
+        }, [] as NavigationProperty[]);
+
+        const processedNavProps: NavigationProperty[] = [];
+
+        for (const element of expandData) {
+            // the element might be null (if it is a 1:1 navigation property)
+            if (element === null || element === undefined) {
+                continue;
+            }
+
+            // if all properties are requested ("*") keep everything else delete unwanted properties
+            if (!selectedPropertyNames.includes('*')) {
+                Object.keys(element)
+                    .filter((propertyName) => !selectedPropertyNames.includes(propertyName))
+                    .forEach((propertyName) => {
+                        delete element[propertyName];
+                    });
+            }
+
+            for (const navProp of expandedNavProps) {
+                processedNavProps.push(navProp);
+
+                const subElement = element[navProp.name];
+                const subExpand = expandDefinition.expand[navProp.name];
+                if (Array.isArray(subElement)) {
+                    this.apply$Select(subExpand, subElement, navProp.targetType);
+                } else {
+                    this.apply$Select(subExpand, [subElement], navProp.targetType);
+                }
+            }
+
+            // we may still want to remove navProp that were inline and not requested
+            for (const navigationProperty of entityType.navigationProperties) {
+                if (
+                    !processedNavProps.includes(navigationProperty) &&
+                    navigationProperty.name !== 'DraftAdministrativeData'
+                ) {
+                    delete element[navigationProperty.name];
+                }
+            }
+        }
+    }
+
     public async getData(odataRequest: ODataRequest, dontClone: boolean = false): Promise<any> {
         if (this.debug) {
             this.log.info('Retrieving data for ' + JSON.stringify(odataRequest.queryPath));
@@ -692,50 +761,6 @@ export class DataAccess implements DataAccessInterface {
                 }
             }
             if (odataRequest.selectedProperties && Object.keys(odataRequest.selectedProperties).length > 0) {
-                const apply$Select = (expandDefinition: ExpandDefinition, expandData: any[]) => {
-                    const selectedPropertyNames = Object.keys(expandDefinition.properties);
-                    const expandedNavProps = Object.keys(expandDefinition.expand);
-                    let allNavProps = currentEntityType?.navigationProperties.map((navProp) => navProp.name) || [];
-                    allNavProps = allNavProps.filter((navPropName) => navPropName !== 'DraftAdministrativeData');
-                    expandData.forEach((element) => {
-                        // the element might be null (if it is a 1:1 navigation property)
-                        if (element === null || element === undefined) {
-                            return;
-                        }
-
-                        // if all properties are requested ("*") keep everything else delete unwanted properties
-                        if (!selectedPropertyNames.includes('*')) {
-                            const propertyNames = Object.keys(element);
-                            const differenceKeys = propertyNames.filter(
-                                (propertyName) => !selectedPropertyNames.includes(propertyName)
-                            );
-                            differenceKeys.forEach((k) => {
-                                delete element[k];
-                            });
-                        }
-
-                        expandedNavProps.forEach((navProp) => {
-                            const expandedIndex = allNavProps.indexOf(navProp);
-                            if (expandedIndex !== -1) {
-                                allNavProps.splice(expandedIndex, 1);
-                            }
-                            const subElement = element[navProp];
-                            if (Array.isArray(subElement)) {
-                                apply$Select(expandDefinition.expand[navProp], subElement);
-                            } else {
-                                apply$Select(expandDefinition.expand[navProp], [subElement]);
-                            }
-                        });
-
-                        if (selectedPropertyNames.includes('*') && currentEntitySet && allNavProps.length > 0) {
-                            // we may still want to remove navProp that were inline and not requested
-                            allNavProps.forEach((k) => {
-                                delete element[k];
-                            });
-                        }
-                    });
-                };
-
                 const select: Record<string, boolean> = {};
                 Object.keys(odataRequest.selectedProperties).forEach((prop) => (select[prop] = true));
                 const expand = {
@@ -744,9 +769,9 @@ export class DataAccess implements DataAccessInterface {
                 };
 
                 if (Array.isArray(data)) {
-                    apply$Select(expand, data);
+                    this.apply$Select(expand, data, currentEntityType);
                 } else if (data != null && data.constructor.name === 'Object') {
-                    apply$Select(expand, [data]);
+                    this.apply$Select(expand, [data], currentEntityType);
                 }
             }
             const dataLength = (Array.isArray(data) && data.length) || 1;

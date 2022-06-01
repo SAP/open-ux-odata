@@ -1,0 +1,7 @@
+[
+    {
+        "UID": "B1",
+        "a_ID": "A1",
+        "complex": { "value1": true, "value2": false }
+    }
+]

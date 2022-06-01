@@ -32,6 +32,251 @@ Object {
 }
 `;
 
+exports[`Data Access $select handling with structured complex types can read /A 1`] = `
+Array [
+  Object {
+    "ID": "A1",
+    "complex": Object {
+      "value1": 1,
+      "value2": 2,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1') 1`] = `
+Object {
+  "ID": "A1",
+  "complex": Object {
+    "value1": 1,
+    "value2": 2,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')/b 1`] = `
+Array [
+  Object {
+    "UID": "B1",
+    "a_ID": "A1",
+    "complex": Object {
+      "value1": true,
+      "value2": false,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')/b('B1')?$select=complex 1`] = `
+Object {
+  "UID": "B1",
+  "complex": Object {
+    "value1": true,
+    "value2": false,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')/b('B1')?$select=complex/value1 1`] = `
+Object {
+  "UID": "B1",
+  "complex": Object {
+    "value1": true,
+    "value2": false,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')/b?$select=complex 1`] = `
+Array [
+  Object {
+    "UID": "B1",
+    "complex": Object {
+      "value1": true,
+      "value2": false,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')/b?$select=complex/value1 1`] = `
+Array [
+  Object {
+    "UID": "B1",
+    "complex": Object {
+      "value1": true,
+      "value2": false,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')?$expand=b 1`] = `
+Object {
+  "ID": "A1",
+  "b": Array [
+    Object {
+      "UID": "B1",
+      "a_ID": "A1",
+      "complex": Object {
+        "value1": true,
+        "value2": false,
+      },
+    },
+  ],
+  "complex": Object {
+    "value1": 1,
+    "value2": 2,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')?$expand=b($select=complex) 1`] = `
+Object {
+  "ID": "A1",
+  "b": Array [
+    Object {
+      "UID": "B1",
+      "complex": Object {
+        "value1": true,
+        "value2": false,
+      },
+    },
+  ],
+  "complex": Object {
+    "value1": 1,
+    "value2": 2,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')?$expand=b($select=complex/value1) 1`] = `
+Object {
+  "ID": "A1",
+  "b": Array [
+    Object {
+      "UID": "B1",
+      "complex": Object {
+        "value1": true,
+        "value2": false,
+      },
+    },
+  ],
+  "complex": Object {
+    "value1": 1,
+    "value2": 2,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')?$select=complex 1`] = `
+Object {
+  "ID": "A1",
+  "complex": Object {
+    "value1": 1,
+    "value2": 2,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A('A1')?$select=complex/value1 1`] = `
+Object {
+  "ID": "A1",
+  "complex": Object {
+    "value1": 1,
+    "value2": 2,
+  },
+}
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A?$expand=b 1`] = `
+Array [
+  Object {
+    "ID": "A1",
+    "b": Array [
+      Object {
+        "UID": "B1",
+        "a_ID": "A1",
+        "complex": Object {
+          "value1": true,
+          "value2": false,
+        },
+      },
+    ],
+    "complex": Object {
+      "value1": 1,
+      "value2": 2,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A?$expand=b($select=complex) 1`] = `
+Array [
+  Object {
+    "ID": "A1",
+    "b": Array [
+      Object {
+        "UID": "B1",
+        "complex": Object {
+          "value1": true,
+          "value2": false,
+        },
+      },
+    ],
+    "complex": Object {
+      "value1": 1,
+      "value2": 2,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A?$expand=b($select=complex/value1) 1`] = `
+Array [
+  Object {
+    "ID": "A1",
+    "b": Array [
+      Object {
+        "UID": "B1",
+        "complex": Object {
+          "value1": true,
+          "value2": false,
+        },
+      },
+    ],
+    "complex": Object {
+      "value1": 1,
+      "value2": 2,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A?$select=complex 1`] = `
+Array [
+  Object {
+    "ID": "A1",
+    "complex": Object {
+      "value1": 1,
+      "value2": 2,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A?$select=complex/value1 1`] = `
+Array [
+  Object {
+    "ID": "A1",
+    "complex": Object {
+      "value1": 1,
+      "value2": 2,
+    },
+  },
+]
+`;
+
 exports[`Data Access v4metadata - GET with $filter involving a navigation property that is null for some elements 1`] = `
 Array [
   Object {
