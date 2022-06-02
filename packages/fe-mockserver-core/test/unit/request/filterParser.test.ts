@@ -227,9 +227,10 @@ describe('Filter Parser', () => {
             expect(lamba?.expressions[0].identifier?.type).toBe('lambda');
             expect(lamba?.expressions[0].identifier?.operator).toBe('ANY');
             expect(lamba?.expressions[0].identifier?.key).toBe('ent');
-            expect(lamba?.expressions[0].identifier?.expression.identifier).toBe('ent');
-            expect(lamba?.expressions[0].identifier?.expression.operator).toBe('eq');
-            expect(lamba?.expressions[0].identifier?.expression.literal).toBe("'GBR'");
+            expect(lamba?.expressions[0].identifier?.expression.expressions.length).toBe(1);
+            expect(lamba?.expressions[0].identifier?.expression.expressions[0].operator).toBe('eq');
+            expect(lamba?.expressions[0].identifier?.expression.expressions[0].literal).toBe("'GBR'");
+            expect(lamba?.expressions[0].identifier?.expression.expressions[0].identifier).toBe('ent');
             expect(lamba?.expressions[0].identifier?.target).toBe('CountryCodes');
         }
 
@@ -270,5 +271,12 @@ describe('Filter Parser', () => {
                 "and SimulationSessionUUID eq guid'd535d9a2-fdea-4e1e-84e6-2c135fcbcd08'"
         );
         expect(v2ComplexFilter).toMatchSnapshot();
+    });
+
+    test('v4 complex filter', () => {
+        const v4ComplexLambda = parseFilter(
+            "((_Trigger/any(t:t/_Attribute/any(a0:a0/SitnInstceAttribName eq 'CAMASSRUNDATE' and a0/_AttributeValue/any(a1:a1/SitnInstceAttribValue ge '20220601') and a0/_AttributeValue/any(a1:a1/SitnInstceAttribValue le '20220601'))))) and (SitnBaseTemplateID eq 'FICA_MASSACT_MSG_MONITOR')"
+        );
+        expect(v4ComplexLambda).toMatchSnapshot();
     });
 });
