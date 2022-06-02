@@ -1,13 +1,11 @@
 import { MockDataEntitySet } from '../../../src/data/entitySets/entitySet';
-import * as path from 'path';
 import { parseFilter } from '../../../src/request/filterParser';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
-import { readFileSync } from 'fs';
 import { ODataMetadata } from '../../../src/data/metadata';
 import { DataAccess } from '../../../src/data/dataAccess';
-import { ServiceConfig } from '../../../src';
+import type { ServiceConfig } from '../../../src';
 
 let metadata!: ODataMetadata;
 const baseUrl = '/sap/fe/mock';
