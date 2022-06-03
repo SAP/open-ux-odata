@@ -6,6 +6,31 @@ import type ODataRequest from '../request/odataRequest';
 
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
+function performSimpleComparison(operator: string, mockValue: any, targetLiteral: any) {
+    let isValid = true;
+    switch (operator) {
+        case 'gt':
+            isValid = mockValue > targetLiteral;
+            break;
+        case 'ge':
+            isValid = mockValue >= targetLiteral;
+            break;
+        case 'lt':
+            isValid = mockValue < targetLiteral;
+            break;
+        case 'le':
+            isValid = mockValue <= targetLiteral;
+            break;
+        case 'ne':
+            isValid = mockValue !== targetLiteral;
+            break;
+        case 'eq':
+        default:
+            isValid = mockValue === targetLiteral;
+            break;
+    }
+    return isValid;
+}
 export class FileBasedMockData {
     protected _mockData: object[];
     protected _entityType: EntityType;
@@ -47,7 +72,7 @@ export class FileBasedMockData {
     async updateEntry(
         keyValues: KeyDefinitions,
         updatedData: object,
-        patchData: object,
+        _patchData: object,
         _odataRequest: ODataRequest
     ): Promise<void> {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
@@ -414,52 +439,12 @@ export class FileBasedMockData {
             case 'Edm.Int32':
             case 'Edm.Int64': {
                 const intTestValue = parseInt(literal, 10);
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValue > intTestValue;
-                        break;
-                    case 'ge':
-                        isValid = mockValue >= intTestValue;
-                        break;
-                    case 'lt':
-                        isValid = mockValue < intTestValue;
-                        break;
-                    case 'le':
-                        isValid = mockValue <= intTestValue;
-                        break;
-                    case 'ne':
-                        isValid = mockValue !== intTestValue;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValue === intTestValue;
-                        break;
-                }
+                isValid = performSimpleComparison(operator, mockValue, intTestValue);
                 break;
             }
             case 'Edm.Decimal': {
                 const decimalTestValue = parseFloat(literal);
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValue > decimalTestValue;
-                        break;
-                    case 'ge':
-                        isValid = mockValue >= decimalTestValue;
-                        break;
-                    case 'lt':
-                        isValid = mockValue < decimalTestValue;
-                        break;
-                    case 'le':
-                        isValid = mockValue <= decimalTestValue;
-                        break;
-                    case 'ne':
-                        isValid = mockValue !== decimalTestValue;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValue === decimalTestValue;
-                        break;
-                }
+                isValid = performSimpleComparison(operator, mockValue, decimalTestValue);
                 break;
             }
             case 'Edm.Date':
@@ -468,27 +453,7 @@ export class FileBasedMockData {
             case 'Edm.DateTimeOffset':
                 const testValue = new Date(literal).getTime();
                 const mockValueDate = new Date(mockValue).getTime();
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValueDate > testValue;
-                        break;
-                    case 'ge':
-                        isValid = mockValueDate >= testValue;
-                        break;
-                    case 'lt':
-                        isValid = mockValueDate < testValue;
-                        break;
-                    case 'le':
-                        isValid = mockValueDate <= testValue;
-                        break;
-                    case 'ne':
-                        isValid = mockValueDate !== testValue;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValueDate === testValue;
-                        break;
-                }
+                isValid = performSimpleComparison(operator, mockValueDate, testValue);
                 break;
             case 'Edm.String':
             case 'Edm.Guid':
@@ -499,27 +464,7 @@ export class FileBasedMockData {
                 } else if (literal && literal.startsWith("'")) {
                     targetLiteral = literal.substring(1, literal.length - 1);
                 }
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValue > targetLiteral;
-                        break;
-                    case 'ge':
-                        isValid = mockValue >= targetLiteral;
-                        break;
-                    case 'lt':
-                        isValid = mockValue < targetLiteral;
-                        break;
-                    case 'le':
-                        isValid = mockValue <= targetLiteral;
-                        break;
-                    case 'ne':
-                        isValid = mockValue !== targetLiteral;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValue === targetLiteral;
-                        break;
-                }
+                isValid = performSimpleComparison(operator, mockValue, targetLiteral);
                 break;
         }
         return isValid;

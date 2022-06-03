@@ -8,6 +8,7 @@ import type { DataAccessInterface, EntitySetInterface } from '../common';
 import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
+import type { LambdaExpression } from '../../request/filterParser';
 
 function getData(fullData: any, objectPath: string): any {
     if (fullData === undefined || objectPath.length === 0) {
@@ -320,46 +321,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         let identifierTransformation = transformationFn('noop');
         let comparisonType = null;
         if (identifier.type === 'lambda') {
-            const lambdaOperator = identifier.operator;
-            let hasAnyValid = false;
-            let hasAllValid = true;
-            let mockDataToCheckValue = identifierTransformation(getData(mockData, identifier.target));
-            if (!Array.isArray(mockDataToCheckValue)) {
-                mockDataToCheckValue = [mockDataToCheckValue];
-            }
-            if (identifier.expression.expressions) {
-                identifier.expression.expressions.forEach((entry: any) => {
-                    if (typeof entry.identifier === 'string') {
-                        entry.propertyPath = entry.identifier.replace(
-                            identifier.key,
-                            identifier.propertyPath || identifier.target
-                        );
-                    } else {
-                        entry.identifier.propertyPath = entry.identifier.target.replace(
-                            identifier.key,
-                            identifier.propertyPath || identifier.target
-                        );
-                    }
-                });
-            }
-
-            mockDataToCheckValue.find((subMockData: any) => {
-                let mockDataToCheck = subMockData;
-                if (identifier.key && identifier.key.length > 0) {
-                    mockDataToCheck = { [identifier.key]: subMockData };
-                }
-                const isEntryValid = this.checkFilter(mockDataToCheck, identifier.expression, tenantId, odataRequest);
-                if (!isEntryValid) {
-                    hasAllValid = false;
-                } else {
-                    hasAnyValid = true;
-                }
-            });
-            if (lambdaOperator === 'ANY') {
-                return hasAnyValid;
-            } else {
-                return hasAllValid;
-            }
+            return this.checkLambdaExpression(identifier, identifierTransformation, mockData, tenantId, odataRequest);
         } else if (identifier.method) {
             identifierTransformation = transformationFn(
                 identifier.method,
@@ -400,6 +362,50 @@ export class MockDataEntitySet implements EntitySetInterface {
             return mockValue === literal;
         }
         return currentMockData.checkFilterValue(comparisonType, mockValue, literal, operator, odataRequest);
+    }
+
+    private checkLambdaExpression(
+        expression: LambdaExpression,
+        identifierTransformation: (data: any) => any,
+        mockData: any,
+        tenantId: string,
+        odataRequest: ODataRequest
+    ) {
+        const lambdaOperator = expression.operator;
+        let hasAnyValid = false;
+        let hasAllValid = true;
+        let mockDataToCheckValue = identifierTransformation(getData(mockData, expression.target));
+        if (!Array.isArray(mockDataToCheckValue)) {
+            mockDataToCheckValue = [mockDataToCheckValue];
+        }
+        if (expression.expression.expressions) {
+            expression.expression.expressions.forEach((entry: any) => {
+                const replaceValue = expression.propertyPath || expression.target;
+                if (typeof entry.identifier === 'string') {
+                    entry.propertyPath = entry.identifier.replace(expression.key, replaceValue);
+                } else {
+                    entry.identifier.propertyPath = entry.identifier.target.replace(expression.key, replaceValue);
+                }
+            });
+        }
+
+        mockDataToCheckValue.find((subMockData: any) => {
+            let mockDataToCheck = subMockData;
+            if (expression.key && expression.key.length > 0) {
+                mockDataToCheck = { [expression.key]: subMockData };
+            }
+            const isEntryValid = this.checkFilter(mockDataToCheck, expression.expression, tenantId, odataRequest);
+            if (!isEntryValid) {
+                hasAllValid = false;
+            } else {
+                hasAnyValid = true;
+            }
+        });
+        if (lambdaOperator === 'ANY') {
+            return hasAnyValid;
+        } else {
+            return hasAllValid;
+        }
     }
 
     public checkSearch(mockData: any, searchQueries: string[], _odataRequest: ODataRequest): boolean {
@@ -513,16 +519,14 @@ export class MockDataEntitySet implements EntitySetInterface {
                     return null;
                 }
             }
-            if (Array.isArray(data) && !asArray) {
-                if (dontClone) {
-                    return data[0];
-                }
-                return cloneDeep(data[0]);
+            let outData: any = data;
+            if (Array.isArray(outData) && !asArray) {
+                outData = outData[0];
             }
-            if (dontClone) {
-                return data;
+            if (!dontClone) {
+                outData = cloneDeep(outData);
             }
-            return cloneDeep(data);
+            return outData;
         }
         if (this.entitySetDefinition?.entityType?.annotations?.Common?.ResultContext?.valueOf()) {
             // Parametrized entityset, they cannot be requested directly
