@@ -343,9 +343,6 @@ export class MockDataEntitySet implements EntitySetInterface {
                 if (identifier.key && identifier.key.length > 0) {
                     mockDataToCheck = { [identifier.key]: subMockData };
                 }
-                // if (identifier.target && identifier.target.length > 0) {
-                //     mockDataToCheck = createSubData(identifier.target, subMockData);
-                // }
                 const isEntryValid = this.checkFilter(mockDataToCheck, identifier.expression, tenantId);
                 if (!isEntryValid) {
                     hasAllValid = false;
