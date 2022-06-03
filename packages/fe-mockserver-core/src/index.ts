@@ -12,6 +12,7 @@ export interface IMetadataProcessor {
     loadMetadata(filePath: string): Promise<string>;
 }
 export * from './api';
+export { MockDataContributor } from './mockdata/functionBasedMockData';
 
 export default class FEMockserver {
     isReady: Promise<void>;

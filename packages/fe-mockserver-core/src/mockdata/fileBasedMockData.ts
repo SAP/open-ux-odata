@@ -2,6 +2,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { generateId, uuidv4 } from '../data/common';
 import type { Action, ComplexType, EntityType, Property, TypeDefinition } from '@sap-ux/vocabularies-types';
 import type { EntitySetInterface } from '../data/common';
+import type ODataRequest from '../request/odataRequest';
 
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
@@ -39,45 +40,50 @@ export class FileBasedMockData {
         }
     }
 
-    async addEntry(mockEntry: any): Promise<void> {
+    async addEntry(mockEntry: any, _odataRequest: ODataRequest): Promise<void> {
         this._mockData.push(mockEntry);
     }
 
-    async updateEntry(keyValues: KeyDefinitions, updatedData: object): Promise<void> {
-        const dataIndex = this.getDataIndex(keyValues);
+    async updateEntry(
+        keyValues: KeyDefinitions,
+        newData: object,
+        updatedData: object,
+        _odataRequest: ODataRequest
+    ): Promise<void> {
+        const dataIndex = this.getDataIndex(keyValues, _odataRequest);
         this._mockData[dataIndex] = updatedData;
     }
 
-    fetchEntries(keyValues: KeyDefinitions): object[] {
+    fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
         const keys = this._entityType.keys;
         return this._mockData.filter((mockData) => {
-            return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys));
+            return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
         });
     }
 
-    hasEntry(keyValues: KeyDefinitions): boolean {
-        return this.getDataIndex(keyValues) !== -1;
+    hasEntry(keyValues: KeyDefinitions, _odataRequest: ODataRequest): boolean {
+        return this.getDataIndex(keyValues, _odataRequest) !== -1;
     }
 
-    hasEntries(): boolean {
+    hasEntries(_odataRequest: ODataRequest): boolean {
         return this._mockData.length > 0;
     }
 
-    getAllEntries(dontClone: boolean = false): object[] {
+    getAllEntries(_odataRequest: ODataRequest, dontClone: boolean = false): any[] {
         if (dontClone) {
             return this._mockData;
         }
         return cloneDeep(this._mockData);
     }
 
-    protected getDataIndex(keyValues: KeyDefinitions): number {
+    protected getDataIndex(keyValues: KeyDefinitions, _odataRequest: ODataRequest): number {
         const keys = this._entityType.keys;
         return this._mockData.findIndex((mockData) => {
-            return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys));
+            return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
         });
     }
 
-    private checkKeyValues(mockData: object, keyValues: KeyDefinitions, keys: Property[]) {
+    private checkKeyValues(mockData: object, keyValues: KeyDefinitions, keys: Property[], _odataRequest: ODataRequest) {
         return (keyName: string) => {
             return this._mockDataEntitySet.checkKeyValue(
                 mockData,
@@ -88,8 +94,8 @@ export class FileBasedMockData {
         };
     }
 
-    async removeEntry(keyValues: KeyDefinitions): Promise<void> {
-        const dataIndex = this.getDataIndex(keyValues);
+    async removeEntry(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<void> {
+        const dataIndex = this.getDataIndex(keyValues, _odataRequest);
         if (dataIndex !== -1) {
             this._mockData.splice(dataIndex, 1);
         }
@@ -228,7 +234,7 @@ export class FileBasedMockData {
         }
     }
 
-    getEmptyObject(): object {
+    getEmptyObject(_odataRequest: ODataRequest): object {
         const outObj: any = {};
         this._entityType.entityProperties.forEach((property) => {
             outObj[property.name] = this.getDefaultValueFromType(
@@ -241,13 +247,13 @@ export class FileBasedMockData {
         return outObj;
     }
 
-    getDefaultElement(): object {
+    getDefaultElement(_odataRequest: ODataRequest): object {
         if (this._mockData && !Array.isArray(this._mockData)) {
             return this._mockData;
         } else if (this._mockData.length >= 1) {
             return cloneDeep(this._mockData[0]);
         } else {
-            return this.getEmptyObject();
+            return this.getEmptyObject(_odataRequest);
         }
     }
 
@@ -316,8 +322,14 @@ export class FileBasedMockData {
      * @param _actionDefinition
      * @param actionData
      * @param _keys
+     * @param _odataRequest
      */
-    async onBeforeAction(_actionDefinition: Action, actionData: any, _keys: Record<string, any>): Promise<object> {
+    async onBeforeAction(
+        _actionDefinition: Action,
+        actionData: any,
+        _keys: Record<string, any>,
+        _odataRequest: ODataRequest
+    ): Promise<object> {
         return actionData;
     }
     /**
@@ -326,8 +338,14 @@ export class FileBasedMockData {
      * @param _actionDefinition
      * @param actionData
      * @param _keys
+     * @param _odataRequest
      */
-    async executeAction(_actionDefinition: Action, actionData: any, _keys: Record<string, any>): Promise<object> {
+    async executeAction(
+        _actionDefinition: Action,
+        actionData: any,
+        _keys: Record<string, any>,
+        _odataRequest: ODataRequest
+    ): Promise<object> {
         return actionData;
     }
 
@@ -338,30 +356,172 @@ export class FileBasedMockData {
      * @param _actionData
      * @param _keys
      * @param responseData
+     * @param _odataRequest
      */
     async onAfterAction(
         _actionDefinition: Action,
         _actionData: any,
         _keys: Record<string, any>,
-        responseData: any
+        responseData: any,
+        _odataRequest: ODataRequest
     ): Promise<any> {
         return responseData;
     }
 
     //eslint-disable-next-line
-    async onAfterUpdateEntry(_keyValues: KeyDefinitions, _updatedData: object): Promise<void> {
+    async onAfterUpdateEntry(
+        _keyValues: KeyDefinitions,
+        _updatedData: object,
+        _odataRequest: ODataRequest
+    ): Promise<void> {
         // DO Nothing
     }
     //eslint-disable-next-line
-    async onBeforeUpdateEntry(_keyValues: KeyDefinitions, _updatedData: object): Promise<void> {
+    async onBeforeUpdateEntry(
+        _keyValues: KeyDefinitions,
+        _updatedData: object,
+        _odataRequest: ODataRequest
+    ): Promise<void> {
         // DO Nothing
     }
     //eslint-disable-next-line
-    hasCustomAggregate(_customAggregateName: string): boolean {
+    hasCustomAggregate(_customAggregateName: string, _odataRequest: ODataRequest): boolean {
         return false;
     }
     //eslint-disable-next-line
-    performCustomAggregate(_customAggregateName: string, _dataToAggregate: any[]): any {
+    performCustomAggregate(_customAggregateName: string, _dataToAggregate: any[], _odataRequest: ODataRequest): any {
         // DO Nothing
+    }
+    checkSearchQuery(mockValue: any, searchQuery: string, _odataRequest: ODataRequest) {
+        return mockValue && mockValue.indexOf(searchQuery) !== -1;
+    }
+
+    checkFilterValue(
+        comparisonType: string,
+        mockValue: any,
+        literal: any,
+        operator: string,
+        _odataRequest: ODataRequest
+    ) {
+        let isValid = true;
+        switch (comparisonType) {
+            case 'Edm.Boolean':
+                isValid = !!mockValue === (literal === 'true');
+                break;
+
+            case 'Edm.Byte':
+            case 'Edm.Int16':
+            case 'Edm.Int32':
+            case 'Edm.Int64': {
+                const intTestValue = parseInt(literal, 10);
+                switch (operator) {
+                    case 'gt':
+                        isValid = mockValue > intTestValue;
+                        break;
+                    case 'ge':
+                        isValid = mockValue >= intTestValue;
+                        break;
+                    case 'lt':
+                        isValid = mockValue < intTestValue;
+                        break;
+                    case 'le':
+                        isValid = mockValue <= intTestValue;
+                        break;
+                    case 'ne':
+                        isValid = mockValue !== intTestValue;
+                        break;
+                    case 'eq':
+                    default:
+                        isValid = mockValue === intTestValue;
+                        break;
+                }
+                break;
+            }
+            case 'Edm.Decimal': {
+                const decimalTestValue = parseFloat(literal);
+                switch (operator) {
+                    case 'gt':
+                        isValid = mockValue > decimalTestValue;
+                        break;
+                    case 'ge':
+                        isValid = mockValue >= decimalTestValue;
+                        break;
+                    case 'lt':
+                        isValid = mockValue < decimalTestValue;
+                        break;
+                    case 'le':
+                        isValid = mockValue <= decimalTestValue;
+                        break;
+                    case 'ne':
+                        isValid = mockValue !== decimalTestValue;
+                        break;
+                    case 'eq':
+                    default:
+                        isValid = mockValue === decimalTestValue;
+                        break;
+                }
+                break;
+            }
+            case 'Edm.Date':
+            case 'Edm.Time':
+            case 'Edm.DateTime':
+            case 'Edm.DateTimeOffset':
+                const testValue = new Date(literal).getTime();
+                const mockValueDate = new Date(mockValue).getTime();
+                switch (operator) {
+                    case 'gt':
+                        isValid = mockValueDate > testValue;
+                        break;
+                    case 'ge':
+                        isValid = mockValueDate >= testValue;
+                        break;
+                    case 'lt':
+                        isValid = mockValueDate < testValue;
+                        break;
+                    case 'le':
+                        isValid = mockValueDate <= testValue;
+                        break;
+                    case 'ne':
+                        isValid = mockValueDate !== testValue;
+                        break;
+                    case 'eq':
+                    default:
+                        isValid = mockValueDate === testValue;
+                        break;
+                }
+                break;
+            case 'Edm.String':
+            case 'Edm.Guid':
+            default:
+                let targetLiteral = literal;
+                if (literal && literal.startsWith("guid'")) {
+                    targetLiteral = literal.substring(5, literal.length - 1);
+                } else if (literal && literal.startsWith("'")) {
+                    targetLiteral = literal.substring(1, literal.length - 1);
+                }
+                switch (operator) {
+                    case 'gt':
+                        isValid = mockValue > targetLiteral;
+                        break;
+                    case 'ge':
+                        isValid = mockValue >= targetLiteral;
+                        break;
+                    case 'lt':
+                        isValid = mockValue < targetLiteral;
+                        break;
+                    case 'le':
+                        isValid = mockValue <= targetLiteral;
+                        break;
+                    case 'ne':
+                        isValid = mockValue !== targetLiteral;
+                        break;
+                    case 'eq':
+                    default:
+                        isValid = mockValue === targetLiteral;
+                        break;
+                }
+                break;
+        }
+        return isValid;
     }
 }

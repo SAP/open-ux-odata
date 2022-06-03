@@ -38,7 +38,8 @@ export class DraftMockEntitySet extends MockDataEntitySet {
     protected checkSpecificProperties(
         filterExpression: any,
         mockData: any,
-        allData: FileBasedMockData
+        allData: FileBasedMockData,
+        odataRequest: ODataRequest
     ): boolean | null {
         if (filterExpression.identifier === 'DraftAdministrativeData/InProcessByUser') {
             return false;
@@ -55,7 +56,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     keys[keyDef.name] = false;
                 }
             });
-            return !allData.hasEntry(keys);
+            return !allData.hasEntry(keys, odataRequest);
         } else {
             return null;
         }
@@ -73,7 +74,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         return super.checkKeyValue(mockData, keyValues, keyName, property);
     }
 
-    private async createInactiveVersionForNavigations(data: any, tenantId: string) {
+    private async createInactiveVersionForNavigations(data: any, tenantId: string, odataRequest: ODataRequest) {
         for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
             if (
                 (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
@@ -95,23 +96,23 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     this.entitySetDefinition.navigationPropertyBinding[navPropName].name
                 )) as any as DraftMockEntitySet;
                 if (navPropEntity?.draftEdit) {
-                    await navPropEntity.draftEdit(subKeys, tenantId);
+                    await navPropEntity.draftEdit(subKeys, tenantId, odataRequest);
                 }
             }
         }
     }
 
-    public async draftActivate(keyValues: KeyDefinitions, tenantId: string) {
+    public async draftActivate(keyValues: KeyDefinitions, tenantId: string, odataRequest: ODataRequest) {
         const currentMockData = this.getMockData(tenantId);
-        const dataToDuplicate = this.performGET(keyValues, true, tenantId, true);
+        const dataToDuplicate = this.performGET(keyValues, true, tenantId, odataRequest, true);
         const deleteKeyValues = Object.assign({}, keyValues);
         deleteKeyValues.IsActiveEntity = true;
-        const dataToDelete = this.performGET(deleteKeyValues, true, tenantId, true);
+        const dataToDelete = this.performGET(deleteKeyValues, true, tenantId, odataRequest, true);
         for (const draftData of dataToDelete) {
             if (draftData.IsActiveEntity && !draftData.HasDraftEntity && !draftData.Processed) {
                 // Draft was deleted
                 const activateKeyValues = this.getKeys(draftData);
-                await currentMockData.removeEntry(activateKeyValues);
+                await currentMockData.removeEntry(activateKeyValues, odataRequest);
             }
         }
         const dataToClean: KeyDefinitions[] = [];
@@ -126,25 +127,29 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 activeDraft.HasDraftEntity = false;
                 activeDraft.Processed = true;
                 dataToClean.push(activateKeyValues);
-                if (!currentMockData.hasEntry(activateKeyValues)) {
-                    await currentMockData.addEntry(activeDraft);
+                if (!currentMockData.hasEntry(activateKeyValues, odataRequest)) {
+                    await currentMockData.addEntry(activeDraft, odataRequest);
                 } else {
-                    await currentMockData.updateEntry(activateKeyValues, activeDraft);
+                    await currentMockData.updateEntry(activateKeyValues, activeDraft, activeDraft, odataRequest);
                 }
-                await this.activateInactiveVersionForNavigationProperties(draftData, tenantId);
+                await this.activateInactiveVersionForNavigationProperties(draftData, tenantId, odataRequest);
             }
         }
         for (const draftKeys of dataToClean) {
-            const myDataToClean = this.performGET(draftKeys, false, tenantId, true);
+            const myDataToClean = this.performGET(draftKeys, false, tenantId, odataRequest, true);
 
             delete myDataToClean.Processed;
-            await currentMockData.updateEntry(draftKeys, myDataToClean);
+            await currentMockData.updateEntry(draftKeys, myDataToClean, myDataToClean, odataRequest);
         }
-        await this.draftDiscard(keyValues, tenantId);
+        await this.draftDiscard(keyValues, tenantId, odataRequest);
         return activeDraft;
     }
 
-    private async activateInactiveVersionForNavigationProperties(draftData: any, tenantId: string) {
+    private async activateInactiveVersionForNavigationProperties(
+        draftData: any,
+        tenantId: string,
+        odataRequest: ODataRequest
+    ) {
         for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
             if (
                 (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
@@ -166,15 +171,15 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     this.entitySetDefinition.navigationPropertyBinding[navPropName].name
                 )) as unknown as DraftMockEntitySet;
                 if (navPropEntity && navPropEntity.draftActivate) {
-                    await navPropEntity.draftActivate(subKeys, tenantId);
+                    await navPropEntity.draftActivate(subKeys, tenantId, odataRequest);
                 }
             }
         }
     }
 
-    public async draftEdit(keyValues: Record<string, any>, tenantId: string) {
+    public async draftEdit(keyValues: Record<string, any>, tenantId: string, odataRequest: ODataRequest) {
         const currentMockData = this.getMockData(tenantId);
-        const dataToDuplicate = this.performGET(keyValues, true, tenantId, true);
+        const dataToDuplicate = this.performGET(keyValues, true, tenantId, odataRequest, true);
         for (const data of dataToDuplicate) {
             if (!data.HasDraftEntity && data.IsActiveEntity) {
                 data.HasDraftEntity = true;
@@ -192,16 +197,16 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     InProcessByUser: 'nobody',
                     DraftIsProcessedByMe: true
                 };
-                await currentMockData.addEntry(duplicate);
-                await this.createInactiveVersionForNavigations(data, tenantId);
+                await currentMockData.addEntry(duplicate, odataRequest);
+                await this.createInactiveVersionForNavigations(data, tenantId, odataRequest);
             }
         }
     }
-    public async draftDiscard(keyValues: Record<string, any>, tenantId: string) {
-        const dataToDiscard = this.performGET(keyValues, true, tenantId);
+    public async draftDiscard(keyValues: Record<string, any>, tenantId: string, odataRequest: ODataRequest) {
+        const dataToDiscard = this.performGET(keyValues, true, tenantId, odataRequest);
         for (const data of dataToDiscard) {
             const keys = this.getKeys(data);
-            super.performDELETE(keys, tenantId);
+            super.performDELETE(keys, tenantId, odataRequest);
             for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
                 if (
                     (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
@@ -223,20 +228,20 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                         this.entitySetDefinition.navigationPropertyBinding[navPropName].name
                     )) as unknown as DraftMockEntitySet;
                     if (navPropEntity && navPropEntity.draftDiscard) {
-                        await navPropEntity.draftDiscard(subKeys, tenantId);
+                        await navPropEntity.draftDiscard(subKeys, tenantId, odataRequest);
                     }
                 }
             }
             const deleteKeyValues = Object.assign({}, keys);
             deleteKeyValues.IsActiveEntity = true;
-            const newActiveData = this.performGET(deleteKeyValues, false, tenantId, true) as DraftElement;
+            const newActiveData = this.performGET(deleteKeyValues, false, tenantId, odataRequest, true) as DraftElement;
             if (newActiveData) {
                 newActiveData.HasDraftEntity = false;
             }
         }
         const activeVersionOfDeletedKeys: any = Object.assign({}, keyValues);
         activeVersionOfDeletedKeys.IsActiveEntity = true;
-        const dataToAdjust = this.performGET(activeVersionOfDeletedKeys, true, tenantId, true);
+        const dataToAdjust = this.performGET(activeVersionOfDeletedKeys, true, tenantId, odataRequest, true);
         let activeData;
         for (const data of dataToAdjust) {
             data.HasDraftEntity = false;
@@ -252,13 +257,13 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         keys: Record<string, any>
     ): Promise<any> {
         const currentMockData = this.getMockData(odataRequest.tenantId);
-        actionData = await currentMockData.onBeforeAction(actionDefinition, actionData, keys);
+        actionData = await currentMockData.onBeforeAction(actionDefinition, actionData, keys, odataRequest);
         let responseObject;
         switch (actionDefinition.fullyQualifiedName) {
             // Draft Edit Action
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.EditAction}(${this.entitySetDefinition.entityTypeName})`:
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.EditAction}()`: {
-                await this.draftEdit(keys, odataRequest.tenantId);
+                await this.draftEdit(keys, odataRequest.tenantId, odataRequest);
                 odataRequest.queryPath.pop();
                 odataRequest.queryPath[odataRequest.queryPath.length - 1].keys = Object.assign({}, keys, {
                     IsActiveEntity: false
@@ -269,28 +274,34 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.PreparationAction}(${this.entitySetDefinition.entityTypeName})`:
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.PreparationAction}()`:
                 // Prepare
-                responseObject = this.performGET(keys, false, odataRequest.tenantId);
+                responseObject = this.performGET(keys, false, odataRequest.tenantId, odataRequest);
                 break;
 
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.DiscardAction}(${this.entitySetDefinition.entityTypeName})`:
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.DiscardAction}()`: {
                 // Discard
-                responseObject = await this.draftDiscard(keys, odataRequest.tenantId);
+                responseObject = await this.draftDiscard(keys, odataRequest.tenantId, odataRequest);
                 break;
             }
 
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.ActivationAction}(${this.entitySetDefinition.entityTypeName})`:
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.ActivationAction}()`: {
-                const activeDraft = this.draftActivate(keys, odataRequest.tenantId);
+                const activeDraft = this.draftActivate(keys, odataRequest.tenantId, odataRequest);
 
                 responseObject = activeDraft;
                 break;
             }
             default:
-                responseObject = await currentMockData.executeAction(actionDefinition, actionData, keys);
+                responseObject = await currentMockData.executeAction(actionDefinition, actionData, keys, odataRequest);
                 break;
         }
-        responseObject = await currentMockData.onAfterAction(actionDefinition, actionData, keys, responseObject);
+        responseObject = await currentMockData.onAfterAction(
+            actionDefinition,
+            actionData,
+            keys,
+            responseObject,
+            odataRequest
+        );
         return responseObject;
     }
 
@@ -298,9 +309,10 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         keyValues: KeyDefinitions,
         patchData: object,
         tenantId: string,
+        odataRequest: ODataRequest,
         updateParent: boolean = false
     ): Promise<any> {
-        const updatedData = await super.performPATCH(keyValues, patchData, tenantId);
+        const updatedData = await super.performPATCH(keyValues, patchData, tenantId, odataRequest);
         if (updateParent && this.entitySetDefinition?.annotations?.Common?.DraftNode) {
             const parentEntity = await this.dataAccess.getDraftRoot(keyValues, tenantId, this.entitySetDefinition);
             if (
@@ -312,7 +324,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             }
         }
         if (this.entitySetDefinition?.annotations?.Common?.DraftRoot) {
-            const myDataToUpdate = this.performGET(keyValues, false, tenantId, true);
+            const myDataToUpdate = this.performGET(keyValues, false, tenantId, odataRequest, true);
             if (myDataToUpdate && myDataToUpdate.DraftAdministrativeData) {
                 myDataToUpdate.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
             }
@@ -324,6 +336,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         keyValues: KeyDefinitions,
         postData: any,
         tenantId: string,
+        odataRequest: ODataRequest,
         updateParent: boolean = false
     ): Promise<any> {
         if (updateParent && this.entitySetDefinition?.annotations?.Common?.DraftNode) {
@@ -346,15 +359,16 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         if (!Object.hasOwnProperty.call(postData, 'HasDraftEntity')) {
             postData.HasDraftEntity = !postData.IsActiveEntity;
         }
-        return super.performPOST(keyValues, postData, tenantId);
+        return super.performPOST(keyValues, postData, tenantId, odataRequest);
     }
 
     public async performDELETE(
         keyValues: KeyDefinitions,
         tenantId: string,
+        odataRequest: ODataRequest,
         updateParent: boolean = false
     ): Promise<void> {
-        const draftData = this.performGET(keyValues, false, tenantId);
+        const draftData = this.performGET(keyValues, false, tenantId, odataRequest);
         if (updateParent && this.entitySetDefinition?.annotations?.Common?.DraftNode) {
             const parentEntity = await this.dataAccess.getDraftRoot(keyValues, tenantId, this.entitySetDefinition);
             if (
@@ -366,17 +380,17 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             }
         }
         if (this.entitySetDefinition.annotations?.Common?.DraftRoot && draftData && !draftData.IsActiveEntity) {
-            await this.draftDiscard(keyValues, tenantId);
+            await this.draftDiscard(keyValues, tenantId, odataRequest);
         } else {
             if (this.entitySetDefinition.annotations?.Common?.DraftNode && draftData && !draftData.IsActiveEntity) {
                 // Update the sibling
                 const activeKeys = Object.assign({}, keyValues, { IsActiveEntity: true });
-                const activeEquivalent = this.performGET(activeKeys, false, tenantId, true);
+                const activeEquivalent = this.performGET(activeKeys, false, tenantId, odataRequest, true);
                 if (activeEquivalent && activeEquivalent.HasDraftEntity) {
                     activeEquivalent.HasDraftEntity = false;
                 }
             }
-            return super.performDELETE(keyValues, tenantId);
+            return super.performDELETE(keyValues, tenantId, odataRequest);
         }
     }
 }

@@ -6,6 +6,7 @@ import { join } from 'path';
 import { ODataMetadata } from '../../../src/data/metadata';
 import { DataAccess } from '../../../src/data/dataAccess';
 import type { ServiceConfig } from '../../../src';
+import ODataRequest from '../../../src/request/odataRequest';
 
 let metadata!: ODataMetadata;
 const baseUrl = '/sap/fe/mock';
@@ -38,14 +39,21 @@ describe('EntitySet', () => {
             const v4ComplexLambda = parseFilter(
                 "((ArrayData/any(t:t/SubArray/any(a0:a0/Name eq 'Something' and a0/SubSubArray/any(a1:a1/Value ge '20220600') and a0/SubSubArray/any(a1:a1/Value le '20220603'))))) and (BaseData eq 'FirstCheck')"
             );
-            const mockData = myEntitySet.getMockData('default').getAllEntries() as any;
-            let filteredData = myEntitySet.checkFilter(mockData[0], v4ComplexLambda, 'default');
+            const fakeRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'MyEntityData'
+                },
+                dataAccess
+            );
+            const mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
+            let filteredData = myEntitySet.checkFilter(mockData[0], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(true);
-            filteredData = myEntitySet.checkFilter(mockData[1], v4ComplexLambda, 'default');
+            filteredData = myEntitySet.checkFilter(mockData[1], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(true);
-            filteredData = myEntitySet.checkFilter(mockData[2], v4ComplexLambda, 'default');
+            filteredData = myEntitySet.checkFilter(mockData[2], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(false);
-            filteredData = myEntitySet.checkFilter(mockData[3], v4ComplexLambda, 'default');
+            filteredData = myEntitySet.checkFilter(mockData[3], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(false);
         });
     });

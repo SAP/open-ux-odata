@@ -269,7 +269,12 @@ export class MockDataEntitySet implements EntitySetInterface {
         });
     }
 
-    protected checkSpecificProperties(_filterExpression: any, _mockData: any, _allData: any): boolean | null {
+    protected checkSpecificProperties(
+        _filterExpression: any,
+        _mockData: any,
+        _allData: any,
+        _odataRequest: any
+    ): boolean | null {
         return null;
     }
 
@@ -290,25 +295,25 @@ export class MockDataEntitySet implements EntitySetInterface {
         return resolvedPath.target;
     }
 
-    public checkFilter(mockData: object, filterExpression: any, tenantId: string): boolean {
+    public checkFilter(mockData: object, filterExpression: any, tenantId: string, odataRequest: ODataRequest): boolean {
         let isValid = true;
         if (filterExpression.hasOwnProperty('expressions')) {
             if (filterExpression.operator === 'AND') {
                 isValid = filterExpression.expressions.every((filterValue: any) => {
-                    return this.checkFilter(mockData, filterValue, tenantId);
+                    return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             } else {
                 isValid = filterExpression.expressions.some((filterValue: any) => {
-                    return this.checkFilter(mockData, filterValue, tenantId);
+                    return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             }
         } else {
-            isValid = this.checkSimpleExpression(filterExpression, mockData, tenantId);
+            isValid = this.checkSimpleExpression(filterExpression, mockData, tenantId, odataRequest);
         }
         return isValid;
     }
 
-    public checkSimpleExpression(filterExpression: any, mockData: any, tenantId: string) {
+    public checkSimpleExpression(filterExpression: any, mockData: any, tenantId: string, odataRequest: ODataRequest) {
         let identifier = filterExpression.identifier;
         const operator = filterExpression.operator;
         let literal = filterExpression.literal;
@@ -343,7 +348,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 if (identifier.key && identifier.key.length > 0) {
                     mockDataToCheck = { [identifier.key]: subMockData };
                 }
-                const isEntryValid = this.checkFilter(mockDataToCheck, identifier.expression, tenantId);
+                const isEntryValid = this.checkFilter(mockDataToCheck, identifier.expression, tenantId, odataRequest);
                 if (!isEntryValid) {
                     hasAllValid = false;
                 } else {
@@ -386,7 +391,7 @@ export class MockDataEntitySet implements EntitySetInterface {
             comparisonType = property.type;
         }
         const currentMockData = this.getMockData(tenantId);
-        const specificCheck = this.checkSpecificProperties(filterExpression, mockData, currentMockData);
+        const specificCheck = this.checkSpecificProperties(filterExpression, mockData, currentMockData, odataRequest);
         if (specificCheck !== null) {
             return specificCheck;
         }
@@ -394,129 +399,11 @@ export class MockDataEntitySet implements EntitySetInterface {
         if (literal === true) {
             return mockValue === literal;
         }
-        let isValid = true;
-        switch (comparisonType) {
-            case 'Edm.Boolean':
-                isValid = !!mockValue === (literal === 'true');
-                break;
-
-            case 'Edm.Byte':
-            case 'Edm.Int16':
-            case 'Edm.Int32':
-            case 'Edm.Int64': {
-                const intTestValue = parseInt(literal, 10);
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValue > intTestValue;
-                        break;
-                    case 'ge':
-                        isValid = mockValue >= intTestValue;
-                        break;
-                    case 'lt':
-                        isValid = mockValue < intTestValue;
-                        break;
-                    case 'le':
-                        isValid = mockValue <= intTestValue;
-                        break;
-                    case 'ne':
-                        isValid = mockValue !== intTestValue;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValue === intTestValue;
-                        break;
-                }
-                break;
-            }
-            case 'Edm.Decimal': {
-                const decimalTestValue = parseFloat(literal);
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValue > decimalTestValue;
-                        break;
-                    case 'ge':
-                        isValid = mockValue >= decimalTestValue;
-                        break;
-                    case 'lt':
-                        isValid = mockValue < decimalTestValue;
-                        break;
-                    case 'le':
-                        isValid = mockValue <= decimalTestValue;
-                        break;
-                    case 'ne':
-                        isValid = mockValue !== decimalTestValue;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValue === decimalTestValue;
-                        break;
-                }
-                break;
-            }
-            case 'Edm.Date':
-            case 'Edm.Time':
-            case 'Edm.DateTime':
-            case 'Edm.DateTimeOffset':
-                const testValue = new Date(literal).getTime();
-                const mockValueDate = new Date(mockValue).getTime();
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValueDate > testValue;
-                        break;
-                    case 'ge':
-                        isValid = mockValueDate >= testValue;
-                        break;
-                    case 'lt':
-                        isValid = mockValueDate < testValue;
-                        break;
-                    case 'le':
-                        isValid = mockValueDate <= testValue;
-                        break;
-                    case 'ne':
-                        isValid = mockValueDate !== testValue;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValueDate === testValue;
-                        break;
-                }
-                break;
-            case 'Edm.String':
-            case 'Edm.Guid':
-            default:
-                let targetLiteral = literal;
-                if (literal && literal.startsWith("guid'")) {
-                    targetLiteral = literal.substring(5, literal.length - 1);
-                } else if (literal && literal.startsWith("'")) {
-                    targetLiteral = literal.substring(1, literal.length - 1);
-                }
-                switch (operator) {
-                    case 'gt':
-                        isValid = mockValue > targetLiteral;
-                        break;
-                    case 'ge':
-                        isValid = mockValue >= targetLiteral;
-                        break;
-                    case 'lt':
-                        isValid = mockValue < targetLiteral;
-                        break;
-                    case 'le':
-                        isValid = mockValue <= targetLiteral;
-                        break;
-                    case 'ne':
-                        isValid = mockValue !== targetLiteral;
-                        break;
-                    case 'eq':
-                    default:
-                        isValid = mockValue === targetLiteral;
-                        break;
-                }
-                break;
-        }
-        return isValid;
+        return currentMockData.checkFilterValue(comparisonType, mockValue, literal, operator, odataRequest);
     }
 
-    public checkSearch(mockData: any, searchQueries: string[]): boolean {
+    public checkSearch(mockData: any, searchQueries: string[], _odataRequest: ODataRequest): boolean {
+        const currentMockData = this.getMockData(_odataRequest.tenantId);
         const searchableProperties = this.entityTypeDefinition.entityProperties.filter((property) => {
             switch (property.type) {
                 case 'Edm.Boolean':
@@ -531,7 +418,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         return searchQueries.every((searchQuery) => {
             return searchableProperties.some((property) => {
                 const mockValue = mockData[property.name];
-                return mockValue && mockValue.indexOf(searchQuery) !== -1;
+                return currentMockData.checkSearchQuery(mockValue, searchQuery, _odataRequest);
             });
         });
     }
@@ -612,16 +499,16 @@ export class MockDataEntitySet implements EntitySetInterface {
         keyValues: KeyDefinitions,
         asArray: boolean,
         tenantId: string,
-        dontClone = false,
-        _odataRequest?: ODataRequest
+        odataRequest: ODataRequest,
+        dontClone = false
     ): any {
         const currentMockData = this.getMockData(tenantId);
         if (keyValues && Object.keys(keyValues).length) {
             keyValues = this.prepareKeys(keyValues);
-            const data = currentMockData.fetchEntries(keyValues);
+            const data = currentMockData.fetchEntries(keyValues, odataRequest);
             if (!data || (Array.isArray(data) && data.length === 0 && !asArray)) {
-                if (!currentMockData.hasEntries()) {
-                    return currentMockData.getEmptyObject();
+                if (!currentMockData.hasEntries(odataRequest)) {
+                    return currentMockData.getEmptyObject(odataRequest);
                 } else {
                     return null;
                 }
@@ -642,18 +529,19 @@ export class MockDataEntitySet implements EntitySetInterface {
             throw new Error(JSON.stringify({ message: 'Parametrized entityset need to be queried with keys' }));
         }
         if ((this.entitySetDefinition as any)?._type === 'Singleton') {
-            return currentMockData.getDefaultElement();
+            return currentMockData.getDefaultElement(odataRequest);
         }
         if (!asArray) {
-            return cloneDeep(currentMockData.getDefaultElement());
+            return cloneDeep(currentMockData.getDefaultElement(odataRequest));
         }
-        return currentMockData.getAllEntries(dontClone);
+        return currentMockData.getAllEntries(odataRequest, dontClone);
     }
 
     public async performPOST(
         keyValues: KeyDefinitions,
         postData: any,
         tenantId: string,
+        odataRequest: ODataRequest,
         _updateParent: boolean = false
     ): Promise<any> {
         // Validate potentially missing keys
@@ -674,9 +562,9 @@ export class MockDataEntitySet implements EntitySetInterface {
                 }
             }
         });
-        let newObject = currentMockData.getEmptyObject();
+        let newObject = currentMockData.getEmptyObject(odataRequest);
         newObject = Object.assign(newObject, postData);
-        await currentMockData.addEntry(newObject);
+        await currentMockData.addEntry(newObject, odataRequest);
         return newObject;
     }
 
@@ -684,26 +572,28 @@ export class MockDataEntitySet implements EntitySetInterface {
         keyValues: KeyDefinitions,
         patchData: object,
         tenantId: string,
+        odataRequest: ODataRequest,
         _updateParent: boolean = false
     ): Promise<any> {
         keyValues = this.prepareKeys(keyValues);
-        const data = this.performGET(keyValues, false, tenantId);
+        const data = this.performGET(keyValues, false, tenantId, odataRequest);
         const currentMockData = this.getMockData(tenantId);
         const updatedData = Object.assign(data, patchData);
-        await currentMockData.onBeforeUpdateEntry(keyValues, updatedData);
-        await currentMockData.updateEntry(keyValues, updatedData);
-        await currentMockData.onAfterUpdateEntry(keyValues, updatedData);
+        await currentMockData.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
+        await currentMockData.updateEntry(keyValues, updatedData, patchData, odataRequest);
+        await currentMockData.onAfterUpdateEntry(keyValues, updatedData, odataRequest);
         return updatedData;
     }
 
     public async performDELETE(
         keyValues: KeyDefinitions,
         tenantId: string,
+        odataRequest: ODataRequest,
         _updateParent: boolean = false
     ): Promise<void> {
         const currentMockData = this.getMockData(tenantId);
         keyValues = this.prepareKeys(keyValues);
-        await currentMockData.removeEntry(keyValues);
+        await currentMockData.removeEntry(keyValues, odataRequest);
     }
 
     public async executeAction(
@@ -714,9 +604,15 @@ export class MockDataEntitySet implements EntitySetInterface {
     ): Promise<any> {
         const currentMockData = this.getMockData(odataRequest.tenantId);
         keys = this.prepareKeys(keys);
-        actionData = await currentMockData.onBeforeAction(actionDefinition, actionData, keys);
-        let responseObject = await currentMockData.executeAction(actionDefinition, actionData, keys);
-        responseObject = await currentMockData.onAfterAction(actionDefinition, actionData, keys, responseObject);
+        actionData = await currentMockData.onBeforeAction(actionDefinition, actionData, keys, odataRequest);
+        let responseObject = await currentMockData.executeAction(actionDefinition, actionData, keys, odataRequest);
+        responseObject = await currentMockData.onAfterAction(
+            actionDefinition,
+            actionData,
+            keys,
+            responseObject,
+            odataRequest
+        );
         return responseObject;
     }
 

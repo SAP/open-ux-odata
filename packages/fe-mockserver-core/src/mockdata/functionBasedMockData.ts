@@ -3,46 +3,79 @@ import { FileBasedMockData } from './fileBasedMockData';
 import type { Action, EntityType, Property } from '@sap-ux/vocabularies-types';
 import type { EntitySetInterface } from '../data/common';
 import { ExecutionError } from '../data/common';
+import type ODataRequest from '../request/odataRequest';
 
 export type MockDataContributor = {
     getInitialDataSet?: (contextId: string) => object[];
-    addEntry?: (mockEntry: object) => void;
-    updateEntry?: (keyValues: KeyDefinitions, newData: object) => Promise<void>;
-    removeEntry?: (keyValues: KeyDefinitions) => void;
-    hasEntry?: (keyValues: KeyDefinitions) => boolean;
-    hasEntries?: () => boolean;
-    fetchEntries?: (keyValues: KeyDefinitions) => object[];
-    getAllEntries?: (dontClone?: boolean) => object[];
-    getEmptyObject?: () => object;
-    getDefaultElement?: () => object;
-    generateKey?: (property: Property) => any;
-    onBeforeAction?(actionDefinition: Action, actionData: any, keys: Record<string, any>): Promise<object>;
-    executeAction?(actionDefinition: Action, actionData: any, keys: Record<string, any>): Promise<object>;
+    addEntry?: (mockEntry: object, odataRequest: ODataRequest) => void;
+    updateEntry?: (
+        keyValues: KeyDefinitions,
+        newData: object,
+        updatedData: object,
+        odataRequest: ODataRequest
+    ) => Promise<void>;
+    removeEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
+    hasEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
+    hasEntries?: (odataRequest: ODataRequest) => boolean;
+    fetchEntries?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
+    getAllEntries?: (odataRequest: ODataRequest) => object[];
+    getEmptyObject?: (odataRequest: ODataRequest) => object;
+    getDefaultElement?: (odataRequest: ODataRequest) => object;
+    generateKey?: (property: Property, lineIndex: number, odataRequest: ODataRequest) => any;
+    checkSearchQuery?: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
+    checkFilterValue?: (
+        comparisonType: string,
+        mockValue: any,
+        literal: any,
+        operator: string,
+        odataRequest: ODataRequest
+    ) => boolean;
+    onBeforeAction?(
+        actionDefinition: Action,
+        actionData: any,
+        keys: Record<string, any>,
+        odataRequest: ODataRequest
+    ): Promise<object>;
+    executeAction?(
+        actionDefinition: Action,
+        actionData: any,
+        keys: Record<string, any>,
+        odataRequest: ODataRequest
+    ): Promise<object>;
     onAfterAction?(
         actionDefinition: Action,
         actionData: any,
         keys: Record<string, any>,
-        responseData: any
+        responseData: any,
+        odataRequest: ODataRequest
     ): Promise<any>;
-    onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: object): Promise<void>;
-    onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: object): Promise<void>;
-    hasCustomAggregate?(customAggregateName: string): boolean;
-    performCustomAggregate?(customAggregateName: string, dataToAggregate: any[]): any;
+    onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: object, odataRequest: ODataRequest): Promise<void>;
+    onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: object, odataRequest: ODataRequest): Promise<void>;
+    hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
+    performCustomAggregate?(customAggregateName: string, dataToAggregate: any[], odataRequest: ODataRequest): any;
     throwError?(message: string, statusCode?: number, messageData?: object): any;
     base?: {
         generateMockData: () => void;
         generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
-        addEntry: (mockEntry: object) => void;
-        updateEntry: (keyValues: KeyDefinitions, newData: object) => void;
-        removeEntry: (keyValues: KeyDefinitions) => void;
-        hasEntry: (keyValues: KeyDefinitions) => boolean;
-        fetchEntries: (keyValues: KeyDefinitions) => object[];
-        hasEntries: () => boolean;
-        getAllEntries: () => object[];
-        getEmptyObject: () => object;
-        getDefaultElement: () => object;
+        addEntry: (mockEntry: object, odataRequest: ODataRequest) => void;
+        updateEntry: (keyValues: KeyDefinitions, newData: object, odataRequest: ODataRequest) => void;
+        removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
+        hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
+        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
+        hasEntries: (odataRequest: ODataRequest) => boolean;
+        getAllEntries: (odataRequest: ODataRequest) => object[];
+        getEmptyObject: (odataRequest: ODataRequest) => object;
+        getDefaultElement: (odataRequest: ODataRequest) => object;
         getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
         getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
+        checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
+        checkFilterValue: (
+            comparisonType: string,
+            mockValue: any,
+            literal: any,
+            operator: string,
+            odataRequest: ODataRequest
+        ) => boolean;
     };
 };
 
@@ -70,21 +103,37 @@ export class FunctionBasedMockData extends FileBasedMockData {
         this._mockDataFn.base = {
             generateMockData: super.generateMockData.bind(this),
             generateKey: super.generateKey.bind(this),
-            addEntry: super.addEntry.bind(this),
-            updateEntry: (keyValues: KeyDefinitions, patchData: object) => {
-                const data = this.fetchEntries(keyValues)[0];
+            addEntry: (postData: any) => {
+                this._entityType.keys.forEach((keyProp) => {
+                    if (postData[keyProp.name] === undefined || postData[keyProp.name].length === 0) {
+                        // Missing key
+                        if (keyProp.name === 'IsActiveEntity') {
+                            postData['IsActiveEntity'] = false;
+                        } else {
+                            postData[keyProp.name] = super.generateKey(keyProp);
+                        }
+                    }
+                });
+                let newObject = super.getEmptyObject({} as any);
+                newObject = Object.assign(newObject, postData);
+                return super.addEntry(newObject, {} as any);
+            },
+            updateEntry: (keyValues: KeyDefinitions, patchData: object, odataRequest) => {
+                const data = this.fetchEntries(keyValues, odataRequest)[0];
                 const updatedData = Object.assign(data, patchData);
-                return super.updateEntry(keyValues, updatedData);
+                return super.updateEntry(keyValues, updatedData, patchData, odataRequest);
             },
             removeEntry: super.removeEntry.bind(this),
             fetchEntries: super.fetchEntries.bind(this),
             hasEntry: super.hasEntry.bind(this),
             hasEntries: super.hasEntries.bind(this),
-            getAllEntries: super.getAllEntries.bind(this),
+            getAllEntries: super.getAllEntries.bind(this) as any,
             getEmptyObject: super.getEmptyObject.bind(this),
             getDefaultElement: super.getDefaultElement.bind(this),
             getParentEntityInterface: super.getParentEntityInterface.bind(this),
-            getEntityInterface: super.getEntityInterface.bind(this)
+            getEntityInterface: super.getEntityInterface.bind(this),
+            checkFilterValue: super.checkFilterValue.bind(this),
+            checkSearchQuery: super.checkSearchQuery.bind(this)
         };
         this._mockDataFn.throwError = function (
             message: string,
@@ -97,94 +146,109 @@ export class FunctionBasedMockData extends FileBasedMockData {
         };
     }
 
-    async addEntry(mockEntry: any): Promise<void> {
+    async addEntry(mockEntry: any, odataRequest: ODataRequest): Promise<void> {
         if (this._mockDataFn.addEntry) {
-            return this._mockDataFn.addEntry(mockEntry);
+            return this._mockDataFn.addEntry(mockEntry, odataRequest);
         }
-        return super.addEntry(mockEntry);
+        return super.addEntry(mockEntry, odataRequest);
     }
 
-    async updateEntry(keyValues: KeyDefinitions, updatedData: object): Promise<void> {
+    async updateEntry(
+        keyValues: KeyDefinitions,
+        newData: object,
+        updatedData: object,
+        odataRequest: ODataRequest
+    ): Promise<void> {
         if (this._mockDataFn.updateEntry) {
-            return this._mockDataFn.updateEntry(keyValues, updatedData);
+            return this._mockDataFn.updateEntry(keyValues, newData, updatedData, odataRequest);
         }
-        return super.updateEntry(keyValues, updatedData);
+        return super.updateEntry(keyValues, newData, updatedData, odataRequest);
     }
 
-    async removeEntry(keyValues: KeyDefinitions): Promise<void> {
+    async removeEntry(keyValues: KeyDefinitions, odataRequest: ODataRequest): Promise<void> {
         if (this._mockDataFn.removeEntry) {
-            return this._mockDataFn.removeEntry(keyValues);
+            return this._mockDataFn.removeEntry(keyValues, odataRequest);
         }
-        return super.removeEntry(keyValues);
+        return super.removeEntry(keyValues, odataRequest);
     }
 
-    fetchEntries(keyValues: KeyDefinitions): object[] {
+    fetchEntries(keyValues: KeyDefinitions, odataRequest: ODataRequest): object[] {
         if (this._mockDataFn?.fetchEntries) {
-            return this._mockDataFn.fetchEntries(keyValues);
+            return this._mockDataFn.fetchEntries(keyValues, odataRequest);
         } else {
-            return super.fetchEntries(keyValues);
+            return super.fetchEntries(keyValues, odataRequest);
         }
     }
 
-    hasEntry(keyValues: KeyDefinitions): boolean {
+    hasEntry(keyValues: KeyDefinitions, odataRequest: ODataRequest): boolean {
         if (this._mockDataFn.hasEntry) {
-            return this._mockDataFn.hasEntry(keyValues);
+            return this._mockDataFn.hasEntry(keyValues, odataRequest);
         }
-        return super.hasEntry(keyValues);
+        return super.hasEntry(keyValues, odataRequest);
     }
 
-    hasEntries(): boolean {
+    hasEntries(odataRequest: ODataRequest): boolean {
         if (this._mockDataFn.hasEntries) {
-            return this._mockDataFn.hasEntries();
+            return this._mockDataFn.hasEntries(odataRequest);
         }
-        return super.hasEntries();
+        return super.hasEntries(odataRequest);
     }
 
-    getEmptyObject(): object {
+    getEmptyObject(odataRequest: ODataRequest): object {
         if (this._mockDataFn?.getEmptyObject) {
-            return this._mockDataFn.getEmptyObject();
+            return this._mockDataFn.getEmptyObject(odataRequest);
         } else {
-            return super.getEmptyObject();
+            return super.getEmptyObject(odataRequest);
         }
     }
 
-    getDefaultElement(): object {
+    getDefaultElement(odataRequest: ODataRequest): object {
         if (this._mockDataFn?.getDefaultElement) {
-            return this._mockDataFn.getDefaultElement();
+            return this._mockDataFn.getDefaultElement(odataRequest);
         } else {
-            return super.getDefaultElement();
+            return super.getDefaultElement(odataRequest);
         }
     }
 
-    generateKey(property: Property, lineIndex: number) {
+    generateKey(property: Property, lineIndex: number, odataRequest: ODataRequest) {
         if (this._mockDataFn?.generateKey) {
-            return this._mockDataFn.generateKey(property);
+            return this._mockDataFn.generateKey(property, lineIndex, odataRequest);
         } else {
-            return super.generateKey(property, lineIndex);
+            return super.generateKey(property, lineIndex, odataRequest);
         }
     }
 
-    getAllEntries(dontClone: boolean = false): object[] {
+    getAllEntries(odataRequest: ODataRequest, dontClone: boolean = false): object[] {
         if (this._mockDataFn?.getAllEntries) {
-            return this._mockDataFn.getAllEntries(dontClone);
+            return this._mockDataFn.getAllEntries(odataRequest);
         } else {
-            return super.getAllEntries(dontClone);
+            return super.getAllEntries(odataRequest, dontClone);
         }
     }
 
-    async onBeforeAction(actionDefinition: Action, actionData: any, keys: Record<string, any>): Promise<object> {
+    async onBeforeAction(
+        actionDefinition: Action,
+        actionData: any,
+        keys: Record<string, any>,
+        odataRequest: ODataRequest
+    ): Promise<object> {
         if (this._mockDataFn?.onBeforeAction) {
-            return this._mockDataFn.onBeforeAction(actionDefinition, actionData, keys);
+            return this._mockDataFn.onBeforeAction(actionDefinition, actionData, keys, odataRequest);
         } else {
-            return super.onBeforeAction(actionDefinition, actionData, keys);
+            return super.onBeforeAction(actionDefinition, actionData, keys, odataRequest);
         }
     }
 
-    async executeAction(actionDefinition: Action, actionData: any, keys: Record<string, any>): Promise<object> {
+    async executeAction(
+        actionDefinition: Action,
+        actionData: any,
+        keys: Record<string, any>,
+        odataRequest: ODataRequest
+    ): Promise<object> {
         if (this._mockDataFn?.executeAction) {
-            return this._mockDataFn.executeAction(actionDefinition, actionData, keys);
+            return this._mockDataFn.executeAction(actionDefinition, actionData, keys, odataRequest);
         } else {
-            return super.executeAction(actionDefinition, actionData, keys);
+            return super.executeAction(actionDefinition, actionData, keys, odataRequest);
         }
     }
 
@@ -192,43 +256,72 @@ export class FunctionBasedMockData extends FileBasedMockData {
         actionDefinition: Action,
         actionData: any,
         keys: Record<string, any>,
-        responseData: any
+        responseData: any,
+        odataRequest: ODataRequest
     ): Promise<any> {
         if (this._mockDataFn?.onAfterAction) {
-            return this._mockDataFn.onAfterAction(actionDefinition, actionData, keys, responseData);
+            return this._mockDataFn.onAfterAction(actionDefinition, actionData, keys, responseData, odataRequest);
         } else {
-            return super.onAfterAction(actionDefinition, actionData, keys, responseData);
+            return super.onAfterAction(actionDefinition, actionData, keys, responseData, odataRequest);
         }
     }
 
-    async onAfterUpdateEntry(keyValues: KeyDefinitions, updatedData: object): Promise<void> {
+    async onAfterUpdateEntry(
+        keyValues: KeyDefinitions,
+        updatedData: object,
+        odataRequest: ODataRequest
+    ): Promise<void> {
         if (this._mockDataFn?.onAfterUpdateEntry) {
-            return this._mockDataFn.onAfterUpdateEntry(keyValues, updatedData);
+            return this._mockDataFn.onAfterUpdateEntry(keyValues, updatedData, odataRequest);
         } else {
-            return super.onAfterUpdateEntry(keyValues, updatedData);
+            return super.onAfterUpdateEntry(keyValues, updatedData, odataRequest);
         }
     }
 
-    async onBeforeUpdateEntry(keyValues: KeyDefinitions, updatedData: object): Promise<void> {
+    async onBeforeUpdateEntry(
+        keyValues: KeyDefinitions,
+        updatedData: object,
+        odataRequest: ODataRequest
+    ): Promise<void> {
         if (this._mockDataFn?.onBeforeUpdateEntry) {
-            return this._mockDataFn.onBeforeUpdateEntry(keyValues, updatedData);
+            return this._mockDataFn.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
         } else {
-            return super.onBeforeUpdateEntry(keyValues, updatedData);
+            return super.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
         }
     }
-    hasCustomAggregate(customAggregateName: string): boolean {
+    hasCustomAggregate(customAggregateName: string, odataRequest: ODataRequest): boolean {
         if (this._mockDataFn?.hasCustomAggregate) {
-            return this._mockDataFn.hasCustomAggregate(customAggregateName);
+            return this._mockDataFn.hasCustomAggregate(customAggregateName, odataRequest);
         } else {
-            return super.hasCustomAggregate(customAggregateName);
+            return super.hasCustomAggregate(customAggregateName, odataRequest);
         }
     }
 
-    performCustomAggregate(customAggregateName: string, dataToAggregate: any[]): any {
+    performCustomAggregate(customAggregateName: string, dataToAggregate: any[], odataRequest: ODataRequest): any {
         if (this._mockDataFn?.performCustomAggregate) {
-            return this._mockDataFn.performCustomAggregate(customAggregateName, dataToAggregate);
+            return this._mockDataFn.performCustomAggregate(customAggregateName, dataToAggregate, odataRequest);
         } else {
-            return super.performCustomAggregate(customAggregateName, dataToAggregate);
+            return super.performCustomAggregate(customAggregateName, dataToAggregate, odataRequest);
+        }
+    }
+    checkSearchQuery(mockValue: any, searchQuery: string, odataRequest: ODataRequest) {
+        if (this._mockDataFn?.checkSearchQuery) {
+            return this._mockDataFn.checkSearchQuery(mockValue, searchQuery, odataRequest);
+        } else {
+            return super.checkSearchQuery(mockValue, searchQuery, odataRequest);
+        }
+    }
+    checkFilterValue(
+        comparisonType: string,
+        mockValue: any,
+        literal: any,
+        operator: string,
+        odataRequest: ODataRequest
+    ) {
+        if (this._mockDataFn?.checkFilterValue) {
+            return this._mockDataFn.checkFilterValue(comparisonType, mockValue, literal, operator, odataRequest);
+        } else {
+            return super.checkFilterValue(comparisonType, mockValue, literal, operator, odataRequest);
         }
     }
 }

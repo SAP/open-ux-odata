@@ -1,0 +1,17 @@
+[
+    {
+        "ID": 1,
+        "Name": "My Name",
+        "Value": "My Value"
+    },
+    {
+        "ID": 2,
+        "Name": "Second Name",
+        "Value": "Second Value"
+    },
+    {
+        "ID": 3,
+        "Name": "Third Name",
+        "Value": "Third Value"
+    }
+]
