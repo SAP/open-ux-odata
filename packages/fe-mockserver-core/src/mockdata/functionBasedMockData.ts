@@ -155,14 +155,14 @@ export class FunctionBasedMockData extends FileBasedMockData {
 
     async updateEntry(
         keyValues: KeyDefinitions,
-        newData: object,
         updatedData: object,
+        patchData: object,
         odataRequest: ODataRequest
     ): Promise<void> {
         if (this._mockDataFn.updateEntry) {
-            return this._mockDataFn.updateEntry(keyValues, newData, updatedData, odataRequest);
+            return this._mockDataFn.updateEntry(keyValues, updatedData, patchData, odataRequest);
         }
-        return super.updateEntry(keyValues, newData, updatedData, odataRequest);
+        return super.updateEntry(keyValues, updatedData, patchData, odataRequest);
     }
 
     async removeEntry(keyValues: KeyDefinitions, odataRequest: ODataRequest): Promise<void> {

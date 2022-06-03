@@ -46,8 +46,8 @@ export class FileBasedMockData {
 
     async updateEntry(
         keyValues: KeyDefinitions,
-        newData: object,
         updatedData: object,
+        patchData: object,
         _odataRequest: ODataRequest
     ): Promise<void> {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
