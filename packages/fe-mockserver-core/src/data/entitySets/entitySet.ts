@@ -322,12 +322,30 @@ export class MockDataEntitySet implements EntitySetInterface {
             if (!Array.isArray(mockDataToCheckValue)) {
                 mockDataToCheckValue = [mockDataToCheckValue];
             }
+            if (identifier.expression.expressions) {
+                identifier.expression.expressions.forEach((entry: any) => {
+                    if (typeof entry.identifier === 'string') {
+                        entry.propertyPath = entry.identifier.replace(
+                            identifier.key,
+                            identifier.propertyPath || identifier.target
+                        );
+                    } else {
+                        entry.identifier.propertyPath = entry.identifier.target.replace(
+                            identifier.key,
+                            identifier.propertyPath || identifier.target
+                        );
+                    }
+                });
+            }
 
             mockDataToCheckValue.find((subMockData: any) => {
                 let mockDataToCheck = subMockData;
                 if (identifier.key && identifier.key.length > 0) {
                     mockDataToCheck = { [identifier.key]: subMockData };
                 }
+                // if (identifier.target && identifier.target.length > 0) {
+                //     mockDataToCheck = createSubData(identifier.target, subMockData);
+                // }
                 const isEntryValid = this.checkFilter(mockDataToCheck, identifier.expression, tenantId);
                 if (!isEntryValid) {
                     hasAllValid = false;
@@ -360,14 +378,9 @@ export class MockDataEntitySet implements EntitySetInterface {
             literal = true;
         }
         let property;
-        if (identifier.indexOf('/')) {
+        if (filterExpression.propertyPath) {
             // We're possibly in a lambda operation so let's try to see if the first part is a real property
-            const identifierSplit = identifier.split('/');
-            if (this.getProperty(identifierSplit[0])) {
-                property = this.getProperty(identifier);
-            } else {
-                property = this.getProperty(identifierSplit[1]);
-            }
+            property = this.getProperty(filterExpression.propertyPath);
         } else {
             property = this.getProperty(identifier);
         }

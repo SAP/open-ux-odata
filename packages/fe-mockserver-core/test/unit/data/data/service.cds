@@ -14,11 +14,16 @@ service MultiLevelExpand {
 
     entity B : AbstractEntity {
         _back   : Association to one MyEntityData;
-        SubSubArray : Association to many C
-                      on SubSubArray._back = $self;
+        SubArray : Association to many C
+                      on SubArray._back = $self;
     }
 
     entity C : AbstractEntity {
         _back : Association to one B;
+         SubSubArray : Association to many D
+                              on SubSubArray._back = $self;
     }
+    entity D : AbstractEntity {
+            _back : Association to one C;
+        }
 }
