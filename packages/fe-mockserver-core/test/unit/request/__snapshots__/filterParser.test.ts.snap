@@ -255,3 +255,86 @@ Object {
   "operator": "AND",
 }
 `;
+
+exports[`Filter Parser v4 complex filter 1`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "expressions": Array [
+        Object {
+          "identifier": Object {
+            "expression": Object {
+              "expressions": Array [
+                Object {
+                  "identifier": Object {
+                    "expression": Object {
+                      "expressions": Array [
+                        Object {
+                          "identifier": "a0/SitnInstceAttribName",
+                          "literal": "'CAMASSRUNDATE'",
+                          "operator": "eq",
+                        },
+                        Object {
+                          "identifier": Object {
+                            "expression": Object {
+                              "expressions": Array [
+                                Object {
+                                  "identifier": "a1/SitnInstceAttribValue",
+                                  "literal": "'20220601'",
+                                  "operator": "ge",
+                                },
+                              ],
+                            },
+                            "key": "a1",
+                            "operator": "ANY",
+                            "target": "a0/_AttributeValue",
+                            "type": "lambda",
+                          },
+                        },
+                        Object {
+                          "identifier": Object {
+                            "expression": Object {
+                              "expressions": Array [
+                                Object {
+                                  "identifier": "a1/SitnInstceAttribValue",
+                                  "literal": "'20220601'",
+                                  "operator": "le",
+                                },
+                              ],
+                            },
+                            "key": "a1",
+                            "operator": "ANY",
+                            "target": "a0/_AttributeValue",
+                            "type": "lambda",
+                          },
+                        },
+                      ],
+                      "operator": "AND",
+                    },
+                    "key": "a0",
+                    "operator": "ANY",
+                    "target": "t/_Attribute",
+                    "type": "lambda",
+                  },
+                },
+              ],
+            },
+            "key": "t",
+            "operator": "ANY",
+            "target": "_Trigger",
+            "type": "lambda",
+          },
+        },
+      ],
+      "isGroup": true,
+      "operator": undefined,
+    },
+    Object {
+      "identifier": "SitnBaseTemplateID",
+      "literal": "'FICA_MASSACT_MSG_MONITOR'",
+      "operator": "eq",
+    },
+  ],
+  "operator": "AND",
+}
+`;
