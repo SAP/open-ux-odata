@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.0.5
+
+### Patch Changes
+
+-   a3b8a5d: Add support for nested lambda functions
+-   Updated dependencies [a3b8a5d]
+    -   @sap-ux/fe-mockserver-core@1.0.4
+
 ## 2.0.4
 
 ### Patch Changes

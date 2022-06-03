@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.0.4
+
+### Patch Changes
+
+-   a3b8a5d: Add support for nested lambda functions
+
 ## 1.0.3
 
 ### Patch Changes
