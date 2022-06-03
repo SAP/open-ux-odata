@@ -1,0 +1,156 @@
+[
+    {
+        "BaseData": "FirstCheck",
+        "ArrayData": [
+            {
+                "SubArray": [
+                    {
+                        "Name": "Something",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220601"
+                            },
+                            {
+                                "Value": "20220608"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "BaseData": "FirstCheck",
+        "ArrayData": [
+            {
+                "SubArray": [
+                    {
+                        "Name": "Something",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220601"
+                            },
+                            {
+                                "Value": "20220608"
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "SomethingElse",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220601"
+                            },
+                            {
+                                "Value": "20220602"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "SubArray": [
+                    {
+                        "Name": "Something",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220602"
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "SomethingElse",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220601"
+                            },
+                            {
+                                "Value": "20220602"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "SubArray": [
+                    {
+                        "Name": "SomethingDifferent",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220602"
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "SomethingElse",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220601"
+                            },
+                            {
+                                "Value": "20220602"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "SubArray": [
+                    {
+                        "Name": "Something",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220608"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "BaseData": "FirstCheck",
+        "ArrayData": [
+            {
+                "SubArray": [
+                    {
+                        "Name": "SomethingDifferent",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220602"
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "SomethingElse",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220601"
+                            },
+                            {
+                                "Value": "20220602"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "BaseData": "FirstCheck",
+        "ArrayData": [
+            {
+                "SubArray": [
+                    {
+                        "Name": "Something",
+                        "SubSubArray": [
+                            {
+                                "Value": "20220608"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

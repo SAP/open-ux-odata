@@ -182,19 +182,41 @@ export class FilterParser extends EmbeddedActionsParser {
 
         $.lambdaOperator = $.RULE('lambdaOperator', () => {
             const anyAll = $.CONSUME(ANYALL);
-            const key = $.CONSUME(SIMPLEIDENTIFIER);
-            $.CONSUME(COLON);
-            const subExpr = $.SUBRULE($.boolCommonExpr);
-            $.OPTION(() => {
-                $.CONSUME(CLOSE);
-            });
-            return {
-                type: 'lambda',
-                operator: anyAll.image.toUpperCase().slice(0, anyAll.image.toUpperCase().length - 1),
-                key: key.image,
-                expression: subExpr.expressions && subExpr.expressions[0],
-                target: ''
-            };
+            const lambdaExpression = $.OR([
+                {
+                    ALT: () => {
+                        const key = $.CONSUME(SIMPLEIDENTIFIER);
+                        $.CONSUME(COLON);
+                        const subExpr = $.SUBRULE($.boolCommonExpr);
+                        $.OPTION(() => {
+                            $.CONSUME(CLOSE);
+                        });
+                        return {
+                            type: 'lambda',
+                            operator: anyAll.image.toUpperCase().slice(0, anyAll.image.toUpperCase().length - 1),
+                            key: key.image,
+                            expression: subExpr,
+                            target: ''
+                        };
+                    }
+                },
+                {
+                    ALT: () => {
+                        $.CONSUME2(OPEN);
+                        const subExpr = $.SUBRULE2($.boolCommonExpr);
+                        $.CONSUME2(CLOSE);
+                        return {
+                            type: 'lambda',
+                            operator: anyAll.image.toUpperCase().slice(0, anyAll.image.toUpperCase().length - 1),
+                            key: '',
+                            expression: subExpr,
+                            target: ''
+                        };
+                    }
+                }
+            ]);
+
+            return lambdaExpression as LambdaExpression;
         });
 
         $.memberExpr = $.RULE('memberExpr', () => {
@@ -212,9 +234,14 @@ export class FilterParser extends EmbeddedActionsParser {
                         ALT: () => $.SUBRULE($.lambdaOperator)
                     }
                 ]);
-                if (outMember.expression) {
+                if (outMember.type === 'lambda') {
                     // Lamba
-                    outMember.target = memberDef;
+                    if (outMember.target === '') {
+                        outMember.target = memberDef;
+                    } else {
+                        outMember.target = memberDef + '/' + outMember.target;
+                    }
+
                     memberDef = outMember;
                 } else {
                     memberDef += '/';

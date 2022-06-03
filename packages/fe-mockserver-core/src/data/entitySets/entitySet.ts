@@ -318,10 +318,32 @@ export class MockDataEntitySet implements EntitySetInterface {
             const lambdaOperator = identifier.operator;
             let hasAnyValid = false;
             let hasAllValid = true;
-            const mockDataToCheckValue = identifierTransformation(getData(mockData, identifier.target));
-            identifier.expression.identifier = identifier.expression.identifier.replace(identifier.key, '');
+            let mockDataToCheckValue = identifierTransformation(getData(mockData, identifier.target));
+            if (!Array.isArray(mockDataToCheckValue)) {
+                mockDataToCheckValue = [mockDataToCheckValue];
+            }
+            if (identifier.expression.expressions) {
+                identifier.expression.expressions.forEach((entry: any) => {
+                    if (typeof entry.identifier === 'string') {
+                        entry.propertyPath = entry.identifier.replace(
+                            identifier.key,
+                            identifier.propertyPath || identifier.target
+                        );
+                    } else {
+                        entry.identifier.propertyPath = entry.identifier.target.replace(
+                            identifier.key,
+                            identifier.propertyPath || identifier.target
+                        );
+                    }
+                });
+            }
+
             mockDataToCheckValue.find((subMockData: any) => {
-                const isEntryValid = this.checkSimpleExpression(identifier.expression, subMockData, tenantId);
+                let mockDataToCheck = subMockData;
+                if (identifier.key && identifier.key.length > 0) {
+                    mockDataToCheck = { [identifier.key]: subMockData };
+                }
+                const isEntryValid = this.checkFilter(mockDataToCheck, identifier.expression, tenantId);
                 if (!isEntryValid) {
                     hasAllValid = false;
                 } else {
@@ -352,8 +374,14 @@ export class MockDataEntitySet implements EntitySetInterface {
         } else if (!literal) {
             literal = true;
         }
+        let property;
+        if (filterExpression.propertyPath) {
+            // We're possibly in a lambda operation so let's try to see if the first part is a real property
+            property = this.getProperty(filterExpression.propertyPath);
+        } else {
+            property = this.getProperty(identifier);
+        }
 
-        const property = this.getProperty(identifier);
         if (!comparisonType) {
             comparisonType = property.type;
         }
@@ -456,12 +484,32 @@ export class MockDataEntitySet implements EntitySetInterface {
             case 'Edm.String':
             case 'Edm.Guid':
             default:
+                let targetLiteral = literal;
                 if (literal && literal.startsWith("guid'")) {
-                    isValid = mockValue === literal.substring(5, literal.length - 1);
+                    targetLiteral = literal.substring(5, literal.length - 1);
                 } else if (literal && literal.startsWith("'")) {
-                    isValid = mockValue === literal.substring(1, literal.length - 1);
-                } else {
-                    isValid = mockValue === literal;
+                    targetLiteral = literal.substring(1, literal.length - 1);
+                }
+                switch (operator) {
+                    case 'gt':
+                        isValid = mockValue > targetLiteral;
+                        break;
+                    case 'ge':
+                        isValid = mockValue >= targetLiteral;
+                        break;
+                    case 'lt':
+                        isValid = mockValue < targetLiteral;
+                        break;
+                    case 'le':
+                        isValid = mockValue <= targetLiteral;
+                        break;
+                    case 'ne':
+                        isValid = mockValue !== targetLiteral;
+                        break;
+                    case 'eq':
+                    default:
+                        isValid = mockValue === targetLiteral;
+                        break;
                 }
                 break;
         }
