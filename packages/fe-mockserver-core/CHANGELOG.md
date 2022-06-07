@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.0
+
+### Minor Changes
+
+-   32c6142: Improve the function based mockdata API
+
 ## 1.0.4
 
 ### Patch Changes

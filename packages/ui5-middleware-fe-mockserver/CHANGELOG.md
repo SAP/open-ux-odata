@@ -1,5 +1,16 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.0
+
+### Minor Changes
+
+-   32c6142: Improve the function based mockdata API
+
+### Patch Changes
+
+-   Updated dependencies [32c6142]
+    -   @sap-ux/fe-mockserver-core@1.1.0
+
 ## 2.0.5
 
 ### Patch Changes
