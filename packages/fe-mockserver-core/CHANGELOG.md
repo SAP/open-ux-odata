@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.1
+
+### Patch Changes
+
+-   af43ce7: Fix dependencies
+
 ## 1.1.0
 
 ### Minor Changes
