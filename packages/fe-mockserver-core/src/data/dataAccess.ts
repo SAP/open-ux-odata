@@ -339,7 +339,8 @@ export class DataAccess implements DataAccessInterface {
         requestExpandObject: Record<string, ExpandDefinition>,
         tenantId: string,
         previousEntitySet: EntitySet | Singleton | undefined,
-        visitedPaths: string[]
+        visitedPaths: string[],
+        odataRequest: ODataRequest
     ) {
         if (data === null) {
             return;
@@ -361,7 +362,7 @@ export class DataAccess implements DataAccessInterface {
                 if (navProp && !navProp.containsTarget) {
                     let expandData = dataLine[expandNavProp];
                     if (!expandData) {
-                        expandData = navEntitySet.performGET(currentKeys, navProp.isCollection, tenantId);
+                        expandData = navEntitySet.performGET(currentKeys, navProp.isCollection, tenantId, odataRequest);
                         dataLine[expandNavProp] = expandData;
                     }
                     const expandDetail = requestExpandObject[expandNavProp];
@@ -376,7 +377,8 @@ export class DataAccess implements DataAccessInterface {
                                     expandDetail.expand,
                                     tenantId,
                                     targetEntitySet,
-                                    []
+                                    [],
+                                    odataRequest
                                 );
                             })
                         );
@@ -579,7 +581,7 @@ export class DataAccess implements DataAccessInterface {
                         targetContainedEntityType,
                         targetContainedData
                     )
-                ).performGET(currentKeys, asArray, odataRequest.tenantId, dontClone, odataRequest);
+                ).performGET(currentKeys, asArray, odataRequest.tenantId, odataRequest, dontClone);
             },
             Promise.resolve({})
         );
@@ -626,7 +628,8 @@ export class DataAccess implements DataAccessInterface {
                             odataRequest.expandProperties,
                             odataRequest.tenantId,
                             previousEntitySet,
-                            visitedPaths
+                            visitedPaths,
+                            odataRequest
                         );
                     })
                 );
@@ -639,14 +642,14 @@ export class DataAccess implements DataAccessInterface {
                     currentEntitySet ? currentEntitySet.name : currentEntityType.name
                 );
                 data = data.filter((dataLine) => {
-                    return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId);
+                    return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId, odataRequest);
                 });
             }
             // Apply $search
             if (odataRequest.searchQuery && Array.isArray(data)) {
                 const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
                 data = data.filter((dataLine) => {
-                    return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery);
+                    return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
                 });
             }
 
@@ -880,6 +883,7 @@ export class DataAccess implements DataAccessInterface {
             odataRequest.queryPath[0].keys,
             patchData,
             odataRequest.tenantId,
+            odataRequest,
             true
         );
     }
@@ -899,6 +903,7 @@ export class DataAccess implements DataAccessInterface {
                 odataRequest.queryPath[0].keys,
                 false,
                 odataRequest.tenantId,
+                odataRequest,
                 true
             );
 
@@ -932,6 +937,7 @@ export class DataAccess implements DataAccessInterface {
                     currentKeys,
                     postData,
                     odataRequest.tenantId,
+                    odataRequest,
                     true
                 );
             } else {
@@ -953,6 +959,7 @@ export class DataAccess implements DataAccessInterface {
                 currentKeys,
                 postData,
                 odataRequest.tenantId,
+                odataRequest,
                 true
             );
             odataRequest.setContext(`../$metadata#${entitySet.name}/$entity`);
@@ -972,7 +979,7 @@ export class DataAccess implements DataAccessInterface {
     public async deleteData(odataRequest: ODataRequest) {
         const entitySetName = odataRequest.queryPath[0].path;
         const mockEntitySet = await this.getMockEntitySet(entitySetName);
-        return mockEntitySet.performDELETE(odataRequest.queryPath[0].keys, odataRequest.tenantId, true);
+        return mockEntitySet.performDELETE(odataRequest.queryPath[0].keys, odataRequest.tenantId, odataRequest, true);
     }
     public async getDraftRoot(keyValues: KeyDefinitions, _tenantId: string, entitySetDefinition: EntitySet) {
         let data = {};

@@ -41,19 +41,24 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         return this.currentUUID;
     }
 
-    public async performPATCH(keyValues: KeyDefinitions, patchData: object, tenantId: string): Promise<any> {
+    public async performPATCH(
+        keyValues: KeyDefinitions,
+        patchData: object,
+        tenantId: string,
+        odataRequest: ODataRequest
+    ): Promise<any> {
         keyValues = this.prepareKeys(keyValues);
-        const data = this.performGET(keyValues, false, tenantId);
+        const data = this.performGET(keyValues, false, tenantId, odataRequest);
         const currentMockData = this.getMockData(tenantId);
         const updatedData = Object.assign(data, patchData);
-        await currentMockData.onBeforeUpdateEntry(keyValues, updatedData);
+        await currentMockData.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
         if (updatedData.__transient) {
             this.setSessionObject(tenantId, updatedData);
         } else {
-            await currentMockData.updateEntry(keyValues, updatedData);
+            await currentMockData.updateEntry(keyValues, updatedData, patchData, odataRequest);
         }
 
-        await currentMockData.onAfterUpdateEntry(keyValues, updatedData);
+        await currentMockData.onAfterUpdateEntry(keyValues, updatedData, odataRequest);
 
         return updatedData;
     }
@@ -66,12 +71,12 @@ export class StickyMockEntitySet extends MockDataEntitySet {
     ): Promise<any> {
         const currentMockData = this.getMockData(odataRequest.tenantId);
         keys = this.prepareKeys(keys);
-        actionData = await currentMockData.onBeforeAction(actionDefinition, actionData, keys);
+        actionData = await currentMockData.onBeforeAction(actionDefinition, actionData, keys, odataRequest);
         let responseObject;
         switch (actionDefinition.fullyQualifiedName) {
             // Draft Edit Action
             case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.EditAction}(${actionDefinition.sourceType})`: {
-                const data = this.performGET(keys, false, odataRequest.tenantId);
+                const data = this.performGET(keys, false, odataRequest.tenantId, odataRequest);
                 const duplicate = Object.assign({}, data);
                 this.setSessionObject(odataRequest.tenantId, duplicate);
                 this.addSessionToken(odataRequest);
@@ -120,9 +125,9 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 const newData = this.getSessionObject(odataRequest.tenantId);
                 if (newData.__keys) {
                     // Key needs to be filled now
-                    await currentMockData.updateEntry(newData.__keys, newData);
+                    await currentMockData.updateEntry(newData.__keys, newData, newData, odataRequest);
                 } else {
-                    await this.performPOST({}, newData, odataRequest.tenantId);
+                    await this.performPOST({}, newData, odataRequest.tenantId, odataRequest);
                 }
 
                 this.setSessionObject(odataRequest.tenantId, null);
@@ -133,7 +138,13 @@ export class StickyMockEntitySet extends MockDataEntitySet {
             default:
                 break;
         }
-        responseObject = await currentMockData.onAfterAction(actionDefinition, actionData, keys, responseObject);
+        responseObject = await currentMockData.onAfterAction(
+            actionDefinition,
+            actionData,
+            keys,
+            responseObject,
+            odataRequest
+        );
         return responseObject;
     }
 
@@ -148,8 +159,8 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         keyValues: KeyDefinitions,
         asArray: boolean,
         tenantId: string,
-        dontClone = false,
-        odataRequest?: ODataRequest
+        odataRequest: ODataRequest,
+        dontClone = false
     ): any {
         const currentSessionObject = this.getSessionObject(tenantId);
         if (currentSessionObject && keyValues && Object.keys(keyValues).length) {
@@ -165,6 +176,6 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 return cloneDeep(currentSessionObject);
             }
         }
-        return super.performGET(keyValues, asArray, tenantId, dontClone);
+        return super.performGET(keyValues, asArray, tenantId, odataRequest, dontClone);
     }
 }

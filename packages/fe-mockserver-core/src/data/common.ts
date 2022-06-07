@@ -7,8 +7,8 @@ import type { IFileLoader } from '../index';
 
 export interface EntitySetInterface {
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
-    checkFilter(mockData: object, filterExpression: any, tenantId: string): boolean;
-    checkSearch(mockData: object, searchQueries: string[]): boolean;
+    checkFilter(mockData: object, filterExpression: any, tenantId: string, odataRequest: ODataRequest): boolean;
+    checkSearch(mockData: object, searchQueries: string[], odataRequest: ODataRequest): boolean;
     executeAction(
         actionDefinition: Action,
         actionData: object | undefined,
@@ -19,12 +19,29 @@ export interface EntitySetInterface {
         keyValues: KeyDefinitions,
         asArray: boolean,
         tenantId: string,
-        dontClone?: boolean,
-        odataRequest?: ODataRequest
+        odataRequest: ODataRequest,
+        dontClone?: boolean
     ): Promise<any>;
-    performPOST(keyValues: KeyDefinitions, postData: any, tenantId: string, _updateParent?: boolean): Promise<any>;
-    performPATCH(keyValues: KeyDefinitions, patchData: object, tenantId: string, _updateParent?: boolean): Promise<any>;
-    performDELETE(keyValues: KeyDefinitions, tenantId: string, _updateParent?: boolean): Promise<void>;
+    performPOST(
+        keyValues: KeyDefinitions,
+        postData: any,
+        tenantId: string,
+        odataRequest: ODataRequest,
+        _updateParent?: boolean
+    ): Promise<any>;
+    performPATCH(
+        keyValues: KeyDefinitions,
+        patchData: object,
+        tenantId: string,
+        odataRequest: ODataRequest,
+        _updateParent?: boolean
+    ): Promise<any>;
+    performDELETE(
+        keyValues: KeyDefinitions,
+        tenantId: string,
+        odataRequest: ODataRequest,
+        _updateParent?: boolean
+    ): Promise<void>;
     getParentEntityInterface(tenantId: string): Promise<FileBasedMockData | undefined>;
     getEntityInterface(entitySetName: string, tenantId: string): Promise<FileBasedMockData | undefined>;
     getMockData(tenantId: string): FileBasedMockData;

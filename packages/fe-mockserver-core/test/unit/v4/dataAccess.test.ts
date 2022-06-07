@@ -640,7 +640,7 @@ describe('Data Access', () => {
         // Activate it
         let actionResult = await dataAccess.performAction(
             new ODataRequest(
-                { method: 'GET', url: '/Part3(ID=2,IsActiveEntity=false)/sap.fe.core.Form.draftActivate' },
+                { method: 'GET', url: '/Part3(ID=151,IsActiveEntity=false)/sap.fe.core.Form.draftActivate' },
                 dataAccess
             )
         );
@@ -649,7 +649,7 @@ describe('Data Access', () => {
         expect(part3Data.length).toEqual(151);
 
         const part3Update = await dataAccess.updateData(
-            new ODataRequest({ method: 'GET', url: '/Part3(ID=2,IsActiveEntity=true)' }, dataAccess),
+            new ODataRequest({ method: 'GET', url: '/Part3(ID=151,IsActiveEntity=true)' }, dataAccess),
             {
                 number: 7
             }
@@ -666,7 +666,7 @@ describe('Data Access', () => {
 
         actionResult = await dataAccess.performAction(
             new ODataRequest(
-                { method: 'GET', url: '/Part3(ID=2,IsActiveEntity=true)/sap.fe.core.Form.boundAction1' },
+                { method: 'GET', url: '/Part3(ID=151,IsActiveEntity=true)/sap.fe.core.Form.boundAction1' },
                 dataAccess
             )
         );

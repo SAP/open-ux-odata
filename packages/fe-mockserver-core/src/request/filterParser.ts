@@ -60,12 +60,13 @@ type FilterMethodCall = {
     method: string;
     methodArgs: string[];
 };
-type LambdaExpression = {
+export type LambdaExpression = {
     type: 'lambda';
     operator: string;
     key: string;
     expression: FilterExpression;
     target: string;
+    propertyPath?: string;
 };
 export type FilterExpression = {
     expressions: FilterExpression[];

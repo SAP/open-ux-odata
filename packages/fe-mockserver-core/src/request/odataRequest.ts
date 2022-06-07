@@ -62,6 +62,7 @@ export default class ODataRequest {
     public responseData: any;
     private allParams: URLSearchParams;
     private context: string;
+    private messages: any[] = [];
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const decodedUrl = requestContent.url;
@@ -371,6 +372,10 @@ export default class ODataRequest {
     }
     public getResponseData() {
         this.addResponseHeader('content-type', 'application/json;odata.metadata=minimal;IEEE754Compatible=true');
+        if (this.messages.length) {
+            this.addResponseHeader('sap-messages', JSON.stringify(this.messages));
+        }
+
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
             this.addResponseHeader('odata-version', '4.0');
         } else {
@@ -409,6 +414,12 @@ export default class ODataRequest {
             // V2
             return JSON.stringify(this.responseData);
         }
+    }
+    public addMessage(code: number, message: string, severity: number, target: string) {
+        this.addCustomMessage({ code, message, numericSeverity: severity, target });
+    }
+    public addCustomMessage(messageData: any) {
+        this.messages.push(messageData);
     }
     public addResponseHeader(headerName: string, headerValue: string) {
         this.responseHeaders[headerName] = headerValue;
