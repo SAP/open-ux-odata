@@ -151,14 +151,16 @@ describe('The config resolver', () => {
                         debug: false,
                         strictKeyMode: false,
                         contextBasedIsolation: false,
-                        noETag: false
+                        noETag: false,
+                        generateMockData: false
                     }
                 ],
                 watch: true,
                 debug: true,
                 strictKeyMode: true,
                 contextBasedIsolation: true,
-                noETag: true
+                noETag: true,
+                generateMockData: true
             },
             '/'
         );
@@ -172,5 +174,7 @@ describe('The config resolver', () => {
         expect(myBaseResolvedConfig.services[1].contextBasedIsolation).toBe(false);
         expect(myBaseResolvedConfig.services[0].noETag).toBe(true);
         expect(myBaseResolvedConfig.services[1].noETag).toBe(false);
+        expect(myBaseResolvedConfig.services[0].generateMockData).toBe(true);
+        expect(myBaseResolvedConfig.services[1].generateMockData).toBe(false);
     });
 });

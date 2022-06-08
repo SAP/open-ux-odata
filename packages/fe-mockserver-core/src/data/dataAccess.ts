@@ -50,6 +50,9 @@ export class DataAccess implements DataAccessInterface {
         this.generateMockData = !!service.generateMockData;
         this.contextBasedIsolation = !!service.contextBasedIsolation;
         this.fileLoader = fileLoader;
+        if (this.generateMockData && this.debug) {
+            this.log.info('Missing mockdata will be generated');
+        }
         this.initializeMockData();
     }
 

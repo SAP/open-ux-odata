@@ -50,6 +50,7 @@ export interface BaseServerConfig {
     watch?: boolean;
     noETag?: boolean;
     contextBasedIsolation?: boolean;
+    generateMockData?: boolean;
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
     metadataProcessor?: {
@@ -91,6 +92,7 @@ export type ServiceConfigEx = ServiceConfig & {
 export interface MockserverConfiguration {
     debug?: boolean;
     contextBasedIsolation?: boolean;
+    generateMockData?: boolean;
     watch?: boolean;
     strictKeyMode?: boolean;
     annotations?: AnnotationConfig[];
