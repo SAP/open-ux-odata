@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.2
+
+### Patch Changes
+
+-   8df5691: Fix mock data generation and reorganize some part of the code
+
 ## 1.1.1
 
 ### Patch Changes
