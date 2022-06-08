@@ -21,6 +21,10 @@ describe('FE Mockserver CDS Plugin', () => {
         const edmx = await myCDSProvider.loadMetadata(path.join(cdsDataPath, 'valid-withCommon.cds'));
         expect(edmx).toMatchSnapshot();
     });
+    it('can compile valid CDS file using more common stuff', async () => {
+        const edmx = await myCDSProvider.loadMetadata(path.join(cdsDataPath, 'valid-withmorecommon.cds'));
+        expect(edmx).toMatchSnapshot();
+    });
     it('can also load XML files', async () => {
         const edmx = await myCDSProvider.loadMetadata(path.join(xmlDataPath, 'valid.xml'));
         expect(edmx).toMatchSnapshot();

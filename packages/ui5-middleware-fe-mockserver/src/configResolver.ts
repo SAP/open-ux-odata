@@ -79,6 +79,7 @@ function processServicesConfig(
             noETag: inService.noETag,
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
+            generateMockData: inService.generateMockData,
             contextBasedIsolation: inService.contextBasedIsolation
         } as any;
         const metadataPath = inService.metadataPath || inService.metadataXmlPath || inService.metadataCdsPath;
@@ -109,6 +110,9 @@ function processServicesConfig(
         if (inConfig.contextBasedIsolation && !inService.hasOwnProperty('contextBasedIsolation')) {
             myServiceConfig.contextBasedIsolation = inConfig.contextBasedIsolation;
         }
+        if (inConfig.generateMockData && !inService.hasOwnProperty('generateMockData')) {
+            myServiceConfig.generateMockData = inConfig.generateMockData;
+        }
 
         return myServiceConfig;
     });
@@ -138,6 +142,7 @@ export function resolveConfig(inConfig: ServerConfig, basePath: string): Mockser
         watch: !!inConfig.watch,
         strictKeyMode: !!inConfig.strictKeyMode,
         debug: !!inConfig.debug,
+        generateMockData: !!inConfig.generateMockData,
         annotations: annotations,
         services: services,
         fileLoader: inConfig.fileLoader,

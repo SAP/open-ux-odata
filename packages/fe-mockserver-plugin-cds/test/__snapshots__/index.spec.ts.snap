@@ -478,3 +478,316 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
   </edmx:DataServices>
 </edmx:Edmx>"
 `;
+
+exports[`FE Mockserver CDS Plugin can compile valid CDS file using more common stuff 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+<edmx:Edmx Version=\\"4.0\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
+  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\">
+    <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+  </edmx:Reference>
+  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\">
+    <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+  </edmx:Reference>
+  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml\\">
+    <edmx:Include Alias=\\"Measures\\" Namespace=\\"Org.OData.Measures.V1\\"/>
+  </edmx:Reference>
+  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/UI.xml\\">
+    <edmx:Include Alias=\\"UI\\" Namespace=\\"com.sap.vocabularies.UI.v1\\"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace=\\"Service\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
+      <EntityContainer Name=\\"EntityContainer\\">
+        <EntitySet Name=\\"RootEntity\\" EntityType=\\"Service.RootEntity\\">
+          <NavigationPropertyBinding Path=\\"SiblingEntity\\" Target=\\"RootEntity\\"/>
+        </EntitySet>
+        <EntitySet Name=\\"RootEntity2\\" EntityType=\\"Service.RootEntity2\\"/>
+        <EntitySet Name=\\"ValueHelpEntity\\" EntityType=\\"Service.ValueHelpEntity\\"/>
+        <EntitySet Name=\\"ValueHelpCurrencyEntity\\" EntityType=\\"Service.ValueHelpCurrencyEntity\\"/>
+      </EntityContainer>
+      <EntityType Name=\\"RootEntity\\">
+        <Key>
+          <PropertyRef Name=\\"ID\\"/>
+          <PropertyRef Name=\\"IsActiveEntity\\"/>
+        </Key>
+        <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
+        <Property Name=\\"StringProperty\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"IntegerProperty\\" Type=\\"Edm.Int32\\"/>
+        <Property Name=\\"NumberProperty\\" Type=\\"Edm.Decimal\\" Scale=\\"2\\" Precision=\\"4\\"/>
+        <Property Name=\\"BooleanProperty\\" Type=\\"Edm.Boolean\\"/>
+        <Property Name=\\"DateProperty\\" Type=\\"Edm.Date\\"/>
+        <Property Name=\\"TimeProperty\\" Type=\\"Edm.TimeOfDay\\"/>
+        <Property Name=\\"PropertyWithUnit\\" Type=\\"Edm.Int64\\"/>
+        <Property Name=\\"PropertyWithCurrency\\" Type=\\"Edm.Int64\\"/>
+        <Property Name=\\"Unit\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"Currency\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"TextProperty\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"TextArrangementTextOnlyProperty\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"TextArrangementTextLastProperty\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"TextArrangementTextFirstProperty\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"TextArrangementTextSeparateProperty\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"PropertyWithValueHelp\\" Type=\\"Edm.String\\"/>
+        <Property Name=\\"IsActiveEntity\\" Type=\\"Edm.Boolean\\" Nullable=\\"false\\" DefaultValue=\\"true\\"/>
+        <Property Name=\\"HasActiveEntity\\" Type=\\"Edm.Boolean\\" Nullable=\\"false\\" DefaultValue=\\"false\\"/>
+        <Property Name=\\"HasDraftEntity\\" Type=\\"Edm.Boolean\\" Nullable=\\"false\\" DefaultValue=\\"false\\"/>
+        <NavigationProperty Name=\\"DraftAdministrativeData\\" Type=\\"Service.DraftAdministrativeData\\" ContainsTarget=\\"true\\"/>
+        <NavigationProperty Name=\\"SiblingEntity\\" Type=\\"Service.RootEntity\\"/>
+      </EntityType>
+      <EntityType Name=\\"RootEntity2\\">
+        <Key>
+          <PropertyRef Name=\\"ID\\"/>
+        </Key>
+        <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
+        <Property Name=\\"StringProperty\\" Type=\\"Edm.String\\"/>
+      </EntityType>
+      <EntityType Name=\\"ValueHelpEntity\\">
+        <Key>
+          <PropertyRef Name=\\"KeyProp\\"/>
+        </Key>
+        <Property Name=\\"KeyProp\\" Type=\\"Edm.String\\" MaxLength=\\"1\\" Nullable=\\"false\\"/>
+        <Property Name=\\"Description\\" Type=\\"Edm.String\\" MaxLength=\\"20\\"/>
+      </EntityType>
+      <EntityType Name=\\"ValueHelpCurrencyEntity\\">
+        <Key>
+          <PropertyRef Name=\\"Currency\\"/>
+        </Key>
+        <Property Name=\\"Currency\\" Type=\\"Edm.String\\" MaxLength=\\"3\\" Nullable=\\"false\\"/>
+        <Property Name=\\"Description\\" Type=\\"Edm.String\\" MaxLength=\\"20\\"/>
+      </EntityType>
+      <EntityType Name=\\"DraftAdministrativeData\\">
+        <Key>
+          <PropertyRef Name=\\"DraftUUID\\"/>
+        </Key>
+        <Property Name=\\"DraftUUID\\" Type=\\"Edm.Guid\\" Nullable=\\"false\\"/>
+        <Property Name=\\"CreationDateTime\\" Type=\\"Edm.DateTimeOffset\\" Precision=\\"7\\"/>
+        <Property Name=\\"CreatedByUser\\" Type=\\"Edm.String\\" MaxLength=\\"256\\"/>
+        <Property Name=\\"DraftIsCreatedByMe\\" Type=\\"Edm.Boolean\\"/>
+        <Property Name=\\"LastChangeDateTime\\" Type=\\"Edm.DateTimeOffset\\" Precision=\\"7\\"/>
+        <Property Name=\\"LastChangedByUser\\" Type=\\"Edm.String\\" MaxLength=\\"256\\"/>
+        <Property Name=\\"InProcessByUser\\" Type=\\"Edm.String\\" MaxLength=\\"256\\"/>
+        <Property Name=\\"DraftIsProcessedByMe\\" Type=\\"Edm.Boolean\\"/>
+      </EntityType>
+      <Action Name=\\"draftPrepare\\" IsBound=\\"true\\" EntitySetPath=\\"in\\">
+        <Parameter Name=\\"in\\" Type=\\"Service.RootEntity\\"/>
+        <Parameter Name=\\"SideEffectsQualifier\\" Type=\\"Edm.String\\"/>
+        <ReturnType Type=\\"Service.RootEntity\\"/>
+      </Action>
+      <Action Name=\\"draftActivate\\" IsBound=\\"true\\" EntitySetPath=\\"in\\">
+        <Parameter Name=\\"in\\" Type=\\"Service.RootEntity\\"/>
+        <ReturnType Type=\\"Service.RootEntity\\"/>
+      </Action>
+      <Action Name=\\"draftEdit\\" IsBound=\\"true\\" EntitySetPath=\\"in\\">
+        <Parameter Name=\\"in\\" Type=\\"Service.RootEntity\\"/>
+        <Parameter Name=\\"PreserveChanges\\" Type=\\"Edm.Boolean\\"/>
+        <ReturnType Type=\\"Service.RootEntity\\"/>
+      </Action>
+      <Annotations Target=\\"Service.RootEntity\\">
+        <Annotation Term=\\"UI.LineItem\\">
+          <Collection>
+            <Record Type=\\"UI.DataField\\">
+              <PropertyValue Property=\\"Value\\" Path=\\"ID\\"/>
+            </Record>
+            <Record Type=\\"UI.DataField\\">
+              <PropertyValue Property=\\"Value\\" Path=\\"BooleanProperty\\"/>
+            </Record>
+            <Record Type=\\"UI.DataField\\">
+              <PropertyValue Property=\\"Value\\" Path=\\"TextArrangementTextFirstProperty\\"/>
+            </Record>
+            <Record Type=\\"UI.DataField\\">
+              <PropertyValue Property=\\"Value\\" Path=\\"PropertyWithValueHelp\\"/>
+            </Record>
+            <Record Type=\\"UI.DataField\\">
+              <PropertyValue Property=\\"Value\\" Path=\\"PropertyWithCurrency\\"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target=\\"Service.EntityContainer/RootEntity\\">
+        <Annotation Term=\\"Common.DraftRoot\\">
+          <Record Type=\\"Common.DraftRootType\\">
+            <PropertyValue Property=\\"ActivationAction\\" String=\\"Service.draftActivate\\"/>
+            <PropertyValue Property=\\"EditAction\\" String=\\"Service.draftEdit\\"/>
+            <PropertyValue Property=\\"PreparationAction\\" String=\\"Service.draftPrepare\\"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/ID\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"ID\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/StringProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"String\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/IntegerProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"Integer\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/NumberProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"Number\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/BooleanProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"Boolean\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/DateProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"Date\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/TimeProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"Time\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/PropertyWithUnit\\">
+        <Annotation Term=\\"Measures.Unit\\" Path=\\"Unit\\"/>
+        <Annotation Term=\\"Common.Label\\" String=\\"With Unit\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/PropertyWithCurrency\\">
+        <Annotation Term=\\"Measures.ISOCurrency\\" Path=\\"Currency\\"/>
+        <Annotation Term=\\"Common.Label\\" String=\\"With Currency\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/Unit\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"UoM\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/Currency\\">
+        <Annotation Term=\\"Common.ValueListWithFixedValues\\" Bool=\\"true\\"/>
+        <Annotation Term=\\"Common.ValueList\\">
+          <Record Type=\\"Common.ValueListType\\">
+            <PropertyValue Property=\\"Label\\" String=\\"Currency Value Help\\"/>
+            <PropertyValue Property=\\"CollectionPath\\" String=\\"ValueHelpCurrencyEntity\\"/>
+            <PropertyValue Property=\\"Parameters\\">
+              <Collection>
+                <Record Type=\\"Common.ValueListParameterInOut\\">
+                  <PropertyValue Property=\\"LocalDataProperty\\" PropertyPath=\\"Currency\\"/>
+                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"Currency\\"/>
+                </Record>
+                <Record Type=\\"Common.ValueListParameterDisplayOnly\\">
+                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"Description\\"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term=\\"Common.Label\\" String=\\"Currency\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/TextProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"Text\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/TextArrangementTextOnlyProperty\\">
+        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
+          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextOnly\\"/>
+        </Annotation>
+        <Annotation Term=\\"Common.Label\\" String=\\"Text Only\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/TextArrangementTextLastProperty\\">
+        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
+          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextLast\\"/>
+        </Annotation>
+        <Annotation Term=\\"Common.Label\\" String=\\"Text Last\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/TextArrangementTextFirstProperty\\">
+        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
+          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextFirst\\"/>
+        </Annotation>
+        <Annotation Term=\\"Common.Label\\" String=\\"Text First\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/TextArrangementTextSeparateProperty\\">
+        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
+          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextSeparate\\"/>
+        </Annotation>
+        <Annotation Term=\\"Common.Label\\" String=\\"TextSeparate\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/PropertyWithValueHelp\\">
+        <Annotation Term=\\"Common.ValueList\\">
+          <Record Type=\\"Common.ValueListType\\">
+            <PropertyValue Property=\\"Label\\" String=\\"Value with Value Help\\"/>
+            <PropertyValue Property=\\"CollectionPath\\" String=\\"ValueHelpEntity\\"/>
+            <PropertyValue Property=\\"Parameters\\">
+              <Collection>
+                <Record Type=\\"Common.ValueListParameterInOut\\">
+                  <PropertyValue Property=\\"LocalDataProperty\\" PropertyPath=\\"PropertyWithValueHelp\\"/>
+                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"KeyProp\\"/>
+                </Record>
+                <Record Type=\\"Common.ValueListParameterDisplayOnly\\">
+                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"Description\\"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term=\\"Common.Label\\" String=\\"With Value Help\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/IsActiveEntity\\">
+        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/HasActiveEntity\\">
+        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/HasDraftEntity\\">
+        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity/DraftAdministrativeData\\">
+        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity2\\">
+        <Annotation Term=\\"UI.LineItem\\">
+          <Collection>
+            <Record Type=\\"UI.DataField\\">
+              <PropertyValue Property=\\"Value\\" Path=\\"ID\\"/>
+            </Record>
+            <Record Type=\\"UI.DataField\\">
+              <PropertyValue Property=\\"Value\\" Path=\\"StringProperty\\"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity2/ID\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"ID\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.RootEntity2/StringProperty\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"String\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.ValueHelpEntity/KeyProp\\">
+        <Annotation Term=\\"Common.Text\\" Path=\\"Description\\">
+          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextFirst\\"/>
+        </Annotation>
+        <Annotation Term=\\"Common.Label\\" String=\\"Value Help Key\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.ValueHelpEntity/Description\\">
+        <Annotation Term=\\"Core.Immutable\\" Bool=\\"true\\"/>
+        <Annotation Term=\\"Common.Label\\" String=\\"Value Help Description\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.ValueHelpCurrencyEntity/Currency\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"Currency Key\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.ValueHelpCurrencyEntity/Description\\">
+        <Annotation Term=\\"Core.Immutable\\" Bool=\\"true\\"/>
+        <Annotation Term=\\"Common.Label\\" String=\\"Currency Name\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftAdministrativeData}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/DraftUUID\\">
+        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftUUID}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/CreationDateTime\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_CreationDateTime}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/CreatedByUser\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_CreatedByUser}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/DraftIsCreatedByMe\\">
+        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftIsCreatedByMe}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/LastChangeDateTime\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_LastChangeDateTime}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/LastChangedByUser\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_LastChangedByUser}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/InProcessByUser\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_InProcessByUser}\\"/>
+      </Annotations>
+      <Annotations Target=\\"Service.DraftAdministrativeData/DraftIsProcessedByMe\\">
+        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftIsProcessedByMe}\\"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>"
+`;
