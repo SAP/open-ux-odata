@@ -50,14 +50,14 @@ server:
       configuration:
         annotations:
           - localPath: './webapp/localService/myServiceAnnotation.xml'
-          urlPath: '/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations*'
+            urlPath: '/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations*'
         services:
           - urlPath: '/sap/opu/odata/sap/<SERVICE_NAME>'
-          metadataPath: './webapp/localService/metadata.xml'
-          mockdataPath: './webapp/localService/data'
+            metadataPath: './webapp/localService/metadata.xml'
+            mockdataPath: './webapp/localService/data'
           - urlPath: '/sap/opu/odata/sap/<OTHER_SERVICE_NAME>'
-          metadataPath: './webapp/localService/other_metadata.xml'
-          mockdataPath: './webapp/localService/data'
+            metadataPath: './webapp/localService/other_metadata.xml'
+            mockdataPath: './webapp/localService/data'
 
 ```
 
