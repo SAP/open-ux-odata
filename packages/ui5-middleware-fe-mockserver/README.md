@@ -40,24 +40,24 @@ In order to use the mock server, the npm module `@sap/ux-ui5-fe-mockserver-middl
 
 specVersion: '2.0'
 metadata:
-    name: <NAME>
+  name: <NAME>
 type: application
 server:
-    customMiddleware:
-        - name: sap-fe-mockserver
-          mountPath: /
-          afterMiddleware: compression
-          configuration:
-            annotations:
-              localPath: './webapp/annotations/annotation.xml'
-              urlPath: '/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations*'
-            services:
-              - urlPath: '/sap/opu/odata/sap/<SERVICE_NAME>'
-              metadataPath: './webapp/localService/metadata.xml'
-              mockdataPath: './webapp/localService/data'
-              - urlPath: '/sap/opu/odata/sap/<OTHER_SERVICE_NAME>'
-              metadataPath: './webapp/localService/other_metadata.xml'
-              mockdataPath: './webapp/localService/data'
+  customMiddleware:
+    - name: sap-fe-mockserver
+      mountPath: /
+      afterMiddleware: compression
+      configuration:
+        annotations:
+          - localPath: './webapp/localService/myServiceAnnotation.xml'
+          urlPath: '/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations*'
+        services:
+          - urlPath: '/sap/opu/odata/sap/<SERVICE_NAME>'
+          metadataPath: './webapp/localService/metadata.xml'
+          mockdataPath: './webapp/localService/data'
+          - urlPath: '/sap/opu/odata/sap/<OTHER_SERVICE_NAME>'
+          metadataPath: './webapp/localService/other_metadata.xml'
+          mockdataPath: './webapp/localService/data'
 
 ```
 
@@ -82,6 +82,10 @@ Additional option are available either per service of for all services if define
 - strictKeyMode : disable the default "loose" mode for the key matching, you can try this if the mockserver returns too much data
 - contextBasedIsolation : enable the support of "tenants", by adding /tenant-xxx at the very start of your service call you will be able to work on tenant isolated data.
 
+You can also define static annotation file using the `annotations` entry, each annotation must provide
+
+- urlPath : where will your annotation be accessible from
+- localPath : local path to your annotation file
 
 **Sample application**
 
