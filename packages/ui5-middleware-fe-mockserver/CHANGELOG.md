@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.3
+
+### Patch Changes
+
+-   987d74e: The urlPath for annotation file can now contains '\*' characters.
+-   Updated dependencies [987d74e]
+    -   @sap-ux/fe-mockserver-core@1.1.3
+
 ## 2.1.2
 
 ### Patch Changes

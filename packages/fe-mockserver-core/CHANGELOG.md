@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.3
+
+### Patch Changes
+
+-   987d74e: The urlPath for annotation file can now contains '\*' characters.
+
 ## 1.1.2
 
 ### Patch Changes
