@@ -32,6 +32,14 @@ describe('V4 Requestor', function () {
                 {
                     urlPath: '/sap/fe/core/mock/MyAnnotation.xml',
                     localPath: path.join(__dirname, '__testData', 'annotation.xml')
+                },
+                {
+                    urlPath: '/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations*',
+                    localPath: path.join(__dirname, '__testData', 'annotation.xml')
+                },
+                {
+                    urlPath: '/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(Yolo="duress")/$Value',
+                    localPath: path.join(__dirname, '__testData', 'annotation.xml')
                 }
             ],
             contextBasedIsolation: true,
@@ -79,6 +87,19 @@ describe('V4 Requestor', function () {
     });
     it('can get the annotation file', async () => {
         const output = await fetch('http://localhost:33331/sap/fe/core/mock/MyAnnotation.xml');
+        const textResponse = await output.text();
+        expect(textResponse).toMatchSnapshot();
+    });
+
+    it('can get the other annotation file', async () => {
+        const output = await fetch('http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations*');
+        const textResponse = await output.text();
+        expect(textResponse).toMatchSnapshot();
+    });
+    it('can get the other annotation file with a more complex regexp', async () => {
+        const output = await fetch(
+            'http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(Yolo="duress")/$Value'
+        );
         const textResponse = await output.text();
         expect(textResponse).toMatchSnapshot();
     });

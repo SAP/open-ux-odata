@@ -33,7 +33,7 @@ function disableCache(_req: IncomingMessage, res: ServerResponse, next: NextFunc
  * @returns the encoded string
  */
 function escapeRegex(strValue: string) {
-    return strValue.replace(/[-\\^$*+?()|[\]{}]/g, '\\$&');
+    return strValue.replace(/[-\\^$+?()|[\]{}]/g, '\\$&');
 }
 
 /**
