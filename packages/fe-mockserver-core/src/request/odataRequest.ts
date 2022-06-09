@@ -371,15 +371,17 @@ export default class ODataRequest {
         this.context = context;
     }
     public getResponseData() {
-        this.addResponseHeader('content-type', 'application/json;odata.metadata=minimal;IEEE754Compatible=true');
         if (this.messages.length) {
             this.addResponseHeader('sap-messages', JSON.stringify(this.messages));
         }
 
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
             this.addResponseHeader('odata-version', '4.0');
+            this.addResponseHeader('content-type', 'application/json;odata.metadata=minimal;IEEE754Compatible=true');
         } else {
             this.addResponseHeader('dataserviceversion', '2.0');
+            this.addResponseHeader('cache-control', 'no-store, no-cache');
+            this.addResponseHeader('content-type', 'application/json');
         }
         if (typeof this.responseData === 'string') {
             return this.responseData;
@@ -412,7 +414,14 @@ export default class ODataRequest {
             }
         } else {
             // V2
-            return JSON.stringify(this.responseData);
+            const resultObject: any = { d: {} };
+            if (Array.isArray(this.responseData)) {
+                resultObject.d.__count = this.dataCount;
+                resultObject.d.results = this.responseData;
+            } else {
+                resultObject.d = this.responseData;
+            }
+            return JSON.stringify(resultObject);
         }
     }
     public addMessage(code: number, message: string, severity: number, target: string) {
