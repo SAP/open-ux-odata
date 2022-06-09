@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.4
+
+### Patch Changes
+
+-   715790c: Boolean keys are now working correctly
+
 ## 1.1.3
 
 ### Patch Changes

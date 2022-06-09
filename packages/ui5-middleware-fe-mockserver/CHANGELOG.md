@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.4
+
+### Patch Changes
+
+-   715790c: Boolean keys are now working correctly
+-   Updated dependencies [715790c]
+    -   @sap-ux/fe-mockserver-core@1.1.4
+
 ## 2.1.3
 
 ### Patch Changes
