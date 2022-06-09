@@ -86,4 +86,28 @@ describe('Data Access', () => {
         expect(productData.length).toEqual(20);
         expect(odataRequest.dataCount).toEqual(150);
     });
+    test('v2metadata - it can GET data for an entity', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SEPMRA_C_PD_Product?$skip=0&$top=20&$orderby=to_ProductTextInOriginalLang/Name%20asc&$filter=IsActiveEntity%20eq%20false%20or%20SiblingEntity/IsActiveEntity%20eq%20null&$select=ProductCategory%2cProductPictureURL%2cProductForEdit%2cto_ProductTextInOriginalLang%2fName%2cProduct%2cDraftUUID%2cIsActiveEntity%2cHasDraftEntity%2cHasActiveEntity%2cCopy_ac%2cDraftAdministrativeData&$expand=to_ProductTextInOriginalLang%2cDraftAdministrativeData&$inlinecount=allpages'
+            },
+            dataAccess
+        );
+        await odataRequest.handleRequest();
+        const responseData = odataRequest.getResponseData();
+        expect(responseData).toMatchSnapshot();
+        expect(odataRequest.responseHeaders).toMatchSnapshot();
+        const odataRequestSolo = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity=true)"
+            },
+            dataAccess
+        );
+        await odataRequestSolo.handleRequest();
+        const responseDataSolo = odataRequestSolo.getResponseData();
+        expect(responseDataSolo).toMatchSnapshot();
+        expect(odataRequestSolo.responseHeaders).toMatchSnapshot();
+    });
 });

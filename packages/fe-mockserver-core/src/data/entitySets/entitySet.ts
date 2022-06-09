@@ -442,6 +442,12 @@ export class MockDataEntitySet implements EntitySetInterface {
                         return mockData[keyName] === keyValues[keyName].substring(1, keyValues[keyName].length - 1);
                     }
                     return mockData[keyName] === keyValues[keyName];
+                case 'Edm.Boolean':
+                    let booleanKeyValue = keyValues[keyName];
+                    if (typeof booleanKeyValue === 'string') {
+                        booleanKeyValue = booleanKeyValue === 'true';
+                    }
+                    return mockData[keyName] === booleanKeyValue;
                 case 'Edm.Int32':
                 case 'Edm.Int64':
                 case 'Edm.Int16':

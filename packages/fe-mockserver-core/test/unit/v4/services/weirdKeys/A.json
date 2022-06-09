@@ -1,0 +1,23 @@
+[
+    {
+        "ID": "A-0",
+        "BoolKey": true,
+        "DateKey": "2022-02-02",
+        "GuidKey": "18589449-7082-4361-9d27-51363c2f3bcd",
+        "value": "A"
+    },
+    {
+        "ID": "A-1",
+        "BoolKey": false,
+        "DateKey": "2022-05-02",
+        "GuidKey": "18589449-7082-4361-9d27-51363c2f3bce",
+        "value": "A"
+    },
+    {
+        "ID": "A-3",
+        "BoolKey": true,
+        "DateKey": "2022-02-04",
+        "GuidKey": "18589449-7082-4361-9d27-51363c2f3bcf",
+        "value": "A"
+    }
+]

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Access v2metadata - it can GET data for an entity 1`] = `"{\\"d\\":{\\"__count\\":4,\\"results\\":[{\\"Product\\":\\"Acme_Boomerang\\",\\"DraftUUID\\":\\"\\",\\"IsActiveEntity\\":true,\\"HasActiveEntity\\":true,\\"HasDraftEntity\\":false,\\"DraftAdministrativeData\\":null,\\"__metadata\\":{\\"id\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity='true')\\",\\"uri\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity='true')\\",\\"type\\":\\"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType\\"}},{\\"Product\\":\\"Acme_TNT\\",\\"DraftUUID\\":\\"\\",\\"IsActiveEntity\\":true,\\"HasActiveEntity\\":true,\\"HasDraftEntity\\":false,\\"DraftAdministrativeData\\":null,\\"__metadata\\":{\\"id\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_TNT',DraftUUID='',IsActiveEntity='true')\\",\\"uri\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_TNT',DraftUUID='',IsActiveEntity='true')\\",\\"type\\":\\"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType\\"}},{\\"Product\\":\\"Acme_Trap\\",\\"DraftUUID\\":\\"\\",\\"IsActiveEntity\\":true,\\"HasActiveEntity\\":true,\\"HasDraftEntity\\":false,\\"DraftAdministrativeData\\":null,\\"__metadata\\":{\\"id\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Trap',DraftUUID='',IsActiveEntity='true')\\",\\"uri\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Trap',DraftUUID='',IsActiveEntity='true')\\",\\"type\\":\\"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType\\"}},{\\"Product\\":\\"Acme_Safe\\",\\"DraftUUID\\":\\"\\",\\"IsActiveEntity\\":true,\\"HasActiveEntity\\":true,\\"HasDraftEntity\\":false,\\"DraftAdministrativeData\\":null,\\"__metadata\\":{\\"id\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Safe',DraftUUID='',IsActiveEntity='true')\\",\\"uri\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Safe',DraftUUID='',IsActiveEntity='true')\\",\\"type\\":\\"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType\\"}}]}}"`;
+
+exports[`Data Access v2metadata - it can GET data for an entity 2`] = `
+Object {
+  "cache-control": "no-store, no-cache",
+  "content-type": "application/json",
+  "dataserviceversion": "2.0",
+  "sap-tenantid": "tenant-default",
+}
+`;
+
+exports[`Data Access v2metadata - it can GET data for an entity 3`] = `"{\\"d\\":{\\"Product\\":\\"Acme_Boomerang\\",\\"DraftUUID\\":\\"\\",\\"Price\\":3,\\"Name\\":\\"Acme Boomerang\\",\\"Supplier\\":\\"Acme DE\\",\\"IsActiveEntity\\":true,\\"HasActiveEntity\\":true,\\"HasDraftEntity\\":false,\\"__metadata\\":{\\"id\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity='true')\\",\\"uri\\":\\"undefined/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity='true')\\",\\"type\\":\\"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType\\"}}}"`;
+
+exports[`Data Access v2metadata - it can GET data for an entity 4`] = `
+Object {
+  "cache-control": "no-store, no-cache",
+  "content-type": "application/json",
+  "dataserviceversion": "2.0",
+  "sap-tenantid": "tenant-default",
+}
+`;
