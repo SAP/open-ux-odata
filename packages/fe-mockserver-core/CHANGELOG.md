@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.5
+
+### Patch Changes
+
+-   3d65cc0: Default mockdata folder to the folder containing the metadata if missing
+
 ## 1.1.4
 
 ### Patch Changes
