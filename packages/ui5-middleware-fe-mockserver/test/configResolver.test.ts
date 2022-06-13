@@ -139,8 +139,7 @@ describe('The config resolver', () => {
                     {
                         urlBasePath: '/my/service',
                         name: 'URL',
-                        metadataCdsPath: 'metadata.cds',
-                        mockdataRootPath: 'mockData'
+                        metadataCdsPath: 'metadata.cds'
                     },
                     {
                         urlBasePath: '/my/other/service',
@@ -164,6 +163,7 @@ describe('The config resolver', () => {
             },
             '/'
         );
+        expect(myBaseResolvedConfig.services[0].mockdataPath).toBe('/');
         expect(myBaseResolvedConfig.services[0].watch).toBe(true);
         expect(myBaseResolvedConfig.services[1].watch).toBe(false);
         expect(myBaseResolvedConfig.services[0].debug).toBe(true);
