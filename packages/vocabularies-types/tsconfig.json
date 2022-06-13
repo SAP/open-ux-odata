@@ -4,7 +4,8 @@
         "outDir": ".",
         "declarationMap": false,
         "types": ["node"],
-        "emitDeclarationOnly": true
+        "isolatedModules": true,
+        "sourceMap": false
     },
     "include": ["src/**/*.ts"]
 }
