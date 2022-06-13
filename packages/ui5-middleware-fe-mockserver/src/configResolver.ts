@@ -89,6 +89,9 @@ function processServicesConfig(
         const mockDataPath = inService.mockdataPath || inService.mockdataRootPath;
         if (mockDataPath) {
             myServiceConfig.mockdataPath = path.resolve(currentBasePath, mockDataPath);
+        } else {
+            // we default to the folder of the metadata
+            myServiceConfig.mockdataPath = path.dirname(myServiceConfig.metadataPath);
         }
 
         if (!inService.urlPath) {
