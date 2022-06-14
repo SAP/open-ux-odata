@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.5.7
+
+### Patch Changes
+
+-   1797017: Exposes the enum for those not using typescript to compile their app
+
 ## 0.5.6
 
 ### Patch Changes
