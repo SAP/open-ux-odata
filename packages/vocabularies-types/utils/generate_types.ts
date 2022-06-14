@@ -315,9 +315,9 @@ async function generateTypes(targetFolder: string) {
                             renamedTermType.startsWith('Edm.String') ||
                             (isSchemaElement(termName, targetTerm) && isSimpleType(targetTerm))
                         ) {
-                            vocabularyDef += `export type ${vocabularyTerm} = AnnotationTerm<PropertyAnnotationValue<${renamedTermType}>>`;
+                            vocabularyDef += `export type ${vocabularyTerm} = { term : ${vocabularyAlias}AnnotationTerms.${vocabularyTerm}} & AnnotationTerm<PropertyAnnotationValue<${renamedTermType}>>`;
                         } else {
-                            vocabularyDef += `export type ${vocabularyTerm} = AnnotationTerm<${renamedTermType}>`;
+                            vocabularyDef += `export type ${vocabularyTerm} = { term : ${vocabularyAlias}AnnotationTerms.${vocabularyTerm} } & AnnotationTerm<${renamedTermType}>`;
                         }
 
                         // if (vocabularyTermInfo.$Nullable) {
@@ -366,7 +366,8 @@ async function generateTypes(targetFolder: string) {
                                 if (
                                     keyType.startsWith('Edm.') &&
                                     keyType !== 'Edm.AnnotationPath' &&
-                                    keyType !== 'Edm.PropertyPath'
+                                    keyType !== 'Edm.PropertyPath' &&
+                                    keyType !== 'Edm.NavigationPropertyPath'
                                 ) {
                                     if (vocabularyTermInfo[vocabularyTermKey].$Collection) {
                                         keyType += `[]`;
@@ -381,7 +382,7 @@ async function generateTypes(targetFolder: string) {
                                     if (vocabularyTermInfo[vocabularyTermKey].$Collection) {
                                         keyType += `[]`;
                                     }
-                                    keyType = `AnnotationTerm<${keyType}>`;
+                                    keyType = `${keyType}`;
                                 } else {
                                     if (keyType === 'Edm.AnnotationPath') {
                                         if (vocabularyTermInfo[vocabularyTermKey]['@Validation.AllowedTerms']) {
@@ -515,20 +516,18 @@ async function generateTypes(targetFolder: string) {
                 baseType = basebaseType;
             }
             if (!(localVocDefinition[baseType] as ComplexType).$Abstract) {
-                vocabularyDef += `export type ${baseType}Types = AnnotationTerm<${originalBaseType}`;
+                vocabularyDef += `export type ${baseType}Types = ${originalBaseType}`;
                 if (typeInheritances[originalBaseType].length > 0) {
                     vocabularyDef += ` | ${typeInheritances[originalBaseType]
                         .map((type: string) => type + 'Types')
                         .join(' | ')}`;
                 }
-                vocabularyDef += '>;\n';
+                vocabularyDef += ';\n';
             } else if (typeInheritances[originalBaseType].length > 0) {
-                vocabularyDef += `export type ${originalBaseType}Types = AnnotationTerm<${typeInheritances[
-                    originalBaseType
-                ]
+                vocabularyDef += `export type ${originalBaseType}Types = ${typeInheritances[originalBaseType]
                     .map((type: string) => type + 'Types')
                     .join(' | ')}`;
-                vocabularyDef += '>;\n';
+                vocabularyDef += ';\n';
             }
         });
         vocabularyEdmDef = `import * as ${vocabularyNamespaceTrans} from "./${vocabularyAlias}";\n\n`;

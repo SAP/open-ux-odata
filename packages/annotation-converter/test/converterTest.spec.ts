@@ -172,6 +172,16 @@ describe('Annotation Converter', () => {
         expect(sdManage.target).not.toBeNull();
         expect(sdManage.target?._type).toEqual('EntitySet');
         expect(sdManage.objectPath.length).toEqual(2); // EntityContainer
+
+        // It can resolve EntitySet
+        const sdManage2: ResolutionTarget<EntitySet> = convertedTypes.resolvePath(
+            convertedTypes.entitySets[40].fullyQualifiedName,
+            true
+        );
+        expect(sdManage2.target).not.toBeNull();
+        expect(sdManage2.target?._type).toEqual('EntitySet');
+        expect(sdManage2.objectPath.length).toEqual(2); // EntityContainer
+
         // It can resolve EntityType
         const sdManageType: ResolutionTarget<EntityType> = convertedTypes.resolvePath('/SalesOrderManage/');
         expect(sdManageType.target).not.toBeNull();
