@@ -458,7 +458,7 @@ export type ConvertedMetadata = {
     entityTypes: EntityType[];
     references: Reference[];
     diagnostics: { message: string }[];
-    resolvePath: <T>(path: string, dontBeSmart?: boolean) => ResolutionTarget<T>;
+    resolvePath: <T>(path: string, resolveDirectly?: boolean) => ResolutionTarget<T>;
 };
 
 // All the Raw types are meant for usage when providing data to the converter

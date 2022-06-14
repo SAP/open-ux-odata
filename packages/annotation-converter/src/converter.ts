@@ -1065,9 +1065,9 @@ function splitTerm(references: ReferencesWithMap, termValue: string) {
 function createGlobalResolve(convertedOutput: ConvertedMetadata, objectMap: Record<string, any>) {
     return function resolvePath<T extends ServiceObjectAndAnnotation>(
         sPath: string,
-        dontBeSmart: boolean = false
+        resolveDirectly: boolean = false
     ): ResolutionTarget<T> {
-        if (dontBeSmart) {
+        if (resolveDirectly) {
             const targetResolution: any = _resolveTarget(objectMap, convertedOutput, '/' + sPath, false, true);
             if (targetResolution.target) {
                 targetResolution.visitedObjects.push(targetResolution.target);
