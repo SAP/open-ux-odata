@@ -42,7 +42,7 @@ export type NavigationPropertyPath = {
 export type AnnotationPath<P> = {
     type: 'AnnotationPath';
     value: string;
-    $target: AnnotationTerm<P>;
+    $target: AnnotationTerm<P> & { term: string };
 };
 
 type PrimitiveTypeCast<P, G> =
@@ -55,7 +55,6 @@ export type AnnotationTerm<P> = PrimitiveTypeCast<
     P,
     {
         fullyQualifiedName: string;
-        term: string;
         qualifier: string;
         annotations?: TermAnnotations & AnnotationAnnotations;
     }
@@ -313,6 +312,7 @@ export type Property = {
 
 export type RecordComplexType = {
     annotations?: RecordAnnotations;
+    fullyQualifiedName: string;
 };
 
 export type ComplexType = {
