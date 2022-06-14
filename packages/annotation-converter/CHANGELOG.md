@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.10
+
+### Patch Changes
+
+-   0f7acf2: Improve type definition to be more consistent with the output
+
 ## 0.5.9
 
 ### Patch Changes

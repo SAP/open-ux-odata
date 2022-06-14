@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.0
+
+### Minor Changes
+
+-   0f7acf2: Improve type definition to be more consistent with the output
+
 ## 0.5.7
 
 ### Patch Changes
