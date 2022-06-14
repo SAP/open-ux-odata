@@ -1063,7 +1063,20 @@ function splitTerm(references: ReferencesWithMap, termValue: string) {
  * @returns the function that will allow to resolve element globally.
  */
 function createGlobalResolve(convertedOutput: ConvertedMetadata, objectMap: Record<string, any>) {
-    return function resolvePath<T extends ServiceObjectAndAnnotation>(sPath: string): ResolutionTarget<T> {
+    return function resolvePath<T extends ServiceObjectAndAnnotation>(
+        sPath: string,
+        dontBeSmart: boolean = false
+    ): ResolutionTarget<T> {
+        if (dontBeSmart) {
+            const targetResolution: any = _resolveTarget(objectMap, convertedOutput, '/' + sPath, false, true);
+            if (targetResolution.target) {
+                targetResolution.visitedObjects.push(targetResolution.target);
+            }
+            return {
+                target: targetResolution.target,
+                objectPath: targetResolution.visitedObjects
+            };
+        }
         const aPathSplit = sPath.split('/');
         if (aPathSplit.shift() !== '') {
             throw new Error('Cannot deal with relative path');

@@ -366,7 +366,8 @@ async function generateTypes(targetFolder: string) {
                                 if (
                                     keyType.startsWith('Edm.') &&
                                     keyType !== 'Edm.AnnotationPath' &&
-                                    keyType !== 'Edm.PropertyPath'
+                                    keyType !== 'Edm.PropertyPath' &&
+                                    keyType !== 'Edm.NavigationPropertyPath'
                                 ) {
                                     if (vocabularyTermInfo[vocabularyTermKey].$Collection) {
                                         keyType += `[]`;
