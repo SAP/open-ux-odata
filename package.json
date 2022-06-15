@@ -2,6 +2,7 @@
     "name": "@sap-ux/open-ux-odata-root",
     "version": "0.1.0",
     "license": "Apache-2.0",
+    "author": "@SAP/ux-odata-team",
     "private": true,
     "devDependencies": {
         "@changesets/cli": "2.22.0",
