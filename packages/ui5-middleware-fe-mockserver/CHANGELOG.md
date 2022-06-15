@@ -1,5 +1,11 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.7
+
+### Patch Changes
+
+-   cf0d380: Added author to package.json
+
 ## 2.1.6
 
 ### Patch Changes
