@@ -377,7 +377,6 @@ export default class ODataRequest {
 
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
             this.addResponseHeader('odata-version', '4.0');
-            this.addResponseHeader('content-type', 'application/json;odata.metadata=minimal;IEEE754Compatible=true');
         } else {
             this.addResponseHeader('dataserviceversion', '2.0');
             this.addResponseHeader('cache-control', 'no-store, no-cache');
@@ -387,11 +386,18 @@ export default class ODataRequest {
             return this.responseData;
         }
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
+            if (this.statusCode === 204) {
+                return;
+            }
             if (this.isMinimalRepresentation) {
                 this.statusCode = 204;
                 this.addResponseHeader('preference-applied', 'return=minimal');
                 return null;
             } else {
+                this.addResponseHeader(
+                    'content-type',
+                    'application/json;odata.metadata=minimal;IEEE754Compatible=true'
+                );
                 let outContext = this.context || '';
                 if (outContext.indexOf('$metadata') === -1) {
                     outContext = `$metadata#${this.context}`;

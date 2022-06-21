@@ -183,4 +183,22 @@ describe('Function Based Mock Data', () => {
         filterResult = mockData.checkFilterValue('Edm.String', allData[0]?.Name, 'Name', 'eq', fakeRequest);
         expect(filterResult).toBe(true);
     });
+    it('can Delete Entries', async () => {
+        const fakeRequest = new ODataRequest(
+            {
+                method: 'DELETE',
+                url: '/MyRootEntity(ID=1)'
+            },
+            dataAccess
+        );
+        fakeRequest.tenantId = 'tenant-008';
+        const mockData = myEntitySet.getMockData('tenant-008');
+        let allData = mockData.getAllEntries(fakeRequest) as any;
+        expect(allData.length).toBe(3);
+        await fakeRequest.handleRequest();
+        const responseData = fakeRequest.getResponseData();
+        allData = mockData.getAllEntries(fakeRequest) as any;
+        expect(allData.length).toBe(2);
+        expect(responseData).toMatchSnapshot();
+    });
 });
