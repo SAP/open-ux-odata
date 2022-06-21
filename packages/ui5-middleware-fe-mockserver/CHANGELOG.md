@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.8
+
+### Patch Changes
+
+-   4c8a147: '204' response will no longer contain an empty data object
+-   Updated dependencies [4c8a147]
+    -   @sap-ux/fe-mockserver-core@1.1.7
+
 ## 2.1.7
 
 ### Patch Changes
