@@ -6,6 +6,8 @@ import balanced from 'balanced-match';
 import { parse } from 'query-string';
 import type { IncomingHttpHeaders } from 'http';
 import type { DataAccess } from '../data/dataAccess';
+import type { URLSearchParams } from 'url';
+import { URL } from 'url';
 
 export type ExpandDefinition = {
     expand: Record<string, ExpandDefinition>;
