@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.11
+
+### Patch Changes
+
+-   a5b4df9: Make sure annotations object is defined like the type says
+
 ## 0.5.10
 
 ### Patch Changes
