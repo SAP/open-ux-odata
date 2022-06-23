@@ -546,7 +546,8 @@ function parseRecord(
 
     const annotationTerm: any = {
         $Type: targetType,
-        fullyQualifiedName: currentFQN
+        fullyQualifiedName: currentFQN,
+        annotations: {}
     };
     const annotationContent: any = {};
     if (Array.isArray(recordDefinition.annotations)) {
@@ -1151,6 +1152,7 @@ function processAnnotations(
             objectMap,
             currentContext
         );
+
         switch (typeof currentTarget.annotations[vocAlias][vocTermWithQualifier]) {
             case 'string':
                 // eslint-disable-next-line no-new-wrappers
@@ -1167,6 +1169,9 @@ function processAnnotations(
             default:
                 // do nothing
                 break;
+        }
+        if (!currentTarget.annotations[vocAlias][vocTermWithQualifier].annotations) {
+            currentTarget.annotations[vocAlias][vocTermWithQualifier].annotations = {};
         }
         if (
             currentTarget.annotations[vocAlias][vocTermWithQualifier] !== null &&
