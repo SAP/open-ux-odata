@@ -293,6 +293,25 @@ describe('Annotation Converter', () => {
         expect(sdManageLineItemFGTargetWithOneOne.target).not.toBeUndefined();
         expect(sdManageLineItemFGTargetWithOneOne.target?.$Type).toEqual(CommunicationAnnotationTypes.ContactType);
         expect(sdManageLineItemFGTargetWithOneOne.objectPath.length).toEqual(8); // EntityContainer / EntitySet / EntityType / LineItem / DataFieldForAnnotation / AnnotationPath / NavigationProperty / ContactType
+
+        // It can resolve NavigationPropertyBinding and checking for the parent with $
+        //"sap.fe.core.Service.EntityContainer/RootEntity/$NavigationPropertyBinding/businessPartner/$"
+        const sdNavigationPropBinding: ResolutionTarget<EntitySet> = convertedTypes.resolvePath(
+            'com.c_salesordermanage_sd.EntityContainer/SalesOrderManage/$NavigationPropertyBinding/_DeliveryBlockReason',
+            true
+        );
+        expect(sdNavigationPropBinding.target).not.toBeNull();
+        expect(sdNavigationPropBinding.target).not.toBeUndefined();
+        expect(sdNavigationPropBinding.target?._type).toEqual('EntitySet');
+        expect(sdNavigationPropBinding.objectPath.length).toEqual(4); // EntityContainer / EntitySet / NavPropBindingArray / EntitySet
+        const sdNavigationPropBinding2: ResolutionTarget<EntitySet> = convertedTypes.resolvePath(
+            'com.c_salesordermanage_sd.EntityContainer/SalesOrderManage/$NavigationPropertyBinding/_DeliveryBlockReason/$',
+            true
+        );
+        expect(sdNavigationPropBinding2.target).not.toBeNull();
+        expect(sdNavigationPropBinding2.target).not.toBeUndefined();
+        expect(sdNavigationPropBinding.target?._type).toEqual('EntitySet');
+        expect(sdNavigationPropBinding2.objectPath.length).toEqual(4); // EntityContainer / EntitySet / NavPropBindingArray / EntitySet / EntityType / EntyitySet
     });
 
     it('can support further resolvePath syntax', async () => {
