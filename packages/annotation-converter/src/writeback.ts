@@ -207,7 +207,7 @@ function revertCollectionItemToRawType(
                         name: collectionKey,
                         value: revertValueToRawType(references, value) as Expression
                     });
-                } else if (collectionKey === 'annotations') {
+                } else if (collectionKey === 'annotations' && Object.keys(collectionItem[collectionKey]).length > 0) {
                     outItem.annotations = [];
                     revertAnnotationsToRawType(references, collectionItem[collectionKey], outItem.annotations);
                 }
@@ -246,7 +246,7 @@ export function revertTermToGenericType(references: Reference[], annotation: Ann
     };
     if (Array.isArray(annotation)) {
         // Collection
-        if (annotation.hasOwnProperty('annotations')) {
+        if (annotation.hasOwnProperty('annotations') && Object.keys((annotation as any).annotations).length > 0) {
             // Annotation on a collection itself, not sure when that happens if at all
             baseAnnotation.annotations = [];
             revertAnnotationsToRawType(references, (annotation as any).annotations, baseAnnotation.annotations);

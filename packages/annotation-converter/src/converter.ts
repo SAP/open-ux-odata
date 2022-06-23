@@ -214,6 +214,9 @@ function _resolveTarget(
         if (pathPart === '$Type' && currentValue._type === 'EntityType') {
             return currentValue;
         }
+        if (pathPart === '$' && currentValue._type === 'EntitySet') {
+            return currentValue;
+        }
         if ((pathPart === '@$ui5.overload' || pathPart === '0') && currentValue._type === 'Action') {
             return currentValue;
         }
@@ -240,6 +243,9 @@ function _resolveTarget(
             currentPath = pathPart;
         } else if (currentValue._type === 'EntitySet' && pathPart === '$Type') {
             currentValue = currentValue.targetType;
+            return currentValue;
+        } else if (currentValue._type === 'EntitySet' && pathPart === '$NavigationPropertyBinding') {
+            currentValue = currentValue.navigationPropertyBinding;
             return currentValue;
         } else if (currentValue._type === 'EntitySet' && currentValue.entityType) {
             currentPath = combinePath(currentValue.entityTypeName, pathPart);
@@ -546,7 +552,8 @@ function parseRecord(
 
     const annotationTerm: any = {
         $Type: targetType,
-        fullyQualifiedName: currentFQN
+        fullyQualifiedName: currentFQN,
+        annotations: {}
     };
     const annotationContent: any = {};
     if (Array.isArray(recordDefinition.annotations)) {
@@ -1068,7 +1075,11 @@ function createGlobalResolve(convertedOutput: ConvertedMetadata, objectMap: Reco
         resolveDirectly: boolean = false
     ): ResolutionTarget<T> {
         if (resolveDirectly) {
-            const targetResolution: any = _resolveTarget(objectMap, convertedOutput, '/' + sPath, false, true);
+            let targetPath = sPath;
+            if (!sPath.startsWith('/')) {
+                targetPath = `/${sPath}`;
+            }
+            const targetResolution: any = _resolveTarget(objectMap, convertedOutput, targetPath, false, true);
             if (targetResolution.target) {
                 targetResolution.visitedObjects.push(targetResolution.target);
             }
@@ -1151,6 +1162,7 @@ function processAnnotations(
             objectMap,
             currentContext
         );
+
         switch (typeof currentTarget.annotations[vocAlias][vocTermWithQualifier]) {
             case 'string':
                 // eslint-disable-next-line no-new-wrappers
@@ -1167,6 +1179,12 @@ function processAnnotations(
             default:
                 // do nothing
                 break;
+        }
+        if (
+            typeof currentTarget.annotations[vocAlias][vocTermWithQualifier] === 'object' &&
+            !currentTarget.annotations[vocAlias][vocTermWithQualifier].annotations
+        ) {
+            currentTarget.annotations[vocAlias][vocTermWithQualifier].annotations = {};
         }
         if (
             currentTarget.annotations[vocAlias][vocTermWithQualifier] !== null &&
