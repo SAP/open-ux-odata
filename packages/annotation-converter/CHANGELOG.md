@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.12
+
+### Patch Changes
+
+-   64a0fdf: Improve v2 services support
+
 ## 0.5.11
 
 ### Patch Changes

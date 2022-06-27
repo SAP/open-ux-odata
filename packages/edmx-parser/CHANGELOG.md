@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.6
+
+### Patch Changes
+
+-   64a0fdf: Improve v2 services support
+
 ## 0.5.5
 
 ### Patch Changes
