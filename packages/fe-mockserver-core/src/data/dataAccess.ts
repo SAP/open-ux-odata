@@ -780,7 +780,7 @@ export class DataAccess implements DataAccessInterface {
                     this.apply$Select(expand, [data], currentEntityType);
                 }
             }
-            const dataLength = (Array.isArray(data) && data.length) || 1;
+            const dataLength = Array.isArray(data) ? data.length : 1;
             odataRequest.setDataCount(dataLength);
 
             // Apply $skip / $top

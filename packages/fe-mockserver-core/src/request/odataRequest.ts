@@ -328,7 +328,7 @@ export default class ODataRequest {
                     const actionResponse = await this.dataAccess.performAction(this);
                     if (actionResponse === null) {
                         const retrievedData = await this.dataAccess.getData(this);
-                        if (!retrievedData) {
+                        if (retrievedData === undefined) {
                             this.statusCode = 404;
                             this.setResponseData('');
                         } else {
