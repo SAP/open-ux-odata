@@ -1074,9 +1074,6 @@ function unalias(aliasedValue: string | undefined): string | undefined {
 }
 
 function mergeSchemas(schemas: RawSchema[]): RawSchema {
-    if (schemas.length === 1) {
-        return schemas[0];
-    }
     const associations = schemas.reduce((associationsToReduce: RawAssociation[], schema) => {
         return associationsToReduce.concat(schema.associations);
     }, []);
@@ -1142,8 +1139,19 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
         entityType.navigationProperties.forEach((navProp: any) => {
             const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
             const association = associations.find((assoc) => assoc.fullyQualifiedName === v2NavProp.relationship);
-            if (association && association.referentialConstraints) {
-                v2NavProp.referentialConstraint = association.referentialConstraints;
+            if (association && association.referentialConstraints && association.referentialConstraints.length > 0) {
+                if (association.referentialConstraints[0].sourceTypeName === entityType.fullyQualifiedName) {
+                    v2NavProp.referentialConstraint = association.referentialConstraints;
+                } else {
+                    v2NavProp.referentialConstraint = association.referentialConstraints.map((refConstraint) => {
+                        return {
+                            sourceTypeName: refConstraint.targetTypeName,
+                            sourceProperty: refConstraint.targetProperty,
+                            targetTypeName: refConstraint.sourceTypeName,
+                            targetProperty: refConstraint.sourceProperty
+                        };
+                    });
+                }
             }
         });
     });

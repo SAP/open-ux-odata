@@ -95,7 +95,9 @@ describe('Data Access', () => {
             dataAccess
         );
         await odataRequest.handleRequest();
-        const responseData = odataRequest.getResponseData();
+        let responseData = odataRequest.getResponseData() || '';
+        // remove data
+        responseData = responseData.replace(/\/Date\([^)]+\)/g, '/Date()');
         expect(responseData).toMatchSnapshot();
         expect(odataRequest.responseHeaders).toMatchSnapshot();
         const odataRequestSolo = new ODataRequest(

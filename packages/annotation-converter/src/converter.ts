@@ -832,6 +832,7 @@ function resolveV2NavigationProperty(
             outNavProp.isCollection = associationEnd.multiplicity === '*';
         }
     }
+    outNavProp.referentialConstraint = navProp.referentialConstraint || [];
 }
 
 function resolveV4NavigationProperty(
