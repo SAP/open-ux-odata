@@ -1182,6 +1182,7 @@ function processAnnotations(
                 break;
         }
         if (
+            currentTarget.annotations[vocAlias][vocTermWithQualifier] !== null &&
             typeof currentTarget.annotations[vocAlias][vocTermWithQualifier] === 'object' &&
             !currentTarget.annotations[vocAlias][vocTermWithQualifier].annotations
         ) {
