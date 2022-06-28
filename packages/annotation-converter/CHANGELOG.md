@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.13
+
+### Patch Changes
+
+-   de0498f: Handle the case where the annotation result is null
+
 ## 0.5.12
 
 ### Patch Changes
