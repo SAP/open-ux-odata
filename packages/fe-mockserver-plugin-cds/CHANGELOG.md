@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.0.2
+
+### Patch Changes
+
+-   05ebb82: Allow to separate cds file in different files
+
 ## 1.0.1
 
 ### Patch Changes
