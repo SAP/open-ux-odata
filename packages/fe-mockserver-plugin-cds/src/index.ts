@@ -1,6 +1,7 @@
 import { compileSources, to } from '@sap/cds-compiler';
 import { commonCDS } from './common.cds';
 import type { IFileLoader, IMetadataProcessor } from '@sap-ux/fe-mockserver-core';
+import path from 'path';
 
 export type CDSMetadataProviderOptions = {
     odataVersion?: 'v2' | 'v4';
@@ -25,10 +26,21 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
      * @returns a promise with the EDMX content
      */
     async loadMetadata(filePath: string): Promise<string> {
-        const cdsContent = await this.fileLoader.loadFile(filePath);
+        let cdsContent = await this.fileLoader.loadFile(filePath);
         if (filePath.endsWith('.xml')) {
             return cdsContent;
         }
+        const usingReg = new RegExp(/from '([^']+)/g);
+        const matches = cdsContent.match(usingReg);
+        if (matches) {
+            let additionalFiles: string[] = matches.map((match) => /from '([^']+)/.exec(match)![1]);
+            additionalFiles = additionalFiles.filter((fileName) => fileName !== '@sap/cds/common');
+
+            for (const additionalFilesKey of additionalFiles) {
+                cdsContent += await this.fileLoader.loadFile(path.resolve(path.dirname(filePath), additionalFilesKey));
+            }
+        }
+
         const csn = compileSources({ 'string.cds': cdsContent, 'common.cds': commonCDS }, {});
         const edmx = to.edmx.all(csn, {
             odataVersion: this.options?.odataVersion || 'v4',
