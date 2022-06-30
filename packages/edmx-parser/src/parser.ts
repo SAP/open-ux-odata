@@ -523,7 +523,8 @@ function parseActions(
                     fullyQualifiedName: `${actionFQN}/${param._attributes.Name}`,
                     name: `${param._attributes.Name}`,
                     type: param._attributes.Type,
-                    isEntitySet: param._attributes.Name === action._attributes.EntitySetPath
+                    isEntitySet: param._attributes.Name === action._attributes.EntitySetPath,
+                    isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
                 };
             }),
             returnType: action.ReturnType ? action.ReturnType._attributes.Type : ''
@@ -552,7 +553,8 @@ function parseFunctionImport(
                     name: param._attributes.Name,
                     fullyQualifiedName: `${actionFQN}/${param._attributes.Name}`,
                     type: param._attributes.Type,
-                    isEntitySet: false
+                    isEntitySet: false,
+                    isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
                 };
             }),
             returnType: action._attributes.ReturnType ? action._attributes.ReturnType : ''
