@@ -12,36 +12,36 @@ describe('Parser', function () {
         expect(mergeSchema).toMatchSnapshot();
     });
 
-    it('can convertTypes an v3 edmx file', async () => {
+    it('can parse an v3 edmx file', async () => {
         const xmlFile = await loadFixture('northwind.metadata.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
 
-    it('can convertTypes the worklist edmx file', async () => {
+    it('can parse the worklist edmx file', async () => {
         const xmlFile = await loadFixture('v2/worklist.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
 
-    it('can convertTypes a v2 edmx file with function import', async () => {
+    it('can parse a v2 edmx file with function import', async () => {
         const xmlFile = await loadFixture('v2/metadataFunctionImport.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
-    it('can convertTypes a v2 edmx file with analytics', async () => {
+    it('can parse a v2 edmx file with analytics', async () => {
         const xmlFile = await loadFixture('v2/metadata_analytics.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
 
-    it('can convertTypes a weird edmx file', async () => {
+    it('can parse a weird edmx file', async () => {
         const xmlFile = await loadFixture('weirdCollection.metadata.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
 
-    it('can convertTypes a trippin metadata', async () => {
+    it('can parse a trippin metadata', async () => {
         const xmlFile = await loadFixture('v4/trippin/metadata.xml');
         const schema: RawMetadata = parse(xmlFile);
         const annoFile = await loadFixture('v4/trippin/annotation.xml');
@@ -49,14 +49,20 @@ describe('Parser', function () {
         const mergeSchema = merge(schema, annoSchema);
         expect(mergeSchema).toMatchSnapshot();
     });
-    it('can convertTypes a metadata with a typedef', async () => {
+    it('can parse a metadata with a typedef', async () => {
         const xmlFile = await loadFixture('v4/withTypeDef.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
 
-    it('can convertTypes an edmx file', async () => {
+    it('can parse an edmx file', async () => {
         const xmlFile = await loadFixture('salesOrder.metadata.xml');
+        const schema: RawMetadata = parse(xmlFile);
+        expect(schema).toMatchSnapshot();
+    });
+
+    it('can parse edmx with a static action', async () => {
+        const xmlFile = await loadFixture('v4/static-action.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });

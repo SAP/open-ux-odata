@@ -13,6 +13,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction1(sap.fe.core.ActionVisibility.RootElement)/self",
+          "isCollection": false,
           "isEntitySet": true,
           "name": "self",
           "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -31,6 +32,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction2(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isCollection": false,
           "isEntitySet": true,
           "name": "in",
           "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -49,6 +51,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction3(sap.fe.core.ActionVisibility.RootElement)/self",
+          "isCollection": false,
           "isEntitySet": true,
           "name": "self",
           "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -67,6 +70,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isCollection": false,
           "isEntitySet": true,
           "name": "in",
           "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -74,6 +78,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/SideEffectsQualifier",
+          "isCollection": false,
           "isEntitySet": false,
           "name": "SideEffectsQualifier",
           "type": "Edm.String",
@@ -92,6 +97,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/in",
+          "isCollection": false,
           "isEntitySet": true,
           "name": "in",
           "type": "sap.fe.core.ActionVisibility.SubElement",
@@ -99,6 +105,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/SideEffectsQualifier",
+          "isCollection": false,
           "isEntitySet": false,
           "name": "SideEffectsQualifier",
           "type": "Edm.String",
@@ -117,6 +124,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftActivate(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isCollection": false,
           "isEntitySet": true,
           "name": "in",
           "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -135,6 +143,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/in",
+          "isCollection": false,
           "isEntitySet": true,
           "name": "in",
           "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -142,6 +151,7 @@ MergedRawMetadata {
         Object {
           "_type": "ActionParameter",
           "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/PreserveChanges",
+          "isCollection": false,
           "isEntitySet": false,
           "name": "PreserveChanges",
           "type": "Edm.Boolean",
@@ -2240,6 +2250,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction1(sap.fe.core.ActionVisibility.RootElement)/self",
+                "isCollection": false,
                 "isEntitySet": true,
                 "name": "self",
                 "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -2258,6 +2269,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction2(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isCollection": false,
                 "isEntitySet": true,
                 "name": "in",
                 "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -2276,6 +2288,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.boundAction3(sap.fe.core.ActionVisibility.RootElement)/self",
+                "isCollection": false,
                 "isEntitySet": true,
                 "name": "self",
                 "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -2294,6 +2307,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isCollection": false,
                 "isEntitySet": true,
                 "name": "in",
                 "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -2301,6 +2315,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.RootElement)/SideEffectsQualifier",
+                "isCollection": false,
                 "isEntitySet": false,
                 "name": "SideEffectsQualifier",
                 "type": "Edm.String",
@@ -2319,6 +2334,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/in",
+                "isCollection": false,
                 "isEntitySet": true,
                 "name": "in",
                 "type": "sap.fe.core.ActionVisibility.SubElement",
@@ -2326,6 +2342,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftPrepare(sap.fe.core.ActionVisibility.SubElement)/SideEffectsQualifier",
+                "isCollection": false,
                 "isEntitySet": false,
                 "name": "SideEffectsQualifier",
                 "type": "Edm.String",
@@ -2344,6 +2361,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftActivate(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isCollection": false,
                 "isEntitySet": true,
                 "name": "in",
                 "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -2362,6 +2380,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/in",
+                "isCollection": false,
                 "isEntitySet": true,
                 "name": "in",
                 "type": "sap.fe.core.ActionVisibility.RootElement",
@@ -2369,6 +2388,7 @@ MergedRawMetadata {
               Object {
                 "_type": "ActionParameter",
                 "fullyQualifiedName": "sap.fe.core.ActionVisibility.draftEdit(sap.fe.core.ActionVisibility.RootElement)/PreserveChanges",
+                "isCollection": false,
                 "isEntitySet": false,
                 "name": "PreserveChanges",
                 "type": "Edm.Boolean",

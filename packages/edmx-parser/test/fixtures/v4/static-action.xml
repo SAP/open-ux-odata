@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:DataServices>
+        <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="TestEntities" EntityType="TestService.TestEntities"/>
+            </EntityContainer>
+            <EntityType Name="TestEntities">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+            </EntityType>
+            <Action Name="staticAction" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="Collection(TestService.TestEntities)"/>
+                <Parameter Name="a" Type="Edm.Int32"/>
+                <ReturnType Type="TestService.TestEntities"/>
+            </Action>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
