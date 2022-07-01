@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.15
+
+### Patch Changes
+
+-   747c020: feat: add flag for collection-valued action parameters
+
 ## 0.5.14
 
 ### Patch Changes

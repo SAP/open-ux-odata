@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.1
+
+### Patch Changes
+
+-   747c020: feat: add flag for collection-valued action parameters
+
 ## 0.6.0
 
 ### Minor Changes

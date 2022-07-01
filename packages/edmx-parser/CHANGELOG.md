@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.7
+
+### Patch Changes
+
+-   747c020: feat: add flag for collection-valued action parameters
+
 ## 0.5.6
 
 ### Patch Changes
