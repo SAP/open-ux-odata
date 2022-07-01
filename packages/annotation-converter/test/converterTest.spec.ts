@@ -19,6 +19,7 @@ import type {
 import type {
     CriticalityType,
     DataFieldAbstractTypes,
+    DataFieldForAction,
     DataFieldForActionTypes,
     DataFieldForAnnotation,
     FieldGroupType,
@@ -600,5 +601,18 @@ describe('Annotation Converter', () => {
         const convertedTypes = convert(parsedMetadata);
 
         checkAnnotationObject(convertedTypes);
+    });
+
+    it('should resolve the ActionTarget of a static action', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/static-action.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const dataFieldForAction = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem?.[0] as DataFieldForAction;
+        const action = convertedTypes.actions[0];
+        expect(dataFieldForAction).toBeDefined();
+        expect(dataFieldForAction).not.toBeNull();
+        expect(action).toBeDefined();
+        expect(action).not.toBeNull();
+        expect(dataFieldForAction.ActionTarget).toEqual(action);
     });
 });

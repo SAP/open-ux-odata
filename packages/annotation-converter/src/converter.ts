@@ -102,6 +102,7 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
     rawMetadata.schema.entityTypes.forEach((entityType) => {
         (entityType as EntityType).annotations = {}; // 'annotations' property is mandatory
         objectMap[entityType.fullyQualifiedName] = entityType;
+        objectMap[`Collection(${entityType.fullyQualifiedName})`] = entityType;
         entityType.entityProperties.forEach((property) => {
             objectMap[property.fullyQualifiedName] = property;
             // Handle complex types
