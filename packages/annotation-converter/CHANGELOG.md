@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.14
+
+### Patch Changes
+
+-   3f461ec: fix: resolve static action targets
+
 ## 0.5.13
 
 ### Patch Changes
