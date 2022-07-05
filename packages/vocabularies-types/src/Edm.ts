@@ -106,7 +106,7 @@ export type OrConditionalExpression = {
 };
 
 export type NotConditionalExpression = {
-    $Not: [ConditionalCheckOrValue];
+    $Not: ConditionalCheckOrValue;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
