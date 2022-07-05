@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.2
+
+### Patch Changes
+
+-   3b9ce6d: Slight adjustment to the type for the conditional expressions
+
 ## 0.6.1
 
 ### Patch Changes
