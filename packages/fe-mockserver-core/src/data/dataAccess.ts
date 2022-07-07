@@ -227,14 +227,29 @@ export class DataAccess implements DataAccessInterface {
                 }
             } else {
                 const fqActionNameSticky = `${actionName}()`;
-                const actionDefinitionSticky = this.metadata.getActionByFQN(fqActionNameSticky);
-                if (actionDefinitionSticky) {
-                    for (const entitySet of this.stickyEntitySets) {
-                        await entitySet.executeAction(
-                            actionDefinitionSticky,
-                            actionData,
-                            odataRequest,
-                            odataRequest.queryPath[0].keys
+                const unboundActionDefinition = this.metadata.getActionByFQN(fqActionNameSticky);
+                if (unboundActionDefinition) {
+                    const targetEntitySet = this.metadata.getEntitySetByType(unboundActionDefinition.sourceType);
+
+                    if (Object.keys(this.stickyEntitySets).length > 0) {
+                        // Special case for sticky that might need to be changed
+                        for (const entitySet of this.stickyEntitySets) {
+                            await entitySet.executeAction(
+                                unboundActionDefinition,
+                                actionData,
+                                odataRequest,
+                                odataRequest.queryPath[0].keys
+                            );
+                        }
+                    } else if (!targetEntitySet) {
+                        // Treat this as a normal unbound action
+                        // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
+                        return (await MockEntityContainer.read(this.mockDataRootFolder, this.fileLoader))
+                            ?.executeAction!(
+                            unboundActionDefinition,
+                            Object.assign({}, actionData),
+                            odataRequest.queryPath[0].keys || {},
+                            odataRequest
                         );
                     }
                     return true;
