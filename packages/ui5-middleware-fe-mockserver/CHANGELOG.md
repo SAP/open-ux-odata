@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.14
+
+### Patch Changes
+
+-   86932ff: Unbound Action are now correctly forwarded to custom handlers
+-   Updated dependencies [86932ff]
+    -   @sap-ux/fe-mockserver-core@1.1.13
+
 ## 2.1.13
 
 ### Patch Changes
