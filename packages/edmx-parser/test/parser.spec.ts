@@ -61,8 +61,14 @@ describe('Parser', function () {
         expect(schema).toMatchSnapshot();
     });
 
-    it('can parse edmx with a static action', async () => {
-        const xmlFile = await loadFixture('v4/static-action.xml');
+    it('can parse actions and functions - unique names', async () => {
+        const xmlFile = await loadFixture('v4/actions-and-functions.xml');
+        const schema: RawMetadata = parse(xmlFile);
+        expect(schema).toMatchSnapshot();
+    });
+
+    it('can parse actions and functions - overloads', async () => {
+        const xmlFile = await loadFixture('v4/actions-and-functions-overload.xml');
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });

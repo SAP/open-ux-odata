@@ -2,6 +2,7 @@ import { parse } from '@sap-ux/edmx-parser';
 import { convert } from '@sap-ux/annotation-converter';
 import type {
     Action,
+    ActionImport,
     ConvertedMetadata,
     EntitySet,
     EntityType,
@@ -81,6 +82,10 @@ export class ODataMetadata {
     }
     public getActionByFQN(actionFQN: string): Action | undefined {
         return this.metadata.actions.find((action) => action.fullyQualifiedName === actionFQN);
+    }
+
+    public getActionImportByFQN(actionImportFQN: string): ActionImport | undefined {
+        return this.metadata.actionImports.find((actionImport) => actionImport.fullyQualifiedName === actionImportFQN);
     }
 
     public getEntityContainerPath(): string {

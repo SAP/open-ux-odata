@@ -17,7 +17,8 @@ import type {
     RawComplexType,
     RawTypeDefinition,
     RawAssociation,
-    RawAssociationSet
+    RawAssociationSet,
+    RawActionImport
 } from '@sap-ux/vocabularies-types';
 
 /**
@@ -80,6 +81,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
             complexTypes: this._complexTypes,
             typeDefinitions: this._typeDefinitions,
             actions: this._actions,
+            actionImports: this._actionImports,
             entityTypes: this._entityTypes
         };
     }
@@ -95,6 +97,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
     _entitySets: RawEntitySet[] = [];
     _singletons: RawSingleton[] = [];
     _actions: RawAction[] = [];
+    _actionImports: RawActionImport[] = [];
     _entityContainer: RawEntityContainer = {
         _type: 'EntityContainer',
         fullyQualifiedName: ''
@@ -124,6 +127,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
         this._entitySets = this._entitySets.concat(parserOutput.schema.entitySets);
         this._singletons = this._singletons.concat(parserOutput.schema.singletons);
         this._actions = this._actions.concat(parserOutput.schema.actions);
+        this._actionImports = this._actionImports.concat(parserOutput.schema.actionImports);
         this._entityTypes = this._entityTypes.concat(parserOutput.schema.entityTypes);
         this._complexTypes = this._complexTypes.concat(parserOutput.schema.complexTypes);
         this._typeDefinitions = this._typeDefinitions.concat(parserOutput.schema.typeDefinitions);

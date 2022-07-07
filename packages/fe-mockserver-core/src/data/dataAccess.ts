@@ -8,7 +8,8 @@ import type {
     Property,
     ReferentialConstraint,
     Singleton,
-    NavigationProperty
+    NavigationProperty,
+    Action
 } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
 import type { ILogger } from '@ui5/logger';
@@ -175,48 +176,77 @@ export class DataAccess implements DataAccessInterface {
         } else {
             // Unbound action
             const actionName = odataRequest.queryPath[0].path;
-            const fqActionName = `${this.metadata.getEntityContainerPath()}/${actionName}()`;
-            const actionDefinition = this.metadata.getActionByFQN(fqActionName);
-            // Technically i'm not sure what we can do here but we cna at least check if it's a sticky action
-            if (actionDefinition) {
-                const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
-                if (targetEntitySet) {
-                    let outData: any = (await this.getMockEntitySet(targetEntitySet.name)).executeAction(
-                        actionDefinition,
-                        Object.assign({}, actionData),
-                        odataRequest,
-                        {}
-                    );
-                    if (this.metadata.getVersion() === '2.0') {
-                        const enrichElement = (entitySet: EntitySet, dataLine: any) => {
-                            const keyValues: string[] = [];
-                            if (entitySet.entityType.keys.length === 1) {
-                                keyValues.push(`${dataLine[entitySet.entityType.keys[0].name]}`);
-                            } else {
-                                entitySet.entityType.keys.forEach((key) => {
-                                    keyValues.push(`${key.name}='${dataLine[key.name]}'`);
-                                });
-                            }
-                            const uri = `${this.service.urlPath}/${entitySet.name}(${keyValues.join(',')})`;
-                            dataLine['__metadata'] = {
-                                id: uri,
-                                uri: uri,
-                                type: entitySet.entityTypeName
-                            };
-                            return dataLine;
-                        };
+            const entityContainerPath = this.metadata.getEntityContainerPath();
 
-                        // Enrich data with __metadata for v2
-                        if (Array.isArray(outData)) {
-                            outData = outData.map((element) => {
-                                return enrichElement(targetEntitySet, element);
-                            });
-                        } else if (outData != null) {
-                            outData = enrichElement(targetEntitySet, outData);
+            const actionDefinition: Action | undefined =
+                this.metadata.getVersion() === '2.0'
+                    ? this.metadata.getActionByFQN(`${entityContainerPath}/${actionName}`)
+                    : this.metadata.getActionImportByFQN(`${entityContainerPath}/${actionName}`)?.action;
+
+            if (actionDefinition) {
+                if (actionDefinition.sourceType !== '') {
+                    const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
+                    if (targetEntitySet) {
+                        let outData: any = (await this.getMockEntitySet(targetEntitySet.name)).executeAction(
+                            actionDefinition,
+                            Object.assign({}, actionData),
+                            odataRequest,
+                            {}
+                        );
+                        if (this.metadata.getVersion() === '2.0') {
+                            const enrichElement = (entitySet: EntitySet, dataLine: any) => {
+                                const keyValues: string[] = [];
+                                if (entitySet.entityType.keys.length === 1) {
+                                    keyValues.push(`${dataLine[entitySet.entityType.keys[0].name]}`);
+                                } else {
+                                    entitySet.entityType.keys.forEach((key) => {
+                                        keyValues.push(`${key.name}='${dataLine[key.name]}'`);
+                                    });
+                                }
+                                const uri = `${this.service.urlPath}/${entitySet.name}(${keyValues.join(',')})`;
+                                dataLine['__metadata'] = {
+                                    id: uri,
+                                    uri: uri,
+                                    type: entitySet.entityTypeName
+                                };
+                                return dataLine;
+                            };
+
+                            // Enrich data with __metadata for v2
+                            if (Array.isArray(outData)) {
+                                outData = outData.map((element) => {
+                                    return enrichElement(targetEntitySet, element);
+                                });
+                            } else if (outData != null) {
+                                outData = enrichElement(targetEntitySet, outData);
+                            }
                         }
+                        return outData;
+                    } else {
+                        // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
+                        return (await MockEntityContainer.read(this.mockDataRootFolder, this.fileLoader))
+                            ?.executeAction!(
+                            actionDefinition,
+                            Object.assign({}, actionData),
+                            odataRequest.queryPath[0].keys || {},
+                            odataRequest
+                        );
                     }
-                    return outData;
+                } else if (
+                    this.stickyEntitySets.some((stickyEntitySet) => stickyEntitySet.isDiscardAction(actionDefinition))
+                ) {
+                    // Special case for sticky discard action that might need to be changed
+                    for (const entitySet of this.stickyEntitySets) {
+                        await entitySet.executeAction(
+                            actionDefinition,
+                            actionData,
+                            odataRequest,
+                            odataRequest.queryPath[0].keys
+                        );
+                    }
+                    return true;
                 } else {
+                    // Treat this as a normal unbound action
                     // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
                     return (await MockEntityContainer.read(this.mockDataRootFolder, this.fileLoader))?.executeAction!(
                         actionDefinition,
@@ -226,35 +256,8 @@ export class DataAccess implements DataAccessInterface {
                     );
                 }
             } else {
-                const fqActionNameSticky = `${actionName}()`;
-                const unboundActionDefinition = this.metadata.getActionByFQN(fqActionNameSticky);
-                if (unboundActionDefinition) {
-                    const targetEntitySet = this.metadata.getEntitySetByType(unboundActionDefinition.sourceType);
-
-                    if (Object.keys(this.stickyEntitySets).length > 0) {
-                        // Special case for sticky that might need to be changed
-                        for (const entitySet of this.stickyEntitySets) {
-                            await entitySet.executeAction(
-                                unboundActionDefinition,
-                                actionData,
-                                odataRequest,
-                                odataRequest.queryPath[0].keys
-                            );
-                        }
-                    } else if (!targetEntitySet) {
-                        // Treat this as a normal unbound action
-                        // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
-                        return (await MockEntityContainer.read(this.mockDataRootFolder, this.fileLoader))
-                            ?.executeAction!(
-                            unboundActionDefinition,
-                            Object.assign({}, actionData),
-                            odataRequest.queryPath[0].keys || {},
-                            odataRequest
-                        );
-                    }
-                    return true;
-                }
-                return null;
+                // unknown action
+                throw new Error(`Unsupported Action`);
             }
         }
         return null;

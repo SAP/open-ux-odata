@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Entity1" EntityType="TestService.Entity1"/>
+        <EntitySet Name="Entity2" EntityType="TestService.Entity2"/>
+        <ActionImport Name="action" Action="TestService.action"/>
+        <FunctionImport Name="function" Function="TestService.function"/>
+      </EntityContainer>
+      <EntityType Name="Entity1">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="Entity2">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <Action Name="action" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+      </Action>
+      <Action Name="action" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+      </Action>
+      <Action Name="action" IsBound="false"/>
+      <Function Name="function" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Function Name="function" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Function Name="function" IsBound="false" IsComposable="false">
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Annotations Target="TestService.Entity1">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action"/>
+              <PropertyValue Property="Action" String="TestService.action"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Function"/>
+              <PropertyValue Property="Action" String="TestService.function"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Action via ActionImport"/>
+              <PropertyValue Property="Action" String="TestService.EntityContainer/action"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Function via ActionImport"/>
+              <PropertyValue Property="Action" String="TestService.EntityContainer/function"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="TestService.Entity2">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action"/>
+              <PropertyValue Property="Action" String="TestService.action"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Function"/>
+              <PropertyValue Property="Action" String="TestService.function"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Action via ActionImport"/>
+              <PropertyValue Property="Action" String="TestService.EntityContainer/action"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Function via ActionImport"/>
+              <PropertyValue Property="Action" String="TestService.EntityContainer/function"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

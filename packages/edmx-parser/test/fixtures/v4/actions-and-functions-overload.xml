@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Entity1" EntityType="TestService.Entity1"/>
+        <EntitySet Name="Entity2" EntityType="TestService.Entity2"/>
+        <ActionImport Name="action" Action="TestService.action"/>
+        <FunctionImport Name="function" Function="TestService.function"/>
+      </EntityContainer>
+      <EntityType Name="Entity1">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="Entity2">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <Action Name="action" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+      </Action>
+      <Action Name="action" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+      </Action>
+      <Action Name="action" IsBound="false"/>
+      <Function Name="function" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Function Name="function" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Function Name="function" IsBound="false" IsComposable="false">
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
