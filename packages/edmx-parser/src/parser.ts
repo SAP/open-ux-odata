@@ -517,7 +517,7 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
                     name: `${param._attributes.Name}`,
                     type: param._attributes.Type,
                     isEntitySet: isBound && index === 0,
-                    isCollection: param._attributes.Type.match(collectionRegexp) !== null
+                    isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
                 };
             }),
             returnType: action.ReturnType ? action.ReturnType._attributes.Type : ''
