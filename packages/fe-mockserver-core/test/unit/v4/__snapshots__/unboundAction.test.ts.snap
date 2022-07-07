@@ -10,14 +10,3 @@ Array [
 `;
 
 exports[`Unbound Action can be called 2`] = `"This is my action response"`;
-
-exports[`Unbound Action does not catch all 1`] = `
-Array [
-  Object {
-    "keys": Object {},
-    "path": "unboundActionThatIDontknow",
-  },
-]
-`;
-
-exports[`Unbound Action does not catch all 2`] = `null`;
