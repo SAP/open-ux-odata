@@ -315,6 +315,37 @@ describe('Annotation Converter', () => {
         expect(sdNavigationPropBinding2.objectPath.length).toEqual(4); // EntityContainer / EntitySet / NavPropBindingArray / EntitySet / EntityType / EntyitySet
     });
 
+    it('can support resolution target for singleton as well', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/trippin/metadata.xml'));
+        const annoFile = await loadFixture('v4/trippin/annotation.xml');
+        const annoSchema: RawMetadata = parse(annoFile, 'annoFile');
+        const mergeSchema = merge(parsedEDMX, annoSchema);
+        const convertedTypes = convert(mergeSchema);
+        const singletonPath: ResolutionTarget<EntitySet> = convertedTypes.resolvePath('/Me');
+        expect(singletonPath.target).not.toBeNull();
+        expect(singletonPath.target).not.toBeUndefined();
+        expect(singletonPath.target?._type).toEqual('Singleton');
+        expect(singletonPath.objectPath.length).toEqual(2); // EntityContainer / Singleton
+
+        const singletonPathProp: ResolutionTarget<EntitySet> = convertedTypes.resolvePath('/Me/FirstName');
+        expect(singletonPathProp.target).not.toBeNull();
+        expect(singletonPathProp.target).not.toBeUndefined();
+        expect(singletonPathProp.target?._type).toEqual('Property');
+        expect(singletonPathProp.objectPath.length).toEqual(4); // EntityContainer / Singleton / EntityType / Property
+
+        const singletonPathNav: ResolutionTarget<EntitySet> = convertedTypes.resolvePath('/Me/Friends');
+        expect(singletonPathNav.target).not.toBeNull();
+        expect(singletonPathNav.target).not.toBeUndefined();
+        expect(singletonPathNav.target?._type).toEqual('NavigationProperty');
+        expect(singletonPathNav.objectPath.length).toEqual(4); // EntityContainer / Singleton / EntityType / NavProp
+
+        const singletonPathNavProp: ResolutionTarget<EntitySet> = convertedTypes.resolvePath('/Me/Friends/FirstName');
+        expect(singletonPathNavProp.target).not.toBeNull();
+        expect(singletonPathNavProp.target).not.toBeUndefined();
+        expect(singletonPathNavProp.target?._type).toEqual('Property');
+        expect(singletonPathNavProp.objectPath.length).toEqual(5); // EntityContainer / Singleton / EntityType / NavProp / Property
+    });
+
     it('can support further resolvePath syntax', async () => {
         const parsedEDMX2 = parse(await loadFixture('v4/manageLineItems.xml'));
         const convertedTypes2 = convert(parsedEDMX2);

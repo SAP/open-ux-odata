@@ -71,6 +71,9 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
     rawMetadata.schema.entitySets.forEach((entitySet) => {
         objectMap[entitySet.fullyQualifiedName] = entitySet;
     });
+    rawMetadata.schema.singletons.forEach((singleton) => {
+        objectMap[singleton.fullyQualifiedName] = singleton;
+    });
     rawMetadata.schema.actions.forEach((action) => {
         objectMap[action.fullyQualifiedName] = action;
         if (action.isBound) {
@@ -223,7 +226,11 @@ function _resolveTarget(
         }
         if (pathPart.length === 0) {
             // Empty Path after an entitySet means entityType
-            if (currentValue && currentValue._type === 'EntitySet' && currentValue.entityType) {
+            if (
+                currentValue &&
+                (currentValue._type === 'EntitySet' || currentValue._type === 'Singleton') &&
+                currentValue.entityType
+            ) {
                 if (includeVisitedObjects) {
                     aVisitedObjects.push(currentValue);
                 }
@@ -242,13 +249,19 @@ function _resolveTarget(
         }
         if (!currentValue) {
             currentPath = pathPart;
-        } else if (currentValue._type === 'EntitySet' && pathPart === '$Type') {
+        } else if ((currentValue._type === 'EntitySet' || currentValue._type === 'Singleton') && pathPart === '$Type') {
             currentValue = currentValue.targetType;
             return currentValue;
-        } else if (currentValue._type === 'EntitySet' && pathPart === '$NavigationPropertyBinding') {
+        } else if (
+            (currentValue._type === 'EntitySet' || currentValue._type === 'Singleton') &&
+            pathPart === '$NavigationPropertyBinding'
+        ) {
             currentValue = currentValue.navigationPropertyBinding;
             return currentValue;
-        } else if (currentValue._type === 'EntitySet' && currentValue.entityType) {
+        } else if (
+            (currentValue._type === 'EntitySet' || currentValue._type === 'Singleton') &&
+            currentValue.entityType
+        ) {
             currentPath = combinePath(currentValue.entityTypeName, pathPart);
         } else if (currentValue._type === 'NavigationProperty') {
             currentPath = combinePath(currentValue.fullyQualifiedName, pathPart);
@@ -310,6 +323,7 @@ function _resolveTarget(
                         (obj) =>
                             obj._type === 'EntityType' ||
                             obj._type === 'EntitySet' ||
+                            obj._type === 'Singleton' ||
                             obj._type === 'NavigationProperty'
                     );
                 if (currentContext) {
@@ -1096,7 +1110,8 @@ function createGlobalResolve(convertedOutput: ConvertedMetadata, objectMap: Reco
         }
         const entitySetName = aPathSplit.shift();
         const entitySet = convertedOutput.entitySets.find((et: EntitySet) => et.name === entitySetName);
-        if (!entitySet) {
+        const singleton = convertedOutput.singletons.find((et: Singleton) => et.name === entitySetName);
+        if (!entitySet && !singleton) {
             return {
                 target: convertedOutput.entityContainer,
                 objectPath: [convertedOutput.entityContainer]
@@ -1104,11 +1119,17 @@ function createGlobalResolve(convertedOutput: ConvertedMetadata, objectMap: Reco
         }
         if (aPathSplit.length === 0) {
             return {
-                target: entitySet,
-                objectPath: [convertedOutput.entityContainer, entitySet]
+                target: entitySet || singleton,
+                objectPath: [convertedOutput.entityContainer, entitySet || singleton]
             } as ResolutionTarget<T>;
         } else {
-            const targetResolution: any = _resolveTarget(objectMap, entitySet, '/' + aPathSplit.join('/'), false, true);
+            const targetResolution: any = _resolveTarget(
+                objectMap,
+                entitySet || singleton,
+                '/' + aPathSplit.join('/'),
+                false,
+                true
+            );
             if (targetResolution.target) {
                 targetResolution.visitedObjects.push(targetResolution.target);
             }
