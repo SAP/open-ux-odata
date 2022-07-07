@@ -127,6 +127,8 @@ export class MergedRawMetadata implements RawMetadataInstance {
         this._entityTypes = this._entityTypes.concat(parserOutput.schema.entityTypes);
         this._complexTypes = this._complexTypes.concat(parserOutput.schema.complexTypes);
         this._typeDefinitions = this._typeDefinitions.concat(parserOutput.schema.typeDefinitions);
-        this._entityContainer = Object.assign(this._entityContainer, parserOutput.schema.entityContainer);
+        if (parserOutput.schema.entityContainer.fullyQualifiedName.length > 0) {
+            this._entityContainer = Object.assign(this._entityContainer, parserOutput.schema.entityContainer);
+        }
     }
 }
