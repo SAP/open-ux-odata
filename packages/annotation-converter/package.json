@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/annotation-converter",
-    "version": "0.5.15",
+    "version": "0.5.16",
     "description": "SAP Fiori OData - Annotation converter",
     "repository": {
         "type": "git",

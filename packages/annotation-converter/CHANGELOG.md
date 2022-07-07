@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.16
+
+### Patch Changes
+
+-   e2bd72a: Singleton are properly resolved through the resolvePath method
+
 ## 0.5.15
 
 ### Patch Changes

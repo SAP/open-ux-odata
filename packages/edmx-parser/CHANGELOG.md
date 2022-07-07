@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.8
+
+### Patch Changes
+
+-   e2bd72a: Singleton are properly resolved through the resolvePath method
+
 ## 0.5.7
 
 ### Patch Changes
