@@ -1790,7 +1790,7 @@ MergedRawMetadata {
   "_complexTypes": Array [],
   "_entityContainer": Object {
     "_type": "EntityContainer",
-    "fullyQualifiedName": "",
+    "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer",
     "name": "EntityContainer",
   },
   "_entitySets": Array [
