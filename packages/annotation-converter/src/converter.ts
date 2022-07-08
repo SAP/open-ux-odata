@@ -285,9 +285,7 @@ function _resolveTarget(
             if (!objectMap[currentPath]) {
                 currentPath = combinePath(currentValue.sourceType, pathPart);
             }
-        } else if (currentValue._type === 'ActionParameter' && currentValue.isEntitySet) {
-            currentPath = combinePath(currentValue.type, pathPart);
-        } else if (currentValue._type === 'ActionParameter' && !currentValue.isEntitySet) {
+        } else if (currentValue._type === 'ActionParameter') {
             currentPath = combinePath(
                 currentTarget.fullyQualifiedName.substring(0, currentTarget.fullyQualifiedName.lastIndexOf('/')),
                 pathPart
