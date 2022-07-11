@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.9
+
+### Patch Changes
+
+-   18aee1c: fix: Remove the unused 'isEntitySet' property from the ActionParameter type
+
 ## 0.5.8
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.17
+
+### Patch Changes
+
+-   18aee1c: fix: Remove the unused 'isEntitySet' property from the ActionParameter type
+
 ## 0.5.16
 
 ### Patch Changes

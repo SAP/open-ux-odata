@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.3
+
+### Patch Changes
+
+-   18aee1c: fix: Remove the unused 'isEntitySet' property from the ActionParameter type
+
 ## 0.6.2
 
 ### Patch Changes
