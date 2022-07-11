@@ -510,13 +510,12 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
             sourceType: isBound ? parameters[0]._attributes.Type : '',
             fullyQualifiedName: fullyQualifiedName,
             isFunction: isFunction,
-            parameters: parameters.map((param, index) => {
+            parameters: parameters.map((param) => {
                 return {
                     _type: 'ActionParameter',
                     fullyQualifiedName: `${fullyQualifiedName}/${param._attributes.Name}`,
                     name: `${param._attributes.Name}`,
                     type: param._attributes.Type,
-                    isEntitySet: isBound && index === 0,
                     isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
                 };
             }),
@@ -546,7 +545,6 @@ function parseV2FunctionImport(
                     name: param._attributes.Name,
                     fullyQualifiedName: `${actionFQN}/${param._attributes.Name}`,
                     type: param._attributes.Type,
-                    isEntitySet: false,
                     isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
                 };
             }),

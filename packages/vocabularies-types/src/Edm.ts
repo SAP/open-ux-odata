@@ -404,7 +404,6 @@ export type EntityContainer = {
 
 export type ActionParameter = {
     _type: 'ActionParameter';
-    isEntitySet: boolean;
     isCollection: boolean;
     name: string;
     fullyQualifiedName: string;
