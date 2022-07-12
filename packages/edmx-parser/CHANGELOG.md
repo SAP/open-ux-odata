@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.10
+
+### Patch Changes
+
+-   dde9115: Improve singleton support
+
 ## 0.5.9
 
 ### Patch Changes

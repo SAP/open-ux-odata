@@ -494,6 +494,60 @@ function parseSingletons(
     return outSingletons;
 }
 
+function resolveNavigationPropertyBindings(
+    entitySets: EDMX.EntitySet[],
+    singletons: EDMX.Singleton[],
+    outEntitySets: RawEntitySet[],
+    outSingletons: RawSingleton[]
+): void {
+    entitySets.forEach((entitySet) => {
+        const currentOutEntitySet = outEntitySets.find(
+            (outEntitySet) => outEntitySet.name === entitySet._attributes.Name
+        );
+        if (currentOutEntitySet) {
+            ensureArray(entitySet.NavigationPropertyBinding).forEach((navPropertyBinding) => {
+                const currentTargetEntitySet = outEntitySets.find(
+                    (entitySet) => entitySet.name === navPropertyBinding._attributes.Target
+                );
+                if (currentTargetEntitySet) {
+                    currentOutEntitySet.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
+                        currentTargetEntitySet;
+                }
+                const currentTargetSingleton = outSingletons.find(
+                    (singleton) => singleton.name === navPropertyBinding._attributes.Target
+                );
+                if (currentTargetSingleton) {
+                    currentOutEntitySet.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
+                        currentTargetSingleton;
+                }
+            });
+        }
+    });
+    singletons.forEach((singleton) => {
+        const currentOutSingleton = outSingletons.find(
+            (outSingleton) => outSingleton.name === singleton._attributes.Name
+        );
+        if (currentOutSingleton) {
+            ensureArray(singleton.NavigationPropertyBinding).forEach((navPropertyBinding) => {
+                const currentTargetEntitySet = outEntitySets.find(
+                    (entitySet) => entitySet.name === navPropertyBinding._attributes.Target
+                );
+                if (currentTargetEntitySet) {
+                    currentOutSingleton.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
+                        currentTargetEntitySet;
+                }
+                const currentTargetSingleton = outSingletons.find(
+                    (singleton) => singleton.name === navPropertyBinding._attributes.Target
+                );
+                if (currentTargetSingleton) {
+                    currentOutSingleton.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
+                        currentTargetSingleton;
+                }
+            });
+        }
+    });
+}
+
 function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: string, isFunction: boolean): RawAction[] {
     return actions.map((action) => {
         const parameters = ensureArray(action.Parameter);
@@ -1004,6 +1058,12 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
             namespace,
             edmSchema.EntityContainer._attributes.Name,
             annotations
+        );
+        resolveNavigationPropertyBindings(
+            ensureArray(edmSchema.EntityContainer.EntitySet),
+            ensureArray(edmSchema.EntityContainer.Singleton),
+            entitySets,
+            singletons
         );
         associationSets = parseAssociationSets(ensureArray(edmSchema.EntityContainer.AssociationSet), namespace);
         entityContainer = {

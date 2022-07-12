@@ -437,6 +437,7 @@ export type ActionImport = {
 
 export type ServiceObject =
     | EntitySet
+    | Singleton
     | EntityType
     | Property
     | ComplexType

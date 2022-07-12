@@ -1,5 +1,14 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.16
+
+### Patch Changes
+
+-   dde9115: Improve singleton support
+-   Updated dependencies [dde9115]
+    -   @sap-ux/annotation-converter@0.5.18
+    -   @sap-ux/edmx-parser@0.5.10
+
 ## 1.1.15
 
 ### Patch Changes
