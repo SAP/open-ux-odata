@@ -426,6 +426,7 @@ export type Action = {
 
 export type ServiceObject =
     | EntitySet
+    | Singleton
     | EntityType
     | Property
     | ComplexType
