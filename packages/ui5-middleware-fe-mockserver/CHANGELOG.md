@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.17
+
+### Patch Changes
+
+-   dde9115: Improve singleton support
+-   Updated dependencies [dde9115]
+    -   @sap-ux/fe-mockserver-core@1.1.16
+
 ## 2.1.16
 
 ### Patch Changes

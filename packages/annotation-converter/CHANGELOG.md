@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.18
+
+### Patch Changes
+
+-   dde9115: Improve singleton support
+
 ## 0.5.17
 
 ### Patch Changes

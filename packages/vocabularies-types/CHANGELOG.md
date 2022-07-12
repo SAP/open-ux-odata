@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.4
+
+### Patch Changes
+
+-   dde9115: Improve singleton support
+
 ## 0.6.3
 
 ### Patch Changes
