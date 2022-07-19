@@ -1,5 +1,23 @@
-export const commonCDS = `type Language : Association to sap.common.Languages;
+export const commonCDS = `
+/**
+ * Type for an association to Languages
+ *
+ * See https://cap.cloud.sap/docs/cds/common#type-language
+ */
+type Language : Association to sap.common.Languages;
+
+/**
+ * Type for an association to Currencies
+ *
+ * See https://cap.cloud.sap/docs/cds/common#type-currency
+ */
 type Currency : Association to sap.common.Currencies;
+
+/**
+ * Type for an association to Countries
+ *
+ * See https://cap.cloud.sap/docs/cds/common#type-country
+ */
 type Country : Association to sap.common.Countries;
 
 /**
@@ -7,22 +25,47 @@ type Country : Association to sap.common.Countries;
  * including built-in support for value lists in Fiori.
  */
 context sap.common {
-  entity Languages : CodeList {
-    key code : String(14) @(title : '{i18n>LanguageCode}');
+  /**
+   * Type for a language code
+   */
+  type Locale : String(14) @(title : '{i18n>LanguageCode}');
     //> length=14 is to accommodate values like these:
     // en_US_x_saptrc - (1Q) used as a technical SAP language code
     // en_US_x_sappsd - (2Q) used as a technical SAP language code
+
+  /**
+   * Code list for languages
+   *
+   * See https://cap.cloud.sap/docs/cds/common#entity-sapcommonlanguages
+   */
+  entity Languages : CodeList {
+    key code : Locale;
   }
 
+  /**
+   * Code list for countries
+   *
+   * See https://cap.cloud.sap/docs/cds/common#entity-sapcommoncountries
+   */
   entity Countries : CodeList {
     key code : String(3) @(title : '{i18n>CountryCode}');
   }
 
+  /**
+   * Code list for currencies
+   *
+   * See https://cap.cloud.sap/docs/cds/common#entity-sapcommoncurrencies
+   */
   entity Currencies : CodeList {
     key code   : String(3) @(title : '{i18n>CurrencyCode}');
         symbol : String(5) @(title : '{i18n>CurrencySymbol}');
   }
 
+  /**
+   * Aspect for a code list with name and description
+   *
+   * See https://cap.cloud.sap/docs/cds/common#aspect-sapcommoncodelist
+   */
   aspect CodeList @(
     cds.autoexpose,
     cds.persistence.skip : 'if-unused'
@@ -33,15 +76,19 @@ context sap.common {
 }
 
 
-/*
- * Aspect for entities with canonical universal IDs.
+/**
+ * Aspect for entities with canonical universal IDs
+ *
+ * See https://cap.cloud.sap/docs/cds/common#aspect-cuid
  */
 aspect cuid {
   key ID : UUID; //> automatically filled in
 }
 
-/*
- * Aspect to capture changes by user and name.
+/**
+ * Aspect to capture changes by user and name
+ *
+ * See https://cap.cloud.sap/docs/cds/common#aspect-managed
  */
 aspect managed {
   createdAt  : Timestamp @cds.on.insert : $now;
@@ -50,8 +97,10 @@ aspect managed {
   modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
 }
 
-/*
- * Aspects for entities with temporal data.
+/**
+ * Aspect for entities with temporal data
+ *
+ * See https://cap.cloud.sap/docs/cds/common#aspect-temporal
  */
 aspect temporal {
   validFrom : Timestamp @cds.valid.from;
@@ -65,7 +114,7 @@ aspect temporal {
 type User : String(255);
 
 
-/*
+/**
  * Aspects for extensible entities.
  */
 aspect extensible {
@@ -128,16 +177,14 @@ annotate managed with {
 
 //---------------------------------------------------------------------------
 // Temporary Workarounds...
-
-// REVISIT: Remove support for @odata.on... and #... with @sap/cds ^6
-// REVISIT: change @odata.on... to @cds.on...
 // REVISIT: @cds.on... should automatically result in @readonly @Core.Computed
 
 annotate managed with {
-  modifiedAt @readonly  @odata.on.update : #now;
-  createdAt  @readonly  @odata.on.insert : #now;
-  createdBy  @readonly  @odata.on.insert : #user;
-  modifiedBy @readonly  @odata.on.update : #user;
+  modifiedAt @readonly;
+  createdAt  @readonly;
+  createdBy  @readonly;
+  modifiedBy @readonly;
 }
 
-//---------------------------------------------------------------------------`;
+//---------------------------------------------------------------------------
+`;
