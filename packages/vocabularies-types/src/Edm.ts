@@ -424,6 +424,17 @@ export type Action = {
     parameters: ActionParameter[];
 };
 
+/**
+ * ActionImport or FunctionImport
+ */
+export type ActionImport = {
+    _type: 'ActionImport';
+    name: SimpleIdentifier;
+    fullyQualifiedName: SimpleIdentifier;
+    actionName: string;
+    action?: Action;
+};
+
 export type ServiceObject =
     | EntitySet
     | Singleton
@@ -451,6 +462,7 @@ export type ConvertedMetadata = {
     annotations: Record<string, AnnotationList[]>;
     namespace: string;
     actions: Action[];
+    actionImports: ActionImport[];
     entityContainer: EntityContainer;
     complexTypes: ComplexType[];
     typeDefinitions: TypeDefinition[];
@@ -516,10 +528,12 @@ export type RawSchema = {
     typeDefinitions: RawTypeDefinition[];
     entityContainer: RawEntityContainer;
     actions: RawAction[];
+    actionImports: RawActionImport[];
     entityTypes: RawEntityType[];
 };
 
 export type RawAction = RemoveAnnotationAndType<Action>;
+export type RawActionImport = RemoveAnnotationAndType<ActionImport>;
 export type RawEntityType = RemoveAnnotationAndType<EntityType> & {
     navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
 };

@@ -17,7 +17,7 @@ Object {
 }
 `;
 
-exports[`V4 Requestor can fail to create data through a call 1`] = `"Unknown Entity SetIDONTEXIST"`;
+exports[`V4 Requestor can fail to create data through a call 1`] = `"Unsupported Action"`;
 
 exports[`V4 Requestor can get the annotation file 1`] = `
 "<edmx:Edmx xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\" Version=\\"4.0\\">

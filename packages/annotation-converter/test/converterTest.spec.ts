@@ -124,7 +124,10 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.complexTypes[0].annotations).not.toBeUndefined();
         expect(convertedTypes.entityTypes[0].entityProperties[0].annotations).not.toBeUndefined();
         expect(convertedTypes.entityTypes[1].navigationProperties[0].annotations).not.toBeUndefined();
-        expect(convertedTypes.entityTypes[5].actions['PrepareForEdit'].annotations).not.toBeUndefined();
+        expect(
+            convertedTypes.entityTypes[5].actions['com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PrepareForEdit']
+                .annotations
+        ).not.toBeUndefined();
     });
     it('can convert with a crappy EDMX', async () => {
         const parsedEDMX = parse(await loadFixture('v4/crappyAnno.xml'));
@@ -136,7 +139,10 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.complexTypes[0].annotations).not.toBeUndefined();
         expect(convertedTypes.entityTypes[0].entityProperties[0].annotations).not.toBeUndefined();
         expect(convertedTypes.entityTypes[1].navigationProperties[0].annotations).not.toBeUndefined();
-        expect(convertedTypes.entityTypes[5].actions['PrepareForEdit'].annotations).not.toBeUndefined();
+        expect(
+            convertedTypes.entityTypes[5].actions['com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PrepareForEdit']
+                .annotations
+        ).not.toBeUndefined();
     });
     it('can convert with an error EDMX', async () => {
         const parsedEDMX = parse(await loadFixture('v2/errorAnno.xml'));
@@ -645,5 +651,43 @@ describe('Annotation Converter', () => {
         expect(action).toBeDefined();
         expect(action).not.toBeNull();
         expect(dataFieldForAction.ActionTarget).toEqual(action);
+    });
+
+    it('should resolve all ActionTargets - unique names', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/actions-and-functions.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const dataFields = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as DataFieldForAction[];
+        expect(dataFields.length).toEqual(7);
+        expect(dataFields[0].ActionTarget).toBeDefined();
+        expect(dataFields[1].ActionTarget).toBeDefined();
+        expect(dataFields[2].ActionTarget).toBeDefined();
+        expect(dataFields[3].ActionTarget).not.toBeDefined(); // invalid use: ref to unbound function bypassing the ActionImport
+        expect(dataFields[4].ActionTarget).not.toBeDefined(); // invalid use: ref to unbound action bypassing the FunctionImport
+        expect(dataFields[5].ActionTarget).toBeDefined();
+        expect(dataFields[6].ActionTarget).toBeDefined();
+    });
+
+    it('should resolve all ActionTargets - overloaded names', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/actions-and-functions-overload.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        function getAction(name: string) {
+            const result = convertedTypes.actions.find((action) => action.fullyQualifiedName === name);
+            expect(result).toBeDefined();
+            return result;
+        }
+
+        const dataFields1 = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as DataFieldForAction[];
+        expect(dataFields1[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
+        expect(dataFields1[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity1)'));
+        expect(dataFields1[2].ActionTarget).toBe(getAction('TestService.action'));
+        expect(dataFields1[3].ActionTarget).toBe(getAction('TestService.function'));
+
+        const dataFields2 = convertedTypes.entityTypes[1]?.annotations.UI?.LineItem as DataFieldForAction[];
+        expect(dataFields2[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity2)'));
+        expect(dataFields2[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity2)'));
+        expect(dataFields2[2].ActionTarget).toBe(getAction('TestService.action'));
+        expect(dataFields2[3].ActionTarget).toBe(getAction('TestService.function'));
     });
 });
