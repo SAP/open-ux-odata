@@ -300,6 +300,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
       <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol\\">
         <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencySymbol}\\"/>
       </Annotations>
+      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>LanguageCode}\\"/>
+      </Annotations>
       <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name\\">
         <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Name}\\"/>
       </Annotations>
@@ -463,6 +466,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
       </Annotations>
       <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
         <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencySymbol}\\"/>
+      </Annotations>
+      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
+        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>LanguageCode}\\"/>
       </Annotations>
       <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
         <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Name}\\"/>

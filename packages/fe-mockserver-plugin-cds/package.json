@@ -26,10 +26,10 @@
         "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u"
     },
     "peerDependencies": {
-        "@sap/cds-compiler": "^2.15.2"
+        "@sap/cds-compiler": "3.0.2"
     },
     "devDependencies": {
-        "@sap/cds-compiler": "^2.15.2",
+        "@sap/cds-compiler": "3.0.2",
         "@sap-ux/fe-mockserver-core": "workspace:*"
     }
 }
