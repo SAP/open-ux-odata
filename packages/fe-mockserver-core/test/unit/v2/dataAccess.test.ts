@@ -108,7 +108,8 @@ describe('Data Access', () => {
             dataAccess
         );
         await odataRequestSolo.handleRequest();
-        const responseDataSolo = odataRequestSolo.getResponseData();
+        let responseDataSolo = odataRequestSolo.getResponseData() || '';
+        responseDataSolo = responseDataSolo.replace(/\/Date\([^)]+\)/g, '/Date()');
         expect(responseDataSolo).toMatchSnapshot();
         expect(odataRequestSolo.responseHeaders).toMatchSnapshot();
     });

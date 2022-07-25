@@ -59,6 +59,13 @@ export class FileBasedMockData {
                                 );
                             });
                         }
+                        if (!prop.nullable && !mockLine.hasOwnProperty(prop.name)) {
+                            mockLine[prop.name] = this.getDefaultValueFromType(
+                                prop.type,
+                                prop.targetType,
+                                prop.defaultValue
+                            );
+                        }
                     });
                 });
             }
@@ -154,6 +161,7 @@ export class FileBasedMockData {
             case 'Edm.Byte':
             case 'Edm.Int32':
             case 'Edm.Int64':
+            case 'Edm.Decimal':
                 return 0;
             case 'Edm.Boolean':
                 return false;
