@@ -598,9 +598,4 @@ Object {
 }
 `;
 
-exports[`V4 Requestor get one data 2`] = `
-Object {
-  "@odata.context": "$metadata#RootElement(ID=233)",
-  "@odata.metadataEtag": "W/\\"5eca-S4loLm2mnROdb6MLU94VQPWBjMI\\"",
-}
-`;
+exports[`V4 Requestor get one data 2`] = `""`;

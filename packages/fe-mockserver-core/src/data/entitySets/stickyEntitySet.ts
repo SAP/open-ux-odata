@@ -4,7 +4,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { generateId } from '../common';
 import type { KeyDefinitions } from '../../mockdata/fileBasedMockData';
 import type { DataAccessInterface } from '../common';
-import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
+import type { Action, EntitySet, EntityType } from '@sap-ux/vocabularies-types';
 
 /**
  *
@@ -109,23 +109,8 @@ export class StickyMockEntitySet extends MockDataEntitySet {
 
             case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.NewAction}(${actionDefinition.sourceType})`: {
                 // New
-                const newObject: any = Object.assign({}, actionData);
-                const nonNullableProperties = actionDefinition.returnEntityType?.entityProperties.filter(
-                    (prop: Property) => prop.nullable === false
-                );
-                nonNullableProperties?.forEach((nonNullableProperty: Property) => {
-                    if (newObject[nonNullableProperty.name] === undefined) {
-                        switch (nonNullableProperty.type) {
-                            case 'Edm.String':
-                            case 'Edm.Guid':
-                                newObject[nonNullableProperty.name] = nonNullableProperty?.defaultValue || '';
-                                break;
-                            default:
-                                newObject[nonNullableProperty.name] = nonNullableProperty?.defaultValue;
-                                break;
-                        }
-                    }
-                });
+                let newObject = currentMockData.getEmptyObject(odataRequest) as any;
+                newObject = Object.assign(newObject, actionData);
 
                 this.setSessionObject(odataRequest.tenantId, newObject);
                 newObject.__transient = true;
