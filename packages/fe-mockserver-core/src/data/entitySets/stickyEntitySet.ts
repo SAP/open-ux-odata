@@ -14,6 +14,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
     private currentUUID?: string;
     private sessionTimeoutRef: any;
     public sessionTimeoutTime = 120;
+    private readonly discardAction: Action | undefined;
 
     constructor(
         rootFolder: string,
@@ -22,6 +23,26 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         generateMockData: boolean
     ) {
         super(rootFolder, entitySetDefinition, dataAccess, generateMockData);
+
+        const discardAction = (entitySetDefinition as EntitySet).annotations.Session?.StickySessionSupported
+            ?.DiscardAction;
+
+        if (discardAction) {
+            // determine the (unbound) discard action.
+            const metadata = dataAccess.getMetadata();
+            const entityContainerPath = metadata.getEntityContainerPath();
+
+            /*
+             TODO: Most (all?) of the existing services incorrectly annotate the 'discard' action by its short action
+                   name. This code prepends the entity container path if needed so that it can be resolved based on
+                   the action import.
+            */
+            const actionImportFQN = !discardAction.startsWith(entityContainerPath)
+                ? `${entityContainerPath}/${discardAction}`
+                : `${discardAction}`;
+
+            this.discardAction = metadata.getActionImportByFQN(actionImportFQN)?.action;
+        }
     }
 
     private getSessionObject(tenantId: string) {
@@ -115,7 +136,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 break;
             }
 
-            case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.DiscardAction}(${actionDefinition.sourceType})`:
+            case this.discardAction?.fullyQualifiedName:
                 // Discard
                 this.setSessionObject(odataRequest.tenantId, null);
                 responseObject = null;
@@ -177,5 +198,9 @@ export class StickyMockEntitySet extends MockDataEntitySet {
             }
         }
         return super.performGET(keyValues, asArray, tenantId, odataRequest, dontClone);
+    }
+
+    public isDiscardAction(action: Action) {
+        return action === this.discardAction;
     }
 }

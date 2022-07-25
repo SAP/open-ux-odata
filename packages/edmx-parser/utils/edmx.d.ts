@@ -73,17 +73,17 @@ declare namespace EDMX {
         EntitySet: MaybeArray<EntitySet>;
         Singleton: MaybeArray<Singleton>;
         AssociationSet?: MaybeArray<AssociationSet>;
-        FunctionImport?: MaybeArray<FunctionImport>;
+        FunctionImport?: MaybeArray<FunctionImportV2 | FunctionImport>;
         ActionImport: MaybeArray<ActionImport>;
     }
 
-    export interface ActionReturnType {
+    export interface ReturnType {
         _attributes: {
             Type: string;
         };
     }
 
-    export interface ActionParameter {
+    export interface Parameter {
         _attributes: {
             Name: string;
             Type: string;
@@ -100,7 +100,10 @@ declare namespace EDMX {
         };
     }
 
-    export interface FunctionImport {
+    /**
+     * OData 2.x FunctionImport
+     */
+    export interface FunctionImportV2 {
         _attributes: {
             Name: string;
             ReturnType: string;
@@ -109,14 +112,36 @@ declare namespace EDMX {
         Parameter: MaybeArray<FunctionImportParameter>;
     }
 
+    /**
+     * OData 4.x FunctionImport
+     */
+    export interface FunctionImport {
+        _attributes: {
+            Name: string;
+            Function: string;
+            EntitySet?: string;
+        };
+    }
+
+    /**
+     * OData 4.x ActionImport
+     */
+    export interface ActionImport {
+        _attributes: {
+            Name: string;
+            Action: string;
+            EntitySet?: string;
+        };
+    }
+
     export interface Action {
         _attributes: {
             Name: string;
             IsBound: string;
             EntitySetPath: string;
         };
-        Parameter: MaybeArray<ActionParameter>;
-        ReturnType: ActionReturnType;
+        Parameter: MaybeArray<Parameter>;
+        ReturnType: ReturnType;
     }
 
     export interface Function {
@@ -125,8 +150,8 @@ declare namespace EDMX {
             IsBound: string;
             EntitySetPath: string;
         };
-        Parameter: MaybeArray<ActionParameter>;
-        ReturnType: ActionReturnType;
+        Parameter: MaybeArray<Parameter>;
+        ReturnType: ReturnType;
     }
 
     export interface Schema {

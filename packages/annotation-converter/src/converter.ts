@@ -26,7 +26,8 @@ import type {
     ServiceObjectAndAnnotation,
     ResolutionTarget,
     EntityContainer,
-    RawAnnotation
+    RawAnnotation,
+    ActionImport
 } from '@sap-ux/vocabularies-types';
 import type { ReferencesWithMap } from './utils';
 import { alias, Decimal, defaultReferences, isComplexTypeDefinition, TermToTypes, unalias } from './utils';
@@ -92,6 +93,9 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
         action.parameters.forEach((parameter) => {
             objectMap[parameter.fullyQualifiedName] = parameter;
         });
+    });
+    rawMetadata.schema.actionImports.forEach((actionImport) => {
+        objectMap[actionImport.fullyQualifiedName] = actionImport;
     });
     rawMetadata.schema.complexTypes.forEach((complexType) => {
         objectMap[complexType.fullyQualifiedName] = complexType;
@@ -594,9 +598,14 @@ function parseRecord(
                 context.additionalAnnotations.push(subAnnotationList);
             }
             if (isDataFieldWithForAction(annotationContent, annotationTerm)) {
-                annotationContent.ActionTarget =
-                    (context.currentTarget.actions && context.currentTarget.actions[annotationContent.Action]) ||
-                    objectMap[annotationContent.Action];
+                // try to resolve to a bound action
+                annotationContent.ActionTarget = context.currentTarget.actions?.[annotationContent.Action];
+
+                // try to resolve to an unbound action (annotation must point to an ActionImport)
+                if (!annotationContent.ActionTarget) {
+                    annotationContent.ActionTarget = objectMap[annotationContent.Action]?.action;
+                }
+
                 if (!annotationContent.ActionTarget) {
                     // Add to diagnostics debugger;
                     ANNOTATION_ERRORS.push({
@@ -934,11 +943,16 @@ function linkActionsToEntityType(namespace: string, actions: Action[], objectMap
                 if (!sourceEntityType.actions) {
                     sourceEntityType.actions = {};
                 }
-                sourceEntityType.actions[action.name] = action;
                 sourceEntityType.actions[`${namespace}.${action.name}`] = action;
             }
             action.returnEntityType = objectMap[action.returnType];
         }
+    });
+}
+
+function linkActionImportsToActions(actionImports: ActionImport[], objectMap: Record<string, any>): void {
+    actionImports.forEach((actionImport) => {
+        actionImport.action = objectMap[actionImport.actionName];
     });
 }
 
@@ -1375,6 +1389,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     );
     (rawMetadata.schema.entityContainer as EntityContainer).annotations = {};
     linkActionsToEntityType(rawMetadata.schema.namespace, rawMetadata.schema.actions as Action[], objectMap);
+    linkActionImportsToActions(rawMetadata.schema.actionImports, objectMap);
     linkEntityTypeToEntitySet(rawMetadata.schema.entitySets as EntitySet[], objectMap, rawMetadata.references);
     linkEntityTypeToSingleton(rawMetadata.schema.singletons as Singleton[], objectMap, rawMetadata.references);
     linkPropertiesToComplexTypes(rawMetadata.schema.entityTypes as EntityType[], objectMap);
@@ -1447,6 +1462,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         namespace: rawMetadata.schema.namespace,
         entityContainer: rawMetadata.schema.entityContainer as EntityContainer,
         actions: rawMetadata.schema.actions as Action[],
+        actionImports: rawMetadata.schema.actionImports,
         entitySets: rawMetadata.schema.entitySets as EntitySet[],
         singletons: rawMetadata.schema.singletons as Singleton[],
         entityTypes: rawMetadata.schema.entityTypes as EntityType[],

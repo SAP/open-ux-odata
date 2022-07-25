@@ -2,6 +2,7 @@
 
 exports[`Merger can parse an edmx file 1`] = `
 MergedRawMetadata {
+  "_actionImports": Array [],
   "_actions": Array [
     Object {
       "_type": "Action",
@@ -2229,6 +2230,7 @@ MergedRawMetadata {
         },
       ],
       "schema": Object {
+        "actionImports": Array [],
         "actions": Array [
           Object {
             "_type": "Action",
@@ -4239,6 +4241,7 @@ MergedRawMetadata {
         },
       ],
       "schema": Object {
+        "actionImports": Array [],
         "actions": Array [],
         "annotations": Object {
           "annoFile": Array [

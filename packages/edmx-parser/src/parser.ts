@@ -4,6 +4,7 @@ import { xml2js } from 'xml-js';
 import { ensureArray, RawMetadataInstance } from './utils';
 import type {
     RawAction,
+    RawActionImport,
     RawEntityType,
     ReferentialConstraint,
     RawProperty,
@@ -547,34 +548,26 @@ function resolveNavigationPropertyBindings(
     });
 }
 
-function parseActions(
-    actions: (EDMX.Action | EDMX.Function)[],
-    namespace: string,
-    isFunction: boolean = false
-): RawAction[] {
+function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: string, isFunction: boolean): RawAction[] {
     return actions.map((action) => {
-        let actionEntityType: string = `${ensureArray(action.Parameter)
-            .filter((param) => param._attributes.Name === action._attributes.EntitySetPath)
-            .map((param) => param._attributes.Type)}`;
-        const isBound: boolean = action._attributes.IsBound === 'true';
-        let actionFQN: string = `${action._attributes.Name}()`;
-        if (isBound) {
-            if (!actionEntityType) {
-                actionEntityType = `${ensureArray(action.Parameter)[0]._attributes.Type}`;
-            }
-            actionFQN = `${namespace}.${action._attributes.Name}(${actionEntityType})`;
-        }
+        const parameters = ensureArray(action.Parameter);
+        const isBound = action._attributes.IsBound === 'true';
+
+        const fullyQualifiedName: string = isBound
+            ? `${namespace}.${action._attributes.Name}(${parameters[0]._attributes.Type})`
+            : `${namespace}.${action._attributes.Name}`;
+
         return {
             _type: 'Action',
             name: action._attributes.Name,
             isBound: isBound,
-            sourceType: actionEntityType,
-            fullyQualifiedName: actionFQN,
+            sourceType: isBound ? parameters[0]._attributes.Type : '',
+            fullyQualifiedName: fullyQualifiedName,
             isFunction: isFunction,
-            parameters: ensureArray(action.Parameter).map((param) => {
+            parameters: parameters.map((param) => {
                 return {
                     _type: 'ActionParameter',
-                    fullyQualifiedName: `${actionFQN}/${param._attributes.Name}`,
+                    fullyQualifiedName: `${fullyQualifiedName}/${param._attributes.Name}`,
                     name: `${param._attributes.Name}`,
                     type: param._attributes.Type,
                     isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
@@ -585,14 +578,14 @@ function parseActions(
     });
 }
 
-function parseFunctionImport(
-    actions: EDMX.FunctionImport[],
+function parseV2FunctionImport(
+    actions: EDMX.FunctionImportV2[],
     entitySets: RawEntitySet[],
     namespace: string
 ): RawAction[] {
     return actions.map((action) => {
         const targetEntitySet = entitySets.find((et) => et.name === action._attributes.EntitySet);
-        const actionFQN: string = `${namespace}/${action._attributes.Name}()`;
+        const actionFQN: string = `${namespace}/${action._attributes.Name}`;
         return {
             _type: 'Action',
             name: action._attributes.Name,
@@ -610,6 +603,24 @@ function parseFunctionImport(
                 };
             }),
             returnType: action._attributes.ReturnType ? action._attributes.ReturnType : ''
+        };
+    });
+}
+
+function parseActionImports(
+    imports: (EDMX.FunctionImport | EDMX.ActionImport)[],
+    namespace: string
+): RawActionImport[] {
+    return imports.map((actionOrFunctionImport) => {
+        const action =
+            (actionOrFunctionImport as EDMX.FunctionImport)._attributes.Function ??
+            (actionOrFunctionImport as EDMX.ActionImport)._attributes.Action;
+
+        return {
+            _type: 'ActionImport',
+            name: actionOrFunctionImport._attributes.Name,
+            fullyQualifiedName: `${namespace}/${actionOrFunctionImport._attributes.Name}`,
+            actionName: action
         };
     });
 }
@@ -1019,7 +1030,7 @@ function parseAnnotationLists(annotationLists: EDMX.AnnotationList[], annotation
         });
 }
 
-function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema {
+function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification: string): RawSchema {
     const namespace = edmSchema._attributes.Namespace;
     const annotations: AnnotationList[] = [];
     const entityTypes = parseEntityTypes(ensureArray(edmSchema.EntityType), annotations, namespace);
@@ -1033,6 +1044,8 @@ function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema 
         fullyQualifiedName: ''
     };
     let actions: RawAction[] = [];
+    let actionImports: RawActionImport[] = [];
+
     if (edmSchema.EntityContainer) {
         entitySets = parseEntitySets(
             ensureArray(edmSchema.EntityContainer.EntitySet),
@@ -1058,16 +1071,39 @@ function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema 
             name: edmSchema.EntityContainer._attributes.Name,
             fullyQualifiedName: `${namespace}.${edmSchema.EntityContainer._attributes.Name}`
         };
-        actions = actions.concat(
-            parseFunctionImport(
-                ensureArray(edmSchema.EntityContainer.FunctionImport),
-                entitySets,
-                entityContainer.fullyQualifiedName
-            )
-        );
+
+        if (edmVersion === '1.0') {
+            actions = actions.concat(
+                parseV2FunctionImport(
+                    ensureArray(edmSchema.EntityContainer.FunctionImport) as EDMX.FunctionImportV2[],
+                    entitySets,
+                    entityContainer.fullyQualifiedName
+                )
+            );
+        } else if (edmVersion === '4.0') {
+            // FunctionImports
+            actionImports = actionImports.concat(
+                parseActionImports(
+                    ensureArray(edmSchema.EntityContainer.FunctionImport) as EDMX.FunctionImport[],
+                    entityContainer.fullyQualifiedName
+                )
+            );
+
+            // ActionImports
+            actionImports = actionImports.concat(
+                parseActionImports(
+                    ensureArray(edmSchema.EntityContainer.ActionImport),
+                    entityContainer.fullyQualifiedName
+                )
+            );
+        } else {
+            throw new Error(`Unsupported EDMX version: ${edmVersion}`);
+        }
     }
-    actions = actions.concat(parseActions(ensureArray(edmSchema.Action), namespace));
-    actions = actions.concat(parseActions(ensureArray(edmSchema.Function), namespace, true));
+    if (edmVersion === '4.0') {
+        actions = actions.concat(parseActions(ensureArray(edmSchema.Action), namespace, false));
+        actions = actions.concat(parseActions(ensureArray(edmSchema.Function), namespace, true));
+    }
     const associations = parseAssociations(ensureArray(edmSchema.Association), namespace);
 
     parseAnnotationLists(ensureArray(edmSchema.Annotations), annotations);
@@ -1084,6 +1120,7 @@ function parseSchema(edmSchema: EDMX.Schema, identification: string): RawSchema 
         complexTypes,
         typeDefinitions,
         actions,
+        actionImports,
         entityTypes
     };
 }
@@ -1151,6 +1188,9 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
     }, []);
     const actions = schemas.reduce((actionsToReduce: RawAction[], schema) => {
         return actionsToReduce.concat(schema.actions);
+    }, []);
+    const actionImports = schemas.reduce((actionImportsToReduce: RawActionImport[], schema) => {
+        return actionImportsToReduce.concat(schema.actionImports);
     }, []);
     const complexTypes = schemas.reduce((complexTypesToReduces: RawComplexType[], schema) => {
         return complexTypesToReduces.concat(schema.complexTypes);
@@ -1226,6 +1266,7 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
         complexTypes,
         typeDefinitions,
         actions,
+        actionImports,
         entityTypes
     };
 }
@@ -1240,6 +1281,7 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
 export function parse(xml: string, fileIdentification: string = 'serviceFile'): RawMetadata {
     const jsonObj: EDMX.Edmx = xml2js(xml, { compact: true }) as EDMX.Edmx;
 
+    const version = jsonObj['edmx:Edmx']._attributes.Version;
     const schemas: EDMX.Schema[] = ensureArray(jsonObj['edmx:Edmx']['edmx:DataServices'].Schema);
     const references = parseReferences(ensureArray(jsonObj['edmx:Edmx']['edmx:Reference']), schemas);
     referenceMap = references.reduce((map: Record<string, Reference>, reference) => {
@@ -1248,11 +1290,11 @@ export function parse(xml: string, fileIdentification: string = 'serviceFile'): 
     }, {});
 
     const parsedSchemas = schemas.map((schema) => {
-        return parseSchema(schema, fileIdentification);
+        return parseSchema(schema, version, fileIdentification);
     });
     const edmxDocument: RawMetadata = new RawMetadataInstance(
         fileIdentification,
-        jsonObj['edmx:Edmx']._attributes.Version,
+        version,
         mergeSchemas(parsedSchemas),
         references
     );

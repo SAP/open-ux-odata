@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Entity" EntityType="TestService.Entity"/>
+        <ActionImport Name="unboundAction" Action="TestService.unboundAction"/>
+        <FunctionImport Name="unboundFunction" Function="TestService.unboundFunction"/>
+      </EntityContainer>
+      <EntityType Name="Entity">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <Action Name="boundAction" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity"/>
+      </Action>
+      <Action Name="staticAction" IsBound="true">
+        <Parameter Name="in" Type="Collection(TestService.Entity)"/>
+      </Action>
+      <Function Name="boundFunction" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Action Name="unboundAction" IsBound="false"/>
+      <Function Name="unboundFunction" IsBound="false" IsComposable="false">
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
