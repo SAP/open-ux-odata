@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.5
+
+### Patch Changes
+
+-   fe8374c: feat: add support for ActionImport and FunctionImport
+
 ## 0.6.4
 
 ### Patch Changes

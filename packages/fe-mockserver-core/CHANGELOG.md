@@ -1,5 +1,14 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.17
+
+### Patch Changes
+
+-   fe8374c: feat: add support for ActionImport and FunctionImport
+-   Updated dependencies [fe8374c]
+    -   @sap-ux/annotation-converter@0.5.19
+    -   @sap-ux/edmx-parser@0.5.11
+
 ## 1.1.16
 
 ### Patch Changes

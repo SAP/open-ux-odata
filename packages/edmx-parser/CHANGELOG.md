@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.11
+
+### Patch Changes
+
+-   fe8374c: feat: add support for ActionImport and FunctionImport
+
 ## 0.5.10
 
 ### Patch Changes

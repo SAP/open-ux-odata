@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.19
+
+### Patch Changes
+
+-   fe8374c: feat: add support for ActionImport and FunctionImport
+
 ## 0.5.18
 
 ### Patch Changes
