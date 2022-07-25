@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.18
+
+### Patch Changes
+
+-   2e09bdc: Ensure that non nullable properties are defined
+
 ## 1.1.17
 
 ### Patch Changes
