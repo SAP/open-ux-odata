@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.19
+
+### Patch Changes
+
+-   546fcdd: Make sure the 404 is returned for null values on GET
+
 ## 1.1.18
 
 ### Patch Changes
