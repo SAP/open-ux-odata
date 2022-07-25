@@ -4,7 +4,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { generateId } from '../common';
 import type { KeyDefinitions } from '../../mockdata/fileBasedMockData';
 import type { DataAccessInterface } from '../common';
-import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
+import type { Action, EntitySet, EntityType } from '@sap-ux/vocabularies-types';
 
 /**
  *
