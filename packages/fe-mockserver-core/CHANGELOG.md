@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.20
+
+### Patch Changes
+
+-   455030e: OData keys can contain weird symbol and require to be decoded
+
 ## 1.1.19
 
 ### Patch Changes
