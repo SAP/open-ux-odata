@@ -67,7 +67,7 @@ export default class ODataRequest {
     private messages: any[] = [];
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
-        const decodedUrl = requestContent.url;
+        const decodedUrl = decodeURIComponent(requestContent.url);
         const parsedUrl = new URL(`http://dummy${decodedUrl}`);
         this.tenantId = requestContent.tenantId || 'tenant-default';
         this.context = requestContent.url.split('?')[0].substring(1);
