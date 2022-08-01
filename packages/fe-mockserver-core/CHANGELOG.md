@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.21
+
+### Patch Changes
+
+-   c5cd829: Set the DraftAdministrativeData to null on activate
+
 ## 1.1.20
 
 ### Patch Changes
