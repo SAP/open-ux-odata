@@ -374,9 +374,13 @@ describe('Data Access', () => {
         );
         expect(formData.length).toEqual(0);
         formData = await dataAccess.getData(
-            new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false' }, dataAccess)
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=DraftAdministrativeData' },
+                dataAccess
+            )
         );
         expect(formData.length).toEqual(1);
+        expect(formData[0].DraftAdministrativeData).toBeDefined();
         // Activate it
         let actionResult = await dataAccess.performAction(
             new ODataRequest(
@@ -385,12 +389,16 @@ describe('Data Access', () => {
             )
         );
         expect(actionResult).toBeDefined;
-
+        //expect(actionResult.DraftAdministrativeData).toBeNull();
         formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
         expect(formData.length).toEqual(1);
         formData = await dataAccess.getData(
-            new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true' }, dataAccess)
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true&$expand=DraftAdministrativeData' },
+                dataAccess
+            )
         );
+        expect(formData[0].DraftAdministrativeData).toBeNull();
         expect(formData.length).toEqual(1);
         expect(formData[0].FirstName).toEqual('Bob');
         formData = await dataAccess.getData(
