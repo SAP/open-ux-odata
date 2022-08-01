@@ -126,6 +126,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 activeDraft.IsActiveEntity = true;
                 activeDraft.HasDraftEntity = false;
                 activeDraft.Processed = true;
+                activeDraft.DraftAdministrativeData = null;
                 dataToClean.push(activateKeyValues);
                 if (!currentMockData.hasEntry(activateKeyValues, odataRequest)) {
                     await currentMockData.addEntry(activeDraft, odataRequest);

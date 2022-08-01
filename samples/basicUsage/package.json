@@ -1,0 +1,25 @@
+{
+    "name": "basic-usage",
+    "version": "0.0.1",
+    "private": true,
+    "sapux": true,
+    "description": "Simple sample for the mockserver",
+    "keywords": [
+        "ui5",
+        "openui5",
+        "sapui5"
+    ],
+    "main": "webapp/index.html",
+    "scripts": {
+        "start": "ui5 serve --open 'index.html#basicusage-tile'"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@ui5/cli": "^2.11.1"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap-ux/ui5-middleware-fe-mockserver"
+        ]
+    }
+}
