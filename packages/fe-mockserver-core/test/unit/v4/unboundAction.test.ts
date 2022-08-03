@@ -31,6 +31,7 @@ describe('Unbound Action', () => {
         const requestUrl = '/unboundActionThatIDontknow';
 
         const request = new ODataRequest({ method: 'POST', url: requestUrl }, dataAccess);
-        return expect(dataAccess.performAction(request)).rejects.toThrowError('Unsupported Action');
+        const actionData = await dataAccess.performAction(request);
+        expect(actionData).toBeNull();
     });
 });

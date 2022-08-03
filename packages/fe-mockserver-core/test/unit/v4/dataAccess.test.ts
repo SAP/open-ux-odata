@@ -183,7 +183,8 @@ describe('Data Access', () => {
         let singletonData = await dataAccess.getData(odataRequest);
         expect(singletonData).toStrictEqual({ prop1: true, name: 'Me' });
         odataRequest = new ODataRequest({ method: 'GET', url: '/MySingleton/prop1' }, dataAccess);
-        singletonData = await dataAccess.getData(odataRequest);
+        await odataRequest.handleRequest();
+        singletonData = JSON.parse(odataRequest.getResponseData() || '');
         expect(singletonData.value).toEqual(true);
     });
     test('v4metadata - it can GET data for an entity with complex filter function', async () => {

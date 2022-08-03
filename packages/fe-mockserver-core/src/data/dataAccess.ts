@@ -255,9 +255,6 @@ export class DataAccess implements DataAccessInterface {
                         odataRequest
                     );
                 }
-            } else {
-                // unknown action
-                throw new Error(`Unsupported Action`);
             }
         }
         return null;
