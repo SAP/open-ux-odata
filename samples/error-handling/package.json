@@ -1,0 +1,20 @@
+{
+    "name": "error-handling",
+    "version": "0.0.1",
+    "private": true,
+    "description": "Error handling sample for the mockserver",
+    "main": "webapp/index.html",
+    "scripts": {
+        "start": "ui5 serve --open 'index.html#errorHandling-tile'"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@ui5/cli": "^2.11.1",
+        "rimraf": "3.0.2"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap/ux-ui5-fe-mockserver-middleware"
+        ]
+    }
+}

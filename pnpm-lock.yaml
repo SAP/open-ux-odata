@@ -154,6 +154,26 @@ importers:
             '@sap-ux/ui5-middleware-fe-mockserver': link:../../packages/ui5-middleware-fe-mockserver
             '@ui5/cli': 2.14.10
 
+    samples/errorHandling:
+        specifiers:
+            '@sap-ux/ui5-middleware-fe-mockserver': workspace:*
+            '@ui5/cli': ^2.11.1
+            rimraf: 3.0.2
+        devDependencies:
+            '@sap-ux/ui5-middleware-fe-mockserver': link:../../packages/ui5-middleware-fe-mockserver
+            '@ui5/cli': 2.14.10
+            rimraf: 3.0.2
+
+    samples/functionImport:
+        specifiers:
+            '@sap-ux/ui5-middleware-fe-mockserver': workspace:*
+            '@ui5/cli': ^2.11.1
+            rimraf: 3.0.2
+        devDependencies:
+            '@sap-ux/ui5-middleware-fe-mockserver': link:../../packages/ui5-middleware-fe-mockserver
+            '@ui5/cli': 2.14.10
+            rimraf: 3.0.2
+
 packages:
     /@ampproject/remapping/2.1.2:
         resolution:

@@ -21,8 +21,14 @@ This repository contains a collection of utilities around the OData protocol tha
 - [@sap-ux/fe-mockserver-plugin-cds](./packages/fe-mockserver-plugin-cds) : A CDS plugin to automatically convert CDS file and use them in the mockserver.
 - [@sap-ux/ui5-middleware-fe-mockserver](./packages/ui5-middleware-fe-mockserver) : The ui5 middleware for mockserver that works out of the box for the ui5 tooling.
 
+## Documentation
+
+Generally documentation will be available in [docs](./docs)
+You can also find some samples about the mockserver usage in the [samples folder](./samples/).
+
+
 ## Requirements
-Everything is released as node modules requiring node with a version matching `">=12.22.5 < 13.0.0 || >= 14.16.0 < 15.0.0 || >=16.1.0 < 17.0.0"`.
+Everything is released as node modules requiring node with a version matching `">= 14.16.0 < 15.0.0 || >=16.1.0 < 17.0.0 || >=18.0.0 < 19.0.0`.
 
 ## Contributing
 Please check the [Development Conventions and Guidelines](./docs/Guidelines.md) document as well as the [Development Setup](#development-setup) section in this document.

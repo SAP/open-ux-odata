@@ -53,7 +53,13 @@ export type MockDataContributor = {
     onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: object, odataRequest: ODataRequest): Promise<void>;
     hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
     performCustomAggregate?(customAggregateName: string, dataToAggregate: any[], odataRequest: ODataRequest): any;
-    throwError?(message: string, statusCode?: number, messageData?: object): any;
+    throwError?(
+        message: string,
+        statusCode?: number,
+        messageData?: object,
+        isSAPMessage?: boolean,
+        headers?: Record<string, string>
+    ): any;
     base?: {
         generateMockData: () => void;
         generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
