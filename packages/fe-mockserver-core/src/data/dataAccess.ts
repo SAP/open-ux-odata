@@ -277,10 +277,8 @@ export class DataAccess implements DataAccessInterface {
                 if (
                     currentEntitySet &&
                     navigationData.hasOwnProperty('IsActiveEntity') &&
-                    ((currentEntitySet.navigationPropertyBinding[navPropDetail.name]?.annotations?.Common as any)
-                        ?.DraftNode ||
-                        (currentEntitySet.navigationPropertyBinding[navPropDetail.name]?.annotations?.Common as any)
-                            ?.DraftRoot)
+                    ((currentEntitySet?.annotations?.Common as any)?.DraftNode ||
+                        (currentEntitySet?.annotations?.Common as any)?.DraftRoot)
                 ) {
                     currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
                 }
