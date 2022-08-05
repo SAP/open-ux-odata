@@ -18,7 +18,7 @@ This repository contains a collection of utilities around the OData protocol tha
 - [@sap-ux/annotation-converter](./packages/annotation-converter) : A tool that allows to provide a convenient API on top of the metadata and annotations.
 
 - [@sap-ux/fe-mockserver-core](./packages/fe-mockserver-core) : The core middleware for the mockserver.
-- [@sap-ux/fe-mockserver-plugin-cds](./packages/fe-mockserver-plugin-cds) : A CDS plugin to automatically convert CDS file and use them in the mockserver.
+- [@sap-ux/fe-mockserver-plugin-cds](./packages/fe-mockserver-plugin-cds) : A CDS plugin to automatically convert CDS files and use them in the mockserver.
 - [@sap-ux/ui5-middleware-fe-mockserver](./packages/ui5-middleware-fe-mockserver) : The ui5 middleware for mockserver works out of the box for the ui5 tooling.
 
 ## Documentation
