@@ -13,6 +13,7 @@ entity FormRoot {
         DateOfBirth  : Date    @Common.Label :                                'Date of Birth';
         EmailAddress : String  @Communication.IsEmailAddress  @Common.Label : 'Email Address';
         _Elements    : Composition of many SubElements;
+        SpecialOne: Composition of one SubElements;
         Currency     : Currency;
         Country      : String  @(Common : {
             Label     : 'Country of Residence',

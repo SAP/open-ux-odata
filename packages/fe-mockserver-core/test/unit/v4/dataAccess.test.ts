@@ -532,6 +532,17 @@ describe('Data Access', () => {
         expect(subElement.HasActiveEntity).toEqual(false);
         expect(subElement.Name).toEqual('OtherChild2');
 
+        subElement = await dataAccess.createData(
+            new ODataRequest({ method: 'GET', url: '/FormRoot(ID=1,IsActiveEntity=false)/SpecialOne' }, dataAccess),
+            {
+                Name: 'My Favorite'
+            }
+        );
+        expect(subElement).toBeDefined;
+        expect(subElement.IsActiveEntity).toEqual(false);
+        expect(subElement.HasActiveEntity).toEqual(false);
+        expect(subElement.Name).toEqual('My Favorite');
+
         // Activate the Draft
         actionResult = await dataAccess.performAction(
             new ODataRequest(
@@ -544,7 +555,7 @@ describe('Data Access', () => {
         expect(formData.length).toEqual(1);
         formData = await dataAccess.getData(
             new ODataRequest(
-                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true&$expand=_Elements' },
+                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true&$expand=_Elements,SpecialOne' },
                 dataAccess
             )
         );
@@ -553,6 +564,9 @@ describe('Data Access', () => {
         expect(formData[0]._Elements.length).toEqual(2);
         expect(formData[0]._Elements[0].Name).toEqual('OtherChild2');
         expect(formData[0]._Elements[1].Name).toEqual('SecondChild');
+        expect(formData[0].SpecialOne.Name).toEqual('My Favorite');
+        expect(formData[0].SpecialOne.IsActiveEntity).toEqual(true);
+        expect(formData[0].SpecialOne.HasDraftEntity).toEqual(false);
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false' }, dataAccess)
         );
@@ -567,7 +581,7 @@ describe('Data Access', () => {
         expect(actionResult).toBeDefined;
         formData = await dataAccess.getData(
             new ODataRequest(
-                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements' },
+                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,SpecialOne' },
                 dataAccess
             )
         );
@@ -576,6 +590,9 @@ describe('Data Access', () => {
         expect(formData[0]._Elements.length).toEqual(2);
         expect(formData[0]._Elements[0].Name).toEqual('OtherChild2');
         expect(formData[0]._Elements[1].Name).toEqual('SecondChild');
+        expect(formData[0].SpecialOne.Name).toEqual('My Favorite');
+        expect(formData[0].SpecialOne.IsActiveEntity).toEqual(false);
+        expect(formData[0].SpecialOne.HasActiveEntity).toEqual(true);
         // Activate the Draft
         actionResult = await dataAccess.performAction(
             new ODataRequest(

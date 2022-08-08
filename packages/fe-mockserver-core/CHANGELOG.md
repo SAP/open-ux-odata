@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.22
+
+### Patch Changes
+
+-   45bfb2c: fix: 1 to 1 navigation was not respecting draft status
+
 ## 1.1.21
 
 ### Patch Changes
