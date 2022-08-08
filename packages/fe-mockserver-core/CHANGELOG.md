@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.23
+
+### Patch Changes
+
+-   bd259d9: Singleton property can now be queried individually
+
 ## 1.1.22
 
 ### Patch Changes
