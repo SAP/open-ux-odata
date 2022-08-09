@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.24
+
+### Patch Changes
+
+-   1d0ea1c: Nested expand now behaves correctly for v2 application
+
 ## 1.1.23
 
 ### Patch Changes
