@@ -2,7 +2,24 @@ import ODataRequest from '../../../src/request/odataRequest';
 import type { DataAccess } from '../../../src/data/dataAccess';
 
 describe('OData Request', () => {
-    const fakeDataAccess: DataAccess = {} as DataAccess;
+    const fakeDataAccess: DataAccess = {
+        getMetadata: () => {
+            return {
+                getVersion: () => {
+                    return '4.0';
+                }
+            };
+        }
+    } as DataAccess;
+    const fakeDataAccessV2: DataAccess = {
+        getMetadata: () => {
+            return {
+                getVersion: () => {
+                    return '3.0';
+                }
+            };
+        }
+    } as DataAccess;
     test('It can parse queries', () => {
         let myRequest = new ODataRequest(
             {
@@ -140,9 +157,9 @@ describe('OData Request', () => {
         let myRequest = new ODataRequest(
             {
                 method: 'GET',
-                url: '/Countries?$expand=Value1,Value2,,Value3'
+                url: '/Countries?$expand=Value1,Value2,,Value3,Value4/Value5'
             },
-            fakeDataAccess
+            fakeDataAccessV2
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
             Object {
@@ -150,6 +167,7 @@ describe('OData Request', () => {
               "Value1": true,
               "Value2": true,
               "Value3": true,
+              "Value4": true,
             }
         `);
         expect(myRequest.expandProperties).toMatchInlineSnapshot(`
@@ -168,6 +186,19 @@ describe('OData Request', () => {
               },
               "Value3": Object {
                 "expand": Object {},
+                "properties": Object {
+                  "*": true,
+                },
+              },
+              "Value4": Object {
+                "expand": Object {
+                  "Value5": Object {
+                    "expand": Object {},
+                    "properties": Object {
+                      "*": true,
+                    },
+                  },
+                },
                 "properties": Object {
                   "*": true,
                 },

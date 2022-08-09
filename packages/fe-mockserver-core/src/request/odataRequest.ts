@@ -174,33 +174,49 @@ export default class ODataRequest {
         const props = this.splitProperties(expandParameters);
         return props.reduce(
             (reducer: ExpandDefinition, property) => {
-                const { pre: name, body: parameters } = balanced('(', ')', property) ?? { pre: property, body: '' };
-                const parameterSplit = this.splitProperties(parameters, ';');
-                const queryPart = parameterSplit.reduce((acc: {}, split) => Object.assign(acc, parse(split)), {});
-                const expand = queryPart['$expand']
-                    ? this.parseExpand(queryPart['$expand'] as string)
-                    : { expand: {}, properties: {} };
+                if (this.dataAccess.getMetadata().getVersion() === '4.0') {
+                    const { pre: name, body: parameters } = balanced('(', ')', property) ?? { pre: property, body: '' };
+                    const parameterSplit = this.splitProperties(parameters, ';');
+                    const queryPart = parameterSplit.reduce((acc: {}, split) => Object.assign(acc, parse(split)), {});
+                    const expand = queryPart['$expand']
+                        ? this.parseExpand(queryPart['$expand'] as string)
+                        : { expand: {}, properties: {} };
 
-                const selectProperties: any = {};
-                if (queryPart['$select']) {
-                    // explicit $select
-                    (queryPart['$select'] as string)
-                        .split(',')
-                        .forEach((propertyName) => (selectProperties[propertyName] = true));
+                    const selectProperties: any = {};
+                    if (queryPart['$select']) {
+                        // explicit $select
+                        (queryPart['$select'] as string)
+                            .split(',')
+                            .forEach((propertyName) => (selectProperties[propertyName] = true));
+                    } else {
+                        selectProperties['*'] = true;
+                    }
+
+                    Object.keys(expand.properties).forEach((expandName) => {
+                        selectProperties[expandName] = true;
+                    });
+
+                    reducer.expand[name] = {
+                        expand: expand.expand,
+                        properties: selectProperties
+                    };
+                    reducer.properties[name] = true;
+                    return reducer;
                 } else {
-                    selectProperties['*'] = true;
+                    const propertySplit = property.split('/');
+                    const name = propertySplit[0];
+                    const expand = propertySplit[1]
+                        ? this.parseExpand(propertySplit[1])
+                        : { expand: {}, properties: {} };
+                    reducer.expand[name] = {
+                        expand: expand.expand,
+                        properties: {
+                            '*': true
+                        }
+                    };
+                    reducer.properties[name] = true;
+                    return reducer;
                 }
-
-                Object.keys(expand.properties).forEach((expandName) => {
-                    selectProperties[expandName] = true;
-                });
-
-                reducer.expand[name] = {
-                    expand: expand.expand,
-                    properties: selectProperties
-                };
-                reducer.properties[name] = true;
-                return reducer;
             },
             { expand: {}, properties: {} }
         );
