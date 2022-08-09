@@ -1,0 +1,21 @@
+{
+    "name": "function-import",
+    "version": "0.0.1",
+    "private": true,
+    "sapux": true,
+    "description": "Function import sample for the mockserver",
+    "scripts": {
+        "start": "ui5 serve --open 'index.html#functionImport-tile'"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@ui5/cli": "^2.11.1",
+        "rimraf": "3.0.2"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap/ux-ui5-tooling",
+            "@sap/ux-ui5-fe-mockserver-middleware"
+        ]
+    }
+}
