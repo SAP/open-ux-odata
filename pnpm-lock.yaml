@@ -146,13 +146,33 @@ importers:
             axios: 0.26.1
             mkdirp: 1.0.4
 
-    samples/basicUsage:
+    samples/basic-usage:
         specifiers:
             '@sap-ux/ui5-middleware-fe-mockserver': workspace:*
             '@ui5/cli': ^2.14.10
         devDependencies:
             '@sap-ux/ui5-middleware-fe-mockserver': link:../../packages/ui5-middleware-fe-mockserver
             '@ui5/cli': 2.14.10
+
+    samples/error-handling:
+        specifiers:
+            '@sap-ux/ui5-middleware-fe-mockserver': workspace:*
+            '@ui5/cli': ^2.11.1
+            rimraf: 3.0.2
+        devDependencies:
+            '@sap-ux/ui5-middleware-fe-mockserver': link:../../packages/ui5-middleware-fe-mockserver
+            '@ui5/cli': 2.14.10
+            rimraf: 3.0.2
+
+    samples/function-import:
+        specifiers:
+            '@sap-ux/ui5-middleware-fe-mockserver': workspace:*
+            '@ui5/cli': ^2.11.1
+            rimraf: 3.0.2
+        devDependencies:
+            '@sap-ux/ui5-middleware-fe-mockserver': link:../../packages/ui5-middleware-fe-mockserver
+            '@ui5/cli': 2.14.10
+            rimraf: 3.0.2
 
 packages:
     /@ampproject/remapping/2.2.0:
