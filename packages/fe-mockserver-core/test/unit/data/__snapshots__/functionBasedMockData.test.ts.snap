@@ -1,3 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Function Based Mock Data can Delete Entries 1`] = `undefined`;
+
+exports[`Function Based Mock Data can GET All Entries 1`] = `"This tenant is not allowed for you"`;
+
+exports[`Function Based Mock Data can GET All Entries 2`] = `
+Object {
+  "content-type": "text/plain",
+  "odata-version": "4.0",
+  "sap-tenantid": "tenant-default",
+}
+`;
+
+exports[`Function Based Mock Data can GET All Entries 3`] = `"{\\"error\\":{\\"code\\":400,\\"message\\":\\"Field 'Field1' is required.\\",\\"target\\":\\"in/field1\\"}}"`;
+
+exports[`Function Based Mock Data can GET All Entries 4`] = `
+Object {
+  "content-type": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
+  "odata-version": "4.0",
+  "sap-tenantid": "tenant-default",
+}
+`;

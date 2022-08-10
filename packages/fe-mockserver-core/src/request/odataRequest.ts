@@ -363,6 +363,10 @@ export default class ODataRequest {
                     if (errorInformation.isSAPMessage) {
                         this.addResponseHeader('sap-messages', JSON.stringify(errorInformation.messageData));
                     } else {
+                        this.addResponseHeader(
+                            'content-type',
+                            'application/json;odata.metadata=minimal;IEEE754Compatible=true'
+                        );
                         this.setResponseData(JSON.stringify(errorInformation.messageData));
                     }
                 } else {

@@ -1,4 +1,3 @@
-import { MockDataEntitySet } from '../../../src/data/entitySets/entitySet';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
@@ -6,7 +5,6 @@ import { ODataMetadata } from '../../../src/data/metadata';
 import { DataAccess } from '../../../src/data/dataAccess';
 import type { ServiceConfig } from '../../../src';
 import ODataRequest from '../../../src/request/odataRequest';
-import type { EntitySet } from '@sap-ux/vocabularies-types';
 import type { EntitySetInterface } from '../../../src/data/common';
 
 let metadata!: ODataMetadata;
@@ -25,11 +23,11 @@ describe('Function Based Mock Data', () => {
         myEntitySet = await dataAccess.getMockEntitySet('MyRootEntity');
         myOtherEntitySet = await dataAccess.getMockEntitySet('MySecondEntity');
     });
-    it('can GET All Entries', () => {
+    it('can GET All Entries', async () => {
         const fakeRequest = new ODataRequest(
             {
                 method: 'GET',
-                url: 'MyRootEntity'
+                url: '/MyRootEntity'
             },
             dataAccess
         );
@@ -44,6 +42,24 @@ describe('Function Based Mock Data', () => {
         expect(() => {
             mockData = myEntitySet.getMockData('tenant-002').getAllEntries(fakeRequest) as any;
         }).toThrow('This tenant is not allowed for you');
+        await fakeRequest.handleRequest();
+        let responseData = fakeRequest.getResponseData();
+        expect(responseData).toMatchSnapshot();
+        expect(fakeRequest.responseHeaders).toMatchSnapshot();
+
+        // Fake that in tenant 003 we throw an error
+        const fakeRequest2 = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/MyRootEntity'
+            },
+            dataAccess
+        );
+        fakeRequest2.tenantId = 'tenant-003';
+        await fakeRequest2.handleRequest();
+        responseData = fakeRequest2.getResponseData();
+        expect(responseData).toMatchSnapshot();
+        expect(fakeRequest2.responseHeaders).toMatchSnapshot();
     });
     it('can Update Entries', async () => {
         const fakeRequest = new ODataRequest(
