@@ -6,7 +6,7 @@ module.exports = {
             return [allEntries[0]];
         } else if (odataRequest.tenantId === 'tenant-002') {
             this.throwError('This tenant is not allowed for you');
-        } else if (odataRequest.tenantId === 'tenant-003') {
+        } else if (odataRequest.tenantId === 'tenant-002b') {
             this.throwError('Error', 400, {
                 error: {
                     code: 400,

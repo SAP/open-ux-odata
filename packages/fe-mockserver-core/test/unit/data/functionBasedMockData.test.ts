@@ -55,7 +55,7 @@ describe('Function Based Mock Data', () => {
             },
             dataAccess
         );
-        fakeRequest2.tenantId = 'tenant-003';
+        fakeRequest2.tenantId = 'tenant-002b';
         await fakeRequest2.handleRequest();
         responseData = fakeRequest2.getResponseData();
         expect(responseData).toMatchSnapshot();
