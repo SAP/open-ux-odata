@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.25
+
+### Patch Changes
+
+-   172238c: Content-Type is now properly set on errors
+
 ## 1.1.24
 
 ### Patch Changes
