@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.26
+
+### Patch Changes
+
+-   87a9bf0: Draft Activate now properly respect passed query parameters
+
 ## 1.1.25
 
 ### Patch Changes
