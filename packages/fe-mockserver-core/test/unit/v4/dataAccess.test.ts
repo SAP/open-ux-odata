@@ -547,10 +547,30 @@ describe('Data Access', () => {
         // Activate the Draft
         actionResult = await dataAccess.performAction(
             new ODataRequest(
-                { method: 'GET', url: '/FormRoot(ID=1,IsActiveEntity=false)/sap.fe.core.Form.draftActivate' },
+                {
+                    method: 'POST',
+                    url: '/FormRoot(ID=1,IsActiveEntity=false)/sap.fe.core.Form.draftActivate?$select=LastName&$expand=SpecialOne'
+                },
                 dataAccess
             )
         );
+        expect(actionResult).toMatchInlineSnapshot(`
+            Object {
+              "ID": 1,
+              "IsActiveEntity": true,
+              "LastName": "",
+              "SpecialOne": Object {
+                "DraftAdministrativeData": null,
+                "HasActiveEntity": false,
+                "HasDraftEntity": false,
+                "ID": 0,
+                "IsActiveEntity": true,
+                "Name": "My Favorite",
+                "owner_ID": 0,
+                "sibling_ID": 0,
+              },
+            }
+        `);
 
         formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
         expect(formData.length).toEqual(1);

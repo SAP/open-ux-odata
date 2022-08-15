@@ -287,9 +287,12 @@ export class DraftMockEntitySet extends MockDataEntitySet {
 
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.ActivationAction}(${this.entitySetDefinition.entityTypeName})`:
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.ActivationAction}()`: {
-                const activeDraft = this.draftActivate(keys, odataRequest.tenantId, odataRequest);
-
-                responseObject = activeDraft;
+                await this.draftActivate(keys, odataRequest.tenantId, odataRequest);
+                odataRequest.queryPath.pop();
+                odataRequest.queryPath[odataRequest.queryPath.length - 1].keys = Object.assign({}, keys, {
+                    IsActiveEntity: true
+                });
+                responseObject = await this.dataAccess.getData(odataRequest);
                 break;
             }
             default:
