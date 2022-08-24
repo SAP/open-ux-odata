@@ -18,12 +18,61 @@ You just have to return an array of objects that will be used as the initial dat
 - `getInitialDataSet?: (contextId: string) => object[];`
   - `contextId` represents the tenant id for the current request
 
+### fetchEntries
+
+This method allow to provide the GET request for entity set. It should be in the file named *<entitySetName>.js* where <entitySetName> is the name of the entity set.
+
+If you want to return a specifi file as result of your GET request, here is a sample code:
+```javascript
+module.exports = {
+  fetchEntries: function (keyValues, odataRequest) {
+    const fs = require('fs');
+    if (odataRequest.queryPath[0].path == '<entitySetName>') {
+      return JSON.parse(fs.readFileSync(process.cwd() + '\\webapp\\localService\\data\\Expand.json', 'utf8'));
+    }
+  },
+}
+```
+
+### addEntry
+
+This method allow to provide POST request (e.g. create entity) for entity set. It should be in the file named *<entitySetName>.js* where <entitySetName> is the name of the entity set.
+
+If you want to modify the request content of the create request:
+```javascript
+module.exports = {
+    /**
+     * Catch create Entity and add uri in the metadata.
+     * 
+     * @param {JSon} mockEntry oData from the request
+     * @param {ODataRequest} odataRequest Instance of the current REST request
+     */
+  addEntry: function (mockEntry, odataRequest) {
+    mockEntry.__metadata['uri'] = odataRequest.requestContent.url + "('" + odataRequest.requestContent.body.MessageUid + "')";
+    this.base.addEntry(mockEntry);
+  },
+};
+```
 ### executeAction
 
 Provide a hook to handle the action calls, it's called whenever an action is executed.
 It contains the action definition from the metadata alongside the current set of data from the action and the key of the object it's applying to
 
 - `executeAction(actionDefinition: Action, actionData: any, keys: Record<string, any>): object;`
+
+It should be in the generic file *EntityContainer.js*, the implementation looks like this:
+
+```javascript
+module.exports = {
+  ...
+  executeAction: function (actionDefinition, actionData, keys) {
+    if (actionDefinition.name = 'Accept') {
+      ...
+    }
+  },
+  ...
+};
+```
 
 ### onBeforeAction / onAfterAction
 
