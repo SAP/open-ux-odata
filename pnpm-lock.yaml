@@ -1371,8 +1371,7 @@ packages:
     /@sap/cds-compiler/3.1.2:
         resolution:
             {
-                integrity: sha512-csH3aEs4aPCzAtc75Jx/Ayym2A06JgAeaDUFLXI867/Vsp2F0g7MJxuCkNhpa+zVZsXcyB0Kxzzv4xU7zuJXsQ==,
-                tarball: '@sap/cds-compiler/-/@sap/cds-compiler-3.1.2.tgz'
+                integrity: sha512-csH3aEs4aPCzAtc75Jx/Ayym2A06JgAeaDUFLXI867/Vsp2F0g7MJxuCkNhpa+zVZsXcyB0Kxzzv4xU7zuJXsQ==
             }
         engines: { node: '>=14' }
         hasBin: true
