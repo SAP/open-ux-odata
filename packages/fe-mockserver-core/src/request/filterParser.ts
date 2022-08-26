@@ -124,7 +124,10 @@ export class FilterParser extends EmbeddedActionsParser {
             $.OPTION(() => $.CONSUME(WS));
             $.CONSUME2(OPEN);
             $.OPTION2(() => $.CONSUME2(WS));
-            const literal1Node = $.SUBRULE2($.literalOrIdentifier);
+            const literal1Node = $.OR2([
+                { ALT: () => $.SUBRULE2($.methodCallExpr) },
+                { ALT: () => $.SUBRULE2($.literalOrIdentifier) }
+            ]);
             $.OPTION3(() => $.CONSUME3(WS));
             $.CONSUME(COMMA);
             $.OPTION4(() => $.CONSUME4(WS));
@@ -150,7 +153,10 @@ export class FilterParser extends EmbeddedActionsParser {
                     ALT: () => {
                         methodNode = $.CONSUME(SIMPLE_METHOD);
                         $.CONSUME(OPEN);
-                        literal1Node = $.SUBRULE($.literalOrIdentifier);
+                        literal1Node = $.OR2([
+                            { ALT: () => $.SUBRULE2($.methodCallExpr) },
+                            { ALT: () => $.SUBRULE2($.literalOrIdentifier) }
+                        ]);
                         $.CONSUME(CLOSE);
                     }
                 },
@@ -160,11 +166,14 @@ export class FilterParser extends EmbeddedActionsParser {
                         $.OPTION(() => $.CONSUME(WS));
                         $.CONSUME2(OPEN);
                         $.OPTION2(() => $.CONSUME2(WS));
-                        literal1Node = $.SUBRULE2($.literalOrIdentifier);
+                        literal1Node = $.OR3([
+                            { ALT: () => $.SUBRULE3($.methodCallExpr) },
+                            { ALT: () => $.SUBRULE3($.literalOrIdentifier) }
+                        ]);
                         $.OPTION3(() => $.CONSUME3(WS));
                         $.CONSUME(COMMA);
                         $.OPTION4(() => $.CONSUME4(WS));
-                        literal2Node = $.SUBRULE3($.literalOrIdentifier);
+                        literal2Node = $.SUBRULE4($.literalOrIdentifier);
                         $.OPTION5(() => $.CONSUME5(WS));
                         $.CONSUME2(CLOSE);
                     }

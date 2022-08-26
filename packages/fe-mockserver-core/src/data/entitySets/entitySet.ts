@@ -123,6 +123,12 @@ function prepareLiteral(literal: string, property: Property) {
     }
 }
 
+type TransformationFnObj = {
+    function: (type: string, check?: any) => any;
+    comparisonType: any;
+    identifier: any;
+};
+
 /**
  *
  */
@@ -314,25 +320,36 @@ export class MockDataEntitySet implements EntitySetInterface {
         return isValid;
     }
 
+    getIdentifierTransformationFns(transformationFns: [TransformationFnObj] | [], identifier: any) {
+        let property = identifier.methodArgs[0];
+        if (typeof identifier.methodArgs[0] === 'object') {
+            property = this.getIdentifierTransformationFns(transformationFns, identifier.methodArgs[0]);
+        }
+
+        const transformationFnObj: TransformationFnObj = {
+            function: transformationFn(
+                identifier.method,
+                prepareLiteral(identifier.methodArgs[1], this.getProperty(property))
+            ),
+            comparisonType:
+                identifier.method === 'length' || identifier.method === 'indexof' ? 'Edm.Int16' : 'Edm.String',
+            identifier: property
+        };
+        (transformationFns as [TransformationFnObj]).push(transformationFnObj);
+
+        return property;
+    }
+
     public checkSimpleExpression(filterExpression: any, mockData: any, tenantId: string, odataRequest: ODataRequest) {
-        let identifier = filterExpression.identifier;
+        const identifier = filterExpression.identifier;
         const operator = filterExpression.operator;
         let literal = filterExpression.literal;
-        let identifierTransformation = transformationFn('noop');
+        const identifierTransformations: [TransformationFnObj] | [] = [];
         let comparisonType = null;
         if (identifier.type === 'lambda') {
-            return this.checkLambdaExpression(identifier, identifierTransformation, mockData, tenantId, odataRequest);
+            return this.checkLambdaExpression(identifier, transformationFn('noop'), mockData, tenantId, odataRequest);
         } else if (identifier.method) {
-            identifierTransformation = transformationFn(
-                identifier.method,
-                prepareLiteral(identifier.methodArgs[1], this.getProperty(identifier.methodArgs[0]))
-            );
-            if (identifier.method === 'length' || identifier.method === 'indexof') {
-                comparisonType = 'Edm.Int16';
-            } else {
-                comparisonType = 'Edm.String';
-            }
-            identifier = identifier.methodArgs[0];
+            this.getIdentifierTransformationFns(identifierTransformations, identifier);
         }
         let literalTransformation = transformationFn('noop');
         if (literal && literal.method) {
@@ -349,15 +366,30 @@ export class MockDataEntitySet implements EntitySetInterface {
             property = this.getProperty(identifier);
         }
 
-        if (!comparisonType) {
-            comparisonType = property.type;
-        }
         const currentMockData = this.getMockData(tenantId);
         const specificCheck = this.checkSpecificProperties(filterExpression, mockData, currentMockData, odataRequest);
         if (specificCheck !== null) {
             return specificCheck;
         }
-        const mockValue = identifierTransformation(getData(mockData, identifier));
+        let mockValue: any = null;
+        // if we don't have any functions we still need to retrieve data so push a noop
+        if (identifierTransformations.length == 0) {
+            (identifierTransformations as TransformationFnObj[]).push({
+                function: transformationFn('noop'),
+                comparisonType: null,
+                identifier: filterExpression.identifier
+            });
+        }
+        identifierTransformations.forEach((functionObj: TransformationFnObj) => {
+            mockValue = !mockValue ? getData(mockData, functionObj.identifier) : mockValue;
+            mockValue = functionObj.function(mockValue);
+            comparisonType = functionObj.comparisonType;
+        });
+
+        if (!comparisonType) {
+            comparisonType = property.type;
+        }
+
         if (literal === true) {
             return mockValue === literal;
         }
@@ -630,6 +662,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         const parentEntitySetName = this.dataAccess.getMetadata().getParentEntitySetName(this.entitySetDefinition!);
         return this.getEntityInterface(parentEntitySetName!, tenantId);
     }
+
     public async getEntityInterface(entitySet: string, tenantId: string) {
         const mockEntitySet = await this.dataAccess.getMockEntitySet(entitySet);
         return mockEntitySet?.getMockData(tenantId);
