@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.0.4
+
+### Patch Changes
+
+-   fce4c15: Relax the range of supported CDS compiler versions
+
 ## 1.0.3
 
 ### Patch Changes
