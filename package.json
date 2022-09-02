@@ -16,7 +16,7 @@
         "eslint-plugin-import": "2.26.0",
         "eslint-plugin-jsdoc": "39.3.4",
         "eslint-plugin-prettier": "4.2.1",
-        "eslint-plugin-promise": "6.0.0",
+        "eslint-plugin-promise": "6.0.1",
         "husky": "7.0.4",
         "jest-sonar": "0.2.12",
         "jest": "28.1.3",
