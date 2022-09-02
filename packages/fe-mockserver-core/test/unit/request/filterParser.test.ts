@@ -217,6 +217,20 @@ describe('Filter Parser', () => {
         }
     });
 
+    test('can deal with nested function calls', () => {
+        const nested = parseFilter("contains(trim(tolower(Description)), 'port')");
+        expect((nested?.expressions[0].identifier as any)?.type).toBe('method');
+        expect(nested).toMatchSnapshot();
+
+        const nestedEverywhere = parseFilter("contains(trim(tolower(Description)), tolower('Port'))");
+        expect((nestedEverywhere?.expressions[0].identifier as any)?.type).toBe('method');
+        expect(nestedEverywhere).toMatchSnapshot();
+
+        const nestedComplex = parseFilter("contains(trim(tolower(cast(Description, Edm.String))), 'port')");
+        expect((nested?.expressions[0].identifier as any)?.type).toBe('method');
+        expect(nestedComplex).toMatchSnapshot();
+    });
+
     test('can deal with lambda', () => {
         const lamba = parseFilter("CountryCodes/any(ent:ent eq 'GBR')");
         expect(typeof lamba?.expressions[0].identifier).toBe('object');

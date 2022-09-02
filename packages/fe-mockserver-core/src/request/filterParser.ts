@@ -55,7 +55,7 @@ export const FilterLexer = new Lexer(filterTokens, {
     positionTracking: 'onlyStart'
 });
 
-type FilterMethodCall = {
+export type FilterMethodCall = {
     type: 'method';
     method: string;
     methodArgs: string[];
@@ -131,7 +131,10 @@ export class FilterParser extends EmbeddedActionsParser {
             $.OPTION3(() => $.CONSUME3(WS));
             $.CONSUME(COMMA);
             $.OPTION4(() => $.CONSUME4(WS));
-            const literal2Node = $.SUBRULE3($.literalOrIdentifier);
+            const literal2Node = $.OR3([
+                { ALT: () => $.SUBRULE3($.methodCallExpr) },
+                { ALT: () => $.SUBRULE3($.literalOrIdentifier) }
+            ]);
             $.OPTION5(() => $.CONSUME5(WS));
             $.CONSUME2(CLOSE);
             const methodArgs = [literal1Node];
@@ -173,7 +176,10 @@ export class FilterParser extends EmbeddedActionsParser {
                         $.OPTION3(() => $.CONSUME3(WS));
                         $.CONSUME(COMMA);
                         $.OPTION4(() => $.CONSUME4(WS));
-                        literal2Node = $.SUBRULE4($.literalOrIdentifier);
+                        literal2Node = $.OR4([
+                            { ALT: () => $.SUBRULE4($.methodCallExpr) },
+                            { ALT: () => $.SUBRULE4($.literalOrIdentifier) }
+                        ]);
                         $.OPTION5(() => $.CONSUME5(WS));
                         $.CONSUME2(CLOSE);
                     }
