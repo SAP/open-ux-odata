@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.27
+
+### Patch Changes
+
+-   e501c2e: Add support for nested transformation functions
+
 ## 1.1.26
 
 ### Patch Changes
