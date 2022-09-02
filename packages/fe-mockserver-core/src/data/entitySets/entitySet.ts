@@ -8,8 +8,7 @@ import type { DataAccessInterface, EntitySetInterface } from '../common';
 import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
-import type { LambdaExpression } from '../../request/filterParser';
-import type { FilterMethodCall } from '../../request/filterParser';
+import type { FilterMethodCall, LambdaExpression } from '../../request/filterParser';
 
 function getData(fullData: any, objectPath: string): any {
     if (fullData === undefined || objectPath.length === 0) {
@@ -27,7 +26,7 @@ type PreparedFunction = {
     fn: Function;
     type: string;
 };
-function makeTransformationFn(type: string, preparedArgs: PreparedFunction[] = []) {
+function makeTransformationFn(type: string, preparedArgs: PreparedFunction[]) {
     return function (mockData: any) {
         const resolvedArgs = preparedArgs.map((preparedArg) => preparedArg.fn(mockData));
         return transformationFn(type, resolvedArgs[1])(resolvedArgs[0]);
