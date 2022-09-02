@@ -80,6 +80,45 @@ describe('Data Access', () => {
         );
         expect(countryData.length).toEqual(1);
         expect(countryData[0].Country_Code).toEqual('DE');
+
+        countryData = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: "/Countries?$filter=contains(tolower(Country_Code), tolower('DE'))" },
+                dataAccess
+            )
+        );
+        expect(countryData.length).toEqual(1);
+        expect(countryData[0].Country_Code).toEqual('DE');
+
+        countryData = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: "/Countries?$filter=contains(tolower(Country_Code), 'DE')" },
+                dataAccess
+            )
+        );
+        expect(countryData.length).toEqual(0);
+
+        countryData = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: "/Countries?$filter=contains(tolower(Country_Code), 'de')" },
+                dataAccess
+            )
+        );
+        expect(countryData.length).toEqual(1);
+        expect(countryData[0].Country_Code).toEqual('DE');
+
+        countryData = await dataAccess.getData(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: "/Countries?$filter=concat(tolower(Country_Code), toupper(MainLanguage)) eq 'deGERMAN'"
+                },
+                dataAccess
+            )
+        );
+        expect(countryData.length).toEqual(1);
+        expect(countryData[0].Country_Code).toEqual('DE');
+
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: "/Countries?$filter=tolower(Country_Code) eq 'de'" }, dataAccess)
         );

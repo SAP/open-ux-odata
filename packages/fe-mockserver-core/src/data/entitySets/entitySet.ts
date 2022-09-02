@@ -8,7 +8,7 @@ import type { DataAccessInterface, EntitySetInterface } from '../common';
 import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
-import type { LambdaExpression } from '../../request/filterParser';
+import type { FilterMethodCall, LambdaExpression } from '../../request/filterParser';
 
 function getData(fullData: any, objectPath: string): any {
     if (fullData === undefined || objectPath.length === 0) {
@@ -20,6 +20,17 @@ function getData(fullData: any, objectPath: string): any {
         const subObjectPath = objectPath.split('/');
         return getData(fullData[subObjectPath[0]], subObjectPath.slice(1).join('/'));
     }
+}
+
+type PreparedFunction = {
+    fn: Function;
+    type: string;
+};
+function makeTransformationFn(type: string, preparedArgs: PreparedFunction[]) {
+    return function (mockData: any) {
+        const resolvedArgs = preparedArgs.map((preparedArg) => preparedArg.fn(mockData));
+        return transformationFn(type, resolvedArgs[1])(resolvedArgs[0]);
+    };
 }
 
 function transformationFn(type: string, check?: any) {
@@ -62,32 +73,36 @@ function transformationFn(type: string, check?: any) {
             };
         case 'startswith':
             return (data: string) => {
-                return data.startsWith(check);
+                return data.startsWith(prepareLiteral(check, 'Edm.String') as string);
             };
         case 'endswith':
             return (data: string) => {
-                return data.endsWith(check);
+                return data.endsWith(prepareLiteral(check, 'Edm.String') as string);
             };
         case 'contains':
             return (data: string) => {
-                return data.indexOf(check) !== -1;
+                return data.indexOf(prepareLiteral(check, 'Edm.String') as string) !== -1;
             };
         case 'concat':
             return (data: string) => {
-                return data + check;
+                return data + prepareLiteral(check, 'Edm.String');
             };
         case 'indexof':
             return (data: string) => {
-                return data.indexOf(check);
+                return data.indexOf(prepareLiteral(check, 'Edm.String') as string);
             };
         case 'substring':
             return (data: string) => {
                 return data.substring(check);
             };
         case 'matchesPattern':
-            const regExp = new RegExp(check);
+            const regExp = new RegExp(prepareLiteral(check, 'Edm.String') as string);
             return (data: string) => {
                 return regExp.test(data);
+            };
+        case 'getData':
+            return (data: any) => {
+                return getData(data, check);
             };
         case 'noop':
         default:
@@ -95,11 +110,11 @@ function transformationFn(type: string, check?: any) {
     }
 }
 
-function prepareLiteral(literal: string, property: Property) {
+function prepareLiteral(literal: string, propertyType: string) {
     if (!literal) {
         return literal;
     }
-    switch (property.type) {
+    switch (propertyType) {
         case 'Edm.Boolean':
             return literal === 'true';
         case 'Edm.String':
@@ -122,7 +137,6 @@ function prepareLiteral(literal: string, property: Property) {
             return literal;
     }
 }
-
 /**
  *
  */
@@ -314,54 +328,57 @@ export class MockDataEntitySet implements EntitySetInterface {
         return isValid;
     }
 
-    public checkSimpleExpression(filterExpression: any, mockData: any, tenantId: string, odataRequest: ODataRequest) {
-        let identifier = filterExpression.identifier;
-        const operator = filterExpression.operator;
-        let literal = filterExpression.literal;
-        let identifierTransformation = transformationFn('noop');
-        let comparisonType = null;
-        if (identifier.type === 'lambda') {
-            return this.checkLambdaExpression(identifier, identifierTransformation, mockData, tenantId, odataRequest);
-        } else if (identifier.method) {
-            identifierTransformation = transformationFn(
-                identifier.method,
-                prepareLiteral(identifier.methodArgs[1], this.getProperty(identifier.methodArgs[0]))
-            );
-            if (identifier.method === 'length' || identifier.method === 'indexof') {
-                comparisonType = 'Edm.Int16';
-            } else {
-                comparisonType = 'Edm.String';
+    createTransformation(identifier: string | FilterMethodCall): PreparedFunction {
+        if (typeof identifier === 'string') {
+            const property = this.getProperty(identifier);
+            if (property) {
+                return { fn: transformationFn('getData', identifier), type: property.type };
             }
-            identifier = identifier.methodArgs[0];
+            return { fn: () => identifier, type: 'Edm.String' };
+        } else {
+            const methodArgTransformed = identifier.methodArgs.map((methodArg) => this.createTransformation(methodArg));
+            const comparisonType =
+                identifier.method === 'length' || identifier.method === 'indexof' ? 'Edm.Int16' : 'Edm.String';
+            return { fn: makeTransformationFn(identifier.method, methodArgTransformed), type: comparisonType };
         }
-        let literalTransformation = transformationFn('noop');
-        if (literal && literal.method) {
-            literalTransformation = transformationFn(literal.method);
-            literal = literalTransformation(literal.methodArgs[0]);
-        } else if (!literal) {
-            literal = true;
+    }
+
+    public checkSimpleExpression(filterExpression: any, mockData: any, tenantId: string, odataRequest: ODataRequest) {
+        const identifier = filterExpression.identifier;
+        const operator = filterExpression.operator;
+        const literal = filterExpression.literal;
+        if (identifier.type === 'lambda') {
+            return this.checkLambdaExpression(identifier, transformationFn('noop'), mockData, tenantId, odataRequest);
+        }
+        let identifierFn = this.createTransformation(identifier);
+
+        let literalFn: PreparedFunction = {
+            fn: makeTransformationFn('noop', [{ fn: () => true, type: 'Edm.Boolean' }]),
+            type: 'Edm.Boolean'
+        };
+        if (literal) {
+            literalFn = this.createTransformation(literal);
         }
         let property;
         if (filterExpression.propertyPath) {
             // We're possibly in a lambda operation so let's try to see if the first part is a real property
             property = this.getProperty(filterExpression.propertyPath);
-        } else {
-            property = this.getProperty(identifier);
+            identifierFn = { fn: transformationFn('getData', identifier), type: property.type };
         }
 
-        if (!comparisonType) {
-            comparisonType = property.type;
-        }
         const currentMockData = this.getMockData(tenantId);
         const specificCheck = this.checkSpecificProperties(filterExpression, mockData, currentMockData, odataRequest);
         if (specificCheck !== null) {
             return specificCheck;
         }
-        const mockValue = identifierTransformation(getData(mockData, identifier));
-        if (literal === true) {
-            return mockValue === literal;
+        const mockValue = identifierFn.fn(mockData);
+        const literalValue = literalFn.fn(mockData);
+        const comparisonType = identifierFn.type;
+
+        if (literal === undefined) {
+            return mockValue === true;
         }
-        return currentMockData.checkFilterValue(comparisonType, mockValue, literal, operator, odataRequest);
+        return currentMockData.checkFilterValue(comparisonType, mockValue, literalValue, operator, odataRequest);
     }
 
     private checkLambdaExpression(
@@ -630,6 +647,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         const parentEntitySetName = this.dataAccess.getMetadata().getParentEntitySetName(this.entitySetDefinition!);
         return this.getEntityInterface(parentEntitySetName!, tenantId);
     }
+
     public async getEntityInterface(entitySet: string, tenantId: string) {
         const mockEntitySet = await this.dataAccess.getMockEntitySet(entitySet);
         return mockEntitySet?.getMockData(tenantId);

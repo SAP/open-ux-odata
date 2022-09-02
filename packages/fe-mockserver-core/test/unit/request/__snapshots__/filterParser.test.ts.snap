@@ -58,6 +58,106 @@ Object {
 }
 `;
 
+exports[`Filter Parser can deal with nested function calls 1`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": Object {
+        "method": "contains",
+        "methodArgs": Array [
+          Object {
+            "method": "trim",
+            "methodArgs": Array [
+              Object {
+                "method": "tolower",
+                "methodArgs": Array [
+                  "Description",
+                ],
+                "type": "method",
+              },
+            ],
+            "type": "method",
+          },
+          "'port'",
+        ],
+        "type": "method",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Filter Parser can deal with nested function calls 2`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": Object {
+        "method": "contains",
+        "methodArgs": Array [
+          Object {
+            "method": "trim",
+            "methodArgs": Array [
+              Object {
+                "method": "tolower",
+                "methodArgs": Array [
+                  "Description",
+                ],
+                "type": "method",
+              },
+            ],
+            "type": "method",
+          },
+          Object {
+            "method": "tolower",
+            "methodArgs": Array [
+              "'Port'",
+            ],
+            "type": "method",
+          },
+        ],
+        "type": "method",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Filter Parser can deal with nested function calls 3`] = `
+Object {
+  "expressions": Array [
+    Object {
+      "identifier": Object {
+        "method": "contains",
+        "methodArgs": Array [
+          Object {
+            "method": "trim",
+            "methodArgs": Array [
+              Object {
+                "method": "tolower",
+                "methodArgs": Array [
+                  Object {
+                    "method": "cast",
+                    "methodArgs": Array [
+                      "Description",
+                      "Edm.String",
+                    ],
+                    "type": "method",
+                  },
+                ],
+                "type": "method",
+              },
+            ],
+            "type": "method",
+          },
+          "'port'",
+        ],
+        "type": "method",
+      },
+    },
+  ],
+}
+`;
+
 exports[`Filter Parser it can deal with v2 specific guid 1`] = `
 Object {
   "expressions": Array [
