@@ -23,7 +23,6 @@ import type {
     Singleton,
     RawComplexType,
     ConvertedMetadata,
-    ServiceObjectAndAnnotation,
     ResolutionTarget,
     EntityContainer,
     RawAnnotation,
