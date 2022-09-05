@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Filesystem Loader can load js files 1`] = `
-Array [
-  Object {
+[
+  {
     "name": "Something",
   },
 ]
@@ -11,10 +11,10 @@ Array [
 exports[`Filesystem Loader can load json / text files 1`] = `
 "[
     {
-        \\"name\\": \\"Value\\"
+        "name": "Value"
     },
     {
-        \\"name\\": \\"Second one\\"
+        "name": "Second one"
     }
 ]
 "

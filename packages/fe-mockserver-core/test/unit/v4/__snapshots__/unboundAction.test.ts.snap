@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Unbound Action can be called 1`] = `
-Array [
-  Object {
-    "keys": Object {},
+[
+  {
+    "keys": {},
     "path": "unboundAction",
   },
 ]

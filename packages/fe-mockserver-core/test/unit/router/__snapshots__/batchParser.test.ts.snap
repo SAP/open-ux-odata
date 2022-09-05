@@ -4,10 +4,10 @@ exports[`Batch Parser can parse correct batch content 1`] = `
 Batch {
   "boundary": "boundary111",
   "isChangeSet": false,
-  "parts": Array [
-    Object {
+  "parts": [
+    {
       "body": undefined,
-      "headers": Object {
+      "headers": {
         "accept": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
         "accept-language": "en",
         "content-type": "application/json;charset=UTF-8;IEEE754Compatible=true",
@@ -23,59 +23,59 @@ exports[`Batch Parser can parse correct batch content with changeset 1`] = `
 Batch {
   "boundary": "batch_id-1653467757956-971",
   "isChangeSet": false,
-  "parts": Array [
+  "parts": [
     Batch {
       "boundary": "changeset_id-1653467757956-972",
       "changeSetErrorResponse": null,
       "isChangeSet": true,
-      "parts": Array [
-        Object {
-          "body": Object {
+      "parts": [
+        {
+          "body": {
             "myParameter": "23",
           },
           "contentId": "0.0",
-          "headers": Object {
+          "headers": {
             "accept": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
             "accept-language": "en",
             "content-type": "application/json;charset=UTF-8;IEEE754Compatible=true",
-            "if-match": "W/\\"2022-05-25T07:18:11.527Z\\"",
+            "if-match": "W/"2022-05-25T07:18:11.527Z"",
           },
           "method": "POST",
           "url": "/LineItems(ID=1,IsActiveEntity=true)/sap.fe.manageitems.TechnicalTestingService.testInvocationGroupingChangeSet",
         },
-        Object {
-          "body": Object {
+        {
+          "body": {
             "myParameter": "23",
           },
           "contentId": "1.0",
-          "headers": Object {
+          "headers": {
             "accept": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
             "accept-language": "en",
             "content-type": "application/json;charset=UTF-8;IEEE754Compatible=true",
-            "if-match": "W/\\"2022-05-25T07:18:11.527Z\\"",
+            "if-match": "W/"2022-05-25T07:18:11.527Z"",
           },
           "method": "POST",
           "url": "/LineItems(ID=2,IsActiveEntity=true)/sap.fe.manageitems.TechnicalTestingService.testInvocationGroupingChangeSet",
         },
-        Object {
-          "body": Object {
+        {
+          "body": {
             "myParameter": "23",
           },
           "contentId": "2.0",
-          "headers": Object {
+          "headers": {
             "accept": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
             "accept-language": "en",
             "content-type": "application/json;charset=UTF-8;IEEE754Compatible=true",
-            "if-match": "W/\\"2022-05-25T07:18:11.527Z\\"",
+            "if-match": "W/"2022-05-25T07:18:11.527Z"",
           },
           "method": "POST",
           "url": "/LineItems(ID=3,IsActiveEntity=true)/sap.fe.manageitems.TechnicalTestingService.testInvocationGroupingChangeSet",
         },
       ],
     },
-    Object {
+    {
       "body": "",
-      "headers": Object {
+      "headers": {
         "accept": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
         "accept-language": "en",
         "content-type": "application/json;charset=UTF-8;IEEE754Compatible=true",
@@ -83,9 +83,9 @@ Batch {
       "method": "GET",
       "url": "/LineItems?$select=ID,IsActiveEntity,updatedValue&$filter=ID%20eq%201%20and%20IsActiveEntity%20eq%20true",
     },
-    Object {
+    {
       "body": "",
-      "headers": Object {
+      "headers": {
         "accept": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
         "accept-language": "en",
         "content-type": "application/json;charset=UTF-8;IEEE754Compatible=true",
@@ -93,9 +93,9 @@ Batch {
       "method": "GET",
       "url": "/LineItems?$select=ID,IsActiveEntity,updatedValue&$filter=ID%20eq%202%20and%20IsActiveEntity%20eq%20true",
     },
-    Object {
+    {
       "body": "",
-      "headers": Object {
+      "headers": {
         "accept": "application/json;odata.metadata=minimal;IEEE754Compatible=true",
         "accept-language": "en",
         "content-type": "application/json;charset=UTF-8;IEEE754Compatible=true",

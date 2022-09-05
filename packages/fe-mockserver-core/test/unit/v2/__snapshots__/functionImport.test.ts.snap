@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Function Import are parsed properly 1`] = `
-Array [
-  Object {
-    "keys": Object {},
+[
+  {
+    "keys": {},
     "path": "DecisionOptions",
   },
 ]
 `;
 
 exports[`Function Import will fail by default 1`] = `
-Array [
-  Object {
-    "keys": Object {},
+[
+  {
+    "keys": {},
     "path": "DecisionOptions",
   },
 ]
@@ -21,9 +21,9 @@ Array [
 exports[`Function Import will fail by default 2`] = `[Error: Unsupported Action]`;
 
 exports[`Function Import will fail for wrong JS 1`] = `
-Array [
-  Object {
-    "keys": Object {},
+[
+  {
+    "keys": {},
     "path": "DecisionOptions",
   },
 ]

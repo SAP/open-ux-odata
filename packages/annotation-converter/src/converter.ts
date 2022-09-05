@@ -23,7 +23,6 @@ import type {
     Singleton,
     RawComplexType,
     ConvertedMetadata,
-    ServiceObjectAndAnnotation,
     ResolutionTarget,
     EntityContainer,
     RawAnnotation,
@@ -1098,10 +1097,7 @@ function splitTerm(references: ReferencesWithMap, termValue: string) {
  * @returns the function that will allow to resolve element globally.
  */
 function createGlobalResolve(convertedOutput: ConvertedMetadata, objectMap: Record<string, any>) {
-    return function resolvePath<T extends ServiceObjectAndAnnotation>(
-        sPath: string,
-        resolveDirectly: boolean = false
-    ): ResolutionTarget<T> {
+    return function resolvePath<T>(sPath: string, resolveDirectly: boolean = false): ResolutionTarget<T> {
         if (resolveDirectly) {
             let targetPath = sPath;
             if (!sPath.startsWith('/')) {

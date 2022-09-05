@@ -1,53 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FE Mockserver CDS Plugin can also load XML files 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"4.0\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-    <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\">
-        <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
     </edmx:Reference>
-    <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\">
-        <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
     </edmx:Reference>
     <edmx:DataServices>
-        <Schema Namespace=\\"sap.fe.mockserver.ValidCDS\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-            <EntityContainer Name=\\"EntityContainer\\">
-                <EntitySet Name=\\"RootElement\\" EntityType=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-                    <NavigationPropertyBinding Path=\\"Sibling\\" Target=\\"RootElement\\"/>
+        <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement">
+                    <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
                 </EntitySet>
             </EntityContainer>
-            <EntityType Name=\\"RootElement\\">
+            <EntityType Name="RootElement">
                 <Key>
-                    <PropertyRef Name=\\"ID\\"/>
+                    <PropertyRef Name="ID"/>
                 </Key>
-                <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
-                <Property Name=\\"Prop1\\" Type=\\"Edm.String\\"/>
-                <Property Name=\\"Prop2\\" Type=\\"Edm.String\\"/>
-                <Property Name=\\"isBoundAction1Hidden\\" Type=\\"Edm.Boolean\\"/>
-                <Property Name=\\"isBoundAction2Hidden\\" Type=\\"Edm.Boolean\\"/>
-                <Property Name=\\"isBoundAction3Hidden\\" Type=\\"Edm.Boolean\\"/>
-                <Property Name=\\"Sibling_ID\\" Type=\\"Edm.Int32\\"/>
-                <NavigationProperty Name=\\"Sibling\\" Type=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-                    <ReferentialConstraint Property=\\"Sibling_ID\\" ReferencedProperty=\\"ID\\"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Prop1" Type="Edm.String"/>
+                <Property Name="Prop2" Type="Edm.String"/>
+                <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
+                <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
+                <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
+                <Property Name="Sibling_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="Sibling" Type="sap.fe.mockserver.ValidCDS.RootElement">
+                    <ReferentialConstraint Property="Sibling_ID" ReferencedProperty="ID"/>
                 </NavigationProperty>
             </EntityType>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/ID\\">
-                <Annotation Term=\\"Core.Computed\\" Bool=\\"true\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop1\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"First Prop\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop1">
+                <Annotation Term="Common.Label" String="First Prop"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop2\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Second Propy\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop2">
+                <Annotation Term="Common.Label" String="Second Propy"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 1 Hidden\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
+                <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 2 Hidden\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden">
+                <Annotation Term="Common.Label" String="Bound Action 2 Hidden"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 3 Hidden\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden">
+                <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
             </Annotations>
         </Schema>
     </edmx:DataServices>
@@ -55,53 +55,53 @@ exports[`FE Mockserver CDS Plugin can also load XML files 1`] = `
 `;
 
 exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"4.0\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\">
-    <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\">
-    <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
   </edmx:Reference>
   <edmx:DataServices>
-    <Schema Namespace=\\"sap.fe.mockserver.ValidCDS\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-      <EntityContainer Name=\\"EntityContainer\\">
-        <EntitySet Name=\\"RootElement\\" EntityType=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-          <NavigationPropertyBinding Path=\\"Sibling\\" Target=\\"RootElement\\"/>
+    <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement">
+          <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
         </EntitySet>
       </EntityContainer>
-      <EntityType Name=\\"RootElement\\">
+      <EntityType Name="RootElement">
         <Key>
-          <PropertyRef Name=\\"ID\\"/>
+          <PropertyRef Name="ID"/>
         </Key>
-        <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
-        <Property Name=\\"Prop1\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"Prop2\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"isBoundAction1Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction2Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction3Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"Sibling_ID\\" Type=\\"Edm.Int32\\"/>
-        <NavigationProperty Name=\\"Sibling\\" Type=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-          <ReferentialConstraint Property=\\"Sibling_ID\\" ReferencedProperty=\\"ID\\"/>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="Prop1" Type="Edm.String"/>
+        <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
+        <Property Name="Sibling_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="Sibling" Type="sap.fe.mockserver.ValidCDS.RootElement">
+          <ReferentialConstraint Property="Sibling_ID" ReferencedProperty="ID"/>
         </NavigationProperty>
       </EntityType>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/ID\\">
-        <Annotation Term=\\"Core.Computed\\" Bool=\\"true\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/ID">
+        <Annotation Term="Core.Computed" Bool="true"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop1\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"First Prop\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop1">
+        <Annotation Term="Common.Label" String="First Prop"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop2\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Second Propy\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop2">
+        <Annotation Term="Common.Label" String="Second Propy"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 1 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 2 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 2 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 3 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -109,65 +109,65 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
 `;
 
 exports[`FE Mockserver CDS Plugin can compile valid CDS file in V2 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"1.0\\" xmlns:edmx=\\"http://schemas.microsoft.com/ado/2007/06/edmx\\" xmlns:m=\\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\\" xmlns:sap=\\"http://www.sap.com/Protocols/SAPData\\">
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-    <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-    <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
   </edmx:Reference>
-  <edmx:DataServices m:DataServiceVersion=\\"2.0\\">
-    <Schema Namespace=\\"sap.fe.mockserver.ValidCDS\\" xmlns=\\"http://schemas.microsoft.com/ado/2008/09/edm\\">
-      <EntityContainer Name=\\"EntityContainer\\" m:IsDefaultEntityContainer=\\"true\\">
-        <EntitySet Name=\\"RootElement\\" EntityType=\\"sap.fe.mockserver.ValidCDS.RootElement\\"/>
-        <AssociationSet Name=\\"RootElement_Sibling\\" Association=\\"sap.fe.mockserver.ValidCDS.RootElement_Sibling\\">
-          <End Role=\\"RootElement\\" EntitySet=\\"RootElement\\"/>
-          <End Role=\\"RootElement1\\" EntitySet=\\"RootElement\\"/>
+  <edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement"/>
+        <AssociationSet Name="RootElement_Sibling" Association="sap.fe.mockserver.ValidCDS.RootElement_Sibling">
+          <End Role="RootElement" EntitySet="RootElement"/>
+          <End Role="RootElement1" EntitySet="RootElement"/>
         </AssociationSet>
       </EntityContainer>
-      <EntityType Name=\\"RootElement\\">
+      <EntityType Name="RootElement">
         <Key>
-          <PropertyRef Name=\\"ID\\"/>
+          <PropertyRef Name="ID"/>
         </Key>
-        <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
-        <Property Name=\\"Prop1\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"Prop2\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"isBoundAction1Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction2Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction3Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"Sibling_ID\\" Type=\\"Edm.Int32\\"/>
-        <NavigationProperty Name=\\"Sibling\\" Relationship=\\"sap.fe.mockserver.ValidCDS.RootElement_Sibling\\" FromRole=\\"RootElement\\" ToRole=\\"RootElement1\\"/>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="Prop1" Type="Edm.String"/>
+        <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
+        <Property Name="Sibling_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="Sibling" Relationship="sap.fe.mockserver.ValidCDS.RootElement_Sibling" FromRole="RootElement" ToRole="RootElement1"/>
       </EntityType>
-      <Association Name=\\"RootElement_Sibling\\">
-        <End Role=\\"RootElement\\" Type=\\"sap.fe.mockserver.ValidCDS.RootElement\\" Multiplicity=\\"*\\"/>
-        <End Role=\\"RootElement1\\" Type=\\"sap.fe.mockserver.ValidCDS.RootElement\\" Multiplicity=\\"0..1\\"/>
+      <Association Name="RootElement_Sibling">
+        <End Role="RootElement" Type="sap.fe.mockserver.ValidCDS.RootElement" Multiplicity="*"/>
+        <End Role="RootElement1" Type="sap.fe.mockserver.ValidCDS.RootElement" Multiplicity="0..1"/>
         <ReferentialConstraint>
-          <Principal Role=\\"RootElement1\\">
-            <PropertyRef Name=\\"ID\\"/>
+          <Principal Role="RootElement1">
+            <PropertyRef Name="ID"/>
           </Principal>
-          <Dependent Role=\\"RootElement\\">
-            <PropertyRef Name=\\"Sibling_ID\\"/>
+          <Dependent Role="RootElement">
+            <PropertyRef Name="Sibling_ID"/>
           </Dependent>
         </ReferentialConstraint>
       </Association>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/ID\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Core.Computed\\" Bool=\\"true\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/ID" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Core.Computed" Bool="true"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop1\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"First Prop\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="First Prop"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop2\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Second Propy\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop2" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Second Propy"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 1 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 2 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Bound Action 2 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 3 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -175,143 +175,143 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file in V2 1`] = `
 `;
 
 exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"4.0\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\">
-    <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\">
-    <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/UI.xml\\">
-    <edmx:Include Alias=\\"UI\\" Namespace=\\"com.sap.vocabularies.UI.v1\\"/>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
   </edmx:Reference>
   <edmx:DataServices>
-    <Schema Namespace=\\"sap.fe.mockserver.ValidCDSWithCommon\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-      <EntityContainer Name=\\"EntityContainer\\">
-        <EntitySet Name=\\"RootElement\\" EntityType=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement\\">
-          <NavigationPropertyBinding Path=\\"Currency\\" Target=\\"Currencies\\"/>
+    <Schema Namespace="sap.fe.mockserver.ValidCDSWithCommon" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDSWithCommon.RootElement">
+          <NavigationPropertyBinding Path="Currency" Target="Currencies"/>
         </EntitySet>
-        <EntitySet Name=\\"Currencies\\" EntityType=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\">
-          <NavigationPropertyBinding Path=\\"texts\\" Target=\\"Currencies_texts\\"/>
-          <NavigationPropertyBinding Path=\\"localized\\" Target=\\"Currencies_texts\\"/>
+        <EntitySet Name="Currencies" EntityType="sap.fe.mockserver.ValidCDSWithCommon.Currencies">
+          <NavigationPropertyBinding Path="texts" Target="Currencies_texts"/>
+          <NavigationPropertyBinding Path="localized" Target="Currencies_texts"/>
         </EntitySet>
-        <EntitySet Name=\\"Currencies_texts\\" EntityType=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts\\"/>
+        <EntitySet Name="Currencies_texts" EntityType="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts"/>
       </EntityContainer>
-      <EntityType Name=\\"RootElement\\">
+      <EntityType Name="RootElement">
         <Key>
-          <PropertyRef Name=\\"ID\\"/>
+          <PropertyRef Name="ID"/>
         </Key>
-        <Property Name=\\"ID\\" Type=\\"Edm.Guid\\" Nullable=\\"false\\"/>
-        <Property Name=\\"Prop1\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"Prop2\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"isBoundAction1Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction2Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction3Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <NavigationProperty Name=\\"Currency\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\">
-          <ReferentialConstraint Property=\\"Currency_code\\" ReferencedProperty=\\"code\\"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Prop1" Type="Edm.String"/>
+        <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
+        <NavigationProperty Name="Currency" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies">
+          <ReferentialConstraint Property="Currency_code" ReferencedProperty="code"/>
         </NavigationProperty>
-        <Property Name=\\"Currency_code\\" Type=\\"Edm.String\\" MaxLength=\\"3\\"/>
+        <Property Name="Currency_code" Type="Edm.String" MaxLength="3"/>
       </EntityType>
-      <EntityType Name=\\"Currencies\\">
+      <EntityType Name="Currencies">
         <Key>
-          <PropertyRef Name=\\"code\\"/>
+          <PropertyRef Name="code"/>
         </Key>
-        <Property Name=\\"name\\" Type=\\"Edm.String\\" MaxLength=\\"255\\"/>
-        <Property Name=\\"descr\\" Type=\\"Edm.String\\" MaxLength=\\"1000\\"/>
-        <Property Name=\\"code\\" Type=\\"Edm.String\\" MaxLength=\\"3\\" Nullable=\\"false\\"/>
-        <Property Name=\\"symbol\\" Type=\\"Edm.String\\" MaxLength=\\"5\\"/>
-        <NavigationProperty Name=\\"texts\\" Type=\\"Collection(sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts)\\">
-          <OnDelete Action=\\"Cascade\\"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="symbol" Type="Edm.String" MaxLength="5"/>
+        <NavigationProperty Name="texts" Type="Collection(sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts)">
+          <OnDelete Action="Cascade"/>
         </NavigationProperty>
-        <NavigationProperty Name=\\"localized\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts\\">
-          <ReferentialConstraint Property=\\"code\\" ReferencedProperty=\\"code\\"/>
+        <NavigationProperty Name="localized" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts">
+          <ReferentialConstraint Property="code" ReferencedProperty="code"/>
         </NavigationProperty>
       </EntityType>
-      <EntityType Name=\\"Currencies_texts\\">
+      <EntityType Name="Currencies_texts">
         <Key>
-          <PropertyRef Name=\\"locale\\"/>
-          <PropertyRef Name=\\"code\\"/>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
         </Key>
-        <Property Name=\\"locale\\" Type=\\"Edm.String\\" MaxLength=\\"14\\" Nullable=\\"false\\"/>
-        <Property Name=\\"name\\" Type=\\"Edm.String\\" MaxLength=\\"255\\"/>
-        <Property Name=\\"descr\\" Type=\\"Edm.String\\" MaxLength=\\"1000\\"/>
-        <Property Name=\\"code\\" Type=\\"Edm.String\\" MaxLength=\\"3\\" Nullable=\\"false\\"/>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
       </EntityType>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop1\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"First Prop\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop1">
+        <Annotation Term="Common.Label" String="First Prop"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop2\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Second Propy\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop2">
+        <Annotation Term="Common.Label" String="Second Propy"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction1Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 1 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction1Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction2Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 2 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction2Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 2 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction3Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 3 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction3Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Currency}\\"/>
-        <Annotation Term=\\"Core.Description\\" String=\\"{i18n>CurrencyCode.Description}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency">
+        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
+        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency_code\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Currency}\\"/>
-        <Annotation Term=\\"Common.ValueList\\">
-          <Record Type=\\"Common.ValueListType\\">
-            <PropertyValue Property=\\"Label\\" String=\\"{i18n>Currency}\\"/>
-            <PropertyValue Property=\\"CollectionPath\\" String=\\"Currencies\\"/>
-            <PropertyValue Property=\\"Parameters\\">
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency_code">
+        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="{i18n>Currency}"/>
+            <PropertyValue Property="CollectionPath" String="Currencies"/>
+            <PropertyValue Property="Parameters">
               <Collection>
-                <Record Type=\\"Common.ValueListParameterInOut\\">
-                  <PropertyValue Property=\\"LocalDataProperty\\" PropertyPath=\\"Currency_code\\"/>
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"code\\"/>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="Currency_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
                 </Record>
-                <Record Type=\\"Common.ValueListParameterDisplayOnly\\">
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"name\\"/>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="name"/>
                 </Record>
               </Collection>
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term=\\"Core.Description\\" String=\\"{i18n>CurrencyCode.Description}\\"/>
+        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\">
-        <Annotation Term=\\"UI.Identification\\">
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies">
+        <Annotation Term="UI.Identification">
           <Collection>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"name\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="name"/>
             </Record>
           </Collection>
         </Annotation>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/name\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Name}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/name">
+        <Annotation Term="Common.Label" String="{i18n>Name}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/descr\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Description}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/descr">
+        <Annotation Term="Common.Label" String="{i18n>Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/code\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"name\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencyCode}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/code">
+        <Annotation Term="Common.Text" Path="name"/>
+        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencySymbol}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol">
+        <Annotation Term="Common.Label" String="{i18n>CurrencySymbol}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>LanguageCode}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale">
+        <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Name}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name">
+        <Annotation Term="Common.Label" String="{i18n>Name}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/descr\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Description}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/descr">
+        <Annotation Term="Common.Label" String="{i18n>Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/code\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"name\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencyCode}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/code">
+        <Annotation Term="Common.Text" Path="name"/>
+        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -319,166 +319,166 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
 `;
 
 exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff in V2 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"1.0\\" xmlns:edmx=\\"http://schemas.microsoft.com/ado/2007/06/edmx\\" xmlns:m=\\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\\" xmlns:sap=\\"http://www.sap.com/Protocols/SAPData\\">
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-    <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-    <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/UI.xml\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-    <edmx:Include Alias=\\"UI\\" Namespace=\\"com.sap.vocabularies.UI.v1\\"/>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
   </edmx:Reference>
-  <edmx:DataServices m:DataServiceVersion=\\"2.0\\">
-    <Schema Namespace=\\"sap.fe.mockserver.ValidCDSWithCommon\\" xmlns=\\"http://schemas.microsoft.com/ado/2008/09/edm\\">
-      <EntityContainer Name=\\"EntityContainer\\" m:IsDefaultEntityContainer=\\"true\\">
-        <EntitySet Name=\\"RootElement\\" EntityType=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement\\"/>
-        <EntitySet Name=\\"Currencies\\" EntityType=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\"/>
-        <EntitySet Name=\\"Currencies_texts\\" EntityType=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts\\"/>
-        <AssociationSet Name=\\"RootElement_Currency\\" Association=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement_Currency\\">
-          <End Role=\\"RootElement\\" EntitySet=\\"RootElement\\"/>
-          <End Role=\\"Currencies\\" EntitySet=\\"Currencies\\"/>
+  <edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="sap.fe.mockserver.ValidCDSWithCommon" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDSWithCommon.RootElement"/>
+        <EntitySet Name="Currencies" EntityType="sap.fe.mockserver.ValidCDSWithCommon.Currencies"/>
+        <EntitySet Name="Currencies_texts" EntityType="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts"/>
+        <AssociationSet Name="RootElement_Currency" Association="sap.fe.mockserver.ValidCDSWithCommon.RootElement_Currency">
+          <End Role="RootElement" EntitySet="RootElement"/>
+          <End Role="Currencies" EntitySet="Currencies"/>
         </AssociationSet>
-        <AssociationSet Name=\\"Currencies_texts_1\\" Association=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts_1\\">
-          <End Role=\\"Currencies\\" EntitySet=\\"Currencies\\"/>
-          <End Role=\\"Currencies_texts\\" EntitySet=\\"Currencies_texts\\"/>
+        <AssociationSet Name="Currencies_texts_1" Association="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts_1">
+          <End Role="Currencies" EntitySet="Currencies"/>
+          <End Role="Currencies_texts" EntitySet="Currencies_texts"/>
         </AssociationSet>
-        <AssociationSet Name=\\"Currencies_localized\\" Association=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_localized\\">
-          <End Role=\\"Currencies\\" EntitySet=\\"Currencies\\"/>
-          <End Role=\\"Currencies_texts\\" EntitySet=\\"Currencies_texts\\"/>
+        <AssociationSet Name="Currencies_localized" Association="sap.fe.mockserver.ValidCDSWithCommon.Currencies_localized">
+          <End Role="Currencies" EntitySet="Currencies"/>
+          <End Role="Currencies_texts" EntitySet="Currencies_texts"/>
         </AssociationSet>
       </EntityContainer>
-      <EntityType Name=\\"RootElement\\">
+      <EntityType Name="RootElement">
         <Key>
-          <PropertyRef Name=\\"ID\\"/>
+          <PropertyRef Name="ID"/>
         </Key>
-        <Property Name=\\"ID\\" Type=\\"Edm.Guid\\" Nullable=\\"false\\"/>
-        <Property Name=\\"Prop1\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"Prop2\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"isBoundAction1Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction2Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction3Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <NavigationProperty Name=\\"Currency\\" Relationship=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement_Currency\\" FromRole=\\"RootElement\\" ToRole=\\"Currencies\\"/>
-        <Property Name=\\"Currency_code\\" Type=\\"Edm.String\\" MaxLength=\\"3\\"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Prop1" Type="Edm.String"/>
+        <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
+        <NavigationProperty Name="Currency" Relationship="sap.fe.mockserver.ValidCDSWithCommon.RootElement_Currency" FromRole="RootElement" ToRole="Currencies"/>
+        <Property Name="Currency_code" Type="Edm.String" MaxLength="3"/>
       </EntityType>
-      <EntityType Name=\\"Currencies\\">
+      <EntityType Name="Currencies">
         <Key>
-          <PropertyRef Name=\\"code\\"/>
+          <PropertyRef Name="code"/>
         </Key>
-        <Property Name=\\"name\\" Type=\\"Edm.String\\" MaxLength=\\"255\\"/>
-        <Property Name=\\"descr\\" Type=\\"Edm.String\\" MaxLength=\\"1000\\"/>
-        <Property Name=\\"code\\" Type=\\"Edm.String\\" MaxLength=\\"3\\" Nullable=\\"false\\"/>
-        <Property Name=\\"symbol\\" Type=\\"Edm.String\\" MaxLength=\\"5\\"/>
-        <NavigationProperty Name=\\"texts\\" Relationship=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts_1\\" FromRole=\\"Currencies\\" ToRole=\\"Currencies_texts\\"/>
-        <NavigationProperty Name=\\"localized\\" Relationship=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_localized\\" FromRole=\\"Currencies\\" ToRole=\\"Currencies_texts\\"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="symbol" Type="Edm.String" MaxLength="5"/>
+        <NavigationProperty Name="texts" Relationship="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts_1" FromRole="Currencies" ToRole="Currencies_texts"/>
+        <NavigationProperty Name="localized" Relationship="sap.fe.mockserver.ValidCDSWithCommon.Currencies_localized" FromRole="Currencies" ToRole="Currencies_texts"/>
       </EntityType>
-      <EntityType Name=\\"Currencies_texts\\">
+      <EntityType Name="Currencies_texts">
         <Key>
-          <PropertyRef Name=\\"locale\\"/>
-          <PropertyRef Name=\\"code\\"/>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
         </Key>
-        <Property Name=\\"locale\\" Type=\\"Edm.String\\" MaxLength=\\"14\\" Nullable=\\"false\\"/>
-        <Property Name=\\"name\\" Type=\\"Edm.String\\" MaxLength=\\"255\\"/>
-        <Property Name=\\"descr\\" Type=\\"Edm.String\\" MaxLength=\\"1000\\"/>
-        <Property Name=\\"code\\" Type=\\"Edm.String\\" MaxLength=\\"3\\" Nullable=\\"false\\"/>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
       </EntityType>
-      <Association Name=\\"RootElement_Currency\\">
-        <End Role=\\"RootElement\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement\\" Multiplicity=\\"*\\"/>
-        <End Role=\\"Currencies\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\" Multiplicity=\\"0..1\\"/>
+      <Association Name="RootElement_Currency">
+        <End Role="RootElement" Type="sap.fe.mockserver.ValidCDSWithCommon.RootElement" Multiplicity="*"/>
+        <End Role="Currencies" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies" Multiplicity="0..1"/>
         <ReferentialConstraint>
-          <Principal Role=\\"Currencies\\">
-            <PropertyRef Name=\\"code\\"/>
+          <Principal Role="Currencies">
+            <PropertyRef Name="code"/>
           </Principal>
-          <Dependent Role=\\"RootElement\\">
-            <PropertyRef Name=\\"Currency_code\\"/>
+          <Dependent Role="RootElement">
+            <PropertyRef Name="Currency_code"/>
           </Dependent>
         </ReferentialConstraint>
       </Association>
-      <Association Name=\\"Currencies_texts_1\\">
-        <End Role=\\"Currencies\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\" Multiplicity=\\"1\\">
-          <OnDelete Action=\\"Cascade\\"/>
+      <Association Name="Currencies_texts_1">
+        <End Role="Currencies" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies" Multiplicity="1">
+          <OnDelete Action="Cascade"/>
         </End>
-        <End Role=\\"Currencies_texts\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts\\" Multiplicity=\\"*\\"/>
+        <End Role="Currencies_texts" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts" Multiplicity="*"/>
       </Association>
-      <Association Name=\\"Currencies_localized\\">
-        <End Role=\\"Currencies\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\" Multiplicity=\\"*\\"/>
-        <End Role=\\"Currencies_texts\\" Type=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts\\" Multiplicity=\\"0..1\\"/>
+      <Association Name="Currencies_localized">
+        <End Role="Currencies" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies" Multiplicity="*"/>
+        <End Role="Currencies_texts" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts" Multiplicity="0..1"/>
       </Association>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop1\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"First Prop\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="First Prop"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop2\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Second Propy\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop2" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Second Propy"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction1Hidden\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 1 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction1Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction2Hidden\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 2 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction2Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Bound Action 2 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction3Hidden\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 3 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/isBoundAction3Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Currency}\\"/>
-        <Annotation Term=\\"Core.Description\\" String=\\"{i18n>CurrencyCode.Description}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
+        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency_code\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Currency}\\"/>
-        <Annotation Term=\\"Common.ValueList\\">
-          <Record Type=\\"Common.ValueListType\\">
-            <PropertyValue Property=\\"Label\\" String=\\"{i18n>Currency}\\"/>
-            <PropertyValue Property=\\"CollectionPath\\" String=\\"Currencies\\"/>
-            <PropertyValue Property=\\"Parameters\\">
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency_code" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="{i18n>Currency}"/>
+            <PropertyValue Property="CollectionPath" String="Currencies"/>
+            <PropertyValue Property="Parameters">
               <Collection>
-                <Record Type=\\"Common.ValueListParameterInOut\\">
-                  <PropertyValue Property=\\"LocalDataProperty\\" PropertyPath=\\"Currency_code\\"/>
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"code\\"/>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="Currency_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
                 </Record>
-                <Record Type=\\"Common.ValueListParameterDisplayOnly\\">
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"name\\"/>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="name"/>
                 </Record>
               </Collection>
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term=\\"Core.Description\\" String=\\"{i18n>CurrencyCode.Description}\\"/>
+        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"UI.Identification\\">
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="UI.Identification">
           <Collection>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"name\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="name"/>
             </Record>
           </Collection>
         </Annotation>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/name\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Name}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/name" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>Name}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/descr\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Description}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/descr" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/code\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"name\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencyCode}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/code" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Text" Path="name"/>
+        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencySymbol}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>CurrencySymbol}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>LanguageCode}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Name}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>Name}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/descr\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Description}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/descr" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="{i18n>Description}"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/code\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"name\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>CurrencyCode}\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/code" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Text" Path="name"/>
+        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -486,312 +486,312 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
 `;
 
 exports[`FE Mockserver CDS Plugin can compile valid CDS file using more common stuff 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"4.0\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\">
-    <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\">
-    <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml\\">
-    <edmx:Include Alias=\\"Measures\\" Namespace=\\"Org.OData.Measures.V1\\"/>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+    <edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/UI.xml\\">
-    <edmx:Include Alias=\\"UI\\" Namespace=\\"com.sap.vocabularies.UI.v1\\"/>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
   </edmx:Reference>
   <edmx:DataServices>
-    <Schema Namespace=\\"Service\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-      <EntityContainer Name=\\"EntityContainer\\">
-        <EntitySet Name=\\"RootEntity\\" EntityType=\\"Service.RootEntity\\">
-          <NavigationPropertyBinding Path=\\"SiblingEntity\\" Target=\\"RootEntity\\"/>
+    <Schema Namespace="Service" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="RootEntity" EntityType="Service.RootEntity">
+          <NavigationPropertyBinding Path="SiblingEntity" Target="RootEntity"/>
         </EntitySet>
-        <EntitySet Name=\\"RootEntity2\\" EntityType=\\"Service.RootEntity2\\"/>
-        <EntitySet Name=\\"ValueHelpEntity\\" EntityType=\\"Service.ValueHelpEntity\\"/>
-        <EntitySet Name=\\"ValueHelpCurrencyEntity\\" EntityType=\\"Service.ValueHelpCurrencyEntity\\"/>
+        <EntitySet Name="RootEntity2" EntityType="Service.RootEntity2"/>
+        <EntitySet Name="ValueHelpEntity" EntityType="Service.ValueHelpEntity"/>
+        <EntitySet Name="ValueHelpCurrencyEntity" EntityType="Service.ValueHelpCurrencyEntity"/>
       </EntityContainer>
-      <EntityType Name=\\"RootEntity\\">
+      <EntityType Name="RootEntity">
         <Key>
-          <PropertyRef Name=\\"ID\\"/>
-          <PropertyRef Name=\\"IsActiveEntity\\"/>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
         </Key>
-        <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
-        <Property Name=\\"StringProperty\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"IntegerProperty\\" Type=\\"Edm.Int32\\"/>
-        <Property Name=\\"NumberProperty\\" Type=\\"Edm.Decimal\\" Scale=\\"2\\" Precision=\\"4\\"/>
-        <Property Name=\\"BooleanProperty\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"DateProperty\\" Type=\\"Edm.Date\\"/>
-        <Property Name=\\"TimeProperty\\" Type=\\"Edm.TimeOfDay\\"/>
-        <Property Name=\\"PropertyWithUnit\\" Type=\\"Edm.Int64\\"/>
-        <Property Name=\\"PropertyWithCurrency\\" Type=\\"Edm.Int64\\"/>
-        <Property Name=\\"Unit\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"Currency\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"TextProperty\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"TextArrangementTextOnlyProperty\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"TextArrangementTextLastProperty\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"TextArrangementTextFirstProperty\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"TextArrangementTextSeparateProperty\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"PropertyWithValueHelp\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"IsActiveEntity\\" Type=\\"Edm.Boolean\\" Nullable=\\"false\\" DefaultValue=\\"true\\"/>
-        <Property Name=\\"HasActiveEntity\\" Type=\\"Edm.Boolean\\" Nullable=\\"false\\" DefaultValue=\\"false\\"/>
-        <Property Name=\\"HasDraftEntity\\" Type=\\"Edm.Boolean\\" Nullable=\\"false\\" DefaultValue=\\"false\\"/>
-        <NavigationProperty Name=\\"DraftAdministrativeData\\" Type=\\"Service.DraftAdministrativeData\\" ContainsTarget=\\"true\\"/>
-        <NavigationProperty Name=\\"SiblingEntity\\" Type=\\"Service.RootEntity\\"/>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="StringProperty" Type="Edm.String"/>
+        <Property Name="IntegerProperty" Type="Edm.Int32"/>
+        <Property Name="NumberProperty" Type="Edm.Decimal" Scale="2" Precision="4"/>
+        <Property Name="BooleanProperty" Type="Edm.Boolean"/>
+        <Property Name="DateProperty" Type="Edm.Date"/>
+        <Property Name="TimeProperty" Type="Edm.TimeOfDay"/>
+        <Property Name="PropertyWithUnit" Type="Edm.Int64"/>
+        <Property Name="PropertyWithCurrency" Type="Edm.Int64"/>
+        <Property Name="Unit" Type="Edm.String"/>
+        <Property Name="Currency" Type="Edm.String"/>
+        <Property Name="TextProperty" Type="Edm.String"/>
+        <Property Name="TextArrangementTextOnlyProperty" Type="Edm.String"/>
+        <Property Name="TextArrangementTextLastProperty" Type="Edm.String"/>
+        <Property Name="TextArrangementTextFirstProperty" Type="Edm.String"/>
+        <Property Name="TextArrangementTextSeparateProperty" Type="Edm.String"/>
+        <Property Name="PropertyWithValueHelp" Type="Edm.String"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="Service.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="Service.RootEntity"/>
       </EntityType>
-      <EntityType Name=\\"RootEntity2\\">
+      <EntityType Name="RootEntity2">
         <Key>
-          <PropertyRef Name=\\"ID\\"/>
+          <PropertyRef Name="ID"/>
         </Key>
-        <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
-        <Property Name=\\"StringProperty\\" Type=\\"Edm.String\\"/>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="StringProperty" Type="Edm.String"/>
       </EntityType>
-      <EntityType Name=\\"ValueHelpEntity\\">
+      <EntityType Name="ValueHelpEntity">
         <Key>
-          <PropertyRef Name=\\"KeyProp\\"/>
+          <PropertyRef Name="KeyProp"/>
         </Key>
-        <Property Name=\\"KeyProp\\" Type=\\"Edm.String\\" MaxLength=\\"1\\" Nullable=\\"false\\"/>
-        <Property Name=\\"Description\\" Type=\\"Edm.String\\" MaxLength=\\"20\\"/>
+        <Property Name="KeyProp" Type="Edm.String" MaxLength="1" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String" MaxLength="20"/>
       </EntityType>
-      <EntityType Name=\\"ValueHelpCurrencyEntity\\">
+      <EntityType Name="ValueHelpCurrencyEntity">
         <Key>
-          <PropertyRef Name=\\"Currency\\"/>
+          <PropertyRef Name="Currency"/>
         </Key>
-        <Property Name=\\"Currency\\" Type=\\"Edm.String\\" MaxLength=\\"3\\" Nullable=\\"false\\"/>
-        <Property Name=\\"Description\\" Type=\\"Edm.String\\" MaxLength=\\"20\\"/>
+        <Property Name="Currency" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String" MaxLength="20"/>
       </EntityType>
-      <EntityType Name=\\"DraftAdministrativeData\\">
+      <EntityType Name="DraftAdministrativeData">
         <Key>
-          <PropertyRef Name=\\"DraftUUID\\"/>
+          <PropertyRef Name="DraftUUID"/>
         </Key>
-        <Property Name=\\"DraftUUID\\" Type=\\"Edm.Guid\\" Nullable=\\"false\\"/>
-        <Property Name=\\"CreationDateTime\\" Type=\\"Edm.DateTimeOffset\\" Precision=\\"7\\"/>
-        <Property Name=\\"CreatedByUser\\" Type=\\"Edm.String\\" MaxLength=\\"256\\"/>
-        <Property Name=\\"DraftIsCreatedByMe\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"LastChangeDateTime\\" Type=\\"Edm.DateTimeOffset\\" Precision=\\"7\\"/>
-        <Property Name=\\"LastChangedByUser\\" Type=\\"Edm.String\\" MaxLength=\\"256\\"/>
-        <Property Name=\\"InProcessByUser\\" Type=\\"Edm.String\\" MaxLength=\\"256\\"/>
-        <Property Name=\\"DraftIsProcessedByMe\\" Type=\\"Edm.Boolean\\"/>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
       </EntityType>
-      <Action Name=\\"draftPrepare\\" IsBound=\\"true\\" EntitySetPath=\\"in\\">
-        <Parameter Name=\\"in\\" Type=\\"Service.RootEntity\\"/>
-        <Parameter Name=\\"SideEffectsQualifier\\" Type=\\"Edm.String\\"/>
-        <ReturnType Type=\\"Service.RootEntity\\"/>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="Service.RootEntity"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="Service.RootEntity"/>
       </Action>
-      <Action Name=\\"draftActivate\\" IsBound=\\"true\\" EntitySetPath=\\"in\\">
-        <Parameter Name=\\"in\\" Type=\\"Service.RootEntity\\"/>
-        <ReturnType Type=\\"Service.RootEntity\\"/>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="Service.RootEntity"/>
+        <ReturnType Type="Service.RootEntity"/>
       </Action>
-      <Action Name=\\"draftEdit\\" IsBound=\\"true\\" EntitySetPath=\\"in\\">
-        <Parameter Name=\\"in\\" Type=\\"Service.RootEntity\\"/>
-        <Parameter Name=\\"PreserveChanges\\" Type=\\"Edm.Boolean\\"/>
-        <ReturnType Type=\\"Service.RootEntity\\"/>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="Service.RootEntity"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="Service.RootEntity"/>
       </Action>
-      <Annotations Target=\\"Service.RootEntity\\">
-        <Annotation Term=\\"UI.LineItem\\">
+      <Annotations Target="Service.RootEntity">
+        <Annotation Term="UI.LineItem">
           <Collection>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"ID\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ID"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"BooleanProperty\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="BooleanProperty"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"TextArrangementTextFirstProperty\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="TextArrangementTextFirstProperty"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"PropertyWithValueHelp\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="PropertyWithValueHelp"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"PropertyWithCurrency\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="PropertyWithCurrency"/>
             </Record>
           </Collection>
         </Annotation>
       </Annotations>
-      <Annotations Target=\\"Service.EntityContainer/RootEntity\\">
-        <Annotation Term=\\"Common.DraftRoot\\">
-          <Record Type=\\"Common.DraftRootType\\">
-            <PropertyValue Property=\\"ActivationAction\\" String=\\"Service.draftActivate\\"/>
-            <PropertyValue Property=\\"EditAction\\" String=\\"Service.draftEdit\\"/>
-            <PropertyValue Property=\\"PreparationAction\\" String=\\"Service.draftPrepare\\"/>
+      <Annotations Target="Service.EntityContainer/RootEntity">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="Service.draftActivate"/>
+            <PropertyValue Property="EditAction" String="Service.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="Service.draftPrepare"/>
           </Record>
         </Annotation>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/ID\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"ID\\"/>
+      <Annotations Target="Service.RootEntity/ID">
+        <Annotation Term="Common.Label" String="ID"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/StringProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"String\\"/>
+      <Annotations Target="Service.RootEntity/StringProperty">
+        <Annotation Term="Common.Label" String="String"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/IntegerProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Integer\\"/>
+      <Annotations Target="Service.RootEntity/IntegerProperty">
+        <Annotation Term="Common.Label" String="Integer"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/NumberProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Number\\"/>
+      <Annotations Target="Service.RootEntity/NumberProperty">
+        <Annotation Term="Common.Label" String="Number"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/BooleanProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Boolean\\"/>
+      <Annotations Target="Service.RootEntity/BooleanProperty">
+        <Annotation Term="Common.Label" String="Boolean"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/DateProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Date\\"/>
+      <Annotations Target="Service.RootEntity/DateProperty">
+        <Annotation Term="Common.Label" String="Date"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/TimeProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Time\\"/>
+      <Annotations Target="Service.RootEntity/TimeProperty">
+        <Annotation Term="Common.Label" String="Time"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/PropertyWithUnit\\">
-        <Annotation Term=\\"Measures.Unit\\" Path=\\"Unit\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"With Unit\\"/>
+      <Annotations Target="Service.RootEntity/PropertyWithUnit">
+        <Annotation Term="Measures.Unit" Path="Unit"/>
+        <Annotation Term="Common.Label" String="With Unit"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/PropertyWithCurrency\\">
-        <Annotation Term=\\"Measures.ISOCurrency\\" Path=\\"Currency\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"With Currency\\"/>
+      <Annotations Target="Service.RootEntity/PropertyWithCurrency">
+        <Annotation Term="Measures.ISOCurrency" Path="Currency"/>
+        <Annotation Term="Common.Label" String="With Currency"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/Unit\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"UoM\\"/>
+      <Annotations Target="Service.RootEntity/Unit">
+        <Annotation Term="Common.Label" String="UoM"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/Currency\\">
-        <Annotation Term=\\"Common.ValueListWithFixedValues\\" Bool=\\"true\\"/>
-        <Annotation Term=\\"Common.ValueList\\">
-          <Record Type=\\"Common.ValueListType\\">
-            <PropertyValue Property=\\"Label\\" String=\\"Currency Value Help\\"/>
-            <PropertyValue Property=\\"CollectionPath\\" String=\\"ValueHelpCurrencyEntity\\"/>
-            <PropertyValue Property=\\"Parameters\\">
+      <Annotations Target="Service.RootEntity/Currency">
+        <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="Currency Value Help"/>
+            <PropertyValue Property="CollectionPath" String="ValueHelpCurrencyEntity"/>
+            <PropertyValue Property="Parameters">
               <Collection>
-                <Record Type=\\"Common.ValueListParameterInOut\\">
-                  <PropertyValue Property=\\"LocalDataProperty\\" PropertyPath=\\"Currency\\"/>
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"Currency\\"/>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="Currency"/>
+                  <PropertyValue Property="ValueListProperty" String="Currency"/>
                 </Record>
-                <Record Type=\\"Common.ValueListParameterDisplayOnly\\">
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"Description\\"/>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Description"/>
                 </Record>
               </Collection>
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term=\\"Common.Label\\" String=\\"Currency\\"/>
+        <Annotation Term="Common.Label" String="Currency"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/TextProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Text\\"/>
+      <Annotations Target="Service.RootEntity/TextProperty">
+        <Annotation Term="Common.Label" String="Text"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/TextArrangementTextOnlyProperty\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
-          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextOnly\\"/>
+      <Annotations Target="Service.RootEntity/TextArrangementTextOnlyProperty">
+        <Annotation Term="Common.Text" Path="TextProperty">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
         </Annotation>
-        <Annotation Term=\\"Common.Label\\" String=\\"Text Only\\"/>
+        <Annotation Term="Common.Label" String="Text Only"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/TextArrangementTextLastProperty\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
-          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextLast\\"/>
+      <Annotations Target="Service.RootEntity/TextArrangementTextLastProperty">
+        <Annotation Term="Common.Text" Path="TextProperty">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextLast"/>
         </Annotation>
-        <Annotation Term=\\"Common.Label\\" String=\\"Text Last\\"/>
+        <Annotation Term="Common.Label" String="Text Last"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/TextArrangementTextFirstProperty\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
-          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextFirst\\"/>
+      <Annotations Target="Service.RootEntity/TextArrangementTextFirstProperty">
+        <Annotation Term="Common.Text" Path="TextProperty">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
         </Annotation>
-        <Annotation Term=\\"Common.Label\\" String=\\"Text First\\"/>
+        <Annotation Term="Common.Label" String="Text First"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/TextArrangementTextSeparateProperty\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"TextProperty\\">
-          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextSeparate\\"/>
+      <Annotations Target="Service.RootEntity/TextArrangementTextSeparateProperty">
+        <Annotation Term="Common.Text" Path="TextProperty">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextSeparate"/>
         </Annotation>
-        <Annotation Term=\\"Common.Label\\" String=\\"TextSeparate\\"/>
+        <Annotation Term="Common.Label" String="TextSeparate"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/PropertyWithValueHelp\\">
-        <Annotation Term=\\"Common.ValueList\\">
-          <Record Type=\\"Common.ValueListType\\">
-            <PropertyValue Property=\\"Label\\" String=\\"Value with Value Help\\"/>
-            <PropertyValue Property=\\"CollectionPath\\" String=\\"ValueHelpEntity\\"/>
-            <PropertyValue Property=\\"Parameters\\">
+      <Annotations Target="Service.RootEntity/PropertyWithValueHelp">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="Value with Value Help"/>
+            <PropertyValue Property="CollectionPath" String="ValueHelpEntity"/>
+            <PropertyValue Property="Parameters">
               <Collection>
-                <Record Type=\\"Common.ValueListParameterInOut\\">
-                  <PropertyValue Property=\\"LocalDataProperty\\" PropertyPath=\\"PropertyWithValueHelp\\"/>
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"KeyProp\\"/>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="PropertyWithValueHelp"/>
+                  <PropertyValue Property="ValueListProperty" String="KeyProp"/>
                 </Record>
-                <Record Type=\\"Common.ValueListParameterDisplayOnly\\">
-                  <PropertyValue Property=\\"ValueListProperty\\" String=\\"Description\\"/>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Description"/>
                 </Record>
               </Collection>
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term=\\"Common.Label\\" String=\\"With Value Help\\"/>
+        <Annotation Term="Common.Label" String="With Value Help"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/IsActiveEntity\\">
-        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      <Annotations Target="Service.RootEntity/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/HasActiveEntity\\">
-        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      <Annotations Target="Service.RootEntity/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/HasDraftEntity\\">
-        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      <Annotations Target="Service.RootEntity/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity/DraftAdministrativeData\\">
-        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
+      <Annotations Target="Service.RootEntity/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity2\\">
-        <Annotation Term=\\"UI.LineItem\\">
+      <Annotations Target="Service.RootEntity2">
+        <Annotation Term="UI.LineItem">
           <Collection>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"ID\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ID"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"StringProperty\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="StringProperty"/>
             </Record>
           </Collection>
         </Annotation>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity2/ID\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"ID\\"/>
+      <Annotations Target="Service.RootEntity2/ID">
+        <Annotation Term="Common.Label" String="ID"/>
       </Annotations>
-      <Annotations Target=\\"Service.RootEntity2/StringProperty\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"String\\"/>
+      <Annotations Target="Service.RootEntity2/StringProperty">
+        <Annotation Term="Common.Label" String="String"/>
       </Annotations>
-      <Annotations Target=\\"Service.ValueHelpEntity/KeyProp\\">
-        <Annotation Term=\\"Common.Text\\" Path=\\"Description\\">
-          <Annotation Term=\\"UI.TextArrangement\\" EnumMember=\\"UI.TextArrangementType/TextFirst\\"/>
+      <Annotations Target="Service.ValueHelpEntity/KeyProp">
+        <Annotation Term="Common.Text" Path="Description">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
         </Annotation>
-        <Annotation Term=\\"Common.Label\\" String=\\"Value Help Key\\"/>
+        <Annotation Term="Common.Label" String="Value Help Key"/>
       </Annotations>
-      <Annotations Target=\\"Service.ValueHelpEntity/Description\\">
-        <Annotation Term=\\"Core.Immutable\\" Bool=\\"true\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"Value Help Description\\"/>
+      <Annotations Target="Service.ValueHelpEntity/Description">
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Common.Label" String="Value Help Description"/>
       </Annotations>
-      <Annotations Target=\\"Service.ValueHelpCurrencyEntity/Currency\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Currency Key\\"/>
+      <Annotations Target="Service.ValueHelpCurrencyEntity/Currency">
+        <Annotation Term="Common.Label" String="Currency Key"/>
       </Annotations>
-      <Annotations Target=\\"Service.ValueHelpCurrencyEntity/Description\\">
-        <Annotation Term=\\"Core.Immutable\\" Bool=\\"true\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"Currency Name\\"/>
+      <Annotations Target="Service.ValueHelpCurrencyEntity/Description">
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Common.Label" String="Currency Name"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftAdministrativeData}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/DraftUUID\\">
-        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftUUID}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/CreationDateTime\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_CreationDateTime}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/CreatedByUser\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_CreatedByUser}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/DraftIsCreatedByMe\\">
-        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftIsCreatedByMe}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/LastChangeDateTime\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_LastChangeDateTime}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/LastChangedByUser\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_LastChangedByUser}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/InProcessByUser\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_InProcessByUser}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
       </Annotations>
-      <Annotations Target=\\"Service.DraftAdministrativeData/DraftIsProcessedByMe\\">
-        <Annotation Term=\\"UI.Hidden\\" Bool=\\"true\\"/>
-        <Annotation Term=\\"Common.Label\\" String=\\"{i18n>Draft_DraftIsProcessedByMe}\\"/>
+      <Annotations Target="Service.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -799,77 +799,77 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more common s
 `;
 
 exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"4.0\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\">
-    <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\">
-    <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
   </edmx:Reference>
-  <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/UI.xml\\">
-    <edmx:Include Alias=\\"UI\\" Namespace=\\"com.sap.vocabularies.UI.v1\\"/>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
   </edmx:Reference>
   <edmx:DataServices>
-    <Schema Namespace=\\"sap.fe.mockserver.ValidCDS\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-      <EntityContainer Name=\\"EntityContainer\\">
-        <EntitySet Name=\\"RootElement\\" EntityType=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-          <NavigationPropertyBinding Path=\\"Sibling\\" Target=\\"RootElement\\"/>
+    <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement">
+          <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
         </EntitySet>
       </EntityContainer>
-      <EntityType Name=\\"RootElement\\">
+      <EntityType Name="RootElement">
         <Key>
-          <PropertyRef Name=\\"ID\\"/>
+          <PropertyRef Name="ID"/>
         </Key>
-        <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
-        <Property Name=\\"Prop1\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"Prop2\\" Type=\\"Edm.String\\"/>
-        <Property Name=\\"isBoundAction1Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction2Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"isBoundAction3Hidden\\" Type=\\"Edm.Boolean\\"/>
-        <Property Name=\\"Sibling_ID\\" Type=\\"Edm.Int32\\"/>
-        <NavigationProperty Name=\\"Sibling\\" Type=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-          <ReferentialConstraint Property=\\"Sibling_ID\\" ReferencedProperty=\\"ID\\"/>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="Prop1" Type="Edm.String"/>
+        <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
+        <Property Name="Sibling_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="Sibling" Type="sap.fe.mockserver.ValidCDS.RootElement">
+          <ReferentialConstraint Property="Sibling_ID" ReferencedProperty="ID"/>
         </NavigationProperty>
       </EntityType>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-        <Annotation Term=\\"UI.LineItem\\">
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement">
+        <Annotation Term="UI.LineItem">
           <Collection>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"ID\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ID"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"BooleanProperty\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="BooleanProperty"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"TextArrangementTextFirstProperty\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="TextArrangementTextFirstProperty"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"PropertyWithValueHelp\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="PropertyWithValueHelp"/>
             </Record>
-            <Record Type=\\"UI.DataField\\">
-              <PropertyValue Property=\\"Value\\" Path=\\"PropertyWithCurrency\\"/>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="PropertyWithCurrency"/>
             </Record>
           </Collection>
         </Annotation>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/ID\\">
-        <Annotation Term=\\"Core.Computed\\" Bool=\\"true\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/ID">
+        <Annotation Term="Core.Computed" Bool="true"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop1\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"First Prop\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop1">
+        <Annotation Term="Common.Label" String="First Prop"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop2\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Second Propy\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop2">
+        <Annotation Term="Common.Label" String="Second Propy"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 1 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 2 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 2 Hidden"/>
       </Annotations>
-      <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden\\">
-        <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 3 Hidden\\"/>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden">
+        <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>

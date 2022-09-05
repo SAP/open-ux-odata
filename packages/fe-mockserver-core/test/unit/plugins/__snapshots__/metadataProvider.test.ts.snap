@@ -1,53 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MetadataProvider can load metadata files 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
-<edmx:Edmx Version=\\"4.0\\" xmlns:edmx=\\"http://docs.oasis-open.org/odata/ns/edmx\\">
-    <edmx:Reference Uri=\\"https://sap.github.io/odata-vocabularies/vocabularies/Common.xml\\">
-        <edmx:Include Alias=\\"Common\\" Namespace=\\"com.sap.vocabularies.Common.v1\\"/>
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
     </edmx:Reference>
-    <edmx:Reference Uri=\\"https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml\\">
-        <edmx:Include Alias=\\"Core\\" Namespace=\\"Org.OData.Core.V1\\"/>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
     </edmx:Reference>
     <edmx:DataServices>
-        <Schema Namespace=\\"sap.fe.mockserver.ValidCDS\\" xmlns=\\"http://docs.oasis-open.org/odata/ns/edm\\">
-            <EntityContainer Name=\\"EntityContainer\\">
-                <EntitySet Name=\\"RootElement\\" EntityType=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-                    <NavigationPropertyBinding Path=\\"Sibling\\" Target=\\"RootElement\\"/>
+        <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement">
+                    <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
                 </EntitySet>
             </EntityContainer>
-            <EntityType Name=\\"RootElement\\">
+            <EntityType Name="RootElement">
                 <Key>
-                    <PropertyRef Name=\\"ID\\"/>
+                    <PropertyRef Name="ID"/>
                 </Key>
-                <Property Name=\\"ID\\" Type=\\"Edm.Int32\\" Nullable=\\"false\\"/>
-                <Property Name=\\"Prop1\\" Type=\\"Edm.String\\"/>
-                <Property Name=\\"Prop2\\" Type=\\"Edm.String\\"/>
-                <Property Name=\\"isBoundAction1Hidden\\" Type=\\"Edm.Boolean\\"/>
-                <Property Name=\\"isBoundAction2Hidden\\" Type=\\"Edm.Boolean\\"/>
-                <Property Name=\\"isBoundAction3Hidden\\" Type=\\"Edm.Boolean\\"/>
-                <Property Name=\\"Sibling_ID\\" Type=\\"Edm.Int32\\"/>
-                <NavigationProperty Name=\\"Sibling\\" Type=\\"sap.fe.mockserver.ValidCDS.RootElement\\">
-                    <ReferentialConstraint Property=\\"Sibling_ID\\" ReferencedProperty=\\"ID\\"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Prop1" Type="Edm.String"/>
+                <Property Name="Prop2" Type="Edm.String"/>
+                <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
+                <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
+                <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
+                <Property Name="Sibling_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="Sibling" Type="sap.fe.mockserver.ValidCDS.RootElement">
+                    <ReferentialConstraint Property="Sibling_ID" ReferencedProperty="ID"/>
                 </NavigationProperty>
             </EntityType>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/ID\\">
-                <Annotation Term=\\"Core.Computed\\" Bool=\\"true\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop1\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"First Prop\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop1">
+                <Annotation Term="Common.Label" String="First Prop"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/Prop2\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Second Propy\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop2">
+                <Annotation Term="Common.Label" String="Second Propy"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 1 Hidden\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
+                <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 2 Hidden\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction2Hidden">
+                <Annotation Term="Common.Label" String="Bound Action 2 Hidden"/>
             </Annotations>
-            <Annotations Target=\\"sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden\\">
-                <Annotation Term=\\"Common.Label\\" String=\\"Bound Action 3 Hidden\\"/>
+            <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction3Hidden">
+                <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
             </Annotations>
         </Schema>
     </edmx:DataServices>
