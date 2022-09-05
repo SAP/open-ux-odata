@@ -594,11 +594,11 @@ describe('Data Access', () => {
             )
         );
         expect(actionResult).toMatchInlineSnapshot(`
-            Object {
+            {
               "ID": 1,
               "IsActiveEntity": true,
               "LastName": "",
-              "SpecialOne": Object {
+              "SpecialOne": {
                 "DraftAdministrativeData": null,
                 "HasActiveEntity": false,
                 "HasDraftEntity": false,

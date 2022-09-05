@@ -29,9 +29,9 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.queryPath).toMatchInlineSnapshot(`
-            Array [
-              Object {
-                "keys": Object {},
+            [
+              {
+                "keys": {},
                 "path": "Countries",
               },
             ]
@@ -54,16 +54,16 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.orderBy).toMatchInlineSnapshot(`
-            Array [
-              Object {
+            [
+              {
                 "direction": "desc",
                 "name": "Prop1",
               },
-              Object {
+              {
                 "direction": "asc",
                 "name": "Prop2",
               },
-              Object {
+              {
                 "direction": "asc",
                 "name": "Prop3",
               },
@@ -77,12 +77,12 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.orderBy).toMatchInlineSnapshot(`
-            Array [
-              Object {
+            [
+              {
                 "direction": "desc",
                 "name": "Prop1",
               },
-              Object {
+              {
                 "direction": "asc",
                 "name": "Prop3",
               },
@@ -131,7 +131,7 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            Object {
+            {
               "Value1": true,
               "Value2": true,
               "Value3": true,
@@ -146,7 +146,7 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            Object {
+            {
               "*": true,
             }
         `);
@@ -162,7 +162,7 @@ describe('OData Request', () => {
             fakeDataAccessV2
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            Object {
+            {
               "*": true,
               "Value1": true,
               "Value2": true,
@@ -171,35 +171,35 @@ describe('OData Request', () => {
             }
         `);
         expect(myRequest.expandProperties).toMatchInlineSnapshot(`
-            Object {
-              "Value1": Object {
-                "expand": Object {},
-                "properties": Object {
+            {
+              "Value1": {
+                "expand": {},
+                "properties": {
                   "*": true,
                 },
               },
-              "Value2": Object {
-                "expand": Object {},
-                "properties": Object {
+              "Value2": {
+                "expand": {},
+                "properties": {
                   "*": true,
                 },
               },
-              "Value3": Object {
-                "expand": Object {},
-                "properties": Object {
+              "Value3": {
+                "expand": {},
+                "properties": {
                   "*": true,
                 },
               },
-              "Value4": Object {
-                "expand": Object {
-                  "Value5": Object {
-                    "expand": Object {},
-                    "properties": Object {
+              "Value4": {
+                "expand": {
+                  "Value5": {
+                    "expand": {},
+                    "properties": {
                       "*": true,
                     },
                   },
                 },
-                "properties": Object {
+                "properties": {
                   "*": true,
                 },
               },
@@ -214,23 +214,23 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            Object {
+            {
               "*": true,
               "Value1": true,
               "Value2": true,
             }
         `);
         expect(myRequest.expandProperties).toMatchInlineSnapshot(`
-            Object {
-              "Value1": Object {
-                "expand": Object {},
-                "properties": Object {
+            {
+              "Value1": {
+                "expand": {},
+                "properties": {
                   "*": true,
                 },
               },
-              "Value2": Object {
-                "expand": Object {},
-                "properties": Object {
+              "Value2": {
+                "expand": {},
+                "properties": {
                   "SubValue1": true,
                   "SubValue2": true,
                 },
@@ -246,53 +246,53 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            Object {
+            {
               "Value1": true,
               "Value2": true,
               "Value3": true,
             }
         `);
         expect(myRequest.expandProperties).toMatchInlineSnapshot(`
-            Object {
-              "Value1": Object {
-                "expand": Object {},
-                "properties": Object {
+            {
+              "Value1": {
+                "expand": {},
+                "properties": {
                   "*": true,
                 },
               },
-              "Value2": Object {
-                "expand": Object {
-                  "SubValue1": Object {
-                    "expand": Object {
-                      "SubSubValue1": Object {
-                        "expand": Object {
-                          "SubSubSubValue1": Object {
-                            "expand": Object {},
-                            "properties": Object {
+              "Value2": {
+                "expand": {
+                  "SubValue1": {
+                    "expand": {
+                      "SubSubValue1": {
+                        "expand": {
+                          "SubSubSubValue1": {
+                            "expand": {},
+                            "properties": {
                               "*": true,
                             },
                           },
                         },
-                        "properties": Object {
+                        "properties": {
                           "*": true,
                           "SubSubSubValue1": true,
                         },
                       },
-                      "SubSubValue2": Object {
-                        "expand": Object {},
-                        "properties": Object {
+                      "SubSubValue2": {
+                        "expand": {},
+                        "properties": {
                           "SubValue2": true,
                         },
                       },
                     },
-                    "properties": Object {
+                    "properties": {
                       "*": true,
                       "SubSubValue1": true,
                       "SubSubValue2": true,
                     },
                   },
                 },
-                "properties": Object {
+                "properties": {
                   "*": true,
                   "SubValue1": true,
                 },
@@ -313,23 +313,23 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            Object {
+            {
               "CreditScore": true,
               "Customer": true,
               "SomethingElse": true,
             }
         `);
         expect(myRequest.aggregateDefinition).toMatchInlineSnapshot(`
-            Object {
-              "aggregates": Array [
-                Object {
+            {
+              "aggregates": [
+                {
                   "name": "CreditScore",
                   "operator": undefined,
                   "sourceProperty": "CreditScore",
                 },
               ],
               "filter": undefined,
-              "groupBy": Array [
+              "groupBy": [
                 "Customer",
               ],
             }
@@ -342,31 +342,31 @@ describe('OData Request', () => {
             fakeDataAccess
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            Object {
+            {
               "CreditScore": true,
               "Customer": true,
               "SomethingElse": true,
             }
         `);
         expect(myRequest.aggregateDefinition).toMatchInlineSnapshot(`
-            Object {
-              "aggregates": Array [
-                Object {
+            {
+              "aggregates": [
+                {
                   "name": "CreditScore",
                   "operator": undefined,
                   "sourceProperty": "CreditScore",
                 },
               ],
-              "filter": Object {
-                "expressions": Array [
-                  Object {
+              "filter": {
+                "expressions": [
+                  {
                     "identifier": "CityName",
                     "literal": "'Waldorf'",
                     "operator": "eq",
                   },
                 ],
               },
-              "groupBy": Array [
+              "groupBy": [
                 "Customer",
               ],
             }

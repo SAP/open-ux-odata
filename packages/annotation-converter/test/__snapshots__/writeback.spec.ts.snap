@@ -1,60 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Writeback capabilities can deal with Decimal 1`] = `
-Object {
+{
   "qualifier": "CustomerCreditExposureAmount",
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "CriticalityCalculation",
-        "value": Object {
-          "Record": Object {
-            "propertyValues": Array [
-              Object {
+        "value": {
+          "Record": {
+            "propertyValues": [
+              {
                 "name": "AcceptanceRangeHighValue",
-                "value": Object {
+                "value": {
                   "Path": "AcceptanceRangeHigh",
                   "type": "Path",
                 },
               },
-              Object {
+              {
                 "name": "AcceptanceRangeLowValue",
-                "value": Object {
+                "value": {
                   "Path": "AcceptanceRangeLow",
                   "type": "Path",
                 },
               },
-              Object {
+              {
                 "name": "DeviationRangeHighValue",
-                "value": Object {
+                "value": {
                   "Path": "DeviationRangeHigh",
                   "type": "Path",
                 },
               },
-              Object {
+              {
                 "name": "DeviationRangeLowValue",
-                "value": Object {
+                "value": {
                   "Path": "DeviationRangeLow",
                   "type": "Path",
                 },
               },
-              Object {
+              {
                 "name": "ImprovementDirection",
-                "value": Object {
+                "value": {
                   "EnumMember": "UI.ImprovementDirectionType/Maximize",
                   "type": "EnumMember",
                 },
               },
-              Object {
+              {
                 "name": "ToleranceRangeHighValue",
-                "value": Object {
+                "value": {
                   "Path": "ToleranceRangeHigh",
                   "type": "Path",
                 },
               },
-              Object {
+              {
                 "name": "ToleranceRangeLowValue",
-                "value": Object {
+                "value": {
                   "Path": "ToleranceRangeLow",
                   "type": "Path",
                 },
@@ -65,51 +65,51 @@ Object {
           "type": "Record",
         },
       },
-      Object {
+      {
         "name": "Description",
-        "value": Object {
+        "value": {
           "String": "Bullet Micro Chart",
           "type": "String",
         },
       },
-      Object {
+      {
         "name": "ForecastValue",
-        "value": Object {
+        "value": {
           "Path": "CustomerCreditForecast",
           "type": "Path",
         },
       },
-      Object {
+      {
         "name": "MaximumValue",
-        "value": Object {
+        "value": {
           "Decimal": 7000,
           "type": "Decimal",
         },
       },
-      Object {
+      {
         "name": "MinimumValue",
-        "value": Object {
+        "value": {
           "Decimal": 200.02,
           "type": "Decimal",
         },
       },
-      Object {
+      {
         "name": "TargetValue",
-        "value": Object {
+        "value": {
           "Path": "CustomerCreditLimitAmount",
           "type": "Path",
         },
       },
-      Object {
+      {
         "name": "Title",
-        "value": Object {
+        "value": {
           "String": "Exposure Amount",
           "type": "String",
         },
       },
-      Object {
+      {
         "name": "Value",
-        "value": Object {
+        "value": {
           "Path": "CustomerCreditExposureAmount",
           "type": "Path",
         },
@@ -122,34 +122,34 @@ Object {
 `;
 
 exports[`Writeback capabilities can deal with Integer and Decimal "naturally" 1`] = `
-Object {
+{
   "qualifier": "Progress2",
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "TargetValue",
-        "value": Object {
+        "value": {
           "Int": 100,
           "type": "Int",
         },
       },
-      Object {
+      {
         "name": "Title",
-        "value": Object {
+        "value": {
           "String": "Progress",
           "type": "String",
         },
       },
-      Object {
+      {
         "name": "Value",
-        "value": Object {
+        "value": {
           "Path": "Progress",
           "type": "Path",
         },
       },
-      Object {
+      {
         "name": "Visualization",
-        "value": Object {
+        "value": {
           "EnumMember": "UI.VisualizationType/Progress",
           "type": "EnumMember",
         },
@@ -162,34 +162,34 @@ Object {
 `;
 
 exports[`Writeback capabilities can deal with Integer and Decimal "naturally" 2`] = `
-Object {
+{
   "qualifier": "Progress2",
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "TargetValue",
-        "value": Object {
+        "value": {
           "Decimal": 99.5,
           "type": "Decimal",
         },
       },
-      Object {
+      {
         "name": "Title",
-        "value": Object {
+        "value": {
           "String": "Progress",
           "type": "String",
         },
       },
-      Object {
+      {
         "name": "Value",
-        "value": Object {
+        "value": {
           "Path": "Progress",
           "type": "Path",
         },
       },
-      Object {
+      {
         "name": "Visualization",
-        "value": Object {
+        "value": {
           "EnumMember": "UI.VisualizationType/Progress",
           "type": "EnumMember",
         },
@@ -202,85 +202,85 @@ Object {
 `;
 
 exports[`Writeback capabilities can deal with Null 1`] = `
-Object {
+{
   "qualifier": undefined,
   "term": "Org.OData.Core.V1.OperationAvailable",
-  "value": Object {
+  "value": {
     "type": "Null",
   },
 }
 `;
 
 exports[`Writeback capabilities can deal with annotation on collection 1`] = `
-Object {
-  "collection": Array [
-    Object {
-      "annotations": Array [
-        Object {
+{
+  "collection": [
+    {
+      "annotations": [
+        {
           "qualifier": undefined,
           "term": "com.sap.vocabularies.UI.v1.Importance",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.ImportanceType/High",
             "type": "EnumMember",
           },
         },
       ],
-      "propertyValues": Array [
-        Object {
+      "propertyValues": [
+        {
           "name": "ID",
-          "value": Object {
+          "value": {
             "String": "GeneralInfo",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "General Information",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Facets",
-          "value": Object {
-            "Collection": Array [
-              Object {
-                "annotations": Array [
-                  Object {
+          "value": {
+            "Collection": [
+              {
+                "annotations": [
+                  {
                     "qualifier": undefined,
                     "term": "com.sap.vocabularies.UI.v1.Importance",
-                    "value": Object {
+                    "value": {
                       "EnumMember": "UI.ImportanceType/High",
                       "type": "EnumMember",
                     },
                   },
-                  Object {
+                  {
                     "qualifier": undefined,
                     "term": "com.sap.vocabularies.UI.v1.Hidden",
-                    "value": Object {
+                    "value": {
                       "Bool": false,
                       "type": "Bool",
                     },
                   },
                 ],
-                "propertyValues": Array [
-                  Object {
+                "propertyValues": [
+                  {
                     "name": "Label",
-                    "value": Object {
+                    "value": {
                       "String": "Adress",
                       "type": "String",
                     },
                   },
-                  Object {
+                  {
                     "name": "ID",
-                    "value": Object {
+                    "value": {
                       "String": "Adress",
                       "type": "String",
                     },
                   },
-                  Object {
+                  {
                     "name": "Target",
-                    "value": Object {
+                    "value": {
                       "AnnotationPath": "@UI.FieldGroup#SoldToQuickView",
                       "type": "AnnotationPath",
                     },
@@ -288,43 +288,43 @@ Object {
                 ],
                 "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
               },
-              Object {
-                "annotations": Array [
-                  Object {
+              {
+                "annotations": [
+                  {
                     "qualifier": undefined,
                     "term": "com.sap.vocabularies.UI.v1.Importance",
-                    "value": Object {
+                    "value": {
                       "EnumMember": "UI.ImportanceType/High",
                       "type": "EnumMember",
                     },
                   },
-                  Object {
+                  {
                     "qualifier": undefined,
                     "term": "com.sap.vocabularies.UI.v1.Hidden",
-                    "value": Object {
+                    "value": {
                       "Bool": false,
                       "type": "Bool",
                     },
                   },
                 ],
-                "propertyValues": Array [
-                  Object {
+                "propertyValues": [
+                  {
                     "name": "Label",
-                    "value": Object {
+                    "value": {
                       "String": "Contact",
                       "type": "String",
                     },
                   },
-                  Object {
+                  {
                     "name": "ID",
-                    "value": Object {
+                    "value": {
                       "String": "Partner",
                       "type": "String",
                     },
                   },
-                  Object {
+                  {
                     "name": "Target",
-                    "value": Object {
+                    "value": {
                       "AnnotationPath": "@UI.FieldGroup#Contact",
                       "type": "AnnotationPath",
                     },
@@ -346,30 +346,30 @@ Object {
 `;
 
 exports[`Writeback capabilities can deal with weird things such as annotation on collection 1`] = `
-Object {
-  "annotations": Array [
-    Object {
+{
+  "annotations": [
+    {
       "qualifier": undefined,
       "term": "com.sap.vocabularies.UI.v1.Importance",
-      "value": Object {
+      "value": {
         "EnumMember": "UI.ImportanceType/High",
         "type": "EnumMember",
       },
     },
   ],
-  "collection": Array [
-    Object {
-      "propertyValues": Array [
-        Object {
+  "collection": [
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Dummy Action",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "com.c_salesordermanage_sd.ChangeOrderStatus",
             "type": "String",
           },
@@ -377,18 +377,18 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@UI.FieldGroup#multipleActionFields",
             "type": "AnnotationPath",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Rating",
             "type": "String",
           },
@@ -396,32 +396,32 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "SemanticObject",
-          "value": Object {
+          "value": {
             "String": "SalesOrder",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "manageInline",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "IBN",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "RequiresContext",
-          "value": Object {
+          "value": {
             "Bool": false,
             "type": "Bool",
           },
@@ -429,18 +429,18 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForIntentBasedNavigation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@Communication.Contact",
             "type": "AnnotationPath",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Supplier",
             "type": "String",
           },
@@ -448,11 +448,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "PartnerFunction",
             "type": "Path",
           },
@@ -460,11 +460,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "BusinessPartner",
             "type": "Path",
           },
@@ -472,11 +472,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "FullName",
             "type": "Path",
           },
@@ -484,21 +484,21 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "annotations": Array [
-        Object {
+    {
+      "annotations": [
+        {
           "qualifier": "Alternative",
           "term": "com.sap.vocabularies.UI.v1.Importance",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.ImportanceType/Low",
             "type": "EnumMember",
           },
         },
       ],
-      "propertyValues": Array [
-        Object {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "isVerified",
             "type": "Path",
           },
@@ -513,20 +513,20 @@ Object {
 `;
 
 exports[`Writeback capabilities can revert a Line Item definition 1`] = `
-Object {
-  "collection": Array [
-    Object {
-      "propertyValues": Array [
-        Object {
+{
+  "collection": [
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Identifier",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "ID",
             "type": "Path",
           },
@@ -534,11 +534,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "name",
             "type": "Path",
           },
@@ -546,11 +546,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "imageURL",
             "type": "Path",
           },
@@ -558,11 +558,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "imageURLStream",
             "type": "Path",
           },
@@ -570,11 +570,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "imageStream",
             "type": "Path",
           },
@@ -582,11 +582,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "preferredItem",
             "type": "Path",
           },
@@ -594,11 +594,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "createdAt",
             "type": "Path",
           },
@@ -606,18 +606,18 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@UI.DataPoint#withValueFormat",
             "type": "AnnotationPath",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Usage Progress (Decimal)",
             "type": "String",
           },
@@ -625,11 +625,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "usageStartTime",
             "type": "Path",
           },
@@ -637,11 +637,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "usageCoefficient",
             "type": "Path",
           },
@@ -649,11 +649,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "usageCounter",
             "type": "Path",
           },
@@ -661,11 +661,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "calculatedValue",
             "type": "Path",
           },
@@ -673,11 +673,11 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Value",
-          "value": Object {
+          "value": {
             "Path": "updatedValue",
             "type": "Path",
           },
@@ -685,25 +685,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataField",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Hidden & ReadOnly (_it)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testHiddenReadOnly",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -711,25 +711,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Hidden & ReadOnly (_myBindingParameter)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testHiddenReadOnly2",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -737,25 +737,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Hidden & ReadOnly (no path)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testHiddenReadOnlyNoPath",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -763,32 +763,32 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "SemanticObject",
-          "value": Object {
+          "value": {
             "String": "v4Freestyle",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "Inbound",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "IBN_With_Context",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "RequiresContext",
-          "value": Object {
+          "value": {
             "Bool": false,
             "type": "Bool",
           },
@@ -796,32 +796,32 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForIntentBasedNavigation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "SemanticObject",
-          "value": Object {
+          "value": {
             "String": "Incorrect_SemanticObject",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "manageInline",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "IBN_With_Incorrect_SemanticObject",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "RequiresContext",
-          "value": Object {
+          "value": {
             "Bool": false,
             "type": "Bool",
           },
@@ -829,32 +829,32 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForIntentBasedNavigation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "SemanticObject",
-          "value": Object {
+          "value": {
             "String": "SalesOrder",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "Incorrect_Action",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "IBN_With_Incorrect_Action",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "RequiresContext",
-          "value": Object {
+          "value": {
             "Bool": false,
             "type": "Bool",
           },
@@ -862,25 +862,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForIntentBasedNavigation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Text Arrangement",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testTextArrangement",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -888,25 +888,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Parameter Default Value",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testParameterDefaultValue",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -914,25 +914,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Miscellaneous",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testMiscellaneous",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -940,25 +940,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Unbound action",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.EntityContainer/testUnbound",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -966,25 +966,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available (bound/true)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testOABoundTrue",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -992,25 +992,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available (bound/false)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testOABoundFalse",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1018,25 +1018,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available (bound/_it.preferredItem)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testOABoundDynamic",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1044,25 +1044,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available 2 (bound/_it.preferredItem)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testOABoundDynamic2",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1070,25 +1070,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available Switch 1 (bound/_it.booleanSwitch1Available)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testSwitch1",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1096,25 +1096,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available Switch 2 (bound/_it.booleanSwitch2Available)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testSwitch2",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1122,25 +1122,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available (unbound/true)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.EntityContainer/testOAUnboundTrue",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1148,25 +1148,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available (unbound/false)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.EntityContainer/testOAUnboundFalse",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1174,25 +1174,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "(Bound) Type Ahead (ValueList/@UI.Importance)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testBoundTypeAheadValueList",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1200,25 +1200,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "(Bound) Type Ahead (ValueListMapping/@UI.Importance)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testBoundTypeAheadValueListMapping",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1226,25 +1226,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "(Unbound) Type Ahead (ValueList/@UI.Importance #High)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.EntityContainer/testUnboundTypeAheadValueList",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1252,25 +1252,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "(Unbound) Type Ahead (ValueListMappping/@UI.Importance #High)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.EntityContainer/testUnboundTypeAheadValueListMapping",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1278,25 +1278,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "SideEffects (No alias)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.sideEffectsNoAlias",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1304,32 +1304,32 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "SideEffects (With alias)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.sideEffectsWithAlias",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Inline",
-          "value": Object {
+          "value": {
             "Bool": true,
             "type": "Bool",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1337,25 +1337,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Messages",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testMessages",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1363,18 +1363,18 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@UI.FieldGroup#InlineOABoundTrue",
             "type": "AnnotationPath",
           },
@@ -1382,18 +1382,18 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@UI.FieldGroup#InlineOABoundFalse",
             "type": "AnnotationPath",
           },
@@ -1401,18 +1401,18 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available (FieldGroup)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@UI.FieldGroup#InlineOAUnboundFalse",
             "type": "AnnotationPath",
           },
@@ -1420,18 +1420,18 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@UI.FieldGroup#InlineOABoundDynamic",
             "type": "AnnotationPath",
           },
@@ -1439,28 +1439,28 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "annotations": Array [
-        Object {
+    {
+      "annotations": [
+        {
           "qualifier": undefined,
           "term": "com.sap.vocabularies.UI.v1.Importance",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.ImportanceType/None",
             "type": "EnumMember",
           },
         },
       ],
-      "propertyValues": Array [
-        Object {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Operation Available",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Target",
-          "value": Object {
+          "value": {
             "AnnotationPath": "@UI.FieldGroup#InlineOAUnboundTrue",
             "type": "AnnotationPath",
           },
@@ -1468,25 +1468,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Bound Inline (NoFieldGroup)",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Inline",
-          "value": Object {
+          "value": {
             "Bool": true,
             "type": "Bool",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testBoundNoFieldGroup",
             "type": "String",
           },
@@ -1494,25 +1494,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "InvocationGrouping: ChangeSet",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testInvocationGroupingChangeSet",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1520,25 +1520,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "InvocationGrouping: Isolated",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testInvocationGroupingIsolated",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/Isolated",
             "type": "EnumMember",
           },
@@ -1546,25 +1546,25 @@ Object {
       ],
       "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
     },
-    Object {
-      "propertyValues": Array [
-        Object {
+    {
+      "propertyValues": [
+        {
           "name": "Label",
-          "value": Object {
+          "value": {
             "String": "Reset UpdatedByActions",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "Action",
-          "value": Object {
+          "value": {
             "String": "sap.fe.manageitems.TechnicalTestingService.testResetUpdatedByActions",
             "type": "String",
           },
         },
-        Object {
+        {
           "name": "InvocationGrouping",
-          "value": Object {
+          "value": {
             "EnumMember": "UI.OperationGroupingType/ChangeSet",
             "type": "EnumMember",
           },
@@ -1579,31 +1579,31 @@ Object {
 `;
 
 exports[`Writeback capabilities can revert a Navigation Restriction 1`] = `
-Object {
+{
   "qualifier": undefined,
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "RestrictedProperties",
-        "value": Object {
-          "Collection": Array [
-            Object {
-              "propertyValues": Array [
-                Object {
+        "value": {
+          "Collection": [
+            {
+              "propertyValues": [
+                {
                   "name": "NavigationProperty",
-                  "value": Object {
+                  "value": {
                     "NavigationPropertyPath": "_Item",
                     "type": "NavigationPropertyPath",
                   },
                 },
-                Object {
+                {
                   "name": "InsertRestrictions",
-                  "value": Object {
-                    "Record": Object {
-                      "propertyValues": Array [
-                        Object {
+                  "value": {
+                    "Record": {
+                      "propertyValues": [
+                        {
                           "name": "Insertable",
-                          "value": Object {
+                          "value": {
                             "Bool": true,
                             "type": "Bool",
                           },
@@ -1629,17 +1629,17 @@ Object {
 `;
 
 exports[`Writeback capabilities can revert a SelectionFields definition 1`] = `
-Object {
-  "collection": Array [
-    Object {
+{
+  "collection": [
+    {
       "PropertyPath": "name",
       "type": "PropertyPath",
     },
-    Object {
+    {
       "PropertyPath": "usageCounter",
       "type": "PropertyPath",
     },
-    Object {
+    {
       "PropertyPath": "preferredItem",
       "type": "PropertyPath",
     },
@@ -1650,24 +1650,24 @@ Object {
 `;
 
 exports[`Writeback capabilities can revert a SelectionPresentationVariant 1`] = `
-Object {
+{
   "qualifier": "SPVPath",
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "PresentationVariant",
-        "value": Object {
-          "Record": Object {
-            "propertyValues": Array [
-              Object {
+        "value": {
+          "Record": {
+            "propertyValues": [
+              {
                 "name": "SortOrder",
-                "value": Object {
-                  "Collection": Array [
-                    Object {
-                      "propertyValues": Array [
-                        Object {
+                "value": {
+                  "Collection": [
+                    {
+                      "propertyValues": [
+                        {
                           "name": "Property",
-                          "value": Object {
+                          "value": {
                             "PropertyPath": "ID",
                             "type": "PropertyPath",
                           },
@@ -1679,11 +1679,11 @@ Object {
                   "type": "Collection",
                 },
               },
-              Object {
+              {
                 "name": "Visualizations",
-                "value": Object {
-                  "Collection": Array [
-                    Object {
+                "value": {
+                  "Collection": [
+                    {
                       "AnnotationPath": "@UI.LineItem#SPVPath",
                       "type": "AnnotationPath",
                     },
@@ -1697,40 +1697,40 @@ Object {
           "type": "Record",
         },
       },
-      Object {
+      {
         "name": "SelectionVariant",
-        "value": Object {
-          "Record": Object {
-            "propertyValues": Array [
-              Object {
+        "value": {
+          "Record": {
+            "propertyValues": [
+              {
                 "name": "SelectOptions",
-                "value": Object {
-                  "Collection": Array [
-                    Object {
-                      "propertyValues": Array [
-                        Object {
+                "value": {
+                  "Collection": [
+                    {
+                      "propertyValues": [
+                        {
                           "name": "PropertyName",
-                          "value": Object {
+                          "value": {
                             "PropertyPath": "OverallSDProcessStatus",
                             "type": "PropertyPath",
                           },
                         },
-                        Object {
+                        {
                           "name": "Ranges",
-                          "value": Object {
-                            "Collection": Array [
-                              Object {
-                                "propertyValues": Array [
-                                  Object {
+                          "value": {
+                            "Collection": [
+                              {
+                                "propertyValues": [
+                                  {
                                     "name": "Option",
-                                    "value": Object {
+                                    "value": {
                                       "EnumMember": "UI.SelectionRangeOptionType/EQ",
                                       "type": "EnumMember",
                                     },
                                   },
-                                  Object {
+                                  {
                                     "name": "Low",
-                                    "value": Object {
+                                    "value": {
                                       "String": "A",
                                       "type": "String",
                                     },
@@ -1749,9 +1749,9 @@ Object {
                   "type": "Collection",
                 },
               },
-              Object {
+              {
                 "name": "Text",
-                "value": Object {
+                "value": {
                   "String": "Open",
                   "type": "String",
                 },
@@ -1762,9 +1762,9 @@ Object {
           "type": "Record",
         },
       },
-      Object {
+      {
         "name": "Text",
-        "value": Object {
+        "value": {
           "String": "Open",
           "type": "String",
         },
@@ -1777,15 +1777,15 @@ Object {
 `;
 
 exports[`Writeback capabilities can revert a SideEffects definition 1`] = `
-Object {
+{
   "qualifier": "ShipToPartyChange",
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "SourceProperties",
-        "value": Object {
-          "Collection": Array [
-            Object {
+        "value": {
+          "Collection": [
+            {
               "PropertyPath": "_ShipToParty/BusinessPartner",
               "type": "PropertyPath",
             },
@@ -1793,15 +1793,15 @@ Object {
           "type": "Collection",
         },
       },
-      Object {
+      {
         "name": "TargetEntities",
-        "value": Object {
-          "Collection": Array [
-            Object {
+        "value": {
+          "Collection": [
+            {
               "NavigationPropertyPath": "_ShipToParty",
               "type": "NavigationPropertyPath",
             },
-            Object {
+            {
               "NavigationPropertyPath": "_Partner",
               "type": "NavigationPropertyPath",
             },
@@ -1817,40 +1817,40 @@ Object {
 `;
 
 exports[`Writeback capabilities can revert a Value Help definition 1`] = `
-Object {
+{
   "qualifier": undefined,
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "Label",
-        "value": Object {
+        "value": {
           "String": "ValueHelp for Boolean",
           "type": "String",
         },
       },
-      Object {
+      {
         "name": "CollectionPath",
-        "value": Object {
+        "value": {
           "String": "EntityT6",
           "type": "String",
         },
       },
-      Object {
+      {
         "name": "Parameters",
-        "value": Object {
-          "Collection": Array [
-            Object {
-              "propertyValues": Array [
-                Object {
+        "value": {
+          "Collection": [
+            {
+              "propertyValues": [
+                {
                   "name": "LocalDataProperty",
-                  "value": Object {
+                  "value": {
                     "PropertyPath": "booleanWithValueHelp",
                     "type": "PropertyPath",
                   },
                 },
-                Object {
+                {
                   "name": "ValueListProperty",
-                  "value": Object {
+                  "value": {
                     "String": "value",
                     "type": "String",
                   },
@@ -1870,15 +1870,15 @@ Object {
 `;
 
 exports[`Writeback capabilities can revert further SideEffects definition 1`] = `
-Object {
+{
   "qualifier": "MaterialDetailsModelYearChange",
-  "record": Object {
-    "propertyValues": Array [
-      Object {
+  "record": {
+    "propertyValues": [
+      {
         "name": "SourceProperties",
-        "value": Object {
-          "Collection": Array [
-            Object {
+        "value": {
+          "Collection": [
+            {
               "PropertyPath": "ModelYear",
               "type": "PropertyPath",
             },
@@ -1886,10 +1886,10 @@ Object {
           "type": "Collection",
         },
       },
-      Object {
+      {
         "name": "TargetProperties",
-        "value": Object {
-          "Collection": Array [
+        "value": {
+          "Collection": [
             "WarrantyYear",
           ],
           "type": "Collection",
