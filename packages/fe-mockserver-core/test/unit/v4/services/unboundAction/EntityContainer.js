@@ -8,6 +8,18 @@ module.exports = {
                 const entitySet = await this.base.getEntityInterface('RootEntity');
                 return entitySet.fetchEntries({ ID: 2 });
             }
+            case 'unboundActionThatFetchDataOnUnknownEntity': {
+                const entitySet = await this.base.getEntityInterface('UnkownEntity');
+                if (entitySet) {
+                    return entitySet.fetchEntries({ ID: 2 });
+                } else {
+                    this.throwError('Unsupported EntitySet', 501, {
+                        error: {
+                            message: `Trying to reach unknown entityset`
+                        }
+                    });
+                }
+            }
             default: {
                 this.throwError('Unsupported Action', 501, {
                     error: {

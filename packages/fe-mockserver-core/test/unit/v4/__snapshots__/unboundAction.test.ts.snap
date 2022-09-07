@@ -37,3 +37,14 @@ exports[`Unbound Action can call the base interface 2`] = `
   },
 ]
 `;
+
+exports[`Unbound Action can call the base interface for an incorrect entity    1`] = `
+[
+  {
+    "keys": {},
+    "path": "unboundActionThatFetchDataOnUnknownEntity",
+  },
+]
+`;
+
+exports[`Unbound Action can call the base interface for an incorrect entity    2`] = `null`;
