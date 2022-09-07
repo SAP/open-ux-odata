@@ -222,15 +222,6 @@ export class DataAccess implements DataAccessInterface {
                             }
                         }
                         return outData;
-                    } else {
-                        // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
-                        return (await MockEntityContainer.read(this.mockDataRootFolder, this.fileLoader))
-                            ?.executeAction!(
-                            actionDefinition,
-                            Object.assign({}, actionData),
-                            odataRequest.queryPath[0].keys || {},
-                            odataRequest
-                        );
                     }
                 } else if (
                     this.stickyEntitySets.some((stickyEntitySet) => stickyEntitySet.isDiscardAction(actionDefinition))
@@ -248,7 +239,14 @@ export class DataAccess implements DataAccessInterface {
                 } else {
                     // Treat this as a normal unbound action
                     // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
-                    return (await MockEntityContainer.read(this.mockDataRootFolder, this.fileLoader))?.executeAction!(
+                    return (
+                        await MockEntityContainer.read(
+                            this.mockDataRootFolder,
+                            odataRequest.tenantId,
+                            this.fileLoader,
+                            this
+                        )
+                    )?.executeAction!(
                         actionDefinition,
                         Object.assign({}, actionData),
                         odataRequest.queryPath[0].keys || {},

@@ -1,0 +1,9 @@
+[
+    {
+        "ID": 1
+    },
+    {
+        "ID": 2,
+        "TitleProperty": "This is my Title"
+    }
+]
