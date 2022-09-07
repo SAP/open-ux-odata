@@ -317,7 +317,8 @@ export default class ODataRequest {
         try {
             switch (this.requestContent.method) {
                 case 'PATCH':
-                case 'MERGE': {
+                case 'MERGE':
+                case 'PUT': {
                     const updatedData = await this.dataAccess.updateData(this, this.requestContent.body);
                     this.setResponseData(updatedData);
 

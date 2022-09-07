@@ -64,8 +64,17 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         req.tenantId = tenantId;
 
         parser(req, res, function () {
-            (req as any).body = (req as any).body.toString('utf-8');
-            if (req.headers['content-type'] === 'application/json') {
+            if (typeof (req as any).body === 'object' && Object.keys((req as any).body).length === 0) {
+                (req as any).body = '{}';
+            } else {
+                (req as any).body = (req as any).body.toString('utf-8');
+            }
+
+            if (
+                req.headers['content-type'] &&
+                (req as any).body &&
+                req.headers['content-type'].indexOf('application/json') !== -1
+            ) {
                 (req as any).body = JSON.parse((req as any).body);
             }
             next();

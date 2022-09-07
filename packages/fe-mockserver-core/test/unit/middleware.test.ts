@@ -134,19 +134,26 @@ describe('V4 Requestor', function () {
     });
 
     it('can create data through a call', async () => {
-        // const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
-        // const dataRes = await dataRequestor.createData<any>('/RootElement', { ID: 555 }).execute('POST');
-        // expect(dataRes).toMatchSnapshot();
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.createData<any>('RootElement', { ID: 555 }).executeAsBatch();
         expect(dataRes).toMatchSnapshot();
-        // const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
-        // const dataRes = await dataRequestor.createData<any>('/RootElement', { ID: 556 }).executeAsBatch(true);
-        // expect(dataRes).toMatchSnapshot();
+
         const dataRes2 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes2.length).toBe(5);
         expect(dataRes2[4].ID).toBe(555);
         expect(dataRes2[4].Prop1).toBe('');
+
+        const dataRequestor3 = new ODataV4Requestor('http://localhost:33331/tenant-008/sap/fe/core/mock/action');
+        const dataRes3 = await dataRequestor.createData<any>('/RootElement', { ID: 666 }).execute('POST');
+        expect(dataRes).toMatchSnapshot();
+
+        const dataRes4 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
+        expect(dataRes4.length).toBe(6);
+        expect(dataRes4[5].ID).toBe(666);
+        expect(dataRes4[5].Prop1).toBe('');
+        // const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
+        // const dataRes = await dataRequestor.createData<any>('/RootElement', { ID: 556 }).executeAsBatch(true);
+        // expect(dataRes).toMatchSnapshot();
     });
     it('can fail to create data through a call', async () => {
         // const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
@@ -170,6 +177,17 @@ describe('V4 Requestor', function () {
             .updateData<any>('RootElement(ID=557)', { Prop1: 'MyNewProp1' })
             .execute('PATCH');
         expect(res).toMatchSnapshot();
+
+        expect(dataRes2.length).toBe(5);
+        expect(dataRes2[4].ID).toBe(556);
+        expect(dataRes2[4].Prop1).toBe('MyNewProp1');
+        // Deep update
+        const res2 = await dataRequestor.updateData<any>('RootElement(ID=556)/Prop1', 'Lali-ho', true).execute('PUT');
+        expect(res2).toMatchSnapshot();
+        const dataRes3 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
+        expect(dataRes3.length).toBe(5);
+        expect(dataRes3[4].ID).toBe(556);
+        expect(dataRes3[4].Prop1).toBe('Lali-ho');
     });
     it('can get updated the sticky header timeout', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
