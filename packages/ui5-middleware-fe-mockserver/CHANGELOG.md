@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.29
+
+### Patch Changes
+
+-   4d7cf9c: Add support for the base API in the mock entitycontainer file
+-   Updated dependencies [4d7cf9c]
+    -   @sap-ux/fe-mockserver-core@1.1.28
+
 ## 2.1.28
 
 ### Patch Changes
