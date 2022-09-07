@@ -1,9 +1,10 @@
 import { join } from 'path';
 import type { Action } from '@sap-ux/vocabularies-types';
-import { DataAccessInterface, ExecutionError } from '../data/common';
+import type { DataAccessInterface } from '../data/common';
+import { ExecutionError } from '../data/common';
 import type { IFileLoader } from '../index';
 import type ODataRequest from '../request/odataRequest';
-import { FileBasedMockData, KeyDefinitions } from './fileBasedMockData';
+import type { FileBasedMockData } from './fileBasedMockData';
 
 export type MockEntityContainerContributor = {
     executeAction?(
