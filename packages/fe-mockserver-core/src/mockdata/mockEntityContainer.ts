@@ -54,8 +54,12 @@ export class MockEntityContainer {
 
         outData.base = {
             async getEntityInterface(entitySetName: string): Promise<FileBasedMockData | undefined> {
-                const mockEntitySet = await dataAccess.getMockEntitySet(entitySetName);
-                return mockEntitySet?.getMockData(tenantId);
+                try {
+                    const mockEntitySet = await dataAccess.getMockEntitySet(entitySetName);
+                    return mockEntitySet?.getMockData(tenantId);
+                } catch (e) {
+                    return undefined;
+                }
             }
         };
 

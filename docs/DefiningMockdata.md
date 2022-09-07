@@ -5,9 +5,9 @@
 
 The mockserver allows you to define your mock data as javascript file and function that allow you to influence the behavior of the standard function to match your needs.
 
-In order to define your mockdata, you need to create a file with the name of the entity set you want to mock and the extension `.js` in the folder identifier by your `mockdataPath`.
+In order to define your mockdata, you need to create a file with the name of the entity set you want to mock and the extension `.js` in the folder identified by your `mockdataPath`.
 
-You can then implement any of the function defined in the [API](./MockserverAPI.md) to add your custom logic.
+You can then implement some functions defined in the [API](./MockserverAPI.md) to add your custom logic.
 
 ## Defining unbound actions
 

@@ -1,6 +1,6 @@
 # EntityContainer contributor API
 
-When defining your own unbound actions, you can provide a javascript (or Typescript) file with the name `EntityContainer` that will implement various actions.
+When defining your own unbound actions, you can provide a javascript (or Typescript) file with the name `EntityContainer.js` that will implement various actions.
 
 The available function are more limited but cover the most common use cases.
 
@@ -27,7 +27,7 @@ This method allows to throw an error, it's useful to provide a custom error mess
 
 ### base API
 
-On top of providing ways to override default behavior, you also have access to a `base` API that comprises of the basic functionality offered by the mockdata API.
+On top of providing ways to override default behavior, you also have access to a `base` API that consists of the basic functionality offered by the mockdata API.
 
 #### getEntityInterface
 

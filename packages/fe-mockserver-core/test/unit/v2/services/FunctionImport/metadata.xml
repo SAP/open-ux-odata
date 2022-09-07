@@ -676,6 +676,13 @@
           <Parameter Mode="In" Name="DecisionKey" Nullable="false" Type="Edm.String"/>
           <Parameter Mode="In" Name="Comments" Nullable="true" Type="Edm.String"/>
         </FunctionImport>
+        <FunctionImport EntitySet="ThisIsWeird" Name="IsThisEvenAThing" ReturnType="TASKPROCESSING.Task" m:HttpMethod="POST"
+                        sap:action-for="TASKPROCESSING.Task">
+          <Parameter MaxLength="16" Mode="In" Name="SAP__Origin" Nullable="true" Type="Edm.String"/>
+          <Parameter Mode="In" Name="InstanceID" Nullable="false" Type="Edm.String"/>
+          <Parameter Mode="In" Name="DecisionKey" Nullable="false" Type="Edm.String"/>
+          <Parameter Mode="In" Name="Comments" Nullable="true" Type="Edm.String"/>
+        </FunctionImport>
         <FunctionImport Name="DecisionOptions" ReturnType="Collection(TASKPROCESSING.DecisionOption)" m:HttpMethod="GET"
                         sap:action-for="TASKPROCESSING.Task">
           <Parameter MaxLength="16" Mode="In" Name="SAP__Origin" Nullable="true" Type="Edm.String"/>

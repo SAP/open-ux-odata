@@ -41,8 +41,7 @@ describe('Unbound Action', () => {
 
         const request = new ODataRequest({ method: 'POST', url: requestUrl }, dataAccess);
         expect(request.queryPath).toMatchSnapshot();
-        const actionData = await dataAccess.performAction(request);
-        expect(actionData).toMatchSnapshot();
+        expect(async () => await dataAccess.performAction(request)).rejects.toThrow();
     });
 
     test('does not catch all', async () => {

@@ -26,6 +26,7 @@ service Service {
 
   action unboundAction();
   action unboundActionThatFetchData();
+  action unboundActionThatFetchDataOnUnknownEntity();
 
   annotate RootEntity with
   @(UI : {

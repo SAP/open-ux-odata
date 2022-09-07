@@ -9,6 +9,15 @@ exports[`Function Import are parsed properly 1`] = `
 ]
 `;
 
+exports[`Function Import are parsed properly when bound kinda 1`] = `
+[
+  {
+    "keys": {},
+    "path": "Decision",
+  },
+]
+`;
+
 exports[`Function Import will fail by default 1`] = `
 [
   {
