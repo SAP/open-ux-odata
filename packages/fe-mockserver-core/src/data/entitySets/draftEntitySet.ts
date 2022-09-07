@@ -118,8 +118,9 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         const dataToClean: KeyDefinitions[] = [];
         let activeDraft: DraftElement | undefined;
         for (const draftData of dataToDuplicate) {
-            if (!draftData.IsActiveEntity && draftData.HasDraftEntity) {
+            if (!draftData.IsActiveEntity && !draftData.Processed) {
                 draftData.HasDraftEntity = false;
+                draftData.Processed = true;
                 const activateKeyValues = this.getKeys(draftData);
                 activateKeyValues.IsActiveEntity = true;
                 activeDraft = Object.assign({}, draftData) as DraftElement;
@@ -361,7 +362,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             postData.HasActiveEntity = false;
         }
         if (!Object.hasOwnProperty.call(postData, 'HasDraftEntity')) {
-            postData.HasDraftEntity = !postData.IsActiveEntity;
+            postData.HasDraftEntity = false; // HasDraftEntity should be false during the create phase
         }
         return super.performPOST(keyValues, postData, tenantId, odataRequest);
     }
