@@ -72,3 +72,11 @@ Update an existing entry, identified by it's keyValues into the data set.
 Remove an entry from the data set
 
 `removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;`
+
+#### getEntityInterface
+
+Retrieve the mockdata entity interface for a given entity set.
+
+`getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;`
+
+The entity interface allow you then to access the standard function (`addEntry`, `fetchEntries`, ...) to manipulate the mockdata of the application.

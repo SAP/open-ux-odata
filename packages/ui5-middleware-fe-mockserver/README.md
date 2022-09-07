@@ -87,6 +87,13 @@ You can also define static annotation file using the `annotations` entry, each a
 - urlPath : where will your annotation be accessible from
 - localPath : local path to your annotation file
 
+**Documentation**
+
+You can find more details on how to influence the mockserver behavior for mockdata by checking the documentation under [Defining Mockdata](https://github.com/SAP/open-ux-odata/blob/main/docs/DefiningMockdata.md)
+
+We also have samples available in the [samples folder](https://github.com/SAP/open-ux-odata/tree/main/samples)
+
+
 **Sample application**
 
 See the usage in demo apps [SAP Fiori sample apps](https://github.com/SAP-samples/fiori-tools-samples)

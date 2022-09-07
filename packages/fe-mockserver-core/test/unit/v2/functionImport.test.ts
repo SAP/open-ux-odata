@@ -37,6 +37,7 @@ describe('Function Import', () => {
         const actionData = await dataAccess.performAction(request);
         expect(actionData).toBeTruthy();
     });
+
     test('will fail by default', async () => {
         const requestUrl = '/DecisionOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';
 
