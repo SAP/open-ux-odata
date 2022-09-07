@@ -1,39 +1,38 @@
 import { join } from 'path';
 import type { Action } from '@sap-ux/vocabularies-types';
-import { ExecutionError } from '../data/common';
+import { DataAccessInterface, ExecutionError } from '../data/common';
 import type { IFileLoader } from '../index';
 import type ODataRequest from '../request/odataRequest';
+import { FileBasedMockData, KeyDefinitions } from './fileBasedMockData';
 
-export type MockEntityContainerContributer = {
-    onBeforeAction?(actionDefinition: Action, actionData: any, keys: Record<string, any>): Promise<object>;
+export type MockEntityContainerContributor = {
     executeAction?(
         actionDefinition: Action,
         actionData: any,
         keys: Record<string, any>,
         odataRequest: ODataRequest
     ): Promise<object>;
-    onAfterAction?(
-        actionDefinition: Action,
-        actionData: any,
-        keys: Record<string, any>,
-        responseData: any
-    ): Promise<any>;
     throwError?(message: string, statusCode?: number, messageData?: object): any;
+    base: {
+        getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
+    };
 };
 
 export class MockEntityContainer {
     public static async read(
         mockDataRootFolder: string,
-        fileLoader: IFileLoader
-    ): Promise<MockEntityContainerContributer> {
+        tenantId: string,
+        fileLoader: IFileLoader,
+        dataAccess: DataAccessInterface
+    ): Promise<MockEntityContainerContributor> {
         const jsPath = join(mockDataRootFolder, 'EntityContainer') + '.js';
-        let outData: MockEntityContainerContributer = {};
+        let outData: MockEntityContainerContributor = {} as any;
         if (await fileLoader.exists(jsPath)) {
             try {
                 //eslint-disable-next-line
                 outData = await fileLoader.loadJS(jsPath);
             } catch (e) {
-                outData = {};
+                outData = {} as any;
                 console.error(e);
             }
         }
@@ -50,6 +49,13 @@ export class MockEntityContainer {
 
         outData.throwError = function (message: string, statusCode = 500, messageData?: object, isSAPMessage = false) {
             throw new ExecutionError(message, statusCode, messageData, isSAPMessage);
+        };
+
+        outData.base = {
+            async getEntityInterface(entitySetName: string): Promise<FileBasedMockData | undefined> {
+                const mockEntitySet = await dataAccess.getMockEntitySet(entitySetName);
+                return mockEntitySet?.getMockData(tenantId);
+            }
         };
 
         return outData;

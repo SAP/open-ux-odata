@@ -27,6 +27,15 @@ describe('Unbound Action', () => {
         expect(actionData).toMatchSnapshot();
     });
 
+    test('can call the base interface', async () => {
+        const requestUrl = '/unboundActionThatFetchData';
+
+        const request = new ODataRequest({ method: 'POST', url: requestUrl }, dataAccess);
+        expect(request.queryPath).toMatchSnapshot();
+        const actionData = await dataAccess.performAction(request);
+        expect(actionData).toMatchSnapshot();
+    });
+
     test('does not catch all', async () => {
         const requestUrl = '/unboundActionThatIDontknow';
 
