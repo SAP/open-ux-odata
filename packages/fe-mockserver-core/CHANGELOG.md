@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.29
+
+### Patch Changes
+
+-   076569b: According to the draft choreography the HasDraftEntity property needs to be false on newly created items
+
 ## 1.1.28
 
 ### Patch Changes
