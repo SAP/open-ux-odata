@@ -152,9 +152,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         const jsPath = join(mockDataRootFolder, entity) + '.js';
         let outData: any[] | object = [];
         let isInitial = true;
-        if (dataAccess.debug) {
-            dataAccess.log.info('Trying to find ' + jsPath + ' for mockdata');
-        }
+        dataAccess.log.info(`Trying to find ${jsPath} for mockdata`);
         if (await dataAccess.fileLoader.exists(jsPath)) {
             try {
                 //eslint-disable-next-line
@@ -167,9 +165,7 @@ export class MockDataEntitySet implements EntitySetInterface {
             }
         }
         if ((isInitial || !(outData as any).getInitialDataSet) && (await dataAccess.fileLoader.exists(path))) {
-            if (dataAccess.debug) {
-                dataAccess.log.info('Trying to find ' + path + ' for mockdata');
-            }
+            dataAccess.log.info(`Trying to find ${path} for mockdata`);
             try {
                 const fileContent = await dataAccess.fileLoader.loadFile(path);
                 let outJsonData: any[];
@@ -190,7 +186,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                         delete jsonLine['@odata.etag'];
                     });
                 }
-                dataAccess.log.info('JSON file found for ' + entity);
+                dataAccess.log.info(`JSON file found for ${entity}`);
                 if (isInitial) {
                     outData = outJsonData;
                     isInitial = false;
@@ -200,9 +196,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                     };
                 }
             } catch (e) {
-                if (dataAccess.debug) {
-                    dataAccess.log.info(e as string);
-                }
+                dataAccess.log.info(e as string);
             }
         }
         if (isInitial) {
