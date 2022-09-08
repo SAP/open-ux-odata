@@ -67,4 +67,5 @@ declare module '@ui5/logger' {
         error(message: string | Error): void;
     };
     export function getLogger(loggerName: string): ILogger;
+    export function setLevel(level: string): string;
 }
