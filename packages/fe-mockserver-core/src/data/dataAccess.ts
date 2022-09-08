@@ -893,6 +893,19 @@ export class DataAccess implements DataAccessInterface {
 
     public async updateData(odataRequest: ODataRequest, patchData: any) {
         const entitySetName = odataRequest.queryPath[0].path;
+        if (odataRequest.queryPath.length > 1) {
+            // In this case we are updating a property or a sub object so let's create the appropriate structure
+            let updateObject: any = {};
+            const finalPatchObject = updateObject;
+            for (let i = 1; i < odataRequest.queryPath.length; i++) {
+                updateObject[odataRequest.queryPath[i].path] = {};
+                if (i === odataRequest.queryPath.length - 1) {
+                    updateObject[odataRequest.queryPath[i].path] = patchData;
+                }
+                updateObject = updateObject[odataRequest.queryPath[i].path];
+            }
+            patchData = finalPatchObject;
+        }
         return (await this.getMockEntitySet(entitySetName)).performPATCH(
             odataRequest.queryPath[0].keys,
             patchData,

@@ -279,9 +279,14 @@ export class ODataV4ObjectRequest<T> extends ODataRequest<T> {
             });
     }
 
-    public setBody(bodyContent: any) {
-        this.body = JSON.stringify(bodyContent);
-        this.headers['Content-Type'] = 'application/json';
+    public setBody(bodyContent: any, noJSON: boolean = false) {
+        if (noJSON) {
+            this.body = bodyContent;
+        } else {
+            this.body = JSON.stringify(bodyContent);
+            this.headers['Content-Type'] = 'application/json';
+        }
+
         return this;
     }
     protected getBody(): any {
@@ -416,7 +421,7 @@ export class ODataV4Requestor extends ODataRequestor {
     public createData<T>(sEntityPath: string, objectData: any): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, 'POST').setBody(objectData);
     }
-    public updateData<T>(sEntityPath: string, objectData: any): ODataV4ObjectRequest<T> {
-        return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, 'PATCH').setBody(objectData);
+    public updateData<T>(sEntityPath: string, objectData: any, noJSON: boolean = false): ODataV4ObjectRequest<T> {
+        return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, 'PATCH').setBody(objectData, noJSON);
     }
 }
