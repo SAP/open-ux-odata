@@ -64,7 +64,10 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         req.tenantId = tenantId;
 
         parser(req, res, function () {
-            if (typeof (req as any).body === 'object' && Object.keys((req as any).body).length === 0) {
+            if (
+                (req as any).body === null ||
+                (typeof (req as any).body === 'object' && Object.keys((req as any).body).length === 0)
+            ) {
                 (req as any).body = '{}';
             } else {
                 (req as any).body = (req as any).body.toString('utf-8');

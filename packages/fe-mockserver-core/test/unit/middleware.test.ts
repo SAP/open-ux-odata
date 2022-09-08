@@ -145,7 +145,7 @@ describe('V4 Requestor', function () {
 
         const dataRequestor3 = new ODataV4Requestor('http://localhost:33331/tenant-008/sap/fe/core/mock/action');
         const dataRes3 = await dataRequestor.createData<any>('/RootElement', { ID: 666 }).execute('POST');
-        expect(dataRes).toMatchSnapshot();
+        expect(dataRes3).toMatchSnapshot();
 
         const dataRes4 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes4.length).toBe(6);
@@ -178,9 +178,6 @@ describe('V4 Requestor', function () {
             .execute('PATCH');
         expect(res).toMatchSnapshot();
 
-        expect(dataRes2.length).toBe(5);
-        expect(dataRes2[4].ID).toBe(556);
-        expect(dataRes2[4].Prop1).toBe('MyNewProp1');
         // Deep update
         const res2 = await dataRequestor.updateData<any>('RootElement(ID=556)/Prop1', 'Lali-ho', true).execute('PUT');
         expect(res2).toMatchSnapshot();
