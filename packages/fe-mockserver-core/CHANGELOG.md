@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.31
+
+### Patch Changes
+
+-   d0aaa4c: Reduce logging of data access debug messages (if debug=false)
+
 ## 1.1.30
 
 ### Patch Changes
