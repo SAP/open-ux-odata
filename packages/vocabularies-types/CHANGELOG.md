@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.6
+
+### Patch Changes
+
+-   93db8e0: Upgrade types
+
 ## 0.6.5
 
 ### Patch Changes
