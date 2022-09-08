@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.31
+
+### Patch Changes
+
+-   3fd3eec: Fix POST / PUT without $batch request
+-   Updated dependencies [3fd3eec]
+    -   @sap-ux/fe-mockserver-core@1.1.30
+
 ## 2.1.30
 
 ### Patch Changes

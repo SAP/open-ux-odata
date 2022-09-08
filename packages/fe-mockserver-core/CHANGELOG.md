@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.30
+
+### Patch Changes
+
+-   3fd3eec: Fix POST / PUT without $batch request
+
 ## 1.1.29
 
 ### Patch Changes
