@@ -1,3 +1,4 @@
+import { getLogger } from '../logger';
 import type { ODataMetadata } from './metadata';
 import { MockDataEntitySet } from './entitySets/entitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
@@ -13,7 +14,6 @@ import type {
 } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
 import type { ILogger } from '@ui5/logger';
-import { getLogger } from '@ui5/logger';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import type { DataAccessInterface, EntitySetInterface } from './common';
 import { _getDateTimeOffset } from './common';
@@ -45,13 +45,13 @@ export class DataAccess implements DataAccessInterface {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
         this.debug = !!service.debug;
-        this.log = getLogger('server:ux-fe-mockserver');
+        this.log = getLogger('server:ux-fe-mockserver', this.debug);
 
         this.strictKeyMode = !!service.strictKeyMode;
         this.generateMockData = !!service.generateMockData;
         this.contextBasedIsolation = !!service.contextBasedIsolation;
         this.fileLoader = fileLoader;
-        if (this.generateMockData && this.debug) {
+        if (this.generateMockData) {
             this.log.info('Missing mockdata will be generated');
         }
         this.initializeMockData();
@@ -94,9 +94,7 @@ export class DataAccess implements DataAccessInterface {
             const entityType = this.metadata.getEntityType(entityTypeName);
             let mockEntitySet: MockDataEntitySet;
             if (entitySet && this.metadata.isDraftEntity(entitySet)) {
-                if (this.debug) {
-                    this.log.info('Creating draft entity for ' + entitySet?.name);
-                }
+                this.log.info(`Creating draft entity for ${entitySet?.name}`);
                 mockEntitySet = new DraftMockEntitySet(
                     this.mockDataRootFolder,
                     entitySet || entityType,
@@ -104,9 +102,7 @@ export class DataAccess implements DataAccessInterface {
                     generateMockData
                 );
             } else if (entitySet && this.metadata.isStickyEntity(entitySet)) {
-                if (this.debug) {
-                    this.log.info('Creating sticky entity for ' + entitySet?.name);
-                }
+                this.log.info(`Creating sticky entity for ${entitySet?.name}`);
                 mockEntitySet = new StickyMockEntitySet(
                     this.mockDataRootFolder,
                     entitySet || entityType,
@@ -115,9 +111,7 @@ export class DataAccess implements DataAccessInterface {
                 );
                 this.stickyEntitySets.push(mockEntitySet as StickyMockEntitySet);
             } else {
-                if (this.debug) {
-                    this.log.info('Creating entity for ' + (entitySet || entityType)?.name);
-                }
+                this.log.info(`Creating entity for ${(entitySet || entityType)?.name}`);
                 mockEntitySet = new MockDataEntitySet(
                     this.mockDataRootFolder,
                     entitySet || singleton || entityType,
@@ -471,9 +465,7 @@ export class DataAccess implements DataAccessInterface {
     }
 
     public async getData(odataRequest: ODataRequest, dontClone: boolean = false): Promise<any> {
-        if (this.debug) {
-            this.log.info('Retrieving data for ' + JSON.stringify(odataRequest.queryPath));
-        }
+        this.log.info(`Retrieving data for ${JSON.stringify(odataRequest.queryPath)}`);
         let currentEntitySet: EntitySet | Singleton | undefined;
         let previousEntitySet: EntitySet | Singleton | undefined;
         let currentEntityType!: EntityType;
