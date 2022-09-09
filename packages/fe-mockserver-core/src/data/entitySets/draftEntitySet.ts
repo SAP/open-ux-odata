@@ -364,6 +364,17 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         if (!Object.hasOwnProperty.call(postData, 'HasDraftEntity')) {
             postData.HasDraftEntity = false; // HasDraftEntity should be false during the create phase
         }
+        const currentDate = _getDateTimeOffset(this.isV4());
+        postData.DraftAdministrativeData = {
+            DraftUUID: uuidv4(),
+            CreationDateTime: currentDate,
+            CreatedByUser: 'nobody',
+            DraftIsCreatedByMe: true,
+            LastChangeDateTime: currentDate,
+            LastChangedByUser: 'nobody',
+            InProcessByUser: 'nobody',
+            DraftIsProcessedByMe: true
+        };
         return super.performPOST(keyValues, postData, tenantId, odataRequest);
     }
 
