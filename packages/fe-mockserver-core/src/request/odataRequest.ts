@@ -69,13 +69,14 @@ export default class ODataRequest {
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const decodedUrl = decodeURIComponent(requestContent.url);
         const parsedUrl = new URL(`http://dummy${decodedUrl}`);
+        const undecodedParsedUrl = new URL(`http://dummy${requestContent.url}`);
         this.tenantId = requestContent.tenantId || 'tenant-default';
         this.context = requestContent.url.split('?')[0].substring(1);
         if (this.tenantId) {
             this.addResponseHeader('sap-tenantid', this.tenantId);
         }
         this.isMinimalRepresentation = requestContent.headers?.['prefer'] === 'return=minimal';
-        this.queryPath = this.parsePath(parsedUrl.pathname.substring(1));
+        this.queryPath = this.parsePath(undecodedParsedUrl.pathname.substring(1));
         this.parseParameters(parsedUrl.searchParams);
     }
 
@@ -252,7 +253,7 @@ export default class ODataRequest {
                 keysList.forEach((keyValue) => {
                     const [key, value] = keyValue.split('=');
                     if (value) {
-                        keys[key] = value.replace(/^(?:')$/g, '');
+                        keys[key] = decodeURIComponent(value.replace(/^(?:')$/g, ''));
                     } else {
                         keys[key] = undefined;
                     }

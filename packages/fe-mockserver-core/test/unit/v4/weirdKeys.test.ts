@@ -42,4 +42,16 @@ describe('Data Access with weird keys', () => {
         data = await dataAccess.getData(odataRequest);
         expect(data).toMatchSnapshot();
     });
+
+    test('Item with slash keys', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/A(ID='A%2F5',BoolKey=true,DateKey=2022-02-04,GuidKey=guid'18589449-7082-4361-9d27-51363c2f3bdd')"
+            },
+            dataAccess
+        );
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchSnapshot();
+    });
 });
