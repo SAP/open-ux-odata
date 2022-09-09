@@ -1,4 +1,5 @@
-import { ILogger, getLogger as _getLogger } from '@ui5/logger';
+import type { ILogger } from '@ui5/logger';
+import { getLogger as _getLogger } from '@ui5/logger';
 
 class Logger implements ILogger {
     logger: ILogger;
