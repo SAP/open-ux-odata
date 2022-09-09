@@ -405,10 +405,15 @@ describe('Data Access', () => {
         expect(formElement).toBeDefined;
         expect(formElement.IsActiveEntity).toEqual(false);
         expect(formElement.HasActiveEntity).toEqual(false);
+        expect(formElement.HasDraftEntity).toEqual(false);
+
         expect(formElement.ID).toEqual(1);
 
-        let formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
+        let formData = await dataAccess.getData(
+            new ODataRequest({ method: 'GET', url: '/FormRoot?$expand=DraftAdministrativeData' }, dataAccess)
+        );
         expect(formData.length).toEqual(1);
+        expect(formData[0].DraftAdministrativeData).not.toBeNull();
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true' }, dataAccess)
         );
@@ -429,7 +434,7 @@ describe('Data Access', () => {
             )
         );
         expect(actionResult).toBeDefined;
-        //expect(actionResult.DraftAdministrativeData).toBeNull();
+        expect(actionResult.DraftAdministrativeData).toBeNull();
         formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
         expect(formData.length).toEqual(1);
         formData = await dataAccess.getData(
@@ -463,9 +468,13 @@ describe('Data Access', () => {
         expect(formData.length).toEqual(1);
         expect(formData[0].FirstName).toEqual('Bob');
         formData = await dataAccess.getData(
-            new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false' }, dataAccess)
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false?&expand=DraftAdministrativeData' },
+                dataAccess
+            )
         );
         expect(formData.length).toEqual(1);
+        expect(formData[0].DraftAdministrativeData).not.toBeNull();
 
         let subElement = await dataAccess.createData(
             new ODataRequest({ method: 'GET', url: '/FormRoot(ID=1,IsActiveEntity=false)/_Elements' }, dataAccess),

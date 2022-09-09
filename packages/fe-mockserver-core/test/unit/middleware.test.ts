@@ -136,6 +136,7 @@ describe('V4 Requestor', function () {
     it('can create data through a call', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.createData<any>('RootElement', { ID: 555 }).executeAsBatch();
+        delete dataRes.DraftAdministrativeData;
         expect(dataRes).toMatchSnapshot();
 
         const dataRes2 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
@@ -145,6 +146,7 @@ describe('V4 Requestor', function () {
 
         const dataRequestor3 = new ODataV4Requestor('http://localhost:33331/tenant-008/sap/fe/core/mock/action');
         const dataRes3 = await dataRequestor.createData<any>('/RootElement', { ID: 666 }).execute('POST');
+        delete dataRes3.DraftAdministrativeData;
         expect(dataRes3).toMatchSnapshot();
 
         const dataRes4 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
@@ -161,13 +163,16 @@ describe('V4 Requestor', function () {
         // expect(dataRes).toMatchSnapshot();
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.createData<any>('IDONTEXIST', { ID: 555 }).executeAsBatch();
+        delete dataRes.DraftAdministrativeData;
         expect(dataRes).toMatchSnapshot();
     });
     it('can update data through a call', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-001/sap/fe/core/mock/action');
         let dataRes = await dataRequestor.createData<any>('RootElement', { ID: 556 }).execute('POST');
+        delete dataRes.DraftAdministrativeData;
         expect(dataRes).toMatchSnapshot();
         dataRes = await dataRequestor.updateData<any>('RootElement(ID=556)', { Prop1: 'MyNewProp1' }).execute('PATCH');
+        delete dataRes.DraftAdministrativeData;
         expect(dataRes).toMatchSnapshot();
         const dataRes2 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes2.length).toBe(5);
@@ -176,10 +181,12 @@ describe('V4 Requestor', function () {
         const res = await dataRequestor
             .updateData<any>('RootElement(ID=557)', { Prop1: 'MyNewProp1' })
             .execute('PATCH');
+        delete res.DraftAdministrativeData;
         expect(res).toMatchSnapshot();
 
         // Deep update
         const res2 = await dataRequestor.updateData<any>('RootElement(ID=556)/Prop1', 'Lali-ho', true).execute('PUT');
+        delete res2.DraftAdministrativeData;
         expect(res2).toMatchSnapshot();
         const dataRes3 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes3.length).toBe(5);
