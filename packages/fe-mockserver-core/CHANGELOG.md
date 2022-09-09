@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.32
+
+### Patch Changes
+
+-   e11bb40: Ensure DraftAdministrativeData is defined for newly created draft
+
 ## 1.1.31
 
 ### Patch Changes
