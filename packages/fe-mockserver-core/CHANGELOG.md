@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.33
+
+### Patch Changes
+
+-   3f2940b: Key containing the `/` character now work properly
+
 ## 1.1.32
 
 ### Patch Changes

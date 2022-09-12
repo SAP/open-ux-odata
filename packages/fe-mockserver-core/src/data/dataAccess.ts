@@ -1,3 +1,4 @@
+import { getLogger } from '../logger';
 import type { ODataMetadata } from './metadata';
 import { MockDataEntitySet } from './entitySets/entitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
@@ -13,7 +14,6 @@ import type {
 } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
 import type { ILogger } from '@ui5/logger';
-import { getLogger, setLevel } from '@ui5/logger';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import type { DataAccessInterface, EntitySetInterface } from './common';
 import { _getDateTimeOffset } from './common';
@@ -45,12 +45,7 @@ export class DataAccess implements DataAccessInterface {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
         this.debug = !!service.debug;
-        this.log = getLogger('server:ux-fe-mockserver');
-        if (this.debug) {
-            setLevel('verbose');
-        } else {
-            setLevel('error');
-        }
+        this.log = getLogger('server:ux-fe-mockserver', this.debug);
 
         this.strictKeyMode = !!service.strictKeyMode;
         this.generateMockData = !!service.generateMockData;
