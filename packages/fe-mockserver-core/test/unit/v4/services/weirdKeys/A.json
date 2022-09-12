@@ -19,5 +19,12 @@
         "DateKey": "2022-02-04",
         "GuidKey": "18589449-7082-4361-9d27-51363c2f3bcf",
         "value": "A"
+    },
+    {
+        "ID": "A/5",
+        "BoolKey": true,
+        "DateKey": "2022-02-04",
+        "GuidKey": "18589449-7082-4361-9d27-51363c2f3bdd",
+        "value": "SLASH"
     }
 ]
