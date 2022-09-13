@@ -240,8 +240,12 @@ async function generateTypes(targetFolder: string) {
 
         let vocabularyEdmDef: string = '';
         let vocabularyDef: string = '';
+        let addedReferences: Record<string, boolean> = {};
         vocabularyData.references.forEach((reference) => {
-            vocabularyDef += `import * as ${reference.alias} from "./${reference.alias}";\n`;
+            if (!addedReferences[reference.alias]) {
+                addedReferences[reference.alias] = true;
+                vocabularyDef += `import * as ${reference.alias} from "./${reference.alias}";\n`;
+            }
         });
 
         // vocabularyDef += `import { AnnotationTerm, PropertyValue, EnumValue } from "@sap/ux/vocabularies/Edm";\n`;

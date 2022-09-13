@@ -188,6 +188,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 const duplicate: DraftElement = Object.assign({}, data) as DraftElement;
                 duplicate.IsActiveEntity = false;
                 duplicate.HasActiveEntity = true;
+                duplicate.HasDraftEntity = false;
                 const currentDate = _getDateTimeOffset(this.isV4());
                 duplicate.DraftAdministrativeData = {
                     DraftUUID: uuidv4(),

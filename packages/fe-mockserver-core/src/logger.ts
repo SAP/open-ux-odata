@@ -14,7 +14,7 @@ class Logger implements ILogger {
 
     info(message: string): void {
         if (this.debug) {
-            this.logger.error(message);
+            this.logger.info(message);
         }
     }
 }

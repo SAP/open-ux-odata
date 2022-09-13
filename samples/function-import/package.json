@@ -14,8 +14,7 @@
     },
     "ui5": {
         "dependencies": [
-            "@sap/ux-ui5-tooling",
-            "@sap/ux-ui5-fe-mockserver-middleware"
+            "@sap-ux/ui5-middleware-fe-mockserver"
         ]
     }
 }
