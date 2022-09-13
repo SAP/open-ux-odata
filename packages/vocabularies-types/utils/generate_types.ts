@@ -240,7 +240,7 @@ async function generateTypes(targetFolder: string) {
 
         let vocabularyEdmDef: string = '';
         let vocabularyDef: string = '';
-        let addedReferences: Record<string, boolean> = {};
+        const addedReferences: Record<string, boolean> = {};
         vocabularyData.references.forEach((reference) => {
             if (!addedReferences[reference.alias]) {
                 addedReferences[reference.alias] = true;
