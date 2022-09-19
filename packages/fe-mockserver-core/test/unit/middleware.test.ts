@@ -131,6 +131,15 @@ describe('V4 Requestor', function () {
         dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 233 }).executeAsBatch();
         expect(dataRes).toMatchSnapshot();
+
+        dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-003/sap/fe/core/mock/action');
+        dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 2 }).executeAsBatch();
+        expect(dataRes).toMatchSnapshot();
+        dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataResClient = await dataRequestor
+            .getObject<any>('RootElement', { ID: 2 })
+            .executeAsBatch(false, '?sap-client=003');
+        expect(dataResClient).toEqual(dataRes);
     });
 
     it('can create data through a call', async () => {
