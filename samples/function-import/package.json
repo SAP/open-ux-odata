@@ -1,6 +1,6 @@
 {
     "name": "function-import",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "private": true,
     "sapux": true,
     "description": "Function import sample for the mockserver",
@@ -14,8 +14,7 @@
     },
     "ui5": {
         "dependencies": [
-            "@sap/ux-ui5-tooling",
-            "@sap/ux-ui5-fe-mockserver-middleware"
+            "@sap-ux/ui5-middleware-fe-mockserver"
         ]
     }
 }

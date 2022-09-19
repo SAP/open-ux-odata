@@ -1,7 +1,7 @@
 {
     "_version": "1.32.0",
     "sap.app": {
-        "id": "sap.fe.mockserver.dynamicMockData.dynamicMockData",
+        "id": "sap.fe.mockserver.functionImport.functionImport",
         "type": "application",
         "applicationVersion": {
             "version": "1.0.0"
