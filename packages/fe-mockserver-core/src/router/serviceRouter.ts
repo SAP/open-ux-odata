@@ -9,6 +9,7 @@ import { raw } from 'body-parser';
 import { batchRouter } from './batchRouter';
 import ODataRequest from '../request/odataRequest';
 import type { DataAccess } from '../data/dataAccess';
+import { URL } from 'url';
 
 export type IncomingMessageWithTenant = IncomingMessage & {
     tenantId?: string;
@@ -62,7 +63,11 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         const parser = raw({ type: '*/*' });
         const tenantId = req.originalUrl?.startsWith('/tenant-') ? req.originalUrl?.split('/')[1] : 'tenant-default';
         req.tenantId = tenantId;
-
+        const sapClient = req.originalUrl?.includes('sap-client');
+        if (sapClient) {
+            const parsedUrl = new URL(`http://dummy${req.originalUrl}`);
+            req.tenantId = `tenant-${parsedUrl.searchParams.get('sap-client')}`;
+        }
         parser(req, res, function () {
             if (
                 (req as any).body === null ||

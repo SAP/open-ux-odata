@@ -52,7 +52,7 @@ export abstract class ODataRequest<T> {
     /**
      *
      */
-    public async executeAsBatch(asChangeset: boolean = false): Promise<T> {
+    public async executeAsBatch(asChangeset: boolean = false, clientInfo: string = ''): Promise<T> {
         const boundary = 'batch_id-1624000588304-308';
         let changesetBoundary = '';
         if (asChangeset) {
@@ -68,7 +68,7 @@ export abstract class ODataRequest<T> {
             }),
             body: this.buildBatchContent(boundary, changesetBoundary)
         };
-        const response = await fetch(`${this.odataRootUri}/$batch`, fetchContent as any);
+        const response = await fetch(`${this.odataRootUri}/$batch${clientInfo}`, fetchContent as any);
         const contentType = response.headers.get('content-type');
         const responseBoundary = contentType?.split('boundary=')[1];
         const responseData = await response.text();

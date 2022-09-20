@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.35
+
+### Patch Changes
+
+-   7b9c840: Allow usage of sap-client in order to determine tenant id
+
 ## 1.1.34
 
 ### Patch Changes
