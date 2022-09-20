@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.36
+
+### Patch Changes
+
+-   7b9c840: Allow usage of sap-client in order to determine tenant id
+-   Updated dependencies [7b9c840]
+    -   @sap-ux/fe-mockserver-core@1.1.35
+
 ## 2.1.35
 
 ### Patch Changes
