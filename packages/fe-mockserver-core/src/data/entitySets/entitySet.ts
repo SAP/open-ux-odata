@@ -92,6 +92,7 @@ function transformationFn(type: string, check?: any) {
                 return data.indexOf(prepareLiteral(check, 'Edm.String') as string);
             };
         case 'substring':
+        case 'substringof':
             return (data: string) => {
                 return data.substring(check);
             };

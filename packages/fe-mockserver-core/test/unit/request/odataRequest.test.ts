@@ -45,6 +45,40 @@ describe('OData Request', () => {
         );
     });
 
+    test('It can parse queries with search and search-focus', () => {
+        let myRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/Countries?$filter=substringof(%27test%27, CompanyCode)&search-focus=CompanyCode&search=Value1`
+            },
+            fakeDataAccess
+        );
+        expect(myRequest.queryPath).toMatchInlineSnapshot(`
+            [
+              {
+                "keys": {},
+                "path": "Countries",
+              },
+            ]
+        `);
+        expect(myRequest.filterDefinition).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": {
+                    "method": "substringof",
+                    "methodArgs": [
+                      "'test'",
+                      "CompanyCode",
+                    ],
+                    "type": "method",
+                  },
+                },
+              ],
+            }
+        `);
+    });
+
     test('It can parse $orderby', () => {
         let myRequest = new ODataRequest(
             {
