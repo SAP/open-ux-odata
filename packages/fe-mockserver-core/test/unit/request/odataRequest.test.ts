@@ -21,7 +21,7 @@ describe('OData Request', () => {
         }
     } as DataAccess;
     test('It can parse queries', () => {
-        let myRequest = new ODataRequest(
+        const myRequest = new ODataRequest(
             {
                 method: 'GET',
                 url: '/Countries'
@@ -36,17 +36,10 @@ describe('OData Request', () => {
               },
             ]
         `);
-        myRequest = new ODataRequest(
-            {
-                method: 'GET',
-                url: '/Countries'
-            },
-            fakeDataAccess
-        );
     });
 
     test('It can parse queries with search and search-focus', () => {
-        let myRequest = new ODataRequest(
+        const myRequest = new ODataRequest(
             {
                 method: 'GET',
                 url: `/Countries?$filter=substringof(%27test%27, CompanyCode)&search-focus=CompanyCode&search=Value1`
