@@ -36,23 +36,6 @@ exports[`V4 Requestor can create data through a call 2`] = `
 
 exports[`V4 Requestor can fail to create data through a call 1`] = `"Unknown Entity SetIDONTEXIST"`;
 
-exports[`V4 Requestor can get some data after changing the watch mode 1`] = `
-{
-  "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
-  "HasActiveEntity": false,
-  "HasDraftEntity": false,
-  "ID": 2,
-  "IsActiveEntity": true,
-  "Prop1": "First Prop for Obj2",
-  "Prop2": "Second Prop for Obj3",
-  "Sibling_ID": 1,
-  "isBoundAction1Hidden": true,
-  "isBoundAction2Hidden": true,
-  "isBoundAction3Hidden": false,
-}
-`;
-
 exports[`V4 Requestor can get the annotation file 1`] = `
 "<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
