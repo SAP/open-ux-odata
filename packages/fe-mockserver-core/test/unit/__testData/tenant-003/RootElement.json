@@ -1,0 +1,11 @@
+[
+    {
+        "ID": 2,
+        "Prop1": "King of Tenant 003",
+        "Prop2": "Second Prop for Obj3",
+        "isBoundAction1Hidden": true,
+        "isBoundAction2Hidden": true,
+        "isBoundAction3Hidden": false,
+        "Sibling_ID": 1
+    }
+]
