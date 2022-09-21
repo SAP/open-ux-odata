@@ -250,14 +250,6 @@ declare namespace EDMX {
         };
     }
 
-    export interface ActionImport {
-        _attributes: {
-            Name: string;
-            Action: string;
-            EntitySet: string;
-        };
-    }
-
     export interface PropertyRef {
         _attributes: {
             Name: string;

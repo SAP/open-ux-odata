@@ -113,4 +113,17 @@ describe('Data Access', () => {
         expect(responseDataSolo).toMatchSnapshot();
         expect(odataRequestSolo.responseHeaders).toMatchSnapshot();
     });
+    test('v2metadata - it can DELETE data for an entity', async () => {
+        const odataRequestDelete = new ODataRequest(
+            {
+                method: 'DELETE',
+                url: "/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity=true)"
+            },
+            dataAccess
+        );
+        await odataRequestDelete.handleRequest();
+        const responseDataDelete = odataRequestDelete.getResponseData();
+        expect(responseDataDelete).toMatchSnapshot();
+        expect(odataRequestDelete.responseHeaders).toMatchSnapshot();
+    });
 });

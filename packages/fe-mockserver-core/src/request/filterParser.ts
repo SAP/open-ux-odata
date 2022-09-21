@@ -15,7 +15,7 @@ const SIMPLE_METHOD = createToken({
 });
 const COMPLEX_METHOD = createToken({
     name: 'COMPLEX_METHOD',
-    pattern: /(:?concat|contains|endswith|indexof|matchesPattern|startswith|substring|cast)/
+    pattern: /(:?concat|contains|endswith|indexof|matchesPattern|startswith|substringof|substring|cast)/
 });
 const BOOL_METHOD = createToken({
     name: 'BOOL_METHOD',

@@ -107,6 +107,26 @@ Batch {
 }
 `;
 
+exports[`Batch Parser can parse correct batch content with search & search-focus 1`] = `
+Batch {
+  "boundary": "boundary111",
+  "isChangeSet": false,
+  "parts": [
+    {
+      "body": undefined,
+      "headers": {
+        "accept": "application/json",
+        "accept-language": "en",
+        "sap-cancel-on-close": "true",
+        "sap-contextid-accept": "header",
+      },
+      "method": "GET",
+      "url": "/YOLO?$skip=0&$top=10&search=foo&search-focus=bar",
+    },
+  ],
+}
+`;
+
 exports[`Batch Parser will fail on incorrect batch parse correct batch content - incorrect batch  1`] = `[Error: Invalid header "content-type" in batch part]`;
 
 exports[`Batch Parser will fail on incorrect batch parse correct batch content - incorrect batch boundary  1`] = `[Error: Invalid boundary while parsing batch request]`;

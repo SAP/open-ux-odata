@@ -443,6 +443,9 @@ export default class ODataRequest {
                 return JSON.stringify(resultObject);
             }
         } else {
+            if (this.statusCode === 204) {
+                return;
+            }
             // V2
             const resultObject: any = { d: {} };
             if (Array.isArray(this.responseData)) {

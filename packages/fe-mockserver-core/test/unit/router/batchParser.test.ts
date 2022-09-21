@@ -15,6 +15,22 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
         const myBatch = parseBatch(new BatchContent(ymBatch), 'boundary111');
         expect(myBatch).toMatchSnapshot();
     });
+    it('can parse correct batch content with search & search-focus', () => {
+        const ymBatch = `--boundary111
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+
+GET YOLO?$skip=0&$top=10&search=foo&search-focus=bar
+sap-cancel-on-close: true
+sap-contextid-accept: header
+Accept:application/json
+Accept-Language:en
+
+--boundary111--
+`;
+        const myBatch = parseBatch(new BatchContent(ymBatch), 'boundary111');
+        expect(myBatch).toMatchSnapshot();
+    });
     it('can parse correct batch content with changeset', () => {
         const ymBatch = `--batch_id-1653467757956-971
 Content-Type: multipart/mixed;boundary=changeset_id-1653467757956-972
