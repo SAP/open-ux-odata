@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.12
+
+### Patch Changes
+
+-   4543b01: Fix an issue with the ActionImport type
+
 ## 0.5.11
 
 ### Patch Changes

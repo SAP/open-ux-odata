@@ -1,5 +1,14 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.36
+
+### Patch Changes
+
+-   4543b01: The substringof function is now supported
+-   Updated dependencies [4543b01]
+    -   @sap-ux/edmx-parser@0.5.12
+    -   @sap-ux/annotation-converter@0.5.19
+
 ## 1.1.35
 
 ### Patch Changes
