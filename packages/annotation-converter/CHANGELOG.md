@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.20
+
+### Patch Changes
+
+-   29a4f8c: feat: support reverting primitive object to its raw type
+
 ## 0.5.19
 
 ### Patch Changes

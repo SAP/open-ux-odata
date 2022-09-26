@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.8
+
+### Patch Changes
+
+-   29a4f8c: feat: support reverting primitive object to its raw type
+
 ## 0.6.7
 
 ### Patch Changes

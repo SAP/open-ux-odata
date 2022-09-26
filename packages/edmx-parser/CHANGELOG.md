@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.13
+
+### Patch Changes
+
+-   29a4f8c: feat: support reverting primitive object to its raw type
+
 ## 0.5.12
 
 ### Patch Changes
