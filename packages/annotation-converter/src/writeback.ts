@@ -31,7 +31,7 @@ function revertObjectToRawType(references: Reference[], value: any) {
             Decimal: value.valueOf()
         };
     } else if (value.isString?.()) {
-        const valueMatches = value.split('.');
+        const valueMatches = value.valueOf().split('.');
         if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {
             result = {
                 type: 'EnumMember',
@@ -43,6 +43,26 @@ function revertObjectToRawType(references: Reference[], value: any) {
                 String: value.valueOf()
             };
         }
+    } else if (value.isInt?.()) {
+        result = {
+            type: 'Int',
+            Int: value.valueOf()
+        };
+    } else if (value.isFloat?.()) {
+        result = {
+            type: 'Float',
+            Float: value.valueOf()
+        };
+    } else if (value.isDate?.()) {
+        result = {
+            type: 'Date',
+            Date: value.valueOf()
+        };
+    } else if (value.isBoolean?.()) {
+        result = {
+            type: 'Bool',
+            Bool: value.valueOf() === 'true'
+        };
     } else if (value.type === 'Path') {
         result = {
             type: 'Path',

@@ -24,6 +24,7 @@ export type BoolExpression = GenericExpression<'Bool', boolean>;
 export type DecimalExpression = GenericExpression<'Decimal', number>;
 export type DateExpression = GenericExpression<'Date', string>;
 export type IntExpression = GenericExpression<'Int', number>;
+export type FloatExpression = GenericExpression<'Float', number>;
 export type PathExpression = GenericExpression<'Path', string>;
 export type PropertyPathExpression = GenericExpression<'PropertyPath', string>;
 export type AnnotationPathExpression = GenericExpression<'AnnotationPath', string>;
@@ -54,6 +55,7 @@ export type Expression =
     | StringExpression
     | BoolExpression
     | DecimalExpression
+    | FloatExpression
     | IntExpression
     | DateExpression
     | PathExpression
