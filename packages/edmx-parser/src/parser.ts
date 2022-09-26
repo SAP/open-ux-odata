@@ -806,6 +806,11 @@ function parseInlineExpression(
                 type: 'Int',
                 Int: parseInt(expression.Int as string, 10)
             };
+        case 'Float':
+            return {
+                type: 'Float',
+                Float: parseFloat(expression.Float as unknown as string)
+            };
         case 'Path':
             return {
                 type: 'Path',
