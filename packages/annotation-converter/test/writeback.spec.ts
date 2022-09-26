@@ -11,6 +11,21 @@ const FilterDefaultValue = Object.assign('String', {
     }
 });
 
+const getFilterDefaultValueAnnotation = (edmType: string) => {
+    const value = '12.1';
+    return {
+        [`is${edmType}`]() {
+            return true;
+        },
+        valueOf() {
+            return value;
+        },
+        toString() {
+            return value.toString();
+        }
+    };
+};
+
 describe('Writeback capabilities', () => {
     it('can revert Apply expression', async () => {
         const parsedEDMX = parse(await loadFixture('v2/metadataWithApply.xml'));
@@ -45,6 +60,25 @@ describe('Writeback capabilities', () => {
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(transformedFilterDefaultValue.value.type).toEqual('String');
     });
+
+    it('can revert inline annotation value based on edm type', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/sdMeta.xml'));
+        const convertedTypes = convert(parsedEDMX);
+        expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
+
+        const supportedEdmTypes = ['String', 'Float', 'Int', 'Date', 'Boolean', 'Decimal'];
+        for (const edmType of supportedEdmTypes) {
+            const FilterDefaultValueAnnotation = getFilterDefaultValueAnnotation(edmType);
+            const expectedValueType = edmType === 'Boolean' ? 'Bool' : edmType;
+            const transformedFilterDefaultValue = revertTermToGenericType(
+                defaultReferences,
+                FilterDefaultValueAnnotation
+            ) as any;
+            expect(transformedFilterDefaultValue).not.toBeUndefined();
+            expect(transformedFilterDefaultValue.value?.type).toContain(expectedValueType);
+        }
+    });
+
     it('can revert a Line Item definition', async () => {
         const parsedEDMX = parse(await loadFixture('v4/manageLineItems.xml'));
         const convertedTypes = convert(parsedEDMX);
