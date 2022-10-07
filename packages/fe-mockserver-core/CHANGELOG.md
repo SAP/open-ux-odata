@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.38
+
+### Patch Changes
+
+-   e8eeff3: An issue with the date time filtering in v2 service has been fixed
+
 ## 1.1.37
 
 ### Patch Changes
