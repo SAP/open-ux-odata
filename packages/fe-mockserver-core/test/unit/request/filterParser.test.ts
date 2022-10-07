@@ -293,4 +293,11 @@ describe('Filter Parser', () => {
         );
         expect(v4ComplexLambda).toMatchSnapshot();
     });
+
+    test('v2 alternative filter', () => {
+        const v2ComplexFilter = parseFilter(
+            "(Product eq '1234' and SalesOrganization eq '0DE1') and (ValidFrom le datetime'2022-10-07T06:52:24.189' and ValidTo ge datetime'2022-10-07T06:52:24.189')"
+        );
+        expect(v2ComplexFilter).toMatchSnapshot();
+    });
 });

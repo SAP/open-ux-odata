@@ -170,6 +170,40 @@ exports[`Filter Parser it can deal with v2 specific guid 1`] = `
 }
 `;
 
+exports[`Filter Parser v2 alternative filter 1`] = `
+{
+  "expressions": [
+    {
+      "expressions": [
+        {
+          "identifier": "Product",
+          "literal": "'1234'",
+          "operator": "eq",
+        },
+        {
+          "identifier": "SalesOrganization",
+          "literal": "'0DE1'",
+          "operator": "eq",
+        },
+      ],
+      "isGroup": true,
+      "operator": "AND",
+    },
+    {
+      "identifier": "ValidFrom",
+      "literal": "datetime'2022-10-07T06:52:24.189'",
+      "operator": "le",
+    },
+    {
+      "identifier": "ValidTo",
+      "literal": "datetime'2022-10-07T06:52:24.189'",
+      "operator": "ge",
+    },
+  ],
+  "operator": "AND",
+}
+`;
+
 exports[`Filter Parser v2 complex filter 1`] = `
 {
   "expressions": [
