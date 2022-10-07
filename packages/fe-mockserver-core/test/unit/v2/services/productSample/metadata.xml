@@ -115,6 +115,7 @@
                     <PropertyRef Name="DraftUUID"/>
                     <PropertyRef Name="IsActiveEntity"/>
                 </Key>
+                <Property Name="StartingSaleDate" Type="Edm.DateTimeOffset" Precision="7" sap:label="Starting Sale Date"/>
                 <Property Name="Activation_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Copy_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Copy_new_supplier_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>

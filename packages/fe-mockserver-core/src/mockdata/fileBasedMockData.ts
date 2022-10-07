@@ -459,7 +459,11 @@ export class FileBasedMockData {
             case 'Edm.Time':
             case 'Edm.DateTime':
             case 'Edm.DateTimeOffset':
-                const testValue = new Date(literal).getTime();
+                let targetDateLiteral = literal;
+                if (literal && literal.startsWith("datetime'")) {
+                    targetDateLiteral = literal.substring(9, literal.length - 1);
+                }
+                const testValue = new Date(targetDateLiteral).getTime();
                 const mockValueDate = new Date(mockValue).getTime();
                 isValid = performSimpleComparison(operator, mockValueDate, testValue);
                 break;

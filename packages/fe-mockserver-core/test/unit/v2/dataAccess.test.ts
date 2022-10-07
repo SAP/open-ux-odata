@@ -66,6 +66,19 @@ describe('Data Access', () => {
         expect(productData[0].Supplier).toEqual('Acme DE');
         expect(productData[0].Name).toEqual('Acme Boomerang');
         productData = await dataAccess.getData(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: "/SEPMRA_C_PD_Product?$filter=StartingSaleDate gt datetime'2022-10-07T06:52:24.189'"
+                },
+                dataAccess
+            )
+        );
+        expect(productData.length).toEqual(2);
+        expect(productData[0].Supplier).toEqual('Acme DE');
+        expect(productData[0].Name).toEqual('Acme TNT');
+        expect(productData[1].Name).toEqual('Acme Extra Comfy Safe');
+        productData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/SEPMRA_C_PD_Product?$orderby=Price,Supplier' }, dataAccess)
         );
         expect(productData.length).toEqual(4);
