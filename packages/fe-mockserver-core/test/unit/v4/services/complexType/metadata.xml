@@ -14,9 +14,8 @@
         </Key>
         <Property Name="ID" Type="Edm.String" Nullable="false"/>
         <Property Name="complex" Type="TestService.A_complex"/>
-        <NavigationProperty Name="b" Type="Collection(TestService.B)">
-          <ReferentialConstraint Property="ID" ReferencedProperty="a_ID"/>
-        </NavigationProperty>
+        <Property Name="complexNotNull" Type="TestService.A_complexNotNull" Nullable="false"/>
+        <NavigationProperty Name="b" Type="Collection(TestService.B)"/>
       </EntityType>
       <EntityType Name="B">
         <Key>
@@ -31,8 +30,31 @@
         <Property Name="value2" Type="Edm.Int32"/>
         <Property Name="value3" Type="Edm.Int32" Nullable="false"/>
         <Property Name="subcomplex" Type="TestService.A_complex_subcomplex"/>
+        <Property Name="subcomplexNotNull" Type="TestService.A_complex_subcomplexNotNull" Nullable="false"/>
       </ComplexType>
       <ComplexType Name="A_complex_subcomplex">
+        <Property Name="A" Type="Edm.String" Nullable="false"/>
+        <Property Name="B" Type="Edm.String" Nullable="false"/>
+        <Property Name="C" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="A_complex_subcomplexNotNull">
+        <Property Name="A" Type="Edm.String" Nullable="false"/>
+        <Property Name="B" Type="Edm.String" Nullable="false"/>
+        <Property Name="C" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="A_complexNotNull">
+        <Property Name="value1" Type="Edm.Int32"/>
+        <Property Name="value2" Type="Edm.Int32"/>
+        <Property Name="value3" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="subcomplex" Type="TestService.A_complexNotNull_subcomplex"/>
+        <Property Name="subcomplexNotNull" Type="TestService.A_complexNotNull_subcomplexNotNull" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="A_complexNotNull_subcomplex">
+        <Property Name="A" Type="Edm.String" Nullable="false"/>
+        <Property Name="B" Type="Edm.String" Nullable="false"/>
+        <Property Name="C" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="A_complexNotNull_subcomplexNotNull">
         <Property Name="A" Type="Edm.String" Nullable="false"/>
         <Property Name="B" Type="Edm.String" Nullable="false"/>
         <Property Name="C" Type="Edm.Int32"/>
