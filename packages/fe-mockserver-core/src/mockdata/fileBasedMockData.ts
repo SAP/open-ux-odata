@@ -3,6 +3,7 @@ import { generateId, uuidv4 } from '../data/common';
 import type { Action, ComplexType, EntityType, Property, TypeDefinition } from '@sap-ux/vocabularies-types';
 import type { EntitySetInterface } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
+import { isComplexTypeDefinition } from '@sap-ux/annotation-converter';
 
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
@@ -48,28 +49,21 @@ export class FileBasedMockData {
             if (this._mockData.forEach) {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
-                    this._entityType.entityProperties.forEach((prop) => {
-                        if (prop.targetType && prop.targetType._type === 'ComplexType' && !mockLine[prop.name]) {
-                            mockLine[prop.name] = {};
-                            prop.targetType.properties.forEach((subProp) => {
-                                mockLine[prop.name][subProp.name] = this.getDefaultValueFromType(
-                                    subProp.type,
-                                    subProp.targetType,
-                                    subProp.defaultValue
-                                );
-                            });
-                        }
-                        if (!prop.nullable && !mockLine.hasOwnProperty(prop.name)) {
-                            mockLine[prop.name] = this.getDefaultValueFromType(
-                                prop.type,
-                                prop.targetType,
-                                prop.defaultValue
-                            );
-                        }
-                    });
+                    this.validateProperties(mockLine, this._entityType.entityProperties);
                 });
             }
         }
+    }
+
+    private validateProperties(mockEntry: any, properties: Property[]) {
+        properties.forEach((prop) => {
+            if (!prop.nullable && !mockEntry.hasOwnProperty(prop.name)) {
+                mockEntry[prop.name] = this.getDefaultValueFromType(prop.type, prop.targetType, prop.defaultValue);
+            } else if (mockEntry.hasOwnProperty(prop.name) && isComplexTypeDefinition(prop.targetType)) {
+                // If the property is defined from a complex type we should validate the property of the complex type
+                this.validateProperties(mockEntry[prop.name], prop.targetType.properties);
+            }
+        });
     }
 
     async addEntry(mockEntry: any, _odataRequest: ODataRequest): Promise<void> {
