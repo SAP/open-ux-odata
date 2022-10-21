@@ -29,6 +29,13 @@
       <ComplexType Name="A_complex">
         <Property Name="value1" Type="Edm.Int32"/>
         <Property Name="value2" Type="Edm.Int32"/>
+        <Property Name="value3" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="subcomplex" Type="TestService.A_complex_subcomplex"/>
+      </ComplexType>
+      <ComplexType Name="A_complex_subcomplex">
+        <Property Name="A" Type="Edm.String" Nullable="false"/>
+        <Property Name="B" Type="Edm.String" Nullable="false"/>
+        <Property Name="C" Type="Edm.Int32"/>
       </ComplexType>
       <ComplexType Name="B_complex">
         <Property Name="value1" Type="Edm.Boolean"/>
