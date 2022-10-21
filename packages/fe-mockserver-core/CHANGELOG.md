@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.39
+
+### Patch Changes
+
+-   e745035: Nested complex type will now be checked for proper format
+
 ## 1.1.38
 
 ### Patch Changes
