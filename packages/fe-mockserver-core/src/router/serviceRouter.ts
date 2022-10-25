@@ -16,6 +16,21 @@ export type IncomingMessageWithTenant = IncomingMessage & {
 };
 
 /**
+ * Checks if a CSRF Token is requested and adds it to the header if so
+ *
+ * UI5 may user both methods HEAD or GET with the service document url to fetch
+ * the token.
+ *
+ * @param _req IncomingMessage
+ * @param res ServerResponse
+ */
+const addCSRFTokenIfRequested = (_req: IncomingMessage, res: ServerResponse) => {
+    if (_req.headers['X-CSRF-Token'.toLowerCase()] === 'Fetch') {
+        res.setHeader('X-CSRF-Token', '0504-71383');
+    }
+};
+
+/**
  * Creates the sub router containing the odata protocol processing.
  *
  * @param service
@@ -25,6 +40,11 @@ export type IncomingMessageWithTenant = IncomingMessage & {
 export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAccess): Promise<IRouter> {
     const router = new Router();
     const log = getLogger('server:ux-fe-mockserver');
+
+    router.head('/', (_req: IncomingMessage, res: ServerResponse, next) => {
+        addCSRFTokenIfRequested(_req, res); //HEAD use case
+        next();
+    });
 
     // Deal with the $metadata support
     router.get('/\\$metadata', (_req: IncomingMessage, res: ServerResponse) => {
@@ -55,6 +75,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
             <atom:link rel="latest-version" href="${service.urlPath}/"/>
         </app:service>`;
         res.setHeader('Content-Type', 'application/xml');
+        addCSRFTokenIfRequested(_req, res); //GET use case
         res.write(data);
         res.end();
     });
