@@ -58,6 +58,26 @@ describe('V4 Requestor', function () {
         server.close(done);
     });
 
+    it('can get the XSRF token using HEAD', async () => {
+        const dataRes = await fetch('http://localhost:33331/sap/fe/core/mock/action', {
+            method: 'HEAD',
+            headers: new Headers({
+                'X-CSRF-Token': 'Fetch'
+            })
+        });
+        expect(dataRes.headers.get('X-CSRF-Token')).toBe('0504-71383');
+    });
+
+    it('can get the XSRF token using GET', async () => {
+        const dataRes = await fetch('http://localhost:33331/sap/fe/core/mock/action', {
+            method: 'GET',
+            headers: new Headers({
+                'X-CSRF-Token': 'Fetch'
+            })
+        });
+        expect(dataRes.headers.get('X-CSRF-Token')).toBe('0504-71383');
+    });
+
     it('can get some data', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.getList<any>('RootElement').execute();
