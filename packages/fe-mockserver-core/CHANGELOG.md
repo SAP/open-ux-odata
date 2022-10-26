@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.40
+
+### Patch Changes
+
+-   8c86984: feat(mockserver): Add feature CSRF token
+
 ## 1.1.39
 
 ### Patch Changes
