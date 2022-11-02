@@ -79,8 +79,11 @@ function transformationFn(type: string, check?: any) {
             return (data: string) => {
                 return data.endsWith(prepareLiteral(check, 'Edm.String') as string);
             };
-        case 'contains':
         case 'substringof':
+            return (data: string) => {
+                return check.indexOf(prepareLiteral(data, 'Edm.String') as string) !== -1;
+            };
+        case 'contains':
             return (data: string) => {
                 return data.indexOf(prepareLiteral(check, 'Edm.String') as string) !== -1;
             };
