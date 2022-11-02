@@ -250,6 +250,7 @@ function revertCollectionItemToRawType(
             };
         }
     }
+    return undefined;
 }
 
 /**
