@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.41
+
+### Patch Changes
+
+-   4b0be5e: Fix how the substringof filter is being evaluated
+
 ## 1.1.40
 
 ### Patch Changes
