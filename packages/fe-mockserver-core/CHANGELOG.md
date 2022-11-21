@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.42
+
+### Patch Changes
+
+-   eee3a92: Fix the draft root resolution in services with multiple draft roots
+
 ## 1.1.41
 
 ### Patch Changes
