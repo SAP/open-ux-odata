@@ -31,6 +31,7 @@ export class ODataMetadata {
     public getEdmx() {
         return this.edmx;
     }
+
     public getMetadataUrl(): string {
         return this.metadataUrl;
     }
@@ -69,6 +70,7 @@ export class ODataMetadata {
     public getEntitySets(): EntitySet[] {
         return this.metadata.entitySets;
     }
+
     public getSingletons(): Singleton[] {
         return this.metadata.singletons || [];
     }
@@ -80,6 +82,7 @@ export class ODataMetadata {
     public getEntitySetByType(entityTypeName: string): EntitySet | undefined {
         return this.metadata.entitySets.find((entitySet) => entitySet.entityTypeName === entityTypeName);
     }
+
     public getActionByFQN(actionFQN: string): Action | undefined {
         return this.metadata.actions.find((action) => action.fullyQualifiedName === actionFQN);
     }
@@ -102,87 +105,83 @@ export class ODataMetadata {
     public isStickyEntity(entitySet: EntitySet): boolean {
         return entitySet?.annotations?.Session?.StickySessionSupported !== undefined;
     }
+
     public isDraftRoot(entitySet: EntitySet): boolean {
         return entitySet?.annotations?.Common?.DraftRoot !== undefined;
+    }
+
+    public isDraftNode(entitySet: EntitySet | Singleton): boolean {
+        return entitySet._type === 'EntitySet' && entitySet.annotations.Common?.DraftNode !== undefined;
     }
 
     public resolvePath(path: string): any {
         return this.metadata.resolvePath(path);
     }
 
-    public findInDescendant(entitySet: EntitySet | Singleton, targetEntitySet: EntitySet, path: NameAndNav[]) {
-        // Check if we are a descendent
-        let found = false;
-        Object.keys(entitySet.navigationPropertyBinding).forEach((navName) => {
-            const subET = entitySet.navigationPropertyBinding[navName];
-            const navInvolved = entitySet.entityType.navigationProperties.find((nav) => nav.name === navName);
-            let partnerNav;
-            if (navInvolved?.partner) {
-                partnerNav = navInvolved.targetType.navigationProperties.find(
-                    (nav) => nav.name === navInvolved.partner
-                );
+    public findInDescendant(
+        entitySet: EntitySet | Singleton,
+        targetEntitySet: EntitySet,
+        path: NameAndNav[],
+        entitySetFilter: (entitySet: EntitySet | Singleton) => boolean = () => true
+    ): boolean {
+        if (entitySet === targetEntitySet) {
+            // nothing to do - we are there already
+            return true;
+        }
+
+        for (const [navPropBindingName, target] of Object.entries(entitySet.navigationPropertyBinding)) {
+            if (!entitySetFilter(target)) {
+                continue;
             }
-            if (subET === targetEntitySet && navInvolved) {
-                found = true;
+
+            const navProp = entitySet.entityType.navigationProperties.find(
+                (navigationProperty) => navigationProperty.name === navPropBindingName
+            );
+
+            if (path.some((segment) => segment.entitySet === target)) {
+                // would add a cycle
+                return false;
+            } else if (navProp) {
+                const partnerNavProp = navProp.targetType.navigationProperties.find(
+                    (navigationProperty) => navigationProperty.name === navProp.partner
+                );
                 path.push({
-                    name: navName,
-                    entitySet: subET,
-                    navigation: navInvolved,
-                    partner: partnerNav
+                    name: navPropBindingName,
+                    entitySet: target,
+                    navigation: navProp,
+                    partner: partnerNavProp
                 });
             }
-        });
-        if (!found) {
-            // Look into children
-            Object.keys(entitySet.navigationPropertyBinding).forEach((navName) => {
-                const subET = entitySet.navigationPropertyBinding[navName];
-                const navInvolved = entitySet.entityType.navigationProperties.find((nav) => nav.name === navName);
-                let partnerNav;
-                if (navInvolved?.partner) {
-                    partnerNav = navInvolved.targetType.navigationProperties.find(
-                        (nav) => nav.name === navInvolved.partner
-                    );
 
-                    const subPath = path.concat([
-                        {
-                            name: navName,
-                            entitySet: subET,
-                            navigation: navInvolved,
-                            partner: partnerNav
-                        }
-                    ]);
-                    if (this.findInDescendant(subET, targetEntitySet, subPath)) {
-                        // found it in descendent
-                        found = true;
-                        subPath.slice(path.length).forEach((subPathPart) => {
-                            path.push(subPathPart);
-                        });
-                    }
-                }
-            });
+            if (target === targetEntitySet) {
+                return true;
+            } else {
+                return this.findInDescendant(target, targetEntitySet, path, entitySetFilter);
+            }
         }
-        return found;
+
+        return false;
     }
 
     public resolveDraftRoot(entitySet: EntitySet) {
-        let found = false;
-        let foundPath!: NameAndNav[];
-        let rootEntitySet!: EntitySet;
-        this.metadata.entitySets.forEach((et) => {
-            if (this.isDraftRoot(et) && !found) {
-                const resolvePath: any[] = [];
-                found = this.findInDescendant(et, entitySet, resolvePath);
+        if (this.isDraftEntity(entitySet)) {
+            // entity set must be a draft node, otherwise there is no point in looking for its root
+            const draftRoots = this.metadata.entitySets.filter(this.isDraftRoot);
+
+            for (const draftRoot of draftRoots) {
+                const path: NameAndNav[] = [];
+                const found = this.findInDescendant(draftRoot, entitySet, path, this.isDraftNode);
                 if (found) {
-                    foundPath = resolvePath.concat();
-                    rootEntitySet = et;
+                    return {
+                        found: true,
+                        entitySet: draftRoot,
+                        path: path
+                    };
                 }
             }
-        });
-        return {
-            found,
-            entitySet: rootEntitySet,
-            path: foundPath
-        };
+        }
+
+        return { found: false, entitySet: undefined, path: [] };
     }
 
     public resolveAncestors(entitySet: EntitySet) {
@@ -220,6 +219,7 @@ export class ODataMetadata {
     public getETag() {
         return this.ETag;
     }
+
     public getKeys(dataLine: any, entityType: EntityType): Record<string, string | number | boolean> {
         const keys = entityType.keys;
         const keyValues: any = {};
