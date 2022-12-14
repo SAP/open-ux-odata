@@ -1073,4 +1073,75 @@ describe('Data Access', () => {
             expect(data).toMatchSnapshot();
         });
     });
+
+    describe('$search and $filter if an Edm.String property is not of type string in the mock data', () => {
+        let dataAccess!: DataAccess;
+
+        beforeAll(async () => {
+            const baseDir = join(__dirname, 'services', 'wrongDataType');
+
+            const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
+            const metadata = await ODataMetadata.parse(edmx, '/TestService/$metadata');
+            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        });
+
+        test('$search', async () => {
+            let odataRequest = new ODataRequest({ method: 'GET', url: `/A?$search="2"` }, dataAccess);
+            let data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchInlineSnapshot(`
+                [
+                  {
+                    "ID": "correct type",
+                    "stringProperty": "123",
+                  },
+                  {
+                    "ID": "integer instead of string",
+                    "stringProperty": 123,
+                  },
+                ]
+            `);
+
+            odataRequest = new ODataRequest({ method: 'GET', url: `/A?$search="tru"` }, dataAccess);
+            data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchInlineSnapshot(`
+                [
+                  {
+                    "ID": "boolean instead of string",
+                    "stringProperty": true,
+                  },
+                ]
+            `);
+        });
+
+        test('$filter', async () => {
+            let odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A?$filter=stringProperty eq "123"` },
+                dataAccess
+            );
+            let data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchInlineSnapshot(`
+                [
+                  {
+                    "ID": "correct type",
+                    "stringProperty": "123",
+                  },
+                  {
+                    "ID": "integer instead of string",
+                    "stringProperty": 123,
+                  },
+                ]
+            `);
+
+            odataRequest = new ODataRequest({ method: 'GET', url: `/A?$filter=stringProperty eq "true"` }, dataAccess);
+            data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchInlineSnapshot(`
+                [
+                  {
+                    "ID": "boolean instead of string",
+                    "stringProperty": true,
+                  },
+                ]
+            `);
+        });
+    });
 });

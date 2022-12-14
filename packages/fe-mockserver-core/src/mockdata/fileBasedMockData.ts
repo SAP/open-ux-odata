@@ -420,7 +420,7 @@ export class FileBasedMockData {
         // DO Nothing
     }
     checkSearchQuery(mockValue: any, searchQuery: string, _odataRequest: ODataRequest) {
-        return mockValue && mockValue.indexOf(searchQuery) !== -1;
+        return mockValue?.toString().includes(searchQuery);
     }
 
     checkFilterValue(
@@ -470,7 +470,8 @@ export class FileBasedMockData {
                 } else if (literal && literal.startsWith("'")) {
                     targetLiteral = literal.substring(1, literal.length - 1);
                 }
-                isValid = performSimpleComparison(operator, mockValue, targetLiteral);
+
+                isValid = performSimpleComparison(operator, mockValue?.toString(), targetLiteral);
                 break;
         }
         return isValid;
