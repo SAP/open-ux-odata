@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.43
+
+### Patch Changes
+
+-   dbb6b60: Make processing of $search and $filter more robust if the mock data contains wrong data types
+
 ## 1.1.42
 
 ### Patch Changes
