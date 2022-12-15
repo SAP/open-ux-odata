@@ -1,0 +1,14 @@
+[
+    {
+        "ID": "correct type",
+        "stringProperty": "123"
+    },
+    {
+        "ID": "integer instead of string",
+        "stringProperty": 123
+    },
+    {
+        "ID": "boolean instead of string",
+        "stringProperty": true
+    }
+]
