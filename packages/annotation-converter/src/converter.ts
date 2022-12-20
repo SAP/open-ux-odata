@@ -626,6 +626,7 @@ function parseRecord(
                 }
             }
         });
+        context.currentProperty = undefined;
     }
     return Object.assign(annotationTerm, annotationContent);
 }
