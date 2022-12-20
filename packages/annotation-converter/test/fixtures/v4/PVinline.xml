@@ -31,7 +31,7 @@
               </Record>
             </PropertyValue>
             <PropertyValue Property="PresentationVariant">
-              <Record Type="UI.PresentationVariantType">
+              <Record>
                 <PropertyValue Property="Text" String="Presentation Variant"/>
                 <PropertyValue Property="Visualizations">
                   <Collection>

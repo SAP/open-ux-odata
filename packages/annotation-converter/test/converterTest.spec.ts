@@ -579,6 +579,7 @@ describe('Annotation Converter', () => {
         const presentationVariant = selectionPresentationVariant?.PresentationVariant;
         expect(presentationVariant?.Visualizations).not.toBeUndefined();
         expect(presentationVariant?.Visualizations?.[0]?.value).toEqual('@UI.LineItem');
+        expect(presentationVariant?.$Type).toEqual('com.sap.vocabularies.UI.v1.PresentationVariantType');
     });
 
     it('support all references that are not vocabuleries', async () => {
