@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.45
+
+### Patch Changes
+
+-   3924328: fix: resolve the back navigation using partner first and then by entitytype
+
 ## 1.1.44
 
 ### Patch Changes
