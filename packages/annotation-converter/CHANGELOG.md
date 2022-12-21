@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.21
+
+### Patch Changes
+
+-   3e1eea4: Inferred types for sub object are now properly assigned
+
 ## 0.5.20
 
 ### Patch Changes
