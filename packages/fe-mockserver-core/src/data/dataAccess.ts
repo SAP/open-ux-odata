@@ -285,9 +285,15 @@ export class DataAccess implements DataAccessInterface {
         } else {
             // Try to find a back link (a nav property going back to the original entityType)
             const originalData = cloneDeep(data);
-            const backNav: any = (navPropDetail.targetType as EntityType).navigationProperties.find(
-                (targetNavProp) => (targetNavProp as any).targetTypeName === currentEntityType.fullyQualifiedName
-            );
+            const backNav: NavigationProperty | undefined = (
+                navPropDetail.targetType as EntityType
+            ).navigationProperties.find((targetNavProp) => {
+                if (navPropDetail.partner) {
+                    return targetNavProp.name === navPropDetail.partner;
+                } else {
+                    return targetNavProp.targetTypeName === currentEntityType.fullyQualifiedName;
+                }
+            });
             if (backNav && backNav.referentialConstraint && backNav.referentialConstraint.length > 0) {
                 backNav.referentialConstraint.forEach((refConstr: ReferentialConstraint) => {
                     if (originalData[refConstr.targetProperty] !== undefined) {
