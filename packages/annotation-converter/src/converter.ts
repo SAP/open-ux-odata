@@ -522,6 +522,7 @@ function parseValue(propertyValue: Expression, valueFQN: string, objectMap: any,
  *
  * @param annotationsTerm The annotation term
  * @param annotationTarget the annotation target
+ * @param currentProperty the current property of the record
  * @returns the inferred type.
  */
 function inferTypeFromTerm(annotationsTerm: string, annotationTarget: string, currentProperty?: string) {
