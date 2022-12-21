@@ -958,13 +958,19 @@ export class DataAccess implements DataAccessInterface {
                         .map((key) => `${key}='${currentKeys[key]}'`)
                         .join(',')})`
                 );
-                postData = (await this.getMockEntitySet(targetEntitySet.name)).performPOST(
-                    currentKeys,
-                    postData,
-                    odataRequest.tenantId,
-                    odataRequest,
-                    true
-                );
+                postData = await (
+                    await this.getMockEntitySet(targetEntitySet.name)
+                ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+                if (this.metadata.getVersion() === '2.0') {
+                    const uri = `${this.service.urlPath}/${entitySet.name}(${Object.keys(currentKeys)
+                        .map((key) => `${key}='${currentKeys[key]}'`)
+                        .join(',')})`;
+                    postData['__metadata'] = {
+                        id: uri,
+                        uri: uri,
+                        type: entitySet.entityTypeName
+                    };
+                }
             } else {
                 if (!data[navPropertyName]) {
                     data[navPropertyName] = [];
@@ -980,13 +986,9 @@ export class DataAccess implements DataAccessInterface {
                     currentKeys[key.name] = postData[key.name];
                 }
             });
-            postData = (await this.getMockEntitySet(entitySet.name)).performPOST(
-                currentKeys,
-                postData,
-                odataRequest.tenantId,
-                odataRequest,
-                true
-            );
+            postData = await (
+                await this.getMockEntitySet(entitySet.name)
+            ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
             odataRequest.setContext(`../$metadata#${entitySet.name}/$entity`);
             odataRequest.addResponseHeader(
                 'Location',
@@ -994,6 +996,16 @@ export class DataAccess implements DataAccessInterface {
                     .map((key) => `${key}='${currentKeys[key]}'`)
                     .join(',')})`
             );
+            if (this.metadata.getVersion() === '2.0') {
+                const uri = `${this.service.urlPath}/${entitySet.name}(${Object.keys(currentKeys)
+                    .map((key) => `${key}='${currentKeys[key]}'`)
+                    .join(',')})`;
+                postData['__metadata'] = {
+                    id: uri,
+                    uri: uri,
+                    type: entitySet.entityTypeName
+                };
+            }
             odataRequest.setResponseData(await postData);
             return postData;
         } else {
