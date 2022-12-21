@@ -4,6 +4,7 @@
 		<Schema Namespace="MyService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
 			<EntityContainer Name="EntityContainer">
 				<EntitySet Name="TestEntity" EntityType="MyService.TestEntity"/>
+              <EntitySet Name="AnotherEntity" EntityType="MyService.AnotherEntity"/>
 			</EntityContainer>
 			<EntityType Name="TestEntity">
 				<Key>
@@ -11,7 +12,25 @@
 				</Key>
 				<Property Name="ID" Type="Edm.Guid" Nullable="false"/>
 				<Property Name="complexProperty1" Type="MyService.TestEntity_complexProperty1"/>
+              <NavigationProperty Name="navToAnother" Type="Collection(MyService.AnotherEntity)">
+                <OnDelete Action="Cascade"/>
+              </NavigationProperty>
 			</EntityType>
+          <EntityType Name="AnotherEntity">
+            <Key>
+              <PropertyRef Name="ID"/>
+            </Key>
+            <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+            <Property Name="anotherName" Type="Edm.String"/>
+            <Property Name="anotherSurname" Type="Edm.String"/>
+            <Property Name="myComplexType" Type="MyService.TestEntity_testComplexType"/>
+
+            <Property Name="association_ID" Type="Edm.Int32"/>
+          </EntityType>
+          <ComplexType Name="TestEntity_testComplexType">
+            <Property Name="complexName" Type="Edm.String"/>
+            <Property Name="complexNumber" Type="Edm.Int32"/>
+          </ComplexType>
 			<ComplexType Name="TestEntity_complexProperty1">
 				<Property Name="simpleProperty" Type="Edm.Date"/>
 				<Property Name="complexProperty2" Type="MyService.TestEntity_complexProperty1_complexProperty2"/>

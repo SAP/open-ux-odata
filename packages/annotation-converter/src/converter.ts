@@ -68,13 +68,13 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
     if (rawMetadata.schema.entityContainer?.fullyQualifiedName) {
         objectMap[rawMetadata.schema.entityContainer.fullyQualifiedName] = rawMetadata.schema.entityContainer;
     }
-    rawMetadata.schema.entitySets.forEach((entitySet) => {
+    for (const entitySet of rawMetadata.schema.entitySets) {
         objectMap[entitySet.fullyQualifiedName] = entitySet;
-    });
-    rawMetadata.schema.singletons.forEach((singleton) => {
+    }
+    for (const singleton of rawMetadata.schema.singletons) {
         objectMap[singleton.fullyQualifiedName] = singleton;
-    });
-    rawMetadata.schema.actions.forEach((action) => {
+    }
+    for (const action of rawMetadata.schema.actions) {
         objectMap[action.fullyQualifiedName] = action;
         if (action.isBound) {
             const unBoundActionName = action.fullyQualifiedName.split('(')[0];
@@ -89,47 +89,47 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
             objectMap[`${actionSplit[1].split(')')[0]}/${actionSplit[0]}`] = action;
         }
 
-        action.parameters.forEach((parameter) => {
+        for (const parameter of action.parameters) {
             objectMap[parameter.fullyQualifiedName] = parameter;
-        });
-    });
-    rawMetadata.schema.actionImports.forEach((actionImport) => {
+        }
+    }
+    for (const actionImport of rawMetadata.schema.actionImports) {
         objectMap[actionImport.fullyQualifiedName] = actionImport;
-    });
-    rawMetadata.schema.complexTypes.forEach((complexType) => {
+    }
+    for (const complexType of rawMetadata.schema.complexTypes) {
         objectMap[complexType.fullyQualifiedName] = complexType;
-        complexType.properties.forEach((property) => {
+        for (const property of complexType.properties) {
             objectMap[property.fullyQualifiedName] = property;
-        });
-    });
-    rawMetadata.schema.typeDefinitions.forEach((typeDefinition) => {
+        }
+    }
+    for (const typeDefinition of rawMetadata.schema.typeDefinitions) {
         objectMap[typeDefinition.fullyQualifiedName] = typeDefinition;
-    });
-    rawMetadata.schema.entityTypes.forEach((entityType) => {
+    }
+    for (const entityType of rawMetadata.schema.entityTypes) {
         (entityType as EntityType).annotations = {}; // 'annotations' property is mandatory
         objectMap[entityType.fullyQualifiedName] = entityType;
         objectMap[`Collection(${entityType.fullyQualifiedName})`] = entityType;
-        entityType.entityProperties.forEach((property) => {
+        for (const property of entityType.entityProperties) {
             objectMap[property.fullyQualifiedName] = property;
             // Handle complex types
             const complexTypeDefinition = objectMap[property.type] as ComplexType | TypeDefinition;
             if (isComplexTypeDefinition(complexTypeDefinition)) {
-                complexTypeDefinition.properties.forEach((complexTypeProp) => {
+                for (const complexTypeProp of complexTypeDefinition.properties) {
                     const complexTypePropTarget: RawProperty = Object.assign(complexTypeProp, {
                         _type: 'Property',
                         fullyQualifiedName: property.fullyQualifiedName + '/' + complexTypeProp.name
                     });
                     objectMap[complexTypePropTarget.fullyQualifiedName] = complexTypePropTarget;
-                });
+                }
             }
-        });
-        entityType.navigationProperties.forEach((navProperty) => {
+        }
+        for (const navProperty of entityType.navigationProperties) {
             objectMap[navProperty.fullyQualifiedName] = navProperty;
-        });
-    });
+        }
+    }
 
-    Object.keys(rawMetadata.schema.annotations).forEach((annotationSource) => {
-        rawMetadata.schema.annotations[annotationSource].forEach((annotationList) => {
+    for (const annotationSource of Object.keys(rawMetadata.schema.annotations)) {
+        for (const annotationList of rawMetadata.schema.annotations[annotationSource]) {
             const currentTargetName = unalias(rawMetadata.references, annotationList.target);
             annotationList.annotations.forEach((annotation) => {
                 let annotationFQN = `${currentTargetName}@${unalias(rawMetadata.references, annotation.term)}`;
@@ -139,8 +139,8 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
                 objectMap[annotationFQN] = annotation;
                 (annotation as Annotation).fullyQualifiedName = annotationFQN;
             });
-        });
-    });
+        }
+    }
     return objectMap;
 }
 
@@ -522,10 +522,15 @@ function parseValue(propertyValue: Expression, valueFQN: string, objectMap: any,
  *
  * @param annotationsTerm The annotation term
  * @param annotationTarget the annotation target
+ * @param currentProperty the current property of the record
  * @returns the inferred type.
  */
-function inferTypeFromTerm(annotationsTerm: string, annotationTarget: string) {
-    const targetType = (TermToTypes as any)[annotationsTerm];
+function inferTypeFromTerm(annotationsTerm: string, annotationTarget: string, currentProperty?: string) {
+    let targetType = (TermToTypes as any)[annotationsTerm];
+    if (currentProperty) {
+        annotationsTerm = annotationsTerm.split('.').slice(0, -1).join('.') + '.' + currentProperty;
+        targetType = (TermToTypes as any)[annotationsTerm];
+    }
     const oErrorMsg = {
         isError: false,
         message: `The type of the record used within the term ${annotationsTerm} was not defined and was inferred as ${targetType}.
@@ -551,7 +556,11 @@ function isDataFieldWithForAction(annotationContent: any, annotationTerm: any) {
 function parseRecordType(recordDefinition: AnnotationRecord, context: ConversionContext) {
     let targetType;
     if (!recordDefinition.type && context.currentTerm) {
-        targetType = inferTypeFromTerm(context.currentTerm, context.currentTarget.fullyQualifiedName);
+        targetType = inferTypeFromTerm(
+            context.currentTerm,
+            context.currentTarget.fullyQualifiedName,
+            context.currentProperty
+        );
     } else {
         targetType = unalias(context.rawMetadata.references, recordDefinition.type);
     }
@@ -582,6 +591,7 @@ function parseRecord(
     }
     if (recordDefinition.propertyValues) {
         recordDefinition.propertyValues.forEach((propertyValue: PropertyValue) => {
+            context.currentProperty = propertyValue.name;
             annotationContent[propertyValue.name] = parseValue(
                 propertyValue.value,
                 `${currentFQN}/${propertyValue.name}`,
@@ -617,6 +627,7 @@ function parseRecord(
                 }
             }
         });
+        context.currentProperty = undefined;
     }
     return Object.assign(annotationTerm, annotationContent);
 }
@@ -1155,6 +1166,7 @@ type ConversionContext = {
     rawMetadata: RawMetadata;
     currentSource: string;
     currentTarget: any;
+    currentProperty?: string;
     currentTerm: string;
 };
 
