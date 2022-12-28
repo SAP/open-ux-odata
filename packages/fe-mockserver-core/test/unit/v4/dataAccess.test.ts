@@ -286,8 +286,6 @@ describe('Data Access', () => {
         );
         expect(countryData.length).toEqual(1);
         expect(countryData[0].Name).toEqual('Latvia');
-
-        ///CountryCodes/any(ent:ent eq 'GBR')
     });
     test('v4metadata - GET with $filter involving a navigation property that is null for some elements', async () => {
         const formRootData = await dataAccess.getData(
@@ -295,28 +293,95 @@ describe('Data Access', () => {
         );
         expect(formRootData).toMatchSnapshot();
     });
-    test('v4metadata - it can GET data for an entity with lambda operator', async () => {
-        let countryData;
-        countryData = await dataAccess.getData(
-            new ODataRequest(
-                { method: 'GET', url: "/Countries?$filter=SpokenLanguages/any(ent:ent eq 'English')" },
-                dataAccess
-            )
-        );
-        expect(countryData.length).toEqual(4);
-        expect(countryData[0].Name).toEqual('Germany');
-        expect(countryData[1].Name).toEqual('India');
-        expect(countryData[2].Name).toEqual('Ireland');
-        expect(countryData[3].Name).toEqual('U S A');
-        countryData = await dataAccess.getData(
-            new ODataRequest(
-                { method: 'GET', url: "/Countries?$filter=SpokenLanguages/all(ent:ent eq 'English')" },
-                dataAccess
-            )
-        );
-        expect(countryData.length).toEqual(1);
-        expect(countryData[0].Name).toEqual('U S A');
+
+    describe('additional $filter tests', () => {
+        let dataAccess!: DataAccess;
+
+        beforeAll(async () => {
+            const baseDir = join(__dirname, 'services', '$filter-tests');
+            const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
+            const metadata = await ODataMetadata.parse(edmx, '/FilterTest/$metadata');
+            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        });
+
+        const cases: { url: string; expected: string[] }[] = [
+            { url: '/Entities?$filter=navigationProperty2/value eq 0', expected: ['A'] },
+
+            { url: '/Entities?$filter=collectionProperty1/any(d:d gt 0)', expected: ['A', 'B', 'C'] },
+            { url: '/Entities?$filter=collectionProperty1/all(d:d gt 0)', expected: ['B', 'C'] },
+
+            { url: '/Entities?$filter=collectionProperty2/any(d:d/value gt 0)', expected: ['A', 'B', 'C'] },
+            { url: '/Entities?$filter=collectionProperty2/all(d:d/value gt 0)', expected: ['B', 'C'] },
+
+            { url: '/Entities?$filter=navigationProperty1/any(d:d/value gt 0)', expected: ['A', 'B'] },
+            { url: '/Entities?$filter=navigationProperty1/all(d:d/value gt 0)', expected: ['B', 'C'] },
+
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/collectionProperty1/any(e:e gt 0))',
+                expected: ['A', 'B']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/collectionProperty1/all(e:e gt 1))',
+                expected: ['B']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/all(d:d/collectionProperty1/any(e:e gt 0))',
+                expected: ['A', 'B', 'C']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/all(d:d/collectionProperty1/all(e:e gt 0))',
+                expected: ['B', 'C']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/collectionProperty2/any(e:e/value gt 0))',
+                expected: ['A', 'B']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/collectionProperty2/all(e:e/value gt 1))',
+                expected: ['B']
+            },
+
+            {
+                url: '/Entities?$filter=navigationProperty1/all(d:d/collectionProperty2/any(e:e/value gt 0))',
+                expected: ['A', 'B', 'C']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/all(d:d/collectionProperty2/all(e:e/value gt 0))',
+                expected: ['B', 'C']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/navigationProperty1/any(e:e/value gt 0))',
+                expected: ['A', 'B']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/navigationProperty1/all(e:e/value gt 1))',
+                expected: ['B']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/all(d:d/navigationProperty1/any(e:e/value gt 0))',
+                expected: ['A', 'B', 'C']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/all(d:d/navigationProperty1/all(e:e/value gt 0))',
+                expected: ['B', 'C']
+            },
+            {
+                url: '/Entities?$filter=collectionProperty2/all(d:d/value gt 0) and navigationProperty1/all(f:f/value eq 1)',
+                expected: ['B', 'C']
+            }
+        ];
+
+        test.each(cases)('GET $url', async ({ url, expected }) => {
+            const result = await dataAccess.getData(new ODataRequest({ method: 'GET', url }, dataAccess));
+            expect(result).toMatchObject(expected.map((e) => ({ ID: e })));
+
+            for (const entry of result) {
+                expect(entry).not.toHaveProperty('navigationProperty1');
+                expect(entry).not.toHaveProperty('navigationProperty2');
+            }
+        });
     });
+
     test('v4metadata - it can POST data for an entity', async () => {
         let countryData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/Countries' }, dataAccess));
         expect(countryData.length).toEqual(6);
