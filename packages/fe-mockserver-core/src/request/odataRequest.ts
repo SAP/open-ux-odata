@@ -12,6 +12,7 @@ import { URL } from 'url';
 export type ExpandDefinition = {
     expand: Record<string, ExpandDefinition>;
     properties: Record<string, boolean>;
+    removeFromResult?: boolean;
 };
 
 type ODataRequestContent = {
