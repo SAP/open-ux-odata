@@ -1,6 +1,6 @@
 import { parseSearch } from './searchParser';
+import type { FilterExpression, LambdaExpression } from './filterParser';
 import { parseFilter } from './filterParser';
-import type { FilterExpression } from './filterParser';
 import { ExecutionError } from '../data/common';
 import balanced from 'balanced-match';
 import { parse } from 'query-string';
@@ -96,10 +96,10 @@ export default class ODataRequest {
         this.aggregateDefinition = this.parseApply(searchParams.get('$apply'));
         this.filterDefinition = parseFilter(searchParams.get('$filter'));
         this.countRequested = searchParams.has('$count');
-        this.selectedProperties = {};
+
         const selectParams = searchParams.get('$select');
-        const expandParams = searchParams.get('$expand');
         if (selectParams) {
+            this.selectedProperties = {};
             const props = selectParams.split(',');
             props.forEach((property: string) => {
                 if (property.length > 0) {
@@ -107,14 +107,18 @@ export default class ODataRequest {
                 }
             });
         } else {
-            this.selectedProperties['*'] = true;
+            this.selectedProperties = { '*': true };
         }
 
+        const expandParams = searchParams.get('$expand');
         if (expandParams) {
             const expandParameters = this.parseExpand(expandParams);
             this.expandProperties = expandParameters.expand;
             this.selectedProperties = Object.assign(this.selectedProperties, expandParameters.properties || {});
         }
+
+        this.addExpandForFilters(); // implicitly expand the properties used in filters
+
         if (this.aggregateDefinition) {
             const additionalSelectProperty: Record<string, boolean> = {};
             this.aggregateDefinition.groupBy.forEach((groupByProperty) => {
@@ -389,12 +393,15 @@ export default class ODataRequest {
             }
         }
     }
+
     public setResponseData(data: any) {
         this.responseData = data;
     }
+
     public setContext(context: string) {
         this.context = context;
     }
+
     public getResponseData() {
         if (this.messages.length) {
             this.addResponseHeader('sap-messages', JSON.stringify(this.messages));
@@ -458,16 +465,66 @@ export default class ODataRequest {
             return JSON.stringify(resultObject);
         }
     }
+
     public addMessage(code: number, message: string, severity: number, target: string) {
         this.addCustomMessage({ code, message, numericSeverity: severity, target });
     }
+
     public addCustomMessage(messageData: any) {
         this.messages.push(messageData);
     }
+
     public addResponseHeader(headerName: string, headerValue: string) {
         this.responseHeaders[headerName] = headerValue;
     }
+
     public setDataCount(dataCount: number) {
         this.dataCount = dataCount;
+    }
+
+    private addExpandForFilters() {
+        function* expand(expression: FilterExpression, lambdaVariable?: string): Generator<string, void, unknown> {
+            function* expandLambda(lambdaExpression: LambdaExpression, lambdaVariable?: string) {
+                // $filter=some/path/to/many/any(d:d/baz eq 10)
+                //         |<---- (1) ---->|     |<-- (2) -->|
+                yield* expandPath(lambdaExpression.target, lambdaVariable); // (1)
+                for (const expression of lambdaExpression.expression.expressions) {
+                    yield* expand(expression, lambdaExpression.key); // (2)
+                }
+            }
+
+            function* expandPath(path: string, lambdaVariable?: string) {
+                const segments = path.split('/');
+                if (segments[0] === lambdaVariable) {
+                    segments.shift();
+                }
+                for (const segment of segments) {
+                    yield segment;
+                }
+            }
+
+            if (typeof expression.identifier === 'string') {
+                yield* expandPath(expression.identifier, lambdaVariable);
+            } else if (expression.identifier?.type === 'lambda') {
+                yield* expandLambda(expression.identifier, lambdaVariable);
+            }
+        }
+
+        if (this.filterDefinition) {
+            if (!this.expandProperties) {
+                this.expandProperties = {};
+            }
+
+            for (const expression of this.filterDefinition.expressions) {
+                let currentExpand = this.expandProperties;
+
+                for (const property of expand(expression)) {
+                    if (!currentExpand[property]) {
+                        currentExpand[property] = { expand: {}, properties: {}, removeFromResult: true };
+                    }
+                    currentExpand = currentExpand[property].expand;
+                }
+            }
+        }
     }
 }

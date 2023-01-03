@@ -368,6 +368,14 @@ describe('Data Access', () => {
             {
                 url: '/Entities?$filter=collectionProperty2/all(d:d/value gt 0) and navigationProperty1/all(f:f/value eq 1)',
                 expected: ['B', 'C']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty2/parent/navigationProperty1/all(d:d/value gt 0)',
+                expected: ['C']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/parent/navigationProperty2/value gt 0)',
+                expected: ['B']
             }
         ];
 
