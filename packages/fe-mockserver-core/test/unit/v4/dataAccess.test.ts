@@ -286,6 +286,8 @@ describe('Data Access', () => {
         );
         expect(countryData.length).toEqual(1);
         expect(countryData[0].Name).toEqual('Latvia');
+
+        ///CountryCodes/any(ent:ent eq 'GBR')
     });
     test('v4metadata - GET with $filter involving a navigation property that is null for some elements', async () => {
         const formRootData = await dataAccess.getData(
@@ -293,7 +295,28 @@ describe('Data Access', () => {
         );
         expect(formRootData).toMatchSnapshot();
     });
-
+    test('v4metadata - it can GET data for an entity with lambda operator', async () => {
+        let countryData;
+        countryData = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: "/Countries?$filter=SpokenLanguages/any(ent:ent eq 'English')" },
+                dataAccess
+            )
+        );
+        expect(countryData.length).toEqual(4);
+        expect(countryData[0].Name).toEqual('Germany');
+        expect(countryData[1].Name).toEqual('India');
+        expect(countryData[2].Name).toEqual('Ireland');
+        expect(countryData[3].Name).toEqual('U S A');
+        countryData = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: "/Countries?$filter=SpokenLanguages/all(ent:ent eq 'English')" },
+                dataAccess
+            )
+        );
+        expect(countryData.length).toEqual(1);
+        expect(countryData[0].Name).toEqual('U S A');
+    });
     describe('additional $filter tests', () => {
         let dataAccess!: DataAccess;
 
