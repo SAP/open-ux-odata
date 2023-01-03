@@ -338,6 +338,10 @@ describe('Data Access', () => {
 
             { url: '/Entities?$filter=navigationProperty1/any(d:d/value gt 0)', expected: ['A', 'B'] },
             { url: '/Entities?$filter=navigationProperty1/all(d:d/value gt 0)', expected: ['B', 'C'] },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/value gt 0 and d/navigationProperty2/value eq 1)',
+                expected: ['A']
+            },
 
             {
                 url: '/Entities?$filter=navigationProperty1/any(d:d/collectionProperty1/any(e:e gt 0))',

@@ -1,5 +1,5 @@
 import { parseSearch } from './searchParser';
-import type { FilterExpression, LambdaExpression } from './filterParser';
+import type { FilterExpression } from './filterParser';
 import { parseFilter } from './filterParser';
 import { ExecutionError } from '../data/common';
 import balanced from 'balanced-match';
@@ -483,49 +483,40 @@ export default class ODataRequest {
     }
 
     private addExpandForFilters() {
-        if (!this.filterDefinition) {
-            return;
-        }
-
-        function* expandLambda(lambdaExpression: LambdaExpression, lambdaVariable?: string) {
-            // $filter=some/path/to/many/any(d:d/baz eq 10)
-            //         |<---- (1) ---->|     |<-- (2) -->|
-            yield* expandPath(lambdaExpression.target, lambdaVariable); // (1)
-            for (const expression of lambdaExpression.expression.expressions) {
-                yield* expand(expression, lambdaExpression.key); // (2)
-            }
-        }
-
-        function* expandPath(path: string, lambdaVariable?: string) {
+        function expandPath(path: string, expands: Record<string, ExpandDefinition>, lambdaVariable?: string) {
             const segments = path.split('/');
             if (segments[0] === lambdaVariable) {
                 segments.shift();
             }
+
+            let target = expands;
             for (const segment of segments) {
-                yield segment;
-            }
-        }
-
-        function* expand(expression: FilterExpression, lambdaVariable?: string): Generator<string, void, unknown> {
-            if (typeof expression.identifier === 'string') {
-                yield* expandPath(expression.identifier, lambdaVariable);
-            } else if (expression.identifier?.type === 'lambda') {
-                yield* expandLambda(expression.identifier, lambdaVariable);
-            }
-        }
-
-        for (const expression of this.filterDefinition.expressions) {
-            let currentExpand = this.expandProperties;
-
-            for (const property of expand(expression)) {
-                currentExpand[property] = currentExpand[property] ?? {
+                target[segment] = target[segment] ?? {
                     expand: {},
                     properties: {},
                     removeFromResult: true
                 };
+                target = target[segment].expand;
+            }
+            return target;
+        }
 
-                currentExpand = currentExpand[property].expand;
+        function expand(
+            expression: FilterExpression,
+            expandDefinitions: Record<string, ExpandDefinition>,
+            lambdaVariable?: string
+        ) {
+            if (typeof expression.identifier === 'string') {
+                expandPath(expression.identifier, expandDefinitions, lambdaVariable);
+            } else if (expression.identifier?.type === 'lambda') {
+                const target = expandPath(expression.identifier.target, expandDefinitions, lambdaVariable);
+
+                for (const subExpression of expression.identifier.expression.expressions) {
+                    expand(subExpression, target, expression.identifier.key);
+                }
             }
         }
+
+        this.filterDefinition?.expressions.forEach((expression) => expand(expression, this.expandProperties));
     }
 }
