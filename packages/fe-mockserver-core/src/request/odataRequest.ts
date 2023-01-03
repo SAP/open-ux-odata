@@ -57,7 +57,7 @@ export default class ODataRequest {
     public aggregateDefinition?: AggregateDefinition;
     public filterDefinition?: FilterExpression;
     public selectedProperties: Record<string, boolean>;
-    public expandProperties: Record<string, ExpandDefinition>;
+    public expandProperties: Record<string, ExpandDefinition> = {};
     public responseHeaders: Record<string, string> = {};
     public statusCode: number = 200;
     public dataCount: number;
@@ -483,26 +483,30 @@ export default class ODataRequest {
     }
 
     private addExpandForFilters() {
+        if (!this.filterDefinition) {
+            return;
+        }
+
+        function* expandLambda(lambdaExpression: LambdaExpression, lambdaVariable?: string) {
+            // $filter=some/path/to/many/any(d:d/baz eq 10)
+            //         |<---- (1) ---->|     |<-- (2) -->|
+            yield* expandPath(lambdaExpression.target, lambdaVariable); // (1)
+            for (const expression of lambdaExpression.expression.expressions) {
+                yield* expand(expression, lambdaExpression.key); // (2)
+            }
+        }
+
+        function* expandPath(path: string, lambdaVariable?: string) {
+            const segments = path.split('/');
+            if (segments[0] === lambdaVariable) {
+                segments.shift();
+            }
+            for (const segment of segments) {
+                yield segment;
+            }
+        }
+
         function* expand(expression: FilterExpression, lambdaVariable?: string): Generator<string, void, unknown> {
-            function* expandLambda(lambdaExpression: LambdaExpression, lambdaVariable?: string) {
-                // $filter=some/path/to/many/any(d:d/baz eq 10)
-                //         |<---- (1) ---->|     |<-- (2) -->|
-                yield* expandPath(lambdaExpression.target, lambdaVariable); // (1)
-                for (const expression of lambdaExpression.expression.expressions) {
-                    yield* expand(expression, lambdaExpression.key); // (2)
-                }
-            }
-
-            function* expandPath(path: string, lambdaVariable?: string) {
-                const segments = path.split('/');
-                if (segments[0] === lambdaVariable) {
-                    segments.shift();
-                }
-                for (const segment of segments) {
-                    yield segment;
-                }
-            }
-
             if (typeof expression.identifier === 'string') {
                 yield* expandPath(expression.identifier, lambdaVariable);
             } else if (expression.identifier?.type === 'lambda') {
@@ -510,20 +514,17 @@ export default class ODataRequest {
             }
         }
 
-        if (this.filterDefinition) {
-            if (!this.expandProperties) {
-                this.expandProperties = {};
-            }
+        for (const expression of this.filterDefinition.expressions) {
+            let currentExpand = this.expandProperties;
 
-            for (const expression of this.filterDefinition.expressions) {
-                let currentExpand = this.expandProperties;
+            for (const property of expand(expression)) {
+                currentExpand[property] = currentExpand[property] ?? {
+                    expand: {},
+                    properties: {},
+                    removeFromResult: true
+                };
 
-                for (const property of expand(expression)) {
-                    if (!currentExpand[property]) {
-                        currentExpand[property] = { expand: {}, properties: {}, removeFromResult: true };
-                    }
-                    currentExpand = currentExpand[property].expand;
-                }
+                currentExpand = currentExpand[property].expand;
             }
         }
     }
