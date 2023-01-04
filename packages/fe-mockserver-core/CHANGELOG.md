@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.47
+
+### Patch Changes
+
+-   fe1db88: Improve the result set for create on an odata v2 service
+
 ## 1.1.46
 
 ### Patch Changes
