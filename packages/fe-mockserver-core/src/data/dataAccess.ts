@@ -172,10 +172,9 @@ export class DataAccess implements DataAccessInterface {
             const actionName = odataRequest.queryPath[0].path;
             const entityContainerPath = this.metadata.getEntityContainerPath();
 
-            const actionDefinition: Action | undefined =
-                this.metadata.getVersion() === '2.0'
-                    ? this.metadata.getActionByFQN(`${entityContainerPath}/${actionName}`)
-                    : this.metadata.getActionImportByFQN(`${entityContainerPath}/${actionName}`)?.action;
+            const actionDefinition: Action | undefined = this.isV4()
+                ? this.metadata.getActionImportByFQN(`${entityContainerPath}/${actionName}`)?.action
+                : this.metadata.getActionByFQN(`${entityContainerPath}/${actionName}`);
 
             if (actionDefinition) {
                 if (actionDefinition.sourceType !== '') {
@@ -187,22 +186,14 @@ export class DataAccess implements DataAccessInterface {
                             odataRequest,
                             {}
                         );
-                        if (this.metadata.getVersion() === '2.0') {
+                        if (!this.isV4()) {
                             const enrichElement = (entitySet: EntitySet, dataLine: any) => {
-                                const keyValues: string[] = [];
-                                if (entitySet.entityType.keys.length === 1) {
-                                    keyValues.push(`${dataLine[entitySet.entityType.keys[0].name]}`);
-                                } else {
-                                    entitySet.entityType.keys.forEach((key) => {
-                                        keyValues.push(`${key.name}='${dataLine[key.name]}'`);
-                                    });
-                                }
-                                const uri = `${this.service.urlPath}/${entitySet.name}(${keyValues.join(',')})`;
-                                dataLine['__metadata'] = {
-                                    id: uri,
-                                    uri: uri,
-                                    type: entitySet.entityTypeName
-                                };
+                                const keyValues: Record<string, string> = {};
+                                entitySet.entityType.keys.forEach((key) => {
+                                    keyValues[key.name] = dataLine[key.name];
+                                });
+                                this.addV2Metadata(entitySet, keyValues, dataLine);
+
                                 return dataLine;
                             };
 
@@ -797,7 +788,7 @@ export class DataAccess implements DataAccessInterface {
                 data = data.slice(odataRequest.startIndex, odataRequest.startIndex + odataRequest.maxElements);
             }
 
-            if (this.metadata.getVersion() === '2.0') {
+            if (!this.isV4()) {
                 const enrichElement = (
                     entitySet: EntitySet | Singleton | undefined,
                     entityType: EntityType | undefined,
@@ -951,7 +942,7 @@ export class DataAccess implements DataAccessInterface {
                 postData = await (
                     await this.getMockEntitySet(targetEntitySet.name)
                 ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
-                if (this.metadata.getVersion() === '2.0') {
+                if (!this.isV4()) {
                     this.addV2Metadata(entitySet, currentKeys, postData);
                 }
             } else {
@@ -979,7 +970,7 @@ export class DataAccess implements DataAccessInterface {
                     .map((key) => `${key}='${currentKeys[key]}'`)
                     .join(',')})`
             );
-            if (this.metadata.getVersion() === '2.0') {
+            if (!this.isV4()) {
                 this.addV2Metadata(entitySet, currentKeys, postData);
             }
             odataRequest.setResponseData(await postData);
