@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.22
+
+### Patch Changes
+
+-   b408038: DataFieldForAction annotations are now resolved correctly if the action is bound to a different entity type
+
 ## 0.5.21
 
 ### Patch Changes

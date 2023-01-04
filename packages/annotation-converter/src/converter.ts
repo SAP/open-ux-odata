@@ -607,12 +607,18 @@ function parseRecord(
                 context.additionalAnnotations.push(subAnnotationList);
             }
             if (isDataFieldWithForAction(annotationContent, annotationTerm)) {
-                // try to resolve to a bound action
+                // try to resolve to a bound action of the annotation target
                 annotationContent.ActionTarget = context.currentTarget.actions?.[annotationContent.Action];
 
-                // try to resolve to an unbound action (annotation must point to an ActionImport)
                 if (!annotationContent.ActionTarget) {
-                    annotationContent.ActionTarget = objectMap[annotationContent.Action]?.action;
+                    const action = objectMap[annotationContent.Action];
+                    if (action?.isBound) {
+                        // bound action of a different entity type
+                        annotationContent.ActionTarget = action;
+                    } else if (action) {
+                        // unbound action --> resolve via the action import
+                        annotationContent.ActionTarget = action.action;
+                    }
                 }
 
                 if (!annotationContent.ActionTarget) {

@@ -126,6 +126,29 @@ describe('Data Access', () => {
         expect(responseDataSolo).toMatchSnapshot();
         expect(odataRequestSolo.responseHeaders).toMatchSnapshot();
     });
+    test('v2metadata - it can POST data for an entity', async () => {
+        const odataRequestPost = new ODataRequest(
+            {
+                method: 'POST',
+                url: "/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity=true)",
+                body: {
+                    Product: 'Acme_Bazooka',
+                    DraftUUID: '',
+                    Price: 3,
+                    Name: 'Acme Bazooka',
+                    Supplier: 'Acme FR',
+                    StartingSaleDate: '2022-12-21T00:00:00'
+                }
+            },
+            dataAccess
+        );
+        await odataRequestPost.handleRequest();
+        let responseDataPost = odataRequestPost.getResponseData() || '';
+        responseDataPost = responseDataPost.replace(/\/Date\([^)]+\)/g, '/Date()');
+        responseDataPost = responseDataPost.replace(/DraftUUID":"[^"]+"/g, 'DraftUUID":""');
+        expect(responseDataPost).toMatchSnapshot();
+        expect(odataRequestPost.responseHeaders).toMatchSnapshot();
+    });
     test('v2metadata - it can DELETE data for an entity', async () => {
         const odataRequestDelete = new ODataRequest(
             {
