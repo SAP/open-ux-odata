@@ -483,17 +483,26 @@ export default class ODataRequest {
     }
 
     private addExpandForFilters() {
-        function expandPath(path: string, expands: Record<string, ExpandDefinition>, lambdaVariable?: string) {
+        function expandPath(
+            path: string,
+            expands: Record<string, ExpandDefinition>,
+            lambdaVariable?: string,
+            skipLast?: boolean
+        ) {
             const segments = path.split('/');
             if (segments[0] === lambdaVariable) {
                 segments.shift();
+            }
+
+            if (skipLast) {
+                segments.pop();
             }
 
             let target = expands;
             for (const segment of segments) {
                 target[segment] = target[segment] ?? {
                     expand: {},
-                    properties: {},
+                    properties: { '*': true },
                     removeFromResult: true
                 };
                 target = target[segment].expand;
@@ -507,7 +516,7 @@ export default class ODataRequest {
             lambdaVariable?: string
         ) {
             if (typeof expression.identifier === 'string') {
-                expandPath(expression.identifier, expandDefinitions, lambdaVariable);
+                expandPath(expression.identifier, expandDefinitions, lambdaVariable, true);
             } else if (expression.identifier?.type === 'lambda') {
                 const target = expandPath(expression.identifier.target, expandDefinitions, lambdaVariable);
 

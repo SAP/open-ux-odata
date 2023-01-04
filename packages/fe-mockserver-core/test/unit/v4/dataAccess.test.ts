@@ -327,7 +327,7 @@ describe('Data Access', () => {
             dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
         });
 
-        const cases: { url: string; expected: string[] }[] = [
+        const cases = [
             { url: '/Entities?$filter=navigationProperty2/value eq 0', expected: ['A'] },
 
             { url: '/Entities?$filter=collectionProperty1/any(d:d gt 0)', expected: ['A', 'B', 'C'] },
@@ -403,17 +403,19 @@ describe('Data Access', () => {
             {
                 url: '/Entities?$filter=navigationProperty1/any(d:d/parent/navigationProperty2/value gt 0)',
                 expected: ['B']
+            },
+            {
+                url: '/Entities?$filter=navigationProperty1/any(d:d/value gt 0)&$expand=navigationProperty1($select=ID),navigationProperty2',
+                expected: ['A', 'B']
             }
         ];
 
         test.each(cases)('GET $url', async ({ url, expected }) => {
-            const result = await dataAccess.getData(new ODataRequest({ method: 'GET', url }, dataAccess));
+            const result = await dataAccess.getData(
+                new ODataRequest({ method: 'GET', url: url + '&$select=ID' }, dataAccess)
+            );
             expect(result).toMatchObject(expected.map((e) => ({ ID: e })));
-
-            for (const entry of result) {
-                expect(entry).not.toHaveProperty('navigationProperty1');
-                expect(entry).not.toHaveProperty('navigationProperty2');
-            }
+            expect(result).toMatchSnapshot();
         });
     });
 

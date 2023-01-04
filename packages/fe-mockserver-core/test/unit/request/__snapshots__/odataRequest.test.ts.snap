@@ -1,0 +1,533 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OData Request It can parse $filter $filter=collection/any(d:d gt 0) 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d",
+                "literal": "0",
+                "operator": "gt",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection/any(d:d/collection/all(e:e gt 0)) 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {
+        "collection": {
+          "expand": {},
+          "properties": {
+            "*": true,
+          },
+          "removeFromResult": true,
+        },
+      },
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": {
+                  "expression": {
+                    "expressions": [
+                      {
+                        "identifier": "e",
+                        "literal": "0",
+                        "operator": "gt",
+                      },
+                    ],
+                  },
+                  "key": "e",
+                  "operator": "ALL",
+                  "target": "d/collection",
+                  "type": "lambda",
+                },
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection/any(d:d/single1/single2/value gt 0) 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {
+        "single1": {
+          "expand": {
+            "single2": {
+              "expand": {},
+              "properties": {
+                "*": true,
+              },
+              "removeFromResult": true,
+            },
+          },
+          "properties": {
+            "*": true,
+          },
+          "removeFromResult": true,
+        },
+      },
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/single1/single2/value",
+                "literal": "0",
+                "operator": "gt",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection/any(d:d/value gt 0 and d/collection/all(e:e/value eq 1) 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {
+        "collection": {
+          "expand": {},
+          "properties": {
+            "*": true,
+          },
+          "removeFromResult": true,
+        },
+      },
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value",
+                "literal": "0",
+                "operator": "gt",
+              },
+              {
+                "identifier": {
+                  "expression": {
+                    "expressions": [
+                      {
+                        "identifier": "e/value",
+                        "literal": "1",
+                        "operator": "eq",
+                      },
+                    ],
+                  },
+                  "key": "e",
+                  "operator": "ALL",
+                  "target": "d/collection",
+                  "type": "lambda",
+                },
+              },
+            ],
+            "operator": "AND",
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection/any(d:d/value gt 0 and d/single/value eq 1) 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {
+        "single": {
+          "expand": {},
+          "properties": {
+            "*": true,
+          },
+          "removeFromResult": true,
+        },
+      },
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value",
+                "literal": "0",
+                "operator": "gt",
+              },
+              {
+                "identifier": "d/single/value",
+                "literal": "1",
+                "operator": "eq",
+              },
+            ],
+            "operator": "AND",
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection/any(d:d/value gt 0) 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value",
+                "literal": "0",
+                "operator": "gt",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection/any(d:d/value1 gt 0)&$expand=collection($select=value2) 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {},
+      "properties": {
+        "value2": true,
+      },
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value1",
+                "literal": "0",
+                "operator": "gt",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection1/any(d:d/value gt 0) and collection2/any(d:d/value eq 1) 1`] = `
+{
+  "expandProperties": {
+    "collection1": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+    "collection2": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value",
+                "literal": "0",
+                "operator": "gt",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection1",
+          "type": "lambda",
+        },
+      },
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value",
+                "literal": "1",
+                "operator": "eq",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection2",
+          "type": "lambda",
+        },
+      },
+    ],
+    "operator": "AND",
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=collection1/any(d:d/value1 gt 0)&$expand=collection2 1`] = `
+{
+  "expandProperties": {
+    "collection1": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+    "collection2": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value1",
+                "literal": "0",
+                "operator": "gt",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "collection1",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=single/value eq 0 1`] = `
+{
+  "expandProperties": {
+    "single": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": "single/value",
+        "literal": "0",
+        "operator": "eq",
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=single/value eq 0&$expand=single($select=other) 1`] = `
+{
+  "expandProperties": {
+    "single": {
+      "expand": {},
+      "properties": {
+        "other": true,
+      },
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": "single/value",
+        "literal": "0",
+        "operator": "eq",
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=single1/single2/collection/any(d:d/value gt 0) 1`] = `
+{
+  "expandProperties": {
+    "single1": {
+      "expand": {
+        "single2": {
+          "expand": {
+            "collection": {
+              "expand": {},
+              "properties": {
+                "*": true,
+              },
+              "removeFromResult": true,
+            },
+          },
+          "properties": {
+            "*": true,
+          },
+          "removeFromResult": true,
+        },
+      },
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": {
+            "expressions": [
+              {
+                "identifier": "d/value",
+                "literal": "0",
+                "operator": "gt",
+              },
+            ],
+          },
+          "key": "d",
+          "operator": "ANY",
+          "target": "single1/single2/collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`OData Request It can parse $filter $filter=value eq 0 1`] = `
+{
+  "expandProperties": {},
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": "value",
+        "literal": "0",
+        "operator": "eq",
+      },
+    ],
+  },
+}
+`;

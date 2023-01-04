@@ -529,6 +529,313 @@ exports[`Data Access $select handling with structured complex types can read /A?
 ]
 `;
 
+exports[`Data Access additional $filter tests GET /Entities?$filter=collectionProperty1/all(d:d gt 0) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=collectionProperty1/any(d:d gt 0) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=collectionProperty2/all(d:d/value gt 0) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=collectionProperty2/all(d:d/value gt 0) and navigationProperty1/all(f:f/value eq 1) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=collectionProperty2/any(d:d/value gt 0) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/all(d:d/collectionProperty1/all(e:e gt 0)) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/all(d:d/collectionProperty1/any(e:e gt 0)) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/all(d:d/collectionProperty2/all(e:e/value gt 0)) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/all(d:d/collectionProperty2/any(e:e/value gt 0)) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/all(d:d/navigationProperty1/all(e:e/value gt 0)) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/all(d:d/navigationProperty1/any(e:e/value gt 0)) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/all(d:d/value gt 0) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/collectionProperty1/all(e:e gt 1)) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/collectionProperty1/any(e:e gt 0)) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/collectionProperty2/all(e:e/value gt 1)) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/collectionProperty2/any(e:e/value gt 0)) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/navigationProperty1/all(e:e/value gt 1)) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/navigationProperty1/any(e:e/value gt 0)) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/parent/navigationProperty2/value gt 0) 1`] = `
+[
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/value gt 0 and d/navigationProperty2/value eq 1) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/value gt 0) 1`] = `
+[
+  {
+    "ID": "A",
+  },
+  {
+    "ID": "B",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty1/any(d:d/value gt 0)&$expand=navigationProperty1($select=ID),navigationProperty2 1`] = `
+[
+  {
+    "ID": "A",
+    "navigationProperty1": [
+      {
+        "ID": "AA",
+      },
+      {
+        "ID": "AB",
+      },
+    ],
+    "navigationProperty2": {
+      "ID": "AA",
+      "collectionProperty1": [
+        0,
+        1,
+      ],
+      "collectionProperty2": [
+        {
+          "value": 0,
+        },
+        {
+          "value": 1,
+        },
+      ],
+      "navigationProperty2_ID": "AA-A",
+      "parent_ID": "A",
+      "value": 0,
+    },
+  },
+  {
+    "ID": "B",
+    "navigationProperty1": [
+      {
+        "ID": "BA",
+      },
+    ],
+    "navigationProperty2": {
+      "ID": "AB",
+      "collectionProperty1": [
+        1,
+        1,
+      ],
+      "collectionProperty2": [
+        {
+          "value": 1,
+        },
+        {
+          "value": 1,
+        },
+      ],
+      "navigationProperty2_ID": "AB-A",
+      "parent_ID": "A",
+      "value": 1,
+    },
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty2/parent/navigationProperty1/all(d:d/value gt 0) 1`] = `
+[
+  {
+    "ID": "C",
+  },
+]
+`;
+
+exports[`Data Access additional $filter tests GET /Entities?$filter=navigationProperty2/value eq 0 1`] = `
+[
+  {
+    "ID": "A",
+  },
+]
+`;
+
 exports[`Data Access v4metadata - GET with $filter involving a navigation property that is null for some elements 1`] = `
 [
   {

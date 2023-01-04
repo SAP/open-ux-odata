@@ -399,4 +399,35 @@ describe('OData Request', () => {
             }
         `);
     });
+
+    // $filter
+    describe('It can parse $filter', () => {
+        const $filterTestCases: { query: string }[] = [
+            // simple filters
+            { query: '$filter=value eq 0' },
+            { query: '$filter=single/value eq 0' },
+            { query: '$filter=single/value eq 0&$expand=single($select=other)' },
+
+            // lambda
+            { query: '$filter=collection/any(d:d gt 0)' },
+            { query: '$filter=collection/any(d:d/value gt 0)' },
+            { query: '$filter=collection/any(d:d/value gt 0 and d/single/value eq 1)' },
+            { query: '$filter=collection/any(d:d/collection/all(e:e gt 0))' },
+            { query: '$filter=collection1/any(d:d/value gt 0) and collection2/any(d:d/value eq 1)' },
+            { query: '$filter=single1/single2/collection/any(d:d/value gt 0)' },
+            { query: '$filter=collection/any(d:d/single1/single2/value gt 0)' },
+            { query: '$filter=collection/any(d:d/value gt 0 and d/collection/all(e:e/value eq 1)' },
+            { query: '$filter=collection/any(d:d/value1 gt 0)&$expand=collection($select=value2)' },
+            { query: '$filter=collection1/any(d:d/value1 gt 0)&$expand=collection2' }
+        ];
+
+        test.each($filterTestCases)('$query', ({ query }) => {
+            const request = new ODataRequest({ method: 'GET', url: `/Entities?${query}` }, fakeDataAccess);
+
+            expect({
+                expandProperties: request.expandProperties, // $filter can affect the expandProperties
+                filterDefinition: request.filterDefinition
+            }).toMatchSnapshot();
+        });
+    });
 });
