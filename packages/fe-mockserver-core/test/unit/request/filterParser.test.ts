@@ -82,6 +82,13 @@ describe('Filter Parser', () => {
         expect(andOrPrecedence?.expressions[0].expressions.length).toBe(2);
         expect(andOrPrecedence?.expressions[0].operator).toBe('AND');
 
+        const andOrWithOverlappingName = parseFilter("companyCode eq '1510' and orderCompany eq '0015100001'");
+        expect(andOrWithOverlappingName?.operator).toBe('AND');
+        expect(andOrWithOverlappingName?.expressions.length).toBe(2);
+        expect(andOrWithOverlappingName?.expressions[0].identifier).toBe('companyCode');
+        expect(andOrWithOverlappingName?.expressions[0].literal).toBe("'1510'");
+        expect(andOrWithOverlappingName?.expressions[0].operator).toBe('eq');
+
         const andOrParenthesis = parseFilter('(IsHot eq false and IsHot eq true) or PeopleCount gt 3');
         expect(andOrParenthesis?.operator).toBe('OR');
         expect(andOrParenthesis?.expressions.length).toBe(2);
