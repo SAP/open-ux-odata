@@ -3,6 +3,9 @@
   <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
     <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
   </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
   <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
     <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
   </edmx:Reference>
@@ -63,6 +66,10 @@
               <PropertyValue Property="Label" String="Unbound Function via ActionImport"/>
               <PropertyValue Property="Action" String="TestService.EntityContainer/function"/>
             </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound action of the same entity type (explicit reference)"/>
+              <PropertyValue Property="Action" String="TestService.action(TestService.Entity1)"/>
+            </Record>
           </Collection>
         </Annotation>
       </Annotations>
@@ -84,6 +91,10 @@
             <Record Type="UI.DataFieldForAction">
               <PropertyValue Property="Label" String="Unbound Function via ActionImport"/>
               <PropertyValue Property="Action" String="TestService.EntityContainer/function"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound action of a different entity type"/>
+              <PropertyValue Property="Action" String="TestService.action(TestService.Entity1)"/>
             </Record>
           </Collection>
         </Annotation>
