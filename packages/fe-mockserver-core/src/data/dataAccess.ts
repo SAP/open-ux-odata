@@ -807,24 +807,14 @@ export class DataAccess implements DataAccessInterface {
                     if (!entityType) {
                         return;
                     }
-                    const keyValues: string[] = [];
-                    if (entityType.keys.length === 1) {
-                        const key = entityType.keys[0];
-                        keyValues.push(`${dataLine[key.name] || originalDataLine[key.name]}`);
-                    } else {
-                        entityType.keys.forEach((key) => {
-                            keyValues.push(`${key.name}='${dataLine[key.name] || originalDataLine[key.name]}'`);
-                        });
-                    }
+                    const keyValues: Record<string, string> = {};
+                    entityType.keys.forEach((key) => {
+                        keyValues[key.name] = dataLine[key.name] || originalDataLine[key.name];
+                    });
 
-                    const uri = `${this.service.urlPath}/${
-                        entitySet ? entitySet.name : entityType.name
-                    }(${keyValues.join(',')})`;
-                    dataLine['__metadata'] = {
-                        id: uri,
-                        uri: uri,
-                        type: entityType.fullyQualifiedName
-                    };
+                    if (entitySet) {
+                        this.addV2Metadata(entitySet, keyValues, dataLine);
+                    }
 
                     entityType.navigationProperties.forEach((navProp) => {
                         //eslint-disable-next-line
@@ -962,14 +952,7 @@ export class DataAccess implements DataAccessInterface {
                     await this.getMockEntitySet(targetEntitySet.name)
                 ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
                 if (this.metadata.getVersion() === '2.0') {
-                    const uri = `${this.service.urlPath}/${entitySet.name}(${Object.keys(currentKeys)
-                        .map((key) => `${key}='${currentKeys[key]}'`)
-                        .join(',')})`;
-                    postData['__metadata'] = {
-                        id: uri,
-                        uri: uri,
-                        type: entitySet.entityTypeName
-                    };
+                    this.addV2Metadata(entitySet, currentKeys, postData);
                 }
             } else {
                 if (!data[navPropertyName]) {
@@ -997,20 +980,30 @@ export class DataAccess implements DataAccessInterface {
                     .join(',')})`
             );
             if (this.metadata.getVersion() === '2.0') {
-                const uri = `${this.service.urlPath}/${entitySet.name}(${Object.keys(currentKeys)
-                    .map((key) => `${key}='${currentKeys[key]}'`)
-                    .join(',')})`;
-                postData['__metadata'] = {
-                    id: uri,
-                    uri: uri,
-                    type: entitySet.entityTypeName
-                };
+                this.addV2Metadata(entitySet, currentKeys, postData);
             }
             odataRequest.setResponseData(await postData);
             return postData;
         } else {
             throw new Error('Unknown Entity Set' + entitySetName);
         }
+    }
+
+    private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: Record<string, string>, postData: any) {
+        let keyStr = '';
+        if (Object.keys(currentKeys).length === 1) {
+            keyStr = currentKeys[Object.keys(currentKeys)[0]];
+        } else {
+            keyStr = Object.keys(currentKeys)
+                .map((key) => `${key}='${currentKeys[key]}'`)
+                .join(',');
+        }
+        const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
+        postData['__metadata'] = {
+            id: uri,
+            uri: uri,
+            type: entitySet.entityTypeName
+        };
     }
 
     public async deleteData(odataRequest: ODataRequest) {
