@@ -143,8 +143,10 @@ describe('Data Access', () => {
             dataAccess
         );
         await odataRequestPost.handleRequest();
-        const responseDataDelete = odataRequestPost.getResponseData();
-        expect(responseDataDelete).toMatchSnapshot();
+        let responseDataPost = odataRequestPost.getResponseData() || '';
+        responseDataPost = responseDataPost.replace(/\/Date\([^)]+\)/g, '/Date()');
+        responseDataPost = responseDataPost.replace(/DraftUUID":"[^"]+"/g, 'DraftUUID":""');
+        expect(responseDataPost).toMatchSnapshot();
         expect(odataRequestPost.responseHeaders).toMatchSnapshot();
     });
     test('v2metadata - it can DELETE data for an entity', async () => {
