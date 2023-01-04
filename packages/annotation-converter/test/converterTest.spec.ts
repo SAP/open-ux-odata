@@ -684,11 +684,13 @@ describe('Annotation Converter', () => {
         expect(dataFields1[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity1)'));
         expect(dataFields1[2].ActionTarget).toBe(getAction('TestService.action'));
         expect(dataFields1[3].ActionTarget).toBe(getAction('TestService.function'));
+        expect(dataFields1[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
 
         const dataFields2 = convertedTypes.entityTypes[1]?.annotations.UI?.LineItem as DataFieldForAction[];
         expect(dataFields2[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity2)'));
         expect(dataFields2[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity2)'));
         expect(dataFields2[2].ActionTarget).toBe(getAction('TestService.action'));
         expect(dataFields2[3].ActionTarget).toBe(getAction('TestService.function'));
+        expect(dataFields2[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
     });
 });
