@@ -30,7 +30,7 @@ const LITERAL = createToken({
 });
 //ee1a9172-f3c3-47ce-b0f7-dd28c740210c
 const LOGICAL_OPERATOR = createToken({ name: 'Logical', pattern: /(:?eq|ne|lt|le|gt|ge)/ });
-const ANDOR = createToken({ name: 'AndOr', pattern: /(:?and|or)/ });
+const ANDOR = createToken({ name: 'AndOr', pattern: /\s(:?and|or)\s/ });
 const WS = createToken({ name: 'Whitespace', pattern: /\s+/ });
 const filterTokens = [
     OPEN,
@@ -322,12 +322,10 @@ export class FilterParser extends EmbeddedActionsParser {
                 }
             ]);
             $.OPTION2(() => {
-                $.CONSUME3(WS);
                 operator = $.CONSUME(ANDOR);
-                $.CONSUME4(WS);
                 const subsubExpr = $.SUBRULE2($.boolCommonExpr);
                 let expressions: FilterExpression[];
-                let currentOperator = operator.image.toUpperCase();
+                let currentOperator = operator.image.trim().toUpperCase();
                 if (!subsubExpr.expressions && subExpr.expressions) {
                     expressions = [subExpr].concat([subsubExpr]);
                 } else if (

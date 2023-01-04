@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.46
+
+### Patch Changes
+
+-   04a076f: An issue with the filter parser has been fixed
+
 ## 1.1.45
 
 ### Patch Changes
