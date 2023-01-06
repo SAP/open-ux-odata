@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.49
+
+### Patch Changes
+
+-   8f8ef12: Scope the cache disablement only for the mockserver data
+
 ## 1.1.48
 
 ### Patch Changes

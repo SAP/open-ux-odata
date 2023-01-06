@@ -31,6 +31,20 @@ const addCSRFTokenIfRequested = (_req: IncomingMessage, res: ServerResponse) => 
 };
 
 /**
+ * Small middleware to disable the cache on the queries for the mockserver.
+ *
+ * @param _req
+ * @param res
+ * @param next
+ */
+function disableCache(_req: IncomingMessage, res: ServerResponse, next: NextFunction): void {
+    res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.setHeader('Expires', '-1');
+    res.setHeader('Pragma', 'no-cache');
+    next();
+}
+
+/**
  * Creates the sub router containing the odata protocol processing.
  *
  * @param service
@@ -40,7 +54,7 @@ const addCSRFTokenIfRequested = (_req: IncomingMessage, res: ServerResponse) => 
 export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAccess): Promise<IRouter> {
     const router = new Router();
     const log = getLogger('server:ux-fe-mockserver');
-
+    router.use(disableCache);
     router.head('/', (_req: IncomingMessage, res: ServerResponse, next) => {
         addCSRFTokenIfRequested(_req, res); //HEAD use case
         next();
