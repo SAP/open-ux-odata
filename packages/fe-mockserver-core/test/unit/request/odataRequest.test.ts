@@ -70,6 +70,32 @@ describe('OData Request', () => {
               ],
             }
         `);
+        const myOtherRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/Countries?$filter=SalesOrderType_Text%20eq%20'Standard%20Order%20(OR)%23'&search=Value1`
+            },
+            fakeDataAccess
+        );
+        expect(myOtherRequest.queryPath).toMatchInlineSnapshot(`
+            [
+              {
+                "keys": {},
+                "path": "Countries",
+              },
+            ]
+        `);
+        expect(myOtherRequest.filterDefinition).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": "SalesOrderType_Text",
+                  "literal": "'Standard Order (OR)#'",
+                  "operator": "eq",
+                },
+              ],
+            }
+        `);
     });
 
     test('It can parse $orderby', () => {
