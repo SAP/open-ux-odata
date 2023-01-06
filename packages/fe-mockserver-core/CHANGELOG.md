@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.50
+
+### Patch Changes
+
+-   69c88e3: Fixed an issue with the parsing when the filter contained a # character
+
 ## 1.1.49
 
 ### Patch Changes
