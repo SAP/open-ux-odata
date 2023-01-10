@@ -62,7 +62,7 @@ export type FilterMethodCall = {
 };
 export type LambdaExpression = {
     type: 'lambda';
-    operator: string;
+    operator: 'ALL' | 'ANY';
     key: string;
     expression: FilterExpression;
     target: string;

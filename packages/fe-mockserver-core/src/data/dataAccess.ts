@@ -440,12 +440,17 @@ export class DataAccess implements DataAccessInterface {
             for (const navProp of expandedNavProps) {
                 processedNavProps.push(navProp);
 
-                const subElement = element[navProp.name];
-                const subExpand = expandDefinition.expand[navProp.name];
-                if (Array.isArray(subElement)) {
-                    this.apply$Select(subExpand, subElement, navProp.targetType);
+                if (expandDefinition.expand[navProp.name].removeFromResult) {
+                    // delete the navigation property, it was expanded for internal reasons only
+                    delete element[navProp.name];
                 } else {
-                    this.apply$Select(subExpand, [subElement], navProp.targetType);
+                    const subElement = element[navProp.name];
+                    const subExpand = expandDefinition.expand[navProp.name];
+                    if (Array.isArray(subElement)) {
+                        this.apply$Select(subExpand, subElement, navProp.targetType);
+                    } else {
+                        this.apply$Select(subExpand, [subElement], navProp.targetType);
+                    }
                 }
             }
 

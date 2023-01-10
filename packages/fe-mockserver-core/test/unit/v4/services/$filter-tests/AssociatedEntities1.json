@@ -1,0 +1,25 @@
+[
+    {
+        "ID": "AA",
+        "parent_ID": "A",
+        "value": 0,
+        "collectionProperty1": [0, 1],
+        "collectionProperty2": [{ "value": 0 }, { "value": 1 }],
+        "navigationProperty2_ID": "AA-A"
+    },
+    {
+        "ID": "AB",
+        "parent_ID": "A",
+        "value": 1,
+        "collectionProperty1": [1, 1],
+        "collectionProperty2": [{ "value": 1 }, { "value": 1 }],
+        "navigationProperty2_ID": "AB-A"
+    },
+    {
+        "ID": "BA",
+        "parent_ID": "B",
+        "value": 1,
+        "collectionProperty1": [2, 3],
+        "collectionProperty2": [{ "value": 2 }, { "value": 3 }]
+    }
+]

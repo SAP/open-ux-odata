@@ -1,0 +1,22 @@
+[
+    {
+        "ID": "AA-A",
+        "parent_ID": "AA",
+        "value": 0
+    },
+    {
+        "ID": "AA-B",
+        "parent_ID": "AA",
+        "value": 1
+    },
+    {
+        "ID": "AB-A",
+        "parent_ID": "AB",
+        "value": 1
+    },
+    {
+        "ID": "BB-A",
+        "parent_ID": "BA",
+        "value": 2
+    }
+]

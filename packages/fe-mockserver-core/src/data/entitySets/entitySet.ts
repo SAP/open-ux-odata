@@ -386,9 +386,6 @@ export class MockDataEntitySet implements EntitySetInterface {
         tenantId: string,
         odataRequest: ODataRequest
     ) {
-        const lambdaOperator = expression.operator;
-        let hasAnyValid = false;
-        let hasAllValid = true;
         let mockDataToCheckValue = identifierTransformation(getData(mockData, expression.target));
         if (!Array.isArray(mockDataToCheckValue)) {
             mockDataToCheckValue = [mockDataToCheckValue];
@@ -404,22 +401,19 @@ export class MockDataEntitySet implements EntitySetInterface {
             });
         }
 
-        mockDataToCheckValue.find((subMockData: any) => {
+        const check = (subMockData: any) => {
             let mockDataToCheck = subMockData;
             if (expression.key && expression.key.length > 0) {
                 mockDataToCheck = { [expression.key]: subMockData };
             }
-            const isEntryValid = this.checkFilter(mockDataToCheck, expression.expression, tenantId, odataRequest);
-            if (!isEntryValid) {
-                hasAllValid = false;
-            } else {
-                hasAnyValid = true;
-            }
-        });
-        if (lambdaOperator === 'ANY') {
-            return hasAnyValid;
-        } else {
-            return hasAllValid;
+            return this.checkFilter(mockDataToCheck, expression.expression, tenantId, odataRequest);
+        };
+
+        switch (expression.operator) {
+            case 'ALL':
+                return mockDataToCheckValue.every(check);
+            case 'ANY':
+                return mockDataToCheckValue.some(check);
         }
     }
 
