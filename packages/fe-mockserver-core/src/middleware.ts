@@ -5,26 +5,11 @@ import Router from 'router';
 import type { IRouter } from 'router';
 import { getLogger } from '@ui5/logger';
 import type { IFileLoader, IMetadataProcessor } from './index';
-import type { NextFunction } from 'express';
 import { serviceRouter } from './router/serviceRouter';
 import { catalogServiceRouter } from './router/catalogServiceRouter';
 import { DataAccess } from './data/dataAccess';
 import etag from 'etag';
 import { ODataMetadata } from './data/metadata';
-
-/**
- * Small middleware to disable the cache on the queries for the mockserver.
- *
- * @param _req
- * @param res
- * @param next
- */
-function disableCache(_req: IncomingMessage, res: ServerResponse, next: NextFunction): void {
-    res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    res.setHeader('Expires', '-1');
-    res.setHeader('Pragma', 'no-cache');
-    next();
-}
 
 /**
  * Escape the path provided for the annotation URL so that they can fit the regex pattern from Router.
@@ -87,8 +72,6 @@ export async function createMockMiddleware(
     metadataProcessor: IMetadataProcessor
 ): Promise<void> {
     const log = getLogger('server:ux-fe-mockserver');
-
-    app.use(disableCache);
 
     const oDataHandlerPromises = newConfig.services.map(async (mockServiceIn: ServiceConfig) => {
         const mockService = mockServiceIn as ServiceConfigEx;
