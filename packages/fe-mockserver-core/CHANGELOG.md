@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.51
+
+### Patch Changes
+
+-   5673d74: implicitly expand navigation properties needed for filter conditions
+
 ## 1.1.50
 
 ### Patch Changes
