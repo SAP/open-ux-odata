@@ -1,4 +1,5 @@
-import type { Reference, ComplexType, TypeDefinition } from '@sap-ux/vocabularies-types';
+import type { ComplexType, Reference, TypeDefinition } from '@sap-ux/vocabularies-types';
+
 export const defaultReferences: ReferencesWithMap = [
     { alias: 'Capabilities', namespace: 'Org.OData.Capabilities.V1', uri: '' },
     { alias: 'Aggregation', namespace: 'Org.OData.Aggregation.V1', uri: '' },
@@ -20,6 +21,58 @@ export type ReferencesWithMap = Reference[] & {
     reverseReferenceMap?: Record<string, Reference>;
 };
 
+function splitAt(string: string, index: number): [string, string] {
+    return index < 0 ? [string, ''] : [string.substring(0, index), string.substring(index + 1)];
+}
+
+function substringAt(string: string, index: number) {
+    return index < 0 ? string : string.substring(0, index);
+}
+
+/**
+ * Splits a string at the first occurrence of a separator.
+ *
+ * @param string    The string to split
+ * @param separator Separator, e.g. a single character.
+ * @returns An array consisting of two elements: the part before the first occurrence of the separator and the part after it. If the string does not contain the separator, the second element is the empty string.
+ */
+export function splitAtFirst(string: string, separator: string): [string, string] {
+    return splitAt(string, string.indexOf(separator));
+}
+
+/**
+ * Splits a string at the last occurrence of a separator.
+ *
+ * @param string    The string to split
+ * @param separator Separator, e.g. a single character.
+ * @returns An array consisting of two elements: the part before the last occurrence of the separator and the part after it. If the string does not contain the separator, the second element is the empty string.
+ */
+export function splitAtLast(string: string, separator: string): [string, string] {
+    return splitAt(string, string.lastIndexOf(separator));
+}
+
+/**
+ * Returns the substring before the first occurrence of a separator.
+ *
+ * @param string    The string
+ * @param separator Separator, e.g. a single character.
+ * @returns The substring before the first occurrence of the separator, or the input string if it does not contain the separator.
+ */
+export function substringBeforeFirst(string: string, separator: string): string {
+    return substringAt(string, string.indexOf(separator));
+}
+
+/**
+ * Returns the substring before the last occurrence of a separator.
+ *
+ * @param string    The string
+ * @param separator Separator, e.g. a single character.
+ * @returns The substring before the last occurrence of the separator, or the input string if it does not contain the separator.
+ */
+export function substringBeforeLast(string: string, separator: string): string {
+    return substringAt(string, string.lastIndexOf(separator));
+}
+
 /**
  * Transform an unaliased string representation annotation to the aliased version.
  *
@@ -37,16 +90,14 @@ export function alias(references: ReferencesWithMap, unaliasedValue: string): st
     if (!unaliasedValue) {
         return unaliasedValue;
     }
-    const lastDotIndex = unaliasedValue.lastIndexOf('.');
-    const namespace = unaliasedValue.substring(0, lastDotIndex);
-    const value = unaliasedValue.substring(lastDotIndex + 1);
+    const [namespace, value] = splitAtLast(unaliasedValue, '.');
     const reference = references.reverseReferenceMap[namespace];
     if (reference) {
         return `${reference.alias}.${value}`;
-    } else if (unaliasedValue.indexOf('@') !== -1) {
+    } else if (unaliasedValue.includes('@')) {
         // Try to see if it's an annotation Path like to_SalesOrder/@UI.LineItem
-        const [preAlias, ...postAlias] = unaliasedValue.split('@');
-        return `${preAlias}@${alias(references, postAlias.join('@'))}`;
+        const [preAlias, postAlias] = splitAtFirst(unaliasedValue, '@');
+        return `${preAlias}@${alias(references, postAlias)}`;
     } else {
         return unaliasedValue;
     }
@@ -69,14 +120,14 @@ export function unalias(references: ReferencesWithMap, aliasedValue: string | un
     if (!aliasedValue) {
         return aliasedValue;
     }
-    const [vocAlias, ...value] = aliasedValue.split('.');
+    const [vocAlias, value] = splitAtFirst(aliasedValue, '.');
     const reference = references.referenceMap[vocAlias];
     if (reference) {
-        return `${reference.namespace}.${value.join('.')}`;
-    } else if (aliasedValue.indexOf('@') !== -1) {
+        return `${reference.namespace}.${value}`;
+    } else if (aliasedValue.includes('@')) {
         // Try to see if it's an annotation Path like to_SalesOrder/@UI.LineItem
-        const [preAlias, ...postAlias] = aliasedValue.split('@');
-        return `${preAlias}@${unalias(references, postAlias.join('@'))}`;
+        const [preAlias, postAlias] = splitAtFirst(aliasedValue, '@');
+        return `${preAlias}@${unalias(references, postAlias)}`;
     } else {
         return aliasedValue;
     }
