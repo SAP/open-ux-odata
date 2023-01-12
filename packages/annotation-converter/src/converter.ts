@@ -29,7 +29,7 @@ import type {
     ActionImport
 } from '@sap-ux/vocabularies-types';
 import type { ReferencesWithMap } from './utils';
-import { alias, Decimal, defaultReferences, isComplexTypeDefinition, TermToTypes, unalias } from './utils';
+import { alias, Decimal, defaultReferences, EnumIsFlag, isComplexTypeDefinition, TermToTypes, unalias } from './utils';
 
 /**
  *
@@ -431,7 +431,15 @@ function parseValue(propertyValue: Expression, valueFQN: string, objectMap: any,
         case 'Date':
             return propertyValue.Date;
         case 'EnumMember':
-            return alias(context.rawMetadata.references, propertyValue.EnumMember);
+            const aliasedEnum = alias(context.rawMetadata.references, propertyValue.EnumMember);
+            const splitEnum = aliasedEnum.split(' ');
+            if (splitEnum[0]) {
+                if (EnumIsFlag[splitEnum[0].split('/')[0]]) {
+                    return splitEnum;
+                }
+            }
+            return aliasedEnum;
+
         case 'PropertyPath':
             return {
                 type: 'PropertyPath',

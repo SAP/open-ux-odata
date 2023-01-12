@@ -144,6 +144,41 @@ describe('Annotation Converter', () => {
                 .annotations
         ).not.toBeUndefined();
     });
+    it('can convert enum values based on array', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/metamodelEnums.xml'));
+        const convertedTypes = convert(parsedEDMX);
+        expect(convertedTypes.entityContainer.annotations).not.toBeUndefined();
+        expect(convertedTypes.entitySets[0].annotations).not.toBeUndefined();
+        expect(convertedTypes.entitySets[0].annotations.Capabilities?.SearchRestrictions).toMatchInlineSnapshot(`
+            {
+              "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
+              "UnsupportedExpressions": [
+                "Capabilities.SearchExpressions/AND",
+                "Capabilities.SearchExpressions/group",
+                "Capabilities.SearchExpressions/phrase",
+              ],
+              "__source": "serviceFile",
+              "annotations": {},
+              "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions",
+              "qualifier": undefined,
+              "term": "Org.OData.Capabilities.V1.SearchRestrictions",
+            }
+        `);
+        expect(convertedTypes.entitySets[0].annotations.Capabilities?.['SearchRestrictions#Alone'])
+            .toMatchInlineSnapshot(`
+            {
+              "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
+              "UnsupportedExpressions": [
+                "Capabilities.SearchExpressions/AND",
+              ],
+              "__source": "serviceFile",
+              "annotations": {},
+              "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Alone",
+              "qualifier": "Alone",
+              "term": "Org.OData.Capabilities.V1.SearchRestrictions",
+            }
+        `);
+    });
     it('can convert with an error EDMX', async () => {
         const parsedEDMX = parse(await loadFixture('v2/errorAnno.xml'));
         const convertedTypes = convert(parsedEDMX);
@@ -531,13 +566,13 @@ describe('Annotation Converter', () => {
         expect(
             (
                 convertedTypes.entityTypes[16].entityProperties[0].annotations?.Common
-                    ?.Text as PathAnnotationExpression<String>
+                    ?.Text as PathAnnotationExpression<any>
             ).type
         ).toEqual('Path');
         expect(
             (
                 convertedTypes.entityTypes[16].entityProperties[0].annotations?.Common
-                    ?.Text as PathAnnotationExpression<String>
+                    ?.Text as PathAnnotationExpression<any>
             ).path
         ).toEqual('Country_Text');
     });
