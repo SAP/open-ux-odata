@@ -61,6 +61,11 @@ server:
 
 ```
 
+### Special case within karma
+
+If you are running the mockserver embedded in karma you need to change the configuration to use
+
+`beforeMiddleware: csp` instead of `afterMiddleware: compression`
 
 ## Service Configuration
 
