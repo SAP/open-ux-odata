@@ -60,10 +60,21 @@ export type AnnotationTerm<P> = PrimitiveTypeCast<
     }
 >;
 
+type TypeToString1 = {
+    String: 'Edm.String';
+    Decimal: 'Edm.String';
+};
+// export type TypeToString<T> = T extends Edm.String ? "Edm.String" :
+//                                 T extends Edm.Decimal ? "Edm.Decimal" :
+//                                 T extends Edm.
+export type PropertyOfType<P extends keyof TypeToString1> = Property & {
+    type: TypeToString1[P];
+};
+
 export type PathAnnotationExpression<P> = {
     type: 'Path';
     path: string; // The defined path
-    $target: P;
+    $target: Property;
     getValue(): P;
 };
 

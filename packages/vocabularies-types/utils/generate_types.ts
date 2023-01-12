@@ -221,6 +221,7 @@ async function generateTypes(targetFolder: string) {
     const allVocabularies: EnrichedVocabularyMap = prepareVocabularies(vocabularies);
     const references: any = {};
     const allTermsToTypes: any = {};
+    const enumIsFlagList: any = {};
     Object.keys(allVocabularies).forEach((vocabularyAlias) => {
         references[vocabularyAlias] = allVocabularies[vocabularyAlias].namespace;
     });
@@ -312,7 +313,12 @@ async function generateTypes(targetFolder: string) {
                         //let needNewLine = false;
 
                         if (isSchemaElement(termName, targetTerm) && isEnumType(targetTerm)) {
-                            vocabularyDef += `export type ${vocabularyTerm} = EnumValue<${renamedTermType}>`;
+                            if (targetTerm.$IsFlags) {
+                                vocabularyDef += `export type ${vocabularyTerm} = EnumValue<${renamedTermType}>[]`;
+                            } else {
+                                vocabularyDef += `export type ${vocabularyTerm} = EnumValue<${renamedTermType}>`;
+                            }
+
                             //needNewLine = true;
                         } else if (
                             renamedTermType === 'Core.Tag' ||
@@ -387,6 +393,15 @@ async function generateTypes(targetFolder: string) {
                                         keyType += `[]`;
                                     }
                                     keyType = `${keyType}`;
+                                } else if (
+                                    targetTerm &&
+                                    isSchemaElement(keyType, targetTerm) &&
+                                    targetTerm.$Kind === 'EnumType'
+                                ) {
+                                    if (targetTerm.$IsFlags) {
+                                        keyType += `[]`;
+                                    }
+                                    keyType = `${keyType}`;
                                 } else {
                                     if (keyType === 'Edm.AnnotationPath') {
                                         if (vocabularyTermInfo[vocabularyTermKey]['@Validation.AllowedTerms']) {
@@ -426,6 +441,7 @@ async function generateTypes(targetFolder: string) {
                         vocabularyDef += `\n// EnumType \n`;
                         vocabularyDef += getDescription(vocabularyTermInfo);
                         vocabularyDef += `export const enum ${vocabularyTerm} {\n`;
+                        enumIsFlagList[`${vocabularyAlias}.${vocabularyTerm}`] = !!vocabularyTermInfo.$IsFlags;
                         let hasPreviousEnum = false;
                         Object.keys(vocabularyTermInfo).forEach((vocabularyTermKey) => {
                             if (
@@ -537,9 +553,16 @@ async function generateTypes(targetFolder: string) {
         vocabularyEdmDef = `import * as ${vocabularyNamespaceTrans} from "./${vocabularyAlias}";\n\n`;
 
         Object.keys(compositesAnnotations).forEach((targetKey) => {
-            let compositeTarget = `\n// Type containing all possible annotations to use for ${targetKey}\nexport interface ${targetKey}Annotations_${vocabularyAlias} {`;
+            const baseAnnotationMap = `${targetKey}AnnotationsBase_${vocabularyAlias}`;
+            const extractTypeName = `Extract${targetKey}AnnotationsType`;
+            const annotationMap = `${targetKey}Annotations_${vocabularyAlias}`;
+            let compositeTarget = `\n// Type containing all possible annotations to use for ${targetKey}\nexport type ${baseAnnotationMap} = {`;
             compositeTarget += compositesAnnotations[targetKey].join('');
             compositeTarget += `\n}`;
+            compositeTarget += `\n\ntype ${extractTypeName}<T> = T extends \`\${infer U extends keyof ${baseAnnotationMap}}#\${string}\` ? U : never;`;
+            compositeTarget += `\n\nexport type ${annotationMap} = ${baseAnnotationMap} & {\n`;
+            compositeTarget += `    [key in \`\${string & keyof ${baseAnnotationMap}}#\${string}\`]: ${baseAnnotationMap}[${extractTypeName}<key>]`;
+            compositeTarget += `\n};`;
 
             compositeTarget += '\n';
 
@@ -577,8 +600,15 @@ async function generateTypes(targetFolder: string) {
     });
     edmTermToTypes += '}';
 
+    let enumIsFlag = `export const EnumIsFlag = {\n`;
+    Object.keys(enumIsFlagList).forEach((enumName) => {
+        enumIsFlag += `    "${enumName}" : ${enumIsFlagList[enumName]},\n`;
+    });
+    enumIsFlag += '}';
+
     await writeFile(path.join(targetFolder, `Edm_Types.ts`), edmTypesValue);
     await writeFile(path.join(targetFolder, `TermToTypes.ts`), edmTermToTypes);
+    await writeFile(path.join(targetFolder, `EnumIsFlag.ts`), enumIsFlag);
 }
 
 generateTypes(path.join(__dirname, '../src/vocabularies'))
