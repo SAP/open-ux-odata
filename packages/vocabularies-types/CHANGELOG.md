@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.6.9
+
+### Patch Changes
+
+-   62963f0: Improve the types for enum values and add support for qualifier values
+
 ## 0.6.8
 
 ### Patch Changes
