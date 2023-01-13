@@ -1,35 +1,47 @@
 import type {
+    Action,
+    ActionImport,
+    Annotation,
     AnnotationList,
     AnnotationRecord,
-    Expression,
-    PathExpression,
-    PropertyValue,
-    RawMetadata,
-    Reference,
-    ComplexType,
-    TypeDefinition,
-    RawProperty,
-    Annotation,
-    Action,
-    EntityType,
-    RawEntityType,
-    RawAssociation,
-    NavigationProperty,
     BaseNavigationProperty,
-    RawV4NavigationProperty,
-    RawV2NavigationProperty,
-    EntitySet,
-    Property,
-    Singleton,
-    RawComplexType,
+    ComplexType,
     ConvertedMetadata,
-    ResolutionTarget,
     EntityContainer,
+    EntitySet,
+    EntityType,
+    Expression,
+    NavigationProperty,
+    PathExpression,
+    Property,
+    PropertyValue,
     RawAnnotation,
-    ActionImport
+    RawAssociation,
+    RawComplexType,
+    RawEntityType,
+    RawMetadata,
+    RawProperty,
+    RawV2NavigationProperty,
+    RawV4NavigationProperty,
+    Reference,
+    ResolutionTarget,
+    Singleton,
+    TypeDefinition
 } from '@sap-ux/vocabularies-types';
 import type { ReferencesWithMap } from './utils';
-import { alias, Decimal, defaultReferences, EnumIsFlag, isComplexTypeDefinition, TermToTypes, unalias } from './utils';
+import {
+    alias,
+    Decimal,
+    defaultReferences,
+    EnumIsFlag,
+    isComplexTypeDefinition,
+    splitAtFirst,
+    splitAtLast,
+    substringBeforeFirst,
+    substringBeforeLast,
+    TermToTypes,
+    unalias
+} from './utils';
 
 /**
  *
@@ -77,16 +89,16 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
     for (const action of rawMetadata.schema.actions) {
         objectMap[action.fullyQualifiedName] = action;
         if (action.isBound) {
-            const unBoundActionName = action.fullyQualifiedName.split('(')[0];
-            if (!objectMap[unBoundActionName]) {
-                objectMap[unBoundActionName] = {
+            const [actionName, actionBinding] = splitAtFirst(action.fullyQualifiedName, '(');
+            if (!objectMap[actionName]) {
+                objectMap[actionName] = {
                     _type: 'UnboundGenericAction',
                     actions: []
                 };
             }
-            objectMap[unBoundActionName].actions.push(action);
-            const actionSplit = action.fullyQualifiedName.split('(');
-            objectMap[`${actionSplit[1].split(')')[0]}/${actionSplit[0]}`] = action;
+            objectMap[actionName].actions.push(action);
+            const type = substringBeforeFirst(actionBinding, ')');
+            objectMap[`${type}/${actionName}`] = action;
         }
 
         for (const parameter of action.parameters) {
@@ -199,7 +211,7 @@ function _resolveTarget(
     }
     const aVisitedObjects: any[] = [];
     if (currentTarget && currentTarget._type === 'Property') {
-        currentTarget = objectMap[currentTarget.fullyQualifiedName.split('/')[0]];
+        currentTarget = objectMap[substringBeforeFirst(currentTarget.fullyQualifiedName, '/')];
     }
     path = combinePath(currentTarget.fullyQualifiedName, path);
 
@@ -207,8 +219,8 @@ function _resolveTarget(
     const targetPathSplit: string[] = [];
     pathSplit.forEach((pathPart) => {
         // Separate out the annotation
-        if (pathPart.indexOf('@') !== -1) {
-            const [splittedPath, annotationPath] = pathPart.split('@');
+        if (pathPart.includes('@')) {
+            const [splittedPath, annotationPath] = splitAtFirst(pathPart, '@');
             targetPathSplit.push(splittedPath);
             targetPathSplit.push(`@${annotationPath}`);
         } else {
@@ -289,17 +301,10 @@ function _resolveTarget(
                 currentPath = combinePath(currentValue.sourceType, pathPart);
             }
         } else if (currentValue._type === 'ActionParameter') {
-            currentPath = combinePath(
-                currentTarget.fullyQualifiedName.substring(0, currentTarget.fullyQualifiedName.lastIndexOf('/')),
-                pathPart
-            );
+            currentPath = combinePath(substringBeforeLast(currentTarget.fullyQualifiedName, '/'), pathPart);
             if (!objectMap[currentPath]) {
-                let lastIdx = currentTarget.fullyQualifiedName.lastIndexOf('/');
-                if (lastIdx === -1) {
-                    lastIdx = currentTarget.fullyQualifiedName.length;
-                }
                 currentPath = combinePath(
-                    (objectMap[currentTarget.fullyQualifiedName.substring(0, lastIdx)] as Action).sourceType,
+                    (objectMap[substringBeforeLast(currentTarget.fullyQualifiedName, '/')] as Action).sourceType,
                     pathPart
                 );
             }
@@ -308,10 +313,10 @@ function _resolveTarget(
             if (pathPart !== 'name' && currentValue[pathPart] !== undefined) {
                 return currentValue[pathPart];
             } else if (pathPart === '$AnnotationPath' && currentValue.$target) {
-                const contextToResolve = objectMap[currentValue.fullyQualifiedName.split('@')[0]];
+                const contextToResolve = objectMap[substringBeforeFirst(currentValue.fullyQualifiedName, '@')];
                 const subTarget: any = _resolveTarget(objectMap, contextToResolve, currentValue.value, false, true);
                 subTarget.visitedObjects.forEach((visitedSubObject: any) => {
-                    if (aVisitedObjects.indexOf(visitedSubObject) === -1) {
+                    if (!aVisitedObjects.includes(visitedSubObject)) {
                         aVisitedObjects.push(visitedSubObject);
                     }
                 });
@@ -330,7 +335,7 @@ function _resolveTarget(
                 if (currentContext) {
                     const subTarget: any = _resolveTarget(objectMap, currentContext, currentValue.path, false, true);
                     subTarget.visitedObjects.forEach((visitedSubObject: any) => {
-                        if (aVisitedObjects.indexOf(visitedSubObject) === -1) {
+                        if (!aVisitedObjects.includes(visitedSubObject)) {
                             aVisitedObjects.push(visitedSubObject);
                         }
                     });
@@ -342,7 +347,7 @@ function _resolveTarget(
                 currentPath = combinePath(intermediateTarget.fullyQualifiedName, pathPart.substring(5));
             } else if (currentValue.hasOwnProperty('$Type') && !objectMap[currentPath]) {
                 // This is now an annotation value
-                const entityType = objectMap[currentValue.fullyQualifiedName.split('@')[0]];
+                const entityType = objectMap[substringBeforeFirst(currentValue.fullyQualifiedName, '@')];
                 if (entityType) {
                     currentPath = combinePath(entityType.fullyQualifiedName, pathPart);
                 }
@@ -412,7 +417,7 @@ function _resolveTarget(
  * @returns true if there is an annotation in the path.
  */
 function isAnnotationPath(pathStr: string): boolean {
-    return pathStr.indexOf('@') !== -1;
+    return pathStr.includes('@');
 }
 
 function parseValue(propertyValue: Expression, valueFQN: string, objectMap: any, context: ConversionContext) {
@@ -433,10 +438,8 @@ function parseValue(propertyValue: Expression, valueFQN: string, objectMap: any,
         case 'EnumMember':
             const aliasedEnum = alias(context.rawMetadata.references, propertyValue.EnumMember);
             const splitEnum = aliasedEnum.split(' ');
-            if (splitEnum[0]) {
-                if (EnumIsFlag[splitEnum[0].split('/')[0]]) {
-                    return splitEnum;
-                }
+            if (splitEnum[0] && EnumIsFlag[substringBeforeFirst(splitEnum[0], '/')]) {
+                return splitEnum;
             }
             return aliasedEnum;
 
@@ -536,7 +539,7 @@ function parseValue(propertyValue: Expression, valueFQN: string, objectMap: any,
 function inferTypeFromTerm(annotationsTerm: string, annotationTarget: string, currentProperty?: string) {
     let targetType = (TermToTypes as any)[annotationsTerm];
     if (currentProperty) {
-        annotationsTerm = annotationsTerm.split('.').slice(0, -1).join('.') + '.' + currentProperty;
+        annotationsTerm = `${substringBeforeLast(annotationsTerm, '.')}.${currentProperty}`;
         targetType = (TermToTypes as any)[annotationsTerm];
     }
     const oErrorMsg = {
@@ -1048,7 +1051,7 @@ function linkPropertiesToComplexTypes(entityTypes: EntityType[], objectMap: Reco
         }
 
         try {
-            if (property.type.indexOf('Edm') !== 0) {
+            if (!property.type.startsWith('Edm')) {
                 let complexType: ComplexType | TypeDefinition;
                 if (property.type.startsWith('Collection')) {
                     const complexTypeName = property.type.substring(11, property.type.length - 1);
@@ -1107,11 +1110,7 @@ function prepareComplexTypes(
  * @returns the term alias and the actual term value
  */
 function splitTerm(references: ReferencesWithMap, termValue: string) {
-    const aliasedTerm = alias(references, termValue);
-    const lastDot = aliasedTerm.lastIndexOf('.');
-    const termAlias = aliasedTerm.substring(0, lastDot);
-    const term = aliasedTerm.substring(lastDot + 1);
-    return [termAlias, term];
+    return splitAtLast(alias(references, termValue), '.');
 }
 
 /**
@@ -1330,7 +1329,7 @@ function processUnresolvedTargets(unresolvedTargets: Resolveable[], objectMap: R
             } else {
                 const property = targetToResolve.term;
                 const path = targetToResolve.path;
-                const termInfo = targetStr ? targetStr.split('/')[0] : targetStr;
+                const termInfo = substringBeforeFirst(targetStr, '/');
                 const oErrorMsg = {
                     message:
                         'Unable to resolve the path expression: ' +
@@ -1422,7 +1421,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     Object.keys(annotationListPerTarget).forEach((currentTargetName) => {
         const annotationList = annotationListPerTarget[currentTargetName];
         const objectMapElement = objectMap[currentTargetName];
-        if (!objectMapElement && currentTargetName?.indexOf('@') > 0) {
+        if (!objectMapElement && currentTargetName?.includes('@')) {
             unresolvedAnnotations.push(annotationList);
         } else if (objectMapElement) {
             let allTargets = [objectMapElement];
@@ -1448,10 +1447,10 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     const extraUnresolvedAnnotations: AnnotationList[] = [];
     unresolvedAnnotations.forEach((annotationList) => {
         const currentTargetName = unalias(rawMetadata.references, annotationList.target) as string;
-        let [baseObj, annotationPart] = currentTargetName.split('@');
+        let [baseObj, annotationPart] = splitAtFirst(currentTargetName, '@');
         const targetSplit = annotationPart.split('/');
-        baseObj = baseObj + '@' + targetSplit[0];
-        const currentTarget = targetSplit.slice(1).reduce((currentObj, path) => {
+        baseObj = baseObj + '@' + targetSplit.shift();
+        const currentTarget = targetSplit.reduce((currentObj, path) => {
             return currentObj?.[path];
         }, objectMap[baseObj]);
         if (!currentTarget || typeof currentTarget !== 'object') {
