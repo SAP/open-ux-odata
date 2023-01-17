@@ -1,8 +1,10 @@
 import { merge, parse } from '@sap-ux/edmx-parser';
 import { loadFixture } from './fixturesHelper';
-import { convert, defaultReferences, revertTermToGenericType } from '../src';
+import { defaultReferences, revertTermToGenericType } from '../src';
+import { convert } from '../src/converter-old';
 import type {
     ActionParameter,
+    Annotation,
     AnnotationPath,
     ConvertedMetadata,
     EntitySet,
@@ -98,73 +100,6 @@ describe('Annotation Converter', () => {
               "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions",
               "qualifier": undefined,
               "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-              Symbol(Annotation Target): {
-                "_type": "EntitySet",
-                "annotations": {
-                  "Capabilities": {
-                    "SearchRestrictions": [Circular],
-                    "SearchRestrictions#Alone": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": [
-                        "Capabilities.SearchExpressions/AND",
-                      ],
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Alone",
-                      "qualifier": "Alone",
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                    "SearchRestrictions#Empty": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": "",
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Empty",
-                      "qualifier": "Empty",
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                  },
-                },
-                "entityType": {
-                  "_type": "EntityType",
-                  "actions": {},
-                  "annotations": {},
-                  "entityProperties": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "fullyQualifiedName": "sap.fe.test.JestService.Entities",
-                  "keys": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "name": "Entities",
-                  "navigationProperties": [],
-                  "resolvePath": [Function],
-                },
-                "entityTypeName": "sap.fe.test.JestService.Entities",
-                "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities",
-                "name": "Entities",
-                "navigationPropertyBinding": {},
-              },
             }
         `);
         expect(convertedTypes.entitySets[0].annotations.Capabilities?.['SearchRestrictions#Alone'])
@@ -179,75 +114,6 @@ describe('Annotation Converter', () => {
               "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Alone",
               "qualifier": "Alone",
               "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-              Symbol(Annotation Target): {
-                "_type": "EntitySet",
-                "annotations": {
-                  "Capabilities": {
-                    "SearchRestrictions": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": [
-                        "Capabilities.SearchExpressions/AND",
-                        "Capabilities.SearchExpressions/group",
-                        "Capabilities.SearchExpressions/phrase",
-                      ],
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions",
-                      "qualifier": undefined,
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                    "SearchRestrictions#Alone": [Circular],
-                    "SearchRestrictions#Empty": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": "",
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Empty",
-                      "qualifier": "Empty",
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                  },
-                },
-                "entityType": {
-                  "_type": "EntityType",
-                  "actions": {},
-                  "annotations": {},
-                  "entityProperties": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "fullyQualifiedName": "sap.fe.test.JestService.Entities",
-                  "keys": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "name": "Entities",
-                  "navigationProperties": [],
-                  "resolvePath": [Function],
-                },
-                "entityTypeName": "sap.fe.test.JestService.Entities",
-                "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities",
-                "name": "Entities",
-                "navigationPropertyBinding": {},
-              },
             }
         `);
     });
@@ -507,7 +373,7 @@ describe('Annotation Converter', () => {
             expect(singletonPathNavProp.target).not.toBeNull();
             expect(singletonPathNavProp.target).not.toBeUndefined();
             expect(singletonPathNavProp.target?._type).toEqual('Property');
-            expect(singletonPathNavProp.objectPath.length).toEqual(6); // EntityContainer / Singleton / EntityType / NavProp / EntityType / Property
+            expect(singletonPathNavProp.objectPath.length).toEqual(5); // EntityContainer / Singleton / EntityType / NavProp / Property
         });
     });
 
@@ -521,7 +387,6 @@ describe('Annotation Converter', () => {
         expect(manageLineItem.target).not.toBeNull();
         expect(manageLineItem.target).not.toBeUndefined();
         expect(manageLineItem.target?._type).toEqual('ActionParameter');
-        expect(manageLineItem.target?.typeReference).toBeUndefined();
     });
 
     describe('converts ComplexType (also nested)', () => {
@@ -637,10 +502,9 @@ describe('Annotation Converter', () => {
         const parsedEDMX = parse(await loadFixture('v4/pathError.xml'));
         const convertedTypes = convert(parsedEDMX);
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
-        const x = convertedTypes.resolvePath('/Incidents@com.sap.vocabularies.UI.v1.Facets/1/Target');
         expect(convertedTypes.diagnostics).not.toBeNull();
-        expect(convertedTypes.diagnostics[0].message).toMatchInlineSnapshot(
-            `"Annotation 'com.sap.vocabularies.UI.v1.Facets' not found on EntitySet 'IncidentService.EntityContainer/Incidents'"`
+        expect(convertedTypes.diagnostics[0].message).toEqual(
+            'The following annotation target was not found on the service IncidentService.Incidents@com.sap.vocabularies.UI.v1.Facets/1/Target'
         );
     });
 

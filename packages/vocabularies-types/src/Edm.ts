@@ -419,6 +419,7 @@ export type ActionParameter = {
     name: string;
     fullyQualifiedName: string;
     type: string;
+    typeReference?: TypeDefinition | ComplexType | EntityType;
     annotations: ParameterAnnotations;
 };
 export type Action = {
@@ -444,6 +445,7 @@ export type ActionImport = {
     fullyQualifiedName: SimpleIdentifier;
     actionName: string;
     action?: Action;
+    annotations: ActionImportAnnotations;
 };
 
 export type ServiceObject =
@@ -488,7 +490,7 @@ export type ConvertedMetadata = {
 // All the Raw types are meant for usage when providing data to the converter
 
 // Removes things which will be provided by the converter, annotations, targetType and other things to improve usability
-type RemoveAnnotationAndType<T> = {
+export type RemoveAnnotationAndType<T> = {
     [K in keyof Omit<
         T,
         'annotations' | 'targetType' | 'isKey' | 'resolvePath' | 'entityType' | 'navigationProperties'

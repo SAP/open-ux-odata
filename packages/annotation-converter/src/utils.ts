@@ -445,3 +445,43 @@ export function Decimal(value: number) {
         }
     };
 }
+
+const initial = Symbol('initial');
+
+/**
+ * Defines a lazy property.
+ *
+ * The property is initialized by calling the {init} function on the first read access, or by directly assigning a value.
+ *
+ * @param object    The host object
+ * @param property  The lazy property to add
+ * @param init      The function that initializes the property's value
+ */
+export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, init: () => Type[Key]) {
+    let _value: Type[Key] | typeof initial = initial;
+
+    Object.defineProperty(object, property, {
+        enumerable: true,
+
+        get() {
+            if (_value === initial) {
+                _value = init();
+            }
+            return _value;
+        },
+
+        set(value: Type[Key]) {
+            _value = value;
+        }
+    });
+}
+
+/**
+ * Predicate to decide whether a value is defined. Also guards the type accordingly.
+ *
+ * @param value Value
+ * @returns true if the value is defined.
+ */
+export function isDefined<T>(value: T): value is Exclude<T, undefined> {
+    return value !== undefined;
+}
