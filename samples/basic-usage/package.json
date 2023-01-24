@@ -11,11 +11,11 @@
     ],
     "main": "webapp/index.html",
     "scripts": {
-        "start": "ui5 serve --open 'index.html#basicusage-tile'"
+        "start": "ui5 -v && ui5 serve --open 'index.html#basicusage-tile'"
     },
     "devDependencies": {
         "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
-        "@ui5/cli": "2.14.17"
+        "@ui5/cli": "3.0.0-rc.3"
     },
     "ui5": {
         "dependencies": [
