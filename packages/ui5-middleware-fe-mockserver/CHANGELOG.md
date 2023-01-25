@@ -1,5 +1,11 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.53
+
+### Patch Changes
+
+-   cc7d118: Add support for UI5 tooling 3.x
+
 ## 2.1.52
 
 ### Patch Changes
