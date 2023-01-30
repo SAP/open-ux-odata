@@ -476,12 +476,22 @@ export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, 
     });
 }
 
+// TODO: Maybe use something like this as the type in Edm directly instead of casting everywhere
+export type ArrayWithIndex<T> = Array<T> & Record<symbol, Map<T[keyof T], T>>;
+
 /**
- * Predicate to decide whether a value is defined. Also guards the type accordingly.
+ * Adds an index to the array and return the array with the added index.
  *
- * @param value Value
- * @returns true if the value is defined.
+ * @param array             The array
+ * @param indexedProperty   The property by which the array gets indexed
+ * @param indexName         The name of the index
+ * @returns The array with index
  */
-export function isDefined<T>(value: T): value is Exclude<T, undefined> {
-    return value !== undefined;
+export function addIndex<T>(array: Array<T>, indexedProperty: keyof T, indexName: symbol): ArrayWithIndex<T> {
+    lazy(
+        array as ArrayWithIndex<T>,
+        indexName,
+        () => new Map(array.map((element) => [element[indexedProperty], element]))
+    );
+    return array as ArrayWithIndex<T>;
 }

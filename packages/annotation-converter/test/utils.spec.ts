@@ -1,4 +1,4 @@
-import { isDefined, lazy, splitAtFirst, splitAtLast, substringBeforeFirst, substringBeforeLast } from '../src';
+import { addIndex, lazy, splitAtFirst, splitAtLast, substringBeforeFirst, substringBeforeLast } from '../src';
 
 describe('utils', () => {
     describe('string splitting', () => {
@@ -123,18 +123,23 @@ describe('utils', () => {
         });
     });
 
-    describe('isDefined()', () => {
-        it('returns false if the value is undefined', () => {
-            const result = isDefined(undefined);
-            expect(result).toEqual(false);
+    describe('addIndex()', () => {
+        it('Does not alter the iterator', () => {
+            const array = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
+            const iterator = array[Symbol.iterator];
+            const indexName = Symbol('My Index');
+
+            const indexedArray = addIndex(array, 'type', indexName);
+
+            expect(iterator).toStrictEqual(indexedArray[Symbol.iterator]);
         });
 
-        it('returns true if the value is defined', () => {
-            const result1 = isDefined(null);
-            expect(result1).toEqual(true);
+        it('Can access data by index', () => {
+            const array = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
+            const indexName = Symbol('My Index');
+            const indexedArray = addIndex(array, 'type', indexName);
 
-            const result2 = isDefined({});
-            expect(result2).toEqual(true);
+            expect(indexedArray[indexName].get('b')).toStrictEqual(array[1]);
         });
     });
 });

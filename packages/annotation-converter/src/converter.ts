@@ -36,13 +36,13 @@ import type {
     Singleton,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
-import type { ReferencesWithMap } from './utils';
+import type { ArrayWithIndex, ReferencesWithMap } from './utils';
 import {
+    addIndex,
     alias,
     Decimal,
     defaultReferences,
     EnumIsFlag,
-    isDefined,
     lazy,
     splitAtFirst,
     splitAtLast,
@@ -152,56 +152,48 @@ function resolveTarget(
 
             switch (current.target?._type) {
                 case 'EntityContainer':
-                    if (segment === '' || segment === current.target.fullyQualifiedName) {
-                        return current;
-                    }
+                    {
+                        const thisElement = current.target as EntityContainer;
 
-                    // TODO: Index access!
-                    const rawEntitySet = converter.rawSchema.entitySets.find(
-                        (entry: RawEntitySet) => entry.name === segment
-                    );
-                    if (rawEntitySet !== undefined) {
-                        current.target = converter.getConvertedElement(
-                            rawEntitySet.fullyQualifiedName,
-                            rawEntitySet,
-                            convertEntitySet
-                        );
-                        return current;
-                    }
-
-                    const rawSingleton = converter.rawSchema.singletons.find(
-                        (entry: RawSingleton) => entry.name === segment
-                    );
-                    if (rawSingleton !== undefined) {
-                        current.target = converter.getConvertedElement(
-                            rawSingleton.fullyQualifiedName,
-                            rawSingleton,
-                            convertSingleton
-                        );
-                        return current;
-                    }
-
-                    const rawActionImport = converter.rawSchema.actionImports.find(
-                        (entry: RawActionImport) => entry.name === segment
-                    );
-                    if (rawActionImport !== undefined) {
-                        const actionImport = converter.getConvertedElement(
-                            rawActionImport.fullyQualifiedName,
-                            rawActionImport,
-                            convertActionImport
-                        )!;
-
-                        current.visitedObjects = appendVisitedObjects(current.visitedObjects, actionImport);
-
-                        const action = actionImport.action;
-                        if (action) {
-                            current.target = action;
+                        if (segment === '' || segment === thisElement.fullyQualifiedName) {
                             return current;
                         }
 
-                        return error(
-                            `Action import '${actionImport.fullyQualifiedName}': Action '${actionImport.actionName}' not found`
+                        // next segment = EntitySet?
+                        const entitySet = (thisElement.entitySets as ArrayWithIndex<EntitySet>)[indexByName].get(
+                            segment
                         );
+                        if (entitySet) {
+                            current.target = entitySet;
+                            return current;
+                        }
+
+                        // next segment = Singleton?
+                        const singleton = (thisElement.singletons as ArrayWithIndex<Singleton>)[indexByName].get(
+                            segment
+                        );
+                        if (singleton) {
+                            current.target = singleton;
+                            return current;
+                        }
+
+                        // next segment = ActionImport?
+                        const actionImport = (thisElement.actionImports as ArrayWithIndex<ActionImport>)[
+                            indexByName
+                        ].get(segment);
+                        if (actionImport) {
+                            current.visitedObjects = appendVisitedObjects(current.visitedObjects, actionImport);
+
+                            const action = actionImport.action;
+                            if (action) {
+                                current.target = action;
+                                return current;
+                            }
+
+                            return error(
+                                `Action import '${actionImport.fullyQualifiedName}': Action '${actionImport.actionName}' not found`
+                            );
+                        }
                     }
                     break;
 
@@ -240,19 +232,17 @@ function resolveTarget(
                             return current;
                         }
 
-                        // TODO: replace with index access
-                        const property = thisElement.entityProperties.find(
-                            (property: Property) => property.name === segment
+                        const property = (thisElement.entityProperties as ArrayWithIndex<Property>)[indexByName].get(
+                            segment
                         );
                         if (property) {
                             current.target = property;
                             return current;
                         }
 
-                        // TODO: replace with index access
-                        const navigationProperty = thisElement.navigationProperties.find(
-                            (property: NavigationProperty) => property.name === segment
-                        );
+                        const navigationProperty = (
+                            thisElement.navigationProperties as ArrayWithIndex<NavigationProperty>
+                        )[indexByName].get(segment);
                         if (navigationProperty) {
                             current.target = navigationProperty;
                             return current;
@@ -266,50 +256,51 @@ function resolveTarget(
                     }
                     break;
 
-                case 'Action':
-                    {
-                        const thisElement = current.target as Action;
+                case 'Action': {
+                    const thisElement = current.target as Action;
 
-                        if (segment === '') {
-                            return current;
-                        }
-
-                        if (segment === '@$ui5.overload' || segment === '0') {
-                            return current;
-                        }
-
-                        if (segment === '$Parameter' && thisElement.isBound) {
-                            current.target = thisElement.parameters;
-                            return current;
-                        }
-
-                        current.target =
-                            thisElement.parameters[segment as any] ??
-                            thisElement.parameters.find((param: ActionParameter) => param.name === segment);
+                    if (segment === '') {
+                        return current;
                     }
-                    break;
+
+                    if (segment === '@$ui5.overload' || segment === '0') {
+                        return current;
+                    }
+
+                    if (segment === '$Parameter' && thisElement.isBound) {
+                        current.target = thisElement.parameters;
+                        return current;
+                    }
+
+                    current.target =
+                        thisElement.parameters[segment as any] ??
+                        thisElement.parameters.find((param: ActionParameter) => param.name === segment);
+
+                    return current;
+                }
 
                 case 'Property':
-                    // Property or NavigationProperty of the ComplexType
-                    const type = (current.target as Property).targetType as ComplexType | undefined;
-                    if (type !== undefined) {
-                        // TODO: replace with index access
-                        const property = type.properties.find((property: Property) => property.name === segment);
-                        if (property) {
-                            current.target = property;
-                            return current;
-                        }
+                    {
+                        const thisElement = current.target as Property;
 
-                        // TODO: replace with index access
-                        const navigationProperty = type.navigationProperties.find(
-                            (property: NavigationProperty) => property.name === segment
-                        );
-                        if (navigationProperty) {
-                            current.target = navigationProperty;
-                            return current;
+                        // Property or NavigationProperty of the ComplexType
+                        const type = thisElement.targetType as ComplexType | undefined;
+                        if (type !== undefined) {
+                            const property = (type.properties as ArrayWithIndex<Property>)[indexByName].get(segment);
+                            if (property) {
+                                current.target = property;
+                                return current;
+                            }
+
+                            const navigationProperty = (
+                                type.navigationProperties as ArrayWithIndex<NavigationProperty>
+                            )[indexByName].get(segment);
+                            if (navigationProperty) {
+                                current.target = navigationProperty;
+                                return current;
+                            }
                         }
                     }
-
                     break;
 
                 case 'ActionParameter':
@@ -883,7 +874,7 @@ function createGlobalResolve(converter: Converter) {
 }
 
 function convertAnnotation(converter: Converter, target: any, rawAnnotation: RawAnnotation): Annotation {
-    let annotation: any; // TODO: Annotation!
+    let annotation: any;
     if (rawAnnotation.record) {
         annotation = parseRecord(
             converter,
@@ -943,29 +934,18 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
 
     try {
         lazy(annotation, 'annotations', () => {
-            const annotationFQN = (rawAnnotation as any).fullyQualifiedName;
-            const annotationList: AnnotationList = {
-                target: target.fullyQualifiedName,
-                annotations:
-                    rawAnnotation.annotations?.map((rawSubAnnotation: RawAnnotation) => {
-                        const [vocAlias, vocTerm] = converter.splitTerm(rawSubAnnotation.term);
-                        const vocTermWithQualifier = `${vocTerm}${
-                            rawSubAnnotation.qualifier ? '#' + rawSubAnnotation.qualifier : ''
-                        }`;
+            const annotationFQN = annotation.fullyQualifiedName;
+            rawAnnotation.annotations?.forEach((rawSubAnnotation: any) => {
+                rawSubAnnotation.target = annotationFQN;
+                rawSubAnnotation.__source = annotation.__source;
+                rawSubAnnotation[ANNOTATION_TARGET] = target;
+                rawSubAnnotation.fullyQualifiedName = `${annotationFQN}@${annotation.term}`;
+            });
 
-                        (rawSubAnnotation as Annotation).fullyQualifiedName = `${annotationFQN}@${converter.unalias(
-                            vocAlias + '.' + vocTermWithQualifier
-                        )}`;
-
-                        (rawSubAnnotation as any).__source = annotation.__source;
-
-                        return rawSubAnnotation;
-                    }) ?? []
-            };
-            return createAnnotationsObject(converter, target, annotationList.annotations);
+            return createAnnotationsObject(converter, annotation, rawAnnotation.annotations ?? []);
         });
     } catch (e) {
-        // FIXME
+        // not an error: parseRecord() already adds annotations, but the other parseXXX functions don't, so this can happen
     }
 
     return annotation as Annotation;
@@ -1035,6 +1015,8 @@ function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationLi
     return annotationListPerTarget;
 }
 
+const indexByName = Symbol('by name');
+
 /**
  * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
  *
@@ -1065,46 +1047,21 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
             ) ?? ({ _type: 'EntityContainer', fullyQualifiedName: '', name: '', annotations: {} } as EntityContainer)
     );
 
-    lazy(convertedOutput, 'entitySets', () =>
-        rawMetadata.schema.entitySets
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertEntitySet))
-            .filter(isDefined)
+    lazy(convertedOutput, 'entitySets', collection(converter, converter.rawSchema.entitySets, convertEntitySet));
+    lazy(convertedOutput, 'singletons', collection(converter, converter.rawSchema.singletons, convertSingleton));
+    lazy(convertedOutput, 'entityTypes', collection(converter, converter.rawSchema.entityTypes, convertEntityType));
+    lazy(convertedOutput, 'actions', collection(converter, converter.rawSchema.actions, convertAction));
+    lazy(convertedOutput, 'complexTypes', collection(converter, converter.rawSchema.complexTypes, convertComplexType));
+    lazy(
+        convertedOutput,
+        'actionImports',
+        collection(converter, converter.rawSchema.actionImports, convertActionImport)
     );
 
-    lazy(convertedOutput, 'singletons', () =>
-        rawMetadata.schema.singletons
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertSingleton))
-            .filter(isDefined)
-    );
-
-    lazy(convertedOutput, 'entityTypes', () =>
-        rawMetadata.schema.entityTypes
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertEntityType))
-            .filter(isDefined)
-    );
-
-    lazy(convertedOutput, 'actionImports', () =>
-        rawMetadata.schema.actionImports
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertActionImport))
-            .filter(isDefined)
-    );
-
-    lazy(convertedOutput, 'actions', () =>
-        rawMetadata.schema.actions
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertAction))
-            .filter(isDefined)
-    );
-
-    lazy(convertedOutput, 'complexTypes', () =>
-        rawMetadata.schema.complexTypes
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertComplexType))
-            .filter(isDefined)
-    );
-
-    lazy(convertedOutput, 'typeDefinitions', () =>
-        rawMetadata.schema.typeDefinitions
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertTypeDefinition))
-            .filter(isDefined)
+    lazy(
+        convertedOutput,
+        'typeDefinitions',
+        collection(converter, converter.rawSchema.typeDefinitions, convertTypeDefinition)
     );
 
     convertedOutput.resolvePath = createGlobalResolve(converter);
@@ -1165,6 +1122,37 @@ class Converter {
     unalias(value: string | undefined) {
         return unalias(this.rawMetadata.references, value) ?? '';
     }
+}
+
+/**
+ * Converts an array of raw elements into an array of converted elements, additionally indexed by name.
+ *
+ * @param converter     Converter
+ * @param rawElements   Possibly unconverted elements
+ * @param convert       Mapping function for converting an element of the array
+ * @returns A function that performs the mapping
+ */
+function collection<ConvertedType, RawType extends RemoveAnnotationAndType<ConvertedType>>(
+    converter: Converter,
+    rawElements: RawType[],
+    convert: (converter: Converter, rawElement: RawType) => ConvertedType
+) {
+    return () => {
+        const result: ConvertedType[] = rawElements.reduce((convertedElements, rawElement) => {
+            const convertedElement = converter.getConvertedElement(
+                (rawElement as any).fullyQualifiedName,
+                rawElement,
+                convert
+            );
+            if (convertedElement) {
+                convertedElements.push(convertedElement);
+            }
+            return convertedElements;
+        }, [] as ConvertedType[]);
+
+        addIndex(result as any, 'name', indexByName);
+        return result as ConvertedType[];
+    };
 }
 
 function resolveEntityType(converter: Converter, fullyQualifiedName: FullyQualifiedName) {
@@ -1238,6 +1226,25 @@ function resolveAnnotations(converter: Converter, rawAnnotationTarget: any) {
  */
 function convertEntityContainer(converter: Converter, rawElement: RawEntityContainer): EntityContainer {
     lazy(rawElement as EntityContainer, 'annotations', resolveAnnotations(converter, rawElement));
+
+    lazy(
+        rawElement as EntityContainer,
+        'entitySets',
+        collection(converter, converter.rawSchema.entitySets, convertEntitySet)
+    );
+
+    lazy(
+        rawElement as EntityContainer,
+        'singletons',
+        collection(converter, converter.rawSchema.singletons, convertSingleton)
+    );
+
+    lazy(
+        rawElement as EntityContainer,
+        'actionImports',
+        collection(converter, converter.rawSchema.actionImports, convertActionImport)
+    );
+
     return rawElement as EntityContainer;
 }
 
@@ -1308,28 +1315,16 @@ function convertEntityType(converter: Converter, rawElement: RawEntityType): Ent
     });
 
     lazy(rawElement as EntityType, 'annotations', resolveAnnotations(converter, rawElement));
-
-    const _rawKeys = rawElement.keys;
-    lazy(rawElement as EntityType, 'keys', () =>
-        _rawKeys
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertProperty))
-            .filter(isDefined)
+    lazy(rawElement as EntityType, 'keys', collection(converter, rawElement.keys, convertProperty));
+    lazy(
+        rawElement as EntityType,
+        'entityProperties',
+        collection(converter, rawElement.entityProperties, convertProperty)
     );
-
-    const _rawEntityProperties = rawElement.entityProperties;
-    lazy(rawElement as EntityType, 'entityProperties', () =>
-        _rawEntityProperties
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertProperty))
-            .filter(isDefined)
-    );
-
-    const _rawNavigationProperties = rawElement.navigationProperties;
-    lazy(rawElement as EntityType, 'navigationProperties', () =>
-        _rawNavigationProperties
-            .map((element) =>
-                converter.getConvertedElement(element.fullyQualifiedName, element as any, convertNavigationProperty)
-            )
-            .filter(isDefined)
+    lazy(
+        rawElement as EntityType,
+        'navigationProperties',
+        collection(converter, rawElement.navigationProperties as any, convertNavigationProperty)
     );
 
     lazy(rawElement as EntityType, 'actions', () =>
@@ -1485,14 +1480,7 @@ function convertAction(converter: Converter, rawElement: RawAction): Action {
         lazy(rawElement as Action, 'returnEntityType', resolveEntityType(converter, rawElement.returnType));
     }
 
-    const _rawParameters = rawElement.parameters;
-    lazy(rawElement as Action, 'parameters', () =>
-        _rawParameters
-            .map((rawParameter) =>
-                converter.getConvertedElement(rawParameter.fullyQualifiedName, rawParameter, convertActionParameter)
-            )
-            .filter(isDefined)
-    );
+    lazy(rawElement as Action, 'parameters', collection(converter, rawElement.parameters, convertActionParameter));
 
     lazy(rawElement as Action, 'annotations', () => {
         let rawAnnotations = converter.rawAnnotationsPerTarget[rawElement.fullyQualifiedName]?.annotations ?? [];
@@ -1569,21 +1557,12 @@ function convertActionParameter(
  */
 function convertComplexType(converter: Converter, rawElement: RawComplexType): ComplexType {
     const _rawProperties = rawElement.properties;
-    lazy(rawElement as ComplexType, 'properties', () =>
-        _rawProperties
-            .map((element) => converter.getConvertedElement(element.fullyQualifiedName, element, convertProperty))
-            .filter(isDefined)
+    lazy(rawElement as ComplexType, 'properties', collection(converter, rawElement.properties, convertProperty));
+    lazy(
+        rawElement as ComplexType,
+        'navigationProperties',
+        collection(converter, rawElement.navigationProperties as any, convertNavigationProperty)
     );
-
-    const _rawNavigationProperties = rawElement.navigationProperties;
-    lazy(rawElement as ComplexType, 'navigationProperties', () =>
-        _rawNavigationProperties
-            .map((element) =>
-                converter.getConvertedElement(element.fullyQualifiedName, element as any, convertNavigationProperty)
-            )
-            .filter(isDefined)
-    );
-
     lazy(rawElement as ComplexType, 'annotations', resolveAnnotations(converter, rawElement));
 
     return rawElement as ComplexType;

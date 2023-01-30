@@ -411,6 +411,10 @@ export type EntityContainer = {
     name?: string;
     fullyQualifiedName: string;
     annotations: EntityContainerAnnotations;
+
+    actionImports: ActionImport[];
+    entitySets: EntitySet[];
+    singletons: Singleton[];
 };
 
 export type ActionParameter = {
@@ -493,7 +497,15 @@ export type ConvertedMetadata = {
 export type RemoveAnnotationAndType<T> = {
     [K in keyof Omit<
         T,
-        'annotations' | 'targetType' | 'isKey' | 'resolvePath' | 'entityType' | 'navigationProperties'
+        | 'annotations'
+        | 'targetType'
+        | 'isKey'
+        | 'resolvePath'
+        | 'entityType'
+        | 'navigationProperties'
+        | 'entitySets'
+        | 'singletons'
+        | 'actionImports'
     >]: T[K] extends object
         ? T[K] extends Array<infer Item>
             ? RemoveAnnotationAndType<Item>[]
