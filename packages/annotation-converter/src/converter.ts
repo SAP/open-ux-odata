@@ -354,10 +354,13 @@ function resolveTarget(
 
                     current.target = current.target[segment];
                     current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
+                    return current;
                 }
             }
 
-            return current;
+            return error(
+                `Element '${segment}' not found at ${current.target._type} '${current.target.fullyQualifiedName}'`
+            );
         },
         { visitedObjects: [], target: startElement, messages: [] }
     );
