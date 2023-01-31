@@ -352,8 +352,10 @@ function resolveTarget(
                         return current;
                     }
 
-                    current.target = current.target[segment];
-                    current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
+                    if (current.target[segment]) {
+                        current.target = current.target[segment];
+                        current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
+                    }
                     return current;
                 }
             }
