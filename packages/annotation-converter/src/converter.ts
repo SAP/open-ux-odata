@@ -611,14 +611,23 @@ function parseRecord(
 
     // annotations on the record
     lazy(annotationTerm, 'annotations', () => {
-        annotationRecord.annotations?.forEach((annotation: any) => {
+        // be graceful when resolving annotations on annotations: Sometimes they are referenced directly, sometimes they
+        // are part of the global annotations list
+        let annotations;
+        if (annotationRecord.annotations && annotationRecord.annotations.length > 0) {
+            annotations = annotationRecord.annotations;
+        } else {
+            annotations = converter.rawAnnotationsPerTarget[currentFQN]?.annotations;
+        }
+
+        annotations?.forEach((annotation: any) => {
             annotation.target = currentFQN;
             annotation.__source = currentSource;
             annotation[ANNOTATION_TARGET] = currentTarget;
             annotation.fullyQualifiedName = `${currentFQN}@${annotation.term}`;
         });
 
-        return createAnnotationsObject(converter, annotationTerm, annotationRecord.annotations ?? []);
+        return createAnnotationsObject(converter, annotationTerm, annotations ?? []);
     });
 
     const annotationContent = annotationRecord.propertyValues?.reduce((annotationContent, propertyValue) => {
@@ -953,14 +962,24 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
     try {
         lazy(annotation, 'annotations', () => {
             const annotationFQN = annotation.fullyQualifiedName;
-            rawAnnotation.annotations?.forEach((rawSubAnnotation: any) => {
+
+            // be graceful when resolving annotations on annotations: Sometimes they are referenced directly, sometimes they
+            // are part of the global annotations list
+            let annotations;
+            if (rawAnnotation.annotations && rawAnnotation.annotations.length > 0) {
+                annotations = rawAnnotation.annotations;
+            } else {
+                annotations = converter.rawAnnotationsPerTarget[annotationFQN]?.annotations;
+            }
+
+            annotations?.forEach((rawSubAnnotation: any) => {
                 rawSubAnnotation.target = annotationFQN;
                 rawSubAnnotation.__source = annotation.__source;
                 rawSubAnnotation[ANNOTATION_TARGET] = target;
-                rawSubAnnotation.fullyQualifiedName = `${annotationFQN}@${annotation.term}`;
+                rawSubAnnotation.fullyQualifiedName = `${annotationFQN}@${rawSubAnnotation.term}`;
             });
 
-            return createAnnotationsObject(converter, annotation, rawAnnotation.annotations ?? []);
+            return createAnnotationsObject(converter, annotation, annotations ?? []);
         });
     } catch (e) {
         // not an error: parseRecord() already adds annotations, but the other parseXXX functions don't, so this can happen
@@ -1574,6 +1593,11 @@ function createAnnotationsObject(converter: Converter, target: any, rawAnnotatio
  * @returns the converted representation of the metadata.
  */
 export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
+    // fall back on the default references if the caller does not specify any
+    if (rawMetadata.references.length === 0) {
+        rawMetadata.references = defaultReferences;
+    }
+
     // Converter Output
     const convertedOutput: ConvertedMetadata = {
         version: rawMetadata.version,
