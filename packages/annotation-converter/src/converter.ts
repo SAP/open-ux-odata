@@ -52,8 +52,23 @@ import {
     unalias
 } from './utils';
 
+/**
+ * Symbol to extend an annotation with the reference to its target.
+ */
 const ANNOTATION_TARGET = Symbol('Annotation Target');
 
+/**
+ * Symbol to extend a metadata object by an index.
+ */
+const INDEX_BY_NAME = Symbol('by name');
+
+/**
+ * Append an object to the list of visited objects if it is different from the last object in the list.
+ *
+ * @param visitedObjects    The list of visited objects
+ * @param visitedObject     The object
+ * @returns The list of visited objects
+ */
 function appendVisitedObjects(visitedObjects: any[], visitedObject: any): any[] {
     if (visitedObjects[visitedObjects.length - 1] !== visitedObject) {
         visitedObjects.push(visitedObject);
@@ -61,6 +76,7 @@ function appendVisitedObjects(visitedObjects: any[], visitedObject: any): any[] 
     return visitedObjects;
 }
 
+// TODO: Reuse type ResolutionTarget<T>
 type PathResolutionResult = {
     /** The resolved target element the path points to */
     target: any;
@@ -160,7 +176,7 @@ function resolveTarget(
                         }
 
                         // next segment = EntitySet?
-                        const entitySet = (thisElement.entitySets as ArrayWithIndex<EntitySet>)[indexByName].get(
+                        const entitySet = (thisElement.entitySets as ArrayWithIndex<EntitySet>)[INDEX_BY_NAME].get(
                             segment
                         );
                         if (entitySet) {
@@ -169,7 +185,7 @@ function resolveTarget(
                         }
 
                         // next segment = Singleton?
-                        const singleton = (thisElement.singletons as ArrayWithIndex<Singleton>)[indexByName].get(
+                        const singleton = (thisElement.singletons as ArrayWithIndex<Singleton>)[INDEX_BY_NAME].get(
                             segment
                         );
                         if (singleton) {
@@ -179,7 +195,7 @@ function resolveTarget(
 
                         // next segment = ActionImport?
                         const actionImport = (thisElement.actionImports as ArrayWithIndex<ActionImport>)[
-                            indexByName
+                            INDEX_BY_NAME
                         ].get(segment);
                         if (actionImport) {
                             current.visitedObjects = appendVisitedObjects(current.visitedObjects, actionImport);
@@ -232,7 +248,7 @@ function resolveTarget(
                             return current;
                         }
 
-                        const property = (thisElement.entityProperties as ArrayWithIndex<Property>)[indexByName].get(
+                        const property = (thisElement.entityProperties as ArrayWithIndex<Property>)[INDEX_BY_NAME].get(
                             segment
                         );
                         if (property) {
@@ -242,7 +258,7 @@ function resolveTarget(
 
                         const navigationProperty = (
                             thisElement.navigationProperties as ArrayWithIndex<NavigationProperty>
-                        )[indexByName].get(segment);
+                        )[INDEX_BY_NAME].get(segment);
                         if (navigationProperty) {
                             current.target = navigationProperty;
                             return current;
@@ -286,7 +302,7 @@ function resolveTarget(
                         // Property or NavigationProperty of the ComplexType
                         const type = thisElement.targetType as ComplexType | undefined;
                         if (type !== undefined) {
-                            const property = (type.properties as ArrayWithIndex<Property>)[indexByName].get(segment);
+                            const property = (type.properties as ArrayWithIndex<Property>)[INDEX_BY_NAME].get(segment);
                             if (property) {
                                 current.target = property;
                                 return current;
@@ -294,7 +310,7 @@ function resolveTarget(
 
                             const navigationProperty = (
                                 type.navigationProperties as ArrayWithIndex<NavigationProperty>
-                            )[indexByName].get(segment);
+                            )[INDEX_BY_NAME].get(segment);
                             if (navigationProperty) {
                                 current.target = navigationProperty;
                                 return current;
@@ -349,7 +365,6 @@ function resolveTarget(
     // Diagnostics
     result.messages.forEach((message) => converter.logError(message.message));
     if (!result.target) {
-        let oErrorMsg;
         if (annotationsTerm) {
             const annotationType = inferTypeFromTerm(converter, annotationsTerm, startElement.fullyQualifiedName);
             converter.logError(
@@ -521,10 +536,11 @@ function parseValue(
 /**
  * Infer the type of a term based on its type.
  *
- * @param annotationsTerm The annotation term
- * @param annotationTarget the annotation target
- * @param currentProperty the current property of the record
- * @returns the inferred type.
+ * @param converter         Converter
+ * @param annotationsTerm   The annotation term
+ * @param annotationTarget  The annotation target
+ * @param currentProperty   The current property of the record
+ * @returns The inferred type.
  */
 function inferTypeFromTerm(
     converter: Converter,
@@ -852,7 +868,6 @@ function splitTerm(references: ReferencesWithMap, termValue: string) {
  * Creates the function that will resolve a specific path.
  *
  * @param converter
- * @param rawMetadata
  * @returns the function that will allow to resolve element globally.
  */
 function createGlobalResolve(converter: Converter) {
@@ -1015,59 +1030,6 @@ function mergeAnnotations(rawMetadata: RawMetadata): Record<string, AnnotationLi
     return annotationListPerTarget;
 }
 
-const indexByName = Symbol('by name');
-
-/**
- * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
- *
- * @param rawMetadata
- * @returns the converted representation of the metadata.
- */
-export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
-    // Converter Output
-    const convertedOutput: ConvertedMetadata = {
-        version: rawMetadata.version,
-        namespace: rawMetadata.schema.namespace,
-        annotations: rawMetadata.schema.annotations,
-        references: defaultReferences.concat(rawMetadata.references),
-        diagnostics: []
-    } as any;
-
-    // Converter
-    const converter = new Converter(rawMetadata, convertedOutput);
-
-    lazy(
-        convertedOutput,
-        'entityContainer',
-        () =>
-            converter.getConvertedElement(
-                converter.rawSchema.entityContainer.fullyQualifiedName,
-                converter.rawSchema.entityContainer,
-                convertEntityContainer
-            ) ?? ({ _type: 'EntityContainer', fullyQualifiedName: '', name: '', annotations: {} } as EntityContainer)
-    );
-
-    lazy(convertedOutput, 'entitySets', collection(converter, converter.rawSchema.entitySets, convertEntitySet));
-    lazy(convertedOutput, 'singletons', collection(converter, converter.rawSchema.singletons, convertSingleton));
-    lazy(convertedOutput, 'entityTypes', collection(converter, converter.rawSchema.entityTypes, convertEntityType));
-    lazy(convertedOutput, 'actions', collection(converter, converter.rawSchema.actions, convertAction));
-    lazy(convertedOutput, 'complexTypes', collection(converter, converter.rawSchema.complexTypes, convertComplexType));
-    lazy(
-        convertedOutput,
-        'actionImports',
-        collection(converter, converter.rawSchema.actionImports, convertActionImport)
-    );
-
-    lazy(
-        convertedOutput,
-        'typeDefinitions',
-        collection(converter, converter.rawSchema.typeDefinitions, convertTypeDefinition)
-    );
-
-    convertedOutput.resolvePath = createGlobalResolve(converter);
-    return convertedOutput;
-}
-
 class Converter {
     private _rawAnnotationsPerTarget: Record<FullyQualifiedName, AnnotationList>;
     get rawAnnotationsPerTarget(): Record<FullyQualifiedName, AnnotationList> {
@@ -1150,7 +1112,7 @@ function collection<ConvertedType, RawType extends RemoveAnnotationAndType<Conve
             return convertedElements;
         }, [] as ConvertedType[]);
 
-        addIndex(result as any, 'name', indexByName);
+        addIndex(result as any, 'name', INDEX_BY_NAME);
         return result as ConvertedType[];
     };
 }
@@ -1600,4 +1562,55 @@ function createAnnotationsObject(converter: Converter, target: any, rawAnnotatio
         }
         return vocabularyAliases;
     }, {} as any);
+}
+
+/**
+ * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
+ *
+ * @param rawMetadata
+ * @returns the converted representation of the metadata.
+ */
+export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
+    // Converter Output
+    const convertedOutput: ConvertedMetadata = {
+        version: rawMetadata.version,
+        namespace: rawMetadata.schema.namespace,
+        annotations: rawMetadata.schema.annotations,
+        references: defaultReferences.concat(rawMetadata.references),
+        diagnostics: []
+    } as any;
+
+    // Converter
+    const converter = new Converter(rawMetadata, convertedOutput);
+
+    lazy(
+        convertedOutput,
+        'entityContainer',
+        () =>
+            converter.getConvertedElement(
+                converter.rawSchema.entityContainer.fullyQualifiedName,
+                converter.rawSchema.entityContainer,
+                convertEntityContainer
+            ) ?? ({ _type: 'EntityContainer', fullyQualifiedName: '', name: '', annotations: {} } as EntityContainer)
+    );
+
+    lazy(convertedOutput, 'entitySets', collection(converter, converter.rawSchema.entitySets, convertEntitySet));
+    lazy(convertedOutput, 'singletons', collection(converter, converter.rawSchema.singletons, convertSingleton));
+    lazy(convertedOutput, 'entityTypes', collection(converter, converter.rawSchema.entityTypes, convertEntityType));
+    lazy(convertedOutput, 'actions', collection(converter, converter.rawSchema.actions, convertAction));
+    lazy(convertedOutput, 'complexTypes', collection(converter, converter.rawSchema.complexTypes, convertComplexType));
+    lazy(
+        convertedOutput,
+        'actionImports',
+        collection(converter, converter.rawSchema.actionImports, convertActionImport)
+    );
+
+    lazy(
+        convertedOutput,
+        'typeDefinitions',
+        collection(converter, converter.rawSchema.typeDefinitions, convertTypeDefinition)
+    );
+
+    convertedOutput.resolvePath = createGlobalResolve(converter);
+    return convertedOutput;
 }

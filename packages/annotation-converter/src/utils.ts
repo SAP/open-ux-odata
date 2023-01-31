@@ -421,6 +421,7 @@ export enum TermToTypes {
 
 /**
  * Differentiate between a ComplexType and a TypeDefinition.
+ *
  * @param complexTypeDefinition
  * @returns true if the value is a complex type
  */
