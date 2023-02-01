@@ -166,6 +166,30 @@ function resolveTarget(
                 );
             }
 
+            // $Path / $AnnotationPath syntax
+            if (current.target.$target) {
+                let subPath: string | undefined;
+                if (segment === '$AnnotationPath') {
+                    subPath = current.target.value;
+                } else if (segment === '$Path') {
+                    subPath = current.target.path;
+                }
+
+                if (subPath !== undefined) {
+                    const subTarget = resolveTarget(converter, current.target[ANNOTATION_TARGET], subPath);
+                    subTarget.visitedObjects.forEach((visitedSubObject: any) => {
+                        if (!current.visitedObjects.includes(visitedSubObject)) {
+                            current.visitedObjects = appendVisitedObjects(current.visitedObjects, visitedSubObject);
+                        }
+                    });
+
+                    current.target = subTarget.target;
+                    current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
+                    return current;
+                }
+            }
+
+            // traverse based on the element type
             switch (current.target?._type) {
                 case 'EntityContainer':
                     {
@@ -175,40 +199,15 @@ function resolveTarget(
                             return current;
                         }
 
-                        // next segment = EntitySet?
-                        const entitySet = (thisElement.entitySets as ArrayWithIndex<EntitySet>)[INDEX_BY_NAME].get(
-                            segment
-                        );
-                        if (entitySet) {
-                            current.target = entitySet;
+                        // next element: EntitySet, Singleton or ActionImport?
+                        const nextElement: EntitySet | Singleton | ActionImport | undefined =
+                            (thisElement.entitySets as ArrayWithIndex<EntitySet>)[INDEX_BY_NAME].get(segment) ??
+                            (thisElement.singletons as ArrayWithIndex<Singleton>)[INDEX_BY_NAME].get(segment) ??
+                            (thisElement.actionImports as ArrayWithIndex<ActionImport>)[INDEX_BY_NAME].get(segment);
+
+                        if (nextElement) {
+                            current.target = nextElement;
                             return current;
-                        }
-
-                        // next segment = Singleton?
-                        const singleton = (thisElement.singletons as ArrayWithIndex<Singleton>)[INDEX_BY_NAME].get(
-                            segment
-                        );
-                        if (singleton) {
-                            current.target = singleton;
-                            return current;
-                        }
-
-                        // next segment = ActionImport?
-                        const actionImport = (thisElement.actionImports as ArrayWithIndex<ActionImport>)[
-                            INDEX_BY_NAME
-                        ].get(segment);
-                        if (actionImport) {
-                            current.visitedObjects = appendVisitedObjects(current.visitedObjects, actionImport);
-
-                            const action = actionImport.action;
-                            if (action) {
-                                current.target = action;
-                                return current;
-                            }
-
-                            return error(
-                                `Action import '${actionImport.fullyQualifiedName}': Action '${actionImport.actionName}' not found`
-                            );
                         }
                     }
                     break;
@@ -269,6 +268,19 @@ function resolveTarget(
                             current.target = action;
                             return current;
                         }
+                    }
+                    break;
+
+                case 'ActionImport':
+                    {
+                        // continue resolving at the Action
+                        const result = resolveTarget(converter, current.target.action, segment);
+                        current.target = result.target;
+                        current.visitedObjects = result.visitedObjects.reduce(
+                            appendVisitedObjects,
+                            current.visitedObjects
+                        );
+                        return current;
                     }
                     break;
 
@@ -334,30 +346,12 @@ function resolveTarget(
                     current.visitedObjects = result.visitedObjects.reduce(appendVisitedObjects, current.visitedObjects);
                     return current;
 
-                default: {
-                    if (segment === '$AnnotationPath' && current.target.$target) {
-                        const subTarget = resolveTarget(
-                            converter,
-                            current.target[ANNOTATION_TARGET],
-                            current.target.value
-                        );
-                        subTarget.visitedObjects.forEach((visitedSubObject: any) => {
-                            if (!current.visitedObjects.includes(visitedSubObject)) {
-                                current.visitedObjects = appendVisitedObjects(current.visitedObjects, visitedSubObject);
-                            }
-                        });
-
-                        current.target = subTarget.target;
-                        current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
-                        return current;
-                    }
-
+                default:
                     if (current.target[segment]) {
                         current.target = current.target[segment];
                         current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
                     }
                     return current;
-                }
             }
 
             return error(

@@ -464,6 +464,17 @@ describe('Annotation Converter', () => {
             expect(sdNavigationPropBinding.target?._type).toEqual('EntitySet');
             expect(sdNavigationPropBinding2.objectPath.length).toEqual(4); // EntityContainer / EntitySet / NavPropBindingArray / EntitySet / EntityType / EntyitySet
         });
+
+        it('can resolve $Path', () => {
+            const target: ResolutionTarget<any> = convertedTypes.resolvePath(
+                '/SalesOrderItem/@UI.LineItem/13/Value/$Path'
+            );
+            expect(target.target).not.toBeNull();
+            expect(target.target).not.toBeUndefined();
+            expect(target.objectPath.length).toEqual(9); // EntityContainer / EntitySet / EntityType / LineItem / DataField / Path / NavigationProperty / EntityType / Property
+            expect(target.target._type).toEqual('Property');
+            expect(target.target.name).toEqual('Material');
+        });
     });
 
     describe('can support resolution target for singleton as well', () => {
