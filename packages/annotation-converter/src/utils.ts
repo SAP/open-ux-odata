@@ -478,7 +478,9 @@ export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, 
 }
 
 // TODO: Maybe use something like this as the type in Edm directly instead of casting everywhere
-export type ArrayWithIndex<T> = Array<T> & Record<symbol, Map<T[keyof T], T>>;
+export type ArrayWithIndex<T> = Array<T> & {
+    [index: string | symbol]: (value: T[keyof T]) => T | undefined;
+};
 
 /**
  * Adds an index to the array and return the array with the added index.
@@ -488,11 +490,31 @@ export type ArrayWithIndex<T> = Array<T> & Record<symbol, Map<T[keyof T], T>>;
  * @param indexName         The name of the index
  * @returns The array with index
  */
-export function addIndex<T>(array: Array<T>, indexedProperty: keyof T, indexName: symbol): ArrayWithIndex<T> {
-    lazy(
-        array as ArrayWithIndex<T>,
-        indexName,
-        () => new Map(array.map((element) => [element[indexedProperty], element]))
-    );
-    return array as ArrayWithIndex<T>;
+export function addIndex<T>(array: Array<T>, indexedProperty: keyof T, indexName: string | symbol) {
+    const index: Map<T[keyof T], T | undefined> = new Map();
+    const find = (value: T[keyof T]) => {
+        const element = index.get(value);
+
+        if (element?.[indexedProperty] === value) {
+            return element;
+        }
+
+        return array.find((element) => {
+            if (!element?.hasOwnProperty(indexedProperty)) {
+                return false;
+            }
+
+            const propertyValue = element[indexedProperty];
+            index.set(propertyValue, element);
+            return propertyValue === value;
+        });
+    };
+
+    if (!array.hasOwnProperty(indexName)) {
+        Object.defineProperty(array, indexName, { value: find });
+    } else {
+        throw new Error(`Property '${indexName.toString()}' already exists`);
+    }
+
+    return array as Array<T> & { [x: typeof indexName]: (value: T[keyof T]) => T | undefined };
 }

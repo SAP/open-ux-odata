@@ -118,7 +118,7 @@ function resolveTarget(
         // no starting point given: start at the entity container
         startElement = converter.getConvertedElement(
             converter.rawSchema.entityContainer.fullyQualifiedName,
-            (schema) => schema.entityContainer,
+            converter.rawSchema.entityContainer,
             convertEntityContainer
         );
     } else if (startElement[ANNOTATION_TARGET] !== undefined) {
@@ -126,11 +126,9 @@ function resolveTarget(
         startElement = startElement[ANNOTATION_TARGET];
     } else if (startElement._type === 'Property') {
         // property: start at the entity type the property belongs to
-        const entityTypeFQN = substringBeforeFirst(startElement.fullyQualifiedName, '/');
         startElement = converter.getConvertedElement(
-            entityTypeFQN,
-            (rawSchema) =>
-                rawSchema.entityTypes.find((entry: RawEntityType) => entry.fullyQualifiedName === entityTypeFQN),
+            substringBeforeFirst(startElement.fullyQualifiedName, '/'),
+            findIn(converter.rawSchema.entityTypes),
             convertEntityType
         );
     }
@@ -201,9 +199,9 @@ function resolveTarget(
 
                         // next element: EntitySet, Singleton or ActionImport?
                         const nextElement: EntitySet | Singleton | ActionImport | undefined =
-                            (thisElement.entitySets as ArrayWithIndex<EntitySet>)[INDEX_BY_NAME].get(segment) ??
-                            (thisElement.singletons as ArrayWithIndex<Singleton>)[INDEX_BY_NAME].get(segment) ??
-                            (thisElement.actionImports as ArrayWithIndex<ActionImport>)[INDEX_BY_NAME].get(segment);
+                            (thisElement.entitySets as ArrayWithIndex<EntitySet>)[INDEX_BY_NAME](segment) ??
+                            (thisElement.singletons as ArrayWithIndex<Singleton>)[INDEX_BY_NAME](segment) ??
+                            (thisElement.actionImports as ArrayWithIndex<ActionImport>)[INDEX_BY_NAME](segment);
 
                         if (nextElement) {
                             current.target = nextElement;
@@ -247,7 +245,7 @@ function resolveTarget(
                             return current;
                         }
 
-                        const property = (thisElement.entityProperties as ArrayWithIndex<Property>)[INDEX_BY_NAME].get(
+                        const property = (thisElement.entityProperties as ArrayWithIndex<Property>)[INDEX_BY_NAME](
                             segment
                         );
                         if (property) {
@@ -257,7 +255,7 @@ function resolveTarget(
 
                         const navigationProperty = (
                             thisElement.navigationProperties as ArrayWithIndex<NavigationProperty>
-                        )[INDEX_BY_NAME].get(segment);
+                        )[INDEX_BY_NAME](segment);
                         if (navigationProperty) {
                             current.target = navigationProperty;
                             return current;
@@ -314,7 +312,7 @@ function resolveTarget(
                         // Property or NavigationProperty of the ComplexType
                         const type = thisElement.targetType as ComplexType | undefined;
                         if (type !== undefined) {
-                            const property = (type.properties as ArrayWithIndex<Property>)[INDEX_BY_NAME].get(segment);
+                            const property = (type.properties as ArrayWithIndex<Property>)[INDEX_BY_NAME](segment);
                             if (property) {
                                 current.target = property;
                                 return current;
@@ -322,7 +320,7 @@ function resolveTarget(
 
                             const navigationProperty = (
                                 type.navigationProperties as ArrayWithIndex<NavigationProperty>
-                            )[INDEX_BY_NAME].get(segment);
+                            )[INDEX_BY_NAME](segment);
                             if (navigationProperty) {
                                 current.target = navigationProperty;
                                 return current;
@@ -651,26 +649,28 @@ function parseRecord(
                 // try to find a corresponding unbound action
                 const [, actionImportName] = splitAtLast(annotationContent.Action, '/');
 
-                const rawActionImport = converter.rawSchema.actionImports.find(
-                    (actionImport: RawActionImport) => actionImport.name === actionImportName
-                );
+                const rawActionImport = (converter.rawSchema.actionImports as ArrayWithIndex<RawActionImport>)[
+                    INDEX_BY_NAME
+                ](actionImportName);
+
                 if (rawActionImport) {
                     actionTarget = converter.getConvertedElement(
                         rawActionImport.fullyQualifiedName,
-                        rawActionImport,
+                        findIn(converter.rawSchema.actionImports),
                         convertActionImport
                     )?.action;
                 }
             }
 
             if (!actionTarget) {
-                const action = converter.rawSchema.actions.find(
-                    (entry: RawAction) =>
-                        entry.fullyQualifiedName === annotationContent.Action && entry.isBound === true
+                actionTarget = converter.getConvertedElement(
+                    annotationContent.Action,
+                    (fullyQualifiedName) =>
+                        converter.rawSchema.actions.find(
+                            (entry) => entry.fullyQualifiedName === annotationContent.Action && entry.isBound === true
+                        ),
+                    convertAction
                 );
-                if (action) {
-                    actionTarget = converter.getConvertedElement(action.fullyQualifiedName, action, convertAction);
-                }
             }
 
             if (!actionTarget) {
@@ -1069,17 +1069,19 @@ class Converter {
         this.rawMetadata = rawMetadata;
         this.rawSchema = rawMetadata.schema;
         this.convertedOutput = convertedOutput;
+
+        addIndex(this.rawSchema.actionImports, 'name', INDEX_BY_NAME);
     }
 
     getConvertedElement<ConvertedType, RawType extends RemoveAnnotationAndType<ConvertedType>>(
         fullyQualifiedName: FullyQualifiedName,
-        rawElement: RawType | undefined | ((rawSchema: RawSchema) => RawType | undefined),
+        rawElement: RawType | undefined | ((fullyQualifiedName: FullyQualifiedName) => RawType | undefined),
         map: (converter: Converter, raw: RawType) => ConvertedType
     ): ConvertedType | undefined {
         let converted: ConvertedType | undefined = this.convertedElements.get(fullyQualifiedName);
         if (converted === undefined) {
             const rawMetadata =
-                typeof rawElement === 'function' ? rawElement.apply(undefined, [this.rawSchema]) : rawElement;
+                typeof rawElement === 'function' ? rawElement.apply(undefined, [fullyQualifiedName]) : rawElement;
             if (rawMetadata !== undefined) {
                 converted = map.apply(undefined, [this, rawMetadata]);
                 this.convertedElements.set(fullyQualifiedName, converted);
@@ -1139,8 +1141,7 @@ function resolveEntityType(converter: Converter, fullyQualifiedName: FullyQualif
     return () => {
         let entityType = converter.getConvertedElement(
             fullyQualifiedName,
-            (schema) =>
-                schema.entityTypes.find((entry: RawEntityType) => entry.fullyQualifiedName === fullyQualifiedName),
+            findIn(converter.rawSchema.entityTypes),
             convertEntityType
         );
 
@@ -1166,13 +1167,13 @@ function resolveNavigationPropertyBindings(
                 if (rawBindingTarget._type === 'Singleton') {
                     resolvedBindingTarget = converter.getConvertedElement(
                         rawBindingTarget.fullyQualifiedName,
-                        rawBindingTarget as RawSingleton,
+                        findIn(converter.rawSchema.singletons),
                         convertSingleton
                     );
                 } else {
                     resolvedBindingTarget = converter.getConvertedElement(
                         rawBindingTarget.fullyQualifiedName,
-                        rawBindingTarget as RawEntitySet,
+                        findIn(converter.rawSchema.entitySets),
                         convertEntitySet
                     );
                 }
@@ -1317,7 +1318,11 @@ function convertEntityType(converter: Converter, rawElement: RawEntityType): Ent
             )
             .reduce((actions, rawAction) => {
                 const name = `${converter.rawSchema.namespace}.${rawAction.name}`;
-                actions[name] = converter.getConvertedElement(rawAction.fullyQualifiedName, rawAction, convertAction)!;
+                actions[name] = converter.getConvertedElement(
+                    rawAction.fullyQualifiedName,
+                    findIn(converter.rawSchema.actions),
+                    convertAction
+                )!;
                 return actions;
             }, {} as EntityType['actions'])
     );
@@ -1349,7 +1354,7 @@ function convertProperty(converter: Converter, rawElement: RawProperty): Propert
         // ComplexType?
         resolvedType = converter.getConvertedElement(
             typeName,
-            (schema) => schema.complexTypes.find((entry) => entry.fullyQualifiedName === typeName),
+            findIn(converter.rawSchema.complexTypes),
             convertComplexType
         );
         if (resolvedType) {
@@ -1359,7 +1364,7 @@ function convertProperty(converter: Converter, rawElement: RawProperty): Propert
         // TypeDefinition?
         resolvedType = converter.getConvertedElement(
             typeName,
-            (schema) => schema.typeDefinitions.find((entry) => entry.fullyQualifiedName === typeName),
+            findIn(converter.rawSchema.typeDefinitions),
             convertTypeDefinition
         );
         if (resolvedType) {
@@ -1424,10 +1429,7 @@ function convertActionImport(converter: Converter, rawElement: RawActionImport):
     lazy(rawElement as ActionImport, 'action', () => {
         let action = converter.getConvertedElement(
             rawElement.actionName,
-            () =>
-                converter.rawSchema.actions.find(
-                    (entry: RawAction) => entry.fullyQualifiedName === rawElement.actionName
-                ),
+            findIn(converter.rawSchema.actions),
             convertAction
         );
         if (!action) {
@@ -1476,6 +1478,11 @@ function convertAction(converter: Converter, rawElement: RawAction): Action {
     return rawElement as Action;
 }
 
+function findIn<Type extends { fullyQualifiedName: FullyQualifiedName }>(rawMetadataElements: Type[]) {
+    return (fullyQualifiedName: FullyQualifiedName) =>
+        rawMetadataElements.find((entry) => entry.fullyQualifiedName === fullyQualifiedName);
+}
+
 /**
  * Converts an ActionParameter.
  *
@@ -1492,7 +1499,7 @@ function convertActionParameter(
         // EntityType?
         resolvedType = converter.getConvertedElement(
             rawElement.type,
-            (schema) => schema.entityTypes.find((entry) => entry.fullyQualifiedName === rawElement.type),
+            findIn(converter.rawSchema.entityTypes),
             convertEntityType
         );
 
@@ -1503,7 +1510,7 @@ function convertActionParameter(
         // ComplexType?
         resolvedType = converter.getConvertedElement(
             rawElement.type,
-            (schema) => schema.complexTypes.find((entry) => entry.fullyQualifiedName === rawElement.type),
+            findIn(converter.rawSchema.complexTypes),
             convertComplexType
         );
         if (resolvedType) {
@@ -1513,7 +1520,7 @@ function convertActionParameter(
         // TypeDefinition?
         resolvedType = converter.getConvertedElement(
             rawElement.type,
-            (schema) => schema.typeDefinitions.find((entry) => entry.fullyQualifiedName === rawElement.type),
+            findIn(converter.rawSchema.typeDefinitions),
             convertTypeDefinition
         );
         if (resolvedType) {

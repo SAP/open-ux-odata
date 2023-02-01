@@ -131,15 +131,50 @@ describe('utils', () => {
 
             const indexedArray = addIndex(array, 'type', indexName);
 
-            expect(iterator).toStrictEqual(indexedArray[Symbol.iterator]);
+            expect(iterator).toStrictEqual(array[Symbol.iterator]);
+        });
+
+        it('Cannot be added twice', () => {
+            const array = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
+            const indexName = Symbol('My Index');
+
+            addIndex(array, 'type', indexName);
+
+            expect(() => {
+                addIndex(array, 'type', indexName);
+            }).toThrowError();
         });
 
         it('Can access data by index', () => {
-            const array = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
-            const indexName = Symbol('My Index');
-            const indexedArray = addIndex(array, 'type', indexName);
+            const array: { type: string }[] = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
+            const indexName = 'MyIndex';
+            const indexArray = addIndex(array, 'type', indexName);
 
-            expect(indexedArray[indexName].get('b')).toStrictEqual(array[1]);
+            expect(indexArray[indexName]('b')).toStrictEqual(array[1]);
+        });
+
+        it('Does not return outdated data', () => {
+            const array: { type: string }[] = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
+            const indexName = 'MyIndex';
+            const indexArray = addIndex(array, 'type', indexName);
+
+            const value1 = indexArray[indexName]('b');
+            expect(value1).toBeDefined();
+            array[1].type = 'd';
+            const value2 = indexArray[indexName]('b');
+            expect(value2).toBeUndefined();
+        });
+
+        it('Works with different elements', () => {
+            const array: any[] = [{ type: 'a' }, null, { value: 'c' }, undefined, true];
+            const indexName = 'MyIndex';
+            const indexArray = addIndex(array, 'type', indexName);
+
+            const value1 = indexArray[indexName]('b');
+            expect(value1).toBeUndefined();
+
+            const value2 = indexArray[indexName]('c');
+            expect(value2).toBeUndefined();
         });
     });
 });
