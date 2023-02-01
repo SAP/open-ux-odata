@@ -269,18 +269,13 @@ function resolveTarget(
                     }
                     break;
 
-                case 'ActionImport':
-                    {
-                        // continue resolving at the Action
-                        const result = resolveTarget(converter, current.target.action, segment);
-                        current.target = result.target;
-                        current.visitedObjects = result.visitedObjects.reduce(
-                            appendVisitedObjects,
-                            current.visitedObjects
-                        );
-                        return current;
-                    }
-                    break;
+                case 'ActionImport': {
+                    // continue resolving at the Action
+                    const result = resolveTarget(converter, current.target.action, segment);
+                    current.target = result.target;
+                    current.visitedObjects = result.visitedObjects.reduce(appendVisitedObjects, current.visitedObjects);
+                    return current;
+                }
 
                 case 'Action': {
                     const thisElement = current.target as Action;
@@ -667,7 +662,7 @@ function parseRecord(
                     annotationContent.Action,
                     (fullyQualifiedName) =>
                         converter.rawSchema.actions.find(
-                            (entry) => entry.fullyQualifiedName === annotationContent.Action && entry.isBound === true
+                            (entry) => entry.fullyQualifiedName === fullyQualifiedName && entry.isBound === true
                         ),
                     convertAction
                 );
@@ -1349,29 +1344,11 @@ function convertProperty(converter: Converter, rawElement: RawProperty): Propert
     lazy(rawElement as Property, 'targetType', () => {
         const type = rawElement.type;
         const typeName = type.startsWith('Collection') ? type.substring(11, type.length - 1) : type;
-        let resolvedType;
 
-        // ComplexType?
-        resolvedType = converter.getConvertedElement(
-            typeName,
-            findIn(converter.rawSchema.complexTypes),
-            convertComplexType
+        return (
+            converter.getConvertedElement(typeName, findIn(converter.rawSchema.complexTypes), convertComplexType) ??
+            converter.getConvertedElement(typeName, findIn(converter.rawSchema.typeDefinitions), convertTypeDefinition)
         );
-        if (resolvedType) {
-            return resolvedType;
-        }
-
-        // TypeDefinition?
-        resolvedType = converter.getConvertedElement(
-            typeName,
-            findIn(converter.rawSchema.typeDefinitions),
-            convertTypeDefinition
-        );
-        if (resolvedType) {
-            return resolvedType;
-        }
-
-        return undefined; // primitive type
     });
 
     return rawElement as Property;
@@ -1426,20 +1403,9 @@ function convertActionImport(converter: Converter, rawElement: RawActionImport):
 
     lazy(rawElement as ActionImport, 'annotations', resolveAnnotations(converter, rawElement));
 
-    lazy(rawElement as ActionImport, 'action', () => {
-        let action = converter.getConvertedElement(
-            rawElement.actionName,
-            findIn(converter.rawSchema.actions),
-            convertAction
-        );
-        if (!action) {
-            converter.logError(
-                `ActionImport '${rawElement.fullyQualifiedName}': Action '${rawElement.actionName}' not found`
-            );
-            action = {} as any;
-        }
-        return action;
-    });
+    lazy(rawElement as ActionImport, 'action', () =>
+        converter.getConvertedElement(rawElement.actionName, findIn(converter.rawSchema.actions), convertAction)
+    );
 
     return rawElement as ActionImport;
 }
@@ -1494,41 +1460,26 @@ function convertActionParameter(
     converter: Converter,
     rawElement: RemoveAnnotationAndType<ActionParameter>
 ): ActionParameter {
-    lazy(rawElement as ActionParameter, 'typeReference', () => {
-        let resolvedType;
-        // EntityType?
-        resolvedType = converter.getConvertedElement(
-            rawElement.type,
-            findIn(converter.rawSchema.entityTypes),
-            convertEntityType
-        );
-
-        if (resolvedType) {
-            return resolvedType;
-        }
-
-        // ComplexType?
-        resolvedType = converter.getConvertedElement(
-            rawElement.type,
-            findIn(converter.rawSchema.complexTypes),
-            convertComplexType
-        );
-        if (resolvedType) {
-            return resolvedType;
-        }
-
-        // TypeDefinition?
-        resolvedType = converter.getConvertedElement(
-            rawElement.type,
-            findIn(converter.rawSchema.typeDefinitions),
-            convertTypeDefinition
-        );
-        if (resolvedType) {
-            return resolvedType;
-        }
-
-        return undefined; // primitive type
-    });
+    lazy(
+        rawElement as ActionParameter,
+        'typeReference',
+        () =>
+            converter.getConvertedElement(
+                rawElement.type,
+                findIn(converter.rawSchema.entityTypes),
+                convertEntityType
+            ) ??
+            converter.getConvertedElement(
+                rawElement.type,
+                findIn(converter.rawSchema.complexTypes),
+                convertComplexType
+            ) ??
+            converter.getConvertedElement(
+                rawElement.type,
+                findIn(converter.rawSchema.typeDefinitions),
+                convertTypeDefinition
+            )
+    );
 
     lazy(rawElement as ActionParameter, 'annotations', resolveAnnotations(converter, rawElement));
 
@@ -1543,7 +1494,6 @@ function convertActionParameter(
  * @returns The converted ComplexType
  */
 function convertComplexType(converter: Converter, rawElement: RawComplexType): ComplexType {
-    const _rawProperties = rawElement.properties;
     lazy(rawElement as ComplexType, 'properties', collection(converter, rawElement.properties, convertProperty));
     lazy(
         rawElement as ComplexType,
