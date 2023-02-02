@@ -1,5 +1,5 @@
 import { parse } from '@sap-ux/edmx-parser';
-import { convert } from '@sap-ux/annotation-converter';
+import { convert, unalias } from '@sap-ux/annotation-converter';
 import type {
     Action,
     ActionImport,
@@ -84,7 +84,12 @@ export class ODataMetadata {
     }
 
     public getActionByFQN(actionFQN: string): Action | undefined {
-        return this.metadata.actions.find((action) => action.fullyQualifiedName === actionFQN);
+        let action = this.metadata.actions.find((action) => action.fullyQualifiedName === actionFQN);
+        if (!action) {
+            const unaliasedAction = unalias(this.metadata.references, actionFQN);
+            action = this.metadata.actions.find((action) => action.fullyQualifiedName === unaliasedAction);
+        }
+        return action;
     }
 
     public getActionImportByFQN(actionImportFQN: string): ActionImport | undefined {
