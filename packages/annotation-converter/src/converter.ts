@@ -1193,328 +1193,9 @@ function resolveAnnotations(converter: Converter, rawAnnotationTarget: any) {
         );
 }
 
-/**
- * Converts an EntityContainer.
- *
- * @param converter     Converter
- * @param rawElement    Unconverted EntityContainer
- * @returns The converted EntityContainer
- */
-function convertEntityContainer(converter: Converter, rawElement: RawEntityContainer): EntityContainer {
-    lazy(rawElement as EntityContainer, 'annotations', resolveAnnotations(converter, rawElement));
-
-    lazy(
-        rawElement as EntityContainer,
-        'entitySets',
-        collection(converter, converter.rawSchema.entitySets, convertEntitySet)
-    );
-
-    lazy(
-        rawElement as EntityContainer,
-        'singletons',
-        collection(converter, converter.rawSchema.singletons, convertSingleton)
-    );
-
-    lazy(
-        rawElement as EntityContainer,
-        'actionImports',
-        collection(converter, converter.rawSchema.actionImports, convertActionImport)
-    );
-
-    return rawElement as EntityContainer;
-}
-
-/**
- * Converts a Singleton.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted Singleton
- * @returns The converted Singleton
- */
-function convertSingleton(converter: Converter, rawElement: RawSingleton): Singleton {
-    (rawElement as Singleton).entityTypeName = converter.unalias(rawElement.entityTypeName);
-
-    lazy(rawElement as Singleton, 'entityType', resolveEntityType(converter, rawElement.entityTypeName));
-    lazy(rawElement as Singleton, 'annotations', resolveAnnotations(converter, rawElement as Singleton));
-
-    const _rawNavigationPropertyBindings = rawElement.navigationPropertyBinding;
-    lazy(
-        rawElement as Singleton,
-        'navigationPropertyBinding',
-        resolveNavigationPropertyBindings(
-            converter,
-            _rawNavigationPropertyBindings as Singleton['navigationPropertyBinding'],
-            rawElement
-        )
-    );
-
-    return rawElement as Singleton;
-}
-
-/**
- * Converts an EntitySet.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted EntitySet
- * @returns The converted EntitySet
- */
-function convertEntitySet(converter: Converter, rawElement: RawEntitySet): EntitySet {
-    (rawElement as EntitySet).entityTypeName = converter.unalias(rawElement.entityTypeName);
-
-    lazy(rawElement as EntitySet, 'entityType', resolveEntityType(converter, rawElement.entityTypeName));
-    lazy(rawElement as EntitySet, 'annotations', resolveAnnotations(converter, rawElement as EntitySet));
-
-    const _rawNavigationPropertyBindings = rawElement.navigationPropertyBinding;
-    lazy(
-        rawElement,
-        'navigationPropertyBinding',
-        resolveNavigationPropertyBindings(
-            converter,
-            _rawNavigationPropertyBindings as EntitySet['navigationPropertyBinding'],
-            rawElement
-        )
-    );
-
-    return rawElement as EntitySet;
-}
-
-/**
- * Converts an EntityType.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted EntityType
- * @returns The converted EntityType
- */
-function convertEntityType(converter: Converter, rawElement: RawEntityType): EntityType {
-    rawElement.keys.forEach((keyProp: any) => {
-        keyProp.isKey = true;
-    });
-
-    lazy(rawElement as EntityType, 'annotations', resolveAnnotations(converter, rawElement));
-    lazy(rawElement as EntityType, 'keys', collection(converter, rawElement.keys, convertProperty));
-    lazy(
-        rawElement as EntityType,
-        'entityProperties',
-        collection(converter, rawElement.entityProperties, convertProperty)
-    );
-    lazy(
-        rawElement as EntityType,
-        'navigationProperties',
-        collection(converter, rawElement.navigationProperties as any, convertNavigationProperty)
-    );
-
-    lazy(rawElement as EntityType, 'actions', () =>
-        converter.rawSchema.actions
-            .filter(
-                (rawAction) =>
-                    rawAction.isBound &&
-                    (rawAction.sourceType === rawElement.fullyQualifiedName ||
-                        rawAction.sourceType === `Collection(${rawElement.fullyQualifiedName})`)
-            )
-            .reduce((actions, rawAction) => {
-                const name = `${converter.rawSchema.namespace}.${rawAction.name}`;
-                actions[name] = converter.getConvertedElement(
-                    rawAction.fullyQualifiedName,
-                    findIn(converter.rawSchema.actions),
-                    convertAction
-                )!;
-                return actions;
-            }, {} as EntityType['actions'])
-    );
-
-    (rawElement as EntityType).resolvePath = (relativePath: string, includeVisitedObjects: boolean) => {
-        const target = resolveTarget(converter, rawElement, relativePath);
-        return includeVisitedObjects ? target : target.target;
-    };
-
-    return rawElement as EntityType;
-}
-
-/**
- * Converts a Property.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted Property
- * @returns The converted Property
- */
-function convertProperty(converter: Converter, rawElement: RawProperty): Property {
-    (rawElement as Property).type = converter.unalias(rawElement.type);
-    lazy(rawElement as Property, 'annotations', resolveAnnotations(converter, rawElement));
-
-    lazy(rawElement as Property, 'targetType', () => {
-        const type = rawElement.type;
-        const typeName = type.startsWith('Collection') ? type.substring(11, type.length - 1) : type;
-
-        return (
-            converter.getConvertedElement(typeName, findIn(converter.rawSchema.complexTypes), convertComplexType) ??
-            converter.getConvertedElement(typeName, findIn(converter.rawSchema.typeDefinitions), convertTypeDefinition)
-        );
-    });
-
-    return rawElement as Property;
-}
-
-/**
- * Converts a NavigationProperty.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted NavigationProperty
- * @returns The converted NavigationProperty
- */
-function convertNavigationProperty(
-    converter: Converter,
-    rawElement: RawV2NavigationProperty | RawV4NavigationProperty
-): NavigationProperty {
-    rawElement.referentialConstraint = rawElement.referentialConstraint ?? [];
-
-    if (!isV4NavigationProperty(rawElement)) {
-        const associationEnd = converter.rawSchema.associations
-            .find((association) => association.fullyQualifiedName === rawElement.relationship)
-            ?.associationEnd.find((end) => end.role === rawElement.toRole);
-
-        (rawElement as unknown as NavigationProperty).targetTypeName = associationEnd?.type ?? '';
-        (rawElement as unknown as NavigationProperty).isCollection = associationEnd?.multiplicity === '*';
-    }
-
-    (rawElement as NavigationProperty).targetTypeName = converter.unalias(
-        (rawElement as NavigationProperty).targetTypeName
-    );
-
-    lazy(
-        rawElement as NavigationProperty,
-        'targetType',
-        resolveEntityType(converter, (rawElement as NavigationProperty).targetTypeName)
-    );
-
-    lazy(rawElement as NavigationProperty, 'annotations', resolveAnnotations(converter, rawElement));
-
-    return rawElement as NavigationProperty;
-}
-
-/**
- * Converts an ActionImport.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted ActionImport
- * @returns The converted ActionImport
- */
-function convertActionImport(converter: Converter, rawElement: RawActionImport): ActionImport {
-    (rawElement as ActionImport).actionName = converter.unalias(rawElement.actionName);
-
-    lazy(rawElement as ActionImport, 'annotations', resolveAnnotations(converter, rawElement));
-
-    lazy(rawElement as ActionImport, 'action', () =>
-        converter.getConvertedElement(rawElement.actionName, findIn(converter.rawSchema.actions), convertAction)
-    );
-
-    return rawElement as ActionImport;
-}
-
-/**
- * Converts an Action.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted Action
- * @returns The converted Action
- */
-function convertAction(converter: Converter, rawElement: RawAction): Action {
-    (rawElement as Action).sourceType = converter.unalias(rawElement.sourceType);
-    if (rawElement.sourceType) {
-        lazy(rawElement as Action, 'sourceEntityType', resolveEntityType(converter, rawElement.sourceType));
-    }
-
-    (rawElement as Action).returnType = converter.unalias(rawElement.returnType);
-    if (rawElement.returnType) {
-        lazy(rawElement as Action, 'returnEntityType', resolveEntityType(converter, rawElement.returnType));
-    }
-
-    lazy(rawElement as Action, 'parameters', collection(converter, rawElement.parameters, convertActionParameter));
-
-    lazy(rawElement as Action, 'annotations', () => {
-        let rawAnnotations = converter.rawAnnotationsPerTarget[rawElement.fullyQualifiedName]?.annotations ?? [];
-
-        const baseActionName = substringBeforeFirst(rawElement.fullyQualifiedName, '(');
-        if (baseActionName !== rawElement.fullyQualifiedName) {
-            const baseAnnotations = converter.rawAnnotationsPerTarget[baseActionName]?.annotations ?? [];
-            rawAnnotations = rawAnnotations.concat(baseAnnotations);
-        }
-        return createAnnotationsObject(converter, rawElement, rawAnnotations);
-    });
-
-    return rawElement as Action;
-}
-
 function findIn<Type extends { fullyQualifiedName: FullyQualifiedName }>(rawMetadataElements: Type[]) {
     return (fullyQualifiedName: FullyQualifiedName) =>
         rawMetadataElements.find((entry) => entry.fullyQualifiedName === fullyQualifiedName);
-}
-
-/**
- * Converts an ActionParameter.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted ActionParameter
- * @returns The converted ActionParameter
- */
-function convertActionParameter(
-    converter: Converter,
-    rawElement: RemoveAnnotationAndType<ActionParameter>
-): ActionParameter {
-    lazy(
-        rawElement as ActionParameter,
-        'typeReference',
-        () =>
-            converter.getConvertedElement(
-                rawElement.type,
-                findIn(converter.rawSchema.entityTypes),
-                convertEntityType
-            ) ??
-            converter.getConvertedElement(
-                rawElement.type,
-                findIn(converter.rawSchema.complexTypes),
-                convertComplexType
-            ) ??
-            converter.getConvertedElement(
-                rawElement.type,
-                findIn(converter.rawSchema.typeDefinitions),
-                convertTypeDefinition
-            )
-    );
-
-    lazy(rawElement as ActionParameter, 'annotations', resolveAnnotations(converter, rawElement));
-
-    return rawElement as ActionParameter;
-}
-
-/**
- * Converts a ComplexType.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted ComplexType
- * @returns The converted ComplexType
- */
-function convertComplexType(converter: Converter, rawElement: RawComplexType): ComplexType {
-    lazy(rawElement as ComplexType, 'properties', collection(converter, rawElement.properties, convertProperty));
-    lazy(
-        rawElement as ComplexType,
-        'navigationProperties',
-        collection(converter, rawElement.navigationProperties as any, convertNavigationProperty)
-    );
-    lazy(rawElement as ComplexType, 'annotations', resolveAnnotations(converter, rawElement));
-
-    return rawElement as ComplexType;
-}
-
-/**
- * Converts a TypeDefinition.
- *
- * @param converter   Converter
- * @param rawElement  Unconverted TypeDefinition
- * @returns The converted TypeDefinition
- */
-function convertTypeDefinition(converter: Converter, rawElement: RawTypeDefinition): TypeDefinition {
-    lazy(rawElement as TypeDefinition, 'annotations', resolveAnnotations(converter, rawElement));
-    return rawElement as TypeDefinition;
 }
 
 function createAnnotationsObject(converter: Converter, target: any, rawAnnotations: RawAnnotation[]) {
@@ -1537,6 +1218,346 @@ function createAnnotationsObject(converter: Converter, target: any, rawAnnotatio
         }
         return vocabularyAliases;
     }, {} as any);
+}
+
+/**
+ * Converts an EntityContainer.
+ *
+ * @param converter     Converter
+ * @param rawEntityContainer    Unconverted EntityContainer
+ * @returns The converted EntityContainer
+ */
+function convertEntityContainer(converter: Converter, rawEntityContainer: RawEntityContainer): EntityContainer {
+    const convertedEntityContainer = rawEntityContainer as EntityContainer;
+
+    lazy(convertedEntityContainer, 'annotations', resolveAnnotations(converter, rawEntityContainer));
+
+    lazy(
+        convertedEntityContainer,
+        'entitySets',
+        collection(converter, converter.rawSchema.entitySets, convertEntitySet)
+    );
+
+    lazy(
+        convertedEntityContainer,
+        'singletons',
+        collection(converter, converter.rawSchema.singletons, convertSingleton)
+    );
+
+    lazy(
+        convertedEntityContainer,
+        'actionImports',
+        collection(converter, converter.rawSchema.actionImports, convertActionImport)
+    );
+
+    return convertedEntityContainer;
+}
+
+/**
+ * Converts a Singleton.
+ *
+ * @param converter   Converter
+ * @param rawSingleton  Unconverted Singleton
+ * @returns The converted Singleton
+ */
+function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Singleton {
+    const convertedSingleton = rawSingleton as Singleton;
+
+    convertedSingleton.entityTypeName = converter.unalias(rawSingleton.entityTypeName);
+
+    lazy(convertedSingleton, 'entityType', resolveEntityType(converter, rawSingleton.entityTypeName));
+    lazy(convertedSingleton, 'annotations', resolveAnnotations(converter, rawSingleton as Singleton));
+
+    const _rawNavigationPropertyBindings = rawSingleton.navigationPropertyBinding;
+    lazy(
+        convertedSingleton,
+        'navigationPropertyBinding',
+        resolveNavigationPropertyBindings(
+            converter,
+            _rawNavigationPropertyBindings as Singleton['navigationPropertyBinding'],
+            rawSingleton
+        )
+    );
+
+    return convertedSingleton;
+}
+
+/**
+ * Converts an EntitySet.
+ *
+ * @param converter   Converter
+ * @param rawEntitySet  Unconverted EntitySet
+ * @returns The converted EntitySet
+ */
+function convertEntitySet(converter: Converter, rawEntitySet: RawEntitySet): EntitySet {
+    const convertedEntitySet = rawEntitySet as EntitySet;
+
+    convertedEntitySet.entityTypeName = converter.unalias(rawEntitySet.entityTypeName);
+
+    lazy(convertedEntitySet, 'entityType', resolveEntityType(converter, rawEntitySet.entityTypeName));
+    lazy(convertedEntitySet, 'annotations', resolveAnnotations(converter, rawEntitySet as EntitySet));
+
+    const _rawNavigationPropertyBindings = rawEntitySet.navigationPropertyBinding;
+    lazy(
+        convertedEntitySet,
+        'navigationPropertyBinding',
+        resolveNavigationPropertyBindings(
+            converter,
+            _rawNavigationPropertyBindings as EntitySet['navigationPropertyBinding'],
+            rawEntitySet
+        )
+    );
+
+    return convertedEntitySet;
+}
+
+/**
+ * Converts an EntityType.
+ *
+ * @param converter   Converter
+ * @param rawEntityType  Unconverted EntityType
+ * @returns The converted EntityType
+ */
+function convertEntityType(converter: Converter, rawEntityType: RawEntityType): EntityType {
+    const convertedEntityType = rawEntityType as EntityType;
+
+    rawEntityType.keys.forEach((keyProp: any) => {
+        keyProp.isKey = true;
+    });
+
+    lazy(convertedEntityType, 'annotations', resolveAnnotations(converter, rawEntityType));
+    lazy(convertedEntityType, 'keys', collection(converter, rawEntityType.keys, convertProperty));
+    lazy(
+        convertedEntityType,
+        'entityProperties',
+        collection(converter, rawEntityType.entityProperties, convertProperty)
+    );
+    lazy(
+        convertedEntityType,
+        'navigationProperties',
+        collection(converter, rawEntityType.navigationProperties as any, convertNavigationProperty)
+    );
+
+    lazy(convertedEntityType, 'actions', () =>
+        converter.rawSchema.actions
+            .filter(
+                (rawAction) =>
+                    rawAction.isBound &&
+                    (rawAction.sourceType === rawEntityType.fullyQualifiedName ||
+                        rawAction.sourceType === `Collection(${rawEntityType.fullyQualifiedName})`)
+            )
+            .reduce((actions, rawAction) => {
+                const name = `${converter.rawSchema.namespace}.${rawAction.name}`;
+                actions[name] = converter.getConvertedElement(
+                    rawAction.fullyQualifiedName,
+                    findIn(converter.rawSchema.actions),
+                    convertAction
+                )!;
+                return actions;
+            }, {} as EntityType['actions'])
+    );
+
+    convertedEntityType.resolvePath = (relativePath: string, includeVisitedObjects: boolean) => {
+        const target = resolveTarget(converter, rawEntityType, relativePath);
+        return includeVisitedObjects ? target : target.target;
+    };
+
+    return convertedEntityType;
+}
+
+/**
+ * Converts a Property.
+ *
+ * @param converter   Converter
+ * @param rawProperty  Unconverted Property
+ * @returns The converted Property
+ */
+function convertProperty(converter: Converter, rawProperty: RawProperty): Property {
+    const convertedProperty = rawProperty as Property;
+
+    convertedProperty.type = converter.unalias(rawProperty.type);
+    lazy(convertedProperty, 'annotations', resolveAnnotations(converter, rawProperty));
+
+    lazy(convertedProperty, 'targetType', () => {
+        const type = rawProperty.type;
+        const typeName = type.startsWith('Collection') ? type.substring(11, type.length - 1) : type;
+
+        return (
+            converter.getConvertedElement(typeName, findIn(converter.rawSchema.complexTypes), convertComplexType) ??
+            converter.getConvertedElement(typeName, findIn(converter.rawSchema.typeDefinitions), convertTypeDefinition)
+        );
+    });
+
+    return convertedProperty;
+}
+
+/**
+ * Converts a NavigationProperty.
+ *
+ * @param converter   Converter
+ * @param rawNavigationProperty  Unconverted NavigationProperty
+ * @returns The converted NavigationProperty
+ */
+function convertNavigationProperty(
+    converter: Converter,
+    rawNavigationProperty: RawV2NavigationProperty | RawV4NavigationProperty
+): NavigationProperty {
+    const convertedNavigationProperty = rawNavigationProperty as NavigationProperty;
+
+    convertedNavigationProperty.referentialConstraint = convertedNavigationProperty.referentialConstraint ?? [];
+
+    if (isV4NavigationProperty(rawNavigationProperty)) {
+        convertedNavigationProperty.targetTypeName = converter.unalias(rawNavigationProperty.targetTypeName);
+    } else {
+        const associationEnd = converter.rawSchema.associations
+            .find((association) => association.fullyQualifiedName === rawNavigationProperty.relationship)
+            ?.associationEnd.find((end) => end.role === rawNavigationProperty.toRole);
+
+        convertedNavigationProperty.isCollection = associationEnd?.multiplicity === '*';
+        convertedNavigationProperty.targetTypeName = associationEnd?.type ?? '';
+    }
+
+    lazy(
+        convertedNavigationProperty,
+        'targetType',
+        resolveEntityType(converter, (rawNavigationProperty as NavigationProperty).targetTypeName)
+    );
+
+    lazy(convertedNavigationProperty, 'annotations', resolveAnnotations(converter, rawNavigationProperty));
+
+    return convertedNavigationProperty;
+}
+
+/**
+ * Converts an ActionImport.
+ *
+ * @param converter   Converter
+ * @param rawActionImport  Unconverted ActionImport
+ * @returns The converted ActionImport
+ */
+function convertActionImport(converter: Converter, rawActionImport: RawActionImport): ActionImport {
+    const convertedActionImport = rawActionImport as ActionImport;
+
+    convertedActionImport.actionName = converter.unalias(rawActionImport.actionName);
+
+    lazy(convertedActionImport, 'annotations', resolveAnnotations(converter, rawActionImport));
+
+    lazy(convertedActionImport, 'action', () =>
+        converter.getConvertedElement(rawActionImport.actionName, findIn(converter.rawSchema.actions), convertAction)
+    );
+
+    return convertedActionImport;
+}
+
+/**
+ * Converts an Action.
+ *
+ * @param converter   Converter
+ * @param rawAction  Unconverted Action
+ * @returns The converted Action
+ */
+function convertAction(converter: Converter, rawAction: RawAction): Action {
+    const convertedAction = rawAction as Action;
+
+    convertedAction.sourceType = converter.unalias(rawAction.sourceType);
+    if (convertedAction.sourceType) {
+        lazy(convertedAction, 'sourceEntityType', resolveEntityType(converter, rawAction.sourceType));
+    }
+
+    convertedAction.returnType = converter.unalias(rawAction.returnType);
+    if (convertedAction.returnType) {
+        lazy(convertedAction, 'returnEntityType', resolveEntityType(converter, rawAction.returnType));
+    }
+
+    lazy(convertedAction, 'parameters', collection(converter, rawAction.parameters, convertActionParameter));
+
+    lazy(convertedAction, 'annotations', () => {
+        let rawAnnotations = converter.rawAnnotationsPerTarget[rawAction.fullyQualifiedName]?.annotations ?? [];
+
+        const baseActionName = substringBeforeFirst(rawAction.fullyQualifiedName, '(');
+        if (baseActionName !== rawAction.fullyQualifiedName) {
+            const baseAnnotations = converter.rawAnnotationsPerTarget[baseActionName]?.annotations ?? [];
+            rawAnnotations = rawAnnotations.concat(baseAnnotations);
+        }
+        return createAnnotationsObject(converter, rawAction, rawAnnotations);
+    });
+
+    return convertedAction;
+}
+
+/**
+ * Converts an ActionParameter.
+ *
+ * @param converter   Converter
+ * @param rawActionParameter  Unconverted ActionParameter
+ * @returns The converted ActionParameter
+ */
+function convertActionParameter(
+    converter: Converter,
+    rawActionParameter: RawAction['parameters'][number]
+): ActionParameter {
+    const convertedActionParameter = rawActionParameter as ActionParameter;
+
+    lazy(
+        convertedActionParameter,
+        'typeReference',
+        () =>
+            converter.getConvertedElement(
+                rawActionParameter.type,
+                findIn(converter.rawSchema.entityTypes),
+                convertEntityType
+            ) ??
+            converter.getConvertedElement(
+                rawActionParameter.type,
+                findIn(converter.rawSchema.complexTypes),
+                convertComplexType
+            ) ??
+            converter.getConvertedElement(
+                rawActionParameter.type,
+                findIn(converter.rawSchema.typeDefinitions),
+                convertTypeDefinition
+            )
+    );
+
+    lazy(convertedActionParameter, 'annotations', resolveAnnotations(converter, rawActionParameter));
+
+    return convertedActionParameter;
+}
+
+/**
+ * Converts a ComplexType.
+ *
+ * @param converter   Converter
+ * @param rawComplexType  Unconverted ComplexType
+ * @returns The converted ComplexType
+ */
+function convertComplexType(converter: Converter, rawComplexType: RawComplexType): ComplexType {
+    const convertedComplexType = rawComplexType as ComplexType;
+
+    lazy(convertedComplexType, 'properties', collection(converter, rawComplexType.properties, convertProperty));
+    lazy(
+        convertedComplexType,
+        'navigationProperties',
+        collection(converter, rawComplexType.navigationProperties as any, convertNavigationProperty)
+    );
+    lazy(convertedComplexType, 'annotations', resolveAnnotations(converter, rawComplexType));
+
+    return convertedComplexType;
+}
+
+/**
+ * Converts a TypeDefinition.
+ *
+ * @param converter   Converter
+ * @param rawTypeDefinition  Unconverted TypeDefinition
+ * @returns The converted TypeDefinition
+ */
+function convertTypeDefinition(converter: Converter, rawTypeDefinition: RawTypeDefinition): TypeDefinition {
+    const convertedTypeDefinition = rawTypeDefinition as TypeDefinition;
+
+    lazy(convertedTypeDefinition, 'annotations', resolveAnnotations(converter, rawTypeDefinition));
+
+    return convertedTypeDefinition;
 }
 
 /**
