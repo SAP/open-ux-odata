@@ -428,7 +428,9 @@ async function generateTypes(targetFolder: string) {
                                 vocabularyDef += ';\n';
                                 if (
                                     vocabularyTermKey === 'Action' &&
-                                    (keyType === 'Common.QualifiedName' || keyType === 'Common.ActionOverload')
+                                    (keyType === 'ActionName' ||
+                                        keyType === 'Common.QualifiedName' ||
+                                        keyType === 'Common.ActionOverload')
                                 ) {
                                     vocabularyDef += `\n    ActionTarget?: Edm.Action;\n`;
                                 }
