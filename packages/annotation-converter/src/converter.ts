@@ -936,6 +936,9 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
             // eslint-disable-next-line no-new-wrappers
             annotation = new Boolean(annotation);
             break;
+        case 'number':
+            annotation = new Number(annotation);
+            break;
         default:
             // do nothing
             break;

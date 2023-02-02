@@ -907,4 +907,23 @@ describe('Annotation Converter', () => {
         expect(dataFields2[3].ActionTarget).toBe(getAction('TestService.function'));
         expect(dataFields2[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
     });
+
+    it('Correctly handles literal values in annotations', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/literals.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const entityType = convertedTypes.entityTypes[0];
+        expect(entityType.name).toEqual('Entity');
+
+        const idProperty = entityType.entityProperties[0];
+        expect(idProperty?.annotations?.UI?.Hidden?.valueOf()).toEqual(true);
+        expect(idProperty?.annotations?.Validation?.Minimum?.valueOf()).toEqual(10);
+        expect(idProperty?.annotations?.Common?.Label?.valueOf()).toEqual('Key');
+
+        expect(entityType.annotations.UI?.Identification?.[0]?.annotations?.UI?.Hidden?.valueOf()).toEqual(true);
+        expect(entityType.annotations.UI?.Identification?.[0]?.annotations?.Common?.Heading?.valueOf()).toEqual('Text');
+        expect(
+            entityType.annotations.UI?.Identification?.[0]?.annotations?.Analytics?.RolledUpPropertyCount?.valueOf()
+        ).toEqual(11);
+    });
 });
