@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.52
+
+### Patch Changes
+
+-   4b190d5: Allow action to be resolved when the service alias is used
+
 ## 1.1.51
 
 ### Patch Changes
