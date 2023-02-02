@@ -884,11 +884,11 @@ describe('Data Access', () => {
             new ODataRequest({ method: 'GET', url: '/SalesOrderManage' }, dataAccess)
         );
         expect(sdData.length).toEqual(1);
-        // Create It
+        // Create It - Test with an alias, even though it's not the recommendation :)
         const request = new ODataRequest(
             {
                 method: '/POST',
-                url: '/SalesOrderManage/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CreateWithSalesOrderType'
+                url: '/SalesOrderManage/SAP__self.CreateWithSalesOrderType'
             },
             stickyDataAccess
         );
