@@ -65,26 +65,16 @@ const INDEX_BY_NAME = Symbol('by name');
 /**
  * Append an object to the list of visited objects if it is different from the last object in the list.
  *
- * @param visitedObjects    The list of visited objects
- * @param visitedObject     The object
+ * @param objectPath    The list of visited objects
+ * @param visitedObject The object
  * @returns The list of visited objects
  */
-function appendVisitedObjects(visitedObjects: any[], visitedObject: any): any[] {
-    if (visitedObjects[visitedObjects.length - 1] !== visitedObject) {
-        visitedObjects.push(visitedObject);
+function appendObjectPath(objectPath: any[], visitedObject: any): any[] {
+    if (objectPath[objectPath.length - 1] !== visitedObject) {
+        objectPath.push(visitedObject);
     }
-    return visitedObjects;
+    return objectPath;
 }
-
-// TODO: Reuse type ResolutionTarget<T>
-type PathResolutionResult = {
-    /** The resolved target element the path points to */
-    target: any;
-    /** The elements that were visited along the way */
-    visitedObjects: any[];
-    /** Messages */
-    messages: { message: string }[];
-};
 
 /**
  * Resolves a (possibly relative) path.
@@ -95,12 +85,18 @@ type PathResolutionResult = {
  * @param annotationsTerm   Only for error reporting: The annotation term
  * @returns An object containing the resolved target and the elements that were visited while getting to the target.
  */
-function resolveTarget(
+function resolveTarget<T>(
     converter: Converter,
     startElement: any,
     path: string,
     annotationsTerm?: string
-): PathResolutionResult {
+): ResolutionTarget<T> {
+    // absolute paths always start at the entity container
+    if (path.startsWith('/')) {
+        path = path.substring(1);
+        startElement = undefined; // will resolve to the entity container (see below)
+    }
+
     const pathSegments = path.split('/').reduce((targetPath, segment) => {
         if (segment.includes('@')) {
             // Separate out the annotation
@@ -134,19 +130,19 @@ function resolveTarget(
     }
 
     const result = pathSegments.reduce(
-        (current: PathResolutionResult, segment: string) => {
+        (current: ResolutionTarget<any>, segment: string) => {
             const error = (message: string) => {
                 current.messages.push({ message });
-                current.visitedObjects = appendVisitedObjects(current.visitedObjects, undefined);
-                current.target = undefined;
+                current.objectPath = appendObjectPath(current.objectPath, null);
+                current.target = null;
                 return current;
             };
 
-            if (current.target === undefined) {
+            if (current.target === null) {
                 return current;
             }
 
-            current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
+            current.objectPath = appendObjectPath(current.objectPath, current.target);
 
             // Annotation
             if (segment.startsWith('@') && segment !== '@$ui5.overload') {
@@ -175,14 +171,14 @@ function resolveTarget(
 
                 if (subPath !== undefined) {
                     const subTarget = resolveTarget(converter, current.target[ANNOTATION_TARGET], subPath);
-                    subTarget.visitedObjects.forEach((visitedSubObject: any) => {
-                        if (!current.visitedObjects.includes(visitedSubObject)) {
-                            current.visitedObjects = appendVisitedObjects(current.visitedObjects, visitedSubObject);
+                    subTarget.objectPath.forEach((visitedSubObject: any) => {
+                        if (!current.objectPath.includes(visitedSubObject)) {
+                            current.objectPath = appendObjectPath(current.objectPath, visitedSubObject);
                         }
                     });
 
                     current.target = subTarget.target;
-                    current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
+                    current.objectPath = appendObjectPath(current.objectPath, current.target);
                     return current;
                 }
             }
@@ -233,7 +229,7 @@ function resolveTarget(
                     // continue resolving at the EntitySet's or Singleton's type
                     const result = resolveTarget(converter, thisElement.entityType, segment);
                     current.target = result.target;
-                    current.visitedObjects = result.visitedObjects.reduce(appendVisitedObjects, current.visitedObjects);
+                    current.objectPath = result.objectPath.reduce(appendObjectPath, current.objectPath);
                     return current;
                 }
 
@@ -273,7 +269,7 @@ function resolveTarget(
                     // continue resolving at the Action
                     const result = resolveTarget(converter, current.target.action, segment);
                     current.target = result.target;
-                    current.visitedObjects = result.visitedObjects.reduce(appendVisitedObjects, current.visitedObjects);
+                    current.objectPath = result.objectPath.reduce(appendObjectPath, current.objectPath);
                     return current;
                 }
 
@@ -293,11 +289,15 @@ function resolveTarget(
                         return current;
                     }
 
-                    current.target =
+                    const nextElement =
                         thisElement.parameters[segment as any] ??
                         thisElement.parameters.find((param: ActionParameter) => param.name === segment);
 
-                    return current;
+                    if (nextElement) {
+                        current.target = nextElement;
+                        return current;
+                    }
+                    break;
                 }
 
                 case 'Property':
@@ -327,7 +327,9 @@ function resolveTarget(
                 case 'ActionParameter':
                     const referencedType = (current.target as ActionParameter).typeReference;
                     if (referencedType !== undefined) {
-                        current.target = referencedType;
+                        const result = resolveTarget(converter, referencedType, segment);
+                        current.target = result.target;
+                        current.objectPath = result.objectPath.reduce(appendObjectPath, current.objectPath);
                         return current;
                     }
                     break;
@@ -336,13 +338,13 @@ function resolveTarget(
                     // continue at the NavigationProperty's target type
                     const result = resolveTarget(converter, (current.target as NavigationProperty).targetType, segment);
                     current.target = result.target;
-                    current.visitedObjects = result.visitedObjects.reduce(appendVisitedObjects, current.visitedObjects);
+                    current.objectPath = result.objectPath.reduce(appendObjectPath, current.objectPath);
                     return current;
 
                 default:
                     if (current.target[segment]) {
                         current.target = current.target[segment];
-                        current.visitedObjects = appendVisitedObjects(current.visitedObjects, current.target);
+                        current.objectPath = appendObjectPath(current.objectPath, current.target);
                     }
                     return current;
             }
@@ -351,7 +353,7 @@ function resolveTarget(
                 `Element '${segment}' not found at ${current.target._type} '${current.target.fullyQualifiedName}'`
             );
         },
-        { visitedObjects: [], target: startElement, messages: [] }
+        { target: startElement, objectPath: [], messages: [] }
     );
 
     // Diagnostics
@@ -559,11 +561,11 @@ Hint: If possible, try to maintain the Type property for each Record.
     return targetType;
 }
 
-function isDataFieldWithForAction(annotationContent: any, annotationTerm: any) {
+function isDataFieldWithForAction(annotationContent: any) {
     return (
         annotationContent.hasOwnProperty('Action') &&
-        (annotationTerm.$Type === 'com.sap.vocabularies.UI.v1.DataFieldForAction' ||
-            annotationTerm.$Type === 'com.sap.vocabularies.UI.v1.DataFieldWithAction')
+        (annotationContent.$Type === 'com.sap.vocabularies.UI.v1.DataFieldForAction' ||
+            annotationContent.$Type === 'com.sap.vocabularies.UI.v1.DataFieldWithAction')
     );
 }
 
@@ -635,7 +637,7 @@ function parseRecord(
         return annotationContent;
     }, annotationTerm);
 
-    if (isDataFieldWithForAction(annotationContent, annotationTerm)) {
+    if (isDataFieldWithForAction(annotationContent)) {
         lazy(annotationContent, 'ActionTarget', () => {
             // try to resolve to a bound action of the annotation target
             let actionTarget = currentTarget.actions?.[annotationContent.Action];
@@ -755,7 +757,9 @@ function parseCollection(
                 lazy(
                     result,
                     '$target',
-                    () => resolveTarget(converter, currentTarget, propertyPath.PropertyPath, currentTerm).target
+                    () =>
+                        resolveTarget<Property>(converter, currentTarget, propertyPath.PropertyPath, currentTerm)
+                            .target ?? ({} as Property) // TODO: $target is mandatory - throw an error?
                 );
 
                 return result;
@@ -865,30 +869,6 @@ function isV4NavigationProperty(
  */
 function splitTerm(references: ReferencesWithMap, termValue: string) {
     return splitAtLast(alias(references, termValue), '.');
-}
-
-/**
- * Creates the function that will resolve a specific path.
- *
- * @param converter
- * @returns the function that will allow to resolve element globally.
- */
-function createGlobalResolve(converter: Converter) {
-    return function resolvePath<T>(path: string): ResolutionTarget<T> {
-        let targetPath = path;
-        if (!path.startsWith('/')) {
-            targetPath = `/${path}`;
-        }
-
-        const targetResolution = resolveTarget(converter, undefined, targetPath);
-        if (targetResolution.target) {
-            appendVisitedObjects(targetResolution.visitedObjects, targetResolution.target);
-        }
-        return {
-            target: targetResolution.target,
-            objectPath: targetResolution.visitedObjects
-        };
-    };
 }
 
 function convertAnnotation(converter: Converter, target: any, rawAnnotation: RawAnnotation): Annotation {
@@ -1360,8 +1340,15 @@ function convertEntityType(converter: Converter, rawEntityType: RawEntityType): 
             }, {} as EntityType['actions'])
     );
 
-    convertedEntityType.resolvePath = (relativePath: string, includeVisitedObjects: boolean) => {
-        const target = resolveTarget(converter, rawEntityType, relativePath);
+    convertedEntityType.resolvePath = (relativePath: string, includeVisitedObjects?: boolean) => {
+        let target: any;
+        if (!relativePath) {
+            // shortcut
+            target = { target: convertedEntityType, visitedObjects: [convertedEntityType], messages: [] };
+        } else {
+            const resolved = resolveTarget(converter, rawEntityType, relativePath);
+            target = { target: resolved.target, visitedObjects: resolved.objectPath, messages: resolved.messages };
+        }
         return includeVisitedObjects ? target : target.target;
     };
 
@@ -1615,6 +1602,15 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         collection(converter, converter.rawSchema.typeDefinitions, convertTypeDefinition)
     );
 
-    convertedOutput.resolvePath = createGlobalResolve(converter);
+    convertedOutput.resolvePath = function resolvePath<T>(path: string): ResolutionTarget<T> {
+        const targetPath = path.startsWith('/') ? path : `/${path}`;
+
+        const targetResolution = resolveTarget<T>(converter, undefined, targetPath);
+        if (targetResolution.target) {
+            appendObjectPath(targetResolution.objectPath, targetResolution.target);
+        }
+        return targetResolution;
+    };
+
     return convertedOutput;
 }

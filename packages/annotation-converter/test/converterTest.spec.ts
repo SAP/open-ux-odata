@@ -475,6 +475,18 @@ describe('Annotation Converter', () => {
             expect(target.target._type).toEqual('Property');
             expect(target.target.name).toEqual('Material');
         });
+
+        it('can resolve a path starting at an action', () => {
+            const target: ResolutionTarget<any> = convertedTypes.resolvePath(
+                '/SalesOrderItem/com.c_salesordermanage_sd.draftPrepare/in/owner/_ShipToParty/isVerified'
+            );
+
+            expect(target.target).not.toBeNull();
+            expect(target.target).not.toBeUndefined();
+            expect(target.objectPath.length).toEqual(11); // EntityContainer / EntitySet / EntityType / Action / ActionParameter / EntityType / NavigationProperty / EntityType / NavigationProperty / EntityType / Property
+            expect(target.target._type).toEqual('Property');
+            expect(target.target.name).toEqual('isVerified');
+        });
     });
 
     describe('can support resolution target for singleton as well', () => {
@@ -859,7 +871,7 @@ describe('Annotation Converter', () => {
         const parsedMetadata = parse(await loadFixture('v4/static-action.xml'));
         const convertedTypes = convert(parsedMetadata);
 
-        const dataFieldForAction = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem?.[0] as DataFieldForAction;
+        const dataFieldForAction = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem?.[0] as any;
         const action = convertedTypes.actions[0];
         expect(dataFieldForAction).toBeDefined();
         expect(dataFieldForAction).not.toBeNull();
@@ -872,7 +884,7 @@ describe('Annotation Converter', () => {
         const parsedMetadata = parse(await loadFixture('v4/actions-and-functions.xml'));
         const convertedTypes = convert(parsedMetadata);
 
-        const dataFields = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as DataFieldForAction[];
+        const dataFields = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as any[];
         expect(dataFields.length).toEqual(7);
         expect(dataFields[0].ActionTarget).toBeDefined();
         expect(dataFields[1].ActionTarget).toBeDefined();
@@ -893,14 +905,14 @@ describe('Annotation Converter', () => {
             return result;
         }
 
-        const dataFields1 = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as DataFieldForAction[];
+        const dataFields1 = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as any[];
         expect(dataFields1[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
         expect(dataFields1[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity1)'));
         expect(dataFields1[2].ActionTarget).toBe(getAction('TestService.action'));
         expect(dataFields1[3].ActionTarget).toBe(getAction('TestService.function'));
         expect(dataFields1[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
 
-        const dataFields2 = convertedTypes.entityTypes[1]?.annotations.UI?.LineItem as DataFieldForAction[];
+        const dataFields2 = convertedTypes.entityTypes[1]?.annotations.UI?.LineItem as any[];
         expect(dataFields2[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity2)'));
         expect(dataFields2[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity2)'));
         expect(dataFields2[2].ActionTarget).toBe(getAction('TestService.action'));
