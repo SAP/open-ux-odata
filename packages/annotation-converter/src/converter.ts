@@ -1341,15 +1341,12 @@ function convertEntityType(converter: Converter, rawEntityType: RawEntityType): 
     );
 
     convertedEntityType.resolvePath = (relativePath: string, includeVisitedObjects?: boolean) => {
-        let target: any;
-        if (!relativePath) {
-            // shortcut
-            target = { target: convertedEntityType, visitedObjects: [convertedEntityType], messages: [] };
+        const resolved = resolveTarget(converter, rawEntityType, relativePath);
+        if (includeVisitedObjects) {
+            return { target: resolved.target, visitedObjects: resolved.objectPath, messages: resolved.messages };
         } else {
-            const resolved = resolveTarget(converter, rawEntityType, relativePath);
-            target = { target: resolved.target, visitedObjects: resolved.objectPath, messages: resolved.messages };
+            return resolved.target;
         }
-        return includeVisitedObjects ? target : target.target;
     };
 
     return convertedEntityType;
@@ -1603,9 +1600,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     );
 
     convertedOutput.resolvePath = function resolvePath<T>(path: string): ResolutionTarget<T> {
-        const targetPath = path.startsWith('/') ? path : `/${path}`;
-
-        const targetResolution = resolveTarget<T>(converter, undefined, targetPath);
+        const targetResolution = resolveTarget<T>(converter, undefined, path);
         if (targetResolution.target) {
             appendObjectPath(targetResolution.objectPath, targetResolution.target);
         }
