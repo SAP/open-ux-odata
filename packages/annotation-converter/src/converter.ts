@@ -133,12 +133,12 @@ function resolveTarget<T>(
         (current: ResolutionTarget<any>, segment: string) => {
             const error = (message: string) => {
                 current.messages.push({ message });
-                current.objectPath = appendObjectPath(current.objectPath, null);
-                current.target = null;
+                current.objectPath = appendObjectPath(current.objectPath, undefined);
+                current.target = undefined;
                 return current;
             };
 
-            if (current.target === null) {
+            if (current.target === undefined) {
                 return current;
             }
 
@@ -237,7 +237,7 @@ function resolveTarget<T>(
                     {
                         const thisElement = current.target as EntityType;
 
-                        if (segment === '') {
+                        if (segment === '' || segment === '$Type') {
                             return current;
                         }
 

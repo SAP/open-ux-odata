@@ -464,7 +464,7 @@ export type ServiceObject =
 export type ServiceObjectAndAnnotation = ServiceObject | AnyAnnotation;
 
 export type ResolutionTarget<T> = {
-    target: null | T;
+    target: undefined | null | T;
     objectPath: ServiceObjectAndAnnotation[];
     messages: { message: string }[];
 };

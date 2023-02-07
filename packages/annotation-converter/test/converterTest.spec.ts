@@ -487,6 +487,16 @@ describe('Annotation Converter', () => {
             expect(target.target._type).toEqual('Property');
             expect(target.target.name).toEqual('isVerified');
         });
+
+        it('can resolve /$Type starting at an entity type', () => {
+            const entityType = convertedTypes.entityTypes[0];
+            expect(entityType).not.toBeNull();
+            expect(entityType).not.toBeUndefined();
+
+            const target = entityType.resolvePath('$Type', true);
+            expect(target.visitedObjects.length).toEqual(1); // EntityType
+            expect(target.target).toStrictEqual(entityType);
+        });
     });
 
     describe('can support resolution target for singleton as well', () => {
