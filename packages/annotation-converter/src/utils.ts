@@ -511,6 +511,8 @@ export function addIndex<T>(array: Array<T>, indexedProperty: keyof T, indexName
 
     if (!array.hasOwnProperty(indexName)) {
         Object.defineProperty(array, indexName, { value: find });
+    } else {
+        throw new Error(`Property '${indexName.toString()}' already exists`);
     }
 
     return array as Array<T> & { [x: typeof indexName]: (value: T[keyof T]) => T | undefined };
