@@ -482,38 +482,48 @@ export type ArrayWithIndex<T> = Array<T> & {
 };
 
 /**
- * Adds an index to the array and return the array with the added index.
+ * Creates a function that allows to find an array element by property value.
  *
- * @param array             The array
- * @param indexedProperty   The property by which the array gets indexed
- * @param indexName         The name of the index
- * @returns The array with index
+ * @param array     The array
+ * @param property  Elements in the array are searched by this property
+ * @returns A function that can be used to find an element of the array by property value.
  */
-export function addIndex<T>(array: Array<T>, indexedProperty: keyof T, indexName: string | symbol) {
+export function createIndexedFind<T>(array: Array<T>, property: keyof T) {
     const index: Map<T[keyof T], T | undefined> = new Map();
-    const find = (value: T[keyof T]) => {
+
+    return function find(value: T[keyof T]) {
         const element = index.get(value);
 
-        if (element?.[indexedProperty] === value) {
+        if (element?.[property] === value) {
             return element;
         }
 
         return array.find((element) => {
-            if (!element?.hasOwnProperty(indexedProperty)) {
+            if (!element?.hasOwnProperty(property)) {
                 return false;
             }
 
-            const propertyValue = element[indexedProperty];
+            const propertyValue = element[property];
             index.set(propertyValue, element);
             return propertyValue === value;
         });
     };
+}
 
-    if (!array.hasOwnProperty(indexName)) {
-        Object.defineProperty(array, indexName, { value: find });
+/**
+ * Adds an index to the array and return the array with the added index.
+ *
+ * @param array      The array
+ * @param property   The property by which the array gets indexed
+ * @param name       The name of the index
+ * @returns The array with index
+ */
+export function addIndex<T>(array: Array<T>, property: keyof T, name: string | symbol) {
+    if (!array.hasOwnProperty(name)) {
+        Object.defineProperty(array, name, { value: createIndexedFind(array, property) });
     } else {
-        throw new Error(`Property '${indexName.toString()}' already exists`);
+        throw new Error(`Property '${name.toString()}' already exists`);
     }
 
-    return array as Array<T> & { [x: typeof indexName]: (value: T[keyof T]) => T | undefined };
+    return array as Array<T> & { [x: typeof name]: (value: T[keyof T]) => T | undefined };
 }

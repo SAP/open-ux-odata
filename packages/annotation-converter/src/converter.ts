@@ -40,6 +40,7 @@ import type { ArrayWithIndex, ReferencesWithMap } from './utils';
 import {
     addIndex,
     alias,
+    createIndexedFind,
     Decimal,
     defaultReferences,
     EnumIsFlag,
@@ -112,21 +113,13 @@ function resolveTarget<T>(
     // determine the starting point for the resolution
     if (startElement === undefined) {
         // no starting point given: start at the entity container
-        startElement = converter.getConvertedElement(
-            converter.rawSchema.entityContainer.fullyQualifiedName,
-            converter.rawSchema.entityContainer,
-            convertEntityContainer
-        );
+        startElement = converter.getConvertedEntityContainer();
     } else if (startElement[ANNOTATION_TARGET] !== undefined) {
         // annotation: start at the annotation target
         startElement = startElement[ANNOTATION_TARGET];
     } else if (startElement._type === 'Property') {
         // property: start at the entity type the property belongs to
-        startElement = converter.getConvertedElement(
-            substringBeforeFirst(startElement.fullyQualifiedName, '/'),
-            findIn(converter.rawSchema.entityTypes),
-            convertEntityType
-        );
+        startElement = converter.getConvertedEntityType(substringBeforeFirst(startElement.fullyQualifiedName, '/'));
     }
 
     const result = pathSegments.reduce(
@@ -651,23 +644,16 @@ function parseRecord(
                 ](actionImportName);
 
                 if (rawActionImport) {
-                    actionTarget = converter.getConvertedElement(
-                        rawActionImport.fullyQualifiedName,
-                        findIn(converter.rawSchema.actionImports),
-                        convertActionImport
-                    )?.action;
+                    actionTarget = converter.getConvertedActionImport(rawActionImport.fullyQualifiedName)?.action;
                 }
             }
 
             if (!actionTarget) {
-                actionTarget = converter.getConvertedElement(
-                    annotationContent.Action,
-                    (fullyQualifiedName) =>
-                        converter.rawSchema.actions.find(
-                            (entry) => entry.fullyQualifiedName === fullyQualifiedName && entry.isBound === true
-                        ),
-                    convertAction
-                );
+                actionTarget = converter.getConvertedAction(annotationContent.Action);
+                if (!actionTarget?.isBound) {
+                    // the action must be bound, else it would have matched an action import above!
+                    actionTarget = undefined;
+                }
             }
 
             if (!actionTarget) {
@@ -1035,6 +1021,21 @@ class Converter {
         return this._rawAnnotationsPerTarget;
     }
 
+    getConvertedEntityContainer(): EntityContainer | undefined {
+        return this.getConvertedElement(
+            this.rawMetadata.schema.entityContainer.fullyQualifiedName,
+            this.rawMetadata.schema.entityContainer,
+            convertEntityContainer
+        );
+    }
+    getConvertedEntitySet: (fullyQualifiedName: FullyQualifiedName) => EntitySet | undefined;
+    getConvertedSingleton: (fullyQualifiedName: FullyQualifiedName) => Singleton | undefined;
+    getConvertedEntityType: (fullyQualifiedName: FullyQualifiedName) => EntityType | undefined;
+    getConvertedComplexType: (fullyQualifiedName: FullyQualifiedName) => ComplexType | undefined;
+    getConvertedTypeDefinition: (fullyQualifiedName: FullyQualifiedName) => TypeDefinition | undefined;
+    getConvertedActionImport: (fullyQualifiedName: FullyQualifiedName) => ActionImport | undefined;
+    getConvertedAction: (fullyQualifiedName: FullyQualifiedName) => Action | undefined;
+
     private rawMetadata: RawMetadata;
 
     rawSchema: RawSchema;
@@ -1047,6 +1048,20 @@ class Converter {
         this.rawMetadata = rawMetadata;
         this.rawSchema = rawMetadata.schema;
         this.convertedOutput = convertedOutput;
+
+        this.getConvertedEntitySet = this.createGetByFQNFunction(rawMetadata.schema.entitySets, convertEntitySet);
+        this.getConvertedSingleton = this.createGetByFQNFunction(rawMetadata.schema.singletons, convertSingleton);
+        this.getConvertedEntityType = this.createGetByFQNFunction(rawMetadata.schema.entityTypes, convertEntityType);
+        this.getConvertedComplexType = this.createGetByFQNFunction(rawMetadata.schema.complexTypes, convertComplexType);
+        this.getConvertedTypeDefinition = this.createGetByFQNFunction(
+            rawMetadata.schema.typeDefinitions,
+            convertTypeDefinition
+        );
+        this.getConvertedActionImport = this.createGetByFQNFunction(
+            rawMetadata.schema.actionImports,
+            convertActionImport
+        );
+        this.getConvertedAction = this.createGetByFQNFunction(rawMetadata.schema.actions, convertAction);
 
         addIndex(this.rawSchema.actionImports, 'name', INDEX_BY_NAME);
     }
@@ -1082,6 +1097,17 @@ class Converter {
     unalias(value: string | undefined) {
         return unalias(this.rawMetadata.references, value) ?? '';
     }
+
+    private createGetByFQNFunction<
+        ConvertedType extends { fullyQualifiedName: FullyQualifiedName },
+        RawType extends RemoveAnnotationAndType<ConvertedType>
+    >(rawElements: RawType[], convert: (converter: Converter, rawElement: RawType) => ConvertedType) {
+        const find = createIndexedFind(rawElements as any[], 'fullyQualifiedName');
+
+        return (fullyQualifiedName: FullyQualifiedName): ConvertedType | undefined => {
+            return this.getConvertedElement(fullyQualifiedName, find, convert);
+        };
+    }
 }
 
 /**
@@ -1110,18 +1136,14 @@ function collection<ConvertedType, RawType extends RemoveAnnotationAndType<Conve
             return convertedElements;
         }, [] as ConvertedType[]);
 
-        addIndex(result as any, 'name', INDEX_BY_NAME);
+        addIndex(result as any[], 'name', INDEX_BY_NAME);
         return result as ConvertedType[];
     };
 }
 
 function resolveEntityType(converter: Converter, fullyQualifiedName: FullyQualifiedName) {
     return () => {
-        let entityType = converter.getConvertedElement(
-            fullyQualifiedName,
-            findIn(converter.rawSchema.entityTypes),
-            convertEntityType
-        );
+        let entityType = converter.getConvertedEntityType(fullyQualifiedName);
 
         if (!entityType) {
             converter.logError(`EntityType '${fullyQualifiedName}' not found`);
@@ -1143,17 +1165,9 @@ function resolveNavigationPropertyBindings(
             lazy(navigationPropertyBindings, bindingName, () => {
                 let resolvedBindingTarget;
                 if (rawBindingTarget._type === 'Singleton') {
-                    resolvedBindingTarget = converter.getConvertedElement(
-                        rawBindingTarget.fullyQualifiedName,
-                        findIn(converter.rawSchema.singletons),
-                        convertSingleton
-                    );
+                    resolvedBindingTarget = converter.getConvertedSingleton(rawBindingTarget.fullyQualifiedName);
                 } else {
-                    resolvedBindingTarget = converter.getConvertedElement(
-                        rawBindingTarget.fullyQualifiedName,
-                        findIn(converter.rawSchema.entitySets),
-                        convertEntitySet
-                    );
+                    resolvedBindingTarget = converter.getConvertedEntitySet(rawBindingTarget.fullyQualifiedName);
                 }
                 if (!resolvedBindingTarget) {
                     converter.logError(
@@ -1174,11 +1188,6 @@ function resolveAnnotations(converter: Converter, rawAnnotationTarget: any) {
             rawAnnotationTarget,
             converter.rawAnnotationsPerTarget[rawAnnotationTarget.fullyQualifiedName]?.annotations ?? []
         );
-}
-
-function findIn<Type extends { fullyQualifiedName: FullyQualifiedName }>(rawMetadataElements: Type[]) {
-    return (fullyQualifiedName: FullyQualifiedName) =>
-        rawMetadataElements.find((entry) => entry.fullyQualifiedName === fullyQualifiedName);
 }
 
 function createAnnotationsObject(converter: Converter, target: any, rawAnnotations: RawAnnotation[]) {
@@ -1331,11 +1340,7 @@ function convertEntityType(converter: Converter, rawEntityType: RawEntityType): 
             )
             .reduce((actions, rawAction) => {
                 const name = `${converter.rawSchema.namespace}.${rawAction.name}`;
-                actions[name] = converter.getConvertedElement(
-                    rawAction.fullyQualifiedName,
-                    findIn(converter.rawSchema.actions),
-                    convertAction
-                )!;
+                actions[name] = converter.getConvertedAction(rawAction.fullyQualifiedName)!;
                 return actions;
             }, {} as EntityType['actions'])
     );
@@ -1369,10 +1374,7 @@ function convertProperty(converter: Converter, rawProperty: RawProperty): Proper
         const type = rawProperty.type;
         const typeName = type.startsWith('Collection') ? type.substring(11, type.length - 1) : type;
 
-        return (
-            converter.getConvertedElement(typeName, findIn(converter.rawSchema.complexTypes), convertComplexType) ??
-            converter.getConvertedElement(typeName, findIn(converter.rawSchema.typeDefinitions), convertTypeDefinition)
-        );
+        return converter.getConvertedComplexType(typeName) ?? converter.getConvertedTypeDefinition(typeName);
     });
 
     return convertedProperty;
@@ -1429,9 +1431,7 @@ function convertActionImport(converter: Converter, rawActionImport: RawActionImp
 
     lazy(convertedActionImport, 'annotations', resolveAnnotations(converter, rawActionImport));
 
-    lazy(convertedActionImport, 'action', () =>
-        converter.getConvertedElement(rawActionImport.actionName, findIn(converter.rawSchema.actions), convertAction)
-    );
+    lazy(convertedActionImport, 'action', () => converter.getConvertedAction(rawActionImport.actionName));
 
     return convertedActionImport;
 }
@@ -1489,21 +1489,9 @@ function convertActionParameter(
         convertedActionParameter,
         'typeReference',
         () =>
-            converter.getConvertedElement(
-                rawActionParameter.type,
-                findIn(converter.rawSchema.entityTypes),
-                convertEntityType
-            ) ??
-            converter.getConvertedElement(
-                rawActionParameter.type,
-                findIn(converter.rawSchema.complexTypes),
-                convertComplexType
-            ) ??
-            converter.getConvertedElement(
-                rawActionParameter.type,
-                findIn(converter.rawSchema.typeDefinitions),
-                convertTypeDefinition
-            )
+            converter.getConvertedEntityType(rawActionParameter.type) ??
+            converter.getConvertedComplexType(rawActionParameter.type) ??
+            converter.getConvertedTypeDefinition(rawActionParameter.type)
     );
 
     lazy(convertedActionParameter, 'annotations', resolveAnnotations(converter, rawActionParameter));
