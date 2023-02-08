@@ -447,8 +447,6 @@ export function Decimal(value: number) {
     };
 }
 
-const initial = Symbol('initial');
-
 /**
  * Defines a lazy property.
  *
@@ -459,6 +457,7 @@ const initial = Symbol('initial');
  * @param init      The function that initializes the property's value
  */
 export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, init: () => Type[Key]) {
+    const initial = Symbol('initial');
     let _value: Type[Key] | typeof initial = initial;
 
     Object.defineProperty(object, property, {
@@ -512,8 +511,6 @@ export function addIndex<T>(array: Array<T>, indexedProperty: keyof T, indexName
 
     if (!array.hasOwnProperty(indexName)) {
         Object.defineProperty(array, indexName, { value: find });
-    } else {
-        throw new Error(`Property '${indexName.toString()}' already exists`);
     }
 
     return array as Array<T> & { [x: typeof indexName]: (value: T[keyof T]) => T | undefined };
