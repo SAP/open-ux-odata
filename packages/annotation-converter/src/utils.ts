@@ -1,4 +1,4 @@
-import type { ComplexType, Reference, TypeDefinition } from '@sap-ux/vocabularies-types';
+import type { Index, ComplexType, Reference, TypeDefinition, ArrayWithIndex } from '@sap-ux/vocabularies-types';
 
 export const defaultReferences: ReferencesWithMap = [
     { alias: 'Capabilities', namespace: 'Org.OData.Capabilities.V1', uri: '' },
@@ -476,11 +476,6 @@ export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, 
     });
 }
 
-// TODO: Maybe use something like this as the type in Edm directly instead of casting everywhere
-export type ArrayWithIndex<T> = Array<T> & {
-    [index: string | symbol]: (value: T[keyof T]) => T | undefined;
-};
-
 /**
  * Creates a function that allows to find an array element by property value.
  *
@@ -511,19 +506,22 @@ export function createIndexedFind<T>(array: Array<T>, property: keyof T) {
 }
 
 /**
- * Adds an index to the array and return the array with the added index.
+ * Adds a 'get by value' function to an array.
+ *
+ * If this function is called with addIndex(myArray, 'name'), a new function 'by_name(value)' will be added that allows to
+ * find a member of the array by the value of its 'name' property.
  *
  * @param array      The array
- * @param property   The property by which the array gets indexed
- * @param name       The name of the index
- * @returns The array with index
+ * @param property   The property that will be used by the 'by_{property}()' function
+ * @returns The array with the added function
  */
-export function addIndex<T>(array: Array<T>, property: keyof T, name: string | symbol) {
-    if (!array.hasOwnProperty(name)) {
-        Object.defineProperty(array, name, { value: createIndexedFind(array, property) });
-    } else {
-        throw new Error(`Property '${name.toString()}' already exists`);
-    }
+export function addGetByValue<T, P extends Extract<keyof T, string>>(array: Array<T>, property: P) {
+    const indexName: keyof Index<T, P> = `by_${property}`;
 
-    return array as Array<T> & { [x: typeof name]: (value: T[keyof T]) => T | undefined };
+    if (!array.hasOwnProperty(indexName)) {
+        Object.defineProperty(array, indexName, { value: createIndexedFind(array, property) });
+    } else {
+        throw new Error(`Property '${indexName}' already exists`);
+    }
+    return array as ArrayWithIndex<T, P>;
 }

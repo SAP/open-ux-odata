@@ -631,6 +631,15 @@ describe('Annotation Converter', () => {
             expect(convertedTypes.entityTypes[39].annotations.UI).not.toBeNull();
         });
 
+        it('supports access by name and fully-qualified name', () => {
+            expect(convertedTypes.entitySets.by_name('SalesOrderManage')).not.toBeUndefined();
+            expect(
+                convertedTypes.entitySets.by_fullyQualifiedName(
+                    'com.c_salesordermanage_sd.EntityContainer/SalesOrderItem'
+                )
+            ).not.toBeUndefined();
+        });
+
         it('converts annotation with annotation', () => {
             const entity = convertedTypes.entityTypes.find((type) => type.name === 'HeaderShipToParty');
             const property = entity?.entityProperties.find((property) => property.name === 'BusinessPartner');

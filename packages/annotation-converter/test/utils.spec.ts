@@ -1,4 +1,4 @@
-import { addIndex, lazy, splitAtFirst, splitAtLast, substringBeforeFirst, substringBeforeLast } from '../src';
+import { addGetByValue, lazy, splitAtFirst, splitAtLast, substringBeforeFirst, substringBeforeLast } from '../src';
 
 describe('utils', () => {
     describe('string splitting', () => {
@@ -127,53 +127,48 @@ describe('utils', () => {
         it('Does not alter the iterator', () => {
             const array = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
             const iterator = array[Symbol.iterator];
-            const indexName = Symbol('My Index');
 
-            const indexedArray = addIndex(array, 'type', indexName);
+            const indexedArray = addGetByValue(array, 'type');
 
             expect(iterator).toStrictEqual(array[Symbol.iterator]);
+            expect(Object.keys(array)).toStrictEqual(Object.keys(indexedArray));
         });
 
         it('Cannot be added twice', () => {
             const array = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
-            const indexName = Symbol('My Index');
 
-            addIndex(array, 'type', indexName);
+            addGetByValue(array, 'type');
 
             expect(() => {
-                addIndex(array, 'type', indexName);
+                addGetByValue(array, 'type');
             }).toThrowError();
         });
 
         it('Can access data by index', () => {
             const array: { type: string }[] = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
-            const indexName = 'MyIndex';
-            const indexArray = addIndex(array, 'type', indexName);
-
-            expect(indexArray[indexName]('b')).toStrictEqual(array[1]);
+            const indexArray = addGetByValue(array, 'type');
+            expect(indexArray.by_type('b')).toStrictEqual(array[1]);
         });
 
         it('Does not return outdated data', () => {
             const array: { type: string }[] = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
-            const indexName = 'MyIndex';
-            const indexArray = addIndex(array, 'type', indexName);
+            const indexArray = addGetByValue(array, 'type');
 
-            const value1 = indexArray[indexName]('b');
+            const value1 = indexArray.by_type('b');
             expect(value1).toBeDefined();
             array[1].type = 'd';
-            const value2 = indexArray[indexName]('b');
+            const value2 = indexArray.by_type('b');
             expect(value2).toBeUndefined();
         });
 
         it('Works with different elements', () => {
             const array: any[] = [{ type: 'a' }, null, { value: 'c' }, undefined, true];
-            const indexName = 'MyIndex';
-            const indexArray = addIndex(array, 'type', indexName);
+            const indexArray = addGetByValue(array, 'type');
 
-            const value1 = indexArray[indexName]('b');
+            const value1 = indexArray.by_type('b');
             expect(value1).toBeUndefined();
 
-            const value2 = indexArray[indexName]('c');
+            const value2 = indexArray.by_type('c');
             expect(value2).toBeUndefined();
         });
     });
