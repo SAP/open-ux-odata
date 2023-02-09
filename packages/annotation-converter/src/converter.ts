@@ -1018,7 +1018,7 @@ class Converter {
     getConvertedActionImport: (fullyQualifiedName: FullyQualifiedName) => ActionImport | undefined;
     getConvertedAction: (fullyQualifiedName: FullyQualifiedName) => Action | undefined;
 
-    convert<Converted, Raw extends RawType<Converted>, IndexProperty extends Extract<keyof Converted, string>>(
+    convert<Converted, Raw extends RawType<Converted>>(
         rawValue: Raw,
         map: (converter: Converter, raw: Raw) => Converted
     ): () => Converted;
