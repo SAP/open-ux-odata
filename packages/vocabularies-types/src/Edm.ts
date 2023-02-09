@@ -482,7 +482,7 @@ export type ConvertedMetadata = {
     version: string;
     annotations: Record<string, AnnotationList[]>;
     namespace: string;
-    actions: ArrayWithIndex<Action, 'name'>;
+    actions: ArrayWithIndex<Action, 'name' | 'fullyQualifiedName'>;
     actionImports: ArrayWithIndex<ActionImport, 'name' | 'fullyQualifiedName'>;
     entityContainer: EntityContainer;
     complexTypes: ArrayWithIndex<ComplexType, 'name' | 'fullyQualifiedName'>;

@@ -1003,20 +1003,41 @@ class Converter {
         return this._rawAnnotationsPerTarget;
     }
 
-    getConvertedEntityContainer(): EntityContainer | undefined {
+    getConvertedEntityContainer() {
         return this.getConvertedElement(
             this.rawMetadata.schema.entityContainer.fullyQualifiedName,
             this.rawMetadata.schema.entityContainer,
             convertEntityContainer
         );
     }
-    getConvertedEntitySet: (fullyQualifiedName: FullyQualifiedName) => EntitySet | undefined;
-    getConvertedSingleton: (fullyQualifiedName: FullyQualifiedName) => Singleton | undefined;
-    getConvertedEntityType: (fullyQualifiedName: FullyQualifiedName) => EntityType | undefined;
-    getConvertedComplexType: (fullyQualifiedName: FullyQualifiedName) => ComplexType | undefined;
-    getConvertedTypeDefinition: (fullyQualifiedName: FullyQualifiedName) => TypeDefinition | undefined;
-    getConvertedActionImport: (fullyQualifiedName: FullyQualifiedName) => ActionImport | undefined;
-    getConvertedAction: (fullyQualifiedName: FullyQualifiedName) => Action | undefined;
+
+    getConvertedEntitySet(fullyQualifiedName: FullyQualifiedName) {
+        return this.convertedOutput.entitySets.by_fullyQualifiedName(fullyQualifiedName);
+    }
+
+    getConvertedSingleton(fullyQualifiedName: FullyQualifiedName) {
+        return this.convertedOutput.singletons.by_fullyQualifiedName(fullyQualifiedName);
+    }
+
+    getConvertedEntityType(fullyQualifiedName: FullyQualifiedName) {
+        return this.convertedOutput.entityTypes.by_fullyQualifiedName(fullyQualifiedName);
+    }
+
+    getConvertedComplexType(fullyQualifiedName: FullyQualifiedName) {
+        return this.convertedOutput.complexTypes.by_fullyQualifiedName(fullyQualifiedName);
+    }
+
+    getConvertedTypeDefinition(fullyQualifiedName: FullyQualifiedName) {
+        return this.convertedOutput.typeDefinitions.by_fullyQualifiedName(fullyQualifiedName);
+    }
+
+    getConvertedActionImport(fullyQualifiedName: FullyQualifiedName) {
+        return this.convertedOutput.actionImports.by_fullyQualifiedName(fullyQualifiedName);
+    }
+
+    getConvertedAction(fullyQualifiedName: FullyQualifiedName) {
+        return this.convertedOutput.actions.by_fullyQualifiedName(fullyQualifiedName);
+    }
 
     convert<Converted, Raw extends RawType<Converted>>(
         rawValue: Raw,
@@ -1062,20 +1083,6 @@ class Converter {
         this.rawMetadata = rawMetadata;
         this.rawSchema = rawMetadata.schema;
         this.convertedOutput = convertedOutput;
-
-        this.getConvertedEntitySet = this.createGetByFQNFunction(rawMetadata.schema.entitySets, convertEntitySet);
-        this.getConvertedSingleton = this.createGetByFQNFunction(rawMetadata.schema.singletons, convertSingleton);
-        this.getConvertedEntityType = this.createGetByFQNFunction(rawMetadata.schema.entityTypes, convertEntityType);
-        this.getConvertedComplexType = this.createGetByFQNFunction(rawMetadata.schema.complexTypes, convertComplexType);
-        this.getConvertedTypeDefinition = this.createGetByFQNFunction(
-            rawMetadata.schema.typeDefinitions,
-            convertTypeDefinition
-        );
-        this.getConvertedActionImport = this.createGetByFQNFunction(
-            rawMetadata.schema.actionImports,
-            convertActionImport
-        );
-        this.getConvertedAction = this.createGetByFQNFunction(rawMetadata.schema.actions, convertAction);
     }
 
     getConvertedElement<ConvertedType, RawType extends RemoveAnnotationAndType<ConvertedType>>(
@@ -1106,19 +1113,9 @@ class Converter {
     alias(value: string) {
         return alias(this.rawMetadata.references, value);
     }
+
     unalias(value: string | undefined) {
         return unalias(this.rawMetadata.references, value) ?? '';
-    }
-
-    private createGetByFQNFunction<
-        ConvertedType extends { fullyQualifiedName: FullyQualifiedName },
-        RawType extends RemoveAnnotationAndType<ConvertedType>
-    >(rawElements: RawType[], convert: (converter: Converter, rawElement: RawType) => ConvertedType) {
-        const find = createIndexedFind(rawElements as any[], 'fullyQualifiedName');
-
-        return (fullyQualifiedName: FullyQualifiedName): ConvertedType | undefined => {
-            return this.getConvertedElement(fullyQualifiedName, find, convert);
-        };
     }
 }
 
