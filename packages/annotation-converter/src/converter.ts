@@ -99,6 +99,9 @@ function buildObjectMap(rawMetadata: RawMetadata): Record<string, any> {
             objectMap[actionName].actions.push(action);
             const type = substringBeforeFirst(actionBinding, ')');
             objectMap[`${type}/${actionName}`] = action;
+        } else if (!action.fullyQualifiedName.includes('()')) {
+            // unbound action - add empty parentheses at the end
+            objectMap[`${action.fullyQualifiedName}()`] = action;
         }
 
         for (const parameter of action.parameters) {

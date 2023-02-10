@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="sap.fe.core.ActionEnablement" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="RootElement" EntityType="sap.fe.core.ActionEnablement.RootElement">
+          <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
+          <NavigationPropertyBinding Path="_Elements/owner" Target="RootElement"/>
+          <NavigationPropertyBinding Path="_Elements/Sibling" Target="RootElement/_Elements"/>
+          <NavigationPropertyBinding Path="_Elements/SiblingEntity" Target="RootElement/_Elements"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="RootElement"/>
+        </EntitySet>
+        <Singleton Name="Singleton" Type="sap.fe.core.ActionEnablement.Singleton"/>
+        <ActionImport Name="unboundSingletonFalse" Action="sap.fe.core.ActionEnablement.unboundSingletonFalse"/>
+        <ActionImport Name="unboundSingletonTrue" Action="sap.fe.core.ActionEnablement.unboundSingletonTrue"/>
+        <ActionImport Name="unboundDisabled" Action="sap.fe.core.ActionEnablement.unboundDisabled"/>
+        <ActionImport Name="unboundEnabled" Action="sap.fe.core.ActionEnablement.unboundEnabled"/>
+      </EntityContainer>
+      <EntityType Name="RootElement">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="Prop1" Type="Edm.String"/>
+        <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="isBoundAction1Enabled" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction2Enabled" Type="Edm.Boolean"/>
+        <Property Name="Sibling_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="Sibling" Type="sap.fe.core.ActionEnablement.RootElement">
+          <ReferentialConstraint Property="Sibling_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="_Elements" Type="Collection(sap.fe.core.ActionEnablement.SubElement)" Partner="owner" ContainsTarget="true"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="sap.fe.core.ActionEnablement.DraftAdministrativeData" ContainsTarget="true">
+          <ReferentialConstraint Property="DraftAdministrativeData_DraftUUID" ReferencedProperty="DraftUUID"/>
+        </NavigationProperty>
+        <Property Name="DraftAdministrativeData_DraftUUID" Type="Edm.Guid"/>
+        <NavigationProperty Name="SiblingEntity" Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </EntityType>
+      <EntityType Name="SubElement">
+        <Key>
+          <PropertyRef Name="ID2"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID2" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="SubProp1" Type="Edm.String"/>
+        <Property Name="SubProp2" Type="Edm.String"/>
+        <Property Name="isBoundAction3Enabled" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction4Enabled" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction5Enabled" Type="Edm.Boolean"/>
+        <Property Name="isBoundAction6Enabled" Type="Edm.Boolean"/>
+        <Property Name="owner_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="owner" Type="sap.fe.core.ActionEnablement.RootElement" Partner="_Elements">
+          <ReferentialConstraint Property="owner_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="sibling_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="Sibling" Type="sap.fe.core.ActionEnablement.SubElement">
+          <ReferentialConstraint Property="sibling_ID" ReferencedProperty="ID2"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="sap.fe.core.ActionEnablement.DraftAdministrativeData" ContainsTarget="true">
+          <ReferentialConstraint Property="DraftAdministrativeData_DraftUUID" ReferencedProperty="DraftUUID"/>
+        </NavigationProperty>
+        <Property Name="DraftAdministrativeData_DraftUUID" Type="Edm.Guid"/>
+        <NavigationProperty Name="SiblingEntity" Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </EntityType>
+      <EntityType Name="Singleton">
+        <Property Name="isTrue" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="isFalse" Type="Edm.Boolean" DefaultValue="false"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <Action Name="boundAction1" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="boundAction2" IsBound="true" EntitySetPath="_it">
+        <Parameter Name="_it" Type="sap.fe.core.ActionEnablement.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="menuAction1" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="menuAction2" IsBound="true" EntitySetPath="_it">
+        <Parameter Name="_it" Type="sap.fe.core.ActionEnablement.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="boundSingletonTrue" IsBound="true">
+        <Parameter Name="in" Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="boundSingletonFalse" IsBound="true">
+        <Parameter Name="in" Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="sap.fe.core.ActionEnablement.RootElement"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="sap.fe.core.ActionEnablement.SubElement"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="sap.fe.core.ActionEnablement.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="sap.fe.core.ActionEnablement.RootElement"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.RootElement"/>
+      </Action>
+      <Action Name="boundAction3" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.SubElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </Action>
+      <Action Name="boundAction4" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.SubElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </Action>
+      <Action Name="boundAction5" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.SubElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </Action>
+      <Action Name="boundAction6" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.SubElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </Action>
+      <Action Name="menuAction3" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.SubElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </Action>
+      <Action Name="menuAction4" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionEnablement.SubElement"/>
+        <ReturnType Type="sap.fe.core.ActionEnablement.SubElement"/>
+      </Action>
+      <Action Name="unboundSingletonFalse" IsBound="false"/>
+      <Action Name="unboundSingletonTrue" IsBound="false"/>
+      <Action Name="unboundDisabled" IsBound="false"/>
+      <Action Name="unboundEnabled" IsBound="false"/>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Prop1"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 1"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction1"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 2"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction2"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Menu Action 1"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.menuAction1"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Menu Action 2"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.menuAction2"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="isBoundAction1Enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 1 Inline"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction1"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Sibling/isBoundAction2Enabled"/>
+              <PropertyValue Property="Label" String="Sibling isBoundAction2 Enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 2 Inline"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction2"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action Singleton (enabled)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundSingletonTrue"/>
+              <Annotation Term="Core.Description" String="Bound Action controlled by a singleton, should be enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action Singleton (disabled)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundSingletonFalse"/>
+              <Annotation Term="Core.Description" String="Bound Action controlled by a singleton, should be disabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Action Singleton (enabled)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.EntityContainer/unboundSingletonTrue"/>
+              <Annotation Term="Core.Description" String="Unbound Action controlled by a singleton, should be enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Action Singleton (disabled)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.EntityContainer/unboundSingletonFalse"/>
+              <Annotation Term="Core.Description" String="Unbound Action controlled by a singleton, should be disabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Action (disabled)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.EntityContainer/unboundDisabled"/>
+              <Annotation Term="Core.Description" String="Unbound Action, should always be disabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound Action (enabled)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.EntityContainer/unboundEnabled"/>
+              <Annotation Term="Core.Description" String="Unbound Action, should always be enabled"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Root Element"/>
+            <PropertyValue Property="TypeNamePlural" String="Root Elements"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Prop1"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Prop2"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.CollectionFacet">
+              <PropertyValue Property="Facets">
+                <Collection>
+                  <Record Type="UI.CollectionFacet">
+                    <PropertyValue Property="ID" String="GeneralInformation"/>
+                    <PropertyValue Property="Label" String="General Information"/>
+                    <PropertyValue Property="Facets">
+                      <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                          <PropertyValue Property="Label" String="General Information"/>
+                          <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneralInformation"/>
+                        </Record>
+                      </Collection>
+                    </PropertyValue>
+                  </Record>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="ID" String="SubElements"/>
+                    <PropertyValue Property="Label" String="Sub Elements"/>
+                    <PropertyValue Property="Target" AnnotationPath="_Elements/@UI.LineItem"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneralInformation">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Label" String="General Information"/>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Prop1"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Prop2"/>
+                </Record>
+                <Record Type="UI.DataFieldForAction">
+                  <PropertyValue Property="Label" String="Bound Action 1 Inline"/>
+                  <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction1"/>
+                  <PropertyValue Property="Inline" Bool="true"/>
+                </Record>
+                <Record Type="UI.DataFieldForAction">
+                  <PropertyValue Property="Label" String="Bound Action 2 Inline"/>
+                  <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction2"/>
+                  <PropertyValue Property="Inline" Bool="true"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.EntityContainer/RootElement">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="sap.fe.core.ActionEnablement.draftActivate"/>
+            <PropertyValue Property="EditAction" String="sap.fe.core.ActionEnablement.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="sap.fe.core.ActionEnablement.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/ID">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/Prop1">
+        <Annotation Term="Common.Label" String="First Prop"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/Prop2">
+        <Annotation Term="Common.Label" String="Second Propyour "/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/isBoundAction1Enabled">
+        <Annotation Term="Common.Label" String="Bound Action 1 Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/isBoundAction2Enabled">
+        <Annotation Term="Common.Label" String="Bound Action 2 Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.RootElement/DraftAdministrativeData_DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundAction1(sap.fe.core.ActionEnablement.RootElement)">
+        <Annotation Term="Core.OperationAvailable">
+          <If>
+            <Eq>
+              <Path>self/isBoundAction1Enabled</Path>
+              <Bool>false</Bool>
+            </Eq>
+            <Bool>true</Bool>
+            <Bool>false</Bool>
+          </If>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundAction2(sap.fe.core.ActionEnablement.RootElement)">
+        <Annotation Term="Core.OperationAvailable" Path="_it/Sibling/isBoundAction2Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.menuAction1(sap.fe.core.ActionEnablement.RootElement)">
+        <Annotation Term="Core.OperationAvailable">
+          <If>
+            <Eq>
+              <Path>self/isBoundAction1Enabled</Path>
+              <Bool>false</Bool>
+            </Eq>
+            <Bool>true</Bool>
+            <Bool>false</Bool>
+          </If>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.menuAction2(sap.fe.core.ActionEnablement.RootElement)">
+        <Annotation Term="Core.OperationAvailable" Path="_it/Sibling/isBoundAction2Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundSingletonTrue(sap.fe.core.ActionEnablement.RootElement)">
+        <Annotation Term="Core.OperationAvailable">
+          <Path>/sap.fe.core.ActionEnablement.EntityContainer/Singleton/isTrue</Path>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundSingletonFalse(sap.fe.core.ActionEnablement.RootElement)">
+        <Annotation Term="Core.OperationAvailable">
+          <Path>/sap.fe.core.ActionEnablement.EntityContainer/Singleton/isFalse</Path>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="SubProp1"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="owner/isBoundAction1Enabled"/>
+              <PropertyValue Property="Label" String="Owner -> boundAction1 Enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 3"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction3"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Menu Action 3"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.menuAction3"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="owner/Sibling/isBoundAction2Enabled"/>
+              <PropertyValue Property="Label" String="Owner -> Sibling boundAction2 Enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 2"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction4"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Menu Action 2"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.menuAction4"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="isBoundAction5Enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 3 Inline"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction5"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Sibling/isBoundAction6Enabled"/>
+              <PropertyValue Property="Label" String="Sibling boundAction6 Enabled"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action 6"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction6"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Root Element"/>
+            <PropertyValue Property="TypeNamePlural" String="Root Elements"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="SubProp1"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="SubProp2"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.CollectionFacet">
+              <PropertyValue Property="Facets">
+                <Collection>
+                  <Record Type="UI.CollectionFacet">
+                    <PropertyValue Property="ID" String="GeneralInformation"/>
+                    <PropertyValue Property="Label" String="General Information"/>
+                    <PropertyValue Property="Facets">
+                      <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                          <PropertyValue Property="Label" String="General Information"/>
+                          <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneralInformation"/>
+                        </Record>
+                      </Collection>
+                    </PropertyValue>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneralInformation">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Label" String="General Information"/>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ID2"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="SubProp1"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="SubProp2"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="isBoundAction4Enabled"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="isBoundAction5Enabled"/>
+                </Record>
+                <Record Type="UI.DataFieldForAction">
+                  <PropertyValue Property="Label" String="Bound Action 5 Inline"/>
+                  <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction5"/>
+                  <PropertyValue Property="Inline" Bool="true"/>
+                </Record>
+                <Record Type="UI.DataFieldForAction">
+                  <PropertyValue Property="Label" String="Bound Action 6 Inline"/>
+                  <PropertyValue Property="Action" String="sap.fe.core.ActionEnablement.boundAction6"/>
+                  <PropertyValue Property="Inline" Bool="true"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/ID2">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/isBoundAction3Enabled">
+        <Annotation Term="Common.Label" String="Bound Action 3 Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/isBoundAction4Enabled">
+        <Annotation Term="Common.Label" String="Bound Action 4 Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/isBoundAction5Enabled">
+        <Annotation Term="Common.Label" String="Bound Action 5 Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/isBoundAction6Enabled">
+        <Annotation Term="Common.Label" String="Bound Action 6 Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.SubElement/DraftAdministrativeData_DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundAction3(sap.fe.core.ActionEnablement.SubElement)">
+        <Annotation Term="Core.OperationAvailable" Path="self/owner/isBoundAction1Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundAction4(sap.fe.core.ActionEnablement.SubElement)">
+        <Annotation Term="Core.OperationAvailable" Path="self/owner/Sibling/isBoundAction2Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundAction5(sap.fe.core.ActionEnablement.SubElement)">
+        <Annotation Term="Core.OperationAvailable" Path="self/isBoundAction5Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.boundAction6(sap.fe.core.ActionEnablement.SubElement)">
+        <Annotation Term="Core.OperationAvailable" Path="self/Sibling/isBoundAction6Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.menuAction3(sap.fe.core.ActionEnablement.SubElement)">
+        <Annotation Term="Core.OperationAvailable" Path="self/owner/isBoundAction1Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.menuAction4(sap.fe.core.ActionEnablement.SubElement)">
+        <Annotation Term="Core.OperationAvailable" Path="self/owner/Sibling/isBoundAction2Enabled"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.unboundSingletonFalse()">
+        <Annotation Term="Core.OperationAvailable">
+          <Path>/sap.fe.core.ActionEnablement.EntityContainer/Singleton/isFalse</Path>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.unboundSingletonTrue()">
+        <Annotation Term="Core.OperationAvailable">
+          <Path>/sap.fe.core.ActionEnablement.EntityContainer/Singleton/isTrue</Path>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.unboundDisabled()">
+        <Annotation Term="Core.OperationAvailable" Bool="false"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.unboundEnabled()">
+        <Annotation Term="Core.OperationAvailable" Bool="true"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="sap.fe.core.ActionEnablement.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
