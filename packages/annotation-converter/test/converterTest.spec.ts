@@ -21,6 +21,7 @@ import type {
     DataFieldForAction,
     DataFieldForActionTypes,
     DataFieldForAnnotation,
+    DataFieldWithAction,
     FieldGroupType,
     LineItem
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
@@ -937,6 +938,20 @@ describe('Annotation Converter', () => {
         expect(dataFields2[2].ActionTarget).toBe(getAction('TestService.action'));
         expect(dataFields2[3].ActionTarget).toBe(getAction('TestService.function'));
         expect(dataFields2[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
+    });
+
+    it('should resolve annotations of unbound actions', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/action-enablement.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const rootEntityType = (convertedTypes.resolvePath('/RootElement/') as ResolutionTarget<EntityType>)?.target;
+        expect(rootEntityType?.name).toEqual('RootElement');
+
+        const dataFieldForAction = rootEntityType?.annotations.UI?.LineItem?.[14];
+        expect(dataFieldForAction).toBeDefined();
+        expect(dataFieldForAction?.$Type).toEqual(UIAnnotationTypes.DataFieldForAction);
+        const action = (dataFieldForAction as DataFieldForAction).ActionTarget;
+        expect(action?.annotations?.Core?.OperationAvailable).toBeDefined();
     });
 
     it('Correctly handles literal values in annotations', async () => {
