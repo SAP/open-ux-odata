@@ -41,7 +41,6 @@ import type { ReferencesWithMap } from './utils';
 import {
     addGetByValue,
     alias,
-    createIndexedFind,
     Decimal,
     defaultReferences,
     EnumIsFlag,
