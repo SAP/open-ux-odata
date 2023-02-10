@@ -1432,13 +1432,27 @@ function convertAction(converter: Converter, rawAction: RawAction): Action {
     lazy(convertedAction, 'parameters', converter.convert(rawAction.parameters, convertActionParameter));
 
     lazy(convertedAction, 'annotations', () => {
-        let rawAnnotations = converter.rawAnnotationsPerTarget[rawAction.fullyQualifiedName]?.annotations ?? [];
+        // this.is.the.action(on.this.type) --> action: 'this.is.the.action', overload: 'on.this.type'
+        // this.is.the.action()             --> action: 'this.is.the.action', overload: undefined
+        // this.is.the.action               --> action: 'this.is.the.action', overload: undefined
+        const actionAndOverload = rawAction.fullyQualifiedName.match(/(?<action>[^()]+)(?:\((?<overload>.*)\))?/);
 
-        const baseActionName = substringBeforeFirst(rawAction.fullyQualifiedName, '(');
-        if (baseActionName !== rawAction.fullyQualifiedName) {
-            const baseAnnotations = converter.rawAnnotationsPerTarget[baseActionName]?.annotations ?? [];
-            rawAnnotations = rawAnnotations.concat(baseAnnotations);
+        let rawAnnotations: RawAnnotation[] = [];
+        if (actionAndOverload) {
+            if (actionAndOverload.groups?.overload) {
+                rawAnnotations = converter.rawAnnotationsPerTarget[rawAction.fullyQualifiedName]?.annotations ?? [];
+            } else {
+                rawAnnotations =
+                    converter.rawAnnotationsPerTarget[`${actionAndOverload.groups?.action}()`]?.annotations ?? [];
+            }
+
+            if (actionAndOverload.groups?.action && actionAndOverload.groups?.action !== rawAction.fullyQualifiedName) {
+                const baseAnnotations =
+                    converter.rawAnnotationsPerTarget[actionAndOverload.groups?.action]?.annotations ?? [];
+                rawAnnotations = rawAnnotations.concat(baseAnnotations);
+            }
         }
+
         return createAnnotationsObject(converter, rawAction, rawAnnotations);
     });
 
