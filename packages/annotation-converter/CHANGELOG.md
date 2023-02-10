@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.5.23
+
+### Patch Changes
+
+-   c3dfcba: The annotation converter now resolves annotations of unbound actions
+
 ## 0.5.22
 
 ### Patch Changes
