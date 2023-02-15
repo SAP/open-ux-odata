@@ -106,6 +106,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['186'].annotations['3'] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
@@ -120,6 +121,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile[0].annotations[1] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
@@ -134,6 +136,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['203'].annotations['5'] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
@@ -149,6 +152,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['139'].annotations['2'] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
@@ -163,6 +167,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['204'].annotations['0'] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
@@ -178,6 +183,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['245'].annotations['37'] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
@@ -193,6 +199,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['20'].annotations['5'] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
@@ -208,6 +215,7 @@ describe('Writeback capabilities', () => {
         ) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['71'].annotations['2'] as any;
         delete target.fullyQualifiedName;
+        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
