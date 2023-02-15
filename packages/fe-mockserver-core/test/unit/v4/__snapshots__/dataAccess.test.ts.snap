@@ -67,6 +67,110 @@ exports[`Data Access $select handling with structured complex types can read /A 
       "value3": 0,
     },
   },
+  {
+    "ID": "A2",
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 2,
+      "value2": 1,
+      "value3": 0,
+    },
+    "complexNotNull": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 0,
+      "value2": 0,
+      "value3": 0,
+    },
+  },
+]
+`;
+
+exports[`Data Access $select handling with structured complex types can read /A with order by on the complex type 1`] = `
+[
+  {
+    "ID": "A2",
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 2,
+      "value2": 1,
+      "value3": 0,
+    },
+    "complexNotNull": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 0,
+      "value2": 0,
+      "value3": 0,
+    },
+  },
+  {
+    "ID": "A1",
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "Hey",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 1,
+      "value2": 2,
+      "value3": 0,
+    },
+    "complexNotNull": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 0,
+      "value2": 0,
+      "value3": 0,
+    },
+  },
 ]
 `;
 
@@ -386,6 +490,49 @@ exports[`Data Access $select handling with structured complex types can read /A?
       "value3": 0,
     },
   },
+  {
+    "ID": "A2",
+    "b": [
+      {
+        "UID": "B1",
+        "a_ID": "A1",
+        "complex": {
+          "value1": true,
+          "value2": false,
+        },
+      },
+    ],
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 2,
+      "value2": 1,
+      "value3": 0,
+    },
+    "complexNotNull": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 0,
+      "value2": 0,
+      "value3": 0,
+    },
+  },
 ]
 `;
 
@@ -415,6 +562,48 @@ exports[`Data Access $select handling with structured complex types can read /A?
       },
       "value1": 1,
       "value2": 2,
+      "value3": 0,
+    },
+    "complexNotNull": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 0,
+      "value2": 0,
+      "value3": 0,
+    },
+  },
+  {
+    "ID": "A2",
+    "b": [
+      {
+        "UID": "B1",
+        "complex": {
+          "value1": true,
+          "value2": false,
+        },
+      },
+    ],
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 2,
+      "value2": 1,
       "value3": 0,
     },
     "complexNotNull": {
@@ -480,6 +669,48 @@ exports[`Data Access $select handling with structured complex types can read /A?
       "value3": 0,
     },
   },
+  {
+    "ID": "A2",
+    "b": [
+      {
+        "UID": "B1",
+        "complex": {
+          "value1": true,
+          "value2": false,
+        },
+      },
+    ],
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 2,
+      "value2": 1,
+      "value3": 0,
+    },
+    "complexNotNull": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 0,
+      "value2": 0,
+      "value3": 0,
+    },
+  },
 ]
 `;
 
@@ -503,6 +734,24 @@ exports[`Data Access $select handling with structured complex types can read /A?
       "value3": 0,
     },
   },
+  {
+    "ID": "A2",
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 2,
+      "value2": 1,
+      "value3": 0,
+    },
+  },
 ]
 `;
 
@@ -523,6 +772,24 @@ exports[`Data Access $select handling with structured complex types can read /A?
       },
       "value1": 1,
       "value2": 2,
+      "value3": 0,
+    },
+  },
+  {
+    "ID": "A2",
+    "complex": {
+      "subcomplex": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "subcomplexNotNull": {
+        "A": "",
+        "B": "",
+        "C": 0,
+      },
+      "value1": 2,
+      "value2": 1,
       "value3": 0,
     },
   },
