@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.0
+
+### Minor Changes
+
+-   956ee23: The annotation converter now delays the conversion of certain elements and annotations until the converted results are requested
+
 ## 0.5.23
 
 ### Patch Changes
