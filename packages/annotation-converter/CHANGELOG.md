@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.1
+
+### Patch Changes
+
+-   946cf8f: Annotations on properties of a ComplexType are now resolved
+
 ## 0.6.0
 
 ### Minor Changes
