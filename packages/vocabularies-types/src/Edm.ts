@@ -330,8 +330,8 @@ export type ComplexType = {
     _type: 'ComplexType';
     name: SimpleIdentifier;
     fullyQualifiedName: FullyQualifiedName;
-    properties: Property[];
-    navigationProperties: NavigationProperty[];
+    properties: ArrayWithIndex<Property, 'name'>;
+    navigationProperties: ArrayWithIndex<NavigationProperty, 'name'>;
     annotations: ComplexTypeAnnotations;
 };
 
@@ -376,9 +376,9 @@ export type MultipleNavigationProperty = BaseNavigationProperty & {
 export type EntityType = {
     _type: 'EntityType';
     fullyQualifiedName: FullyQualifiedName;
-    entityProperties: Property[];
-    keys: Property[];
-    navigationProperties: NavigationProperty[];
+    entityProperties: ArrayWithIndex<Property, 'name' | 'fullyQualifiedName'>;
+    keys: ArrayWithIndex<Property, 'name' | 'fullyQualifiedName'>;
+    navigationProperties: ArrayWithIndex<NavigationProperty, 'name' | 'fullyQualifiedName'>;
     actions: Record<string, Action>;
     annotations: EntityTypeAnnotations;
     name: SimpleIdentifier;
@@ -411,6 +411,10 @@ export type EntityContainer = {
     name?: string;
     fullyQualifiedName: string;
     annotations: EntityContainerAnnotations;
+
+    actionImports: ArrayWithIndex<ActionImport, 'name' | 'fullyQualifiedName'>;
+    entitySets: ArrayWithIndex<EntitySet, 'name' | 'fullyQualifiedName'>;
+    singletons: ArrayWithIndex<Singleton, 'name' | 'fullyQualifiedName'>;
 };
 
 export type ActionParameter = {
@@ -419,6 +423,7 @@ export type ActionParameter = {
     name: string;
     fullyQualifiedName: string;
     type: string;
+    typeReference?: TypeDefinition | ComplexType | EntityType;
     annotations: ParameterAnnotations;
 };
 export type Action = {
@@ -432,7 +437,7 @@ export type Action = {
     sourceEntityType?: EntityType;
     returnEntityType?: EntityType;
     annotations: ActionAnnotations;
-    parameters: ActionParameter[];
+    parameters: ArrayWithIndex<ActionParameter, 'name' | 'fullyQualifiedName'>;
 };
 
 /**
@@ -444,6 +449,7 @@ export type ActionImport = {
     fullyQualifiedName: SimpleIdentifier;
     actionName: string;
     action?: Action;
+    annotations: ActionImportAnnotations;
 };
 
 export type ServiceObject =
@@ -458,8 +464,9 @@ export type ServiceObject =
 export type ServiceObjectAndAnnotation = ServiceObject | AnyAnnotation;
 
 export type ResolutionTarget<T> = {
-    target: null | T;
+    target: undefined | null | T;
     objectPath: ServiceObjectAndAnnotation[];
+    messages: { message: string }[];
 };
 
 export type Reference = {
@@ -468,18 +475,21 @@ export type Reference = {
     namespace: string;
 };
 
+export type Index<T, P extends Extract<keyof T, string>> = Record<`by_${P}`, (value: T[P]) => T | undefined>;
+export type ArrayWithIndex<T, P extends Extract<keyof T, string>> = Array<T> & Index<T, P>;
+
 export type ConvertedMetadata = {
     version: string;
     annotations: Record<string, AnnotationList[]>;
     namespace: string;
-    actions: Action[];
-    actionImports: ActionImport[];
+    actions: ArrayWithIndex<Action, 'name' | 'fullyQualifiedName'>;
+    actionImports: ArrayWithIndex<ActionImport, 'name' | 'fullyQualifiedName'>;
     entityContainer: EntityContainer;
-    complexTypes: ComplexType[];
-    typeDefinitions: TypeDefinition[];
-    entitySets: EntitySet[];
-    singletons: Singleton[];
-    entityTypes: EntityType[];
+    complexTypes: ArrayWithIndex<ComplexType, 'name' | 'fullyQualifiedName'>;
+    typeDefinitions: ArrayWithIndex<TypeDefinition, 'name' | 'fullyQualifiedName'>;
+    entitySets: ArrayWithIndex<EntitySet, 'name' | 'fullyQualifiedName'>;
+    singletons: ArrayWithIndex<Singleton, 'name' | 'fullyQualifiedName'>;
+    entityTypes: ArrayWithIndex<EntityType, 'name' | 'fullyQualifiedName'>;
     references: Reference[];
     diagnostics: { message: string }[];
     resolvePath: <T>(path: string, resolveDirectly?: boolean) => ResolutionTarget<T>;
@@ -488,10 +498,18 @@ export type ConvertedMetadata = {
 // All the Raw types are meant for usage when providing data to the converter
 
 // Removes things which will be provided by the converter, annotations, targetType and other things to improve usability
-type RemoveAnnotationAndType<T> = {
+export type RemoveAnnotationAndType<T> = {
     [K in keyof Omit<
         T,
-        'annotations' | 'targetType' | 'isKey' | 'resolvePath' | 'entityType' | 'navigationProperties'
+        | 'annotations'
+        | 'targetType'
+        | 'isKey'
+        | 'resolvePath'
+        | 'entityType'
+        | 'navigationProperties'
+        | 'entitySets'
+        | 'singletons'
+        | 'actionImports'
     >]: T[K] extends object
         ? T[K] extends Array<infer Item>
             ? RemoveAnnotationAndType<Item>[]
