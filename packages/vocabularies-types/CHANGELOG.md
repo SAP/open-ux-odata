@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.7.0
+
+### Minor Changes
+
+-   956ee23: The annotation converter now delays the conversion of certain elements and annotations until the converted results are requested
+
 ## 0.6.9
 
 ### Patch Changes
