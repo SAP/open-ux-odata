@@ -1058,6 +1058,15 @@ describe('Data Access', () => {
             expect(data).toMatchSnapshot();
         });
 
+        test(`can read /A with order by on the complex type`, async () => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/A?$orderby=complex/value1 desc` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toMatchSnapshot();
+        });
+
         test(`can read /A('A1')`, async () => {
             const odataRequest = new ODataRequest({ method: 'GET', url: `/A('A1')` }, dataAccess);
             const data = await dataAccess.getData(odataRequest);
