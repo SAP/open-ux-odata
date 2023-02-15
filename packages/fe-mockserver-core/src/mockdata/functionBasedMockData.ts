@@ -1,10 +1,9 @@
 import type { KeyDefinitions } from './fileBasedMockData';
 import { FileBasedMockData } from './fileBasedMockData';
-import type { Action, EntityType, Property } from '@sap-ux/vocabularies-types';
+import type { Action, EntityType, Property, NavigationProperty } from '@sap-ux/vocabularies-types';
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import { ExecutionError } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
-import type { NavigationProperty } from '@sap-ux/vocabularies-types';
 
 export type MockDataContributor = {
     getInitialDataSet?: (contextId: string) => object[];

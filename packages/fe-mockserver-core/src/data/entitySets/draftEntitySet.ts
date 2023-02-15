@@ -74,6 +74,25 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         return super.checkKeyValue(mockData, keyValues, keyName, property);
     }
 
+    private async getNavigationPropertyDetails(navPropName: string, data: any, tenantId: string) {
+        // For all the draft node data duplicate them
+        const navPropDetail = this.entityTypeDefinition.navigationProperties.find(
+            (navProp: NavigationProperty) => navProp.name === navPropName
+        ) as NavigationProperty;
+        const subKeys = await this.dataAccess.getNavigationPropertyKeys(
+            data,
+            navPropDetail,
+            this.entitySetDefinition.entityType,
+            this.entitySetDefinition,
+            {},
+            tenantId
+        );
+        const navPropEntity = (await this.dataAccess.getMockEntitySet(
+            this.entitySetDefinition.navigationPropertyBinding[navPropName].name
+        )) as any as DraftMockEntitySet;
+        return { navPropEntity, subKeys };
+    }
+
     private async createInactiveVersionForNavigations(data: any, tenantId: string, odataRequest: ODataRequest) {
         for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
             if (
@@ -82,20 +101,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 navPropName !== 'SiblingEntity'
             ) {
                 // For all the draft node data duplicate them
-                const navPropDetail = this.entityTypeDefinition.navigationProperties.find(
-                    (navProp: NavigationProperty) => navProp.name === navPropName
-                ) as NavigationProperty;
-                const subKeys = await this.dataAccess.getNavigationPropertyKeys(
-                    data,
-                    navPropDetail,
-                    this.entitySetDefinition.entityType,
-                    this.entitySetDefinition,
-                    {},
-                    tenantId
-                );
-                const navPropEntity = (await this.dataAccess.getMockEntitySet(
-                    this.entitySetDefinition.navigationPropertyBinding[navPropName].name
-                )) as any as DraftMockEntitySet;
+                const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(navPropName, data, tenantId);
                 if (navPropEntity?.draftEdit) {
                     await navPropEntity.draftEdit(subKeys, tenantId, odataRequest);
                 }
@@ -160,20 +166,11 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 navPropName !== 'SiblingEntity'
             ) {
                 // For all the draft node data duplicate them
-                const navPropDetail = this.entityTypeDefinition.navigationProperties.find(
-                    (navProp: NavigationProperty) => navProp.name === navPropName
-                ) as NavigationProperty;
-                const subKeys = await this.dataAccess.getNavigationPropertyKeys(
+                const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(
+                    navPropName,
                     draftData,
-                    navPropDetail,
-                    this.entitySetDefinition.entityType,
-                    this.entitySetDefinition,
-                    {},
                     tenantId
                 );
-                const navPropEntity = (await this.dataAccess.getMockEntitySet(
-                    this.entitySetDefinition.navigationPropertyBinding[navPropName].name
-                )) as unknown as DraftMockEntitySet;
                 if (navPropEntity && navPropEntity.draftActivate) {
                     await navPropEntity.draftActivate(subKeys, tenantId, odataRequest);
                 }
@@ -219,20 +216,11 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     navPropName !== 'SiblingEntity'
                 ) {
                     // For all the draft node data duplicate them
-                    const navPropDetail = this.entityTypeDefinition.navigationProperties.find(
-                        (navProp: NavigationProperty) => navProp.name === navPropName
-                    ) as NavigationProperty;
-                    const subKeys = await this.dataAccess.getNavigationPropertyKeys(
+                    const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(
+                        navPropName,
                         data,
-                        navPropDetail,
-                        this.entitySetDefinition.entityType,
-                        this.entitySetDefinition,
-                        {},
                         tenantId
                     );
-                    const navPropEntity = (await this.dataAccess.getMockEntitySet(
-                        this.entitySetDefinition.navigationPropertyBinding[navPropName].name
-                    )) as unknown as DraftMockEntitySet;
                     if (navPropEntity && navPropEntity.draftDiscard) {
                         await navPropEntity.draftDiscard(subKeys, tenantId, odataRequest);
                     }
