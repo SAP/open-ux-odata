@@ -1,4 +1,4 @@
-import type { ComplexType, Reference, TypeDefinition } from '@sap-ux/vocabularies-types';
+import type { Index, ComplexType, Reference, TypeDefinition, ArrayWithIndex } from '@sap-ux/vocabularies-types';
 
 export const defaultReferences: ReferencesWithMap = [
     { alias: 'Capabilities', namespace: 'Org.OData.Capabilities.V1', uri: '' },
@@ -421,6 +421,7 @@ export enum TermToTypes {
 
 /**
  * Differentiate between a ComplexType and a TypeDefinition.
+ *
  * @param complexTypeDefinition
  * @returns true if the value is a complex type
  */
@@ -444,4 +445,83 @@ export function Decimal(value: number) {
             return value.toString();
         }
     };
+}
+
+/**
+ * Defines a lazy property.
+ *
+ * The property is initialized by calling the init function on the first read access, or by directly assigning a value.
+ *
+ * @param object    The host object
+ * @param property  The lazy property to add
+ * @param init      The function that initializes the property's value
+ */
+export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, init: () => Type[Key]) {
+    const initial = Symbol('initial');
+    let _value: Type[Key] | typeof initial = initial;
+
+    Object.defineProperty(object, property, {
+        enumerable: true,
+
+        get() {
+            if (_value === initial) {
+                _value = init();
+            }
+            return _value;
+        },
+
+        set(value: Type[Key]) {
+            _value = value;
+        }
+    });
+}
+
+/**
+ * Creates a function that allows to find an array element by property value.
+ *
+ * @param array     The array
+ * @param property  Elements in the array are searched by this property
+ * @returns A function that can be used to find an element of the array by property value.
+ */
+export function createIndexedFind<T>(array: Array<T>, property: keyof T) {
+    const index: Map<T[keyof T], T | undefined> = new Map();
+
+    return function find(value: T[keyof T]) {
+        const element = index.get(value);
+
+        if (element?.[property] === value) {
+            return element;
+        }
+
+        return array.find((element) => {
+            if (!element?.hasOwnProperty(property)) {
+                return false;
+            }
+
+            const propertyValue = element[property];
+            index.set(propertyValue, element);
+            return propertyValue === value;
+        });
+    };
+}
+
+/**
+ * Adds a 'get by value' function to an array.
+ *
+ * If this function is called with addIndex(myArray, 'name'), a new function 'by_name(value)' will be added that allows to
+ * find a member of the array by the value of its 'name' property.
+ *
+ * @param array      The array
+ * @param property   The property that will be used by the 'by_{property}()' function
+ * @returns The array with the added function
+ */
+export function addGetByValue<T, P extends Extract<keyof T, string>>(array: Array<T>, property: P) {
+    const indexName: keyof Index<T, P> = `by_${property}`;
+
+    if (!array.hasOwnProperty(indexName)) {
+        Object.defineProperty(array, indexName, { writable: false, value: createIndexedFind(array, property) });
+    } else {
+        throw new Error(`Property '${indexName}' already exists`);
+    }
+    return array as ArrayWithIndex<T, P>;
 }

@@ -5045,7 +5045,7 @@
               <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
             </Record>
 			  <Record Type="UI.DataFieldForAnnotation">
-				  <PropertyValue Property="Target" AnnotationPath="_SoldToParty@Communication.Contact"/>
+				  <PropertyValue Property="Target" AnnotationPath="_SoldToParty/@Communication.Contact"/>
 				  <PropertyValue Property="Label" String="Communication for SoldToParty"/>
 			  </Record>
           </Collection>
