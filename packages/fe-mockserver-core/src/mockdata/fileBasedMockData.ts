@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep';
-import { generateId, PartialReferentialConstraint, uuidv4 } from '../data/common';
+import { generateId, uuidv4 } from '../data/common';
 import type {
     Action,
     ComplexType,
@@ -8,10 +8,9 @@ import type {
     Property,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
-import type { EntitySetInterface } from '../data/common';
+import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
 import { isComplexTypeDefinition } from '@sap-ux/annotation-converter';
-import { ReferentialConstraint } from '@sap-ux/vocabularies-types/src';
 
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
