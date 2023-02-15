@@ -43,6 +43,11 @@ describe('Data Access with $expand spanning multiple levels', () => {
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchSnapshot();
     });
+    test('List: 1 level, 1:n with no ref constraints', async () => {
+        const odataRequest = new ODataRequest({ method: 'GET', url: '/A?$expand=_toComposition' }, dataAccess);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchSnapshot();
+    });
     test('List: 2 levels, 1:1 --> 1:1', async () => {
         const odataRequest = new ODataRequest({ method: 'GET', url: '/A?$expand=_toOne($expand=_toOne)' }, dataAccess);
         const data = await dataAccess.getData(odataRequest);

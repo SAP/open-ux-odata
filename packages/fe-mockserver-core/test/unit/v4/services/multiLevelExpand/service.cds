@@ -1,7 +1,7 @@
 aspect AbstractEntity {
     key ID : String;
-    value  : String
-
+    value  : String;
+    othervalue : String;
 }
 
 
@@ -10,6 +10,7 @@ service MultiLevelExpand {
         _toOne  : Association to one B;
         _toMany : Association to many B
                       on _toMany._back = $self;
+        _toComposition : Association to many B;
     }
 
     entity B : AbstractEntity {

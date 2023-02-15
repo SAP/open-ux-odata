@@ -51,6 +51,15 @@ This method allows to throw an error, it's useful to provide a custom error mess
     - `isSAPMessage` if set to true, the message will be sent as a SAP message
     - `headers` contains the headers you want to send along with the message
 
+### getReferentialConstraints
+
+This method allows you to specify, for a given navigation property, the referential constraints that should be applied when fetching the related entities.
+- `getReferentialConstraints(navigationProperty: NavigationProperty): { sourceProperty: string, targetProperty: string}[];`
+  - `navigationProperty` contains the navigation property definition
+  - For the response
+    - `sourceProperty` should contains the property name on the source entity
+    - `targetProperty` shouldcontains the property name on the target entity
+    - 
 ### base API
 
 On top of providing ways to override default behavior, you also have access to a `base` API that comprises of the basic functionality offered by the mockdata API.

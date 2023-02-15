@@ -15,7 +15,7 @@ import type {
 import cloneDeep from 'lodash.clonedeep';
 import type { ILogger } from '@ui5/logger';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
-import type { DataAccessInterface, EntitySetInterface } from './common';
+import type { DataAccessInterface, EntitySetInterface, PartialReferentialConstraint } from './common';
 import { _getDateTimeOffset } from './common';
 import { MockEntityContainer } from '../mockdata/mockEntityContainer';
 import type { KeyDefinitions } from '../mockdata/fileBasedMockData';
@@ -243,18 +243,24 @@ export class DataAccess implements DataAccessInterface {
         return null;
     }
 
-    public getNavigationPropertyKeys(
+    public async getNavigationPropertyKeys(
         data: any,
         navPropDetail: any,
         currentEntityType: EntityType,
         currentEntitySet: EntitySet | Singleton | undefined,
         currentKeys: Record<string, string>,
+        tenantId: string,
         forCreate = false
-    ): Record<string, string> {
-        if (navPropDetail.referentialConstraint && navPropDetail.referentialConstraint.length > 0) {
+    ): Promise<Record<string, string>> {
+        const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
+        let referentialConstraints = await mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail);
+        if (!referentialConstraints) {
+            referentialConstraints = navPropDetail.referentialConstraint;
+        }
+        if (referentialConstraints && referentialConstraints.length > 0) {
             const dataArray = Array.isArray(data) ? data : [data];
             dataArray.forEach((navigationData) => {
-                navPropDetail.referentialConstraint.forEach((refConstr: ReferentialConstraint) => {
+                referentialConstraints!.forEach((refConstr: PartialReferentialConstraint) => {
                     currentKeys[refConstr.targetProperty] = navigationData[refConstr.sourceProperty];
                 });
                 if (
@@ -363,7 +369,14 @@ export class DataAccess implements DataAccessInterface {
             const navEntitySet = await this.getMockEntitySet(targetEntitySet.name);
             const dataArray = Array.isArray(data) ? data : [data];
             for (const dataLine of dataArray) {
-                const currentKeys = this.getNavigationPropertyKeys(dataLine, navProp, entityType, targetEntitySet, {});
+                const currentKeys = await this.getNavigationPropertyKeys(
+                    dataLine,
+                    navProp,
+                    entityType,
+                    targetEntitySet,
+                    {},
+                    odataRequest.tenantId
+                );
                 if (navProp && !navProp.containsTarget) {
                     let expandData = dataLine[expandNavProp];
                     if (!expandData) {
@@ -521,12 +534,13 @@ export class DataAccess implements DataAccessInterface {
                         } else {
                             visitedPaths.push(queryPathPart.path);
                             if (asArray) {
-                                currentKeys = this.getNavigationPropertyKeys(
+                                currentKeys = await this.getNavigationPropertyKeys(
                                     innerData,
                                     navPropDetail,
                                     currentEntityType,
                                     currentEntitySet,
-                                    currentKeys
+                                    currentKeys,
+                                    odataRequest.tenantId
                                 );
                             }
                             const hasOnlyDraftKeyOrNoKeys =
@@ -924,12 +938,13 @@ export class DataAccess implements DataAccessInterface {
                     providedKeys[key.name] = postData[key.name];
                 }
             });
-            const currentKeys = this.getNavigationPropertyKeys(
+            const currentKeys = await this.getNavigationPropertyKeys(
                 data,
                 navPropDetail,
                 entitySet.entityType,
                 entitySet,
                 providedKeys,
+                odataRequest.tenantId,
                 true
             );
             if (data.DraftAdministrativeData !== null && data.DraftAdministrativeData !== undefined) {

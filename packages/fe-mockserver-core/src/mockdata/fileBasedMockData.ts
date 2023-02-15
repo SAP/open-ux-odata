@@ -1,7 +1,14 @@
 import cloneDeep from 'lodash.clonedeep';
 import { generateId, uuidv4 } from '../data/common';
-import type { Action, ComplexType, EntityType, Property, TypeDefinition } from '@sap-ux/vocabularies-types';
-import type { EntitySetInterface } from '../data/common';
+import type {
+    Action,
+    ComplexType,
+    EntityType,
+    NavigationProperty,
+    Property,
+    TypeDefinition
+} from '@sap-ux/vocabularies-types';
+import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
 import { isComplexTypeDefinition } from '@sap-ux/annotation-converter';
 
@@ -475,5 +482,11 @@ export class FileBasedMockData {
                 break;
         }
         return isValid;
+    }
+
+    async getReferentialConstraints(
+        _navigationProperty: NavigationProperty
+    ): Promise<PartialReferentialConstraint[] | undefined> {
+        return undefined;
     }
 }
