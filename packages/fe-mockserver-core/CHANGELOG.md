@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.55
+
+### Patch Changes
+
+-   5c1b089: We now allow to specify referential constraints even if the backend doesn't provide them
+
 ## 1.1.54
 
 ### Patch Changes
