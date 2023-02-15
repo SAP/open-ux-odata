@@ -450,7 +450,7 @@ export function Decimal(value: number) {
 /**
  * Defines a lazy property.
  *
- * The property is initialized by calling the {init} function on the first read access, or by directly assigning a value.
+ * The property is initialized by calling the init function on the first read access, or by directly assigning a value.
  *
  * @param object    The host object
  * @param property  The lazy property to add
@@ -519,7 +519,7 @@ export function addGetByValue<T, P extends Extract<keyof T, string>>(array: Arra
     const indexName: keyof Index<T, P> = `by_${property}`;
 
     if (!array.hasOwnProperty(indexName)) {
-        Object.defineProperty(array, indexName, { value: createIndexedFind(array, property) });
+        Object.defineProperty(array, indexName, { writable: false, value: createIndexedFind(array, property) });
     } else {
         throw new Error(`Property '${indexName}' already exists`);
     }
