@@ -972,4 +972,15 @@ describe('Annotation Converter', () => {
             entityType.annotations.UI?.Identification?.[0]?.annotations?.Analytics?.RolledUpPropertyCount?.valueOf()
         ).toEqual(11);
     });
+
+    it('Can handle annotations of complex types', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/complexTypeAnnos.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const complexType = convertedTypes.complexTypes[0];
+        const property = complexType.properties.by_name('name');
+        expect(property).toBeDefined();
+        const annos = property?.annotations.Common?.Text;
+        expect(annos).toBeDefined();
+    });
 });

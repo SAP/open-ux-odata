@@ -113,8 +113,10 @@ function resolveTarget<T>(
         // annotation: start at the annotation target
         startElement = startElement[ANNOTATION_TARGET];
     } else if (startElement._type === 'Property') {
-        // property: start at the entity type the property belongs to
-        startElement = converter.getConvertedEntityType(substringBeforeFirst(startElement.fullyQualifiedName, '/'));
+        // property: start at the entity type or complex type the property belongs to
+        const parentElementFQN = substringBeforeFirst(startElement.fullyQualifiedName, '/');
+        startElement =
+            converter.getConvertedEntityType(parentElementFQN) ?? converter.getConvertedComplexType(parentElementFQN);
     }
 
     const result = pathSegments.reduce(
