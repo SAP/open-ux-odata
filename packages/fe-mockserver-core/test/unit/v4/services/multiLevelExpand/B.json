@@ -3,7 +3,8 @@
         "ID": "B-0",
         "value": "B",
         "_toOne_ID": "C-0",
-        "_back_ID": "A-0"
+        "_back_ID": "A-0",
+        "othervalue": "A-777"
     },
     {
         "ID": "B-3",
@@ -22,6 +23,17 @@
                 "value": "C3"
             }
         ],
-        "_back_ID": "A-3"
+        "_back_ID": "A-3",
+        "othervalue": "A-0"
+    },
+    {
+        "ID": "B-4",
+        "value": "A-0-B-4",
+        "othervalue": "A-0"
+    },
+    {
+        "ID": "B-5",
+        "value": "A-1-B-5",
+        "othervalue": "A-777"
     }
 ]

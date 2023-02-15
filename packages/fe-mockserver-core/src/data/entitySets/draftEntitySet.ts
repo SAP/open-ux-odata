@@ -85,12 +85,13 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 const navPropDetail = this.entityTypeDefinition.navigationProperties.find(
                     (navProp: NavigationProperty) => navProp.name === navPropName
                 ) as NavigationProperty;
-                const subKeys = this.dataAccess.getNavigationPropertyKeys(
+                const subKeys = await this.dataAccess.getNavigationPropertyKeys(
                     data,
                     navPropDetail,
                     this.entitySetDefinition.entityType,
                     this.entitySetDefinition,
-                    {}
+                    {},
+                    tenantId
                 );
                 const navPropEntity = (await this.dataAccess.getMockEntitySet(
                     this.entitySetDefinition.navigationPropertyBinding[navPropName].name
@@ -162,12 +163,13 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 const navPropDetail = this.entityTypeDefinition.navigationProperties.find(
                     (navProp: NavigationProperty) => navProp.name === navPropName
                 ) as NavigationProperty;
-                const subKeys = this.dataAccess.getNavigationPropertyKeys(
+                const subKeys = await this.dataAccess.getNavigationPropertyKeys(
                     draftData,
                     navPropDetail,
                     this.entitySetDefinition.entityType,
                     this.entitySetDefinition,
-                    {}
+                    {},
+                    tenantId
                 );
                 const navPropEntity = (await this.dataAccess.getMockEntitySet(
                     this.entitySetDefinition.navigationPropertyBinding[navPropName].name
@@ -220,12 +222,13 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     const navPropDetail = this.entityTypeDefinition.navigationProperties.find(
                         (navProp: NavigationProperty) => navProp.name === navPropName
                     ) as NavigationProperty;
-                    const subKeys = this.dataAccess.getNavigationPropertyKeys(
+                    const subKeys = await this.dataAccess.getNavigationPropertyKeys(
                         data,
                         navPropDetail,
                         this.entitySetDefinition.entityType,
                         this.entitySetDefinition,
-                        {}
+                        {},
+                        tenantId
                     );
                     const navPropEntity = (await this.dataAccess.getMockEntitySet(
                         this.entitySetDefinition.navigationPropertyBinding[navPropName].name

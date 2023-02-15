@@ -5,6 +5,10 @@ import type { ILogger } from '@ui5/logger';
 import type ODataRequest from '../request/odataRequest';
 import type { IFileLoader } from '../index';
 
+export type PartialReferentialConstraint = {
+    sourceProperty: string;
+    targetProperty: string;
+};
 export interface EntitySetInterface {
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
     checkFilter(mockData: object, filterExpression: any, tenantId: string, odataRequest: ODataRequest): boolean;
@@ -55,8 +59,9 @@ export interface DataAccessInterface {
         currentEntityType: EntityType,
         currentEntitySet: EntitySet | undefined,
         currentKeys: Record<string, string>,
+        tenantId: string,
         forCreate?: boolean
-    ): Record<string, string>;
+    ): Promise<Record<string, string>>;
     getMockEntitySet(
         entityTypeName: string,
         generateMockData?: boolean,

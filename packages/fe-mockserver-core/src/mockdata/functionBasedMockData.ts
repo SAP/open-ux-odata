@@ -2,8 +2,10 @@ import type { KeyDefinitions } from './fileBasedMockData';
 import { FileBasedMockData } from './fileBasedMockData';
 import type { Action, EntityType, Property } from '@sap-ux/vocabularies-types';
 import type { EntitySetInterface } from '../data/common';
-import { ExecutionError } from '../data/common';
+import { ExecutionError, PartialReferentialConstraint } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
+import type { ReferentialConstraint } from '@sap-ux/vocabularies-types/src';
+import { NavigationProperty } from '@sap-ux/vocabularies-types';
 
 export type MockDataContributor = {
     getInitialDataSet?: (contextId: string) => object[];
@@ -21,6 +23,10 @@ export type MockDataContributor = {
     getAllEntries?: (odataRequest: ODataRequest) => object[];
     getEmptyObject?: (odataRequest: ODataRequest) => object;
     getDefaultElement?: (odataRequest: ODataRequest) => object;
+
+    getReferentialConstraints?: (
+        _navigationProperty: NavigationProperty
+    ) => Promise<PartialReferentialConstraint[] | undefined>;
     generateKey?: (property: Property, lineIndex: number, odataRequest: ODataRequest) => any;
     checkSearchQuery?: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
     checkFilterValue?: (
@@ -328,6 +334,16 @@ export class FunctionBasedMockData extends FileBasedMockData {
             return this._mockDataFn.checkFilterValue(comparisonType, mockValue, literal, operator, odataRequest);
         } else {
             return super.checkFilterValue(comparisonType, mockValue, literal, operator, odataRequest);
+        }
+    }
+
+    async getReferentialConstraints(
+        _navigationProperty: NavigationProperty
+    ): Promise<PartialReferentialConstraint[] | undefined> {
+        if (this._mockDataFn?.getReferentialConstraints) {
+            return this._mockDataFn.getReferentialConstraints(_navigationProperty);
+        } else {
+            return undefined;
         }
     }
 }

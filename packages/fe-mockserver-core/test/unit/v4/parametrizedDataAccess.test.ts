@@ -53,7 +53,7 @@ describe('Parametrized Data Access', () => {
             )
         );
         expect(customerData.Customer).toEqual('1');
-
+        expect(customerData.CardNumber).toEqual('2922870');
         customerData = await dataAccess.getData(
             new ODataRequest(
                 {

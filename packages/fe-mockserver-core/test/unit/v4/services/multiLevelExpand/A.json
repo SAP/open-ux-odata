@@ -2,7 +2,8 @@
     {
         "ID": "A-0",
         "value": "A",
-        "_toOne_ID": "B-0"
+        "_toOne_ID": "B-0",
+        "_toComposition_ID": "A-0"
     },
     {
         "ID": "A-1",
