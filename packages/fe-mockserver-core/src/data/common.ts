@@ -129,3 +129,15 @@ export function uuidv4() {
         return v.toString(16);
     });
 }
+
+export function getData(fullData: any, objectPath: string): any {
+    if (fullData === undefined || objectPath.length === 0) {
+        return fullData;
+    }
+    if (objectPath.indexOf('/') === -1) {
+        return fullData?.[objectPath]; // fullData can be null
+    } else {
+        const subObjectPath = objectPath.split('/');
+        return getData(fullData[subObjectPath[0]], subObjectPath.slice(1).join('/'));
+    }
+}

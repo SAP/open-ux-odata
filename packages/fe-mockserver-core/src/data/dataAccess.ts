@@ -16,7 +16,7 @@ import cloneDeep from 'lodash.clonedeep';
 import type { ILogger } from '@ui5/logger';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import type { DataAccessInterface, EntitySetInterface, PartialReferentialConstraint } from './common';
-import { _getDateTimeOffset } from './common';
+import { _getDateTimeOffset, getData } from './common';
 import { MockEntityContainer } from '../mockdata/mockEntityContainer';
 import type { KeyDefinitions } from '../mockdata/fileBasedMockData';
 import type { ServiceConfig } from '../api';
@@ -756,10 +756,12 @@ export class DataAccess implements DataAccessInterface {
                         if (isDecisive) {
                             return;
                         }
-                        if (firstElement[orderByDef.name] > secondElement[orderByDef.name]) {
+                        const firstElementData = getData(firstElement, orderByDef.name);
+                        const secondElementData = getData(secondElement, orderByDef.name);
+                        if (firstElementData > secondElementData) {
                             outValue = orderByDef.direction === 'asc' ? 1 : -1;
                             isDecisive = true;
-                        } else if (firstElement[orderByDef.name] < secondElement[orderByDef.name]) {
+                        } else if (firstElementData < secondElementData) {
                             outValue = orderByDef.direction === 'asc' ? -1 : 1;
                             isDecisive = true;
                         }
