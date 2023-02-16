@@ -123,7 +123,6 @@ function resolveTarget<T>(
         (current: ResolutionTarget<any>, segment: string) => {
             const error = (message: string) => {
                 current.messages.push({ message });
-                current.objectPath = appendObjectPath(current.objectPath, undefined);
                 current.target = undefined;
                 return current;
             };
@@ -326,11 +325,15 @@ function resolveTarget<T>(
                     return current;
 
                 default:
+                    if (segment === '') {
+                        return current;
+                    }
+
                     if (current.target[segment]) {
                         current.target = current.target[segment];
                         current.objectPath = appendObjectPath(current.objectPath, current.target);
+                        return current;
                     }
-                    return current;
             }
 
             return error(

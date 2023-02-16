@@ -498,6 +498,22 @@ describe('Annotation Converter', () => {
             expect(target.visitedObjects.length).toEqual(1); // EntityType
             expect(target.target).toStrictEqual(entityType);
         });
+
+        it('correctly returns an undefined target for invalid paths', () => {
+            const entityType = convertedTypes.entityTypes[0];
+            expect(entityType).not.toBeNull();
+            expect(entityType).not.toBeUndefined();
+
+            // invalid: target is undefined
+            const target1 = entityType.resolvePath('@com.sap.vocabularies.Common.v1.Label/XXXXXXXXX', true);
+            expect(target1.target).toBeUndefined();
+            expect(target1.visitedObjects.length).toEqual(2); // EntityType / Annotation
+
+            // but allow a slash at the end
+            const target2 = entityType.resolvePath('@com.sap.vocabularies.Common.v1.Label/', true);
+            expect(target2.target).toBeDefined();
+            expect(target2.visitedObjects.length).toEqual(2); // EntityType / Annotation
+        });
     });
 
     describe('can support resolution target for singleton as well', () => {
