@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.57
+
+### Patch Changes
+
+-   25a4c33: Add support for ComplexType in $orderBy
+
 ## 1.1.56
 
 ### Patch Changes
