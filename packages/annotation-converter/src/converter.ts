@@ -326,11 +326,15 @@ function resolveTarget<T>(
                     return current;
 
                 default:
+                    if (segment === '') {
+                        return current;
+                    }
+
                     if (current.target[segment]) {
                         current.target = current.target[segment];
                         current.objectPath = appendObjectPath(current.objectPath, current.target);
+                        return current;
                     }
-                    return current;
             }
 
             return error(
