@@ -8,6 +8,8 @@ import type { IncomingHttpHeaders } from 'http';
 import type { DataAccess } from '../data/dataAccess';
 import type { URLSearchParams } from 'url';
 import { URL } from 'url';
+import type { TransformationDefinition } from './applyParser';
+import { parseApply } from './applyParser';
 
 export type ExpandDefinition = {
     expand: Record<string, ExpandDefinition>;
@@ -34,18 +36,6 @@ export type QueryPath = {
     keys: Record<string, any>;
 };
 
-type AggregateDefinition = {
-    filter?: FilterExpression;
-    groupBy: string[];
-    aggregates: AggregateProperty[];
-};
-
-type AggregateProperty = {
-    name: string;
-    operator: string;
-    sourceProperty: string;
-};
-
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
     public tenantId: string;
@@ -54,7 +44,7 @@ export default class ODataRequest {
     public orderBy: OrderByDefinition[];
     public startIndex: number;
     public maxElements: number;
-    public aggregateDefinition?: AggregateDefinition;
+    public aggregateDefinition?: TransformationDefinition;
     public filterDefinition?: FilterExpression;
     public selectedProperties: Record<string, boolean>;
     public expandProperties: Record<string, ExpandDefinition> = {};
@@ -91,7 +81,7 @@ export default class ODataRequest {
         if (isNaN(this.maxElements)) {
             this.maxElements = Number.POSITIVE_INFINITY;
         }
-        this.aggregateDefinition = this.parseApply(searchParams.get('$apply'));
+        this.aggregateDefinition = parseApply(searchParams.get('$apply'));
         this.filterDefinition = parseFilter(searchParams.get('$filter'));
         this.countRequested = searchParams.has('$count');
 
@@ -119,10 +109,10 @@ export default class ODataRequest {
 
         if (this.aggregateDefinition) {
             const additionalSelectProperty: Record<string, boolean> = {};
-            this.aggregateDefinition.groupBy.forEach((groupByProperty) => {
+            this.aggregateDefinition.groupBy?.forEach((groupByProperty) => {
                 additionalSelectProperty[groupByProperty] = true;
             });
-            this.aggregateDefinition.aggregates.forEach((aggregateSourceProp) => {
+            this.aggregateDefinition.aggregates?.forEach((aggregateSourceProp) => {
                 additionalSelectProperty[aggregateSourceProp.sourceProperty] = true;
             });
 
@@ -268,50 +258,50 @@ export default class ODataRequest {
             return pathArr;
         }, []);
     }
+    //
+    // private parseApply(applyParameters: string | null): AggregateDefinition | undefined {
+    //     if (!applyParameters) {
+    //         return undefined;
+    //     }
+    //     const filterRegEx = /^filter\(([^)]+)\)\/(.*)$/;
+    //     const filterMatches = applyParameters.match(filterRegEx);
+    //     let groupByText = applyParameters;
+    //     let filterParams;
+    //     if (filterMatches) {
+    //         const filterExpr = filterMatches[1];
+    //         filterParams = parseFilter(filterExpr);
+    //         groupByText = filterMatches[2];
+    //     }
+    //     const groupByRegEx = /^groupby\(\(([^)]+)\),([^)]+\))\)$/;
+    //     const groupByMatches = groupByText.match(groupByRegEx);
+    //     if (groupByMatches) {
+    //         return {
+    //             filter: filterParams,
+    //             groupBy: groupByMatches[1].split(','),
+    //             aggregates: this.parseAggregateDefinition(groupByMatches[2])
+    //         };
+    //     }
+    // }
 
-    private parseApply(applyParameters: string | null): AggregateDefinition | undefined {
-        if (!applyParameters) {
-            return undefined;
-        }
-        const filterRegEx = /^filter\(([^)]+)\)\/(.*)$/;
-        const filterMatches = applyParameters.match(filterRegEx);
-        let groupByText = applyParameters;
-        let filterParams;
-        if (filterMatches) {
-            const filterExpr = filterMatches[1];
-            filterParams = parseFilter(filterExpr);
-            groupByText = filterMatches[2];
-        }
-        const groupByRegEx = /^groupby\(\(([^)]+)\),([^)]+\))\)$/;
-        const groupByMatches = groupByText.match(groupByRegEx);
-        if (groupByMatches) {
-            return {
-                filter: filterParams,
-                groupBy: groupByMatches[1].split(','),
-                aggregates: this.parseAggregateDefinition(groupByMatches[2])
-            };
-        }
-    }
-
-    private parseAggregateDefinition(aggregationDefinition: string): AggregateProperty[] {
-        const aggregateRegEx = /^aggregate\(([^)]+)\)$/;
-        const aggregateMatches = aggregationDefinition.match(aggregateRegEx);
-        if (aggregateMatches) {
-            return aggregateMatches[1].split(',').map((aggregateMatch) => {
-                const aggregateSplit = aggregateMatch.split(' ');
-                const property = aggregateSplit[0];
-                const operator = aggregateSplit[2];
-                const targetName = aggregateSplit[4];
-                return {
-                    name: targetName || property,
-                    operator,
-                    sourceProperty: property
-                };
-            });
-        } else {
-            return [];
-        }
-    }
+    // private parseAggregateDefinition(aggregationDefinition: string): AggregateProperty[] {
+    //     const aggregateRegEx = /^aggregate\(([^)]+)\)$/;
+    //     const aggregateMatches = aggregationDefinition.match(aggregateRegEx);
+    //     if (aggregateMatches) {
+    //         return aggregateMatches[1].split(',').map((aggregateMatch) => {
+    //             const aggregateSplit = aggregateMatch.split(' ');
+    //             const property = aggregateSplit[0];
+    //             const operator = aggregateSplit[2];
+    //             const targetName = aggregateSplit[4];
+    //             return {
+    //                 name: targetName || property,
+    //                 operator,
+    //                 sourceProperty: property
+    //             };
+    //         });
+    //     } else {
+    //         return [];
+    //     }
+    // }
 
     public async handleRequest() {
         const contextId = this.requestContent.headers?.['sap-contextid'];

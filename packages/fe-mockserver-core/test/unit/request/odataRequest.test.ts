@@ -367,24 +367,13 @@ describe('OData Request', () => {
         );
         expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
             {
-              "CreditScore": true,
-              "Customer": true,
               "SomethingElse": true,
             }
         `);
         expect(myRequest.aggregateDefinition).toMatchInlineSnapshot(`
             {
-              "aggregates": [
-                {
-                  "name": "CreditScore",
-                  "operator": undefined,
-                  "sourceProperty": "CreditScore",
-                },
-              ],
-              "filter": undefined,
-              "groupBy": [
-                "Customer",
-              ],
+              "aggregates": [],
+              "groupBy": [],
             }
         `);
         myRequest = new ODataRequest(

@@ -1031,7 +1031,11 @@ class Converter {
     }
 
     getConvertedActionImport(fullyQualifiedName: FullyQualifiedName) {
-        return this.convertedOutput.actionImports.by_fullyQualifiedName(fullyQualifiedName);
+        let actionImport = this.convertedOutput.actionImports.by_fullyQualifiedName(fullyQualifiedName);
+        if (!actionImport) {
+            actionImport = this.convertedOutput.actionImports.by_name(fullyQualifiedName);
+        }
+        return actionImport;
     }
 
     getConvertedAction(fullyQualifiedName: FullyQualifiedName) {
