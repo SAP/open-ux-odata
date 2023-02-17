@@ -1,5 +1,18 @@
 # @sap-ux/annotation-converter
 
+## 0.6.2
+
+### Patch Changes
+
+-   76b4876: \* Invalid paths no longer resolve to their last valid segment, but return `undefined` instead
+    -   `undefined` is not pushed to the list of visited objects if path resolution fails
+
+## 0.6.1
+
+### Patch Changes
+
+-   946cf8f: Annotations on properties of a ComplexType are now resolved
+
 ## 0.6.0
 
 ### Minor Changes

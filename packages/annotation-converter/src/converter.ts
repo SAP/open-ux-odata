@@ -113,15 +113,16 @@ function resolveTarget<T>(
         // annotation: start at the annotation target
         startElement = startElement[ANNOTATION_TARGET];
     } else if (startElement._type === 'Property') {
-        // property: start at the entity type the property belongs to
-        startElement = converter.getConvertedEntityType(substringBeforeFirst(startElement.fullyQualifiedName, '/'));
+        // property: start at the entity type or complex type the property belongs to
+        const parentElementFQN = substringBeforeFirst(startElement.fullyQualifiedName, '/');
+        startElement =
+            converter.getConvertedEntityType(parentElementFQN) ?? converter.getConvertedComplexType(parentElementFQN);
     }
 
     const result = pathSegments.reduce(
         (current: ResolutionTarget<any>, segment: string) => {
             const error = (message: string) => {
                 current.messages.push({ message });
-                current.objectPath = appendObjectPath(current.objectPath, undefined);
                 current.target = undefined;
                 return current;
             };
@@ -324,11 +325,15 @@ function resolveTarget<T>(
                     return current;
 
                 default:
+                    if (segment === '') {
+                        return current;
+                    }
+
                     if (current.target[segment]) {
                         current.target = current.target[segment];
                         current.objectPath = appendObjectPath(current.objectPath, current.target);
+                        return current;
                     }
-                    return current;
             }
 
             return error(

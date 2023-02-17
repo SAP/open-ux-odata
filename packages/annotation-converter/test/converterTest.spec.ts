@@ -498,6 +498,22 @@ describe('Annotation Converter', () => {
             expect(target.visitedObjects.length).toEqual(1); // EntityType
             expect(target.target).toStrictEqual(entityType);
         });
+
+        it('correctly returns an undefined target for invalid paths', () => {
+            const entityType = convertedTypes.entityTypes[0];
+            expect(entityType).not.toBeNull();
+            expect(entityType).not.toBeUndefined();
+
+            // invalid: target is undefined
+            const target1 = entityType.resolvePath('@com.sap.vocabularies.Common.v1.Label/XXXXXXXXX', true);
+            expect(target1.target).toBeUndefined();
+            expect(target1.visitedObjects.length).toEqual(2); // EntityType / Annotation
+
+            // but allow a slash at the end
+            const target2 = entityType.resolvePath('@com.sap.vocabularies.Common.v1.Label/', true);
+            expect(target2.target).toBeDefined();
+            expect(target2.visitedObjects.length).toEqual(2); // EntityType / Annotation
+        });
     });
 
     describe('can support resolution target for singleton as well', () => {
@@ -975,5 +991,16 @@ describe('Annotation Converter', () => {
         expect(
             entityType.annotations.UI?.Identification?.[0]?.annotations?.Analytics?.RolledUpPropertyCount?.valueOf()
         ).toEqual(11);
+    });
+
+    it('Can handle annotations of complex types', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/complexTypeAnnos.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const complexType = convertedTypes.complexTypes[0];
+        const property = complexType.properties.by_name('name');
+        expect(property).toBeDefined();
+        const annos = property?.annotations.Common?.Text;
+        expect(annos).toBeDefined();
     });
 });
