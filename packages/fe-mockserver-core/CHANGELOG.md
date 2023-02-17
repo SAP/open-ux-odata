@@ -1,5 +1,25 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.58
+
+### Patch Changes
+
+-   Updated dependencies [76b4876]
+    -   @sap-ux/annotation-converter@0.6.2
+
+## 1.1.57
+
+### Patch Changes
+
+-   25a4c33: Add support for ComplexType in $orderBy
+
+## 1.1.56
+
+### Patch Changes
+
+-   Updated dependencies [946cf8f]
+    -   @sap-ux/annotation-converter@0.6.1
+
 ## 1.1.55
 
 ### Patch Changes
