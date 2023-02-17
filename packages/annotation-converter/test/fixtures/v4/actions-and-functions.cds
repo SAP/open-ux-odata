@@ -10,6 +10,17 @@ service TestService {
         function boundFunction() returns Integer;
     }
 
+    entity Entity2 {
+        key ID : String;
+    } actions {
+        action   boundAction2();
+
+        @cds.odata.bindingparameter.collection
+        action   staticAction();
+
+        function boundFunction2() returns Integer;
+    }
+
     action   unboundAction();
     function unboundFunction() returns Integer;
 }
