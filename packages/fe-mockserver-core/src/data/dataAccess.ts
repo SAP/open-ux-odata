@@ -23,6 +23,7 @@ import type { ServiceConfig } from '../api';
 import type { IFileLoader } from '../index';
 import ODataRequest from '../request/odataRequest';
 import type { QueryPath, ExpandDefinition } from '../request/odataRequest';
+import type { DescendantsParameters, TopLevelParameters } from '../request/applyParser';
 
 /**
  *
@@ -677,7 +678,38 @@ export class DataAccess implements DataAccessInterface {
 
             // Apply $apply for aggregates
             const aggregateDefinition = odataRequest.aggregateDefinition;
-            if (aggregateDefinition) {
+            if (aggregateDefinition && aggregateDefinition.customFunction) {
+                const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
+                const mockData = mockEntitySet.getMockData(odataRequest.tenantId);
+                if (aggregateDefinition.customFunction.name === 'com.sap.vocabularies.Hierarchy.v1.TopLevels') {
+                    const hierarchyQualifier =
+                        (aggregateDefinition.customFunction.parameters.HierarchyQualifier as string)?.substring(
+                            1,
+                            (aggregateDefinition.customFunction.parameters.HierarchyQualifier as string).length - 1
+                        ) ?? '';
+                    const recursiveAggregationDef =
+                        currentEntityType.annotations.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
+                    const recursiveHierarchyDef =
+                        currentEntityType.annotations.Hierarchy?.[`RecursiveHierarchy#${hierarchyQualifier}`];
+                    if (recursiveAggregationDef !== undefined) {
+                        data = await mockData.getTopLevels(
+                            data,
+                            currentEntityType,
+                            recursiveAggregationDef,
+                            recursiveHierarchyDef,
+                            aggregateDefinition.customFunction.parameters as TopLevelParameters,
+                            odataRequest
+                        );
+                    }
+                } else if (aggregateDefinition.customFunction.name === 'descendants') {
+                    data = await mockData.getDescendants(
+                        data,
+                        currentEntityType,
+                        aggregateDefinition.customFunction.parameters as DescendantsParameters,
+                        odataRequest
+                    );
+                }
+            } else if (aggregateDefinition) {
                 const dataByGroup: Record<string, any[]> = {};
                 const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
                 let mockData: any;

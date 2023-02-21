@@ -11,6 +11,8 @@ import type {
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
 import { isComplexTypeDefinition } from '@sap-ux/annotation-converter';
+import type { RecursiveHierarchyType } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
+import type { DescendantsParameters, TopLevelParameters } from '../request/applyParser';
 
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
@@ -41,6 +43,7 @@ function performSimpleComparison(operator: string, mockValue: any, targetLiteral
 }
 export class FileBasedMockData {
     protected _mockData: object[];
+    protected _hierarchyTree: Record<string, Record<string, any>> = {};
     protected _entityType: EntityType;
     protected _mockDataEntitySet: EntitySetInterface;
     protected _contextId: string;
@@ -488,5 +491,171 @@ export class FileBasedMockData {
         _navigationProperty: NavigationProperty
     ): Promise<PartialReferentialConstraint[] | undefined> {
         return undefined;
+    }
+    buildTree(
+        hierarchyNode: any,
+        allItems: Record<string, any[]>,
+        idNode: string,
+        parentIdentifier: string,
+        depth: number = 0
+    ): any {
+        const id = hierarchyNode[idNode];
+        const children = allItems[id];
+        const resultingChildren: any[] = [];
+        if (children) {
+            for (const child of children) {
+                resultingChildren.push(this.buildTree(child, allItems, idNode, parentIdentifier, depth + 1));
+            }
+        }
+        hierarchyNode.$children = resultingChildren;
+        hierarchyNode.$rootDistance = depth;
+        return hierarchyNode;
+    }
+    buildHierarchyTree(hierarchyQualifier: string) {
+        if (!this._hierarchyTree[hierarchyQualifier]) {
+            const itemPerParents: Record<string, any[]> = {};
+            const aggregationAnnotation =
+                this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
+            const sourceReference =
+                aggregationAnnotation!.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+
+            this._mockData.forEach((item: any) => {
+                if (!itemPerParents[item[sourceReference]]) {
+                    itemPerParents[item[sourceReference]] = [];
+                }
+                itemPerParents[item[sourceReference]].push(item);
+            });
+            this._hierarchyTree[hierarchyQualifier] = itemPerParents;
+        }
+        return this._hierarchyTree[hierarchyQualifier];
+    }
+    flattenTree(
+        currentNode: any,
+        outItems: any[],
+        distanceFromRootProperty: string | undefined,
+        limitedDescendantCount: string | undefined,
+        drillStateProperty: string | undefined,
+        depth: number
+    ) {
+        let descendantCount = 0;
+        if (depth > 0) {
+            const isLastLevel = depth === 1;
+            outItems.push(currentNode);
+            if (distanceFromRootProperty) {
+                currentNode[distanceFromRootProperty] = currentNode.$rootDistance;
+            }
+
+            if (drillStateProperty) {
+                if (isLastLevel && currentNode.$children?.length === 0) {
+                    currentNode[drillStateProperty] = 'leaf';
+                } else if (isLastLevel) {
+                    currentNode[drillStateProperty] = 'collapsed';
+                } else {
+                    currentNode[drillStateProperty] = 'expanded';
+                }
+            }
+            currentNode.$children.forEach((child: any) => {
+                descendantCount += this.flattenTree(
+                    child,
+                    outItems,
+                    distanceFromRootProperty,
+                    limitedDescendantCount,
+                    drillStateProperty,
+                    depth - 1
+                );
+            });
+            if (limitedDescendantCount) {
+                currentNode[limitedDescendantCount] = isLastLevel ? 0 : currentNode.$children?.length;
+            }
+            descendantCount++; // also include yourself
+            return descendantCount;
+        }
+        return descendantCount;
+    }
+
+    async getTopLevels(
+        data: any[],
+        entityType: EntityType,
+        aggregationAnnotation: RecursiveHierarchyType,
+        _hiearchyAnnotation: any | undefined,
+        _parameters: TopLevelParameters,
+        _odataRequest: ODataRequest
+    ) {
+        const hierarchyQualifier = _parameters.HierarchyQualifier.substring(
+            1,
+            _parameters.HierarchyQualifier.length - 1
+        );
+        const hierarchyNodes = this.buildHierarchyTree(hierarchyQualifier);
+        const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
+        const sourceReference =
+            aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+        const hierarchy = this.buildTree(hierarchyNodes[''][0], hierarchyNodes, nodeProperty, sourceReference);
+        const depth: number = parseInt(_parameters.Levels, 10);
+
+        const hierarchyAnnotation = this._entityType.annotations?.Hierarchy?.[
+            `RecursiveHierarchy#${hierarchyQualifier}`
+        ] as any;
+        let distanceFromRootProperty: string | undefined;
+        let limitedDescendantCountProperty: string | undefined;
+        let drillStateProperty: string | undefined;
+        if (hierarchyAnnotation) {
+            distanceFromRootProperty = hierarchyAnnotation.DistanceFromRootProperty?.$target.name;
+            limitedDescendantCountProperty = hierarchyAnnotation.LimitedDescendantCountProperty?.$target.name;
+            drillStateProperty = hierarchyAnnotation.DrillStateProperty?.$target.name;
+        }
+        const outItems: any[] = [];
+
+        this.flattenTree(
+            hierarchy,
+            outItems,
+            distanceFromRootProperty,
+            limitedDescendantCountProperty,
+            drillStateProperty,
+            depth
+        );
+        return outItems;
+    }
+
+    async getDescendants(
+        inputSet: any[],
+        entityType: EntityType,
+        _parameters: DescendantsParameters,
+        _odataRequest: ODataRequest
+    ) {
+        const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier);
+        const aggregationAnnotation =
+            this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${_parameters.qualifier}`];
+        const hierarchyAnnotation = this._entityType.annotations?.Hierarchy?.[
+            `RecursiveHierarchy#${_parameters.qualifier}`
+        ] as any;
+        let distanceFromRootProperty: string | undefined;
+        let limitedDescendantCountProperty: string | undefined;
+        let drillStateProperty: string | undefined;
+        if (hierarchyAnnotation) {
+            distanceFromRootProperty = hierarchyAnnotation.DistanceFromRootProperty?.$target.name;
+            limitedDescendantCountProperty = hierarchyAnnotation.LimitedDescendantCountProperty?.$target.name;
+            drillStateProperty = hierarchyAnnotation.DrillStateProperty?.$target.name;
+        }
+
+        if (aggregationAnnotation) {
+            const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
+            const sourceReference =
+                aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+            this.buildTree(hierarchyNodes[''][0], hierarchyNodes, nodeProperty, sourceReference);
+            const subTrees: any[] = [];
+            inputSet.forEach((item: any) => {
+                hierarchyNodes[item[nodeProperty]].forEach((child: any) => {
+                    this.flattenTree(
+                        child,
+                        subTrees,
+                        distanceFromRootProperty,
+                        limitedDescendantCountProperty,
+                        drillStateProperty,
+                        _parameters.maximumDistance
+                    );
+                });
+            });
+            return subTrees;
+        }
     }
 }
