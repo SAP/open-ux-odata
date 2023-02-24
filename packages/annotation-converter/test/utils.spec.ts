@@ -107,19 +107,20 @@ describe('utils', () => {
             }).toThrowError();
         });
 
-        it('allows to assign a value', () => {
+        it('is readonly', () => {
             const testObject: any = {};
             const initialize = jest.fn().mockReturnValue('abc');
 
             lazy(testObject, 'myProperty', initialize);
-            testObject.myProperty = 'xyz';
+            expect(testObject.myProperty).toEqual('abc');
+            expect(initialize).toBeCalledTimes(1);
 
-            expect(testObject.myProperty).toEqual('xyz');
-            expect(initialize).toBeCalledTimes(0);
+            expect(() => {
+                testObject.myProperty = 'xyz';
+            }).toThrowError();
 
-            testObject.myProperty = 'efg';
-            expect(testObject.myProperty).toEqual('efg');
-            expect(initialize).toBeCalledTimes(0);
+            expect(testObject.myProperty).toEqual('abc');
+            expect(initialize).toBeCalledTimes(1);
         });
     });
 
