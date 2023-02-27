@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.60
+
+### Patch Changes
+
+-   4e3aca0: Lenient create
+
 ## 1.1.59
 
 ### Patch Changes
