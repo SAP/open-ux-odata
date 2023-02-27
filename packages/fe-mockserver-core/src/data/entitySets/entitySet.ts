@@ -491,7 +491,6 @@ export class MockDataEntitySet implements EntitySetInterface {
                 }
             });
         }
-
         return outKeys;
     }
 

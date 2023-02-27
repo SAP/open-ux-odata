@@ -330,6 +330,11 @@ export class FileBasedMockData {
                 );
             }
         });
+        this._entityType.navigationProperties.forEach((navigationProperty) => {
+            if (navigationProperty.containsTarget) {
+                outObj[navigationProperty.name] = [];
+            }
+        });
 
         return outObj;
     }
