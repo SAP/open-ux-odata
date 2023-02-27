@@ -662,6 +662,7 @@ describe('Data Access', () => {
         subElement = await dataAccess.createData(
             new ODataRequest({ method: 'GET', url: '/FormRoot(ID=1,IsActiveEntity=false)/_Elements' }, dataAccess),
             {
+                ID: 777,
                 Name: 'SecondChild',
                 sibling_ID: 1
             }
@@ -670,6 +671,12 @@ describe('Data Access', () => {
         expect(subElement.IsActiveEntity).toEqual(false);
         expect(subElement.HasActiveEntity).toEqual(false);
         expect(subElement.Name).toEqual('SecondChild');
+
+        subElement = await dataAccess.getData(
+            new ODataRequest({ method: 'GET', url: '/FormRoot(ID=1,IsActiveEntity=false)/_Elements' }, dataAccess)
+        );
+        expect(subElement).toBeDefined;
+        expect(subElement.length).toEqual(2);
 
         subElement = await dataAccess.updateData(
             new ODataRequest({ method: 'PATCH', url: '/SubElements(ID=1,IsActiveEntity=false)' }, dataAccess),
@@ -791,7 +798,7 @@ describe('Data Access', () => {
         );
         // Delete one child
         actionResult = await dataAccess.deleteData(
-            new ODataRequest({ method: 'DELETE', url: '/SubElements(ID=2,IsActiveEntity=false)' }, dataAccess)
+            new ODataRequest({ method: 'DELETE', url: '/SubElements(ID=777,IsActiveEntity=false)' }, dataAccess)
         );
         formData = await dataAccess.getData(
             new ODataRequest(

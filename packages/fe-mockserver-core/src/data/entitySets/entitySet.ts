@@ -491,18 +491,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 }
             });
         }
-        // Remove non key items only if all keys are provided
-        let realKeys = outKeys;
-        if (this.entityTypeDefinition.keys.every((keyProp) => outKeys[keyProp.name] !== undefined)) {
-            realKeys = {};
-            Object.keys(outKeys).forEach((keyName) => {
-                if (this.entityTypeDefinition.keys.find((keyProp) => keyProp.name === keyName)) {
-                    realKeys[keyName] = outKeys[keyName];
-                }
-            });
-        }
-
-        return realKeys;
+        return outKeys;
     }
 
     public performGET(
