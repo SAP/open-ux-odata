@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.7.1
+
+### Patch Changes
+
+-   2df59c3: ActionImport and TypeDefinition added to type ServiceObjects
+
 ## 0.7.0
 
 ### Minor Changes
