@@ -4,6 +4,7 @@ import type { Action, EntityType, Property, NavigationProperty } from '@sap-ux/v
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import { ExecutionError } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
+import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 
 export type MockDataContributor = {
     getInitialDataSet?: (contextId: string) => object[];
@@ -34,6 +35,25 @@ export type MockDataContributor = {
         operator: string,
         odataRequest: ODataRequest
     ) => boolean;
+
+    getTopLevels?(object: any[], _parameters: TopLevelParameters, _odataRequest: ODataRequest): Promise<object[]>;
+    getDescendants?(
+        inputSet: object[],
+        lastFilterTransformationResult: object[],
+        hierarchyData: object[],
+        entityType: EntityType,
+        _parameters: AncestorDescendantsParameters,
+        _odataRequest: ODataRequest
+    ): Promise<object[]>;
+    getAncestors?(
+        inputSet: object[],
+        lastFilterTransformationResult: object[],
+        limitedHierarchy: object[],
+        entityType: EntityType,
+        _parameters: AncestorDescendantsParameters,
+        _odataRequest: ODataRequest
+    ): Promise<object[]>;
+
     onBeforeAction?(
         actionDefinition: Action,
         actionData: any,
@@ -342,6 +362,70 @@ export class FunctionBasedMockData extends FileBasedMockData {
             return this._mockDataFn.getReferentialConstraints(_navigationProperty);
         } else {
             return undefined;
+        }
+    }
+
+    async getTopLevels(object: any[], _parameters: TopLevelParameters, _odataRequest: ODataRequest): Promise<object[]> {
+        if (this._mockDataFn?.getTopLevels) {
+            return this._mockDataFn.getTopLevels(object, _parameters, _odataRequest);
+        } else {
+            return super.getTopLevels(object, _parameters, _odataRequest);
+        }
+    }
+    async getDescendants(
+        inputSet: object[],
+        lastFilterTransformationResult: object[],
+        hierarchyData: object[],
+        entityType: EntityType,
+        _parameters: AncestorDescendantsParameters,
+        _odataRequest: ODataRequest
+    ): Promise<object[]> {
+        if (this._mockDataFn?.getDescendants) {
+            return this._mockDataFn.getDescendants(
+                inputSet,
+                lastFilterTransformationResult,
+                hierarchyData,
+                entityType,
+                _parameters,
+                _odataRequest
+            );
+        } else {
+            return super.getDescendants(
+                inputSet,
+                lastFilterTransformationResult,
+                hierarchyData,
+                entityType,
+                _parameters,
+                _odataRequest
+            );
+        }
+    }
+    getAncestors(
+        inputSet: object[],
+        lastFilterTransformationResult: object[],
+        limitedHierarchy: object[],
+        entityType: EntityType,
+        _parameters: AncestorDescendantsParameters,
+        _odataRequest: ODataRequest
+    ): Promise<object[]> {
+        if (this._mockDataFn?.getAncestors) {
+            return this._mockDataFn.getAncestors(
+                inputSet,
+                lastFilterTransformationResult,
+                limitedHierarchy,
+                entityType,
+                _parameters,
+                _odataRequest
+            );
+        } else {
+            return super.getAncestors(
+                inputSet,
+                lastFilterTransformationResult,
+                limitedHierarchy,
+                entityType,
+                _parameters,
+                _odataRequest
+            );
         }
     }
 }

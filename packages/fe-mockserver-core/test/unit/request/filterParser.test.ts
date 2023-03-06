@@ -116,6 +116,10 @@ describe('Filter Parser', () => {
         expect(dualParenthesisGroup?.expressions[1].operator).toBe('OR');
         expect(dualParenthesisGroup?.expressions[0].expressions.length).toBe(2);
         expect(dualParenthesisGroup?.expressions[0].operator).toBe('OR');
+
+        const andOrSpace = parseFilter(`contains(Name,'East') or contains(Name,'Central')`);
+        expect(andOrSpace?.operator).toBe('OR');
+        expect(andOrSpace?.expressions.length).toBe(2);
     });
 
     test('can deal with parenthesis', () => {

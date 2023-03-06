@@ -26,7 +26,11 @@ import {
     EQ,
     DESCENDANTS_TOKEN,
     ORDERBY_TOKEN,
-    ASCDESC
+    ASCDESC,
+    ANCESTORS_TOKEN,
+    KEEP_START_TOKEN,
+    OPEN_BRACKET,
+    CLOSE_BRACKET
 } from './commonTokens';
 
 // ----------------- Lexer -----------------
@@ -36,8 +40,11 @@ const applyTokens = [
     DOT,
     EQ,
     CLOSE,
-    WS,
+    OPEN_BRACKET,
+    CLOSE_BRACKET,
     COMMA,
+    ANCESTORS_TOKEN,
+    KEEP_START_TOKEN,
     DESCENDANTS_TOKEN,
     ORDERBY_TOKEN,
     FILTER_TOKEN,
@@ -49,6 +56,7 @@ const applyTokens = [
     ANYALL,
     ANDOR,
     ASCDESC,
+    WS,
     SIMPLE_METHOD,
     BOOL_METHOD,
     COMPLEX_METHOD,
@@ -64,33 +72,68 @@ export const SearchLexer = new Lexer(applyTokens, {
     positionTracking: 'onlyStart'
 });
 
-export type CustomFunction = {
-    name: string;
-    parameters: Record<string, string | number>;
-};
-export type DescendantsParameters = {
+export type AncestorDescendantsParameters = {
     hierarchyRoot: string;
     qualifier: string;
     propertyPath: string;
     maximumDistance: number;
+    keepStart: boolean;
+    inputSetTransformations: TransformationDefinition[];
 };
 export type TopLevelParameters = {
     HierarchyNodes: string;
     Levels: string;
     NodeProperty: string;
     HierarchyQualifier: string;
+    Collapse?: string[];
+    Expand?: string[];
+    Show?: string[];
 };
-
-export type TransformationDefinition = {
-    filter?: FilterExpression;
+export type FilterTransformation = {
+    type: 'filter';
+    filterExpr: FilterExpression;
+};
+export type GroupByTransformation = {
+    type: 'groupBy';
     groupBy: string[];
-    orderBy?: OrderByProp[];
-    skip?: number;
-    aggregates: AggregateProperty[];
-
-    customFunction?: CustomFunction;
+    subTransformations: TransformationDefinition[];
 };
-type OrderByProp = {
+export type OrderByTransformation = {
+    type: 'orderBy';
+    orderBy: OrderByProp[];
+};
+export type SkipTransformation = {
+    type: 'skip';
+    skipCount: number;
+};
+export type AggregatesTransformation = {
+    type: 'aggregates';
+    aggregateDef: AggregateProperty[];
+};
+
+export type AncestorsTransformation = {
+    type: 'ancestors';
+    parameters: AncestorDescendantsParameters;
+};
+export type DescendantsTransformation = {
+    type: 'descendants';
+    parameters: AncestorDescendantsParameters;
+};
+export type CustomFunctionTransformation = {
+    type: 'customFunction';
+    name: string;
+    parameters: Record<string, string | number | boolean | string[]>;
+};
+export type TransformationDefinition =
+    | FilterTransformation
+    | OrderByTransformation
+    | GroupByTransformation
+    | SkipTransformation
+    | AggregatesTransformation
+    | AncestorsTransformation
+    | DescendantsTransformation
+    | CustomFunctionTransformation;
+export type OrderByProp = {
     name: string;
     direction: 'asc' | 'desc';
 };
@@ -100,13 +143,13 @@ type CstRule<T> = (idxInCallingRule?: number, ...args: any[]) => T;
  *
  */
 export class ApplyParser extends FilterParser {
-    applyExpr: CstRule<TransformationDefinition>;
-    applyTrafo: CstRule<TransformationDefinition>;
+    applyExpr: CstRule<TransformationDefinition[]>;
+    applyTrafo: CstRule<void>;
     aggregateTrafo: CstRule<void>;
-    ancestorsTrafo: CstRule<TransformationDefinition>;
-    computeTrafo: CstRule<TransformationDefinition>;
-    concatTrafo: CstRule<TransformationDefinition>;
-    customFunction: CstRule<TransformationDefinition>;
+    ancestorsTrafo: CstRule<void>;
+    computeTrafo: CstRule<void>;
+    concatTrafo: CstRule<void>;
+    customFunction: CstRule<void>;
     preservingTrafo: CstRule<void>;
     descendantsTrafo: CstRule<void>;
     groupbyTrafo: CstRule<void>;
@@ -119,26 +162,17 @@ export class ApplyParser extends FilterParser {
             recoveryEnabled: true
         });
 
-        this.applyExpr = this.RULE(
-            'applyExpr',
-            (
-                transformation: TransformationDefinition = {
-                    groupBy: [],
-                    aggregates: [],
-                    filter: undefined
+        this.applyExpr = this.RULE('applyExpr', (transformations: TransformationDefinition[] = []) => {
+            this.MANY_SEP({
+                SEP: SLASH,
+                DEF: () => {
+                    this.SUBRULE2(this.applyTrafo, { ARGS: [transformations] });
                 }
-            ) => {
-                this.MANY_SEP({
-                    SEP: SLASH,
-                    DEF: () => {
-                        this.SUBRULE2(this.applyTrafo, { ARGS: [transformation] });
-                    }
-                });
-                return transformation;
-            }
-        );
+            });
+            return transformations;
+        });
 
-        this.applyTrafo = this.RULE('applyTrafo', (transformation: TransformationDefinition) => {
+        this.applyTrafo = this.RULE('applyTrafo', (transformations: TransformationDefinition[] = []) => {
             //     / ancestorsTrafo
             //     / computeTrafo
             //     / concatTrafo
@@ -151,48 +185,52 @@ export class ApplyParser extends FilterParser {
             this.OR([
                 {
                     ALT: () => {
-                        return this.SUBRULE(this.aggregateTrafo, { ARGS: [transformation] });
+                        return this.SUBRULE(this.aggregateTrafo, { ARGS: [transformations] });
                     }
                 },
                 {
                     ALT: () => {
-                        return this.SUBRULE(this.groupbyTrafo, { ARGS: [transformation] });
+                        return this.SUBRULE(this.groupbyTrafo, { ARGS: [transformations] });
                     }
                 },
                 {
                     ALT: () => {
-                        return this.SUBRULE(this.preservingTrafo, { ARGS: [transformation] });
-                    }
-                },
-                {
-                    ALT: () => {
-                        return this.SUBRULE(this.descendantsTrafo, { ARGS: [transformation] });
+                        return this.SUBRULE(this.preservingTrafo, { ARGS: [transformations] });
                     }
                 }
             ]);
-            return transformation;
         });
 
-        this.preservingTrafo = this.RULE('preservingTrafo', (transformation: TransformationDefinition) => {
+        this.preservingTrafo = this.RULE('preservingTrafo', (transformations: TransformationDefinition[] = []) => {
             this.OR([
                 {
                     ALT: () => {
-                        return this.SUBRULE(this.filterTrafo, { ARGS: [transformation] });
+                        return this.SUBRULE(this.filterTrafo, { ARGS: [transformations] });
                     }
                 },
                 {
                     ALT: () => {
-                        return this.SUBRULE(this.orderByTrafo, { ARGS: [transformation] });
+                        return this.SUBRULE(this.orderByTrafo, { ARGS: [transformations] });
                     }
                 },
                 {
                     ALT: () => {
-                        return this.SUBRULE(this.skipTrafo, { ARGS: [transformation] });
+                        return this.SUBRULE(this.skipTrafo, { ARGS: [transformations] });
                     }
                 },
                 {
                     ALT: () => {
-                        return this.SUBRULE(this.customFunction, { ARGS: [transformation] });
+                        return this.SUBRULE(this.ancestorsTrafo, { ARGS: [transformations] });
+                    }
+                },
+                {
+                    ALT: () => {
+                        return this.SUBRULE(this.descendantsTrafo, { ARGS: [transformations] });
+                    }
+                },
+                {
+                    ALT: () => {
+                        return this.SUBRULE(this.customFunction, { ARGS: [transformations] });
                     }
                 }
             ]);
@@ -211,27 +249,25 @@ export class ApplyParser extends FilterParser {
             //     // / customFunction
         });
 
-        this.skipTrafo = this.RULE('skipTrafo', (_transformation: TransformationDefinition) => {
+        this.skipTrafo = this.RULE('skipTrafo', (transformations: TransformationDefinition[] = []) => {
             this.CONSUME(SKIP_TOKEN);
             this.CONSUME(OPEN);
             const skip = parseInt(this.CONSUME(NUMBER).image, 10);
             this.CONSUME(CLOSE);
-            return skip;
+            transformations.push({ type: 'skip', skipCount: skip });
         });
 
-        this.filterTrafo = this.RULE('filterTrafo', (transformation: TransformationDefinition) => {
+        this.filterTrafo = this.RULE('filterTrafo', (transformations: TransformationDefinition[] = []) => {
             this.CONSUME(FILTER_TOKEN);
             this.CONSUME(OPEN);
             const filterExpr = this.SUBRULE(this.filterExpr);
-            if (transformation) {
-                transformation.filter = filterExpr;
-            }
+            transformations.push({ type: 'filter', filterExpr: filterExpr });
 
             this.CONSUME(CLOSE);
         });
 
         //%s"groupby" OPEN BWS groupbyList [ BWS COMMA BWS applyExpr ] BWS CLOSE
-        this.groupbyTrafo = this.RULE('groupbyTrafo', (transformation: TransformationDefinition) => {
+        this.groupbyTrafo = this.RULE('groupbyTrafo', (transformations: TransformationDefinition[] = []) => {
             this.CONSUME(GROUPBY_TOKEN);
             this.CONSUME(OPEN);
             this.OPTION(() => this.CONSUME(WS));
@@ -249,20 +285,19 @@ export class ApplyParser extends FilterParser {
             });
             this.OPTION4(() => this.CONSUME3(WS));
             this.CONSUME(CLOSE);
+            const subTransformations: TransformationDefinition[] = [];
             this.OPTION5(() => {
                 this.OPTION6(() => this.CONSUME4(WS));
                 this.CONSUME(COMMA);
-                this.SUBRULE(this.applyExpr, { ARGS: [transformation] });
+                this.SUBRULE(this.applyExpr, { ARGS: [subTransformations] });
             });
             this.CONSUME2(CLOSE);
             //OPEN BWS groupbyElement *( BWS COMMA BWS groupbyElement ) BWS CLOSE
             // groupbyElement  = groupingProperty / rollupLevels / rollupRecursive
-            if (transformation) {
-                transformation.groupBy = groupBy;
-            }
+            transformations.push({ type: 'groupBy', groupBy: groupBy, subTransformations: subTransformations });
         });
 
-        this.aggregateTrafo = this.RULE('aggregateTrafo', (transformation: TransformationDefinition) => {
+        this.aggregateTrafo = this.RULE('aggregateTrafo', (transformations: TransformationDefinition[] = []) => {
             // %s"aggregate" OPEN BWS aggregateExpr *( BWS COMMA BWS aggregateExpr ) BWS CLOSE
             this.CONSUME(AGGREGATE_TOKEN);
             this.CONSUME(OPEN);
@@ -277,12 +312,10 @@ export class ApplyParser extends FilterParser {
             ];
             this.OPTION2(() => this.CONSUME2(WS));
             this.CONSUME(CLOSE);
-            if (transformation) {
-                transformation.aggregates = aggregates;
-            }
+            transformations.push({ type: 'aggregates', aggregateDef: aggregates });
         });
 
-        this.orderByTrafo = this.RULE('orderByTrafo', (transformation: TransformationDefinition) => {
+        this.orderByTrafo = this.RULE('orderByTrafo', (transformations: TransformationDefinition[] = []) => {
             //%s"orderby" OPEN orderbyItem *( COMMA orderbyItem ) CLOSE
             this.CONSUME(ORDERBY_TOKEN);
             this.CONSUME(OPEN);
@@ -302,12 +335,54 @@ export class ApplyParser extends FilterParser {
                 }
             });
             this.CONSUME(CLOSE);
-            if (transformation) {
-                transformation.orderBy = orderBy;
-            }
+            transformations.push({ type: 'orderBy', orderBy: orderBy });
         });
 
-        this.descendantsTrafo = this.RULE('descendantsTrafo', (transformation: TransformationDefinition) => {
+        this.ancestorsTrafo = this.RULE('ancestorsTrafo', (transformations: TransformationDefinition[] = []) => {
+            //%s"ancestors" OPEN
+            //                   BWS recHierReference BWS
+            //                   COMMA BWS preservingTrafos BWS
+            //                   [ COMMA BWS 1*DIGIT BWS ]
+            //                   [ COMMA BWS %s"keep start" BWS ]
+            //                   CLOSE
+            this.CONSUME(ANCESTORS_TOKEN);
+            this.CONSUME(OPEN);
+            this.OPTION(() => this.CONSUME(WS));
+            const rootExpr = this.CONSUME(LITERAL);
+            this.CONSUME(COMMA);
+            const recHierQualifier = this.CONSUME2(SIMPLEIDENTIFIER);
+            this.CONSUME2(COMMA);
+            const recHierPropertyPath = this.CONSUME3(SIMPLEIDENTIFIER);
+            this.CONSUME3(COMMA);
+            const subTransformations: TransformationDefinition[] = [];
+            this.SUBRULE(this.preservingTrafo, { ARGS: [subTransformations] });
+            let maximumDistance = -1;
+            // There can be more but we ignore them for now
+            this.OPTION2(() => {
+                this.CONSUME4(COMMA);
+                maximumDistance = parseInt(this.CONSUME2(LITERAL).image, 10);
+            });
+            let shouldKeepStart = false;
+            //                  [ COMMA BWS %s"keep start" BWS ]
+            this.OPTION3(() => {
+                this.CONSUME5(COMMA);
+                shouldKeepStart = this.CONSUME(KEEP_START_TOKEN).image === 'keep start';
+            });
+            transformations.push({
+                type: 'ancestors',
+                parameters: {
+                    hierarchyRoot: rootExpr.image,
+                    qualifier: recHierQualifier.image,
+                    propertyPath: recHierPropertyPath.image,
+                    maximumDistance: maximumDistance,
+                    keepStart: shouldKeepStart,
+                    inputSetTransformations: subTransformations
+                }
+            });
+            this.CONSUME(CLOSE);
+        });
+
+        this.descendantsTrafo = this.RULE('descendantsTrafo', (transformations: TransformationDefinition[] = []) => {
             //%s"descendants" OPEN
             //                  BWS recHierReference BWS
             //                  COMMA BWS preservingTrafos BWS
@@ -324,31 +399,37 @@ export class ApplyParser extends FilterParser {
             this.CONSUME2(COMMA);
             const recHierPropertyPath = this.CONSUME3(SIMPLEIDENTIFIER);
             this.CONSUME3(COMMA);
-            this.SUBRULE(this.preservingTrafo, { ARGS: [transformation] });
-
+            const subTransformations: TransformationDefinition[] = [];
+            this.SUBRULE(this.preservingTrafo, { ARGS: [subTransformations] });
+            // [ COMMA BWS 1*DIGIT BWS ]
             let maximumDistance = -1;
             // There can be more but we ignore them for now
             this.OPTION2(() => {
                 this.CONSUME4(COMMA);
                 maximumDistance = parseInt(this.CONSUME2(LITERAL).image, 10);
             });
-            // [ COMMA BWS 1*DIGIT BWS ]
             //                  [ COMMA BWS %s"keep start" BWS ]
-            if (transformation) {
-                transformation.customFunction = {
-                    name: 'descendants',
-                    parameters: {
-                        hierarchyRoot: rootExpr.image,
-                        qualifier: recHierQualifier.image,
-                        propertyPath: recHierPropertyPath.image,
-                        maximumDistance: maximumDistance
-                    }
-                };
-            }
+            let shouldKeepStart = false;
+            //                  [ COMMA BWS %s"keep start" BWS ]
+            this.OPTION3(() => {
+                this.CONSUME5(COMMA);
+                shouldKeepStart = this.CONSUME(KEEP_START_TOKEN).image === 'keep start';
+            });
+            transformations.push({
+                type: 'descendants',
+                parameters: {
+                    hierarchyRoot: rootExpr.image,
+                    qualifier: recHierQualifier.image,
+                    propertyPath: recHierPropertyPath.image,
+                    maximumDistance: maximumDistance,
+                    keepStart: shouldKeepStart,
+                    inputSetTransformations: subTransformations
+                }
+            });
             this.CONSUME(CLOSE);
         });
 
-        this.customFunction = this.RULE('customFunction', (transformation: TransformationDefinition) => {
+        this.customFunction = this.RULE('customFunction', (transformations: TransformationDefinition[] = []) => {
             const namespaceParts: string[] = [];
             this.MANY_SEP({
                 SEP: DOT,
@@ -363,20 +444,36 @@ export class ApplyParser extends FilterParser {
             this.MANY_SEP2({
                 SEP: COMMA,
                 DEF: () => {
-                    const identifier = this.CONSUME3(SIMPLEIDENTIFIER);
-                    this.CONSUME(EQ);
-                    const value = this.CONSUME(LITERAL);
-                    parameters[identifier.image] = value.image;
+                    this.OR([
+                        {
+                            ALT: () => {
+                                const identifier = this.CONSUME3(SIMPLEIDENTIFIER);
+                                this.CONSUME(EQ);
+                                const value = this.CONSUME(LITERAL);
+                                parameters[identifier.image] = value.image;
+                            }
+                        },
+                        {
+                            ALT: () => {
+                                const identifier = this.CONSUME4(SIMPLEIDENTIFIER);
+                                this.CONSUME2(EQ);
+                                this.CONSUME(OPEN_BRACKET);
+                                const parameterArray: any[] = [];
+                                this.MANY_SEP3({
+                                    SEP: COMMA,
+                                    DEF: () => {
+                                        parameterArray.push(this.CONSUME2(LITERAL).image);
+                                    }
+                                });
+                                this.CONSUME(CLOSE_BRACKET);
+                                parameters[identifier.image] = parameterArray;
+                            }
+                        }
+                    ]);
                 }
             });
             this.CONSUME(CLOSE);
-            if (transformation) {
-                transformation.customFunction = {
-                    name: namespaceParts.join('.'),
-                    parameters: parameters
-                };
-            }
-            return transformation;
+            transformations.push({ type: 'customFunction', name: namespaceParts.join('.'), parameters: parameters });
         });
         this.performSelfAnalysis();
     }
@@ -388,7 +485,7 @@ type AggregateProperty = {
     sourceProperty: string;
 };
 
-export function parseApply(applyParameters: string | null): TransformationDefinition | undefined {
+export function parseApply(applyParameters: string | null): TransformationDefinition[] | undefined {
     if (!applyParameters) {
         return undefined;
     }

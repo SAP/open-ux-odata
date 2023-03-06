@@ -43,14 +43,18 @@ export default class ODataRequest {
     public searchQuery: string[];
     public orderBy: OrderByDefinition[];
     public startIndex: number;
+    public skipLocation: string | null;
+    public skipContext: number;
     public maxElements: number;
-    public aggregateDefinition?: TransformationDefinition;
+    public applyDefinition?: TransformationDefinition[];
     public filterDefinition?: FilterExpression;
     public selectedProperties: Record<string, boolean>;
     public expandProperties: Record<string, ExpandDefinition> = {};
     public responseHeaders: Record<string, string> = {};
     public statusCode: number = 200;
     public dataCount: number;
+
+    private responseAnnotations: Record<string, any> = {};
     public countRequested: boolean;
     public responseData: any;
     private allParams: URLSearchParams;
@@ -74,6 +78,8 @@ export default class ODataRequest {
         this.searchQuery = parseSearch(searchParams.get('$search'));
         this.orderBy = this.parseOrderBy(searchParams.get('$orderby'));
         this.startIndex = parseInt(searchParams.get('$skip') || '', 10);
+        this.skipLocation = searchParams.get('sap-skiplocation');
+        this.skipContext = parseInt(searchParams.get('sap-skipcontext') || '', 10);
         if (isNaN(this.startIndex)) {
             this.startIndex = 0;
         }
@@ -81,7 +87,7 @@ export default class ODataRequest {
         if (isNaN(this.maxElements)) {
             this.maxElements = Number.POSITIVE_INFINITY;
         }
-        this.aggregateDefinition = parseApply(searchParams.get('$apply'));
+        this.applyDefinition = parseApply(searchParams.get('$apply'));
         this.filterDefinition = parseFilter(searchParams.get('$filter'));
         this.countRequested = searchParams.has('$count');
 
@@ -105,18 +111,52 @@ export default class ODataRequest {
             this.selectedProperties = Object.assign(this.selectedProperties, expandParameters.properties || {});
         }
 
-        this.addExpandForFilters(); // implicitly expand the properties used in filters
+        if (this.filterDefinition) {
+            this.addExpandForFilters(this.filterDefinition); // implicitly expand the properties used in filters
+        }
 
-        if (this.aggregateDefinition) {
+        if (this.applyDefinition) {
             const additionalSelectProperty: Record<string, boolean> = {};
-            this.aggregateDefinition.groupBy?.forEach((groupByProperty) => {
-                additionalSelectProperty[groupByProperty] = true;
-            });
-            this.aggregateDefinition.aggregates?.forEach((aggregateSourceProp) => {
-                additionalSelectProperty[aggregateSourceProp.sourceProperty] = true;
+            this.applyDefinition.forEach((apply) => {
+                this._addSelectedPropertiesForApplyExpression(apply, additionalSelectProperty);
             });
 
             this.selectedProperties = Object.assign(this.selectedProperties, additionalSelectProperty);
+        }
+    }
+
+    private _addSelectedPropertiesForApplyExpression(
+        applyTransformation: TransformationDefinition,
+        additionalSelectProperty: Record<string, boolean>
+    ) {
+        switch (applyTransformation.type) {
+            case 'groupBy':
+                applyTransformation.groupBy.forEach((groupByProperty) => {
+                    additionalSelectProperty[groupByProperty] = true;
+                });
+                applyTransformation.subTransformations.forEach((subTransformation) => {
+                    this._addSelectedPropertiesForApplyExpression(subTransformation, additionalSelectProperty);
+                });
+                break;
+            case 'filter':
+                this.addExpandForFilters(applyTransformation.filterExpr);
+                break;
+            case 'orderBy':
+                applyTransformation.orderBy.forEach((orderByProperty) => {
+                    additionalSelectProperty[orderByProperty.name] = true;
+                });
+                break;
+            case 'aggregates':
+                applyTransformation.aggregateDef.forEach((aggregateSourceProp) => {
+                    additionalSelectProperty[aggregateSourceProp.sourceProperty] = true;
+                });
+                break;
+            case 'ancestors':
+            case 'descendants':
+                applyTransformation.parameters.inputSetTransformations.forEach((subTransformation) => {
+                    this._addSelectedPropertiesForApplyExpression(subTransformation, additionalSelectProperty);
+                });
+                break;
         }
     }
 
@@ -429,6 +469,9 @@ export default class ODataRequest {
                 if (metadataETags) {
                     resultObject['@odata.metadataEtag'] = metadataETags;
                 }
+                if (Object.keys(this.responseAnnotations).length) {
+                    resultObject = { ...resultObject, ...this.responseAnnotations };
+                }
                 if (Array.isArray(this.responseData)) {
                     resultObject['@odata.count'] = this.dataCount;
                     resultObject.value = this.responseData;
@@ -466,11 +509,15 @@ export default class ODataRequest {
         this.responseHeaders[headerName] = headerValue;
     }
 
+    public addResponseAnnotation(annotationName: string, annotationValue: any) {
+        this.responseAnnotations[annotationName] = annotationValue;
+    }
+
     public setDataCount(dataCount: number) {
         this.dataCount = dataCount;
     }
 
-    private addExpandForFilters() {
+    private addExpandForFilters(filterDefinition: FilterExpression) {
         function expandPath(
             path: string,
             expands: Record<string, ExpandDefinition>,
@@ -514,6 +561,6 @@ export default class ODataRequest {
             }
         }
 
-        this.filterDefinition?.expressions.forEach((expression) => expand(expression, this.expandProperties));
+        filterDefinition.expressions.forEach((expression) => expand(expression, this.expandProperties));
     }
 }

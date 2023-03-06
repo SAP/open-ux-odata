@@ -372,20 +372,27 @@ describe('OData Request', () => {
               "SomethingElse": true,
             }
         `);
-        expect(myRequest.aggregateDefinition).toMatchInlineSnapshot(`
-            {
-              "aggregates": [
-                {
-                  "name": "CreditScore",
-                  "operator": undefined,
-                  "sourceProperty": "CreditScore",
-                },
-              ],
-              "filter": undefined,
-              "groupBy": [
-                "Customer",
-              ],
-            }
+        expect(myRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "groupBy": [
+                  "Customer",
+                ],
+                "subTransformations": [
+                  {
+                    "aggregateDef": [
+                      {
+                        "name": "CreditScore",
+                        "operator": undefined,
+                        "sourceProperty": "CreditScore",
+                      },
+                    ],
+                    "type": "aggregates",
+                  },
+                ],
+                "type": "groupBy",
+              },
+            ]
         `);
         myRequest = new ODataRequest(
             {
@@ -401,28 +408,39 @@ describe('OData Request', () => {
               "SomethingElse": true,
             }
         `);
-        expect(myRequest.aggregateDefinition).toMatchInlineSnapshot(`
-            {
-              "aggregates": [
-                {
-                  "name": "CreditScore",
-                  "operator": undefined,
-                  "sourceProperty": "CreditScore",
+        expect(myRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "filterExpr": {
+                  "expressions": [
+                    {
+                      "identifier": "CityName",
+                      "literal": "'Waldorf'",
+                      "operator": "eq",
+                    },
+                  ],
                 },
-              ],
-              "filter": {
-                "expressions": [
+                "type": "filter",
+              },
+              {
+                "groupBy": [
+                  "Customer",
+                ],
+                "subTransformations": [
                   {
-                    "identifier": "CityName",
-                    "literal": "'Waldorf'",
-                    "operator": "eq",
+                    "aggregateDef": [
+                      {
+                        "name": "CreditScore",
+                        "operator": undefined,
+                        "sourceProperty": "CreditScore",
+                      },
+                    ],
+                    "type": "aggregates",
                   },
                 ],
+                "type": "groupBy",
               },
-              "groupBy": [
-                "Customer",
-              ],
-            }
+            ]
         `);
     });
 

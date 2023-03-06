@@ -23,7 +23,15 @@ import type { ServiceConfig } from '../api';
 import type { IFileLoader } from '../index';
 import ODataRequest from '../request/odataRequest';
 import type { QueryPath, ExpandDefinition } from '../request/odataRequest';
-import type { DescendantsParameters, TopLevelParameters } from '../request/applyParser';
+import type {
+    GroupByTransformation,
+    OrderByProp,
+    TopLevelParameters,
+    TransformationDefinition
+} from '../request/applyParser';
+import type { FilterExpression } from '../request/filterParser';
+import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
+import type { AggregatesTransformation } from '../request/applyParser';
 
 /**
  *
@@ -450,6 +458,13 @@ export class DataAccess implements DataAccessInterface {
                         delete element[propertyName];
                     });
             }
+            // Delete internal tihngs just in case
+            const internalProperties = ['$parent', '$children', '$rootDistance'];
+            Object.keys(element)
+                .filter((propertyName) => internalProperties.includes(propertyName))
+                .forEach((propertyName) => {
+                    delete element[propertyName];
+                });
 
             for (const navProp of expandedNavProps) {
                 processedNavProps.push(navProp);
@@ -657,13 +672,14 @@ export class DataAccess implements DataAccessInterface {
                     })
                 );
             }
+            const mockEntitySet = await this.getMockEntitySet(
+                currentEntitySet ? currentEntitySet.name : currentEntityType.name
+            );
 
             // Apply $filter
-            if ((odataRequest.filterDefinition || odataRequest.aggregateDefinition?.filter) && Array.isArray(data)) {
-                const filterDef = odataRequest.filterDefinition || odataRequest.aggregateDefinition?.filter;
-                const mockEntitySet = await this.getMockEntitySet(
-                    currentEntitySet ? currentEntitySet.name : currentEntityType.name
-                );
+            if (odataRequest.filterDefinition && Array.isArray(data)) {
+                const filterDef = odataRequest.filterDefinition;
+
                 data = data.filter((dataLine) => {
                     return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId, odataRequest);
                 });
@@ -677,132 +693,28 @@ export class DataAccess implements DataAccessInterface {
             }
 
             // Apply $apply for aggregates
-            const aggregateDefinition = odataRequest.aggregateDefinition;
-            if (aggregateDefinition && aggregateDefinition.customFunction) {
-                const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
+            const applyDefinition = odataRequest.applyDefinition;
+            if (applyDefinition) {
                 const mockData = mockEntitySet.getMockData(odataRequest.tenantId);
-                if (aggregateDefinition.customFunction.name === 'com.sap.vocabularies.Hierarchy.v1.TopLevels') {
-                    const hierarchyQualifier =
-                        (aggregateDefinition.customFunction.parameters.HierarchyQualifier as string)?.substring(
-                            1,
-                            (aggregateDefinition.customFunction.parameters.HierarchyQualifier as string).length - 1
-                        ) ?? '';
-                    const recursiveAggregationDef =
-                        currentEntityType.annotations.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
-                    const recursiveHierarchyDef =
-                        currentEntityType.annotations.Hierarchy?.[`RecursiveHierarchy#${hierarchyQualifier}`];
-                    if (recursiveAggregationDef !== undefined) {
-                        data = await mockData.getTopLevels(
-                            data,
-                            currentEntityType,
-                            recursiveAggregationDef,
-                            recursiveHierarchyDef,
-                            aggregateDefinition.customFunction.parameters as TopLevelParameters,
-                            odataRequest
-                        );
-                    }
-                } else if (aggregateDefinition.customFunction.name === 'descendants') {
-                    data = await mockData.getDescendants(
+                for (const applyTransformation of applyDefinition) {
+                    data = await this.applyTransformation(
+                        applyTransformation,
                         data,
-                        currentEntityType,
-                        aggregateDefinition.customFunction.parameters as DescendantsParameters,
-                        odataRequest
+                        odataRequest,
+                        mockEntitySet,
+                        mockData,
+                        currentEntityType
                     );
                 }
-            } else if (aggregateDefinition) {
-                const dataByGroup: Record<string, any[]> = {};
-                const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
-                let mockData: any;
-                if (mockEntitySet) {
-                    mockData = mockEntitySet.getMockData(odataRequest.tenantId);
-                }
-
-                const getAggregateKey = function (dataLine: any) {
-                    return aggregateDefinition.groupBy.reduce((key, groupByProp) => {
-                        if (key.length > 0) {
-                            key += ',';
-                        }
-                        key += dataLine[groupByProp];
-                        return key;
-                    }, '');
-                };
-                data.forEach((dataLine: any) => {
-                    const aggregateKey = getAggregateKey(dataLine);
-                    if (!dataByGroup[aggregateKey]) {
-                        dataByGroup[aggregateKey] = [];
-                    }
-                    dataByGroup[aggregateKey].push(dataLine);
-                });
-
-                data = Object.keys(dataByGroup).map((groupName) => {
-                    const dataToAggregate = dataByGroup[groupName];
-                    const outData: any = {};
-                    aggregateDefinition.groupBy.forEach((propName) => {
-                        outData[propName] = dataToAggregate[0][propName];
-                    });
-                    aggregateDefinition.aggregates.forEach((subAggregateDefinition) => {
-                        let propValue: any;
-                        if (
-                            subAggregateDefinition.operator === undefined &&
-                            mockData &&
-                            mockData.hasCustomAggregate(subAggregateDefinition.name)
-                        ) {
-                            propValue = mockData.performCustomAggregate(subAggregateDefinition.name, dataToAggregate);
-                        } else {
-                            dataToAggregate.forEach((dataLine) => {
-                                const currentValue = dataLine[subAggregateDefinition.sourceProperty];
-                                if (propValue === undefined) {
-                                    propValue = currentValue;
-                                } else {
-                                    switch (subAggregateDefinition.operator) {
-                                        case 'max':
-                                            propValue = Math.max(propValue, currentValue);
-                                            break;
-                                        case 'min':
-                                            propValue = Math.min(propValue, currentValue);
-                                            break;
-                                        case 'average':
-                                            propValue += currentValue;
-                                            break;
-                                        default:
-                                            propValue += currentValue;
-                                            break;
-                                    }
-                                }
-                            });
-                        }
-                        if (subAggregateDefinition.operator === 'average') {
-                            propValue = propValue / dataToAggregate.length;
-                        }
-                        outData[subAggregateDefinition.name] = propValue;
-                    });
-                    return outData;
-                });
             }
+
             // Apply $orderby
             if (odataRequest.orderBy && odataRequest.orderBy.length > 0) {
-                data.sort(function (firstElement: any, secondElement: any) {
-                    let isDecisive = false;
-                    let outValue = 0;
-                    odataRequest.orderBy.forEach((orderByDef) => {
-                        if (isDecisive) {
-                            return;
-                        }
-                        const firstElementData = getData(firstElement, orderByDef.name);
-                        const secondElementData = getData(secondElement, orderByDef.name);
-                        if (firstElementData > secondElementData) {
-                            outValue = orderByDef.direction === 'asc' ? 1 : -1;
-                            isDecisive = true;
-                        } else if (firstElementData < secondElementData) {
-                            outValue = orderByDef.direction === 'asc' ? -1 : 1;
-                            isDecisive = true;
-                        }
-                    });
-                    return outValue;
-                });
+                data = this._applyOrderBy(data, odataRequest.orderBy);
             }
             // Apply $select
-            const originalData = cloneDeep(data);
+            const originalData = data;
+            data = cloneDeep(data);
             if (odataRequest.selectedProperties) {
                 if (odataRequest.selectedProperties['DraftAdministrativeData']) {
                     if (Array.isArray(data)) {
@@ -1097,5 +1009,187 @@ export class DataAccess implements DataAccessInterface {
         });
         odataRequest.addResponseHeader('sap-contextid', UUID);
         odataRequest.addResponseHeader('sap-http-session-timeout', timeoutTime.toString());
+    }
+
+    private _applyOrderBy(data: object[], orderByDefinition: OrderByProp[]): object[] {
+        data.sort(function (firstElement: any, secondElement: any) {
+            let isDecisive = false;
+            let outValue = 0;
+            orderByDefinition.forEach((orderByDef) => {
+                if (isDecisive) {
+                    return;
+                }
+                const firstElementData = getData(firstElement, orderByDef.name);
+                const secondElementData = getData(secondElement, orderByDef.name);
+                if (firstElementData > secondElementData) {
+                    outValue = orderByDef.direction === 'asc' ? 1 : -1;
+                    isDecisive = true;
+                } else if (firstElementData < secondElementData) {
+                    outValue = orderByDef.direction === 'asc' ? -1 : 1;
+                    isDecisive = true;
+                }
+            });
+            return outValue;
+        });
+        return data;
+    }
+
+    private async _applyGroupBy(
+        data: object[],
+        applyDefinition: GroupByTransformation,
+        odataRequest: ODataRequest,
+        mockData: FileBasedMockData
+    ): Promise<object[]> {
+        const dataByGroup: Record<string, any[]> = {};
+
+        const getAggregateKey = function (dataLine: any) {
+            return applyDefinition.groupBy.reduce((key, groupByProp) => {
+                if (key.length > 0) {
+                    key += ',';
+                }
+                key += dataLine[groupByProp];
+                return key;
+            }, '');
+        };
+        data.forEach((dataLine: any) => {
+            const aggregateKey = getAggregateKey(dataLine);
+            if (!dataByGroup[aggregateKey]) {
+                dataByGroup[aggregateKey] = [];
+            }
+            dataByGroup[aggregateKey].push(dataLine);
+        });
+
+        data = Object.keys(dataByGroup).map((groupName) => {
+            const dataToAggregate = dataByGroup[groupName];
+            const outData: any = {};
+            applyDefinition.groupBy.forEach((propName) => {
+                outData[propName] = dataToAggregate[0][propName];
+            });
+            const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
+            aggregateDefinition.aggregateDef.forEach((subAggregateDefinition) => {
+                let propValue: any;
+                if (
+                    subAggregateDefinition.operator === undefined &&
+                    mockData &&
+                    mockData.hasCustomAggregate(subAggregateDefinition.name, odataRequest)
+                ) {
+                    propValue = mockData.performCustomAggregate(
+                        subAggregateDefinition.name,
+                        dataToAggregate,
+                        odataRequest
+                    );
+                } else {
+                    dataToAggregate.forEach((dataLine) => {
+                        const currentValue = dataLine[subAggregateDefinition.sourceProperty];
+                        if (propValue === undefined) {
+                            propValue = currentValue;
+                        } else {
+                            switch (subAggregateDefinition.operator) {
+                                case 'max':
+                                    propValue = Math.max(propValue, currentValue);
+                                    break;
+                                case 'min':
+                                    propValue = Math.min(propValue, currentValue);
+                                    break;
+                                case 'average':
+                                    propValue += currentValue;
+                                    break;
+                                default:
+                                    propValue += currentValue;
+                                    break;
+                            }
+                        }
+                    });
+                }
+                if (subAggregateDefinition.operator === 'average') {
+                    propValue = propValue / dataToAggregate.length;
+                }
+                outData[subAggregateDefinition.name] = propValue;
+            });
+            return outData;
+        });
+        return data;
+    }
+    private async _applyFilter(
+        data: object[],
+        filterDefinition: FilterExpression,
+        odataRequest: ODataRequest,
+        mockEntitySet: EntitySetInterface
+    ): Promise<object[]> {
+        return data.filter((dataLine: object) => {
+            return mockEntitySet.checkFilter(dataLine, filterDefinition, odataRequest.tenantId, odataRequest);
+        });
+    }
+    private lastFilterTransformationResult: object[] = [];
+    private async applyTransformation(
+        transformationDef: TransformationDefinition,
+        data: object[],
+        odataRequest: ODataRequest,
+        mockEntitySet: EntitySetInterface,
+        mockData: FileBasedMockData,
+        currentEntityType: EntityType
+    ): Promise<object[]> {
+        switch (transformationDef.type) {
+            case 'orderBy':
+                data = this._applyOrderBy(data, transformationDef.orderBy);
+                break;
+            case 'filter':
+                data = await this._applyFilter(data, transformationDef.filterExpr, odataRequest, mockEntitySet);
+                this.lastFilterTransformationResult = data;
+                break;
+            case 'aggregates':
+                break;
+            case 'ancestors':
+                const limitedHierarchyForAncestors = await this.applyTransformation(
+                    transformationDef.parameters.inputSetTransformations[0],
+                    mockData.getAllEntries(odataRequest),
+                    odataRequest,
+                    mockEntitySet,
+                    mockData,
+                    currentEntityType
+                );
+                data = await mockData.getAncestors(
+                    data,
+                    this.lastFilterTransformationResult,
+                    limitedHierarchyForAncestors,
+                    currentEntityType,
+                    transformationDef.parameters,
+                    odataRequest
+                );
+                break;
+            case 'skip':
+                break;
+            case 'descendants':
+                const limitedHierarchyData = await this.applyTransformation(
+                    transformationDef.parameters.inputSetTransformations[0],
+                    mockData.getAllEntries(odataRequest),
+                    odataRequest,
+                    mockEntitySet,
+                    mockData,
+                    currentEntityType
+                );
+                data = await mockData.getDescendants(
+                    data,
+                    this.lastFilterTransformationResult,
+                    limitedHierarchyData,
+                    currentEntityType,
+                    transformationDef.parameters,
+                    odataRequest
+                );
+                break;
+            case 'groupBy':
+                data = await this._applyGroupBy(data, transformationDef, odataRequest, mockData);
+                break;
+            case 'customFunction':
+                if (transformationDef.name === 'com.sap.vocabularies.Hierarchy.v1.TopLevels') {
+                    data = await mockData.getTopLevels(
+                        data,
+                        transformationDef.parameters as TopLevelParameters,
+                        odataRequest
+                    );
+                }
+                break;
+        }
+        return data;
     }
 }
