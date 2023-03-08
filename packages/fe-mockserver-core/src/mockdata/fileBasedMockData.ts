@@ -384,7 +384,7 @@ export class FileBasedMockData {
         actionData: any,
         _keys: Record<string, any>,
         _odataRequest: ODataRequest
-    ): Promise<object> {
+    ): Promise<object | undefined> {
         return actionData;
     }
 
