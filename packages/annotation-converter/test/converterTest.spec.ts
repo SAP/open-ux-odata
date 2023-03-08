@@ -629,6 +629,12 @@ describe('Annotation Converter', () => {
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].$Type).toEqual(
             CommonAnnotationTypes.SideEffectsType
         );
+        expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].value).toEqual(
+            ''
+        );
+        expect(
+            (sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].$target
+        ).toEqual(undefined);
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange']).not.toBeNull();
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].TargetProperties[0]).toEqual(
             'IncotermsLocation1'

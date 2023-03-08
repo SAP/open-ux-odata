@@ -765,19 +765,22 @@ function parseCollection(
 
         case 'NavigationPropertyPath':
             return collectionDefinition.map((navPropertyPath, navPropIdx) => {
+                const navigationPropertyPath = navPropertyPath.NavigationPropertyPath ?? '';
                 const result = {
                     type: 'NavigationPropertyPath',
-                    value: navPropertyPath.NavigationPropertyPath,
+                    value: navigationPropertyPath,
                     fullyQualifiedName: `${parentFQN}/${navPropIdx}`
                 } as any;
 
-                lazy(
-                    result,
-                    '$target',
-                    () =>
-                        resolveTarget(converter, currentTarget, navPropertyPath.NavigationPropertyPath, currentTerm)
-                            .target
-                );
+                if (navigationPropertyPath === '') {
+                    result.$target = undefined;
+                } else {
+                    lazy(
+                        result,
+                        '$target',
+                        () => resolveTarget(converter, currentTarget, navigationPropertyPath, currentTerm).target
+                    );
+                }
 
                 return result;
             });
