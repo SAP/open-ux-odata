@@ -4217,6 +4217,11 @@
         </Annotation>
         <Annotation Term="Common.SideEffects" Qualifier="IncotermsChange">
           <Record>
+            <PropertyValue Property="SourceEntities">
+              <Collection>
+                <NavigationPropertyPath/>
+              </Collection>
+            </PropertyValue>
             <PropertyValue Property="SourceProperties">
               <Collection>
                 <PropertyPath>IncotermsVersion</PropertyPath>
