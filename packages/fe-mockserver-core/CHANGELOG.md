@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.61
+
+### Patch Changes
+
+-   4050889: Empty navigation path will now lead to empty target
+
 ## 1.1.60
 
 ### Patch Changes
