@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.62
+
+### Patch Changes
+
+-   0c1ec3e: The mockserver now allows to use actions that do not return a value
+
 ## 1.1.61
 
 ### Patch Changes
