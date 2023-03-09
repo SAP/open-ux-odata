@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.3
+
+### Patch Changes
+
+-   e922bf7: Fix simple name resolution for action target -> unbound action
+
 ## 0.6.2
 
 ### Patch Changes

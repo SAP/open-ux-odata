@@ -45,7 +45,7 @@ export type MockDataContributor = {
         actionData: any,
         keys: Record<string, any>,
         odataRequest: ODataRequest
-    ): Promise<object>;
+    ): Promise<object | undefined>;
     onAfterAction?(
         actionDefinition: Action,
         actionData: any,
@@ -254,7 +254,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
         actionData: any,
         keys: Record<string, any>,
         odataRequest: ODataRequest
-    ): Promise<object> {
+    ): Promise<object | undefined> {
         if (this._mockDataFn?.executeAction) {
             return this._mockDataFn.executeAction(actionDefinition, actionData, keys, odataRequest);
         } else {

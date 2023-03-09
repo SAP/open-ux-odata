@@ -629,6 +629,12 @@ describe('Annotation Converter', () => {
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].$Type).toEqual(
             CommonAnnotationTypes.SideEffectsType
         );
+        expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].value).toEqual(
+            ''
+        );
+        expect(
+            (sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].$target
+        ).toEqual(undefined);
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange']).not.toBeNull();
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].TargetProperties[0]).toEqual(
             'IncotermsLocation1'
@@ -947,6 +953,10 @@ describe('Annotation Converter', () => {
         expect(dataFields1[2].ActionTarget).toBe(getAction('TestService.action'));
         expect(dataFields1[3].ActionTarget).toBe(getAction('TestService.function'));
         expect(dataFields1[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
+        expect(dataFields1[5].ActionTarget).toBe(undefined);
+        expect(dataFields1[6].ActionTarget).toBe(getAction('TestService.action2(TestService.Entity2)'));
+        expect(dataFields1[7].ActionTarget).toBe(getAction('TestService.action'));
+        expect(dataFields1[8].ActionTarget).toBe(getAction('TestService.function'));
 
         const dataFields2 = convertedTypes.entityTypes[1]?.annotations.UI?.LineItem as any[];
         expect(dataFields2[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity2)'));

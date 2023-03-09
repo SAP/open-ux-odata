@@ -1,5 +1,24 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.61
+
+### Patch Changes
+
+-   4050889: Empty navigation path will now lead to empty target
+
+## 1.1.60
+
+### Patch Changes
+
+-   4e3aca0: Lenient create
+
+## 1.1.59
+
+### Patch Changes
+
+-   Updated dependencies [e922bf7]
+    -   @sap-ux/annotation-converter@0.6.3
+
 ## 1.1.58
 
 ### Patch Changes

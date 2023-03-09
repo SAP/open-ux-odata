@@ -35,12 +35,22 @@
       <Action Name="action" IsBound="true">
         <Parameter Name="in" Type="TestService.Entity2"/>
       </Action>
+      <Action Name="actionFrom1" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+      </Action>
+      <Action Name="action2" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+      </Action>
       <Action Name="action" IsBound="false"/>
       <Function Name="function" IsBound="true" IsComposable="false">
         <Parameter Name="in" Type="TestService.Entity1"/>
         <ReturnType Type="Edm.Int32"/>
       </Function>
       <Function Name="function" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Function Name="function2" IsBound="true" IsComposable="false">
         <Parameter Name="in" Type="TestService.Entity2"/>
         <ReturnType Type="Edm.Int32"/>
       </Function>
@@ -70,6 +80,22 @@
               <PropertyValue Property="Label" String="Bound action of the same entity type (explicit reference)"/>
               <PropertyValue Property="Action" String="TestService.action(TestService.Entity1)"/>
             </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound action of the incorrect entity type indirect reference"/>
+              <PropertyValue Property="Action" String="TestService.action2"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound action of the incorrect entity type (explicit reference)"/>
+              <PropertyValue Property="Action" String="TestService.action2(TestService.Entity2)"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound action with simple name"/>
+              <PropertyValue Property="Action" String="action"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Unbound function with simple name"/>
+              <PropertyValue Property="Action" String="function"/>
+            </Record>
           </Collection>
         </Annotation>
       </Annotations>
@@ -95,6 +121,10 @@
             <Record Type="UI.DataFieldForAction">
               <PropertyValue Property="Label" String="Bound action of a different entity type"/>
               <PropertyValue Property="Action" String="TestService.action(TestService.Entity1)"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound action of a different entity type"/>
+              <PropertyValue Property="Action" String="TestService.assignToParent"/>
             </Record>
           </Collection>
         </Annotation>
