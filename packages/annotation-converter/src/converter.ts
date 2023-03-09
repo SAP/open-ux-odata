@@ -108,7 +108,19 @@ function resolveTarget<T>(
     // determine the starting point for the resolution
     if (startElement === undefined) {
         // no starting point given: start at the entity container
-        startElement = converter.getConvertedEntityContainer();
+        if (
+            pathSegments[0].startsWith(converter.rawSchema.namespace) &&
+            pathSegments[0] !== converter.getConvertedEntityContainer()?.fullyQualifiedName
+        ) {
+            // We have a fully qualified name in the path that is not the entity container.
+            startElement =
+                converter.getConvertedEntityType(pathSegments[0]) ??
+                converter.getConvertedComplexType(pathSegments[0]) ??
+                converter.getConvertedAction(pathSegments[0]);
+            pathSegments.shift(); // Let's remove the first path element
+        } else {
+            startElement = converter.getConvertedEntityContainer();
+        }
     } else if (startElement[ANNOTATION_TARGET] !== undefined) {
         // annotation: start at the annotation target
         startElement = startElement[ANNOTATION_TARGET];
@@ -174,6 +186,10 @@ function resolveTarget<T>(
 
             // traverse based on the element type
             switch (current.target?._type) {
+                case 'Schema':
+                    // next element: EntityType, ComplexType, Action, EntityContainer ?
+
+                    break;
                 case 'EntityContainer':
                     {
                         const thisElement = current.target as EntityContainer;
