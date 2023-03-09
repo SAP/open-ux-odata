@@ -1,4 +1,3 @@
-import { readFileSync } from 'fs';
 import { join } from 'path';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
@@ -413,7 +412,7 @@ describe('Hierarchy Access', () => {
         expect(data).toMatchInlineSnapshot(`
             [
               {
-                "DrillState": "collapsed",
+                "DrillState": "leaf",
                 "ID": "US East",
                 "Matched": true,
                 "MatchedDescendantCount": 0,

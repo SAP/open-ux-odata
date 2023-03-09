@@ -544,6 +544,7 @@ export class FileBasedMockData {
         nodeProperty: string,
         distanceFromRootProperty: string | undefined,
         limitedDescendantCount: string | undefined,
+        matchedDescendantCountProperty: string | undefined,
         drillStateProperty: string | undefined,
         depth: number,
         toExpand: string[] = [],
@@ -603,6 +604,7 @@ export class FileBasedMockData {
                     nodeProperty,
                     distanceFromRootProperty,
                     limitedDescendantCount,
+                    matchedDescendantCountProperty,
                     drillStateProperty,
                     depth - 1,
                     toExpand,
@@ -615,6 +617,7 @@ export class FileBasedMockData {
             if (limitedDescendantCount) {
                 currentNode[limitedDescendantCount] = isLastLevel && !shouldShowAncestor ? 0 : descendantCount;
             }
+
             if (currentNode.$inResultSet && wasAdded) {
                 descendantCount++;
             }
@@ -728,11 +731,13 @@ export class FileBasedMockData {
                 `RecursiveHierarchy#${hierarchyQualifier}`
             ] as any;
             let distanceFromRootProperty: string | undefined;
+            let matchedDescendantCountProperty: string | undefined;
             let limitedDescendantCountProperty: string | undefined;
             let drillStateProperty: string | undefined;
             if (hierarchyAnnotation) {
                 distanceFromRootProperty = hierarchyAnnotation.DistanceFromRootProperty?.$target.name;
                 limitedDescendantCountProperty = hierarchyAnnotation.LimitedDescendantCountProperty?.$target.name;
+                matchedDescendantCountProperty = hierarchyAnnotation.MatchedDescendantCountProperty?.$target.name;
                 drillStateProperty = hierarchyAnnotation.DrillStateProperty?.$target.name;
             }
 
@@ -770,6 +775,7 @@ export class FileBasedMockData {
                     nodeProperty,
                     distanceFromRootProperty,
                     limitedDescendantCountProperty,
+                    matchedDescendantCountProperty,
                     drillStateProperty,
                     depth,
                     toExpand,
@@ -822,11 +828,13 @@ export class FileBasedMockData {
         ] as any;
         let distanceFromRootProperty: string | undefined;
         let limitedDescendantCountProperty: string | undefined;
+        let matchedDescendantCountProperty: string | undefined;
         let drillStateProperty: string | undefined;
         let matchedProperty: string | undefined;
         if (hierarchyAnnotation) {
             distanceFromRootProperty = hierarchyAnnotation.DistanceFromRootProperty?.$target.name;
             limitedDescendantCountProperty = hierarchyAnnotation.LimitedDescendantCountProperty?.$target.name;
+            matchedDescendantCountProperty = hierarchyAnnotation.MatchedDescendantCountProperty?.$target.name;
             drillStateProperty = hierarchyAnnotation.DrillStateProperty?.$target.name;
             matchedProperty = hierarchyAnnotation.MatchedProperty?.$target.name;
         }
@@ -865,6 +873,7 @@ export class FileBasedMockData {
                         nodeProperty,
                         distanceFromRootProperty,
                         limitedDescendantCountProperty,
+                        matchedDescendantCountProperty,
                         drillStateProperty,
                         _parameters.maximumDistance
                     );
@@ -872,8 +881,17 @@ export class FileBasedMockData {
             });
             const outData: object[] = [];
             inputSet.forEach((item: any) => {
-                const subTreeData = subTrees.find((dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]);
+                const subTreeData: any = subTrees.find(
+                    (dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]
+                );
                 if (subTreeData) {
+                    if (
+                        matchedDescendantCountProperty &&
+                        drillStateProperty &&
+                        item[matchedDescendantCountProperty] === 0
+                    ) {
+                        subTreeData[drillStateProperty] = 'leaf';
+                    }
                     outData.push({ ...item, ...subTreeData });
                 }
             });
