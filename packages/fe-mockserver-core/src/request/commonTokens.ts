@@ -3,6 +3,7 @@ import { createToken } from 'chevrotain';
 export const OPEN = createToken({ name: 'OPEN', pattern: /(:?\(|%28)/ });
 export const OPEN_BRACKET = createToken({ name: 'OPEN_BRACKET', pattern: /(:?\[)/ });
 export const DOT = createToken({ name: 'DOT', pattern: /\./ });
+export const QUOTE = createToken({ name: 'QUOTE', pattern: /(:?"|%22)/ });
 export const EQ = createToken({ name: 'EQ', pattern: /\=/ });
 export const CLOSE = createToken({ name: 'CLOSE', pattern: /(:?\)|%29)/ });
 export const CLOSE_BRACKET = createToken({ name: 'CLOSE_BRACKET', pattern: /(:?\])/ });
@@ -50,4 +51,5 @@ export const ANCESTORS_TOKEN = createToken({ name: 'Ancestors', pattern: /ancest
 export const KEEP_START_TOKEN = createToken({ name: 'Keep Start', pattern: /keep start/ });
 export const SKIP_TOKEN = createToken({ name: 'Skip', pattern: /skip/ });
 export const GROUPBY_TOKEN = createToken({ name: 'GroupBy', pattern: /groupby/ });
+export const SEARCH_TOKEN = createToken({ name: 'Search', pattern: /search/ });
 export const AGGREGATE_TOKEN = createToken({ name: 'Aggregate', pattern: /aggregate/ });

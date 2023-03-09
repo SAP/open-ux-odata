@@ -1159,6 +1159,11 @@ export class DataAccess implements DataAccessInterface {
                 break;
             case 'skip':
                 break;
+            case 'search':
+                data = data.filter((dataLine) => {
+                    return mockEntitySet.checkSearch(dataLine, transformationDef.searchExpr, odataRequest);
+                });
+                break;
             case 'descendants':
                 const limitedHierarchyData = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],

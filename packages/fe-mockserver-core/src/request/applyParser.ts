@@ -30,7 +30,9 @@ import {
     ANCESTORS_TOKEN,
     KEEP_START_TOKEN,
     OPEN_BRACKET,
-    CLOSE_BRACKET
+    CLOSE_BRACKET,
+    SEARCH_TOKEN,
+    QUOTE
 } from './commonTokens';
 
 // ----------------- Lexer -----------------
@@ -40,12 +42,14 @@ const applyTokens = [
     DOT,
     EQ,
     CLOSE,
+    QUOTE,
     OPEN_BRACKET,
     CLOSE_BRACKET,
     COMMA,
     ANCESTORS_TOKEN,
     KEEP_START_TOKEN,
     DESCENDANTS_TOKEN,
+    SEARCH_TOKEN,
     ORDERBY_TOKEN,
     FILTER_TOKEN,
     SKIP_TOKEN,
@@ -93,6 +97,10 @@ export type FilterTransformation = {
     type: 'filter';
     filterExpr: FilterExpression;
 };
+export type SearchTransformation = {
+    type: 'search';
+    searchExpr: string[];
+};
 export type GroupByTransformation = {
     type: 'groupBy';
     groupBy: string[];
@@ -126,6 +134,7 @@ export type CustomFunctionTransformation = {
 };
 export type TransformationDefinition =
     | FilterTransformation
+    | SearchTransformation
     | OrderByTransformation
     | GroupByTransformation
     | SkipTransformation
@@ -155,6 +164,7 @@ export class ApplyParser extends FilterParser {
     groupbyTrafo: CstRule<void>;
 
     filterTrafo: CstRule<void>;
+    searchTrafo: CstRule<void>;
     orderByTrafo: CstRule<void>;
     skipTrafo: CstRule<void>;
     constructor() {
@@ -232,6 +242,11 @@ export class ApplyParser extends FilterParser {
                     ALT: () => {
                         return this.SUBRULE(this.customFunction, { ARGS: [transformations] });
                     }
+                },
+                {
+                    ALT: () => {
+                        return this.SUBRULE(this.searchTrafo, { ARGS: [transformations] });
+                    }
                 }
             ]);
             //  preservingTrafo = bottomcountTrafo
@@ -266,6 +281,35 @@ export class ApplyParser extends FilterParser {
             this.CONSUME(CLOSE);
         });
 
+        // searchTrafo     = %s"search" OPEN BWS ( searchExpr / searchExpr-incomplete ) BWS CLOSE
+        this.searchTrafo = this.RULE('searchTrafo', (transformations: TransformationDefinition[] = []) => {
+            this.CONSUME(SEARCH_TOKEN);
+            this.CONSUME(OPEN);
+            const searchExpr: string[] = [];
+            this.MANY_SEP({
+                SEP: WS,
+                DEF: () => {
+                    this.CONSUME(QUOTE);
+                    const stringToken = this.OR([
+                        {
+                            ALT: () => {
+                                return this.CONSUME(SIMPLEIDENTIFIER);
+                            }
+                        },
+                        {
+                            ALT: () => {
+                                return this.CONSUME(LITERAL);
+                            }
+                        }
+                    ]);
+                    this.CONSUME2(QUOTE);
+                    searchExpr.push(stringToken.image);
+                }
+            });
+            transformations.push({ type: 'search', searchExpr: searchExpr });
+
+            this.CONSUME(CLOSE);
+        });
         //%s"groupby" OPEN BWS groupbyList [ BWS COMMA BWS applyExpr ] BWS CLOSE
         this.groupbyTrafo = this.RULE('groupbyTrafo', (transformations: TransformationDefinition[] = []) => {
             this.CONSUME(GROUPBY_TOKEN);

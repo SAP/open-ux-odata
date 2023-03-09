@@ -1137,7 +1137,38 @@ describe('Hierarchy Access', () => {
             },
             dataAccess
         );
-        // TODO : add an expect on odataRequest.applyDefinition
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "parameters": {
+                  "hierarchyRoot": "$root/SalesOrganizations",
+                  "inputSetTransformations": [
+                    {
+                      "searchExpr": [
+                        "East",
+                      ],
+                      "type": "search",
+                    },
+                  ],
+                  "keepStart": true,
+                  "maximumDistance": -1,
+                  "propertyPath": "ID",
+                  "qualifier": "SalesOrgHierarchy",
+                },
+                "type": "ancestors",
+              },
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "HierarchyNodes": "$root/SalesOrganizations",
+                  "HierarchyQualifier": "'SalesOrgHierarchy'",
+                  "Levels": "2",
+                  "NodeProperty": "'ID'",
+                },
+                "type": "customFunction",
+              },
+            ]
+        `);
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
             [
@@ -1145,7 +1176,7 @@ describe('Hierarchy Access', () => {
                 "DistanceFromRoot": 0,
                 "DrillState": "expanded",
                 "ID": "Sales",
-                "LimitedDescendantCount": 2,
+                "LimitedDescendantCount": 1,
                 "Name": "Corporate Sales",
               },
               {
