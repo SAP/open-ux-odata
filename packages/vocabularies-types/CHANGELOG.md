@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.7.2
+
+### Patch Changes
+
+-   7230a33: feat: allow to resolve entity type by their fqdn
+
 ## 0.7.1
 
 ### Patch Changes
