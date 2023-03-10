@@ -1188,4 +1188,68 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('5- Hierarchy in Object Page', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations('Sales')/_Products?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root//SalesOrganizations('Sales')/_Products,HierarchyQualifier='ProductsHierarchy',NodeProperty='ID',Levels=2)&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=10"
+            },
+            dataAccess
+        );
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+          [
+            {
+              "DistanceFromRoot": 0,
+              "DrillState": "expanded",
+              "ID": "1",
+              "LimitedDescendantCount": 2,
+              "Name": "Waters",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "leaf",
+              "ID": "10",
+              "LimitedDescendantCount": 0,
+              "Name": "Still water",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "leaf",
+              "ID": "11",
+              "LimitedDescendantCount": 0,
+              "Name": "Sparkling water",
+            },
+            {
+              "DistanceFromRoot": 0,
+              "DrillState": "expanded",
+              "ID": "2",
+              "LimitedDescendantCount": 3,
+              "Name": "Wines",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "leaf",
+              "ID": "20",
+              "LimitedDescendantCount": 0,
+              "Name": "Red wine",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "leaf",
+              "ID": "21",
+              "LimitedDescendantCount": 0,
+              "Name": "White wine",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "collapsed",
+              "ID": "22",
+              "LimitedDescendantCount": 0,
+              "Name": "Sparkling wines",
+            }
+          ]
+      `);
+    });
 });
