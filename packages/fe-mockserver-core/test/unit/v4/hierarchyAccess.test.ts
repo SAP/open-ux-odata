@@ -1128,7 +1128,7 @@ describe('Hierarchy Access', () => {
         `);
     });
 
-    test('4- Search', async () => {
+    test('4a- Search (not showing result)', async () => {
         const odataRequest = new ODataRequest(
             {
                 method: 'GET',
@@ -1187,6 +1187,31 @@ describe('Hierarchy Access', () => {
               },
             ]
         `);
+    });
+
+    test('4b- Search (showing result)', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=ancestors($root/SalesOrganizations,SalesOrgHierarchy,ID,search(%22Corporate%22),keep%20start)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=10"
+            },
+            dataAccess
+        );
+
+        // TODO: add expect on odataRequest.applyDefinition
+
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+          [
+            {
+              "DistanceFromRoot": 0,
+              "DrillState": "leaf",
+              "ID": "Sales",
+              "LimitedDescendantCount": 0,
+              "Name": "Corporate Sales",
+            },
+          ]
+      `);
     });
 
     test('5- Hierarchy in Object Page - Product hierarchy expanded to two levels (including root)', async () => {
