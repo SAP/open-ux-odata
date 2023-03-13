@@ -789,6 +789,13 @@ export class FileBasedMockData {
             outItems.forEach((item: any) => {
                 const subTreeData = data.find((dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]);
                 if (subTreeData) {
+                    if (
+                        matchedDescendantCountProperty &&
+                        drillStateProperty &&
+                        item[matchedDescendantCountProperty] === 0
+                    ) {
+                        item[drillStateProperty] = 'leaf';
+                    }
                     outData.push({ ...subTreeData, ...item });
                 } else if (toShow.includes(item[nodeProperty]) || toShowAncestors.includes(item[nodeProperty])) {
                     outData.push(item);
