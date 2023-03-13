@@ -1189,7 +1189,7 @@ describe('Hierarchy Access', () => {
         `);
     });
 
-    test('5- Hierarchy in Object Page', async () => {
+    test('5- Hierarchy in Object Page - Product hierarchy expanded to two levels (including root)', async () => {
         const odataRequest = new ODataRequest(
             {
                 method: 'GET',
@@ -1251,5 +1251,35 @@ describe('Hierarchy Access', () => {
               },
             ]
         `);
+    });
+
+    test('6- Hierarchy in Object Page - Expand a node', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations('Sales')/_Products?$apply=descendants($root/SalesOrganizations('Sales')/_Products,ProductsHierarchy,ID,filter(ID%20eq%20'2'),1)&$select=DrillState,ID,Name&$count=true&$skip=0&$top=10"
+            },
+            dataAccess
+        );
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+          [
+            {
+              "DrillState": "leaf",
+              "ID": "20",
+              "Name": "Red wine",
+            },
+            {
+              "DrillState": "leaf",
+              "ID": "21",
+              "Name": "White wine",
+            },
+            {
+              "DrillState": "collapsed",
+              "ID": "22",
+              "Name": "Sparkling wines",
+            },
+          ]
+      `);
     });
 });
