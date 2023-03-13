@@ -29,7 +29,7 @@ export const TYPEDEF = createToken({ name: 'Typedef', pattern: /Edm\.[a-zA-Z]+/ 
 export const LITERAL = createToken({
     name: 'Literal',
     pattern:
-        /(:?null|true|false|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|guid(:?'|%27)[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:?'|%27)|datetime'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})*'|\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:.\d{3}Z|\+\d{2}:\d{2}))*|-?(:?0|[1-9]\d*)(\.\d+)?(:?[eE][+-]?\d+)?|\$root\/[\w+/]+|'[^\\"\n\r\']*')/
+        /(:?null|true|false|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|guid(:?'|%27)[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:?'|%27)|datetime'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})*'|\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:.\d{3}Z|\+\d{2}:\d{2}))*|-?(:?0|[1-9]\d*)(\.\d+)?(:?[eE][+-]?\d+)?|'[^\\"\n\r\']*')/
 });
 //ee1a9172-f3c3-47ce-b0f7-dd28c740210c
 export const LOGICAL_OPERATOR = createToken({ name: 'Logical', pattern: /(:?eq|ne|lt|le|gt|ge)/ });
@@ -53,3 +53,4 @@ export const SKIP_TOKEN = createToken({ name: 'Skip', pattern: /skip/ });
 export const GROUPBY_TOKEN = createToken({ name: 'GroupBy', pattern: /groupby/ });
 export const SEARCH_TOKEN = createToken({ name: 'Search', pattern: /search/ });
 export const AGGREGATE_TOKEN = createToken({ name: 'Aggregate', pattern: /aggregate/ });
+export const ROOT_TOKEN = createToken({ name: 'Root Token', pattern: /\$root\// });

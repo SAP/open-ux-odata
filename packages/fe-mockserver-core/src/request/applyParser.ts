@@ -32,7 +32,8 @@ import {
     OPEN_BRACKET,
     CLOSE_BRACKET,
     SEARCH_TOKEN,
-    QUOTE
+    QUOTE,
+    ROOT_TOKEN
 } from './commonTokens';
 
 // ----------------- Lexer -----------------
@@ -49,6 +50,7 @@ const applyTokens = [
     ANCESTORS_TOKEN,
     KEEP_START_TOKEN,
     DESCENDANTS_TOKEN,
+    ROOT_TOKEN,
     SEARCH_TOKEN,
     ORDERBY_TOKEN,
     FILTER_TOKEN,
@@ -154,6 +156,7 @@ type CstRule<T> = (idxInCallingRule?: number, ...args: any[]) => T;
 export class ApplyParser extends FilterParser {
     applyExpr: CstRule<TransformationDefinition[]>;
     applyTrafo: CstRule<void>;
+    rootExpr: CstRule<string>;
     aggregateTrafo: CstRule<void>;
     ancestorsTrafo: CstRule<void>;
     computeTrafo: CstRule<void>;
@@ -392,7 +395,7 @@ export class ApplyParser extends FilterParser {
             this.CONSUME(ANCESTORS_TOKEN);
             this.CONSUME(OPEN);
             this.OPTION(() => this.CONSUME(WS));
-            const rootExpr = this.CONSUME(LITERAL);
+            const rootExpr = this.SUBRULE(this.rootExpr);
             this.CONSUME(COMMA);
             const recHierQualifier = this.CONSUME2(SIMPLEIDENTIFIER);
             this.CONSUME2(COMMA);
@@ -415,7 +418,7 @@ export class ApplyParser extends FilterParser {
             transformations.push({
                 type: 'ancestors',
                 parameters: {
-                    hierarchyRoot: rootExpr.image,
+                    hierarchyRoot: rootExpr,
                     qualifier: recHierQualifier.image,
                     propertyPath: recHierPropertyPath.image,
                     maximumDistance: maximumDistance,
@@ -424,6 +427,24 @@ export class ApplyParser extends FilterParser {
                 }
             });
             this.CONSUME(CLOSE);
+        });
+
+        this.rootExpr = this.RULE('rootExpr', () => {
+            let rootExpr = '$root/';
+            this.CONSUME(ROOT_TOKEN);
+            rootExpr += this.CONSUME(SIMPLEIDENTIFIER).image;
+            this.OPTION(() => {
+                // entitySetName + keyPredicate (simpleKey)
+                this.CONSUME(OPEN);
+                rootExpr += `(${this.CONSUME(LITERAL).image})`;
+                this.CONSUME(CLOSE);
+            });
+            // singleNavigationExpr
+            this.OPTION2(() => {
+                this.CONSUME(SLASH);
+                rootExpr += '/' + this.CONSUME2(SIMPLEIDENTIFIER).image;
+            });
+            return rootExpr;
         });
 
         this.descendantsTrafo = this.RULE('descendantsTrafo', (transformations: TransformationDefinition[] = []) => {
@@ -437,7 +458,7 @@ export class ApplyParser extends FilterParser {
             this.CONSUME(OPEN);
             //filter(ID eq 'US'),1)/orderby(Name)&$count=true&$select=DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=10");
             this.OPTION(() => this.CONSUME(WS));
-            const rootExpr = this.CONSUME(LITERAL);
+            const rootExpr = this.SUBRULE(this.rootExpr);
             this.CONSUME(COMMA);
             const recHierQualifier = this.CONSUME2(SIMPLEIDENTIFIER);
             this.CONSUME2(COMMA);
@@ -462,7 +483,7 @@ export class ApplyParser extends FilterParser {
             transformations.push({
                 type: 'descendants',
                 parameters: {
-                    hierarchyRoot: rootExpr.image,
+                    hierarchyRoot: rootExpr,
                     qualifier: recHierQualifier.image,
                     propertyPath: recHierPropertyPath.image,
                     maximumDistance: maximumDistance,
@@ -493,14 +514,22 @@ export class ApplyParser extends FilterParser {
                             ALT: () => {
                                 const identifier = this.CONSUME3(SIMPLEIDENTIFIER);
                                 this.CONSUME(EQ);
-                                const value = this.CONSUME(LITERAL);
-                                parameters[identifier.image] = value.image;
+                                const value = this.SUBRULE(this.rootExpr);
+                                parameters[identifier.image] = value;
                             }
                         },
                         {
                             ALT: () => {
                                 const identifier = this.CONSUME4(SIMPLEIDENTIFIER);
                                 this.CONSUME2(EQ);
+                                const value = this.CONSUME(LITERAL).image;
+                                parameters[identifier.image] = value;
+                            }
+                        },
+                        {
+                            ALT: () => {
+                                const identifier = this.CONSUME5(SIMPLEIDENTIFIER);
+                                this.CONSUME3(EQ);
                                 this.CONSUME(OPEN_BRACKET);
                                 const parameterArray: any[] = [];
                                 this.MANY_SEP3({
