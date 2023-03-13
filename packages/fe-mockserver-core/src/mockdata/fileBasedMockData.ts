@@ -854,7 +854,11 @@ export class FileBasedMockData {
             const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData);
             const sourceReference =
                 aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
-            this.buildTree(hierarchyNodes[''][0], hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
+            const rootNodes = hierarchyNodes[''];
+            rootNodes.forEach((rootNode: any) => {
+                this.buildTree(rootNode, hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
+            });
+
             const subTrees: object[] = [];
             hierarchyFilter.forEach((item: any) => {
                 const parentNodeChildren = hierarchyNodes[item[sourceReference]];
@@ -940,7 +944,10 @@ export class FileBasedMockData {
                 }
             });
             const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData);
-            this.buildTree(hierarchyNodes[''][0], hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
+            const rootNodes = hierarchyNodes[''];
+            rootNodes.forEach((rootNode: any) => {
+                this.buildTree(rootNode, hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
+            });
             const ancestors: any[] = [];
             limitedHierarchy.forEach((item: any) => {
                 const parentNodeChildren = hierarchyNodes[item[sourceReference]];

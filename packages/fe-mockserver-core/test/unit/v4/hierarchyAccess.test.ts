@@ -1261,25 +1261,53 @@ describe('Hierarchy Access', () => {
             },
             dataAccess
         );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "parameters": {
+                  "hierarchyRoot": "$root/SalesOrganizations('Sales')/_Products",
+                  "inputSetTransformations": [
+                    {
+                      "filterExpr": {
+                        "expressions": [
+                          {
+                            "identifier": "ID",
+                            "literal": "'2'",
+                            "operator": "eq",
+                          },
+                        ],
+                      },
+                      "type": "filter",
+                    },
+                  ],
+                  "keepStart": false,
+                  "maximumDistance": 1,
+                  "propertyPath": "ID",
+                  "qualifier": "ProductsHierarchy",
+                },
+                "type": "descendants",
+              },
+            ]
+        `);
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
-          [
-            {
-              "DrillState": "leaf",
-              "ID": "20",
-              "Name": "Red wine",
-            },
-            {
-              "DrillState": "leaf",
-              "ID": "21",
-              "Name": "White wine",
-            },
-            {
-              "DrillState": "collapsed",
-              "ID": "22",
-              "Name": "Sparkling wines",
-            },
-          ]
-      `);
+                      [
+                        {
+                          "DrillState": "leaf",
+                          "ID": "20",
+                          "Name": "Red wine",
+                        },
+                        {
+                          "DrillState": "leaf",
+                          "ID": "21",
+                          "Name": "White wine",
+                        },
+                        {
+                          "DrillState": "collapsed",
+                          "ID": "22",
+                          "Name": "Sparkling wines",
+                        },
+                      ]
+              `);
     });
 });
