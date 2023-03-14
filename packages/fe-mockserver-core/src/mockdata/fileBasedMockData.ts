@@ -336,6 +336,11 @@ export class FileBasedMockData {
                 );
             }
         });
+        this._entityType.navigationProperties.forEach((navigationProperty) => {
+            if (navigationProperty.containsTarget) {
+                outObj[navigationProperty.name] = [];
+            }
+        });
 
         return outObj;
     }
@@ -385,7 +390,7 @@ export class FileBasedMockData {
         actionData: any,
         _keys: Record<string, any>,
         _odataRequest: ODataRequest
-    ): Promise<object> {
+    ): Promise<object | undefined> {
         return actionData;
     }
 

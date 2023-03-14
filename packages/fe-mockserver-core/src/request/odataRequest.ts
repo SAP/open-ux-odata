@@ -367,6 +367,9 @@ export default class ODataRequest {
                     if (actionResponse === null) {
                         this.setResponseData(await this.dataAccess.createData(this, this.requestContent.body));
                         this.statusCode = 201;
+                    } else if (actionResponse === undefined) {
+                        this.setResponseData(actionResponse);
+                        this.statusCode = 204;
                     } else {
                         this.setResponseData(actionResponse);
                     }

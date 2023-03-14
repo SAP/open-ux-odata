@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.4
+
+### Patch Changes
+
+-   7230a33: feat: allow to resolve entity type by their fqdn
+
 ## 0.6.3
 
 ### Patch Changes

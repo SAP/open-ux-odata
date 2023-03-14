@@ -424,4 +424,7 @@ export class ODataV4Requestor extends ODataRequestor {
     public updateData<T>(sEntityPath: string, objectData: any, noJSON: boolean = false): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, 'PATCH').setBody(objectData, noJSON);
     }
+    public callAction<T>(actionPath: string, actionParameters: any, noJSON: boolean = false): ODataV4ObjectRequest<T> {
+        return new ODataV4ObjectRequest<T>(this.odataRootUri, actionPath, {}, 'POST').setBody(actionParameters, noJSON);
+    }
 }

@@ -457,8 +457,10 @@ export type ServiceObject =
     | EntityType
     | Property
     | ComplexType
+    | TypeDefinition
     | NavigationProperty
     | Action
+    | ActionImport
     | EntityContainer;
 export type ServiceObjectAndAnnotation = ServiceObject | AnyAnnotation;
 
@@ -491,7 +493,7 @@ export type ConvertedMetadata = {
     entityTypes: ArrayWithIndex<EntityType, 'name' | 'fullyQualifiedName'>;
     references: Reference[];
     diagnostics: { message: string }[];
-    resolvePath: <T>(path: string, resolveDirectly?: boolean) => ResolutionTarget<T>;
+    resolvePath: <T>(path: string) => ResolutionTarget<T>;
 };
 
 // All the Raw types are meant for usage when providing data to the converter

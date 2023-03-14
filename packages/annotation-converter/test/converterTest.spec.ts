@@ -299,12 +299,37 @@ describe('Annotation Converter', () => {
 
         it('can resolve EntitySet by fully-qualified name', () => {
             const sdManage2: ResolutionTarget<EntitySet> = convertedTypes.resolvePath(
-                convertedTypes.entitySets[40].fullyQualifiedName,
-                true
+                convertedTypes.entitySets[40].fullyQualifiedName
             );
             expect(sdManage2.target).not.toBeNull();
             expect(sdManage2.target?._type).toEqual('EntitySet');
             expect(sdManage2.objectPath.length).toEqual(2); // EntityContainer
+        });
+
+        it('can resolve EntityType (via "fully qualified entity type name")', () => {
+            const sdManageType: ResolutionTarget<EntityType> = convertedTypes.resolvePath(
+                'com.c_salesordermanage_sd.SalesOrderManage'
+            );
+            expect(sdManageType.target).not.toBeNull();
+            expect(sdManageType.target).not.toBeUndefined();
+            expect(sdManageType.target?._type).toEqual('EntityType');
+            expect(sdManageType.objectPath.length).toEqual(1); // EntityType
+
+            const sdManageProperty: ResolutionTarget<Property> = convertedTypes.resolvePath(
+                'com.c_salesordermanage_sd.SalesOrderManage/ImageUrl'
+            );
+            expect(sdManageProperty.target).not.toBeNull();
+            expect(sdManageProperty.target).not.toBeUndefined();
+            expect(sdManageProperty.target?._type).toEqual('Property');
+            expect(sdManageProperty.objectPath.length).toEqual(2); // EntityType / Property
+
+            const sdManageAnnotaiton: ResolutionTarget<LineItem> = convertedTypes.resolvePath(
+                'com.c_salesordermanage_sd.SalesOrderManage/@UI.LineItem'
+            );
+            expect(sdManageAnnotaiton.target).not.toBeNull();
+            expect(sdManageAnnotaiton.target).not.toBeUndefined();
+            expect(sdManageAnnotaiton.target?.term).toEqual(UIAnnotationTerms.LineItem);
+            expect(sdManageAnnotaiton.objectPath.length).toEqual(2); // EntityType / Annotation
         });
 
         it('can resolve EntityType (via "[entityset]/")', () => {
@@ -448,8 +473,7 @@ describe('Annotation Converter', () => {
         it('can resolve NavigationPropertyBinding and checking for the parent with $', () => {
             //"sap.fe.core.Service.EntityContainer/RootEntity/$NavigationPropertyBinding/businessPartner/$"
             const sdNavigationPropBinding: ResolutionTarget<EntitySet> = convertedTypes.resolvePath(
-                'com.c_salesordermanage_sd.EntityContainer/SalesOrderManage/$NavigationPropertyBinding/_DeliveryBlockReason',
-                true
+                'com.c_salesordermanage_sd.EntityContainer/SalesOrderManage/$NavigationPropertyBinding/_DeliveryBlockReason'
             );
             expect(sdNavigationPropBinding.target).not.toBeNull();
             expect(sdNavigationPropBinding.target).not.toBeUndefined();
@@ -457,8 +481,7 @@ describe('Annotation Converter', () => {
             expect(sdNavigationPropBinding.objectPath.length).toEqual(4); // EntityContainer / EntitySet / NavPropBindingArray / EntitySet
 
             const sdNavigationPropBinding2: ResolutionTarget<EntitySet> = convertedTypes.resolvePath(
-                'com.c_salesordermanage_sd.EntityContainer/SalesOrderManage/$NavigationPropertyBinding/_DeliveryBlockReason/$',
-                true
+                'com.c_salesordermanage_sd.EntityContainer/SalesOrderManage/$NavigationPropertyBinding/_DeliveryBlockReason/$'
             );
             expect(sdNavigationPropBinding2.target).not.toBeNull();
             expect(sdNavigationPropBinding2.target).not.toBeUndefined();
@@ -629,6 +652,12 @@ describe('Annotation Converter', () => {
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].$Type).toEqual(
             CommonAnnotationTypes.SideEffectsType
         );
+        expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].value).toEqual(
+            ''
+        );
+        expect(
+            (sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].$target
+        ).toEqual(undefined);
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange']).not.toBeNull();
         expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].TargetProperties[0]).toEqual(
             'IncotermsLocation1'

@@ -1,5 +1,31 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.63
+
+### Patch Changes
+
+-   Updated dependencies [7230a33]
+    -   @sap-ux/annotation-converter@0.6.4
+    -   @sap-ux/edmx-parser@0.5.13
+
+## 1.1.62
+
+### Patch Changes
+
+-   0c1ec3e: The mockserver now allows to use actions that do not return a value
+
+## 1.1.61
+
+### Patch Changes
+
+-   4050889: Empty navigation path will now lead to empty target
+
+## 1.1.60
+
+### Patch Changes
+
+-   4e3aca0: Lenient create
+
 ## 1.1.59
 
 ### Patch Changes

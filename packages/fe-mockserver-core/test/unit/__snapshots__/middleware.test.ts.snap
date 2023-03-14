@@ -3,7 +3,7 @@
 exports[`V4 Requestor can create data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
+  "@odata.metadataEtag": "W/"5f65-P8siAqcLFztkvF0c1BTxYtFrvVo"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 555,
@@ -20,7 +20,7 @@ exports[`V4 Requestor can create data through a call 1`] = `
 exports[`V4 Requestor can create data through a call 2`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
+  "@odata.metadataEtag": "W/"5f65-P8siAqcLFztkvF0c1BTxYtFrvVo"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 666,
@@ -157,6 +157,9 @@ exports[`V4 Requestor can get the metadata 1`] = `
       <Action Name="boundAction3" IsBound="true" EntitySetPath="self">
         <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
         <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
+      </Action>
+      <Action Name="boundActionReturnsVoid" IsBound="true">
+        <Parameter Name="in" Type="sap.fe.core.ActionVisibility.RootElement"/>
       </Action>
       <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="sap.fe.core.ActionVisibility.RootElement"/>
@@ -565,7 +568,7 @@ exports[`V4 Requestor can reload the data 1`] = `
 exports[`V4 Requestor can update data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
+  "@odata.metadataEtag": "W/"5f65-P8siAqcLFztkvF0c1BTxYtFrvVo"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -582,7 +585,7 @@ exports[`V4 Requestor can update data through a call 1`] = `
 exports[`V4 Requestor can update data through a call 2`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
+  "@odata.metadataEtag": "W/"5f65-P8siAqcLFztkvF0c1BTxYtFrvVo"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -601,7 +604,7 @@ exports[`V4 Requestor can update data through a call 3`] = `"Cannot convert unde
 exports[`V4 Requestor can update data through a call 4`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
+  "@odata.metadataEtag": "W/"5f65-P8siAqcLFztkvF0c1BTxYtFrvVo"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -618,7 +621,7 @@ exports[`V4 Requestor can update data through a call 4`] = `
 exports[`V4 Requestor get one data 1`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
+  "@odata.metadataEtag": "W/"5f65-P8siAqcLFztkvF0c1BTxYtFrvVo"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,
@@ -637,7 +640,7 @@ exports[`V4 Requestor get one data 2`] = `""`;
 exports[`V4 Requestor get one data 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"5eca-S4loLm2mnROdb6MLU94VQPWBjMI"",
+  "@odata.metadataEtag": "W/"5f65-P8siAqcLFztkvF0c1BTxYtFrvVo"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,

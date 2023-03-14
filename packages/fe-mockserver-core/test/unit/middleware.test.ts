@@ -85,6 +85,16 @@ describe('V4 Requestor', function () {
         const dataRes2 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes2.length).toBe(4);
     });
+    it('can execute an action without return type', async () => {
+        const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataRes = await dataRequestor
+            .callAction(
+                '/RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.boundActionReturnsVoid',
+                {}
+            )
+            .execute('POST');
+        expect(dataRes).toMatchInlineSnapshot(`""`);
+    });
     it('can get the metadata', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.getMetadata().execute();
