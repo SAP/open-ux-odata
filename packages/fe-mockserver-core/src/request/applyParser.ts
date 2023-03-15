@@ -368,7 +368,7 @@ export class ApplyParser extends FilterParser {
                         this.CONSUME(WITH_TOKEN);
                         this.CONSUME3(WS);
                         operator = this.CONSUME(AGGREGATE_FUNCTION).image;
-                        //let sourceProperty = aggregateExpr;
+
                         this.OPTION3(() => {
                             this.CONSUME4(WS);
                             this.CONSUME(FROM_TOKEN);
