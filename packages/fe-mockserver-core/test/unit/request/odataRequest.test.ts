@@ -442,6 +442,36 @@ describe('OData Request', () => {
               },
             ]
         `);
+        const chartRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/RootEntity?entitySet=Service.RootEntity&$apply=groupby((SalesOrganization,SalesOrganizationText),aggregate(NetPricing%20with%20sum%20as%20totalPricing))'
+            },
+            fakeDataAccess
+        );
+        expect(chartRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "groupBy": [
+                  "SalesOrganization",
+                  "SalesOrganizationText",
+                ],
+                "subTransformations": [
+                  {
+                    "aggregateDef": [
+                      {
+                        "name": "totalPricing",
+                        "operator": "sum",
+                        "sourceProperty": "NetPricing",
+                      },
+                    ],
+                    "type": "aggregates",
+                  },
+                ],
+                "type": "groupBy",
+              },
+            ]
+        `);
     });
 
     // $filter

@@ -53,4 +53,11 @@ export const SKIP_TOKEN = createToken({ name: 'Skip', pattern: /skip/ });
 export const GROUPBY_TOKEN = createToken({ name: 'GroupBy', pattern: /groupby/ });
 export const SEARCH_TOKEN = createToken({ name: 'Search', pattern: /search/ });
 export const AGGREGATE_TOKEN = createToken({ name: 'Aggregate', pattern: /aggregate/ });
+export const WITH_TOKEN = createToken({ name: 'With', pattern: /with/ });
+export const FROM_TOKEN = createToken({ name: 'From', pattern: /from/ });
+export const AS_TOKEN = createToken({ name: 'As', pattern: /as/ });
+export const AGGREGATE_FUNCTION = createToken({
+    name: 'Aggregate Functions',
+    pattern: /sum|min|max|countdistinct|average/
+});
 export const ROOT_TOKEN = createToken({ name: 'Root Token', pattern: /\$root\// });
