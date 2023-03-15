@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.64
+
+### Patch Changes
+
+-   d6edb21: Experimental support for hierarchial structure
+
 ## 1.1.63
 
 ### Patch Changes
