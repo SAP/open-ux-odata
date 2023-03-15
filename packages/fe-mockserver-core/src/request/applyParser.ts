@@ -361,7 +361,7 @@ export class ApplyParser extends FilterParser {
                 SEP: COMMA,
                 DEF: () => {
                     const sourceProperty = this.CONSUME(SIMPLEIDENTIFIER).image;
-                    let operator = 'custom';
+                    let operator: string | undefined;
                     let alias = sourceProperty;
                     this.OPTION2(() => {
                         this.CONSUME2(WS);
