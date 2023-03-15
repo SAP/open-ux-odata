@@ -438,12 +438,13 @@ function parseValue(
         case 'Date':
             return propertyValue.Date;
         case 'EnumMember':
-            const aliasedEnum = converter.alias(propertyValue.EnumMember);
-            const splitEnum = aliasedEnum.split(' ');
-            if (splitEnum[0] && EnumIsFlag[substringBeforeFirst(splitEnum[0], '/')]) {
+            const splitEnum = propertyValue.EnumMember.split(' ').map((enumValue) =>
+                converter.toDefaultAlias(enumValue)
+            );
+            if (splitEnum[0] !== undefined && EnumIsFlag[substringBeforeFirst(splitEnum[0], '/')]) {
                 return splitEnum;
             }
-            return aliasedEnum;
+            return splitEnum[0];
 
         case 'PropertyPath':
             return {
@@ -851,17 +852,6 @@ function isV4NavigationProperty(
     return !!(navProp as BaseNavigationProperty).targetTypeName;
 }
 
-/**
- * Split the alias from the term value.
- *
- * @param references the current set of references
- * @param termValue the value of the term
- * @returns the term alias and the actual term value
- */
-function splitTerm(references: ReferencesWithMap, termValue: string) {
-    return splitAtLast(alias(references, termValue), '.');
-}
-
 function convertAnnotation(converter: Converter, target: any, rawAnnotation: RawAnnotation): Annotation {
     let annotation: any;
     if (rawAnnotation.record) {
@@ -1133,12 +1123,20 @@ class Converter {
         this.convertedOutput.diagnostics.push({ message });
     }
 
+    /**
+     * Split the alias from the term value.
+     *
+     * @param term the value of the term
+     * @returns the term alias and the actual term value
+     */
     splitTerm(term: string) {
-        return splitTerm(this.rawMetadata.references, term);
+        const aliased = alias(VocabularyReferences, term);
+        return splitAtLast(aliased, '.');
     }
 
-    alias(value: string) {
-        return alias(this.rawMetadata.references, value);
+    toDefaultAlias(value: string) {
+        const unaliased = unalias(this.rawMetadata.references, value) ?? '';
+        return alias(VocabularyReferences, unaliased);
     }
 
     unalias(value: string | undefined) {
