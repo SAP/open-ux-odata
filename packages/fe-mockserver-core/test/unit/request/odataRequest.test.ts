@@ -383,7 +383,7 @@ describe('OData Request', () => {
                     "aggregateDef": [
                       {
                         "name": "CreditScore",
-                        "operator": "custom",
+                        "operator": undefined,
                         "sourceProperty": "CreditScore",
                       },
                     ],
@@ -431,7 +431,7 @@ describe('OData Request', () => {
                     "aggregateDef": [
                       {
                         "name": "CreditScore",
-                        "operator": "custom",
+                        "operator": undefined,
                         "sourceProperty": "CreditScore",
                       },
                     ],
