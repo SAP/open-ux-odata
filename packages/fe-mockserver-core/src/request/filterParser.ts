@@ -1,37 +1,25 @@
-import { createToken, EmbeddedActionsParser, Lexer } from 'chevrotain';
+import type { IParserConfig } from 'chevrotain';
+import { EmbeddedActionsParser, Lexer } from 'chevrotain';
+import {
+    TYPEDEF,
+    COMMA,
+    COLON,
+    SLASH,
+    ANYALL,
+    ANDOR,
+    WS,
+    CLOSE,
+    BOOL_METHOD,
+    SIMPLE_METHOD,
+    LOGICAL_OPERATOR,
+    SIMPLEIDENTIFIER,
+    LITERAL,
+    COMPLEX_METHOD
+} from './commonTokens';
+import { OPEN } from './commonTokens';
 
 // ----------------- Lexer -----------------
 
-const OPEN = createToken({ name: 'OPEN', pattern: /(:?\(|%28)/ });
-const CLOSE = createToken({ name: 'CLOSE', pattern: /(:?\)|%29)/ });
-const COMMA = createToken({ name: 'COMMA', pattern: /(:?,|%2C)/ });
-const SLASH = createToken({ name: 'SLASH', pattern: /\// });
-const ANYALL = createToken({ name: 'COMMA', pattern: /(:?any|all)\(/ });
-const COLON = createToken({ name: 'COLON', pattern: /(:?:|%3A)/ });
-const SIMPLEIDENTIFIER = createToken({ name: 'SimpleIdentifier', pattern: /\w{1,128}/ });
-const SIMPLE_METHOD = createToken({
-    name: 'SIMPLE_METHOD',
-    pattern: /(:?length|tolower|toupper|trim|round|floor|ceiling)/
-});
-const COMPLEX_METHOD = createToken({
-    name: 'COMPLEX_METHOD',
-    pattern: /(:?concat|contains|endswith|indexof|matchesPattern|startswith|substringof|substring|cast)/
-});
-const BOOL_METHOD = createToken({
-    name: 'BOOL_METHOD',
-    pattern: /(:?contains|endswith|startswith)/
-});
-const TYPEDEF = createToken({ name: 'Typedef', pattern: /Edm\.[a-zA-Z]+/ });
-// null, boolean, guid, dateTimeInOffset / dateValue / timeOfDay / decimalValue / doubleValue / singleValue / string / duration / enum / binary
-const LITERAL = createToken({
-    name: 'Literal',
-    pattern:
-        /(:?null|true|false|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|guid(:?'|%27)[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:?'|%27)|datetime'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})*'|\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:.\d{3}Z|\+\d{2}:\d{2}))*|-?(:?0|[1-9]\d*)(\.\d+)?(:?[eE][+-]?\d+)?|'[^\\"\n\r\']*')/
-});
-//ee1a9172-f3c3-47ce-b0f7-dd28c740210c
-const LOGICAL_OPERATOR = createToken({ name: 'Logical', pattern: /(:?eq|ne|lt|le|gt|ge)/ });
-const ANDOR = createToken({ name: 'AndOr', pattern: /\s(:?and|or)\s/ });
-const WS = createToken({ name: 'Whitespace', pattern: /\s+/ });
 const filterTokens = [
     OPEN,
     CLOSE,
@@ -88,10 +76,13 @@ export class FilterParser extends EmbeddedActionsParser {
     literalOrIdentifier: CstRule<string>;
     lambdaOperator: CstRule<LambdaExpression>;
     memberExpr: CstRule<string>;
-    constructor() {
-        super(filterTokens, {
+    constructor(
+        tokens = filterTokens,
+        config: IParserConfig = {
             recoveryEnabled: true
-        });
+        }
+    ) {
+        super(tokens, config);
 
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const $ = this;
@@ -357,7 +348,9 @@ export class FilterParser extends EmbeddedActionsParser {
             }
             return { expressions: [subExpr] };
         });
-        this.performSelfAnalysis();
+        if (tokens === filterTokens) {
+            this.performSelfAnalysis();
+        }
     }
 }
 

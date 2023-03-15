@@ -145,7 +145,6 @@ export type IfAnnotationExpressionValue<OutType> = [ConditionalCheck, OutType, O
 export type IfAnnotationExpression<P> = {
     type: 'If';
     If: IfAnnotationExpressionValue<P>;
-    getValue(): P;
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AndAnnotationExpression<P> = {

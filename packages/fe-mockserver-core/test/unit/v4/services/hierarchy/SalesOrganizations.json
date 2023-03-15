@@ -1,0 +1,41 @@
+[
+    {
+        "ID": "Sales",
+        "Name": "Corporate Sales"
+    },
+    {
+        "ID": "EMEA",
+        "Parent": "Sales",
+        "Name": "EMEA"
+    },
+    {
+        "ID": "EMEA Central",
+        "Parent": "EMEA",
+        "Name": "EMEA Central"
+    },
+    {
+        "ID": "US",
+        "Parent": "Sales",
+        "Name": "US"
+    },
+    {
+        "ID": "US West",
+        "Parent": "US",
+        "Name": "US West"
+    },
+    {
+        "ID": "US East",
+        "Parent": "US",
+        "Name": "US East"
+    },
+    {
+        "ID": "NY",
+        "Parent": "US East",
+        "Name": "New York State"
+    },
+    {
+        "ID": "NYC",
+        "Parent": "NY",
+        "Name": "New York City"
+    }
+]

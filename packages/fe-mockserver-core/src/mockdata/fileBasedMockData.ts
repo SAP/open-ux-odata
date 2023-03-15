@@ -11,6 +11,7 @@ import type {
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import type ODataRequest from '../request/odataRequest';
 import { isComplexTypeDefinition } from '@sap-ux/annotation-converter';
+import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
@@ -41,6 +42,7 @@ function performSimpleComparison(operator: string, mockValue: any, targetLiteral
 }
 export class FileBasedMockData {
     protected _mockData: object[];
+    protected _hierarchyTree: Record<string, Record<string, any>> = {};
     protected _entityType: EntityType;
     protected _mockDataEntitySet: EntitySetInterface;
     protected _contextId: string;
@@ -64,7 +66,11 @@ export class FileBasedMockData {
 
     private validateProperties(mockEntry: any, properties: Property[]) {
         properties.forEach((prop) => {
-            if (!prop.nullable && !mockEntry.hasOwnProperty(prop.name)) {
+            if (
+                !prop.nullable &&
+                !mockEntry.hasOwnProperty(prop.name) &&
+                prop.annotations.Core?.Computed?.valueOf() !== true
+            ) {
                 mockEntry[prop.name] = this.getDefaultValueFromType(prop.type, prop.targetType, prop.defaultValue);
             } else if (mockEntry.hasOwnProperty(prop.name) && isComplexTypeDefinition(prop.targetType)) {
                 // If the property is defined from a complex type we should validate the property of the complex type
@@ -493,5 +499,509 @@ export class FileBasedMockData {
         _navigationProperty: NavigationProperty
     ): Promise<PartialReferentialConstraint[] | undefined> {
         return undefined;
+    }
+    buildTree(
+        hierarchyNode: any,
+        allItems: Record<string, any[]>,
+        idNode: string,
+        parentIdentifier: string,
+        depth: number = 0,
+        parentNode: any
+    ): any {
+        const id = hierarchyNode[idNode];
+        const children = allItems[id];
+        const resultingChildren: any[] = [];
+        if (children) {
+            for (const child of children) {
+                //if (child.$inResultSet === true || child.$inResultSet === undefined) {
+                resultingChildren.push(
+                    this.buildTree(child, allItems, idNode, parentIdentifier, depth + 1, hierarchyNode)
+                );
+                //}
+            }
+        }
+        hierarchyNode.$parent = parentNode;
+        hierarchyNode.$children = resultingChildren;
+        hierarchyNode.$rootDistance = depth;
+        return hierarchyNode;
+    }
+    buildHierarchyTree(hierarchyQualifier: string, inputSet: any[]) {
+        //if (!this._hierarchyTree[hierarchyQualifier]) {
+        const itemPerParents: Record<string, any[]> = {};
+        const aggregationAnnotation =
+            this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
+        const sourceReference =
+            aggregationAnnotation!.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+
+        inputSet.forEach((item: any) => {
+            if (!itemPerParents[item[sourceReference]]) {
+                itemPerParents[item[sourceReference]] = [];
+            }
+            itemPerParents[item[sourceReference]].push(item);
+        });
+        this._hierarchyTree[hierarchyQualifier] = itemPerParents;
+
+        return this._hierarchyTree[hierarchyQualifier];
+    }
+    flattenTree(
+        currentNode: any,
+        outItems: any[],
+        nodeProperty: string,
+        distanceFromRootProperty: string | undefined,
+        limitedDescendantCount: string | undefined,
+        matchedDescendantCountProperty: string | undefined,
+        drillStateProperty: string | undefined,
+        depth: number,
+        toExpand: string[] = [],
+        toCollapse: string[] = [],
+        toShow: string[] = [],
+        toShowAncestors: string[] = [],
+        forceExpand: boolean = false
+    ) {
+        let descendantCount = 0;
+        const shouldShowAncestor = toShowAncestors.includes(currentNode[nodeProperty]);
+        if (currentNode && (depth < 0 || depth > 0 || forceExpand || shouldShowAncestor)) {
+            const shouldExpand = toExpand.includes(currentNode[nodeProperty]);
+            if (shouldExpand) {
+                depth++;
+            }
+
+            const shouldShow = toShow.includes(currentNode[nodeProperty]);
+            if (shouldShowAncestor && !shouldExpand) {
+                forceExpand = true;
+            }
+            if (shouldShow && !shouldShowAncestor) {
+                depth = 1;
+            }
+            const shouldCollapse = toCollapse.includes(currentNode[nodeProperty]);
+            if (shouldCollapse) {
+                depth = 1;
+            }
+            const isLastLevel = depth === 1;
+            const isPastLastLevel = depth === 0;
+            let wasAdded = false;
+            if (
+                !outItems.includes(currentNode) &&
+                (!isPastLastLevel || !forceExpand || shouldShow || shouldShowAncestor)
+            ) {
+                wasAdded = true;
+                outItems.push(currentNode);
+            }
+
+            if (distanceFromRootProperty) {
+                currentNode[distanceFromRootProperty] = currentNode.$rootDistance;
+            }
+
+            if (drillStateProperty) {
+                if (isLastLevel && currentNode.$children?.length === 0) {
+                    currentNode[drillStateProperty] = 'leaf';
+                } else if (isLastLevel && !shouldShowAncestor) {
+                    currentNode[drillStateProperty] = 'collapsed';
+                } else {
+                    currentNode[drillStateProperty] = 'expanded';
+                }
+            }
+            const children = currentNode.$children ?? [];
+            children.forEach((child: any) => {
+                descendantCount += this.flattenTree(
+                    child,
+                    outItems,
+                    nodeProperty,
+                    distanceFromRootProperty,
+                    limitedDescendantCount,
+                    matchedDescendantCountProperty,
+                    drillStateProperty,
+                    depth - 1,
+                    toExpand,
+                    toCollapse,
+                    toShow,
+                    toShowAncestors,
+                    forceExpand
+                );
+            });
+            if (limitedDescendantCount) {
+                currentNode[limitedDescendantCount] = isLastLevel && !shouldShowAncestor ? 0 : descendantCount;
+            }
+
+            if (currentNode.$inResultSet && wasAdded) {
+                descendantCount++;
+            }
+            return descendantCount;
+        }
+        return descendantCount;
+    }
+
+    getAncestorsOfNode(
+        currentNode: any,
+        outItems: any[],
+        nodeProperty: string,
+        distanceFromRootProperty: string | undefined,
+        matchedDescendantsProperty: string | undefined,
+        matchedProperty: string | undefined,
+        drillStateProperty: string | undefined,
+        depth: number,
+        matchedChildrenCount: number,
+        matchedProperties: any[]
+    ) {
+        let descendantCount = 0;
+        if (currentNode && (depth < 0 || depth > 0)) {
+            const isLastLevel = depth === 1;
+            if (outItems.includes(currentNode)) {
+                if (matchedDescendantsProperty) {
+                    currentNode[matchedDescendantsProperty] += matchedChildrenCount;
+                }
+            } else {
+                outItems.push(currentNode);
+
+                if (matchedDescendantsProperty) {
+                    currentNode[matchedDescendantsProperty] = matchedChildrenCount;
+                }
+                if (matchedProperty) {
+                    currentNode[matchedProperty] = !!matchedProperties.find(
+                        (prop) => prop[nodeProperty] === currentNode[nodeProperty]
+                    );
+                    if (currentNode[matchedProperty]) {
+                        matchedChildrenCount++;
+                    }
+                }
+                if (distanceFromRootProperty) {
+                    currentNode[distanceFromRootProperty] = currentNode.$rootDistance;
+                }
+
+                if (drillStateProperty) {
+                    const includedChildrenCount =
+                        currentNode.$children?.filter((child: any) => child.$inResultSet).length ?? 0;
+                    if (isLastLevel && includedChildrenCount === 0) {
+                        currentNode[drillStateProperty] = 'leaf';
+                    } else if (isLastLevel) {
+                        currentNode[drillStateProperty] = 'collapsed';
+                    } else {
+                        currentNode[drillStateProperty] = 'expanded';
+                    }
+                }
+            }
+            if (currentNode.$parent) {
+                this.getAncestorsOfNode(
+                    currentNode.$parent,
+                    outItems,
+                    nodeProperty,
+                    distanceFromRootProperty,
+                    matchedDescendantsProperty,
+                    matchedProperty,
+                    drillStateProperty,
+                    depth - 1,
+                    matchedChildrenCount,
+                    matchedProperties
+                );
+            }
+
+            descendantCount++; // also include yourself
+            return descendantCount;
+        }
+        return descendantCount;
+    }
+
+    async getTopLevels(data: any[], _parameters: TopLevelParameters, _odataRequest: ODataRequest) {
+        const hierarchyQualifier = _parameters.HierarchyQualifier.substring(
+            1,
+            _parameters.HierarchyQualifier.length - 1
+        );
+
+        const outItems: any[] = [];
+        const aggregationAnnotation =
+            this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
+        if (aggregationAnnotation) {
+            const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
+
+            const adjustedData = this._mockData.map((item: any) => {
+                const adjustedRowData = data.find((dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]);
+                if (adjustedRowData) {
+                    return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
+                } else {
+                    return { ...item, ...{ $inResultSet: false } };
+                }
+            });
+            const hierarchyNodes = this.buildHierarchyTree(hierarchyQualifier, adjustedData);
+            const sourceReference =
+                aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+            // TODO Considering the input set the top level node is not necessarely the root node
+            const allRootNodes = adjustedData.filter((node) => {
+                const parent = adjustedData.find((parent) => parent[nodeProperty] === node[sourceReference]);
+                return !parent || !parent.$inResultSet;
+            });
+
+            const depth: number = parseInt(_parameters.Levels, 10);
+
+            const hierarchyAnnotation = this._entityType.annotations?.Hierarchy?.[
+                `RecursiveHierarchy#${hierarchyQualifier}`
+            ] as any;
+            let distanceFromRootProperty: string | undefined;
+            let matchedDescendantCountProperty: string | undefined;
+            let limitedDescendantCountProperty: string | undefined;
+            let drillStateProperty: string | undefined;
+            if (hierarchyAnnotation) {
+                distanceFromRootProperty = hierarchyAnnotation.DistanceFromRootProperty?.$target.name;
+                limitedDescendantCountProperty = hierarchyAnnotation.LimitedDescendantCountProperty?.$target.name;
+                matchedDescendantCountProperty = hierarchyAnnotation.MatchedDescendantCountProperty?.$target.name;
+                drillStateProperty = hierarchyAnnotation.DrillStateProperty?.$target.name;
+            }
+
+            const toExpand = _parameters.Expand?.map((expand) => expand.substring(1, expand.length - 1)) ?? [];
+            const toShow = _parameters.Show?.map((collapse) => collapse.substring(1, collapse.length - 1)) ?? [];
+            const toShowAncestors: string[] = [];
+            for (const nodeId of toShow) {
+                const node = this._mockData.find((node: any) => node[nodeProperty] === nodeId);
+                if (node) {
+                    const toShowAncestorsDef = await this.getAncestors(
+                        this._mockData,
+                        this._mockData,
+                        [node],
+                        this._entityType,
+                        {
+                            hierarchyRoot: '',
+                            qualifier: hierarchyQualifier,
+                            propertyPath: '',
+                            maximumDistance: -1,
+                            keepStart: false,
+                            inputSetTransformations: []
+                        },
+                        _odataRequest
+                    );
+                    toShowAncestorsDef.forEach((ancestor: any) => {
+                        toShowAncestors.push(ancestor[nodeProperty]);
+                    });
+                }
+            }
+            allRootNodes.forEach((rootNode) => {
+                const hierarchy = this.buildTree(rootNode, hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
+                this.flattenTree(
+                    hierarchy,
+                    outItems,
+                    nodeProperty,
+                    distanceFromRootProperty,
+                    limitedDescendantCountProperty,
+                    matchedDescendantCountProperty,
+                    drillStateProperty,
+                    depth,
+                    toExpand,
+                    _parameters.Collapse?.map((collapse) => collapse.substring(1, collapse.length - 1)),
+                    toShow,
+                    toShowAncestors
+                );
+            });
+
+            let outData: object[] = [];
+            outItems.forEach((item: any) => {
+                const subTreeData = data.find((dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]);
+                if (subTreeData) {
+                    if (
+                        matchedDescendantCountProperty &&
+                        drillStateProperty &&
+                        item[matchedDescendantCountProperty] === 0
+                    ) {
+                        item[drillStateProperty] = 'leaf';
+                    }
+                    outData.push({ ...subTreeData, ...item });
+                } else if (toShow.includes(item[nodeProperty]) || toShowAncestors.includes(item[nodeProperty])) {
+                    outData.push(item);
+                }
+            });
+            // restrict tree data with skiplocation && skipcontext
+            if (_odataRequest.skipLocation) {
+                let skipLocation = _odataRequest.skipLocation.split('(')[1].split(')')[0];
+                skipLocation = skipLocation.substring(1, skipLocation.length - 1);
+                const skipLocationIndex = outData.findIndex((item: any) => item[nodeProperty] === skipLocation);
+                if (skipLocationIndex >= _odataRequest.skipContext) {
+                    outData = outData.slice(skipLocationIndex - _odataRequest.skipContext);
+                    _odataRequest.addResponseAnnotation(
+                        '@com.sap.vocabularies.Common.v1.skip',
+                        skipLocationIndex - _odataRequest.skipContext
+                    );
+                }
+            }
+
+            return outData;
+        }
+        return outItems;
+    }
+
+    async getDescendants(
+        inputSet: object[],
+        lastFilterTransformationResult: object[],
+        hierarchyFilter: object[],
+        entityType: EntityType,
+        _parameters: AncestorDescendantsParameters,
+        _odataRequest: ODataRequest
+    ): Promise<object[]> {
+        const aggregationAnnotation =
+            this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${_parameters.qualifier}`];
+        const hierarchyAnnotation = this._entityType.annotations?.Hierarchy?.[
+            `RecursiveHierarchy#${_parameters.qualifier}`
+        ] as any;
+        let distanceFromRootProperty: string | undefined;
+        let limitedDescendantCountProperty: string | undefined;
+        let matchedDescendantCountProperty: string | undefined;
+        let drillStateProperty: string | undefined;
+        let matchedProperty: string | undefined;
+        if (hierarchyAnnotation) {
+            distanceFromRootProperty = hierarchyAnnotation.DistanceFromRootProperty?.$target.name;
+            limitedDescendantCountProperty = hierarchyAnnotation.LimitedDescendantCountProperty?.$target.name;
+            matchedDescendantCountProperty = hierarchyAnnotation.MatchedDescendantCountProperty?.$target.name;
+            drillStateProperty = hierarchyAnnotation.DrillStateProperty?.$target.name;
+            matchedProperty = hierarchyAnnotation.MatchedProperty?.$target.name;
+        }
+
+        if (aggregationAnnotation) {
+            const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
+            const adjustedData = this._mockData.map((item: any) => {
+                const adjustedRowData = hierarchyFilter.find(
+                    (dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]
+                );
+                if (adjustedRowData) {
+                    return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
+                } else {
+                    return { ...item, ...{ $inResultSet: false } };
+                }
+            });
+            const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData);
+            const sourceReference =
+                aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+            const rootNodes = hierarchyNodes[''];
+            rootNodes.forEach((rootNode: any) => {
+                this.buildTree(rootNode, hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
+            });
+
+            const subTrees: object[] = [];
+            hierarchyFilter.forEach((item: any) => {
+                const parentNodeChildren = hierarchyNodes[item[sourceReference]];
+                const currentNode = parentNodeChildren.find((node: any) => node[nodeProperty] === item[nodeProperty]);
+                if (_parameters.keepStart) {
+                    if (matchedProperty) {
+                        // TODO compare with lastFilterTransformationResult
+                        currentNode[matchedProperty] = true;
+                    }
+                    subTrees.push(currentNode);
+                }
+                currentNode.$children.forEach((child: any) => {
+                    this.flattenTree(
+                        child,
+                        subTrees,
+                        nodeProperty,
+                        distanceFromRootProperty,
+                        limitedDescendantCountProperty,
+                        matchedDescendantCountProperty,
+                        drillStateProperty,
+                        _parameters.maximumDistance
+                    );
+                });
+            });
+            const outData: object[] = [];
+            inputSet.forEach((item: any) => {
+                const subTreeData: any = subTrees.find(
+                    (dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]
+                );
+                if (subTreeData) {
+                    if (
+                        matchedDescendantCountProperty &&
+                        drillStateProperty &&
+                        item[matchedDescendantCountProperty] === 0
+                    ) {
+                        subTreeData[drillStateProperty] = 'leaf';
+                    }
+                    outData.push({ ...item, ...subTreeData });
+                }
+            });
+            return outData;
+        } else {
+            return [];
+        }
+    }
+
+    async getAncestors(
+        inputSet: object[],
+        lastFilterTransformationResult: object[],
+        limitedHierarchy: object[],
+        entityType: EntityType,
+        _parameters: AncestorDescendantsParameters,
+        _odataRequest: ODataRequest
+    ): Promise<object[]> {
+        const aggregationAnnotation =
+            this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${_parameters.qualifier}`];
+        const hierarchyAnnotation = this._entityType.annotations?.Hierarchy?.[
+            `RecursiveHierarchy#${_parameters.qualifier}`
+        ] as any;
+        let distanceFromRootProperty: string | undefined;
+        let matchedDescendantCountProperty: string | undefined;
+        let matchedProperty: string | undefined;
+        let drillStateProperty: string | undefined;
+        if (hierarchyAnnotation) {
+            distanceFromRootProperty = hierarchyAnnotation.DistanceFromRootProperty?.$target.name;
+            drillStateProperty = hierarchyAnnotation.DrillStateProperty?.$target.name;
+            matchedDescendantCountProperty = hierarchyAnnotation.MatchedDescendantCountProperty?.$target.name;
+            matchedProperty = hierarchyAnnotation.MatchedProperty?.$target.name;
+        }
+
+        if (aggregationAnnotation) {
+            const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
+            const sourceReference =
+                aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+            const adjustedData = this._mockData.map((item: any) => {
+                const adjustedRowData = limitedHierarchy.find(
+                    (dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]
+                );
+                if (adjustedRowData) {
+                    return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
+                } else {
+                    return { ...item, ...{ $inResultSet: false } };
+                }
+            });
+            const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData);
+            const rootNodes = hierarchyNodes[''];
+            rootNodes.forEach((rootNode: any) => {
+                this.buildTree(rootNode, hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
+            });
+            const ancestors: any[] = [];
+            limitedHierarchy.forEach((item: any) => {
+                const parentNodeChildren = hierarchyNodes[item[sourceReference]];
+                const currentNode = parentNodeChildren.find((node: any) => node[nodeProperty] === item[nodeProperty]);
+                if (_parameters.keepStart) {
+                    this.getAncestorsOfNode(
+                        currentNode,
+                        ancestors,
+                        nodeProperty,
+                        distanceFromRootProperty,
+                        matchedDescendantCountProperty,
+                        matchedProperty,
+                        drillStateProperty,
+                        _parameters.maximumDistance - 1,
+                        0,
+                        lastFilterTransformationResult
+                    );
+                } else if (currentNode && currentNode.$parent) {
+                    this.getAncestorsOfNode(
+                        currentNode.$parent,
+                        ancestors,
+                        nodeProperty,
+                        distanceFromRootProperty,
+                        matchedDescendantCountProperty,
+                        matchedProperty,
+                        drillStateProperty,
+                        _parameters.maximumDistance - 1,
+                        1,
+                        lastFilterTransformationResult
+                    );
+                }
+            });
+            const outData: object[] = [];
+            inputSet.forEach((item: any) => {
+                const subTreeData = ancestors.find((dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]);
+                if (subTreeData) {
+                    outData.push({ ...item, ...subTreeData });
+                }
+            });
+            return outData;
+        } else {
+            return [];
+        }
     }
 }
