@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.65
+
+### Patch Changes
+
+-   2da31ba: Fix an issue with complex aggregate queries
+
 ## 1.1.64
 
 ### Patch Changes
