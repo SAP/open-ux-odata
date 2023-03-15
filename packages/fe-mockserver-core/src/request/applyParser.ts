@@ -372,7 +372,7 @@ export class ApplyParser extends FilterParser {
                         this.OPTION3(() => {
                             this.CONSUME4(WS);
                             this.CONSUME(FROM_TOKEN);
-                            this.CONSUME2(SIMPLEIDENTIFIER).image;
+                            this.CONSUME2(SIMPLEIDENTIFIER);
                         });
                         this.CONSUME5(WS);
                         this.CONSUME(AS_TOKEN);
