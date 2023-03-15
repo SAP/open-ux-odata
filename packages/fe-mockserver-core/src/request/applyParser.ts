@@ -33,7 +33,11 @@ import {
     CLOSE_BRACKET,
     SEARCH_TOKEN,
     QUOTE,
-    ROOT_TOKEN
+    ROOT_TOKEN,
+    WITH_TOKEN,
+    AGGREGATE_FUNCTION,
+    AS_TOKEN,
+    FROM_TOKEN
 } from './commonTokens';
 
 // ----------------- Lexer -----------------
@@ -57,6 +61,10 @@ const applyTokens = [
     SKIP_TOKEN,
     GROUPBY_TOKEN,
     AGGREGATE_TOKEN,
+    WITH_TOKEN,
+    AS_TOKEN,
+    FROM_TOKEN,
+    AGGREGATE_FUNCTION,
     COLON,
     SLASH,
     ANYALL,
@@ -320,8 +328,7 @@ export class ApplyParser extends FilterParser {
             this.OPTION(() => this.CONSUME(WS));
             this.CONSUME2(OPEN);
             this.OPTION2(() => this.CONSUME2(WS));
-            const groupBy = [];
-            groupBy.push(this.CONSUME(SIMPLEIDENTIFIER).image);
+            const groupBy: string[] = [];
             this.OPTION3(() => {
                 this.MANY_SEP({
                     SEP: COMMA,
@@ -349,15 +356,38 @@ export class ApplyParser extends FilterParser {
             this.CONSUME(AGGREGATE_TOKEN);
             this.CONSUME(OPEN);
             this.OPTION(() => this.CONSUME(WS));
-            const property = this.CONSUME(SIMPLEIDENTIFIER);
-            const aggregates = [
-                {
-                    name: property.image,
-                    operator: undefined,
-                    sourceProperty: property.image
+            const aggregates: AggregateProperty[] = [];
+            this.MANY_SEP({
+                SEP: COMMA,
+                DEF: () => {
+                    const sourceProperty = this.CONSUME(SIMPLEIDENTIFIER).image;
+                    let operator = 'custom';
+                    let alias = sourceProperty;
+                    this.OPTION2(() => {
+                        this.CONSUME2(WS);
+                        this.CONSUME(WITH_TOKEN);
+                        this.CONSUME3(WS);
+                        operator = this.CONSUME(AGGREGATE_FUNCTION).image;
+                        //let sourceProperty = aggregateExpr;
+                        this.OPTION3(() => {
+                            this.CONSUME4(WS);
+                            this.CONSUME(FROM_TOKEN);
+                            this.CONSUME2(SIMPLEIDENTIFIER).image;
+                        });
+                        this.CONSUME5(WS);
+                        this.CONSUME(AS_TOKEN);
+                        this.CONSUME6(WS);
+                        alias = this.CONSUME3(SIMPLEIDENTIFIER).image;
+                    });
+
+                    aggregates.push({
+                        name: alias,
+                        operator: operator,
+                        sourceProperty: sourceProperty
+                    });
                 }
-            ];
-            this.OPTION2(() => this.CONSUME2(WS));
+            });
+            this.OPTION4(() => this.CONSUME7(WS));
             this.CONSUME(CLOSE);
             transformations.push({ type: 'aggregates', aggregateDef: aggregates });
         });
