@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.69
+
+### Patch Changes
+
+-   c767c85: We fixed an issue with composition data and sub object creation
+
 ## 1.1.68
 
 ### Patch Changes
