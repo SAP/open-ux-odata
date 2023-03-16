@@ -1,20 +1,7 @@
 import type { Index, ComplexType, Reference, TypeDefinition, ArrayWithIndex } from '@sap-ux/vocabularies-types';
+import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 
-export const defaultReferences: ReferencesWithMap = [
-    { alias: 'Capabilities', namespace: 'Org.OData.Capabilities.V1', uri: '' },
-    { alias: 'Aggregation', namespace: 'Org.OData.Aggregation.V1', uri: '' },
-    { alias: 'Validation', namespace: 'Org.OData.Validation.V1', uri: '' },
-    { namespace: 'Org.OData.Core.V1', alias: 'Core', uri: '' },
-    { namespace: 'Org.OData.Measures.V1', alias: 'Measures', uri: '' },
-    { namespace: 'com.sap.vocabularies.Common.v1', alias: 'Common', uri: '' },
-    { namespace: 'com.sap.vocabularies.UI.v1', alias: 'UI', uri: '' },
-    { namespace: 'com.sap.vocabularies.Session.v1', alias: 'Session', uri: '' },
-    { namespace: 'com.sap.vocabularies.Analytics.v1', alias: 'Analytics', uri: '' },
-    { namespace: 'com.sap.vocabularies.CodeList.v1', alias: 'CodeList', uri: '' },
-    { namespace: 'com.sap.vocabularies.PersonalData.v1', alias: 'PersonalData', uri: '' },
-    { namespace: 'com.sap.vocabularies.Communication.v1', alias: 'Communication', uri: '' },
-    { namespace: 'com.sap.vocabularies.HTML5.v1', alias: 'HTML5', uri: '' }
-];
+export const defaultReferences: ReferencesWithMap = VocabularyReferences;
 
 export type ReferencesWithMap = Reference[] & {
     referenceMap?: Record<string, Reference>;

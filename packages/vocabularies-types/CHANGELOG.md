@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.7.3
+
+### Patch Changes
+
+-   217e517: The vocabulary types now provide a complete set of vocabulary references in constant `VocabularyReferences`
+
 ## 0.7.2
 
 ### Patch Changes
