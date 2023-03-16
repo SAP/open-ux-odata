@@ -33,6 +33,7 @@ import {
 import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Common';
+import type { EntitySetAnnotations_Capabilities } from '@sap-ux/vocabularies-types/vocabularies/Capabilities_Edm';
 
 describe('Annotation Converter', () => {
     it('can convert EDMX with multiple schemas', async () => {
@@ -81,176 +82,68 @@ describe('Annotation Converter', () => {
         ).not.toBeUndefined();
     });
 
-    it('can convert enum values based on array', async () => {
-        const parsedEDMX = parse(await loadFixture('v4/metamodelEnums.xml'));
-        const convertedTypes = convert(parsedEDMX);
-        expect(convertedTypes.entityContainer.annotations).not.toBeUndefined();
-        expect(convertedTypes.entitySets[0].annotations).not.toBeUndefined();
-        expect(convertedTypes.entitySets[0].annotations.Capabilities?.SearchRestrictions).toMatchInlineSnapshot(`
-            {
-              "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-              "UnsupportedExpressions": [
-                "Capabilities.SearchExpressions/AND",
-                "Capabilities.SearchExpressions/group",
-                "Capabilities.SearchExpressions/phrase",
-              ],
-              "__source": "serviceFile",
-              "annotations": {},
-              "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions",
-              "qualifier": undefined,
-              "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-              Symbol(Annotation Target): {
-                "_type": "EntitySet",
-                "annotations": {
-                  "Capabilities": {
-                    "SearchRestrictions": [Circular],
-                    "SearchRestrictions#Alone": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": [
-                        "Capabilities.SearchExpressions/AND",
-                      ],
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Alone",
-                      "qualifier": "Alone",
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                    "SearchRestrictions#Empty": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": "",
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Empty",
-                      "qualifier": "Empty",
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                  },
-                },
-                "entityType": {
-                  "_type": "EntityType",
-                  "actions": {},
-                  "annotations": {},
-                  "entityProperties": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "fullyQualifiedName": "sap.fe.test.JestService.Entities",
-                  "keys": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "name": "Entities",
-                  "navigationProperties": [],
-                  "resolvePath": [Function],
-                },
-                "entityTypeName": "sap.fe.test.JestService.Entities",
-                "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities",
-                "name": "Entities",
-                "navigationPropertyBinding": {},
-              },
-            }
-        `);
-        expect(convertedTypes.entitySets[0].annotations.Capabilities?.['SearchRestrictions#Alone'])
-            .toMatchInlineSnapshot(`
-            {
-              "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-              "UnsupportedExpressions": [
-                "Capabilities.SearchExpressions/AND",
-              ],
-              "__source": "serviceFile",
-              "annotations": {},
-              "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Alone",
-              "qualifier": "Alone",
-              "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-              Symbol(Annotation Target): {
-                "_type": "EntitySet",
-                "annotations": {
-                  "Capabilities": {
-                    "SearchRestrictions": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": [
-                        "Capabilities.SearchExpressions/AND",
-                        "Capabilities.SearchExpressions/group",
-                        "Capabilities.SearchExpressions/phrase",
-                      ],
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions",
-                      "qualifier": undefined,
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                    "SearchRestrictions#Alone": [Circular],
-                    "SearchRestrictions#Empty": {
-                      "$Type": "Org.OData.Capabilities.V1.SearchRestrictionsType",
-                      "UnsupportedExpressions": "",
-                      "__source": "serviceFile",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities@Org.OData.Capabilities.V1.SearchRestrictions#Empty",
-                      "qualifier": "Empty",
-                      "term": "Org.OData.Capabilities.V1.SearchRestrictions",
-                      Symbol(Annotation Target): [Circular],
-                    },
-                  },
-                },
-                "entityType": {
-                  "_type": "EntityType",
-                  "actions": {},
-                  "annotations": {},
-                  "entityProperties": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "fullyQualifiedName": "sap.fe.test.JestService.Entities",
-                  "keys": [
-                    {
-                      "_type": "Property",
-                      "annotations": {},
-                      "fullyQualifiedName": "sap.fe.test.JestService.Entities/ID",
-                      "isKey": true,
-                      "name": "ID",
-                      "nullable": false,
-                      "targetType": undefined,
-                      "type": "Edm.String",
-                    },
-                  ],
-                  "name": "Entities",
-                  "navigationProperties": [],
-                  "resolvePath": [Function],
-                },
-                "entityTypeName": "sap.fe.test.JestService.Entities",
-                "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Entities",
-                "name": "Entities",
-                "navigationPropertyBinding": {},
-              },
-            }
-        `);
+    describe('Converts enums', () => {
+        let capabilities: EntitySetAnnotations_Capabilities;
+
+        beforeAll(async () => {
+            const parsedEDMX = parse(await loadFixture('v4/metamodelEnums.xml'));
+            const convertedTypes = convert(parsedEDMX);
+            expect(convertedTypes.entitySets[0].annotations.Capabilities).toBeDefined();
+            capabilities = convertedTypes.entitySets[0].annotations.Capabilities!;
+        });
+
+        it('should convert an empty value', () => {
+            expect(capabilities['SearchRestrictions#Empty']?.UnsupportedExpressions).toMatchInlineSnapshot(`""`);
+        });
+
+        it('should convert a single-valued enum', () => {
+            expect(capabilities['SearchRestrictions#Alone']?.UnsupportedExpressions).toMatchInlineSnapshot(`
+                [
+                  "Capabilities.SearchExpressions/AND",
+                ]
+            `);
+        });
+
+        it('should convert a single-valued enum with non-standard alias', () => {
+            expect(capabilities['SearchRestrictions#NonStandardAlias']?.UnsupportedExpressions).toMatchInlineSnapshot(`
+                [
+                  "Capabilities.SearchExpressions/AND",
+                ]
+            `);
+        });
+
+        it('should convert a multi-valued enum', () => {
+            expect(capabilities.SearchRestrictions?.UnsupportedExpressions).toMatchInlineSnapshot(`
+                [
+                  "Capabilities.SearchExpressions/AND",
+                  "Capabilities.SearchExpressions/group",
+                  "Capabilities.SearchExpressions/phrase",
+                ]
+            `);
+        });
+
+        it('should convert a multi-valued enum with non-standard alias', () => {
+            expect(capabilities['SearchRestrictions#NonStandardAliasMultiple']?.UnsupportedExpressions)
+                .toMatchInlineSnapshot(`
+                [
+                  "Capabilities.SearchExpressions/AND",
+                  "Capabilities.SearchExpressions/group",
+                  "Capabilities.SearchExpressions/phrase",
+                ]
+            `);
+        });
+
+        it('should convert an enum that is not a flag', () => {
+            expect(capabilities.NavigationRestrictions?.Navigability).toMatchInlineSnapshot(
+                `"Capabilities.NavigationType/Single"`
+            );
+        });
+
+        it('should convert an enum that is not a flag (with non-standard alias)', () => {
+            expect(capabilities['NavigationRestrictions#NonStandardAlias']?.Navigability).toMatchInlineSnapshot(
+                `"Capabilities.NavigationType/Single"`
+            );
+        });
     });
 
     it('can convert with an error EDMX', async () => {
@@ -1031,5 +924,17 @@ describe('Annotation Converter', () => {
         expect(property).toBeDefined();
         const annos = property?.annotations.Common?.Text;
         expect(annos).toBeDefined();
+    });
+
+    it('can convert aliased EDMX', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/aliased.xml'));
+        const convertedTypes = convert(parsedEDMX);
+        const entityType = convertedTypes.entityTypes.by_name('Entities');
+        const annotations = entityType!.annotations;
+        expect(Object.keys(annotations)).toMatchInlineSnapshot(`
+            [
+              "Common",
+            ]
+        `);
     });
 });
