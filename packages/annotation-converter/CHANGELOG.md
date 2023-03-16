@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.5
+
+### Patch Changes
+
+-   217e517: The vocabulary types now provide a complete set of vocabulary references in constant `VocabularyReferences`
+
 ## 0.6.4
 
 ### Patch Changes

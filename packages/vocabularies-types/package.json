@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/vocabularies-types",
-    "version": "0.7.2",
+    "version": "0.7.3",
     "description": "SAP Fiori OData - TS types for vocabularies",
     "repository": {
         "type": "git",
