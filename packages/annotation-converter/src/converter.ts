@@ -42,7 +42,6 @@ import {
     addGetByValue,
     alias,
     Decimal,
-    defaultReferences,
     EnumIsFlag,
     lazy,
     splitAtFirst,
@@ -52,6 +51,7 @@ import {
     TermToTypes,
     unalias
 } from './utils';
+import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 
 /**
  * Symbol to extend an annotation with the reference to its target.
@@ -1556,19 +1556,19 @@ function convertTypeDefinition(converter: Converter, rawTypeDefinition: RawTypeD
  * @returns the converted representation of the metadata.
  */
 export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
-    // fall back on the default references if the caller does not specify any
-    if (rawMetadata.references.length === 0) {
-        rawMetadata.references = defaultReferences;
-    }
-
     // Converter Output
     const convertedOutput: ConvertedMetadata = {
         version: rawMetadata.version,
         namespace: rawMetadata.schema.namespace,
         annotations: rawMetadata.schema.annotations,
-        references: defaultReferences.concat(rawMetadata.references),
+        references: VocabularyReferences.concat(rawMetadata.references),
         diagnostics: []
     } as any;
+
+    // fall back on the default references if the caller does not specify any
+    if (rawMetadata.references.length === 0) {
+        rawMetadata.references = VocabularyReferences;
+    }
 
     // Converter
     const converter = new Converter(rawMetadata, convertedOutput);
