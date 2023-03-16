@@ -15,7 +15,7 @@
     "scripts": {
         "build": "pnpm clean && pnpm generate_types && tsc",
         "clean": "rimraf vocabularies && rimraf *.d.ts && rimraf *.js && rimraf *.js.map && rimraf src/vocabularies",
-        "format": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
+        "format": "prettier **/* --write --ignore-unknown --ignore-path ../../.prettierignore",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
         "generate_types": "ts-node utils/generate_types.ts",
