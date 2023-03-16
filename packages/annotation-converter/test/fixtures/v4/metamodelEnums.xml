@@ -3,6 +3,9 @@
     <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
         <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
     </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="MyCapabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
         <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
     </edmx:Reference>
@@ -15,6 +18,14 @@
                 <EntitySet Name="Entities" EntityType="sap.fe.test.JestService.Entities"/>
             </EntityContainer>
             <EntityType Name="Entities">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="_children" Type="sap.fe.test.JestService.Children" ContainsTarget="true"/>
+                <Property Name="_children_ID" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="Children">
                 <Key>
                     <PropertyRef Name="ID"/>
                 </Key>
@@ -34,6 +45,26 @@
                 <Annotation Term="Capabilities.SearchRestrictions" Qualifier="Empty">
                     <Record Type="Capabilities.SearchRestrictionsType">
                         <PropertyValue Property="UnsupportedExpressions" EnumMember=""/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.SearchRestrictions" Qualifier="NonStandardAlias">
+                    <Record Type="Capabilities.SearchRestrictionsType">
+                        <PropertyValue Property="UnsupportedExpressions" EnumMember="MyCapabilities.SearchExpressions/AND"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.SearchRestrictions" Qualifier="NonStandardAliasMultiple">
+                    <Record Type="Capabilities.SearchRestrictionsType">
+                        <PropertyValue Property="UnsupportedExpressions" EnumMember="MyCapabilities.SearchExpressions/AND MyCapabilities.SearchExpressions/group MyCapabilities.SearchExpressions/phrase"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record Type="Capabilities.NavigationRestrictionsType">
+                        <PropertyValue Property="Navigability" EnumMember="Capabilities.NavigationType/Single"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.NavigationRestrictions" Qualifier="NonStandardAlias">
+                    <Record Type="Capabilities.NavigationRestrictionsType">
+                        <PropertyValue Property="Navigability" EnumMember="MyCapabilities.NavigationType/Single"/>
                     </Record>
                 </Annotation>
             </Annotations>

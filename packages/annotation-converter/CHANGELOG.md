@@ -1,5 +1,19 @@
 # @sap-ux/annotation-converter
 
+## 0.6.7
+
+### Patch Changes
+
+-   24d8199: The annotation converter now depends on vocabularies-types
+-   Updated dependencies [24d8199]
+    -   @sap-ux/vocabularies-types@0.7.4
+
+## 0.6.6
+
+### Patch Changes
+
+-   9be80ce: Consider the alias when converting annotations
+
 ## 0.6.5
 
 ### Patch Changes

@@ -129,13 +129,15 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 draftData.HasDraftEntity = false;
                 draftData.Processed = true;
                 const activateKeyValues = this.getKeys(draftData);
+                dataToClean.push(this.getKeys(draftData));
                 activateKeyValues.IsActiveEntity = true;
                 activeDraft = Object.assign({}, draftData) as DraftElement;
                 activeDraft.IsActiveEntity = true;
                 activeDraft.HasDraftEntity = false;
+                activeDraft.HasActiveEntity = false;
                 activeDraft.Processed = true;
                 activeDraft.DraftAdministrativeData = null;
-                dataToClean.push(activateKeyValues);
+
                 if (!currentMockData.hasEntry(activateKeyValues, odataRequest)) {
                     await currentMockData.addEntry(activeDraft, odataRequest);
                 } else {
@@ -146,9 +148,10 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         }
         for (const draftKeys of dataToClean) {
             const myDataToClean = this.performGET(draftKeys, false, tenantId, odataRequest, true);
-
-            delete myDataToClean.Processed;
-            await currentMockData.updateEntry(draftKeys, myDataToClean, myDataToClean, odataRequest);
+            if (myDataToClean) {
+                delete myDataToClean.Processed;
+                await currentMockData.updateEntry(draftKeys, myDataToClean, myDataToClean, odataRequest);
+            }
         }
         await this.draftDiscard(keyValues, tenantId, odataRequest);
         return activeDraft;
@@ -184,9 +187,11 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         for (const data of dataToDuplicate) {
             if (!data.HasDraftEntity && data.IsActiveEntity) {
                 data.HasDraftEntity = true;
+                data.Processed = false;
                 const duplicate: DraftElement = Object.assign({}, data) as DraftElement;
                 duplicate.IsActiveEntity = false;
                 duplicate.HasActiveEntity = true;
+                duplicate.Processed = false;
                 duplicate.HasDraftEntity = false;
                 const currentDate = _getDateTimeOffset(this.isV4());
                 duplicate.DraftAdministrativeData = {
@@ -286,6 +291,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     IsActiveEntity: true
                 });
                 responseObject = await this.dataAccess.getData(odataRequest);
+                delete responseObject.Processed;
                 break;
             }
             default:

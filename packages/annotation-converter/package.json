@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/annotation-converter",
-    "version": "0.6.5",
+    "version": "0.6.7",
     "description": "SAP Fiori OData - Annotation converter",
     "repository": {
         "type": "git",
@@ -25,8 +25,10 @@
         "test": "jest --ci --forceExit --detectOpenHandles --colors",
         "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u"
     },
+    "dependencies": {
+        "@sap-ux/vocabularies-types": "workspace:*"
+    },
     "devDependencies": {
-        "@sap-ux/vocabularies-types": "workspace:*",
         "@sap-ux/edmx-parser": "workspace:*"
     }
 }

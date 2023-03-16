@@ -602,7 +602,7 @@ async function generateTypes(targetFolder: string) {
     });
     edmTermToTypes += '}';
 
-    let enumIsFlag = `export const EnumIsFlag = {\n`;
+    let enumIsFlag = `export const EnumIsFlag: Record<string, boolean> = {\n`;
     Object.keys(enumIsFlagList).forEach((enumName) => {
         enumIsFlag += `    "${enumName}" : ${enumIsFlagList[enumName]},\n`;
     });

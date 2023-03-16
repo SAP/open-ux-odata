@@ -723,6 +723,7 @@ describe('Data Access', () => {
                 "ID": 0,
                 "IsActiveEntity": true,
                 "Name": "My Favorite",
+                "Processed": true,
                 "owner_ID": 0,
                 "sibling_ID": 0,
               },
