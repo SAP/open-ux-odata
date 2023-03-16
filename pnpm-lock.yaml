@@ -53,9 +53,10 @@ importers:
         specifiers:
             '@sap-ux/edmx-parser': workspace:*
             '@sap-ux/vocabularies-types': workspace:*
+        dependencies:
+            '@sap-ux/vocabularies-types': link:../vocabularies-types
         devDependencies:
             '@sap-ux/edmx-parser': link:../edmx-parser
-            '@sap-ux/vocabularies-types': link:../vocabularies-types
 
     packages/edmx-parser:
         specifiers:
