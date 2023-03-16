@@ -37,7 +37,6 @@ import type {
     Singleton,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
-import type { ReferencesWithMap } from './utils';
 import {
     addGetByValue,
     alias,
