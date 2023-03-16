@@ -861,17 +861,24 @@ export class DataAccess implements DataAccessInterface {
 
     public async createData(odataRequest: ODataRequest, postData: any) {
         const entitySetName = odataRequest.queryPath[0].path;
-        const navPropertyName = odataRequest.queryPath.length > 1 ? odataRequest.queryPath[1].path : undefined;
-        const entitySet = this.metadata.getEntitySet(entitySetName);
-        if (navPropertyName && entitySet) {
+
+        let parentEntitySet = this.metadata.getEntitySet(entitySetName);
+        if (odataRequest.queryPath.length > 1 && parentEntitySet) {
             // Creating a sub object
-            const entityType = entitySet.entityType;
+            let lastNavPropName = '';
+            for (let i = 0; i < odataRequest.queryPath.length; i++) {
+                if (lastNavPropName && parentEntitySet.navigationPropertyBinding[lastNavPropName]) {
+                    parentEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName] as EntitySet;
+                }
+                lastNavPropName = odataRequest.queryPath[i].path;
+            }
+            const entityType = parentEntitySet.entityType;
             const navPropDetail = entityType.navigationProperties.find(
-                (navProp) => navProp.name === navPropertyName
+                (navProp) => navProp.name === lastNavPropName
             ) as any;
             const navPropEntityType = navPropDetail.targetType;
-            const data: any = (await this.getMockEntitySet(entitySetName)).performGET(
-                odataRequest.queryPath[0].keys,
+            const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
+                odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
                 false,
                 odataRequest.tenantId,
                 odataRequest,
@@ -887,8 +894,8 @@ export class DataAccess implements DataAccessInterface {
             const currentKeys = await this.getNavigationPropertyKeys(
                 data,
                 navPropDetail,
-                entitySet.entityType,
-                entitySet,
+                parentEntitySet.entityType,
+                parentEntitySet,
                 providedKeys,
                 odataRequest.tenantId,
                 true
@@ -897,7 +904,7 @@ export class DataAccess implements DataAccessInterface {
                 data.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
             }
             if (!navPropDetail.containsTarget) {
-                const targetEntitySet = entitySet.navigationPropertyBinding[navPropertyName];
+                const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName];
                 odataRequest.setContext(`../$metadata#${targetEntitySet.name}/$entity`);
                 odataRequest.addResponseHeader(
                     'Location',
@@ -909,35 +916,35 @@ export class DataAccess implements DataAccessInterface {
                     await this.getMockEntitySet(targetEntitySet.name)
                 ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
                 if (!this.isV4()) {
-                    this.addV2Metadata(entitySet, currentKeys, postData);
+                    this.addV2Metadata(parentEntitySet, currentKeys, postData);
                 }
             } else {
-                if (!data[navPropertyName]) {
-                    data[navPropertyName] = [];
+                if (!data[lastNavPropName]) {
+                    data[lastNavPropName] = [];
                 }
-                data[navPropertyName].push(postData);
+                data[lastNavPropName].push(postData);
             }
             return postData;
-        } else if (entitySet) {
+        } else if (parentEntitySet) {
             // Creating a main object
             const currentKeys: Record<string, any> = {};
-            entitySet.entityType.keys.forEach((key) => {
+            parentEntitySet.entityType.keys.forEach((key) => {
                 if (postData[key.name] !== undefined) {
                     currentKeys[key.name] = postData[key.name];
                 }
             });
             postData = await (
-                await this.getMockEntitySet(entitySet.name)
+                await this.getMockEntitySet(parentEntitySet.name)
             ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
-            odataRequest.setContext(`../$metadata#${entitySet.name}/$entity`);
+            odataRequest.setContext(`../$metadata#${parentEntitySet.name}/$entity`);
             odataRequest.addResponseHeader(
                 'Location',
-                `${entitySet.name}(${Object.keys(currentKeys)
+                `${parentEntitySet.name}(${Object.keys(currentKeys)
                     .map((key) => `${key}='${currentKeys[key]}'`)
                     .join(',')})`
             );
             if (!this.isV4()) {
-                this.addV2Metadata(entitySet, currentKeys, postData);
+                this.addV2Metadata(parentEntitySet, currentKeys, postData);
             }
             odataRequest.setResponseData(await postData);
             return postData;
