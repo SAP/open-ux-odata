@@ -608,9 +608,27 @@ async function generateTypes(targetFolder: string) {
     });
     enumIsFlag += '}';
 
+    let vocabularyReferences = `
+import type {Reference} from "../Edm";
+
+/**
+ * The list of vocabularies with default aliases.
+ */
+export const VocabularyReferences : Reference[] = [
+`;
+    vocabularyReferences += Object.keys(references)
+        .map((alias) => {
+            const namespace = references[alias];
+            const uri = vocabularyConfig[alias].replace('.json', '.xml');
+            return `\t{ alias: "${alias}", namespace: "${namespace}", uri: "${uri}" }`;
+        })
+        .join(',\n');
+    vocabularyReferences += '\n]';
+
     await writeFile(path.join(targetFolder, `Edm_Types.ts`), edmTypesValue);
     await writeFile(path.join(targetFolder, `TermToTypes.ts`), edmTermToTypes);
     await writeFile(path.join(targetFolder, `EnumIsFlag.ts`), enumIsFlag);
+    await writeFile(path.join(targetFolder, `VocabularyReferences.ts`), vocabularyReferences);
 }
 
 generateTypes(path.join(__dirname, '../src/vocabularies'))
