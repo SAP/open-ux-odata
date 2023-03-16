@@ -1,11 +1,11 @@
-import fetch, { Headers } from 'node-fetch';
-import * as path from 'path';
-import { ODataV4Requestor } from './__testData/Requestor';
-import * as http from 'http';
-import FEMockserver from '../../src';
-import type { Server } from 'http';
 import finalHandler from 'finalhandler';
 import * as fs from 'fs';
+import type { Server } from 'http';
+import * as http from 'http';
+import fetch, { Headers } from 'node-fetch';
+import * as path from 'path';
+import FEMockserver from '../../src';
+import { ODataV4Requestor } from './__testData/Requestor';
 
 jest.setTimeout(60000);
 

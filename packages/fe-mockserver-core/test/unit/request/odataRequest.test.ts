@@ -1,5 +1,5 @@
-import ODataRequest from '../../../src/request/odataRequest';
 import type { DataAccess } from '../../../src/data/dataAccess';
+import ODataRequest from '../../../src/request/odataRequest';
 
 describe('OData Request', () => {
     const fakeDataAccess: DataAccess = {

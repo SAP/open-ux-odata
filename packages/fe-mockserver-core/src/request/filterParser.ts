@@ -1,22 +1,22 @@
 import type { IParserConfig } from 'chevrotain';
 import { EmbeddedActionsParser, Lexer } from 'chevrotain';
 import {
-    TYPEDEF,
-    COMMA,
-    COLON,
-    SLASH,
-    ANYALL,
     ANDOR,
-    WS,
-    CLOSE,
+    ANYALL,
     BOOL_METHOD,
-    SIMPLE_METHOD,
-    LOGICAL_OPERATOR,
-    SIMPLEIDENTIFIER,
+    CLOSE,
+    COLON,
+    COMMA,
+    COMPLEX_METHOD,
     LITERAL,
-    COMPLEX_METHOD
+    LOGICAL_OPERATOR,
+    OPEN,
+    SIMPLEIDENTIFIER,
+    SIMPLE_METHOD,
+    SLASH,
+    TYPEDEF,
+    WS
 } from './commonTokens';
-import { OPEN } from './commonTokens';
 
 // ----------------- Lexer -----------------
 

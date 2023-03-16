@@ -1,5 +1,5 @@
-import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import * as path from 'path';
+import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 
 describe('Filesystem Loader', () => {
     const myFSLoader = new FileSystemLoader();

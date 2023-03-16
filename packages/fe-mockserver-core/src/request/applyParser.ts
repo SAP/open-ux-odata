@@ -1,44 +1,44 @@
 import { Lexer } from 'chevrotain';
-import type { FilterExpression } from './filterParser';
-import { FilterParser } from './filterParser';
 import {
+    AGGREGATE_FUNCTION,
+    AGGREGATE_TOKEN,
+    ANCESTORS_TOKEN,
     ANDOR,
-    DOT,
     ANYALL,
+    ASCDESC,
+    AS_TOKEN,
     BOOL_METHOD,
     CLOSE,
+    CLOSE_BRACKET,
     COLON,
+    COMMA,
     COMPLEX_METHOD,
+    DESCENDANTS_TOKEN,
+    DOT,
+    EQ,
     FILTER_TOKEN,
+    FROM_TOKEN,
+    GROUPBY_TOKEN,
+    KEEP_START_TOKEN,
     LITERAL,
     LOGICAL_OPERATOR,
-    OPEN,
-    SIMPLE_METHOD,
-    SLASH,
-    SKIP_TOKEN,
-    TYPEDEF,
-    WS,
-    AGGREGATE_TOKEN,
-    GROUPBY_TOKEN,
-    COMMA,
-    SIMPLEIDENTIFIER,
     NUMBER,
-    EQ,
-    DESCENDANTS_TOKEN,
-    ORDERBY_TOKEN,
-    ASCDESC,
-    ANCESTORS_TOKEN,
-    KEEP_START_TOKEN,
+    OPEN,
     OPEN_BRACKET,
-    CLOSE_BRACKET,
-    SEARCH_TOKEN,
+    ORDERBY_TOKEN,
     QUOTE,
     ROOT_TOKEN,
+    SEARCH_TOKEN,
+    SIMPLEIDENTIFIER,
+    SIMPLE_METHOD,
+    SKIP_TOKEN,
+    SLASH,
+    TYPEDEF,
     WITH_TOKEN,
-    AGGREGATE_FUNCTION,
-    AS_TOKEN,
-    FROM_TOKEN
+    WS
 } from './commonTokens';
+import type { FilterExpression } from './filterParser';
+import { FilterParser } from './filterParser';
 
 // ----------------- Lexer -----------------
 

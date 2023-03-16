@@ -1,4 +1,4 @@
-import type { Index, ComplexType, Reference, TypeDefinition, ArrayWithIndex } from '@sap-ux/vocabularies-types';
+import type { ArrayWithIndex, ComplexType, Index, Reference, TypeDefinition } from '@sap-ux/vocabularies-types';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 
 export const defaultReferences: ReferencesWithMap = VocabularyReferences;

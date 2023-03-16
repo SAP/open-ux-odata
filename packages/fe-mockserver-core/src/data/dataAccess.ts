@@ -1,37 +1,36 @@
-import { getLogger } from '../logger';
-import type { ODataMetadata } from './metadata';
-import { MockDataEntitySet } from './entitySets/entitySet';
-import { DraftMockEntitySet } from './entitySets/draftEntitySet';
-import { StickyMockEntitySet } from './entitySets/stickyEntitySet';
 import type {
+    Action,
     EntitySet,
     EntityType,
+    NavigationProperty,
     Property,
     ReferentialConstraint,
-    Singleton,
-    NavigationProperty,
-    Action
+    Singleton
 } from '@sap-ux/vocabularies-types';
-import cloneDeep from 'lodash.clonedeep';
 import type { ILogger } from '@ui5/logger';
-import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
-import type { DataAccessInterface, EntitySetInterface, PartialReferentialConstraint } from './common';
-import { _getDateTimeOffset, getData } from './common';
-import { MockEntityContainer } from '../mockdata/mockEntityContainer';
-import type { KeyDefinitions } from '../mockdata/fileBasedMockData';
+import cloneDeep from 'lodash.clonedeep';
 import type { ServiceConfig } from '../api';
 import type { IFileLoader } from '../index';
-import ODataRequest from '../request/odataRequest';
-import type { QueryPath, ExpandDefinition } from '../request/odataRequest';
+import { getLogger } from '../logger';
+import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
+import { MockEntityContainer } from '../mockdata/mockEntityContainer';
 import type {
+    AggregatesTransformation,
     GroupByTransformation,
     OrderByProp,
     TopLevelParameters,
     TransformationDefinition
 } from '../request/applyParser';
 import type { FilterExpression } from '../request/filterParser';
-import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
-import type { AggregatesTransformation } from '../request/applyParser';
+import type { ExpandDefinition, QueryPath } from '../request/odataRequest';
+import ODataRequest from '../request/odataRequest';
+import type { DataAccessInterface, EntitySetInterface, PartialReferentialConstraint } from './common';
+import { getData, _getDateTimeOffset } from './common';
+import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
+import { DraftMockEntitySet } from './entitySets/draftEntitySet';
+import { MockDataEntitySet } from './entitySets/entitySet';
+import { StickyMockEntitySet } from './entitySets/stickyEntitySet';
+import type { ODataMetadata } from './metadata';
 
 /**
  *

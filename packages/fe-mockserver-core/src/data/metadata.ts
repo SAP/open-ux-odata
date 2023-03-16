@@ -1,5 +1,5 @@
-import { parse } from '@sap-ux/edmx-parser';
 import { convert, unalias } from '@sap-ux/annotation-converter';
+import { parse } from '@sap-ux/edmx-parser';
 import type {
     Action,
     ActionImport,

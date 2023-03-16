@@ -1,7 +1,7 @@
+import type { IFileLoader } from '@sap-ux/fe-mockserver-core';
 import * as fs from 'fs';
 import * as path from 'path';
 import CDSMetadataProvider from '../src';
-import type { IFileLoader } from '@sap-ux/fe-mockserver-core';
 
 describe('FE Mockserver CDS Plugin', () => {
     const fakeFileLoader = {

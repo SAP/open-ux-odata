@@ -1,11 +1,11 @@
-import type { ServerResponse } from 'http';
 import type { NextFunction, NextHandleFunction } from 'connect';
-import ODataRequest from '../request/odataRequest';
-import type { DataAccess } from '../data/dataAccess';
+import type { ServerResponse } from 'http';
 import * as http from 'http';
-import type { IncomingMessageWithTenant } from './serviceRouter';
+import type { DataAccess } from '../data/dataAccess';
+import ODataRequest from '../request/odataRequest';
 import type { Batch, BatchPart } from './batchParser';
 import { BatchContent, getBoundary, parseBatch } from './batchParser';
+import type { IncomingMessageWithTenant } from './serviceRouter';
 
 export function isPartChangeSet(part: BatchPart | Batch): part is Batch {
     return (part as Batch).isChangeSet;

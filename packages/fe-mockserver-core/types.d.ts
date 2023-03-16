@@ -1,5 +1,5 @@
 declare module 'router' {
-    import type { IncomingMessage, HandleFunction, NextFunction, NextHandleFunction } from 'connect';
+    import type { HandleFunction, IncomingMessage, NextFunction, NextHandleFunction } from 'connect';
     import type { ServerResponse } from 'http';
 
     export type Path = string | RegExp | Array<string | RegExp>;

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import * as util from 'util';
 import * as path from 'path';
+import * as util from 'util';
 
 const readFile = util.promisify(fs.readFile);
 const FIXTURE_DIR = 'fixtures';

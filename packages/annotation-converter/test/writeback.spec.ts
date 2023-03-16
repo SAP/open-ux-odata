@@ -1,7 +1,7 @@
-import { loadFixture } from './fixturesHelper';
-import { convert, defaultReferences, revertTermToGenericType } from '../src';
 import { parse } from '@sap-ux/edmx-parser';
 import type { CollectionFacet } from '@sap-ux/vocabularies-types/vocabularies/UI';
+import { convert, defaultReferences, revertTermToGenericType } from '../src';
+import { loadFixture } from './fixturesHelper';
 
 const FilterDefaultValue = Object.assign('String', {
     term: 'com.sap.vocabularies.Common.v1.FilterDefaultValue',

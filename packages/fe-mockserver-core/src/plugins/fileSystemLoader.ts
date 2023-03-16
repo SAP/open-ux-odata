@@ -1,6 +1,6 @@
-import type { IFileLoader } from '../index';
 import { access, readFile } from 'graceful-fs';
 import { promisify } from 'util';
+import type { IFileLoader } from '../index';
 const readFileP = promisify(readFile);
 const accessP = promisify(access);
 

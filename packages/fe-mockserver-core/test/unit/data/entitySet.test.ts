@@ -1,11 +1,11 @@
-import { MockDataEntitySet } from '../../../src/data/entitySets/entitySet';
-import { parseFilter } from '../../../src/request/filterParser';
-import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
-import { ODataMetadata } from '../../../src/data/metadata';
-import { DataAccess } from '../../../src/data/dataAccess';
 import type { ServiceConfig } from '../../../src';
+import { DataAccess } from '../../../src/data/dataAccess';
+import { MockDataEntitySet } from '../../../src/data/entitySets/entitySet';
+import { ODataMetadata } from '../../../src/data/metadata';
+import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
+import { parseFilter } from '../../../src/request/filterParser';
 import ODataRequest from '../../../src/request/odataRequest';
 
 let metadata!: ODataMetadata;

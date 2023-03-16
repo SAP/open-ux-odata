@@ -6,19 +6,19 @@
  */
 import type {
     AnnotationList,
-    RawMetadata,
     RawAction,
-    Reference,
-    RawSchema,
-    RawEntityType,
-    RawEntitySet,
-    RawSingleton,
-    RawEntityContainer,
-    RawComplexType,
-    RawTypeDefinition,
+    RawActionImport,
     RawAssociation,
     RawAssociationSet,
-    RawActionImport
+    RawComplexType,
+    RawEntityContainer,
+    RawEntitySet,
+    RawEntityType,
+    RawMetadata,
+    RawSchema,
+    RawSingleton,
+    RawTypeDefinition,
+    Reference
 } from '@sap-ux/vocabularies-types';
 
 /**

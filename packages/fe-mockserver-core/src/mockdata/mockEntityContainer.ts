@@ -1,5 +1,5 @@
-import { join } from 'path';
 import type { Action } from '@sap-ux/vocabularies-types';
+import { join } from 'path';
 import type { DataAccessInterface } from '../data/common';
 import { ExecutionError } from '../data/common';
 import type { IFileLoader } from '../index';

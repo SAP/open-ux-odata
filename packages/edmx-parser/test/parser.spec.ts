@@ -1,6 +1,6 @@
-import { fileExist, loadFixture, loadFixtureSync } from './fixturesHelper';
-import { parse, merge } from '../src';
 import type { RawMetadata } from '@sap-ux/vocabularies-types';
+import { merge, parse } from '../src';
+import { fileExist, loadFixture, loadFixtureSync } from './fixturesHelper';
 
 describe('Parser', function () {
     it('can parse an edmx file', async () => {
