@@ -220,11 +220,11 @@ describe('Writeback capabilities', () => {
         expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
 
-        (convertedTypes.entityTypes['15'].annotations.UI as any)['DataPoint#Progress2'].TargetValue = 99.5;
-        const transformedFilterDefaultValue2 = revertTermToGenericType(
-            defaultReferences,
-            (convertedTypes.entityTypes['15'].annotations.UI as any)['DataPoint#Progress2']
-        ) as any;
+        const dataPoint = {
+            ...convertedTypes.entityTypes['15'].annotations.UI?.['DataPoint#Progress2'],
+            TargetValue: 99.5
+        };
+        const transformedFilterDefaultValue2 = revertTermToGenericType(defaultReferences, dataPoint) as any;
         expect(transformedFilterDefaultValue2).toMatchSnapshot();
     });
     it('can deal with Null', async () => {

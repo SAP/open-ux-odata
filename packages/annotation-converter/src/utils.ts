@@ -169,10 +169,6 @@ export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, 
                 _value = init();
             }
             return _value;
-        },
-
-        set(value: Type[Key]) {
-            _value = value;
         }
     });
 }

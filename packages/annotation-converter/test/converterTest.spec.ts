@@ -21,7 +21,6 @@ import type {
     DataFieldForAction,
     DataFieldForActionTypes,
     DataFieldForAnnotation,
-    DataFieldWithAction,
     FieldGroupType,
     LineItem
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
@@ -30,8 +29,8 @@ import {
     UIAnnotationTerms,
     UIAnnotationTypes
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
-import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
+import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Common';
 import type { EntitySetAnnotations_Capabilities } from '@sap-ux/vocabularies-types/vocabularies/Capabilities_Edm';
 
@@ -671,8 +670,12 @@ describe('Annotation Converter', () => {
 
         if (convertedTypes.entityTypes[39].annotations?.UI?.LineItem) {
             const LineItem = convertedTypes.entityTypes[39].annotations.UI.LineItem;
-            (LineItem[0] as DataFieldForActionTypes).InvocationGrouping = OperationGroupingType.Isolated;
-            (LineItem[0] as DataFieldForActionTypes).Action = 'SAP.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_ProductCopy';
+            LineItem[0] = {
+                ...(LineItem[0] as DataFieldForActionTypes),
+                InvocationGrouping: OperationGroupingType.Isolated,
+                Action: 'SAP.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_ProductCopy'
+            };
+
             const transformedLineItem = revertTermToGenericType(defaultReferences, LineItem) as any;
             expect(transformedLineItem.collection[0].propertyValues[1].name).toEqual('Action');
             expect(transformedLineItem.collection[0].propertyValues[1].value.type).toEqual('String');
@@ -695,7 +698,8 @@ describe('Annotation Converter', () => {
                 path: 'OverallSDStatus',
                 type: 'Path'
             } as EnumValue<CriticalityType>;
-            const LineItem = convertedTypes.entityTypes[39].annotations.UI.LineItem;
+            const convertedLineItem = convertedTypes.entityTypes[39].annotations.UI.LineItem;
+            const LineItem = Object.assign([...convertedLineItem], convertedLineItem);
             LineItem.annotations = { UI: { Criticality: criticality } };
             const transformedLineItem = revertTermToGenericType(defaultReferences, LineItem) as any;
             expect(transformedLineItem.term).toEqual(UIAnnotationTerms.LineItem);
