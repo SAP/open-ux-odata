@@ -6,6 +6,12 @@
     <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
         <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
     </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="MyUI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="">
+        <edmx:Include Alias="ThisService" Namespace="sap.fe.test.JestService"/>
+    </edmx:Reference>
     <edmx:DataServices>
         <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
             <EntityContainer Name="EntityContainer">
@@ -17,8 +23,21 @@
                 </Key>
                 <Property Name="ID" Type="Edm.String" Nullable="false"/>
             </EntityType>
+            <Action Name="doSomething" IsBound="true">
+                <Parameter Name="in" Type="sap.fe.test.JestService.Entities"/>
+            </Action>
             <Annotations Target="sap.fe.test.JestService.Entities">
                 <Annotation Term="MyAlias.Label" String="Label"/>
+                <Annotation Term="MyUI.Identification">
+                    <Collection>
+                        <Record Type="MyUI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="ThisService.doSomething"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ThisService.doSomething(ThisService.Entities)">
+                <Annotation Term="MyAlias.Label" String="Do Something"/>
             </Annotations>
         </Schema>
     </edmx:DataServices>

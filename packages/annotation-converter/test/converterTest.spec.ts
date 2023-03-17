@@ -926,15 +926,69 @@ describe('Annotation Converter', () => {
         expect(annos).toBeDefined();
     });
 
-    it('can convert aliased EDMX', async () => {
-        const parsedEDMX = parse(await loadFixture('v4/aliased.xml'));
-        const convertedTypes = convert(parsedEDMX);
-        const entityType = convertedTypes.entityTypes.by_name('Entities');
-        const annotations = entityType!.annotations;
-        expect(Object.keys(annotations)).toMatchInlineSnapshot(`
-            [
-              "Common",
-            ]
-        `);
+    describe('Can resolve aliases', () => {
+        it('transforms aliased annotation terms to the right default aliases', async () => {
+            const parsedEDMX = parse(await loadFixture('v4/aliased.xml'));
+            const convertedTypes = convert(parsedEDMX);
+
+            const entityType = convertedTypes.entityTypes.by_name('Entities');
+            const annotations = entityType!.annotations;
+            expect(Object.keys(annotations)).toMatchInlineSnapshot(`
+                [
+                  "Common",
+                  "UI",
+                ]
+            `);
+            expect(annotations.Common?.Label?.term).toEqual('com.sap.vocabularies.Common.v1.Label');
+
+            const dataFieldForAction = annotations.UI!.Identification![0] as DataFieldForAction;
+            expect(dataFieldForAction.fullyQualifiedName).toEqual(
+                'sap.fe.test.JestService.Entities@com.sap.vocabularies.UI.v1.Identification/0'
+            );
+
+            /*
+             This comes from
+
+                <Annotation Term="MyUI.Identification">
+                    <Collection>
+                        <Record Type="MyUI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="ThisService.doSomething"/>
+                        </Record>                            ^^^^^^
+                    </Collection>
+                </Annotation>
+
+             As the converter does not try to unalias all strings, it won't unalias this property value either...
+            */
+            expect(dataFieldForAction.Action).toEqual('ThisService.doSomething'); //
+
+            /*
+             ... but it will still resolve the action target because it is aware of DataFieldForAction and DataFieldWithAction
+            */
+            expect(dataFieldForAction.ActionTarget?.fullyQualifiedName).toEqual(
+                'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
+            );
+        });
+
+        it('resolves an unaliased action starting at an entity type', async () => {
+            const parsedEDMX = parse(await loadFixture('v4/aliased.xml'));
+            const convertedTypes = convert(parsedEDMX);
+
+            const entityType = convertedTypes.entityTypes.by_name('Entities')!;
+            const resolved = entityType.resolvePath('sap.fe.test.JestService.doSomething');
+            expect(resolved?.fullyQualifiedName).toEqual(
+                'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
+            );
+        });
+
+        it('resolves an aliased action starting at an entity type', async () => {
+            const parsedEDMX = parse(await loadFixture('v4/aliased.xml'));
+            const convertedTypes = convert(parsedEDMX);
+
+            const entityType = convertedTypes.entityTypes.by_name('Entities')!;
+            const resolved = entityType.resolvePath('ThisService.doSomething');
+            expect(resolved?.fullyQualifiedName).toEqual(
+                'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
+            );
+        });
     });
 });
