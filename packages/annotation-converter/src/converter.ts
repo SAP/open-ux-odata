@@ -257,7 +257,7 @@ function resolveTarget<T>(
                             return current;
                         }
 
-                        const action = thisElement.actions[segment];
+                        const action = thisElement.actions[converter.unalias(segment)];
                         if (action) {
                             current.target = action;
                             return current;
