@@ -643,16 +643,17 @@ function parseRecord(
     if (isDataFieldWithForAction(annotationContent)) {
         lazy(annotationContent, 'ActionTarget', () => {
             // try to resolve to a bound action of the annotation target
-            let actionTarget = currentTarget.actions?.[annotationContent.Action];
+            const actionFQN = converter.unalias(annotationContent.Action);
+            let actionTarget = currentTarget.actions?.[actionFQN];
 
             if (!actionTarget) {
                 // try to find a corresponding unbound action
-                actionTarget = converter.getConvertedActionImport(annotationContent.Action)?.action;
+                actionTarget = converter.getConvertedActionImport(actionFQN)?.action;
             }
 
             if (!actionTarget) {
                 // try to find a corresponding bound (!) action
-                actionTarget = converter.getConvertedAction(annotationContent.Action);
+                actionTarget = converter.getConvertedAction(actionFQN);
                 if (!actionTarget?.isBound) {
                     actionTarget = undefined;
                 }
@@ -660,7 +661,7 @@ function parseRecord(
 
             if (!actionTarget) {
                 converter.logError(
-                    `Unable to resolve the action '${annotationContent.Action}' defined for '${annotationTerm.fullyQualifiedName}'`
+                    `Unable to resolve the action '${actionFQN}' defined for '${annotationTerm.fullyQualifiedName}'`
                 );
             }
             return actionTarget;
@@ -909,7 +910,7 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
 
     const [vocAlias, vocTerm] = converter.splitTerm(rawAnnotation.term);
 
-    annotation.term = converter.unalias(`${vocAlias}.${vocTerm}`);
+    annotation.term = converter.unalias(`${vocAlias}.${vocTerm}`, VocabularyReferences);
     annotation.qualifier = rawAnnotation.qualifier;
     annotation.__source = (rawAnnotation as any).__source;
 
@@ -1133,13 +1134,13 @@ class Converter {
         return splitAtLast(aliased, '.');
     }
 
-    toDefaultAlias(value: string) {
+    toDefaultAlias(value: string | undefined) {
         const unaliased = unalias(this.rawMetadata.references, value) ?? '';
         return alias(VocabularyReferences, unaliased);
     }
 
-    unalias(value: string | undefined) {
-        return unalias(this.rawMetadata.references, value) ?? '';
+    unalias(value: string | undefined, references = this.rawMetadata.references) {
+        return unalias(references, value) ?? '';
     }
 }
 
