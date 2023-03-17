@@ -193,7 +193,7 @@ function resolveTarget<T>(
                     {
                         const thisElement = current.target as EntityContainer;
 
-                        if (segment === '' || segment === thisElement.fullyQualifiedName) {
+                        if (segment === '' || converter.unalias(segment) === thisElement.fullyQualifiedName) {
                             return current;
                         }
 

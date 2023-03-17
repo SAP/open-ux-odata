@@ -10,12 +10,13 @@
         <edmx:Include Alias="MyUI" Namespace="com.sap.vocabularies.UI.v1"/>
     </edmx:Reference>
     <edmx:Reference Uri="">
-        <edmx:Include Alias="ThisService" Namespace="sap.fe.test.JestService"/>
+        <edmx:Include Alias="MyServiceAlias" Namespace="sap.fe.test.JestService"/>
     </edmx:Reference>
     <edmx:DataServices>
         <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
             <EntityContainer Name="EntityContainer">
                 <EntitySet Name="Entities" EntityType="sap.fe.test.JestService.Entities"/>
+                <ActionImport Name="doSomethingUnbound" Action="sap.fe.test.JestService.doSomethingUnbound"/>
             </EntityContainer>
             <EntityType Name="Entities">
                 <Key>
@@ -26,17 +27,21 @@
             <Action Name="doSomething" IsBound="true">
                 <Parameter Name="in" Type="sap.fe.test.JestService.Entities"/>
             </Action>
+            <Action Name="doSomethingUnbound" IsBound="false"/>
             <Annotations Target="sap.fe.test.JestService.Entities">
                 <Annotation Term="MyAlias.Label" String="Label"/>
                 <Annotation Term="MyUI.Identification">
                     <Collection>
                         <Record Type="MyUI.DataFieldForAction">
-                            <PropertyValue Property="Action" String="ThisService.doSomething"/>
+                            <PropertyValue Property="Action" String="MyServiceAlias.doSomething"/>
+                        </Record>
+                        <Record Type="MyUI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="MyServiceAlias.EntityContainer/doSomethingUnbound"/>
                         </Record>
                     </Collection>
                 </Annotation>
             </Annotations>
-            <Annotations Target="ThisService.doSomething(ThisService.Entities)">
+            <Annotations Target="MyServiceAlias.doSomething(sap.fe.test.JestService.Entities)">
                 <Annotation Term="MyAlias.Label" String="Do Something"/>
             </Annotations>
         </Schema>
