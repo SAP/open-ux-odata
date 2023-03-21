@@ -3,7 +3,6 @@ import type {
     ActionImport,
     ActionParameter,
     Annotation,
-    AnnotationList,
     AnnotationRecord,
     ArrayWithIndex,
     BaseNavigationProperty,
@@ -31,7 +30,6 @@ import type {
     RawTypeDefinition,
     RawV2NavigationProperty,
     RawV4NavigationProperty,
-    Reference,
     RemoveAnnotationAndType,
     ResolutionTarget,
     Singleton,
@@ -51,7 +49,6 @@ import {
     unalias
 } from './utils';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
-import { DataFieldForAction, DataFieldWithAction } from '@sap-ux/vocabularies-types/vocabularies/UI';
 
 /**
  * Symbol to extend an annotation with the reference to its target.
@@ -260,7 +257,7 @@ function resolveTarget<T>(
 
                         const { action: actionName } = splitActionFQN(segment);
                         if (actionName) {
-                            const action = thisElement.actions[converter.unaliasAction(actionName)];
+                            const action = thisElement.actions[converter.unalias(actionName)];
                             if (action) {
                                 current.target = action;
                                 return current;
@@ -583,7 +580,7 @@ function splitActionFQN(actionFQN: FullyQualifiedName | undefined) {
 
     const actionAndOverload = actionFQN?.match(/(?<action>[^()]+)(?:\((?<overload>.*)\))?/);
     return {
-        action: actionAndOverload?.groups?.action,
+        action: actionAndOverload?.groups?.action ?? '',
         overload: actionAndOverload?.groups?.overload
     };
 }
@@ -604,42 +601,6 @@ function parseRecordType(
     return targetType;
 }
 
-function resolveActionTarget(
-    converter: Converter,
-    annotation: DataFieldWithAction | DataFieldForAction,
-    target: string
-) {
-    lazy(annotation, 'ActionTarget', () => {
-        const actionTargetFQN = converter.unaliasAction(target);
-        const annotationTarget = (annotation as unknown as { [ANNOTATION_TARGET]: EntityType })[ANNOTATION_TARGET];
-
-        // (1) Bound action of the annotation target?
-        let actionTarget =
-            annotationTarget._type === 'EntityType' ? annotationTarget.actions?.[actionTargetFQN] : undefined;
-
-        if (!actionTarget) {
-            // (2) ActionImport (= unbound action)?
-            actionTarget = converter.getConvertedActionImport(actionTargetFQN)?.action;
-        }
-
-        if (!actionTarget) {
-            // (3) Bound action of a different EntityType
-            actionTarget = converter.getConvertedAction(actionTargetFQN);
-            if (!actionTarget?.isBound) {
-                actionTarget = undefined;
-            }
-        }
-
-        if (!actionTarget) {
-            // resolution failed
-            converter.logError(
-                `${annotation.fullyQualifiedName}: Unable to resolve '${annotation.Action}' ('${actionTargetFQN}')`
-            );
-        }
-        return actionTarget;
-    });
-}
-
 function parseRecord(
     converter: Converter,
     currentTerm: string,
@@ -649,35 +610,15 @@ function parseRecord(
     annotationRecord: AnnotationRecord,
     currentFQN: string
 ) {
-    const annotationTerm: any = {
+    const record: any = {
         $Type: parseRecordType(converter, currentTerm, currentTarget, currentProperty, annotationRecord),
         fullyQualifiedName: currentFQN,
-        [ANNOTATION_TARGET]: currentTarget
+        [ANNOTATION_TARGET]: currentTarget,
+        __source: currentSource
     };
 
-    // annotations on the record
-    lazy(annotationTerm, 'annotations', () => {
-        // be graceful when resolving annotations on annotations: Sometimes they are referenced directly, sometimes they
-        // are part of the global annotations list
-        let annotations;
-        if (annotationRecord.annotations && annotationRecord.annotations.length > 0) {
-            annotations = annotationRecord.annotations;
-        } else {
-            annotations = converter.getRawAnnotations(currentFQN)?.annotations;
-        }
-
-        annotations?.forEach((annotation: any) => {
-            annotation.target = currentFQN;
-            annotation.__source = currentSource;
-            annotation[ANNOTATION_TARGET] = currentTarget;
-            annotation.fullyQualifiedName = `${currentFQN}@${annotation.term}`;
-        });
-
-        return createAnnotationsObject(converter, annotationTerm, annotations ?? []);
-    });
-
-    const annotationContent = annotationRecord.propertyValues?.reduce((annotationContent, propertyValue) => {
-        lazy(annotationContent, propertyValue.name, () =>
+    for (const propertyValue of annotationRecord.propertyValues) {
+        lazy(record, propertyValue.name, () =>
             parseValue(
                 converter,
                 currentTarget,
@@ -688,14 +629,44 @@ function parseRecord(
                 `${currentFQN}/${propertyValue.name}`
             )
         );
-
-        return annotationContent;
-    }, annotationTerm);
-
-    if (isDataFieldWithForAction(annotationContent)) {
-        resolveActionTarget(converter, annotationContent, annotationContent.Action?.toString());
     }
-    return annotationContent;
+
+    // annotations on the record
+    lazy(record, 'annotations', resolveAnnotationsOnAnnotation(converter, annotationRecord, record));
+
+    if (isDataFieldWithForAction(record)) {
+        lazy(record, 'ActionTarget', () => {
+            const actionTargetFQN = converter.unalias(record.Action?.toString());
+            const annotationTarget = (record as unknown as { [ANNOTATION_TARGET]: EntityType })[ANNOTATION_TARGET];
+
+            // (1) Bound action of the annotation target?
+            let actionTarget =
+                annotationTarget._type === 'EntityType' ? annotationTarget.actions?.[actionTargetFQN] : undefined;
+
+            if (!actionTarget) {
+                // (2) ActionImport (= unbound action)?
+                actionTarget = converter.getConvertedActionImport(actionTargetFQN)?.action;
+            }
+
+            if (!actionTarget) {
+                // (3) Bound action of a different EntityType
+                actionTarget = converter.getConvertedAction(actionTargetFQN);
+                if (!actionTarget?.isBound) {
+                    actionTarget = undefined;
+                }
+            }
+
+            if (!actionTarget) {
+                // resolution failed
+                converter.logError(
+                    `${record.fullyQualifiedName}: Unable to resolve '${record.Action}' ('${actionTargetFQN}')`
+                );
+            }
+            return actionTarget;
+        });
+    }
+
+    return record;
 }
 
 export type CollectionType =
@@ -943,27 +914,7 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
     annotation.__source = (rawAnnotation as any).__source;
 
     try {
-        lazy(annotation, 'annotations', () => {
-            const annotationFQN = annotation.fullyQualifiedName;
-
-            // be graceful when resolving annotations on annotations: Sometimes they are referenced directly, sometimes they
-            // are part of the global annotations list
-            let annotations;
-            if (rawAnnotation.annotations && rawAnnotation.annotations.length > 0) {
-                annotations = rawAnnotation.annotations;
-            } else {
-                annotations = converter.getRawAnnotations(annotationFQN)?.annotations;
-            }
-
-            annotations?.forEach((rawSubAnnotation: any) => {
-                rawSubAnnotation.target = annotationFQN;
-                rawSubAnnotation.__source = annotation.__source;
-                rawSubAnnotation[ANNOTATION_TARGET] = target;
-                rawSubAnnotation.fullyQualifiedName = `${annotationFQN}@${rawSubAnnotation.term}`;
-            });
-
-            return createAnnotationsObject(converter, annotation, annotations ?? []);
-        });
+        lazy(annotation, 'annotations', resolveAnnotationsOnAnnotation(converter, rawAnnotation, annotation));
     } catch (e) {
         // not an error: parseRecord() already adds annotations, but the other parseXXX functions don't, so this can happen
     }
@@ -971,81 +922,66 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
     return annotation as Annotation;
 }
 
-function getAnnotationFQN(currentTargetName: string, references: Reference[], annotation: RawAnnotation) {
-    const annotationFQN = `${currentTargetName}@${unalias(references, annotation.term)}`;
-
-    if (annotation.qualifier) {
-        return `${annotationFQN}#${annotation.qualifier}`;
-    } else {
-        return annotationFQN;
-    }
-}
-
 /**
  * Merge annotation from different source together by overwriting at the term level.
  *
- * @param rawMetadata
+ * @param converter
  * @returns the resulting merged annotations
  */
-function mergeAnnotations(converter: Converter, rawMetadata: RawMetadata): Record<string, AnnotationList> {
-    const annotationListPerTarget: Record<string, AnnotationList> = {};
+function mergeAnnotations(converter: Converter): Record<string, Annotation[]> {
+    return Object.keys(converter.rawSchema.annotations).reduceRight((annotationsPerTarget, annotationSource) => {
+        for (const { target: rawTarget, annotations: rawAnnotations } of converter.rawSchema.annotations[
+            annotationSource
+        ]) {
+            const target = converter.unalias(rawTarget);
 
-    for (const annotationSource in rawMetadata.schema.annotations) {
-        for (const annotationList of rawMetadata.schema.annotations[annotationSource]) {
-            (annotationList as any).__source = annotationSource;
-
-            const currentTargetName = converter.unaliasAction(annotationList.target);
-            if (!annotationListPerTarget[currentTargetName]) {
-                annotationListPerTarget[currentTargetName] = {
-                    annotations: annotationList.annotations.map((annotation: RawAnnotation) => {
-                        (annotation as Annotation).fullyQualifiedName = getAnnotationFQN(
-                            currentTargetName,
-                            rawMetadata.references,
-                            annotation
-                        );
-                        (annotation as any).__source = annotationSource;
-                        return annotation;
-                    }),
-                    target: currentTargetName
-                };
-                (annotationListPerTarget[currentTargetName] as any).__source = annotationSource;
-            } else {
-                annotationList.annotations.forEach((annotation: RawAnnotation) => {
-                    const findIndex = annotationListPerTarget[currentTargetName].annotations.findIndex(
-                        (referenceAnnotation: RawAnnotation) => {
-                            return (
-                                referenceAnnotation.term === annotation.term &&
-                                referenceAnnotation.qualifier === annotation.qualifier
-                            );
-                        }
-                    );
-                    (annotation as any).__source = annotationSource;
-                    (annotation as Annotation).fullyQualifiedName = getAnnotationFQN(
-                        currentTargetName,
-                        rawMetadata.references,
-                        annotation
-                    );
-                    if (findIndex !== -1) {
-                        annotationListPerTarget[currentTargetName].annotations.splice(findIndex, 1, annotation);
-                    } else {
-                        annotationListPerTarget[currentTargetName].annotations.push(annotation);
-                    }
-                });
+            if (!annotationsPerTarget[target]) {
+                annotationsPerTarget[target] = [];
             }
-        }
-    }
 
-    return annotationListPerTarget;
+            annotationsPerTarget[target].push(
+                ...rawAnnotations
+                    .filter(
+                        (rawAnnotation) =>
+                            !annotationsPerTarget[target].some(
+                                (existingAnnotation) =>
+                                    existingAnnotation.term === rawAnnotation.term &&
+                                    existingAnnotation.qualifier === rawAnnotation.qualifier
+                            )
+                    )
+                    .map((rawAnnotation) => {
+                        let annotationFQN = `${target}@${converter.unalias(rawAnnotation.term)}`;
+                        if (rawAnnotation.qualifier) {
+                            annotationFQN = `${annotationFQN}#${rawAnnotation.qualifier}`;
+                        }
+
+                        const annotation = rawAnnotation as Annotation & { __source: string };
+                        annotation.fullyQualifiedName = annotationFQN;
+                        annotation.__source = annotationSource;
+                        return annotation;
+                    })
+            );
+        }
+
+        return annotationsPerTarget;
+    }, {} as Record<string, Annotation[]>);
 }
 
 class Converter {
-    private rawAnnotationsPerTarget: Record<FullyQualifiedName, AnnotationList>;
-    getRawAnnotations(target: FullyQualifiedName) {
-        if (this.rawAnnotationsPerTarget === undefined) {
-            this.rawAnnotationsPerTarget = mergeAnnotations(this, this.rawMetadata);
+    private annotationyByTarget: Record<FullyQualifiedName, Annotation[]>;
+
+    /**
+     * Get preprocessed annotations on the specified target.
+     *
+     * @param target    The annotation target
+     * @returns An array of annotations
+     */
+    getAnnotations(target: FullyQualifiedName): Annotation[] {
+        if (this.annotationyByTarget === undefined) {
+            this.annotationyByTarget = mergeAnnotations(this);
         }
 
-        return this.rawAnnotationsPerTarget[target];
+        return this.annotationyByTarget[target] ?? [];
     }
 
     getConvertedEntityContainer() {
@@ -1172,17 +1108,14 @@ class Converter {
     }
 
     unalias(value: string | undefined, references = this.rawMetadata.references) {
-        return unalias(references, value) ?? '';
-    }
-    unaliasAction(value: string, references = this.rawMetadata.references) {
         const { action, overload } = splitActionFQN(value);
 
-        let actionTargetFQN = this.unalias(action, references);
+        let actionTargetFQN = unalias(references, action);
         if (overload !== undefined) {
-            actionTargetFQN += `(${this.unalias(overload, references)})`;
+            actionTargetFQN += `(${unalias(references, overload)})`;
         }
 
-        return actionTargetFQN;
+        return actionTargetFQN ?? '';
     }
 }
 
@@ -1235,8 +1168,36 @@ function resolveAnnotations(converter: Converter, rawAnnotationTarget: any) {
         createAnnotationsObject(
             converter,
             rawAnnotationTarget,
-            nestedAnnotations ?? converter.getRawAnnotations(rawAnnotationTarget.fullyQualifiedName)?.annotations ?? []
+            nestedAnnotations ?? converter.getAnnotations(rawAnnotationTarget.fullyQualifiedName)
         );
+}
+
+function resolveAnnotationsOnAnnotation(
+    converter: Converter,
+    annotationRecord: AnnotationRecord | RawAnnotation,
+    annotationTerm: any
+) {
+    return () => {
+        const currentFQN = annotationTerm.fullyQualifiedName;
+
+        // be graceful when resolving annotations on annotations: Sometimes they are referenced directly, sometimes they
+        // are part of the global annotations list
+        let annotations;
+        if (annotationRecord.annotations && annotationRecord.annotations.length > 0) {
+            annotations = annotationRecord.annotations;
+        } else {
+            annotations = converter.getAnnotations(currentFQN);
+        }
+
+        annotations?.forEach((annotation: any) => {
+            annotation.target = currentFQN;
+            annotation.__source = annotationTerm.__source;
+            annotation[ANNOTATION_TARGET] = annotationTerm[ANNOTATION_TARGET];
+            annotation.fullyQualifiedName = `${currentFQN}@${annotation.term}`;
+        });
+
+        return createAnnotationsObject(converter, annotationTerm, annotations ?? []);
+    };
 }
 
 function createAnnotationsObject(converter: Converter, target: any, rawAnnotations: RawAnnotation[]) {
@@ -1499,16 +1460,19 @@ function convertAction(converter: Converter, rawAction: RawAction): Action {
     lazy(convertedAction, 'annotations', () => {
         const { action, overload } = splitActionFQN(rawAction.fullyQualifiedName);
 
-        let rawAnnotations: RawAnnotation[] = [];
-        if (overload) {
-            rawAnnotations = converter.getRawAnnotations(rawAction.fullyQualifiedName)?.annotations ?? [];
-        } else {
-            rawAnnotations = converter.getRawAnnotations(`${action}()`)?.annotations ?? [];
-        }
+        const annotationTargetFQN = `${action}(${overload ?? ''})`;
+        const rawAnnotations = converter.getAnnotations(annotationTargetFQN);
+        const baseAnnotations = converter.getAnnotations(action);
 
-        if (action && action !== rawAction.fullyQualifiedName) {
-            const baseAnnotations = converter.getRawAnnotations(action)?.annotations ?? [];
-            rawAnnotations = rawAnnotations.concat(baseAnnotations);
+        for (const baseAnnotation of baseAnnotations) {
+            if (
+                !rawAnnotations.some(
+                    (annotation) =>
+                        annotation.term === baseAnnotation.term && annotation.qualifier === baseAnnotation.qualifier
+                )
+            ) {
+                rawAnnotations.push(baseAnnotation);
+            }
         }
 
         return createAnnotationsObject(converter, rawAction, rawAnnotations);
