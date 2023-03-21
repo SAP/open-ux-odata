@@ -34,15 +34,28 @@
                     <Collection>
                         <Record Type="MyUI.DataFieldForAction">
                             <PropertyValue Property="Action" String="MyServiceAlias.doSomething"/>
+                            <Annotation Term="Core.Description" String="Qualified name of an action or function (foo.bar)"/>
+                        </Record>
+                        <Record Type="MyUI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="MyServiceAlias.doSomething(MyServiceAlias.Entities)"/>
+                            <Annotation Term="Core.Description" String="Qualified name of an action or function followed by parentheses with the parameter signature to identify a specific overload, like in an annotation target (foo.bar(baz.qux))"/>
+                        </Record>
+                        <Record Type="MyUI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="doSomethingUnbound"/>
+                            <Annotation Term="Core.Description" String="Simple name of an action import or function import of the annotated service (quux)"/>
                         </Record>
                         <Record Type="MyUI.DataFieldForAction">
                             <PropertyValue Property="Action" String="MyServiceAlias.EntityContainer/doSomethingUnbound"/>
+                            <Annotation Term="Core.Description" String="Qualified name of an entity container, followed by a slash and the simple name of an action import or function import in any referenced schema (foo.corge/quux)"/>
                         </Record>
                     </Collection>
                 </Annotation>
             </Annotations>
-            <Annotations Target="MyServiceAlias.doSomething(sap.fe.test.JestService.Entities)">
-                <Annotation Term="MyAlias.Label" String="Do Something"/>
+            <Annotations Target="MyServiceAlias.doSomething(MyServiceAlias.Entities)">
+                <Annotation Term="MyAlias.Label" String="Label of action doSomething"/>
+            </Annotations>
+            <Annotations Target="MyServiceAlias.doSomethingUnbound()">
+                <Annotation Term="MyAlias.Label" String="Label of action doSomethingUnbound"/>
             </Annotations>
         </Schema>
     </edmx:DataServices>

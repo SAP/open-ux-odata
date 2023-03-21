@@ -929,10 +929,11 @@ describe('Annotation Converter', () => {
     });
 
     describe('Aliases', () => {
+        const metadata = loadFixture('v4/aliased.xml');
         let convertedTypes: ConvertedMetadata;
 
         beforeEach(async () => {
-            const parsedEDMX = parse(await loadFixture('v4/aliased.xml'));
+            const parsedEDMX = parse(await metadata);
             convertedTypes = convert(parsedEDMX);
         });
 
@@ -949,107 +950,78 @@ describe('Annotation Converter', () => {
             expect(annotations.UI?.Identification?.term).toEqual('com.sap.vocabularies.UI.v1.Identification');
         });
 
-        it('EntityType: resolvePath() can resolve action "sap.fe.test.JestService.doSomething"', async () => {
-            const entityType = convertedTypes.entityTypes.by_name('Entities')!;
+        describe('EntityType.resolvePath()', () => {
+            it.each([
+                // Qualified name of an action or function (foo.bar)
+                {
+                    path: 'sap.fe.test.JestService.doSomething',
+                    targetFQN: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)',
+                    targetLabel: 'Label of action doSomething'
+                },
+                {
+                    path: 'MyServiceAlias.doSomething',
+                    targetFQN: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)',
+                    targetLabel: 'Label of action doSomething'
+                },
+                // Qualified name of an action or function followed by parentheses with the parameter signature to identify a specific overload, like in an annotation target (foo.bar(baz.qux))
+                {
+                    path: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)',
+                    targetFQN: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)',
+                    targetLabel: 'Label of action doSomething'
+                },
+                {
+                    path: 'MyServiceAlias.doSomething(MyServiceAlias.Entities)',
+                    targetFQN: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)',
+                    targetLabel: 'Label of action doSomething'
+                }
+            ])('$path', ({ path, targetFQN, targetLabel }) => {
+                const entityType = convertedTypes.entityTypes.by_name('Entities')!;
+                const resolved = entityType.resolvePath(path) as Action | undefined;
 
-            const resolved = entityType.resolvePath('sap.fe.test.JestService.doSomething') as Action | undefined;
+                expect(resolved?.fullyQualifiedName).toEqual(targetFQN);
 
-            expect(resolved?.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
-            );
-
-            expect(resolved?.annotations?.Common?.Label?.valueOf()).toEqual('Do Something');
+                expect(resolved?.annotations?.Common?.Label?.valueOf()).toEqual(targetLabel);
+            });
         });
 
-        it('EntityType: resolvePath() can resolve action "MyServiceAlias.doSomething"', async () => {
-            const entityType = convertedTypes.entityTypes.by_name('Entities')!;
-
-            const resolved = entityType.resolvePath('MyServiceAlias.doSomething');
-
-            expect(resolved?.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
-            );
-        });
-
-        it('resolveTarget() can resolve unbound action import "sap.fe.test.JestService.EntityContainer/doSomethingUnbound"', async () => {
-            const result = convertedTypes.resolvePath<ActionImport>(
-                'sap.fe.test.JestService.EntityContainer/doSomethingUnbound'
-            );
-            expect(result.target?.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.EntityContainer/doSomethingUnbound'
-            );
-            expect(result.target?.action).toBeDefined();
-        });
-
-        it('resolveTarget() can resolve unbound action import "MyServiceAlias.EntityContainer/doSomethingUnbound"', async () => {
-            const result = convertedTypes.resolvePath<ActionImport>(
-                'MyServiceAlias.EntityContainer/doSomethingUnbound'
-            );
-            expect(result.target?.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.EntityContainer/doSomethingUnbound'
-            );
-            expect(result.target?.action).toBeDefined();
-        });
-
-        it('[Special case 1] DataFieldForAction: Resolve action target for value "MyServiceAlias.doSomething" (bound action)', async () => {
-            const entityType = convertedTypes.entityTypes.by_name('Entities');
-            const annotations = entityType!.annotations;
-            const dataFieldForAction = annotations.UI!.Identification![0] as DataFieldForAction;
-            expect(dataFieldForAction.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.Entities@com.sap.vocabularies.UI.v1.Identification/0'
-            );
-
-            /*
-             This comes from
-
-                <Annotation Term="MyUI.Identification">
-                    <Collection>
-                        <Record Type="MyUI.DataFieldForAction">
-                            <PropertyValue Property="Action" String="MyServiceAlias.doSomething"/>
-                        </Record>                            ^^^^^^
-                    </Collection>
-                </Annotation>
-
-             As the converter does not try to unalias all strings, it won't unalias this property value either...
-            */
-            expect(dataFieldForAction.Action).toEqual('MyServiceAlias.doSomething');
-
-            /*
-             ... but it will still resolve the action target because it is aware of DataFieldForAction and DataFieldWithAction
-            */
-            expect(dataFieldForAction.ActionTarget?.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
-            );
-        });
-
-        it('[Special case 2] DataFieldForAction: Resolve action target for value "MyServiceAlias.doSomething" (unbound action)', async () => {
-            const entityType = convertedTypes.entityTypes.by_name('Entities');
-            const annotations = entityType!.annotations;
-            const dataFieldForAction = annotations.UI!.Identification![1] as DataFieldForAction;
-            expect(dataFieldForAction.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.Entities@com.sap.vocabularies.UI.v1.Identification/1'
-            );
-
-            /*
-             This comes from
-
-                <Annotation Term="MyUI.Identification">
-                    <Collection>
-                        <Record Type="MyUI.DataFieldForAction">
-                            <PropertyValue Property="Action" String="MyServiceAlias.EntityContainer/doSomethingUnbound"/>
-                        </Record>                            ^^^^^^
-                    </Collection>
-                </Annotation>
-
-             As the converter does not try to unalias all strings, it won't unalias this property value either...
-            */
-            expect(dataFieldForAction.Action).toEqual('MyServiceAlias.EntityContainer/doSomethingUnbound');
-
-            /*
-             ... but it will still resolve the action target because it is aware of DataFieldForAction and DataFieldWithAction
-            */
-            expect(dataFieldForAction.ActionTarget?.fullyQualifiedName).toEqual(
-                'sap.fe.test.JestService.doSomethingUnbound'
+        describe('ActionTarget of DataFieldForAction', () => {
+            it.each([
+                {
+                    dataFieldIndex: 0,
+                    expectedDataFieldAction: 'MyServiceAlias.doSomething',
+                    expectedDataFieldActionTargetFQN:
+                        'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
+                },
+                {
+                    dataFieldIndex: 1,
+                    expectedDataFieldAction: 'MyServiceAlias.doSomething(MyServiceAlias.Entities)',
+                    expectedDataFieldActionTargetFQN:
+                        'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
+                },
+                {
+                    dataFieldIndex: 2,
+                    expectedDataFieldAction: 'doSomethingUnbound',
+                    expectedDataFieldActionTargetFQN: 'sap.fe.test.JestService.doSomethingUnbound'
+                },
+                {
+                    dataFieldIndex: 3,
+                    expectedDataFieldAction: 'MyServiceAlias.EntityContainer/doSomethingUnbound',
+                    expectedDataFieldActionTargetFQN: 'sap.fe.test.JestService.doSomethingUnbound'
+                }
+            ])(
+                '$expectedDataFieldAction',
+                ({ dataFieldIndex, expectedDataFieldAction, expectedDataFieldActionTargetFQN }) => {
+                    const entityType = convertedTypes.entityTypes.by_name('Entities');
+                    const annotations = entityType!.annotations;
+                    const dataFieldForAction = annotations.UI!.Identification![dataFieldIndex] as DataFieldForAction;
+                    expect(dataFieldForAction.fullyQualifiedName).toEqual(
+                        `sap.fe.test.JestService.Entities@com.sap.vocabularies.UI.v1.Identification/${dataFieldIndex}`
+                    );
+                    expect(dataFieldForAction.Action).toEqual(expectedDataFieldAction); // this is possibly unaliased because the converter does not transform strings
+                    expect(dataFieldForAction.ActionTarget?.fullyQualifiedName).toEqual(
+                        expectedDataFieldActionTargetFQN
+                    );
+                }
             );
         });
     });
