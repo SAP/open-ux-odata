@@ -255,13 +255,11 @@ function resolveTarget<T>(
                             return current;
                         }
 
-                        const { action: actionName } = splitActionFQN(segment);
-                        if (actionName) {
-                            const action = thisElement.actions[converter.unalias(actionName)];
-                            if (action) {
-                                current.target = action;
-                                return current;
-                            }
+                        const actionName = substringBeforeFirst(converter.unalias(segment), '(');
+                        const action = thisElement.actions[actionName];
+                        if (action) {
+                            current.target = action;
+                            return current;
                         }
                     }
                     break;
@@ -573,18 +571,6 @@ function isDataFieldWithForAction(annotationContent: any) {
     );
 }
 
-function splitActionFQN(actionFQN: FullyQualifiedName | undefined) {
-    // this.is.the.action(on.this.type) --> action: 'this.is.the.action', overload: 'on.this.type'
-    // this.is.the.action()             --> action: 'this.is.the.action', overload: undefined
-    // this.is.the.action               --> action: 'this.is.the.action', overload: undefined
-
-    const actionAndOverload = actionFQN?.match(/(?<action>[^()]+)(?:\((?<overload>.*)\))?/);
-    return {
-        action: actionAndOverload?.groups?.action ?? '',
-        overload: actionAndOverload?.groups?.overload
-    };
-}
-
 function parseRecordType(
     converter: Converter,
     currentTerm: string,
@@ -637,11 +623,9 @@ function parseRecord(
     if (isDataFieldWithForAction(record)) {
         lazy(record, 'ActionTarget', () => {
             const actionTargetFQN = converter.unalias(record.Action?.toString());
-            const annotationTarget = (record as unknown as { [ANNOTATION_TARGET]: EntityType })[ANNOTATION_TARGET];
 
             // (1) Bound action of the annotation target?
-            let actionTarget =
-                annotationTarget._type === 'EntityType' ? annotationTarget.actions?.[actionTargetFQN] : undefined;
+            let actionTarget = currentTarget.actions?.[actionTargetFQN];
 
             if (!actionTarget) {
                 // (2) ActionImport (= unbound action)?
@@ -657,7 +641,6 @@ function parseRecord(
             }
 
             if (!actionTarget) {
-                // resolution failed
                 converter.logError(
                     `${record.fullyQualifiedName}: Unable to resolve '${record.Action}' ('${actionTargetFQN}')`
                 );
@@ -665,7 +648,6 @@ function parseRecord(
             return actionTarget;
         });
     }
-
     return record;
 }
 
@@ -1108,14 +1090,7 @@ class Converter {
     }
 
     unalias(value: string | undefined, references = this.rawMetadata.references) {
-        const { action, overload } = splitActionFQN(value);
-
-        let actionTargetFQN = unalias(references, action);
-        if (overload !== undefined) {
-            actionTargetFQN += `(${unalias(references, overload)})`;
-        }
-
-        return actionTargetFQN ?? '';
+        return unalias(references, value) ?? '';
     }
 }
 
@@ -1458,9 +1433,13 @@ function convertAction(converter: Converter, rawAction: RawAction): Action {
     lazy(convertedAction, 'parameters', converter.convert(rawAction.parameters, convertActionParameter));
 
     lazy(convertedAction, 'annotations', () => {
-        const { action, overload } = splitActionFQN(rawAction.fullyQualifiedName);
+        const action = substringBeforeFirst(rawAction.fullyQualifiedName, '(');
 
-        const annotationTargetFQN = `${action}(${overload ?? ''})`;
+        // if the action is unbound (e.g. "myAction"), the annotation target is "myAction()"
+        const annotationTargetFQN = rawAction.isBound
+            ? rawAction.fullyQualifiedName
+            : `${rawAction.fullyQualifiedName}()`;
+
         const rawAnnotations = converter.getAnnotations(annotationTargetFQN);
         const baseAnnotations = converter.getAnnotations(action);
 

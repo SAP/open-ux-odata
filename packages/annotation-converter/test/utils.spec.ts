@@ -1,4 +1,13 @@
-import { addGetByValue, lazy, splitAtFirst, splitAtLast, substringBeforeFirst, substringBeforeLast } from '../src';
+import {
+    addGetByValue,
+    lazy,
+    splitAtFirst,
+    splitAtLast,
+    substringBeforeFirst,
+    substringBeforeLast,
+    unalias
+} from '../src';
+import type { Reference } from '@sap-ux/vocabularies-types';
 
 describe('utils', () => {
     describe('string splitting', () => {
@@ -171,5 +180,77 @@ describe('utils', () => {
             const value2 = indexArray.by_type('c');
             expect(value2).toBeUndefined();
         });
+    });
+
+    describe('unalias()', () => {
+        type TestCase = {
+            aliasedValue: string | undefined;
+            references: Reference[];
+            unaliasedValue: string | undefined;
+        };
+
+        it.each([
+            {
+                aliasedValue: undefined,
+                references: [],
+                unaliasedValue: undefined
+            },
+            {
+                aliasedValue: '',
+                references: [],
+                unaliasedValue: ''
+            },
+            {
+                aliasedValue: 'sap.fe.test.JestService.doSomethingUnbound',
+                references: [],
+                unaliasedValue: 'sap.fe.test.JestService.doSomethingUnbound'
+            },
+            {
+                aliasedValue: 'MyAlias.Label',
+                references: [{ alias: 'MyAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                unaliasedValue: 'com.sap.vocabularies.UI.v1.Label'
+            },
+            {
+                aliasedValue: 'MyAlias.doSomethingUnbound()',
+                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
+                unaliasedValue: 'sap.fe.test.JestService.doSomethingUnbound()'
+            },
+            {
+                aliasedValue: 'MyAlias.doSomething(MyAlias.Entities)',
+                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
+                unaliasedValue: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
+            },
+            {
+                aliasedValue: 'MyAlias.EntityContainer/doSomethingUnbound',
+                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
+                unaliasedValue: 'sap.fe.test.JestService.EntityContainer/doSomethingUnbound'
+            },
+            {
+                aliasedValue: '_nav/@MyAlias.FieldGroup',
+                references: [{ alias: 'MyAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                unaliasedValue: '_nav/@com.sap.vocabularies.UI.v1.FieldGroup'
+            },
+            {
+                aliasedValue: 'MyAlias.doSomething(MyAlias.Entities)/parameter1',
+                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
+                unaliasedValue: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)/parameter1'
+            },
+            {
+                aliasedValue: 'MyAlias.doSomething(MyAlias.Entities)/parameter1',
+                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
+                unaliasedValue: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)/parameter1'
+            },
+            {
+                aliasedValue: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1',
+                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
+                unaliasedValue: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1'
+            }
+        ] as TestCase[])(
+            'unalias("$aliasedValue") = "$unaliasedValue"',
+            ({ aliasedValue, references, unaliasedValue }) => {
+                const result = unalias(references, aliasedValue);
+                expect(result).toEqual(unaliasedValue);
+            }
+        );
     });
 });
