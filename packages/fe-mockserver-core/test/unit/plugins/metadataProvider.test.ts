@@ -1,5 +1,5 @@
-import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import * as path from 'path';
+import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import MetadataProvider from '../../../src/plugins/metadataProvider';
 
 describe('MetadataProvider', () => {

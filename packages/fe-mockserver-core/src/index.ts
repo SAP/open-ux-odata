@@ -1,8 +1,8 @@
-import type { MockserverConfiguration } from './api';
-import Router from 'router';
-import type { IRouter } from 'router';
-import { createMockMiddleware } from './middleware';
 import * as path from 'path';
+import type { IRouter } from 'router';
+import Router from 'router';
+import type { MockserverConfiguration } from './api';
+import { createMockMiddleware } from './middleware';
 
 export interface IFileLoader {
     loadFile(filePath: string): Promise<string>;

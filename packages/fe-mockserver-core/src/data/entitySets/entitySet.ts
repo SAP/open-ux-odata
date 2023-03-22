@@ -1,14 +1,14 @@
 import { join } from 'path';
 
-import type ODataRequest from '../../request/odataRequest';
+import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
 import type { KeyDefinitions } from '../../mockdata/fileBasedMockData';
-import type { MockDataContributor } from '../../mockdata/functionBasedMockData';
-import type { DataAccessInterface, EntitySetInterface } from '../common';
-import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
-import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
+import type { MockDataContributor } from '../../mockdata/functionBasedMockData';
+import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
 import type { FilterMethodCall, LambdaExpression } from '../../request/filterParser';
+import type ODataRequest from '../../request/odataRequest';
+import type { DataAccessInterface, EntitySetInterface } from '../common';
 import { getData } from '../common';
 
 type PreparedFunction = {

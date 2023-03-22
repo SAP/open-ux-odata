@@ -1,7 +1,7 @@
-import type { Index, ComplexType, Reference, TypeDefinition, ArrayWithIndex } from '@sap-ux/vocabularies-types';
-export { VocabularyReferences as defaultReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
+import type { ArrayWithIndex, ComplexType, Index, Reference, TypeDefinition } from '@sap-ux/vocabularies-types';
 export { EnumIsFlag } from '@sap-ux/vocabularies-types/vocabularies/EnumIsFlag';
 export { TermToTypes } from '@sap-ux/vocabularies-types/vocabularies/TermToTypes';
+export { VocabularyReferences as defaultReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 
 export type ReferencesWithMap = Reference[] & {
     referenceMap?: Record<string, Reference>;

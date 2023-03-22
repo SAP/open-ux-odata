@@ -1,15 +1,15 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { MockserverConfiguration, ServiceConfig, ServiceConfigEx } from './api';
 
-import Router from 'router';
-import type { IRouter } from 'router';
 import { getLogger } from '@ui5/logger';
-import type { IFileLoader, IMetadataProcessor } from './index';
-import { serviceRouter } from './router/serviceRouter';
-import { catalogServiceRouter } from './router/catalogServiceRouter';
-import { DataAccess } from './data/dataAccess';
 import etag from 'etag';
+import type { IRouter } from 'router';
+import Router from 'router';
+import { DataAccess } from './data/dataAccess';
 import { ODataMetadata } from './data/metadata';
+import type { IFileLoader, IMetadataProcessor } from './index';
+import { catalogServiceRouter } from './router/catalogServiceRouter';
+import { serviceRouter } from './router/serviceRouter';
 
 /**
  * Escape the path provided for the annotation URL so that they can fit the regex pattern from Router.

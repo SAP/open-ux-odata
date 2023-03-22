@@ -1,6 +1,4 @@
 import { merge, parse } from '@sap-ux/edmx-parser';
-import { loadFixture } from './fixturesHelper';
-import { convert, defaultReferences, revertTermToGenericType } from '../src';
 import type {
     ActionParameter,
     AnnotationPath,
@@ -15,13 +13,16 @@ import type {
     ResolutionTarget,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
+import type { EntitySetAnnotations_Capabilities } from '@sap-ux/vocabularies-types/vocabularies/Capabilities_Edm';
+import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Common';
+import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
+import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import type {
     CriticalityType,
     DataFieldAbstractTypes,
     DataFieldForAction,
     DataFieldForActionTypes,
     DataFieldForAnnotation,
-    DataFieldWithAction,
     FieldGroupType,
     LineItem
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
@@ -30,10 +31,8 @@ import {
     UIAnnotationTerms,
     UIAnnotationTypes
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
-import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
-import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
-import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Common';
-import type { EntitySetAnnotations_Capabilities } from '@sap-ux/vocabularies-types/vocabularies/Capabilities_Edm';
+import { convert, defaultReferences, revertTermToGenericType } from '../src';
+import { loadFixture } from './fixturesHelper';
 
 describe('Annotation Converter', () => {
     it('can convert EDMX with multiple schemas', async () => {

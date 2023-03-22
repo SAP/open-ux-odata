@@ -1,6 +1,6 @@
-import { MockDataEntitySet } from './entitySet';
 import type { EntitySet, EntityType } from '@sap-ux/vocabularies-types';
 import type { DataAccessInterface } from '../common';
+import { MockDataEntitySet } from './entitySet';
 
 export class ContainedDataEntitySet extends MockDataEntitySet {
     constructor(entitySetDefinition: EntitySet | EntityType, containedData: any, dataAccess: DataAccessInterface) {

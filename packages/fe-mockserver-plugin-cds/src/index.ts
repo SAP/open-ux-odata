@@ -1,7 +1,7 @@
-import { compileSources, to } from '@sap/cds-compiler';
-import { commonCDS } from './common.cds';
 import type { IFileLoader, IMetadataProcessor } from '@sap-ux/fe-mockserver-core';
+import { compileSources, to } from '@sap/cds-compiler';
 import path from 'path';
+import { commonCDS } from './common.cds';
 
 export type CDSMetadataProviderOptions = {
     odataVersion?: 'v2' | 'v4';

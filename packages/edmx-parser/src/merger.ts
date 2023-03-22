@@ -1,5 +1,5 @@
-import { MergedRawMetadata } from './utils';
 import type { RawMetadata } from '@sap-ux/vocabularies-types';
+import { MergedRawMetadata } from './utils';
 
 /**
  * Merges multiple metadata output from the parser together into one.

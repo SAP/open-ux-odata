@@ -1,4 +1,4 @@
-import { parseBatch, BatchContent } from '../../../src/router/batchParser';
+import { BatchContent, parseBatch } from '../../../src/router/batchParser';
 
 describe('Batch Parser', () => {
     it('can parse correct batch content', () => {

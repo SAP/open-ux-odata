@@ -1,9 +1,9 @@
-import { MockDataEntitySet } from './entitySet';
-import type ODataRequest from '../../request/odataRequest';
-import type { FileBasedMockData, KeyDefinitions } from '../../mockdata/fileBasedMockData';
-import { _getDateTimeOffset, uuidv4 } from '../common';
-import type { DataAccessInterface } from '../common';
 import type { Action, EntitySet, EntityType, NavigationProperty, Property } from '@sap-ux/vocabularies-types';
+import type { FileBasedMockData, KeyDefinitions } from '../../mockdata/fileBasedMockData';
+import type ODataRequest from '../../request/odataRequest';
+import type { DataAccessInterface } from '../common';
+import { uuidv4, _getDateTimeOffset } from '../common';
+import { MockDataEntitySet } from './entitySet';
 
 type DraftElement = {
     IsActiveEntity: boolean;

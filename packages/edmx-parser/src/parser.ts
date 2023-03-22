@@ -1,42 +1,42 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../utils/edmx.d.ts"/>
-import { xml2js } from 'xml-js';
-import { ensureArray, RawMetadataInstance } from './utils';
 import type {
+    AnnotationList,
+    AnnotationPathExpression,
+    AnnotationRecord,
+    Apply,
+    Expression,
+    FullyQualifiedName,
+    NavigationPropertyPathExpression,
+    PathExpression,
+    PropertyPathExpression,
+    PropertyValue,
     RawAction,
     RawActionImport,
-    RawEntityType,
-    ReferentialConstraint,
-    RawProperty,
-    RawEntitySet,
+    RawAnnotation,
     RawAssociation,
     RawAssociationEnd,
-    RawSchema,
-    RawEntityContainer,
-    RawMetadata,
-    Reference,
     RawAssociationSet,
     RawAssociationSetEnd,
     RawComplexType,
+    RawEntityContainer,
+    RawEntitySet,
+    RawEntityType,
+    RawMetadata,
+    RawProperty,
+    RawSchema,
     RawSingleton,
     RawTypeDefinition,
-    SimpleIdentifier,
-    FullyQualifiedName,
-    PropertyValue,
-    AnnotationList,
-    AnnotationRecord,
-    PropertyPathExpression,
-    NavigationPropertyPathExpression,
-    AnnotationPathExpression,
-    PathExpression,
-    Apply,
-    Expression,
-    RawAnnotation,
     RawV2NavigationProperty,
-    RawV4NavigationProperty
+    RawV4NavigationProperty,
+    Reference,
+    ReferentialConstraint,
+    SimpleIdentifier
 } from '@sap-ux/vocabularies-types';
-import { convertV2Annotations } from './v2annotationsSupport';
+import { xml2js } from 'xml-js';
+import { ensureArray, RawMetadataInstance } from './utils';
 import type { V2annotationsSupport } from './v2annotationsSupport';
+import { convertV2Annotations } from './v2annotationsSupport';
 
 const collectionRegexp = /Collection\(([^)]+)\)/;
 

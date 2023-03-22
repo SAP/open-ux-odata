@@ -1,7 +1,7 @@
-import type { ServiceConfigEx } from '../api';
+import type { IncomingMessage, ServerResponse } from 'http';
 import type { IRouter } from 'router';
 import Router from 'router';
-import type { IncomingMessage, ServerResponse } from 'http';
+import type { ServiceConfigEx } from '../api';
 
 /**
  * Create a service mocking the catalog service from the ABAP backend.

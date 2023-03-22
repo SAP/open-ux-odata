@@ -1,7 +1,7 @@
-import * as path from 'path';
 import FEMockserver from '@sap-ux/fe-mockserver-core';
-import { resolveConfig } from './configResolver';
+import * as path from 'path';
 import type { IRouter } from 'router';
+import { resolveConfig } from './configResolver';
 export type { MockDataContributor } from '@sap-ux/fe-mockserver-core';
 
 async function FEMiddleware(middlewareConfig: any): Promise<IRouter> {
