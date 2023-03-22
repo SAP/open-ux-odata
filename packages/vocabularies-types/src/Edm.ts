@@ -1,8 +1,10 @@
 // PURE EDM Types
+import type { AnnotationList, FullyQualifiedName, RawAnnotation, SimpleIdentifier } from './BaseEdm';
 import type {
     ActionAnnotations,
     ActionImportAnnotations,
     AnnotationAnnotations,
+    CollectionAnnotations,
     ComplexTypeAnnotations,
     EntityContainerAnnotations,
     EntitySetAnnotations,
@@ -14,17 +16,15 @@ import type {
     NavigationPropertyAnnotations,
     ParameterAnnotations,
     PropertyAnnotations,
+    PropertyValueAnnotations,
+    RecordAnnotations,
     ReferenceAnnotations,
     ReturnTypeAnnotations,
     SchemaAnnotations,
     SingletonAnnotations,
     TermAnnotations,
-    TypeDefinitionAnnotations,
-    PropertyValueAnnotations,
-    RecordAnnotations,
-    CollectionAnnotations
+    TypeDefinitionAnnotations
 } from './vocabularies/Edm_Types';
-import type { AnnotationList, FullyQualifiedName, RawAnnotation, SimpleIdentifier } from './BaseEdm';
 // Generated EDM Types for the converter
 
 export type PropertyPath = {

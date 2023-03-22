@@ -1,6 +1,6 @@
-import { resolveConfig } from '../src/configResolver';
-import path from 'path';
 import * as os from 'os';
+import path from 'path';
+import { resolveConfig } from '../src/configResolver';
 
 describe('The config resolver', () => {
     it('can resolve the configuration', () => {

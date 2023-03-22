@@ -1,9 +1,9 @@
 import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
-import type { ODataMetadata } from './metadata';
-import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
 import type { ILogger } from '@ui5/logger';
-import type ODataRequest from '../request/odataRequest';
 import type { IFileLoader } from '../index';
+import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
+import type ODataRequest from '../request/odataRequest';
+import type { ODataMetadata } from './metadata';
 
 export type PartialReferentialConstraint = {
     sourceProperty: string;

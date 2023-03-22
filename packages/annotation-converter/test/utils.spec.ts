@@ -1,3 +1,4 @@
+import type { Reference } from '@sap-ux/vocabularies-types';
 import {
     addGetByValue,
     lazy,
@@ -7,7 +8,6 @@ import {
     substringBeforeLast,
     unalias
 } from '../src';
-import type { Reference } from '@sap-ux/vocabularies-types';
 
 describe('utils', () => {
     describe('string splitting', () => {

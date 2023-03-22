@@ -35,6 +35,7 @@ import type {
     Singleton,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
+import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 import {
     addGetByValue,
     alias,
@@ -48,7 +49,6 @@ import {
     TermToTypes,
     unalias
 } from './utils';
-import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 
 /**
  * Symbol to extend an annotation with the reference to its target.

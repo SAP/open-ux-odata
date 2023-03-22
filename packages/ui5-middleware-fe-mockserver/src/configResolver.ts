@@ -1,5 +1,3 @@
-import path from 'path';
-import fs from 'fs';
 import type {
     ConfigAnnotation,
     ConfigService,
@@ -9,6 +7,8 @@ import type {
     ServerConfig,
     ServiceConfig
 } from '@sap-ux/fe-mockserver-core';
+import fs from 'fs';
+import path from 'path';
 
 function isFolderBasedConfig(serverConfig: ServerConfig): serverConfig is FolderBasedServerConfig {
     return (serverConfig as FolderBasedServerConfig).mockFolder !== undefined;

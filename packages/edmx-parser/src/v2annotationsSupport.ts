@@ -1,10 +1,10 @@
-import type { RawAnnotation, PropertyValue } from '@sap-ux/vocabularies-types';
-import { CoreAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Core';
+import type { PropertyValue, RawAnnotation } from '@sap-ux/vocabularies-types';
+import { AggregationAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 import { CapabilitiesAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Capabilities';
 import { CommonAnnotationTerms, FieldControlType } from '@sap-ux/vocabularies-types/vocabularies/Common';
+import { CoreAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Core';
 import { MeasuresAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Measures';
 import { UIAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/UI';
-import { AggregationAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 
 export type V2annotationsSupport = {
     'sap:schema-version'?: string;

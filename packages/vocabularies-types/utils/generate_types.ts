@@ -1,21 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="csdl.d.ts"/>
-import * as path from 'path';
-import * as fs from 'fs';
-import * as util from 'util';
-import * as mkdirp from 'mkdirp';
-import axios from 'axios';
 import type {
     Action,
     ComplexType,
     CSDL,
-    Function,
     EnumType,
+    Function,
     SchemaElement,
     SchemaWrapper,
     Term,
     TypeDefinition
 } from '@sap-ux/vocabularies/CSDL';
+import axios from 'axios';
+import * as fs from 'fs';
+import * as mkdirp from 'mkdirp';
+import * as path from 'path';
+import * as util from 'util';
 
 const writeFile = util.promisify(fs.writeFile);
 

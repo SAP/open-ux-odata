@@ -1,9 +1,9 @@
-import { join } from 'path';
-import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
-import { ODataMetadata } from '../../../src/data/metadata';
-import { DataAccess } from '../../../src/data/dataAccess';
+import { join } from 'path';
 import type { ServiceConfig } from '../../../src';
+import { DataAccess } from '../../../src/data/dataAccess';
+import { ODataMetadata } from '../../../src/data/metadata';
+import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import ODataRequest from '../../../src/request/odataRequest';
 
 describe('Function Import', () => {
