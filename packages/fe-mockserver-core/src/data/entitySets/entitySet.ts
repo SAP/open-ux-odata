@@ -202,7 +202,7 @@ export class MockDataEntitySet implements EntitySetInterface {
     }
 
     protected _rootMockData: object[] = [];
-    private _rootMockDataFn: MockDataContributor;
+    private _rootMockDataFn: MockDataContributor<object>;
     protected contextBasedMockData: Record<string, FileBasedMockData> = {};
     public readyPromise: Promise<EntitySetInterface>;
     protected entitySetDefinition: EntitySet | null;
@@ -242,7 +242,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 dataAccess
             ).then((mockData) => {
                 if (typeof mockData === 'object' && !Array.isArray(mockData)) {
-                    this._rootMockDataFn = mockData as MockDataContributor;
+                    this._rootMockDataFn = mockData as MockDataContributor<object>;
                 } else {
                     this._rootMockData = mockData;
                 }
