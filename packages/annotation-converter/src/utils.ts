@@ -1,4 +1,5 @@
 import type { ArrayWithIndex, ComplexType, Index, Reference, TypeDefinition } from '@sap-ux/vocabularies-types';
+
 export { EnumIsFlag } from '@sap-ux/vocabularies-types/vocabularies/EnumIsFlag';
 export { TermToTypes } from '@sap-ux/vocabularies-types/vocabularies/TermToTypes';
 export { VocabularyReferences as defaultReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
@@ -91,33 +92,44 @@ export function alias(references: ReferencesWithMap, unaliasedValue: string): st
 }
 
 /**
- * Transform an aliased string representation annotation to the unaliased version.
+ * Transform an aliased string to its unaliased version given a set of references.
  *
- * @param references currentReferences for the project
- * @param aliasedValue the aliased value
- * @returns the unaliased string representing the same
+ * @param references The references to use for unaliasing.
+ * @param aliasedValue The aliased value
+ * @returns The equal unaliased string.
  */
 export function unalias(references: ReferencesWithMap, aliasedValue: string | undefined): string | undefined {
+    if (!aliasedValue) {
+        return aliasedValue;
+    }
+
     if (!references.referenceMap) {
         references.referenceMap = references.reduce((map: Record<string, Reference>, ref) => {
             map[ref.alias] = ref;
             return map;
         }, {});
     }
-    if (!aliasedValue) {
-        return aliasedValue;
+
+    const separators = ['@', '/', '('];
+    const unaliased: string[] = [];
+    let start = 0;
+    for (let end = 0, maybeAlias = true; end < aliasedValue.length; end++) {
+        const char = aliasedValue[end];
+        if (maybeAlias && char === '.') {
+            const alias = aliasedValue.substring(start, end);
+            unaliased.push(references.referenceMap[alias]?.namespace ?? alias);
+            start = end;
+            maybeAlias = false;
+        }
+        if (separators.includes(char)) {
+            unaliased.push(aliasedValue.substring(start, end + 1));
+            start = end + 1;
+            maybeAlias = true;
+        }
     }
-    const [vocAlias, value] = splitAtFirst(aliasedValue, '.');
-    const reference = references.referenceMap[vocAlias];
-    if (reference) {
-        return `${reference.namespace}.${value}`;
-    } else if (aliasedValue.includes('@')) {
-        // Try to see if it's an annotation Path like to_SalesOrder/@UI.LineItem
-        const [preAlias, postAlias] = splitAtFirst(aliasedValue, '@');
-        return `${preAlias}@${unalias(references, postAlias)}`;
-    } else {
-        return aliasedValue;
-    }
+    unaliased.push(aliasedValue.substring(start));
+
+    return unaliased.join('');
 }
 
 /**
