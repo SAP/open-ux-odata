@@ -6,8 +6,8 @@ import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from './fileBasedMockData';
 import { FileBasedMockData } from './fileBasedMockData';
 
-export type MockDataContributor<T extends object> = {
-    getInitialDataSet?: (contextId: string) => object[];
+export type MockDataContributor <T extends object> = {
+    getInitialDataSet?: (contextId: string) => T[];
     addEntry?: (mockEntry: T, odataRequest: ODataRequest) => void;
     updateEntry?: (
         keyValues: KeyDefinitions,
