@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.8
+
+### Patch Changes
+
+-   6c325c5: We have improved the handling of aliases
+
 ## 0.6.7
 
 ### Patch Changes
