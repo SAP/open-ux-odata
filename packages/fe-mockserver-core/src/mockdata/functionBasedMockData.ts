@@ -6,13 +6,13 @@ import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from './fileBasedMockData';
 import { FileBasedMockData } from './fileBasedMockData';
 
-export type MockDataContributor<T> = {
+export type MockDataContributor<T extends object> = {
     getInitialDataSet?: (contextId: string) => object[];
-    addEntry?: (mockEntry: T extends object ? T : object, odataRequest: ODataRequest) => void;
+    addEntry?: (mockEntry: T, odataRequest: ODataRequest) => void;
     updateEntry?: (
         keyValues: KeyDefinitions,
-        newData: T extends object ? T : object,
-        updatedData: T extends object ? T : object,
+        newData: T,
+        updatedData: T,
         odataRequest: ODataRequest
     ) => Promise<void>;
     removeEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
@@ -75,12 +75,12 @@ export type MockDataContributor<T> = {
     ): Promise<any>;
     onAfterUpdateEntry?(
         keyValues: KeyDefinitions,
-        updatedData: T extends object ? T : object,
+        updatedData: T,
         odataRequest: ODataRequest
     ): Promise<void>;
     onBeforeUpdateEntry?(
         keyValues: KeyDefinitions,
-        updatedData: T extends object ? T : object,
+        updatedData: T,
         odataRequest: ODataRequest
     ): Promise<void>;
     hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
@@ -95,10 +95,10 @@ export type MockDataContributor<T> = {
     base?: {
         generateMockData: () => void;
         generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
-        addEntry: (mockEntry: T extends object ? T : object, odataRequest: ODataRequest) => void;
+        addEntry: (mockEntry: T, odataRequest: ODataRequest) => void;
         updateEntry: (
             keyValues: KeyDefinitions,
-            newData: T extends object ? T : object,
+            newData: T,
             odataRequest: ODataRequest
         ) => void;
         removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
