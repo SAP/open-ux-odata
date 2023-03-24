@@ -125,7 +125,7 @@ export function unalias(
         }
 
         // The alias could not be resolved using the references. Assume it is the "global" alias (= namespace)
-        return namespace ? `${namespace}.${rest}` : value;
+        return namespace && !isAnnotation ? `${namespace}.${rest}` : value;
     };
 
     return aliasedValue

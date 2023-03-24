@@ -280,6 +280,12 @@ describe('utils', () => {
                 references: [],
                 expected: '/sap.fe.test.JestService.EntityContainer/path1/path2',
                 expectedIfNoNamespace: '/MyAlias.EntityContainer/path1/path2'
+            },
+            {
+                aliasedValue: '@MyAlias.Something',
+                references: [],
+                expected: '@MyAlias.Something',
+                expectedIfNoNamespace: '@MyAlias.Something'
             }
         ] as TestCase[])(
             '"$aliasedValue": "$expected" / "$expectedIfNoNamespace"',
