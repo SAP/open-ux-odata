@@ -38,7 +38,7 @@ import { ensureArray, RawMetadataInstance } from './utils';
 import type { V2annotationsSupport } from './v2annotationsSupport';
 import { convertV2Annotations } from './v2annotationsSupport';
 
-const collectionRegexp = /Collection\(([^)]+)\)/;
+const collectionRegexp = /^Collection\((.+)\)$/;
 
 type PropertyOutput = {
     entityProperties: RawProperty[];
