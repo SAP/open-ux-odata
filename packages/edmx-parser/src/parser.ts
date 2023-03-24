@@ -94,7 +94,7 @@ function parseProperties(
                 _type: 'Property',
                 name: entityProperty._attributes.Name,
                 fullyQualifiedName: `${entityTypeFQN}/${entityProperty._attributes.Name}`,
-                type: entityProperty._attributes.Type
+                type: unaliasType(entityProperty._attributes.Type).type
             };
             if (entityProperty._attributes.MaxLength) {
                 edmProperty.maxLength = parseInt(entityProperty._attributes.MaxLength, 10);
@@ -234,7 +234,7 @@ function parseNavigationProperties(
             if (isV4NavProperty(attributes)) {
                 const matches = attributes.Type.match(collectionRegexp);
                 const isCollection = matches !== null;
-                const typeName = matches ? matches[1] : attributes.Type;
+                const typeName = unalias(matches ? matches[1] : attributes.Type);
                 outArray.push({
                     _type: 'NavigationProperty',
                     name: attributes.Name,
@@ -415,7 +415,7 @@ function parseEntitySets(
         const outEntitySet: RawEntitySet = {
             _type: 'EntitySet',
             name: entitySet._attributes.Name,
-            entityTypeName: entitySet._attributes.EntityType,
+            entityTypeName: unalias(entitySet._attributes.EntityType),
             navigationPropertyBinding: {},
             fullyQualifiedName: `${namespace}.${entityContainerName}/${entitySet._attributes.Name}`
         };
@@ -459,7 +459,7 @@ function parseSingletons(
         const outSingleton: RawSingleton = {
             _type: 'Singleton',
             name: singleton._attributes.Name,
-            entityTypeName: singleton._attributes.Type,
+            entityTypeName: unalias(singleton._attributes.Type),
             nullable: singleton._attributes.Nullable !== 'false',
             navigationPropertyBinding: {},
             fullyQualifiedName: `${namespace}.${entityContainerName}/${singleton._attributes.Name}`
@@ -554,26 +554,27 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
         const isBound = action._attributes.IsBound === 'true';
 
         const fullyQualifiedName: string = isBound
-            ? `${namespace}.${action._attributes.Name}(${parameters[0]._attributes.Type})`
+            ? `${namespace}.${action._attributes.Name}(${unaliasType(parameters[0]._attributes.Type).type})`
             : `${namespace}.${action._attributes.Name}`;
 
         return {
             _type: 'Action',
             name: action._attributes.Name,
             isBound: isBound,
-            sourceType: isBound ? parameters[0]._attributes.Type : '',
+            sourceType: isBound ? unaliasType(parameters[0]._attributes.Type).type : '',
             fullyQualifiedName: fullyQualifiedName,
             isFunction: isFunction,
             parameters: parameters.map((param) => {
+                const { isCollection, type } = unaliasType(param._attributes.Type);
                 return {
                     _type: 'ActionParameter',
                     fullyQualifiedName: `${fullyQualifiedName}/${param._attributes.Name}`,
                     name: `${param._attributes.Name}`,
-                    type: param._attributes.Type,
-                    isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
+                    type,
+                    isCollection
                 };
             }),
-            returnType: action.ReturnType ? action.ReturnType._attributes.Type : ''
+            returnType: action.ReturnType ? unaliasType(action.ReturnType._attributes.Type).type : ''
         };
     });
 }
@@ -618,9 +619,9 @@ function parseActionImports(
 
         return {
             _type: 'ActionImport',
-            name: actionOrFunctionImport._attributes.Name,
+            name: unalias(actionOrFunctionImport._attributes.Name),
             fullyQualifiedName: `${namespace}/${actionOrFunctionImport._attributes.Name}`,
-            actionName: action
+            actionName: unalias(action)
         };
     });
 }
@@ -1024,7 +1025,7 @@ function parseAnnotationLists(annotationLists: EDMX.AnnotationList[], annotation
         .forEach((annotationList) => {
             annotationsLists.push(
                 createAnnotationList(
-                    annotationList._attributes.Target,
+                    unalias(annotationList._attributes.Target),
                     parseAnnotations(
                         ensureArray(annotationList.Annotation),
                         annotationList._attributes.Target,
@@ -1130,8 +1131,8 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
     };
 }
 
-function parseReferences(references: EDMX.Reference[], schemas: EDMX.Schema[]): Reference[] {
-    const outReferences: Reference[] = references.reduce((referencesArray: Reference[], reference: EDMX.Reference) => {
+function parseReferences(references: EDMX.Reference[]): Reference[] {
+    return references.reduce((referencesArray: Reference[], reference: EDMX.Reference) => {
         const includes = ensureArray(reference['edmx:Include']);
         includes.forEach((include: EDMX.ReferenceInclude) => {
             referencesArray.push({
@@ -1142,37 +1143,47 @@ function parseReferences(references: EDMX.Reference[], schemas: EDMX.Schema[]): 
         });
         return referencesArray;
     }, []);
-    schemas.forEach((schema) => {
-        if (schema && schema._attributes.Alias) {
-            outReferences.push({
-                uri: '',
-                alias: schema._attributes.Alias,
-                namespace: schema._attributes.Namespace
-            });
-        }
-    });
-    return outReferences;
 }
 
-let referenceMap: Record<string, Reference> = {};
+let aliases: Record<string, string> = {};
 
+function unaliasType(type: string) {
+    const collection = type.match(collectionRegexp);
+    const _type = collection ? collection[1] : type;
+    const unaliasedType = unalias(_type);
+    return {
+        type: collection ? `Collection(${unaliasedType})` : unaliasedType,
+        isCollection: collection !== null
+    };
+}
+
+function unalias(aliasedValue: string): string;
+function unalias(aliasedValue: undefined): undefined;
 function unalias(aliasedValue: string | undefined): string | undefined {
     if (!aliasedValue) {
         return aliasedValue;
     }
-    const [alias, value] = aliasedValue.split('.');
-    const reference = referenceMap[alias];
-    if (reference) {
-        return `${reference.namespace}.${value}`;
-    } else {
-        // Try to see if it's an annotation Path like to_SalesOrder/@UI.LineItem
-        if (aliasedValue.indexOf('@') !== -1) {
-            const [preAlias, postAlias] = aliasedValue.split('@');
-            return `${preAlias}@${unalias(postAlias)}`;
-        } else {
-            return aliasedValue;
+
+    const separators = ['@', '/', '('];
+    const unaliased: string[] = [];
+    let start = 0;
+    for (let end = 0, maybeAlias = true; end < aliasedValue.length; end++) {
+        const char = aliasedValue[end];
+        if (maybeAlias && char === '.') {
+            const alias = aliasedValue.substring(start, end);
+            unaliased.push(aliases[alias] ?? alias);
+            start = end;
+            maybeAlias = false;
+        }
+        if (separators.includes(char)) {
+            unaliased.push(aliasedValue.substring(start, end + 1));
+            start = end + 1;
+            maybeAlias = true;
         }
     }
+    unaliased.push(aliasedValue.substring(start));
+
+    return unaliased.join('');
 }
 
 function mergeSchemas(schemas: RawSchema[]): RawSchema {
@@ -1276,6 +1287,19 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
     };
 }
 
+function createAliasMap(references: Reference[], schemas: EDMX.Schema[]) {
+    aliases = references.reduce((map, reference) => {
+        map[reference.alias] = reference.namespace;
+        return map;
+    }, {} as Record<string, string>);
+
+    schemas
+        .filter((schema) => schema._attributes.Alias)
+        .forEach((schema) => {
+            aliases[schema._attributes.Alias] = schema._attributes.Namespace;
+        });
+}
+
 /**
  * Parse an edmx file and return an object structure representing the service definition.
  *
@@ -1288,11 +1312,9 @@ export function parse(xml: string, fileIdentification: string = 'serviceFile'): 
 
     const version = jsonObj['edmx:Edmx']._attributes.Version;
     const schemas: EDMX.Schema[] = ensureArray(jsonObj['edmx:Edmx']['edmx:DataServices'].Schema);
-    const references = parseReferences(ensureArray(jsonObj['edmx:Edmx']['edmx:Reference']), schemas);
-    referenceMap = references.reduce((map: Record<string, Reference>, reference) => {
-        map[reference.alias] = reference;
-        return map;
-    }, {});
+    const references = parseReferences(ensureArray(jsonObj['edmx:Edmx']['edmx:Reference']));
+
+    createAliasMap(references, schemas);
 
     const parsedSchemas = schemas.map((schema) => {
         return parseSchema(schema, version, fileIdentification);

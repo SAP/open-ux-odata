@@ -101,4 +101,10 @@ describe('Parser', function () {
             });
         });
     });
+
+    it('can parse an EDMX file with alias', async () => {
+        const xmlFile = await loadFixture('v4/aliased.xml');
+        const schema: RawMetadata = parse(xmlFile);
+        expect(schema).toMatchSnapshot();
+    });
 });
