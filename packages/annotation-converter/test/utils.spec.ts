@@ -186,70 +186,109 @@ describe('utils', () => {
         type TestCase = {
             aliasedValue: string | undefined;
             references: Reference[];
-            unaliasedValue: string | undefined;
+            expected: string | undefined;
+            expectedIfNoNamespace: string | undefined;
         };
 
         it.each([
             {
                 aliasedValue: undefined,
                 references: [],
-                unaliasedValue: undefined
+                expected: undefined,
+                expectedIfNoNamespace: undefined
             },
             {
                 aliasedValue: '',
                 references: [],
-                unaliasedValue: ''
+                expected: '',
+                expectedIfNoNamespace: ''
+            },
+            {
+                aliasedValue: 'Something',
+                references: [],
+                expected: 'Something',
+                expectedIfNoNamespace: 'Something'
             },
             {
                 aliasedValue: 'sap.fe.test.JestService.doSomethingUnbound',
                 references: [],
-                unaliasedValue: 'sap.fe.test.JestService.doSomethingUnbound'
+                expected: 'sap.fe.test.JestService.doSomethingUnbound',
+                expectedIfNoNamespace: 'sap.fe.test.JestService.doSomethingUnbound'
             },
             {
-                aliasedValue: 'MyAlias.Label',
-                references: [{ alias: 'MyAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
-                unaliasedValue: 'com.sap.vocabularies.UI.v1.Label'
+                aliasedValue: 'MyCommonAlias.Label',
+                references: [{ alias: 'MyCommonAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: 'com.sap.vocabularies.UI.v1.Label',
+                expectedIfNoNamespace: 'com.sap.vocabularies.UI.v1.Label'
             },
             {
                 aliasedValue: 'MyAlias.doSomethingUnbound()',
-                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
-                unaliasedValue: 'sap.fe.test.JestService.doSomethingUnbound()'
+                references: [{ alias: 'MyCommonAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: 'sap.fe.test.JestService.doSomethingUnbound()',
+                expectedIfNoNamespace: 'MyAlias.doSomethingUnbound()'
             },
             {
                 aliasedValue: 'MyAlias.doSomething(MyAlias.Entities)',
-                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
-                unaliasedValue: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)'
+                references: [{ alias: 'MyCommonAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)',
+                expectedIfNoNamespace: 'MyAlias.doSomething(MyAlias.Entities)'
             },
             {
                 aliasedValue: 'MyAlias.EntityContainer/doSomethingUnbound',
-                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
-                unaliasedValue: 'sap.fe.test.JestService.EntityContainer/doSomethingUnbound'
+                references: [{ alias: 'MyCommonAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: 'sap.fe.test.JestService.EntityContainer/doSomethingUnbound',
+                expectedIfNoNamespace: 'MyAlias.EntityContainer/doSomethingUnbound'
             },
             {
-                aliasedValue: '_nav/@MyAlias.FieldGroup',
-                references: [{ alias: 'MyAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
-                unaliasedValue: '_nav/@com.sap.vocabularies.UI.v1.FieldGroup'
+                aliasedValue: '_nav/@MyUIAlias.FieldGroup',
+                references: [{ alias: 'MyUIAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: '_nav/@com.sap.vocabularies.UI.v1.FieldGroup',
+                expectedIfNoNamespace: '_nav/@com.sap.vocabularies.UI.v1.FieldGroup'
+            },
+            {
+                aliasedValue: '_nav1/_nav2/@MyUIAlias.FieldGroup',
+                references: [{ alias: 'MyUIAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: '_nav1/_nav2/@com.sap.vocabularies.UI.v1.FieldGroup',
+                expectedIfNoNamespace: '_nav1/_nav2/@com.sap.vocabularies.UI.v1.FieldGroup'
+            },
+            {
+                aliasedValue: '_nav1/_nav2/@MyUIAlias.FieldGroup#qualifier',
+                references: [{ alias: 'MyUIAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: '_nav1/_nav2/@com.sap.vocabularies.UI.v1.FieldGroup#qualifier',
+                expectedIfNoNamespace: '_nav1/_nav2/@com.sap.vocabularies.UI.v1.FieldGroup#qualifier'
             },
             {
                 aliasedValue: 'MyAlias.doSomething(MyAlias.Entities)/parameter1',
-                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
-                unaliasedValue: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)/parameter1'
-            },
-            {
-                aliasedValue: 'MyAlias.doSomething(MyAlias.Entities)/parameter1',
-                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
-                unaliasedValue: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)/parameter1'
+                references: [{ alias: 'MyCommonAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: 'sap.fe.test.JestService.doSomething(sap.fe.test.JestService.Entities)/parameter1',
+                expectedIfNoNamespace: 'MyAlias.doSomething(MyAlias.Entities)/parameter1'
             },
             {
                 aliasedValue: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1',
-                references: [{ alias: 'MyAlias', namespace: 'sap.fe.test.JestService' }],
-                unaliasedValue: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1'
+                references: [],
+                expected: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1',
+                expectedIfNoNamespace: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1'
+            },
+            {
+                aliasedValue: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1',
+                references: [{ alias: 'MyAlias', namespace: 'com.sap.vocabularies.UI.v1' }],
+                expected: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1',
+                expectedIfNoNamespace: 'com.sap.MyAlias.doSomething(com.sap.MyAlias.Entities)/parameter1'
+            },
+            {
+                aliasedValue: '/MyAlias.EntityContainer/path1/path2',
+                references: [],
+                expected: '/sap.fe.test.JestService.EntityContainer/path1/path2',
+                expectedIfNoNamespace: '/MyAlias.EntityContainer/path1/path2'
             }
         ] as TestCase[])(
-            'unalias("$aliasedValue") = "$unaliasedValue"',
-            ({ aliasedValue, references, unaliasedValue }) => {
-                const result = unalias(references, aliasedValue);
-                expect(result).toEqual(unaliasedValue);
+            '"$aliasedValue": "$expected" / "$expectedIfNoNamespace"',
+            ({ aliasedValue, references, expected, expectedIfNoNamespace }) => {
+                const result1 = unalias(references, aliasedValue, 'sap.fe.test.JestService');
+                expect(result1).toEqual(expected);
+
+                const result2 = unalias(references, aliasedValue);
+                expect(result2).toEqual(expectedIfNoNamespace);
             }
         );
     });
