@@ -9,11 +9,8 @@
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
         <edmx:Include Alias="MyUI" Namespace="com.sap.vocabularies.UI.v1"/>
     </edmx:Reference>
-    <edmx:Reference Uri="">
-        <edmx:Include Alias="MyServiceAlias" Namespace="sap.fe.test.JestService"/>
-    </edmx:Reference>
     <edmx:DataServices>
-        <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="MyServiceAlias" >
             <EntityContainer Name="EntityContainer">
                 <EntitySet Name="Entities" EntityType="sap.fe.test.JestService.Entities"/>
                 <ActionImport Name="doSomethingUnbound" Action="sap.fe.test.JestService.doSomethingUnbound"/>

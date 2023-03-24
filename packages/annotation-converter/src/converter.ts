@@ -950,7 +950,7 @@ function mergeAnnotations(converter: Converter): Record<string, Annotation[]> {
 }
 
 class Converter {
-    private annotationyByTarget: Record<FullyQualifiedName, Annotation[]>;
+    private annotationsByTarget: Record<FullyQualifiedName, Annotation[]>;
 
     /**
      * Get preprocessed annotations on the specified target.
@@ -959,11 +959,11 @@ class Converter {
      * @returns An array of annotations
      */
     getAnnotations(target: FullyQualifiedName): Annotation[] {
-        if (this.annotationyByTarget === undefined) {
-            this.annotationyByTarget = mergeAnnotations(this);
+        if (this.annotationsByTarget === undefined) {
+            this.annotationsByTarget = mergeAnnotations(this);
         }
 
-        return this.annotationyByTarget[target] ?? [];
+        return this.annotationsByTarget[target] ?? [];
     }
 
     getConvertedEntityContainer() {
