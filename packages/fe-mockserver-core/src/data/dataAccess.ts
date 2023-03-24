@@ -1169,6 +1169,7 @@ export class DataAccess implements DataAccessInterface {
                 data = data.filter((dataLine) => {
                     return mockEntitySet.checkSearch(dataLine, transformationDef.searchExpr, odataRequest);
                 });
+                this.lastFilterTransformationResult = data;
                 break;
             case 'descendants':
                 const limitedHierarchyData = await this.applyTransformation(
