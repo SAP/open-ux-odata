@@ -1245,6 +1245,76 @@ describe('Hierarchy Access', () => {
               `);
     });
 
+    test('4c- Another search (showing result)', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=ancestors($root/SalesOrganizations,SalesOrgHierarchy,ID,search(%22West%22),keep%20start)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=99)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=10"
+            },
+            dataAccess
+        );
+
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+          [
+            {
+              "parameters": {
+                "hierarchyRoot": "$root/SalesOrganizations",
+                "inputSetTransformations": [
+                  {
+                    "searchExpr": [
+                      "West",
+                    ],
+                    "type": "search",
+                  },
+                ],
+                "keepStart": true,
+                "maximumDistance": -1,
+                "propertyPath": "ID",
+                "qualifier": "SalesOrgHierarchy",
+              },
+              "type": "ancestors",
+            },
+            {
+              "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+              "parameters": {
+                "HierarchyNodes": "$root/SalesOrganizations",
+                "HierarchyQualifier": "'SalesOrgHierarchy'",
+                "Levels": "99",
+                "NodeProperty": "'ID'",
+              },
+              "type": "customFunction",
+            },
+          ]
+      `);
+
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+        [
+          {
+            "DistanceFromRoot": 0,
+            "DrillState": "expanded",
+            "ID": "Sales",
+            "LimitedDescendantCount": 2,
+            "Name": "Corporate Sales",
+          },
+          {
+            "DistanceFromRoot": 1,
+            "DrillState": "expanded",
+            "ID": "US",
+            "LimitedDescendantCount": 1,
+            "Name": "US",
+          },
+          {
+            "DistanceFromRoot": 2,
+            "DrillState": "leaf",
+            "ID": "US West",
+            "LimitedDescendantCount": 0,
+            "Name": "US West",
+          },
+        ]
+      `);
+    });
+
     test('5- Hierarchy in Object Page - Product hierarchy expanded to two levels (including root)', async () => {
         const odataRequest = new ODataRequest(
             {
