@@ -96,40 +96,54 @@ export function alias(references: ReferencesWithMap, unaliasedValue: string): st
  *
  * @param references The references to use for unaliasing.
  * @param aliasedValue The aliased value
+ * @param namespace The fallback namespace
  * @returns The equal unaliased string.
  */
-export function unalias(references: ReferencesWithMap, aliasedValue: string | undefined): string | undefined {
-    if (!aliasedValue) {
-        return aliasedValue;
-    }
-
-    if (!references.referenceMap) {
-        references.referenceMap = references.reduce((map: Record<string, Reference>, ref) => {
-            map[ref.alias] = ref;
-            return map;
-        }, {});
-    }
-
-    const separators = ['@', '/', '('];
-    const unaliased: string[] = [];
-    let start = 0;
-    for (let end = 0, maybeAlias = true; end < aliasedValue.length; end++) {
-        const char = aliasedValue[end];
-        if (maybeAlias && char === '.') {
-            const alias = aliasedValue.substring(start, end);
-            unaliased.push(references.referenceMap[alias]?.namespace ?? alias);
-            start = end;
-            maybeAlias = false;
+export function unalias(
+    references: ReferencesWithMap,
+    aliasedValue: string | undefined,
+    namespace?: string
+): string | undefined {
+    const _unalias = (value: string) => {
+        if (!references.referenceMap) {
+            references.referenceMap = Object.fromEntries(references.map((ref) => [ref.alias, ref]));
         }
-        if (separators.includes(char)) {
-            unaliased.push(aliasedValue.substring(start, end + 1));
-            start = end + 1;
-            maybeAlias = true;
-        }
-    }
-    unaliased.push(aliasedValue.substring(start));
 
-    return unaliased.join('');
+        // Aliases are of type 'SimpleIdentifier' and must not contain dots
+        const [maybeAlias, rest] = splitAtFirst(value, '.');
+
+        if (!rest || rest.includes('.')) {
+            // either there is no dot in the value or there is more than one --> nothing to do
+            return value;
+        }
+
+        const isAnnotation = maybeAlias.startsWith('@');
+        const valueToUnalias = isAnnotation ? maybeAlias.substring(1) : maybeAlias;
+        const knownReference = references.referenceMap[valueToUnalias];
+        if (knownReference) {
+            return isAnnotation ? `@${knownReference.namespace}.${rest}` : `${knownReference.namespace}.${rest}`;
+        }
+
+        // The alias could not be resolved using the references. Assume it is the "global" alias (= namespace)
+        return namespace && !isAnnotation ? `${namespace}.${rest}` : value;
+    };
+
+    return aliasedValue
+        ?.split('/')
+        .reduce((segments, segment) => {
+            // the segment could be an action, like "doSomething(foo.bar)"
+            const [first, rest] = splitAtFirst(segment, '(');
+            const subSegment = [_unalias(first)];
+
+            if (rest) {
+                const parameter = rest.slice(0, -1); // remove trailing ")"
+                subSegment.push(`(${_unalias(parameter)})`);
+            }
+            segments.push(subSegment.join(''));
+
+            return segments;
+        }, [] as string[])
+        ?.join('/');
 }
 
 /**
