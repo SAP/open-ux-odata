@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="MyAlias" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="MyUI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="MyServiceAlias">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Entities" EntityType="MyServiceAlias.Entities">
+                    <NavigationPropertyBinding Path="complexProp/b" Target="Entities"/>
+                </EntitySet>
+                <Singleton Name="SingletonEntity" Type="MyServiceAlias.SingletonEntity">
+                    <NavigationPropertyBinding Path="_entities" Target="Entities"/>
+                </Singleton>
+                <ActionImport Name="doSomethingUnbound" Action="MyServiceAlias.doSomethingUnbound"/>
+            </EntityContainer>
+            <EntityType Name="Entities">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <Property Name="complexProp" Type="MyServiceAlias.MyComplexType"/>
+                <Property Name="typedProp" Type="MyServiceAlias.MyType"/>
+            </EntityType>
+            <EntityType Name="SingletonEntity">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="_entities" Type="MyServiceAlias.Entities">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <ComplexType Name="MyComplexType">
+                <Property Name="a" Type="Edm.String"/>
+                <NavigationProperty Name="b" Type="MyServiceAlias.Entities"/>
+                <Property Name="b_ID" Type="Edm.String"/>
+            </ComplexType>
+            <TypeDefinition Name="MyType" UnderlyingType="Edm.String"/>
+            <Action Name="doSomething" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="MyServiceAlias.Entities"/>
+                <ReturnType Type="MyServiceAlias.Entities"/>
+            </Action>
+            <Action Name="doSomethingStatic" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="Collection(MyServiceAlias.Entities)"/>
+                <ReturnType Type="Collection(MyServiceAlias.Entities)" Nullable="false"/>
+            </Action>
+            <Action Name="doSomethingUnbound" IsBound="false"/>
+            <Annotations Target="MyServiceAlias.Entities">
+                <Annotation Term="MyAlias.Label" String="Label"/>
+                <Annotation Term="MyUI.FieldGroup">
+                    <Record Type="MyUI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="MyUI.DataFieldForAction">
+                                    <PropertyValue Property="Action" String="MyServiceAlias.doSomething"/>
+                                    <Annotation Term="Core.Description" String="Qualified name of an action or function (foo.bar)"/>
+                                </Record>
+                                <Record Type="MyUI.DataFieldForAction">
+                                    <PropertyValue Property="Action" String="MyServiceAlias.doSomething(MyServiceAlias.Entities)"/>
+                                    <Annotation Term="Core.Description" String="Qualified name of an action or function followed by parentheses with the parameter signature to identify a specific overload, like in an annotation target (foo.bar(baz.qux))"/>
+                                </Record>
+                                <Record Type="MyUI.DataFieldForAction">
+                                    <PropertyValue Property="Action" String="doSomethingUnbound"/>
+                                    <Annotation Term="Core.Description" String="Simple name of an action import or function import of the annotated service (quux)"/>
+                                </Record>
+                                <Record Type="MyUI.DataFieldForAction">
+                                    <PropertyValue Property="Action" String="MyServiceAlias.EntityContainer/doSomethingUnbound"/>
+                                    <Annotation Term="Core.Description" String="Qualified name of an entity container, followed by a slash and the simple name of an action import or function import in any referenced schema (foo.corge/quux)"/>
+                                </Record>
+                                <Record Type="MyUI.DataFieldForAction">
+                                    <PropertyValue Property="Action" String="MyServiceAlias.EntityContainer/doSomethingUnbound"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="MyServiceAlias.doSomething(MyServiceAlias.Entities)">
+                <Annotation Term="MyAlias.Label" String="Label of action doSomething"/>
+            </Annotations>
+            <Annotations Target="MyServiceAlias.doSomethingUnbound()">
+                <Annotation Term="MyAlias.Label" String="Label of action doSomethingUnbound"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
