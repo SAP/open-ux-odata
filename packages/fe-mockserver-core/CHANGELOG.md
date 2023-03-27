@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.71
+
+### Patch Changes
+
+-   67886a2: Search transformations should be considered the same as filters for matching descendant counts
+
 ## 1.1.70
 
 ### Patch Changes
