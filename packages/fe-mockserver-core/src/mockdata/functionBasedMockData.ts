@@ -6,15 +6,10 @@ import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from './fileBasedMockData';
 import { FileBasedMockData } from './fileBasedMockData';
 
-export type MockDataContributor <T extends object> = {
+export type MockDataContributor<T extends object> = {
     getInitialDataSet?: (contextId: string) => T[];
     addEntry?: (mockEntry: T, odataRequest: ODataRequest) => void;
-    updateEntry?: (
-        keyValues: KeyDefinitions,
-        newData: T,
-        updatedData: T,
-        odataRequest: ODataRequest
-    ) => Promise<void>;
+    updateEntry?: (keyValues: KeyDefinitions, newData: T, updatedData: T, odataRequest: ODataRequest) => Promise<void>;
     removeEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
     hasEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
     hasEntries?: (odataRequest: ODataRequest) => boolean;
@@ -73,16 +68,8 @@ export type MockDataContributor <T extends object> = {
         responseData: any,
         odataRequest: ODataRequest
     ): Promise<any>;
-    onAfterUpdateEntry?(
-        keyValues: KeyDefinitions,
-        updatedData: T,
-        odataRequest: ODataRequest
-    ): Promise<void>;
-    onBeforeUpdateEntry?(
-        keyValues: KeyDefinitions,
-        updatedData: T,
-        odataRequest: ODataRequest
-    ): Promise<void>;
+    onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
+    onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
     hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
     performCustomAggregate?(customAggregateName: string, dataToAggregate: any[], odataRequest: ODataRequest): any;
     throwError?(
@@ -96,11 +83,7 @@ export type MockDataContributor <T extends object> = {
         generateMockData: () => void;
         generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
         addEntry: (mockEntry: T, odataRequest: ODataRequest) => void;
-        updateEntry: (
-            keyValues: KeyDefinitions,
-            newData: T,
-            odataRequest: ODataRequest
-        ) => void;
+        updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => void;
         removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
         hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
         fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
