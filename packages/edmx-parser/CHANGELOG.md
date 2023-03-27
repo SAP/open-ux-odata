@@ -1,5 +1,12 @@
 # @sap-ux/edmx-parser
 
+## 0.5.14
+
+### Patch Changes
+
+-   e32f68f: - The parser no longer returns references representing schema aliases
+    -   For annotations with aliased target in the input data, the parser now returns the unaliased target
+
 ## 0.5.13
 
 ### Patch Changes
