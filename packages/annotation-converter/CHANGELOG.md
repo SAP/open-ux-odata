@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.9
+
+### Patch Changes
+
+-   e32f68f: Unaliasing now falls back to the global namespace if an alias cannot be resolved using references
+
 ## 0.6.8
 
 ### Patch Changes
