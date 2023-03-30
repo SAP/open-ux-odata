@@ -12,8 +12,8 @@
     <edmx:DataServices>
         <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="MyServiceAlias" >
             <EntityContainer Name="EntityContainer">
-                <EntitySet Name="Entities" EntityType="sap.fe.test.JestService.Entities"/>
-                <ActionImport Name="doSomethingUnbound" Action="sap.fe.test.JestService.doSomethingUnbound"/>
+                <EntitySet Name="Entities" EntityType="MyServiceAlias.Entities"/>
+                <ActionImport Name="doSomethingUnbound" Action="MyServiceAlias.doSomethingUnbound"/>
             </EntityContainer>
             <EntityType Name="Entities">
                 <Key>
@@ -22,10 +22,10 @@
                 <Property Name="ID" Type="Edm.String" Nullable="false"/>
             </EntityType>
             <Action Name="doSomething" IsBound="true">
-                <Parameter Name="in" Type="sap.fe.test.JestService.Entities"/>
+                <Parameter Name="in" Type="MyServiceAlias.Entities"/>
             </Action>
             <Action Name="doSomethingUnbound" IsBound="false"/>
-            <Annotations Target="sap.fe.test.JestService.Entities">
+            <Annotations Target="MyServiceAlias.Entities">
                 <Annotation Term="MyAlias.Label" String="Label"/>
                 <Annotation Term="MyUI.Identification">
                     <Collection>

@@ -86,7 +86,7 @@ export class ODataMetadata {
     public getActionByFQN(actionFQN: string): Action | undefined {
         let action = this.metadata.actions.find((action) => action.fullyQualifiedName === actionFQN);
         if (!action) {
-            const unaliasedAction = unalias(this.metadata.references, actionFQN);
+            const unaliasedAction = unalias(this.metadata.references, actionFQN, this.metadata.namespace);
             action = this.metadata.actions.find((action) => action.fullyQualifiedName === unaliasedAction);
         }
         return action;

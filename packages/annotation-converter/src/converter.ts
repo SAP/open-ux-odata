@@ -436,9 +436,10 @@ function parseValue(
         case 'Date':
             return propertyValue.Date;
         case 'EnumMember':
-            const splitEnum = propertyValue.EnumMember.split(' ').map((enumValue) =>
-                converter.toDefaultAlias(enumValue)
-            );
+            const splitEnum = propertyValue.EnumMember.split(' ').map((enumValue) => {
+                const unaliased = converter.unalias(enumValue) ?? '';
+                return alias(VocabularyReferences, unaliased);
+            });
             if (splitEnum[0] !== undefined && EnumIsFlag[substringBeforeFirst(splitEnum[0], '/')]) {
                 return splitEnum;
             }
@@ -912,11 +913,7 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
  */
 function mergeAnnotations(converter: Converter): Record<string, Annotation[]> {
     return Object.keys(converter.rawSchema.annotations).reduceRight((annotationsPerTarget, annotationSource) => {
-        for (const { target: rawTarget, annotations: rawAnnotations } of converter.rawSchema.annotations[
-            annotationSource
-        ]) {
-            const target = converter.unalias(rawTarget);
-
+        for (const { target, annotations: rawAnnotations } of converter.rawSchema.annotations[annotationSource]) {
             if (!annotationsPerTarget[target]) {
                 annotationsPerTarget[target] = [];
             }
@@ -1084,13 +1081,8 @@ class Converter {
         return splitAtLast(aliased, '.');
     }
 
-    toDefaultAlias(value: string | undefined) {
-        const unaliased = unalias(this.rawMetadata.references, value) ?? '';
-        return alias(VocabularyReferences, unaliased);
-    }
-
     unalias(value: string | undefined, references = this.rawMetadata.references) {
-        return unalias(references, value) ?? '';
+        return unalias(references, value, this.rawSchema.namespace) ?? '';
     }
 }
 
@@ -1232,8 +1224,6 @@ function convertEntityContainer(converter: Converter, rawEntityContainer: RawEnt
 function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Singleton {
     const convertedSingleton = rawSingleton as Singleton;
 
-    convertedSingleton.entityTypeName = converter.unalias(rawSingleton.entityTypeName);
-
     lazy(convertedSingleton, 'entityType', resolveEntityType(converter, rawSingleton.entityTypeName));
     lazy(convertedSingleton, 'annotations', resolveAnnotations(converter, rawSingleton as Singleton));
 
@@ -1260,8 +1250,6 @@ function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Sin
  */
 function convertEntitySet(converter: Converter, rawEntitySet: RawEntitySet): EntitySet {
     const convertedEntitySet = rawEntitySet as EntitySet;
-
-    convertedEntitySet.entityTypeName = converter.unalias(rawEntitySet.entityTypeName);
 
     lazy(convertedEntitySet, 'entityType', resolveEntityType(converter, rawEntitySet.entityTypeName));
     lazy(convertedEntitySet, 'annotations', resolveAnnotations(converter, rawEntitySet as EntitySet));
@@ -1341,7 +1329,6 @@ function convertEntityType(converter: Converter, rawEntityType: RawEntityType): 
 function convertProperty(converter: Converter, rawProperty: RawProperty): Property {
     const convertedProperty = rawProperty as Property;
 
-    convertedProperty.type = converter.unalias(rawProperty.type);
     lazy(convertedProperty, 'annotations', resolveAnnotations(converter, rawProperty));
 
     lazy(convertedProperty, 'targetType', () => {
@@ -1369,9 +1356,7 @@ function convertNavigationProperty(
 
     convertedNavigationProperty.referentialConstraint = convertedNavigationProperty.referentialConstraint ?? [];
 
-    if (isV4NavigationProperty(rawNavigationProperty)) {
-        convertedNavigationProperty.targetTypeName = converter.unalias(rawNavigationProperty.targetTypeName);
-    } else {
+    if (!isV4NavigationProperty(rawNavigationProperty)) {
         const associationEnd = converter.rawSchema.associations
             .find((association) => association.fullyQualifiedName === rawNavigationProperty.relationship)
             ?.associationEnd.find((end) => end.role === rawNavigationProperty.toRole);
@@ -1401,8 +1386,6 @@ function convertNavigationProperty(
 function convertActionImport(converter: Converter, rawActionImport: RawActionImport): ActionImport {
     const convertedActionImport = rawActionImport as ActionImport;
 
-    convertedActionImport.actionName = converter.unalias(rawActionImport.actionName);
-
     lazy(convertedActionImport, 'annotations', resolveAnnotations(converter, rawActionImport));
 
     lazy(convertedActionImport, 'action', () => converter.getConvertedAction(rawActionImport.actionName));
@@ -1420,12 +1403,10 @@ function convertActionImport(converter: Converter, rawActionImport: RawActionImp
 function convertAction(converter: Converter, rawAction: RawAction): Action {
     const convertedAction = rawAction as Action;
 
-    convertedAction.sourceType = converter.unalias(rawAction.sourceType);
     if (convertedAction.sourceType) {
         lazy(convertedAction, 'sourceEntityType', resolveEntityType(converter, rawAction.sourceType));
     }
 
-    convertedAction.returnType = converter.unalias(rawAction.returnType);
     if (convertedAction.returnType) {
         lazy(convertedAction, 'returnEntityType', resolveEntityType(converter, rawAction.returnType));
     }

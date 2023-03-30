@@ -1,5 +1,21 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.73
+
+### Patch Changes
+
+-   1bd4851: feat(MockDataContributor): Add support of generic types
+
+## 1.1.72
+
+### Patch Changes
+
+-   e32f68f: Unaliasing now falls back to the global namespace if an alias cannot be resolved using references
+-   Updated dependencies [e32f68f]
+-   Updated dependencies [e32f68f]
+    -   @sap-ux/annotation-converter@0.6.9
+    -   @sap-ux/edmx-parser@0.5.14
+
 ## 1.1.71
 
 ### Patch Changes
