@@ -6,15 +6,10 @@ import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from './fileBasedMockData';
 import { FileBasedMockData } from './fileBasedMockData';
 
-export type MockDataContributor = {
-    getInitialDataSet?: (contextId: string) => object[];
-    addEntry?: (mockEntry: object, odataRequest: ODataRequest) => void;
-    updateEntry?: (
-        keyValues: KeyDefinitions,
-        newData: object,
-        updatedData: object,
-        odataRequest: ODataRequest
-    ) => Promise<void>;
+export type MockDataContributor<T extends object> = {
+    getInitialDataSet?: (contextId: string) => T[];
+    addEntry?: (mockEntry: T, odataRequest: ODataRequest) => void;
+    updateEntry?: (keyValues: KeyDefinitions, newData: T, updatedData: T, odataRequest: ODataRequest) => Promise<void>;
     removeEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
     hasEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
     hasEntries?: (odataRequest: ODataRequest) => boolean;
@@ -73,8 +68,8 @@ export type MockDataContributor = {
         responseData: any,
         odataRequest: ODataRequest
     ): Promise<any>;
-    onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: object, odataRequest: ODataRequest): Promise<void>;
-    onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: object, odataRequest: ODataRequest): Promise<void>;
+    onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
+    onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
     hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
     performCustomAggregate?(customAggregateName: string, dataToAggregate: any[], odataRequest: ODataRequest): any;
     throwError?(
@@ -87,8 +82,8 @@ export type MockDataContributor = {
     base?: {
         generateMockData: () => void;
         generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
-        addEntry: (mockEntry: object, odataRequest: ODataRequest) => void;
-        updateEntry: (keyValues: KeyDefinitions, newData: object, odataRequest: ODataRequest) => void;
+        addEntry: (mockEntry: T, odataRequest: ODataRequest) => void;
+        updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => void;
         removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
         hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
         fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
@@ -113,10 +108,10 @@ export type MockDataContributor = {
  *
  */
 export class FunctionBasedMockData extends FileBasedMockData {
-    private _mockDataFn: MockDataContributor;
+    private _mockDataFn: MockDataContributor<object>;
 
     constructor(
-        mockDataFn: MockDataContributor,
+        mockDataFn: MockDataContributor<object>,
         entityType: EntityType,
         mockDataEntitySet: EntitySetInterface,
         contextId: string
