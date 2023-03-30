@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.73
+
+### Patch Changes
+
+-   1bd4851: feat(MockDataContributor): Add support of generic types
+
 ## 1.1.72
 
 ### Patch Changes
