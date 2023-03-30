@@ -30,6 +30,15 @@ describe('resolveDraftRoot()', () => {
             expect(resolved.path).toHaveLength(0);
         });
 
+        test('should resolve parent entity', async () => {
+            const child = metadata.getEntitySet('OtherEntities');
+            expect(child?.name).toEqual('OtherEntities');
+
+            const entitySet = metadata.getParentEntitySetName(child!);
+            expect(entitySet).toBeDefined();
+            expect(entitySet).toBe('DraftRoots');
+        });
+
         test('should resolve the root directly', async () => {
             const resolved = metadata.resolveDraftRoot(root);
             expect(resolved.found).toBeTruthy();

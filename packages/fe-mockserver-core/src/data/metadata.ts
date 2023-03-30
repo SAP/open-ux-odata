@@ -133,6 +133,7 @@ export class ODataMetadata {
             // nothing to do - we are there already
             return true;
         }
+        const pathLength = path.length;
 
         for (const [navPropBindingName, target] of Object.entries(entitySet.navigationPropertyBinding)) {
             if (!entitySetFilter(target)) {
@@ -161,7 +162,13 @@ export class ODataMetadata {
             if (target === targetEntitySet) {
                 return true;
             } else {
-                return this.findInDescendant(target, targetEntitySet, path, entitySetFilter);
+                const wasFound = this.findInDescendant(target, targetEntitySet, path, entitySetFilter);
+                if (!wasFound) {
+                    // Let's try another path sp we reset to what we had before
+                    path.splice(pathLength);
+                } else {
+                    return true;
+                }
             }
         }
 
@@ -194,7 +201,7 @@ export class ODataMetadata {
         let foundPath!: NameAndNav[];
         let rootEntitySet!: EntitySet;
         this.metadata.entitySets.forEach((et) => {
-            if (!found) {
+            if (!found && et !== entitySet) {
                 const resolvePath: any[] = [];
                 found = this.findInDescendant(et, entitySet, resolvePath);
                 if (found) {
