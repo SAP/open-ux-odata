@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.74
+
+### Patch Changes
+
+-   3e411f5: Improved the logic to resolve the parent from a specific node
+
 ## 1.1.73
 
 ### Patch Changes
