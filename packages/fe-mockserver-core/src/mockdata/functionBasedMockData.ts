@@ -82,9 +82,9 @@ export type MockDataContributor<T extends object> = {
     base?: {
         generateMockData: () => void;
         generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
-        addEntry: (mockEntry: T, odataRequest: ODataRequest) => void;
-        updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => void;
-        removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
+        addEntry: (mockEntry: T, odataRequest: ODataRequest) => Promise<void>;
+        updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => Promise<void>;
+        removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<void>;
         hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
         fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
         hasEntries: (odataRequest: ODataRequest) => boolean;
