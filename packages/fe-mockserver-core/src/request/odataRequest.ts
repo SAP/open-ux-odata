@@ -450,7 +450,7 @@ export default class ODataRequest {
             return this.responseData;
         }
         if (typeof this.responseData === 'number' && this.isCountQuery) {
-            return this.responseData;
+            return this.responseData.toString();
         }
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
             if (this.statusCode === 204) {
