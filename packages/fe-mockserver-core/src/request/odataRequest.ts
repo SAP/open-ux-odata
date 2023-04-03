@@ -56,6 +56,7 @@ export default class ODataRequest {
 
     private responseAnnotations: Record<string, any> = {};
     public countRequested: boolean;
+    public isCountQuery: boolean;
     public responseData: any;
     private allParams: URLSearchParams;
     private context: string;
@@ -90,7 +91,7 @@ export default class ODataRequest {
         this.applyDefinition = parseApply(searchParams.get('$apply'));
         this.filterDefinition = parseFilter(searchParams.get('$filter'));
         this.countRequested = searchParams.has('$count');
-
+        this.isCountQuery = this.context.endsWith('$count');
         const selectParams = searchParams.get('$select');
         if (selectParams) {
             this.selectedProperties = {};
@@ -447,6 +448,9 @@ export default class ODataRequest {
         }
         if (typeof this.responseData === 'string') {
             return this.responseData;
+        }
+        if (typeof this.responseData === 'number' && this.isCountQuery) {
+            return this.responseData.toString();
         }
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
             if (this.statusCode === 204) {

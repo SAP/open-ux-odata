@@ -400,6 +400,10 @@ export class ODataV4Requestor extends ODataRequestor {
     public getRoot<T>(): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest(this.odataRootUri, '/');
     }
+
+    public getCount<T>(sEntityPath: string): ODataV4ObjectRequest<T> {
+        return new ODataV4ObjectRequest(this.odataRootUri, sEntityPath + '/$count');
+    }
     public reloadData<T>(): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest(this.odataRootUri, '/$metadata/reload');
     }
