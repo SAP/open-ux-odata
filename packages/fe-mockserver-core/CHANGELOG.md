@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.75
+
+### Patch Changes
+
+-   c714433: The base type of the mockdata contributor is now correct
+
 ## 1.1.74
 
 ### Patch Changes
