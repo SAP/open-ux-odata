@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.76
+
+### Patch Changes
+
+-   0f3fd90: $count queries are now working properly
+
 ## 1.1.75
 
 ### Patch Changes
