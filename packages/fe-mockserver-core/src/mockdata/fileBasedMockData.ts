@@ -734,14 +734,11 @@ export class FileBasedMockData {
                 const parent = adjustedData.find((parent) => parent[nodeProperty] === node[sourceReference]);
                 return !parent || !parent.$inResultSet;
             });
-            allRootNodes.sort((a, b) => {
+            allRootNodes.sort((a) => {
                 if (a.$rootDistance === undefined) {
                     return -1;
-                } else if (b.$rootDistance === undefined) {
-                    return 1;
-                } else {
-                    return a.$rootDistance - b.$rootDistance;
                 }
+                return 1;
             });
 
             const depth: number = parseInt(_parameters.Levels, 10);
