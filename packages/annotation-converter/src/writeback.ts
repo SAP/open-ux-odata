@@ -61,7 +61,7 @@ function revertObjectToRawType(references: Reference[], value: any) {
     } else if (value.isBoolean?.()) {
         result = {
             type: 'Bool',
-            Bool: value.valueOf() === 'true'
+            Bool: value.valueOf()
         };
     } else if (value.type === 'Path') {
         result = {
