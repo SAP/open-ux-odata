@@ -593,7 +593,7 @@ export class FileBasedMockData {
             }
 
             if (drillStateProperty) {
-                if (isLastLevel && currentNode.$children?.length === 0) {
+                if (currentNode.$children?.length === 0) {
                     currentNode[drillStateProperty] = 'leaf';
                 } else if (isLastLevel && !shouldShowAncestor) {
                     currentNode[drillStateProperty] = 'collapsed';
@@ -712,15 +712,20 @@ export class FileBasedMockData {
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
         if (aggregationAnnotation) {
             const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
-
-            const adjustedData = this._mockData.map((item: any) => {
-                const adjustedRowData = data.find((dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]);
-                if (adjustedRowData) {
-                    return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
-                } else {
-                    return { ...item, ...{ $inResultSet: false } };
-                }
+            let adjustedData = data.map((adjustedRowData: any) => {
+                const item = this._mockData.find(
+                    (dataItem: any) => dataItem[nodeProperty] === adjustedRowData[nodeProperty]
+                );
+                return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
             });
+            const restOfData = this._mockData
+                .filter((item: any) => {
+                    return !data.find((dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]);
+                })
+                .map((item: any) => {
+                    return { ...item, ...{ $inResultSet: false } };
+                });
+            adjustedData = adjustedData.concat(restOfData);
             const hierarchyNodes = this.buildHierarchyTree(hierarchyQualifier, adjustedData);
             const sourceReference =
                 aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
@@ -728,6 +733,15 @@ export class FileBasedMockData {
             const allRootNodes = adjustedData.filter((node) => {
                 const parent = adjustedData.find((parent) => parent[nodeProperty] === node[sourceReference]);
                 return !parent || !parent.$inResultSet;
+            });
+            allRootNodes.sort((a, b) => {
+                if (a.$rootDistance === undefined) {
+                    return -1;
+                } else if (b.$rootDistance === undefined) {
+                    return 1;
+                } else {
+                    return a.$rootDistance - b.$rootDistance;
+                }
             });
 
             const depth: number = parseInt(_parameters.Levels, 10);

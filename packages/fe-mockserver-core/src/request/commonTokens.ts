@@ -33,9 +33,9 @@ export const LITERAL = createToken({
 });
 //ee1a9172-f3c3-47ce-b0f7-dd28c740210c
 export const LOGICAL_OPERATOR = createToken({ name: 'Logical', pattern: /(:?eq|ne|lt|le|gt|ge)/ });
-export const ANDOR = createToken({ name: 'AndOr', pattern: /\s(:?and|or)\s/ });
-export const ASCDESC = createToken({ name: 'AscDesc', pattern: /\s(:?asc|desc)\s/ });
-export const WS = createToken({ name: 'Whitespace', pattern: /\s+/ });
+export const ANDOR = createToken({ name: 'AndOr', pattern: /(\s|%20)(:?and|or)(\s|%20)/ });
+export const ASCDESC = createToken({ name: 'AscDesc', pattern: /(:?asc|desc)/ });
+export const WS = createToken({ name: 'Whitespace', pattern: /(\s|%20)+/ });
 // const STRINGLITERAL = createToken({
 //     name: 'SimpleIdentifier',
 //     pattern: /(:?[^\\"\s]+|\\(:?[bfnrtv"\\/]|u[0-9a-fA-F]{4}))+/
