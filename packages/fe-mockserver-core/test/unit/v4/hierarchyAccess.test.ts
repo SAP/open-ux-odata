@@ -1255,64 +1255,64 @@ describe('Hierarchy Access', () => {
         );
 
         expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
-          [
-            {
-              "parameters": {
-                "hierarchyRoot": "$root/SalesOrganizations",
-                "inputSetTransformations": [
-                  {
-                    "searchExpr": [
-                      "West",
-                    ],
-                    "type": "search",
-                  },
-                ],
-                "keepStart": true,
-                "maximumDistance": -1,
-                "propertyPath": "ID",
-                "qualifier": "SalesOrgHierarchy",
-              },
-              "type": "ancestors",
-            },
-            {
-              "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
-              "parameters": {
-                "HierarchyNodes": "$root/SalesOrganizations",
-                "HierarchyQualifier": "'SalesOrgHierarchy'",
-                "Levels": "99",
-                "NodeProperty": "'ID'",
-              },
-              "type": "customFunction",
-            },
-          ]
-      `);
+                      [
+                        {
+                          "parameters": {
+                            "hierarchyRoot": "$root/SalesOrganizations",
+                            "inputSetTransformations": [
+                              {
+                                "searchExpr": [
+                                  "West",
+                                ],
+                                "type": "search",
+                              },
+                            ],
+                            "keepStart": true,
+                            "maximumDistance": -1,
+                            "propertyPath": "ID",
+                            "qualifier": "SalesOrgHierarchy",
+                          },
+                          "type": "ancestors",
+                        },
+                        {
+                          "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                          "parameters": {
+                            "HierarchyNodes": "$root/SalesOrganizations",
+                            "HierarchyQualifier": "'SalesOrgHierarchy'",
+                            "Levels": "99",
+                            "NodeProperty": "'ID'",
+                          },
+                          "type": "customFunction",
+                        },
+                      ]
+              `);
 
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
-        [
-          {
-            "DistanceFromRoot": 0,
-            "DrillState": "expanded",
-            "ID": "Sales",
-            "LimitedDescendantCount": 2,
-            "Name": "Corporate Sales",
-          },
-          {
-            "DistanceFromRoot": 1,
-            "DrillState": "expanded",
-            "ID": "US",
-            "LimitedDescendantCount": 1,
-            "Name": "US",
-          },
-          {
-            "DistanceFromRoot": 2,
-            "DrillState": "leaf",
-            "ID": "US West",
-            "LimitedDescendantCount": 0,
-            "Name": "US West",
-          },
-        ]
-      `);
+                    [
+                      {
+                        "DistanceFromRoot": 0,
+                        "DrillState": "expanded",
+                        "ID": "Sales",
+                        "LimitedDescendantCount": 2,
+                        "Name": "Corporate Sales",
+                      },
+                      {
+                        "DistanceFromRoot": 1,
+                        "DrillState": "expanded",
+                        "ID": "US",
+                        "LimitedDescendantCount": 1,
+                        "Name": "US",
+                      },
+                      {
+                        "DistanceFromRoot": 2,
+                        "DrillState": "leaf",
+                        "ID": "US West",
+                        "LimitedDescendantCount": 0,
+                        "Name": "US West",
+                      },
+                    ]
+              `);
     });
 
     test('5- Hierarchy in Object Page - Product hierarchy expanded to two levels (including root)', async () => {
@@ -1326,27 +1326,6 @@ describe('Hierarchy Access', () => {
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
             [
-              {
-                "DistanceFromRoot": 0,
-                "DrillState": "expanded",
-                "ID": "1",
-                "LimitedDescendantCount": 2,
-                "Name": "Waters",
-              },
-              {
-                "DistanceFromRoot": 1,
-                "DrillState": "leaf",
-                "ID": "10",
-                "LimitedDescendantCount": 0,
-                "Name": "Still water",
-              },
-              {
-                "DistanceFromRoot": 1,
-                "DrillState": "leaf",
-                "ID": "11",
-                "LimitedDescendantCount": 0,
-                "Name": "Sparkling water",
-              },
               {
                 "DistanceFromRoot": 0,
                 "DrillState": "expanded",
@@ -1374,6 +1353,27 @@ describe('Hierarchy Access', () => {
                 "ID": "22",
                 "LimitedDescendantCount": 0,
                 "Name": "Sparkling wines",
+              },
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "1",
+                "LimitedDescendantCount": 2,
+                "Name": "Waters",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "10",
+                "LimitedDescendantCount": 0,
+                "Name": "Still water",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "11",
+                "LimitedDescendantCount": 0,
+                "Name": "Sparkling water",
               },
             ]
         `);
@@ -1435,5 +1435,149 @@ describe('Hierarchy Access', () => {
                         },
                       ]
               `);
+    });
+
+    it('7 - Hierarchy in LR, sort in desc order', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=orderby(ID%20desc)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=76"
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "orderBy": [
+                  {
+                    "direction": "desc",
+                    "name": "ID",
+                  },
+                ],
+                "type": "orderBy",
+              },
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "HierarchyNodes": "$root/SalesOrganizations",
+                  "HierarchyQualifier": "'SalesOrgHierarchy'",
+                  "Levels": "2",
+                  "NodeProperty": "'ID'",
+                },
+                "type": "customFunction",
+              },
+            ]
+        `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 2,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "US",
+                "LimitedDescendantCount": 0,
+                "Name": "US",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+            ]
+        `);
+    });
+
+    it('8 - Expand all should work ', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=999)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=47`
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "HierarchyNodes": "$root/SalesOrganizations",
+                  "HierarchyQualifier": "'SalesOrgHierarchy'",
+                  "Levels": "999",
+                  "NodeProperty": "'ID'",
+                },
+                "type": "customFunction",
+              },
+            ]
+        `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 7,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 1,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "EMEA Central",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA Central",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "US",
+                "LimitedDescendantCount": 4,
+                "Name": "US",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "US West",
+                "LimitedDescendantCount": 0,
+                "Name": "US West",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "expanded",
+                "ID": "US East",
+                "LimitedDescendantCount": 2,
+                "Name": "US East",
+              },
+              {
+                "DistanceFromRoot": 3,
+                "DrillState": "expanded",
+                "ID": "NY",
+                "LimitedDescendantCount": 1,
+                "Name": "New York State",
+              },
+              {
+                "DistanceFromRoot": 4,
+                "DrillState": "leaf",
+                "ID": "NYC",
+                "LimitedDescendantCount": 0,
+                "Name": "New York City",
+              },
+            ]
+        `);
     });
 });
