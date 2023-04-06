@@ -1,5 +1,11 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.79
+
+### Patch Changes
+
+-   eada78a: Fix some hierarchy queries
+
 ## 2.1.78
 
 ### Patch Changes
