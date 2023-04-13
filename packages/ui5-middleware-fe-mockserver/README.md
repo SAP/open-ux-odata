@@ -16,14 +16,14 @@ pnpm
 
 ## Usage
 
-In order to use the mock server, the npm module `@sap/ux-ui5-fe-mockserver-middleware` needs to be added as devDependency and ui5.dependencies to `package.json`, and a valid `ui5.yaml` configuration needs to be provided.
+In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mockserver` needs to be added as devDependency and ui5.dependencies to `package.json`, and a valid `ui5.yaml` configuration needs to be provided.
 **Entries in package.json**
 
 ```
 [..]
 
 "devDependencies": {
-    "@sap-ux/ui5-middleware-fe-mockserver": "^1"
+    "@sap-ux/ui5-middleware-fe-mockserver": "^2"
 },
 "ui5": {
     "dependencies": [
