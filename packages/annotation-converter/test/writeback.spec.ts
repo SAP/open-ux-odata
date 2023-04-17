@@ -11,17 +11,16 @@ const FilterDefaultValue = Object.assign('String', {
     }
 });
 
-const getFilterDefaultValueAnnotation = (edmType: string) => {
-    const value = '12.1';
+const getFilterDefaultValueAnnotation = (edmType: string, testValue: string) => {
     return {
         [`is${edmType}`]() {
             return true;
         },
         valueOf() {
-            return value;
+            return testValue;
         },
         toString() {
-            return value.toString();
+            return testValue.toString();
         }
     };
 };
@@ -67,8 +66,9 @@ describe('Writeback capabilities', () => {
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
 
         const supportedEdmTypes = ['String', 'Float', 'Int', 'Date', 'Boolean', 'Decimal'];
+        const testValue = '{{placeholder}}';
         for (const edmType of supportedEdmTypes) {
-            const FilterDefaultValueAnnotation = getFilterDefaultValueAnnotation(edmType);
+            const FilterDefaultValueAnnotation = getFilterDefaultValueAnnotation(edmType, testValue);
             const expectedValueType = edmType === 'Boolean' ? 'Bool' : edmType;
             const transformedFilterDefaultValue = revertTermToGenericType(
                 defaultReferences,
@@ -76,6 +76,7 @@ describe('Writeback capabilities', () => {
             ) as any;
             expect(transformedFilterDefaultValue).not.toBeUndefined();
             expect(transformedFilterDefaultValue.value?.type).toContain(expectedValueType);
+            expect(transformedFilterDefaultValue.value?.[expectedValueType]).toBe(testValue);
         }
     });
 
