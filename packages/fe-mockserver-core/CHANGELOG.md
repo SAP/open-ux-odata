@@ -1,5 +1,18 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.78
+
+### Patch Changes
+
+-   Updated dependencies [4c90240]
+    -   @sap-ux/annotation-converter@0.6.10
+
+## 1.1.77
+
+### Patch Changes
+
+-   6ed2cdc: Properly support additional hierarchy queries
+
 ## 1.1.76
 
 ### Patch Changes

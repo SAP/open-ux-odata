@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.10
+
+### Patch Changes
+
+-   4c90240: fix(converter): removed strict checking for a boolean value
+
 ## 0.6.9
 
 ### Patch Changes
