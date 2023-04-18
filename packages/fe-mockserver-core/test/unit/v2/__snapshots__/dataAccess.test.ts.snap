@@ -5,7 +5,6 @@ exports[`Data Access v2metadata - it can DELETE data for an entity 1`] = `undefi
 exports[`Data Access v2metadata - it can DELETE data for an entity 2`] = `
 {
   "cache-control": "no-store, no-cache",
-  "content-type": "application/json",
   "dataserviceversion": "2.0",
   "sap-tenantid": "tenant-default",
 }
