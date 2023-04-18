@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.79
+
+### Patch Changes
+
+-   9bfc721: We now send the correct http header for the $count queries in batch
+
 ## 1.1.78
 
 ### Patch Changes
