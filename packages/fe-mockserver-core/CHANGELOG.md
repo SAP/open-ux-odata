@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.80
+
+### Patch Changes
+
+-   d4cbd89: We now support groupBy on navigation property
+
 ## 1.1.79
 
 ### Patch Changes
