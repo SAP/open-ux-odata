@@ -333,7 +333,14 @@ export class ApplyParser extends FilterParser {
                 this.MANY_SEP({
                     SEP: COMMA,
                     DEF: () => {
-                        groupBy.push(this.CONSUME2(SIMPLEIDENTIFIER).image);
+                        const groupByStr: string[] = [];
+                        this.MANY_SEP2({
+                            SEP: SLASH,
+                            DEF: () => {
+                                groupByStr.push(this.CONSUME2(SIMPLEIDENTIFIER).image);
+                            }
+                        });
+                        groupBy.push(groupByStr.join('/'));
                     }
                 });
             });
