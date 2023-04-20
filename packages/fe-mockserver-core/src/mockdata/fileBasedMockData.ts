@@ -66,12 +66,10 @@ export class FileBasedMockData {
 
     private validateProperties(mockEntry: any, properties: Property[]) {
         properties.forEach((prop) => {
-            if (
-                !prop.nullable &&
-                !mockEntry.hasOwnProperty(prop.name) &&
-                prop.annotations.Core?.Computed?.valueOf() !== true
-            ) {
-                mockEntry[prop.name] = this.getDefaultValueFromType(prop.type, prop.targetType, prop.defaultValue);
+            if (!prop.nullable && !mockEntry.hasOwnProperty(prop.name)) {
+                if (prop.annotations.Core?.Computed?.valueOf() !== true || isComplexTypeDefinition(prop.targetType)) {
+                    mockEntry[prop.name] = this.getDefaultValueFromType(prop.type, prop.targetType, prop.defaultValue);
+                }
             } else if (mockEntry.hasOwnProperty(prop.name) && isComplexTypeDefinition(prop.targetType)) {
                 // If the property is defined from a complex type we should validate the property of the complex type
                 this.validateProperties(mockEntry[prop.name], prop.targetType.properties);
