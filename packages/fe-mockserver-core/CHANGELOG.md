@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.82
+
+### Patch Changes
+
+-   4a65e71: Analytical queries operator will not overmatch their boundaries
+
 ## 1.1.81
 
 ### Patch Changes
