@@ -1,5 +1,54 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.82
+
+### Patch Changes
+
+-   4a65e71: Analytical queries operator will not overmatch their boundaries
+
+## 1.1.81
+
+### Patch Changes
+
+-   924f0a6: Complex type are created even if they are computed
+
+## 1.1.80
+
+### Patch Changes
+
+-   d4cbd89: We now support groupBy on navigation property
+
+## 1.1.79
+
+### Patch Changes
+
+-   9bfc721: We now send the correct http header for the $count queries in batch
+
+## 1.1.78
+
+### Patch Changes
+
+-   Updated dependencies [4c90240]
+    -   @sap-ux/annotation-converter@0.6.10
+
+## 1.1.77
+
+### Patch Changes
+
+-   6ed2cdc: Properly support additional hierarchy queries
+
+## 1.1.76
+
+### Patch Changes
+
+-   0f3fd90: $count queries are now working properly
+
+## 1.1.75
+
+### Patch Changes
+
+-   c714433: The base type of the mockdata contributor is now correct
+
 ## 1.1.74
 
 ### Patch Changes

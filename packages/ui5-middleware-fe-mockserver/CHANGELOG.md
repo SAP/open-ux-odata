@@ -1,5 +1,66 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.85
+
+### Patch Changes
+
+-   Updated dependencies [4a65e71]
+    -   @sap-ux/fe-mockserver-core@1.1.82
+
+## 2.1.84
+
+### Patch Changes
+
+-   Updated dependencies [924f0a6]
+    -   @sap-ux/fe-mockserver-core@1.1.81
+
+## 2.1.83
+
+### Patch Changes
+
+-   Updated dependencies [d4cbd89]
+    -   @sap-ux/fe-mockserver-core@1.1.80
+
+## 2.1.82
+
+### Patch Changes
+
+-   Updated dependencies [9bfc721]
+    -   @sap-ux/fe-mockserver-core@1.1.79
+
+## 2.1.81
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.1.78
+
+## 2.1.80
+
+### Patch Changes
+
+-   Updated dependencies [6ed2cdc]
+    -   @sap-ux/fe-mockserver-core@1.1.77
+
+## 2.1.79
+
+### Patch Changes
+
+-   eada78a: Fix some hierarchy queries
+
+## 2.1.78
+
+### Patch Changes
+
+-   Updated dependencies [0f3fd90]
+    -   @sap-ux/fe-mockserver-core@1.1.76
+
+## 2.1.77
+
+### Patch Changes
+
+-   Updated dependencies [c714433]
+    -   @sap-ux/fe-mockserver-core@1.1.75
+
 ## 2.1.76
 
 ### Patch Changes

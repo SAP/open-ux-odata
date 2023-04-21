@@ -145,6 +145,12 @@ describe('V4 Requestor', function () {
         expect(dataRes.length).toBe(4);
     });
 
+    it('can count data through a batch call', async () => {
+        const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataRes = await dataRequestor.getCount<any>('RootElement').executeAsBatch();
+        expect(dataRes).toBe(4);
+    });
+
     it('can get some data through a batch call with changeset', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.getList<any>('RootElement').executeAsBatch(true);

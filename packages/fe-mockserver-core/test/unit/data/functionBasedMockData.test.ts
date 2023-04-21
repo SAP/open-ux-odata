@@ -33,6 +33,10 @@ describe('Function Based Mock Data', () => {
         );
         let mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
         expect(mockData.length).toBe(3);
+        expect(mockData[0].complexComputedProperty).toBeDefined();
+        expect(mockData[0].complexProperty).toBeDefined();
+        expect(mockData[0].complexComputedNotNullProperty).toBeDefined();
+        expect(mockData[0].complexNotNullProperty).toBeDefined();
         // Fake that in tenant 001 we only return one data
         fakeRequest.tenantId = 'tenant-001';
         mockData = myEntitySet.getMockData('tenant-001').getAllEntries(fakeRequest) as any;

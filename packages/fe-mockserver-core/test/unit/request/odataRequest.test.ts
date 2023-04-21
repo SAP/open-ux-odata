@@ -472,6 +472,72 @@ describe('OData Request', () => {
               },
             ]
         `);
+
+        const alpRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/SalesOrderItem?$count=true&$apply=groupby((HigherLevelItem,ID,Material,NetAmount,RequestedDeliveryDate,RequestedQuantity,RequestedQuantityUnit,SalesOrderItem,SalesOrderItemCategory,TransactionCurrency,_Material/Material,isVerified,owner/isVerified,_Material/Material_Text,_RequestedQuantityUnit/UnitOfMeasure_Text,SalesOrderItemText,_ItemCategory/SalesDocumentItemCategory_Text))&$skip=0&$top=64`
+            },
+            fakeDataAccess
+        );
+        expect(alpRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "groupBy": [
+                  "HigherLevelItem",
+                  "ID",
+                  "Material",
+                  "NetAmount",
+                  "RequestedDeliveryDate",
+                  "RequestedQuantity",
+                  "RequestedQuantityUnit",
+                  "SalesOrderItem",
+                  "SalesOrderItemCategory",
+                  "TransactionCurrency",
+                  "_Material/Material",
+                  "isVerified",
+                  "owner/isVerified",
+                  "_Material/Material_Text",
+                  "_RequestedQuantityUnit/UnitOfMeasure_Text",
+                  "SalesOrderItemText",
+                  "_ItemCategory/SalesDocumentItemCategory_Text",
+                ],
+                "subTransformations": [],
+                "type": "groupBy",
+              },
+            ]
+        `);
+
+        const anotherALPRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/SalesOrderItem?entitySet=SalesOrderItem&useBatchRequests=true&provideGrandTotals=true&provideTotalResultSize=true&noPaging=true&$apply=groupby((SalesOrderItem,SalesOrderItemText),aggregate(NetAmount%20with%20max%20as%20maxAmount))`
+            },
+            fakeDataAccess
+        );
+        expect(anotherALPRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "groupBy": [
+                  "SalesOrderItem",
+                  "SalesOrderItemText",
+                ],
+                "subTransformations": [
+                  {
+                    "aggregateDef": [
+                      {
+                        "name": "maxAmount",
+                        "operator": "max",
+                        "sourceProperty": "NetAmount",
+                      },
+                    ],
+                    "type": "aggregates",
+                  },
+                ],
+                "type": "groupBy",
+              },
+            ]
+        `);
     });
 
     // $filter

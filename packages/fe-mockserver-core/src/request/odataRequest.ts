@@ -56,6 +56,7 @@ export default class ODataRequest {
 
     private responseAnnotations: Record<string, any> = {};
     public countRequested: boolean;
+    public isCountQuery: boolean;
     public responseData: any;
     private allParams: URLSearchParams;
     private context: string;
@@ -90,7 +91,7 @@ export default class ODataRequest {
         this.applyDefinition = parseApply(searchParams.get('$apply'));
         this.filterDefinition = parseFilter(searchParams.get('$filter'));
         this.countRequested = searchParams.has('$count');
-
+        this.isCountQuery = this.context.endsWith('$count');
         const selectParams = searchParams.get('$select');
         if (selectParams) {
             this.selectedProperties = {};
@@ -443,10 +444,13 @@ export default class ODataRequest {
         } else {
             this.addResponseHeader('dataserviceversion', '2.0');
             this.addResponseHeader('cache-control', 'no-store, no-cache');
-            this.addResponseHeader('content-type', 'application/json');
         }
         if (typeof this.responseData === 'string') {
             return this.responseData;
+        }
+        if (typeof this.responseData === 'number' && this.isCountQuery) {
+            this.addResponseHeader('content-type', 'text/plain');
+            return this.responseData.toString();
         }
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
             if (this.statusCode === 204) {
@@ -488,6 +492,7 @@ export default class ODataRequest {
             if (this.statusCode === 204) {
                 return;
             }
+            this.addResponseHeader('content-type', 'application/json');
             // V2
             const resultObject: any = { d: {} };
             if (Array.isArray(this.responseData)) {
