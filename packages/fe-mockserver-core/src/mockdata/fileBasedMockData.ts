@@ -67,7 +67,7 @@ export class FileBasedMockData {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
                     this.validateProperties(mockLine, this._entityType.entityProperties);
-                    const allAggregations = this._entityType.annotations.Aggregation ?? {};
+                    const allAggregations = this._entityType.annotations?.Aggregation ?? {};
                     Object.keys(allAggregations)
                         .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
                         .forEach((aggregationName) => {
