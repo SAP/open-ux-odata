@@ -568,7 +568,6 @@ export class FileBasedMockData {
                 itemPerParents[item[hierarchyDefinition.sourceReference]] = [];
             }
             itemPerParents[item[hierarchyDefinition.sourceReference]].push(item);
-            3;
         });
         this._hierarchyTree[hierarchyQualifier] = itemPerParents;
 
