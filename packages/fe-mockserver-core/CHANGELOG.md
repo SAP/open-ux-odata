@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.81
+
+### Patch Changes
+
+-   924f0a6: Complex type are created even if they are computed
+
 ## 1.1.80
 
 ### Patch Changes
