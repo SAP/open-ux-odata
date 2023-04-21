@@ -384,6 +384,7 @@ export class ApplyParser extends FilterParser {
                         this.CONSUME5(WS);
                         this.CONSUME(AS_TOKEN);
                         this.CONSUME6(WS);
+                        // NetAmount%20with%20max%20as%20maxAmount
                         alias = this.CONSUME3(SIMPLEIDENTIFIER).image;
                     });
 

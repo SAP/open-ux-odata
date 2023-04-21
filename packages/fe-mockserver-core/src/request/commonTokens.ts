@@ -58,6 +58,6 @@ export const FROM_TOKEN = createToken({ name: 'From', pattern: /from/ });
 export const AS_TOKEN = createToken({ name: 'As', pattern: /as/ });
 export const AGGREGATE_FUNCTION = createToken({
     name: 'Aggregate Functions',
-    pattern: /sum|min|max|countdistinct|average/
+    pattern: /\b(sum|min|max|countdistinct|average)\b/
 });
 export const ROOT_TOKEN = createToken({ name: 'Root Token', pattern: /\$root\// });

@@ -507,6 +507,37 @@ describe('OData Request', () => {
               },
             ]
         `);
+
+        const anotherALPRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/SalesOrderItem?entitySet=SalesOrderItem&useBatchRequests=true&provideGrandTotals=true&provideTotalResultSize=true&noPaging=true&$apply=groupby((SalesOrderItem,SalesOrderItemText),aggregate(NetAmount%20with%20max%20as%20maxAmount))`
+            },
+            fakeDataAccess
+        );
+        expect(anotherALPRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "groupBy": [
+                  "SalesOrderItem",
+                  "SalesOrderItemText",
+                ],
+                "subTransformations": [
+                  {
+                    "aggregateDef": [
+                      {
+                        "name": "maxAmount",
+                        "operator": "max",
+                        "sourceProperty": "NetAmount",
+                      },
+                    ],
+                    "type": "aggregates",
+                  },
+                ],
+                "type": "groupBy",
+              },
+            ]
+        `);
     });
 
     // $filter
