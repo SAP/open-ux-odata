@@ -23,7 +23,7 @@
         "@sap-ux/fe-mockserver-core": "workspace:*"
     },
     "devDependencies": {
-        "@types/express": "4.17.13"
+        "@types/express": "4.17.17"
     },
     "files": [
         "dist",
