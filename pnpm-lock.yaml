@@ -81,7 +81,7 @@ importers:
       '@types/express': 4.17.17
       '@types/finalhandler': ^1.1.1
       '@types/graceful-fs': ^4.1.5
-      '@types/lodash.clonedeep': 4.5.6
+      '@types/lodash.clonedeep': 4.5.7
       '@types/node-fetch': '2'
       '@ui5/logger': 2.0.1
       balanced-match: 1.0.0
@@ -118,7 +118,7 @@ importers:
       '@types/express': 4.17.17
       '@types/finalhandler': 1.1.1
       '@types/graceful-fs': 4.1.5
-      '@types/lodash.clonedeep': 4.5.6
+      '@types/lodash.clonedeep': 4.5.7
       '@types/node-fetch': 2.6.1
       finalhandler: 1.2.0
       node-fetch: 2.6.7
@@ -1340,8 +1340,8 @@ packages:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
     dev: true
 
-  /@types/lodash.clonedeep/4.5.6:
-    resolution: {integrity: sha512-cE1jYr2dEg1wBImvXlNtp0xDoS79rfEdGozQVgliDZj1uERH4k+rmEMTudP9b4VQ8O6nRb5gPqft0QzEQGMQgA==}
+  /@types/lodash.clonedeep/4.5.7:
+    resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
     dependencies:
       '@types/lodash': 4.14.182
     dev: true
