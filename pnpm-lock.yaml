@@ -84,7 +84,7 @@ importers:
       '@types/lodash.clonedeep': 4.5.7
       '@types/node-fetch': '2'
       '@ui5/logger': 2.0.1
-      balanced-match: 1.0.0
+      balanced-match: 1.0.2
       body-parser: 1.20.1
       chevrotain: 9.1.0
       chokidar: 3.5.3
@@ -99,7 +99,7 @@ importers:
       '@sap-ux/annotation-converter': link:../annotation-converter
       '@sap-ux/edmx-parser': link:../edmx-parser
       '@ui5/logger': 2.0.1
-      balanced-match: 1.0.0
+      balanced-match: 1.0.2
       body-parser: 1.20.1
       chevrotain: 9.1.0
       chokidar: 3.5.3
@@ -2036,8 +2036,8 @@ packages:
       babel-preset-current-node-syntax: 1.0.1_@babel+core@7.18.10
     dev: true
 
-  /balanced-match/1.0.0:
-    resolution: {integrity: sha1-ibTRmasr7kneFk6gK4nORi1xt2c=}
+  /balanced-match/1.0.2:
+    resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
   /better-path-resolve/1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
@@ -2095,7 +2095,7 @@ packages:
   /brace-expansion/1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
     dependencies:
-      balanced-match: 1.0.0
+      balanced-match: 1.0.2
       concat-map: 0.0.1
     dev: true
 
