@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.11
+
+### Patch Changes
+
+-   5e2ff68: Resolving path now works correctly even when the namespace is the same as an entitySet
+
 ## 0.6.10
 
 ### Patch Changes
