@@ -370,7 +370,7 @@ exports[`Writeback capabilities can deal with weird things such as annotation on
         {
           "name": "Action",
           "value": {
-            "String": "com.c_salesordermanage_sd.ChangeOrderStatus",
+            "String": "SalesOrderManage.ChangeOrderStatus",
             "type": "String",
           },
         },
