@@ -177,10 +177,13 @@ describe('Annotation Converter', () => {
 
     describe('can support resolvePath syntax', () => {
         let convertedTypes: ConvertedMetadata;
+        let convertedTypesModified: ConvertedMetadata;
 
         beforeAll(async () => {
             const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
+            const parsedEDMXModified = parse(await loadFixture('v4/v4MetaModified.xml'));
             convertedTypes = convert(parsedEDMX);
+            convertedTypesModified = convert(parsedEDMXModified);
         });
 
         it('can resolve EntitySet', () => {
@@ -300,6 +303,14 @@ describe('Annotation Converter', () => {
             expect(sdManageLineItem.target).not.toBeUndefined();
             expect(sdManageLineItem.target?.term).toEqual(UIAnnotationTerms.LineItem);
             expect(sdManageLineItem.objectPath.length).toEqual(4); // EntityContainer / EntitySet / EntityType
+
+            const sdManageLineItem2: ResolutionTarget<LineItem> = convertedTypesModified.resolvePath(
+                '/SalesOrderManage/@UI.LineItem'
+            );
+            expect(sdManageLineItem2.target).not.toBeNull();
+            expect(sdManageLineItem2.target).not.toBeUndefined();
+            expect(sdManageLineItem2.target?.term).toEqual(UIAnnotationTerms.LineItem);
+            expect(sdManageLineItem2.objectPath.length).toEqual(4); // EntityContainer / EntitySe
         });
 
         it('can resolve EntityType Annotations by index', () => {
