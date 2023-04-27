@@ -75,7 +75,7 @@ importers:
       '@sap-ux/fe-mockserver-plugin-cds': workspace:*
       '@sap-ux/vocabularies-types': workspace:*
       '@types/balanced-match': ^1.0.2
-      '@types/body-parser': 1.17.1
+      '@types/body-parser': 1.19.2
       '@types/connect': ^3.4.35
       '@types/etag': 1.8.1
       '@types/express': 4.17.17
@@ -85,7 +85,7 @@ importers:
       '@types/node-fetch': '2'
       '@ui5/logger': 2.0.1
       balanced-match: 1.0.2
-      body-parser: 1.20.1
+      body-parser: 1.20.2
       chevrotain: 9.1.0
       chokidar: 3.5.3
       etag: 1.8.1
@@ -100,7 +100,7 @@ importers:
       '@sap-ux/edmx-parser': link:../edmx-parser
       '@ui5/logger': 2.0.1
       balanced-match: 1.0.2
-      body-parser: 1.20.1
+      body-parser: 1.20.2
       chevrotain: 9.1.0
       chokidar: 3.5.3
       etag: 1.8.1
@@ -112,7 +112,7 @@ importers:
       '@sap-ux/fe-mockserver-plugin-cds': link:../fe-mockserver-plugin-cds
       '@sap-ux/vocabularies-types': link:../vocabularies-types
       '@types/balanced-match': 1.0.2
-      '@types/body-parser': 1.17.1
+      '@types/body-parser': 1.19.2
       '@types/connect': 3.4.35
       '@types/etag': 1.8.1
       '@types/express': 4.17.17
@@ -1247,11 +1247,11 @@ packages:
     resolution: {integrity: sha512-KgomuqUNYgN+Sibk22j7HB6vo8gziGz/k3Y8RkauF2duMZfMeIkyUKARef2eIIQuXGrkbIvcOfY5DNF/nQrDZQ==}
     dev: true
 
-  /@types/body-parser/1.17.1:
-    resolution: {integrity: sha512-RoX2EZjMiFMjZh9lmYrwgoP9RTpAjSHiJxdp4oidAQVO02T7HER3xj9UKue5534ULWeqVEkujhWcyvUce+d68w==}
+  /@types/body-parser/1.19.2:
+    resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 17.0.23
+      '@types/node': 14.14.31
     dev: true
 
   /@types/connect/3.4.35:
@@ -1277,7 +1277,7 @@ packages:
   /@types/express/4.17.17:
     resolution: {integrity: sha512-Q4FmmuLGBG58btUnfS1c1r/NQdlp3DMfGDGig8WhfpA2YRUtEkxAjkZb0yvplJGYdF1fsQ81iMDcH24sSCNC/Q==}
     dependencies:
-      '@types/body-parser': 1.17.1
+      '@types/body-parser': 1.19.2
       '@types/express-serve-static-core': 4.17.33
       '@types/qs': 6.9.7
       '@types/serve-static': 1.13.10
@@ -1678,7 +1678,7 @@ packages:
       '@ui5/builder': 2.11.10
       '@ui5/fs': 2.0.6
       '@ui5/logger': 2.0.1
-      body-parser: 1.20.1
+      body-parser: 1.20.2
       compression: 1.7.4
       connect-openui5: 0.10.3
       cors: 2.8.5
@@ -2060,7 +2060,7 @@ packages:
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
     dependencies:
       bytes: 3.1.2
-      content-type: 1.0.4
+      content-type: 1.0.5
       debug: 2.6.9
       depd: 2.0.0
       destroy: 1.2.0
@@ -2069,6 +2069,26 @@ packages:
       on-finished: 2.4.1
       qs: 6.11.0
       raw-body: 2.5.1
+      type-is: 1.6.18
+      unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /body-parser/1.20.2:
+    resolution: {integrity: sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      on-finished: 2.4.1
+      qs: 6.11.0
+      raw-body: 2.5.2
       type-is: 1.6.18
       unpipe: 1.0.0
     transitivePeerDependencies:
@@ -2510,8 +2530,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /content-type/1.0.4:
-    resolution: {integrity: sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==}
+  /content-type/1.0.5:
+    resolution: {integrity: sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==}
     engines: {node: '>= 0.6'}
 
   /convert-source-map/1.8.0:
@@ -2865,7 +2885,7 @@ packages:
     dev: true
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
   /electron-to-chromium/1.4.212:
     resolution: {integrity: sha512-LjQUg1SpLj2GfyaPDVBUHdhmlDU1vDB4f0mJWSGkISoXQrn5/lH3ECPCuo2Bkvf6Y30wO+b69te+rZK/llZmjg==}
@@ -3433,7 +3453,7 @@ packages:
       array-flatten: 1.1.1
       body-parser: 1.20.1
       content-disposition: 0.5.4
-      content-type: 1.0.4
+      content-type: 1.0.5
       cookie: 0.5.0
       cookie-signature: 1.0.6
       debug: 2.6.9
@@ -5250,7 +5270,7 @@ packages:
     dev: true
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
 
   /meow/6.1.1:
@@ -6111,6 +6131,16 @@ packages:
 
   /raw-body/2.5.1:
     resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      bytes: 3.1.2
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
+    dev: true
+
+  /raw-body/2.5.2:
+    resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
     dependencies:
       bytes: 3.1.2
