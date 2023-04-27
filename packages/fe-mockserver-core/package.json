@@ -31,7 +31,7 @@
         "@sap-ux/edmx-parser": "workspace:*",
         "@ui5/logger": "2.0.1",
         "balanced-match": "1.0.2",
-        "body-parser": "1.20.1",
+        "body-parser": "1.20.2",
         "chevrotain": "9.1.0",
         "chokidar": "3.5.3",
         "etag": "1.8.1",
@@ -43,7 +43,7 @@
     "devDependencies": {
         "@sap-ux/vocabularies-types": "workspace:*",
         "@sap-ux/fe-mockserver-plugin-cds": "workspace:*",
-        "@types/body-parser": "1.17.1",
+        "@types/body-parser": "1.19.2",
         "@types/graceful-fs": "^4.1.5",
         "@types/connect": "^3.4.35",
         "@types/node-fetch": "2",
