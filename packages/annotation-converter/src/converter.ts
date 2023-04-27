@@ -106,7 +106,7 @@ function resolveTarget<T>(
     if (startElement === undefined) {
         // no starting point given: start at the entity container
         if (
-            pathSegments[0].startsWith(converter.rawSchema.namespace) &&
+            pathSegments[0].startsWith(`${converter.rawSchema.namespace}.`) &&
             pathSegments[0] !== converter.getConvertedEntityContainer()?.fullyQualifiedName
         ) {
             // We have a fully qualified name in the path that is not the entity container.
