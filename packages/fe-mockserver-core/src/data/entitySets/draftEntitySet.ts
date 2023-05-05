@@ -174,7 +174,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     draftData,
                     tenantId
                 );
-                if (navPropEntity && navPropEntity.draftActivate) {
+                if (navPropEntity?.draftActivate) {
                     await navPropEntity.draftActivate(subKeys, tenantId, odataRequest);
                 }
             }
@@ -213,7 +213,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         const dataToDiscard = this.performGET(keyValues, true, tenantId, odataRequest);
         for (const data of dataToDiscard) {
             const keys = this.getKeys(data);
-            super.performDELETE(keys, tenantId, odataRequest);
+            await super.performDELETE(keys, tenantId, odataRequest);
             for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
                 if (
                     (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
@@ -226,7 +226,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                         data,
                         tenantId
                     );
-                    if (navPropEntity && navPropEntity.draftDiscard) {
+                    if (navPropEntity?.draftDiscard) {
                         await navPropEntity.draftDiscard(subKeys, tenantId, odataRequest);
                     }
                 }
@@ -318,17 +318,13 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         const updatedData = await super.performPATCH(keyValues, patchData, tenantId, odataRequest);
         if (updateParent && this.entitySetDefinition?.annotations?.Common?.DraftNode) {
             const parentEntity = await this.dataAccess.getDraftRoot(keyValues, tenantId, this.entitySetDefinition);
-            if (
-                parentEntity &&
-                parentEntity.DraftAdministrativeData !== null &&
-                parentEntity.DraftAdministrativeData !== undefined
-            ) {
+            if (parentEntity?.DraftAdministrativeData !== null && parentEntity?.DraftAdministrativeData !== undefined) {
                 parentEntity.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
             }
         }
         if (this.entitySetDefinition?.annotations?.Common?.DraftRoot) {
             const myDataToUpdate = this.performGET(keyValues, false, tenantId, odataRequest, true);
-            if (myDataToUpdate && myDataToUpdate.DraftAdministrativeData) {
+            if (myDataToUpdate?.DraftAdministrativeData) {
                 myDataToUpdate.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
             }
         }
@@ -344,11 +340,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
     ): Promise<any> {
         if (updateParent && this.entitySetDefinition?.annotations?.Common?.DraftNode) {
             const parentEntity = await this.dataAccess.getDraftRoot(keyValues, tenantId, this.entitySetDefinition);
-            if (
-                parentEntity &&
-                parentEntity.DraftAdministrativeData !== null &&
-                parentEntity.DraftAdministrativeData !== undefined
-            ) {
+            if (parentEntity?.DraftAdministrativeData !== null && parentEntity?.DraftAdministrativeData !== undefined) {
                 parentEntity.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
             }
         }
@@ -385,11 +377,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         const draftData = this.performGET(keyValues, false, tenantId, odataRequest);
         if (updateParent && this.entitySetDefinition?.annotations?.Common?.DraftNode) {
             const parentEntity = await this.dataAccess.getDraftRoot(keyValues, tenantId, this.entitySetDefinition);
-            if (
-                parentEntity &&
-                parentEntity.DraftAdministrativeData !== null &&
-                parentEntity.DraftAdministrativeData !== undefined
-            ) {
+            if (parentEntity?.DraftAdministrativeData !== null && parentEntity?.DraftAdministrativeData !== undefined) {
                 parentEntity.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
             }
         }
@@ -400,7 +388,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 // Update the sibling
                 const activeKeys = Object.assign({}, keyValues, { IsActiveEntity: true });
                 const activeEquivalent = this.performGET(activeKeys, false, tenantId, odataRequest, true);
-                if (activeEquivalent && activeEquivalent.HasDraftEntity) {
+                if (activeEquivalent?.HasDraftEntity) {
                     activeEquivalent.HasDraftEntity = false;
                 }
             }
