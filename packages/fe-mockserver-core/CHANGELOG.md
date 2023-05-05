@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.85
+
+### Patch Changes
+
+-   6ece620: group by query may not have aggregates
+
 ## 1.1.84
 
 ### Patch Changes
