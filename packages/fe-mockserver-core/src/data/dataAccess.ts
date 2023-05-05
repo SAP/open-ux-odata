@@ -72,10 +72,14 @@ export class DataAccess implements DataAccessInterface {
     private initializeMockData() {
         // Preload the mock entityset asynchronously
         this.metadata.getEntitySets().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData);
+            this.getMockEntitySet(entitySet.name, this.generateMockData).catch((error) => {
+                this.log.info(`Error while loading mockdata for entityset ${entitySet.name}: ${error}`);
+            });
         });
         this.metadata.getSingletons().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData);
+            this.getMockEntitySet(entitySet.name, this.generateMockData).catch((error) => {
+                this.log.info(`Error while loading mockdata for singleton ${entitySet.name}: ${error}`);
+            });
         });
     }
 
@@ -103,20 +107,10 @@ export class DataAccess implements DataAccessInterface {
             let mockEntitySet: MockDataEntitySet;
             if (entitySet && this.metadata.isDraftEntity(entitySet)) {
                 this.log.info(`Creating draft entity for ${entitySet?.name}`);
-                mockEntitySet = new DraftMockEntitySet(
-                    this.mockDataRootFolder,
-                    entitySet || entityType,
-                    this,
-                    generateMockData
-                );
+                mockEntitySet = new DraftMockEntitySet(this.mockDataRootFolder, entitySet, this, generateMockData);
             } else if (entitySet && this.metadata.isStickyEntity(entitySet)) {
                 this.log.info(`Creating sticky entity for ${entitySet?.name}`);
-                mockEntitySet = new StickyMockEntitySet(
-                    this.mockDataRootFolder,
-                    entitySet || entityType,
-                    this,
-                    generateMockData
-                );
+                mockEntitySet = new StickyMockEntitySet(this.mockDataRootFolder, entitySet, this, generateMockData);
                 this.stickyEntitySets.push(mockEntitySet as StickyMockEntitySet);
             } else {
                 this.log.info(`Creating entity for ${(entitySet || entityType)?.name}`);
@@ -299,7 +293,7 @@ export class DataAccess implements DataAccessInterface {
                     return targetNavProp.targetTypeName === currentEntityType.fullyQualifiedName;
                 }
             });
-            if (backNav && backNav.referentialConstraint && backNav.referentialConstraint.length > 0) {
+            if (backNav?.referentialConstraint && backNav.referentialConstraint.length > 0) {
                 backNav.referentialConstraint.forEach((refConstr: ReferentialConstraint) => {
                     if (originalData[refConstr.targetProperty] !== undefined) {
                         currentKeys[refConstr.sourceProperty] = originalData[refConstr.targetProperty];
@@ -562,7 +556,6 @@ export class DataAccess implements DataAccessInterface {
                                 Object.keys(currentKeys).length === 0 ||
                                 (Object.keys(currentKeys).length === 1 && currentKeys.hasOwnProperty('IsActiveEntity'));
                             if (
-                                navPropDetail &&
                                 navPropDetail.referentialConstraint.length == 0 &&
                                 innerData.hasOwnProperty(queryPathPart.path) &&
                                 (this.metadata.getVersion() === '2.0' || hasOnlyDraftKeyOrNoKeys)
@@ -993,7 +986,6 @@ export class DataAccess implements DataAccessInterface {
                 },
                 this
             );
-            //await parentRequest.handleRequest();
 
             data = await this.getData(parentRequest, true);
         } catch (e) {
