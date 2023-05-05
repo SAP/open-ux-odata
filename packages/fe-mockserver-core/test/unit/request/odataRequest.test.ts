@@ -538,6 +538,41 @@ describe('OData Request', () => {
               },
             ]
         `);
+
+        const anotherALP = new ODataRequest(
+            {
+                method: 'GET',
+                url: 'SalesOrderItem?$count=true&$apply=groupby((HigherLevelItem,ID,Material,NetAmount,RequestedDeliveryDate,RequestedQuantity,RequestedQuantityUnit,SalesOrderItem,SalesOrderItemCategory,TransactionCurrency,_Material/Material,isVerified,owner/isVerified,_Material/Material_Text,_RequestedQuantityUnit/UnitOfMeasure_Text,SalesOrderItemText,_ItemCategory/SalesDocumentItemCategory_Text))&$skip=0&$top=70'
+            },
+            fakeDataAccess
+        );
+        expect(anotherALP.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "groupBy": [
+                  "HigherLevelItem",
+                  "ID",
+                  "Material",
+                  "NetAmount",
+                  "RequestedDeliveryDate",
+                  "RequestedQuantity",
+                  "RequestedQuantityUnit",
+                  "SalesOrderItem",
+                  "SalesOrderItemCategory",
+                  "TransactionCurrency",
+                  "_Material/Material",
+                  "isVerified",
+                  "owner/isVerified",
+                  "_Material/Material_Text",
+                  "_RequestedQuantityUnit/UnitOfMeasure_Text",
+                  "SalesOrderItemText",
+                  "_ItemCategory/SalesDocumentItemCategory_Text",
+                ],
+                "subTransformations": [],
+                "type": "groupBy",
+              },
+            ]
+        `);
     });
 
     // $filter
