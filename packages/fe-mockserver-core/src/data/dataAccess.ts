@@ -1071,47 +1071,49 @@ export class DataAccess implements DataAccessInterface {
             applyDefinition.groupBy.forEach((propName) => {
                 outData[propName] = dataToAggregate[0][propName];
             });
-            const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
-            aggregateDefinition.aggregateDef.forEach((subAggregateDefinition) => {
-                let propValue: any;
-                if (
-                    subAggregateDefinition.operator === undefined &&
-                    mockData &&
-                    mockData.hasCustomAggregate(subAggregateDefinition.name, odataRequest)
-                ) {
-                    propValue = mockData.performCustomAggregate(
-                        subAggregateDefinition.name,
-                        dataToAggregate,
-                        odataRequest
-                    );
-                } else {
-                    dataToAggregate.forEach((dataLine) => {
-                        const currentValue = dataLine[subAggregateDefinition.sourceProperty];
-                        if (propValue === undefined) {
-                            propValue = currentValue;
-                        } else {
-                            switch (subAggregateDefinition.operator) {
-                                case 'max':
-                                    propValue = Math.max(propValue, currentValue);
-                                    break;
-                                case 'min':
-                                    propValue = Math.min(propValue, currentValue);
-                                    break;
-                                case 'average':
-                                    propValue += currentValue;
-                                    break;
-                                default:
-                                    propValue += currentValue;
-                                    break;
+            if (applyDefinition.subTransformations.length > 0) {
+                const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
+                aggregateDefinition.aggregateDef.forEach((subAggregateDefinition) => {
+                    let propValue: any;
+                    if (
+                        subAggregateDefinition.operator === undefined &&
+                        mockData &&
+                        mockData.hasCustomAggregate(subAggregateDefinition.name, odataRequest)
+                    ) {
+                        propValue = mockData.performCustomAggregate(
+                            subAggregateDefinition.name,
+                            dataToAggregate,
+                            odataRequest
+                        );
+                    } else {
+                        dataToAggregate.forEach((dataLine) => {
+                            const currentValue = dataLine[subAggregateDefinition.sourceProperty];
+                            if (propValue === undefined) {
+                                propValue = currentValue;
+                            } else {
+                                switch (subAggregateDefinition.operator) {
+                                    case 'max':
+                                        propValue = Math.max(propValue, currentValue);
+                                        break;
+                                    case 'min':
+                                        propValue = Math.min(propValue, currentValue);
+                                        break;
+                                    case 'average':
+                                        propValue += currentValue;
+                                        break;
+                                    default:
+                                        propValue += currentValue;
+                                        break;
+                                }
                             }
-                        }
-                    });
-                }
-                if (subAggregateDefinition.operator === 'average') {
-                    propValue = propValue / dataToAggregate.length;
-                }
-                outData[subAggregateDefinition.name] = propValue;
-            });
+                        });
+                    }
+                    if (subAggregateDefinition.operator === 'average') {
+                        propValue = propValue / dataToAggregate.length;
+                    }
+                    outData[subAggregateDefinition.name] = propValue;
+                });
+            }
             return outData;
         });
         return data;
