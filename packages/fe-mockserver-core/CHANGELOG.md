@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.84
+
+### Patch Changes
+
+-   6bdb95b: DateTime can also include fractional seconds
+
 ## 1.1.83
 
 ### Patch Changes
