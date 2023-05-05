@@ -87,6 +87,10 @@ declare namespace EDMX {
         _attributes: {
             Name: string;
             Type: string;
+            Nullable: string;
+            MaxLength: string;
+            Precision: string;
+            Scale: string;
         };
     }
 
