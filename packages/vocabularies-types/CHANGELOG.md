@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.7.5
+
+### Patch Changes
+
+-   d1a950b: Adjusted the type for the ActionParameters
+
 ## 0.7.4
 
 ### Patch Changes
