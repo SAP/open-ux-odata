@@ -3,6 +3,7 @@ import type {
     ActionImport,
     ActionParameter,
     Annotation,
+    AnnotationPath,
     AnnotationRecord,
     ArrayWithIndex,
     BaseNavigationProperty,
@@ -14,6 +15,8 @@ import type {
     Expression,
     FullyQualifiedName,
     NavigationProperty,
+    NavigationPropertyPath,
+    PathAnnotationExpression,
     Property,
     PropertyPath,
     RawAction,
@@ -81,9 +84,13 @@ function appendObjectPath(objectPath: any[], visitedObject: any): any[] {
 function resolveTarget<T>(
     converter: Converter,
     startElement: any,
-    path: string,
+    path: string | undefined,
     annotationsTerm?: string
 ): ResolutionTarget<T> {
+    if (path === undefined) {
+        return { target: undefined, objectPath: [], messages: [] };
+    }
+
     // absolute paths always start at the entity container
     if (path.startsWith('/')) {
         path = path.substring(1);
@@ -412,6 +419,109 @@ function isAnnotationPath(pathStr: string): boolean {
     return pathStr.includes('@');
 }
 
+type AnnotationValue<T> = T & { [ANNOTATION_TARGET]: any };
+
+function mapPropertyPath(
+    converter: Converter,
+    propertyPath: { type: 'PropertyPath'; PropertyPath: string },
+    fullyQualifiedName: FullyQualifiedName,
+    currentTarget: any,
+    currentTerm: string
+) {
+    const result: Omit<AnnotationValue<PropertyPath>, '$target'> = {
+        type: 'PropertyPath',
+        value: propertyPath.PropertyPath,
+        fullyQualifiedName: fullyQualifiedName,
+        [ANNOTATION_TARGET]: currentTarget
+    };
+
+    lazy(
+        result as AnnotationValue<PropertyPath>,
+        '$target',
+        () => resolveTarget<Property>(converter, currentTarget, propertyPath.PropertyPath, currentTerm).target
+    );
+
+    return result as AnnotationValue<PropertyPath>;
+}
+
+function mapAnnotationPath(
+    converter: Converter,
+    annotationPath: { type: 'AnnotationPath'; AnnotationPath: string },
+    fullyQualifiedName: FullyQualifiedName,
+    currentTarget: any,
+    currentTerm: string
+) {
+    const result: Omit<AnnotationValue<AnnotationPath<any>>, '$target'> = {
+        type: 'AnnotationPath',
+        value: annotationPath.AnnotationPath,
+        fullyQualifiedName: fullyQualifiedName,
+        [ANNOTATION_TARGET]: currentTarget
+    };
+
+    lazy(
+        result as AnnotationValue<AnnotationPath<any>>,
+        '$target',
+        () =>
+            resolveTarget(converter, currentTarget, converter.unalias(annotationPath.AnnotationPath), currentTerm)
+                .target
+    );
+
+    return result as AnnotationValue<AnnotationPath<any>>;
+}
+
+function mapNavigationPropertyPath(
+    converter: Converter,
+    navigationPropertyPath: { type: 'NavigationPropertyPath'; NavigationPropertyPath: string },
+    fullyQualifiedName: FullyQualifiedName,
+    currentTarget: any,
+    currentTerm: string
+) {
+    const result: Omit<AnnotationValue<NavigationPropertyPath>, '$target'> = {
+        type: 'NavigationPropertyPath',
+        value: navigationPropertyPath.NavigationPropertyPath ?? '',
+        fullyQualifiedName: fullyQualifiedName,
+        [ANNOTATION_TARGET]: currentTarget
+    };
+
+    lazy(
+        result as AnnotationValue<NavigationPropertyPath>,
+        '$target',
+        () =>
+            resolveTarget<NavigationProperty>(
+                converter,
+                currentTarget,
+                navigationPropertyPath.NavigationPropertyPath,
+                currentTerm
+            ).target
+    );
+
+    return result as AnnotationValue<NavigationPropertyPath>;
+}
+
+function mapPath(
+    converter: Converter,
+    path: { type: 'Path'; Path: string },
+    fullyQualifiedName: FullyQualifiedName,
+    currentTarget: any,
+    currentTerm: string
+) {
+    const result: Omit<AnnotationValue<PathAnnotationExpression<any>>, '$target'> = {
+        type: 'Path',
+        path: path.Path,
+        fullyQualifiedName: fullyQualifiedName,
+        getValue(): any {},
+        [ANNOTATION_TARGET]: currentTarget
+    };
+
+    lazy(
+        result as AnnotationValue<PathAnnotationExpression<any>>,
+        '$target',
+        () => resolveTarget<Property>(converter, currentTarget, path.Path, currentTerm).target
+    );
+
+    return result as AnnotationValue<PathAnnotationExpression<any>>;
+}
+
 function parseValue(
     converter: Converter,
     currentTarget: any,
@@ -446,52 +556,22 @@ function parseValue(
             return splitEnum[0];
 
         case 'PropertyPath':
-            return {
-                type: 'PropertyPath',
-                value: propertyValue.PropertyPath,
-                fullyQualifiedName: valueFQN,
-                $target: resolveTarget(converter, currentTarget, propertyValue.PropertyPath, currentTerm).target,
-                [ANNOTATION_TARGET]: currentTarget
-            };
+            return mapPropertyPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
+
         case 'NavigationPropertyPath':
-            return {
-                type: 'NavigationPropertyPath',
-                value: propertyValue.NavigationPropertyPath,
-                fullyQualifiedName: valueFQN,
-                $target: resolveTarget(converter, currentTarget, propertyValue.NavigationPropertyPath, currentTerm)
-                    .target,
-                [ANNOTATION_TARGET]: currentTarget
-            };
+            return mapNavigationPropertyPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
+
         case 'AnnotationPath':
-            return {
-                type: 'AnnotationPath',
-                value: propertyValue.AnnotationPath,
-                fullyQualifiedName: valueFQN,
-                $target: resolveTarget(
-                    converter,
-                    currentTarget,
-                    converter.unalias(propertyValue.AnnotationPath),
-                    currentTerm
-                ).target,
-                annotationsTerm: currentTerm,
-                term: '',
-                path: '',
-                [ANNOTATION_TARGET]: currentTarget
-            };
-        case 'Path':
-            const $target = resolveTarget(converter, currentTarget, propertyValue.Path, currentTerm).target;
+            return mapAnnotationPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
+
+        case 'Path': {
             if (isAnnotationPath(propertyValue.Path)) {
                 // inline the target
-                return $target;
+                return resolveTarget(converter, currentTarget, propertyValue.Path, currentTerm).target;
             } else {
-                return {
-                    type: 'Path',
-                    path: propertyValue.Path,
-                    fullyQualifiedName: valueFQN,
-                    $target: $target,
-                    [ANNOTATION_TARGET]: currentTarget
-                };
+                return mapPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
             }
+        }
 
         case 'Record':
             return parseRecord(
@@ -503,6 +583,7 @@ function parseValue(
                 propertyValue.Record,
                 valueFQN
             );
+
         case 'Collection':
             return parseCollection(
                 converter,
@@ -718,23 +799,9 @@ function parseCollection(
 
     switch (collectionDefinitionType) {
         case 'PropertyPath':
-            return collectionDefinition.map((propertyPath, propertyIdx): PropertyPath => {
-                const result: PropertyPath = {
-                    type: 'PropertyPath',
-                    value: propertyPath.PropertyPath,
-                    fullyQualifiedName: `${parentFQN}/${propertyIdx}`
-                } as any;
-
-                lazy(
-                    result,
-                    '$target',
-                    () =>
-                        resolveTarget<Property>(converter, currentTarget, propertyPath.PropertyPath, currentTerm)
-                            .target ?? ({} as Property) // TODO: $target is mandatory - throw an error?
-                );
-
-                return result;
-            });
+            return collectionDefinition.map((path, index) =>
+                mapPropertyPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm)
+            );
 
         case 'Path':
             // TODO: make lazy?
@@ -743,46 +810,14 @@ function parseCollection(
             });
 
         case 'AnnotationPath':
-            return collectionDefinition.map((annotationPath, annotationIdx) => {
-                const result = {
-                    type: 'AnnotationPath',
-                    value: annotationPath.AnnotationPath,
-                    fullyQualifiedName: `${parentFQN}/${annotationIdx}`,
-                    annotationsTerm: currentTerm,
-                    term: '',
-                    path: ''
-                } as any;
-
-                lazy(
-                    result,
-                    '$target',
-                    () => resolveTarget(converter, currentTarget, annotationPath.AnnotationPath, currentTerm).target
-                );
-
-                return result;
-            });
+            return collectionDefinition.map((path, index) =>
+                mapAnnotationPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm)
+            );
 
         case 'NavigationPropertyPath':
-            return collectionDefinition.map((navPropertyPath, navPropIdx) => {
-                const navigationPropertyPath = navPropertyPath.NavigationPropertyPath ?? '';
-                const result = {
-                    type: 'NavigationPropertyPath',
-                    value: navigationPropertyPath,
-                    fullyQualifiedName: `${parentFQN}/${navPropIdx}`
-                } as any;
-
-                if (navigationPropertyPath === '') {
-                    result.$target = undefined;
-                } else {
-                    lazy(
-                        result,
-                        '$target',
-                        () => resolveTarget(converter, currentTarget, navigationPropertyPath, currentTerm).target
-                    );
-                }
-
-                return result;
-            });
+            return collectionDefinition.map((path, index) =>
+                mapNavigationPropertyPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm)
+            );
 
         case 'Record':
             return collectionDefinition.map((recordDefinition, recordIdx) => {

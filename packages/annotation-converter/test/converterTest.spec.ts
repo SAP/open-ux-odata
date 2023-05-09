@@ -20,6 +20,7 @@ import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Commun
 import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import type {
     CriticalityType,
+    DataField,
     DataFieldAbstractTypes,
     DataFieldForAction,
     DataFieldForActionTypes,
@@ -263,7 +264,7 @@ describe('Annotation Converter', () => {
                 const sdDefault = sdRatingProperty.target.annotations.UI?.DataFieldDefault;
                 expect(sdDefault?.$Type).toEqual(UIAnnotationTypes.DataFieldForAnnotation);
                 const sdDefaultAsAnnotation: DataFieldForAnnotation = sdDefault as DataFieldForAnnotation;
-                expect(sdDefaultAsAnnotation.Target.$target.$Type).toEqual(UIAnnotationTypes.DataPointType);
+                expect(sdDefaultAsAnnotation.Target.$target?.$Type).toEqual(UIAnnotationTypes.DataPointType);
             }
         });
 
@@ -330,7 +331,7 @@ describe('Annotation Converter', () => {
             expect(sdManageLineItemFG.target).not.toBeNull();
             expect(sdManageLineItemFG.target).not.toBeUndefined();
             expect(sdManageLineItemFG.target?.type).toEqual('AnnotationPath');
-            expect(sdManageLineItemFG.target?.$target.$Type).toEqual(UIAnnotationTypes.FieldGroupType);
+            expect(sdManageLineItemFG.target?.$target?.$Type).toEqual(UIAnnotationTypes.FieldGroupType);
             expect(sdManageLineItemFG.objectPath.length).toEqual(6); // EntityContainer / EntitySet / EntityType / LineItem / DataFieldForAnnotation
         });
 
@@ -553,19 +554,13 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.entitySets[40]).not.toBeNull();
         expect(convertedTypes.entitySets[40].entityType).not.toBeNull();
         const sdEntityType = convertedTypes.entitySets[40].entityType;
-        expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].$Type).toEqual(
-            CommonAnnotationTypes.SideEffectsType
-        );
-        expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].value).toEqual(
-            ''
-        );
-        expect(
-            (sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].SourceEntities[0].$target
-        ).toEqual(undefined);
-        expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange']).not.toBeNull();
-        expect((sdEntityType.annotations as any).Common['SideEffects#IncotermsChange'].TargetProperties[0]).toEqual(
-            'IncotermsLocation1'
-        );
+
+        const sideEffect = sdEntityType.annotations.Common?.['SideEffects#IncotermsChange'];
+        expect(sideEffect?.$Type).toEqual(CommonAnnotationTypes.SideEffectsType);
+
+        expect(sideEffect?.SourceEntities[0]?.value).toEqual('');
+        expect(sideEffect?.SourceEntities[0]?.$target).toBeUndefined();
+        expect(sideEffect?.TargetProperties).toEqual(['IncotermsLocation1']);
     });
 
     describe('can convert EDMX', () => {
@@ -1032,6 +1027,25 @@ describe('Annotation Converter', () => {
                     );
                 }
             );
+        });
+    });
+
+    it(`Resolves invalid $targets to undefined`, async () => {
+        const metadata = await loadFixture('v4/invalidReferences.xml');
+        const parsedEDMX = parse(metadata);
+        const convertedTypes: ConvertedMetadata = convert(parsedEDMX);
+
+        const entityType = convertedTypes.entityTypes.by_name('Entity');
+        const selectionFields = entityType?.annotations.UI?.SelectionFields;
+        expect(selectionFields?.length).toEqual(2);
+        selectionFields?.forEach((selectionField) => {
+            expect(selectionField.$target).toBeUndefined();
+        });
+
+        const dataFields = entityType?.annotations.UI?.FieldGroup?.Data as DataField[] | undefined;
+        expect(dataFields?.length).toEqual(2);
+        dataFields?.forEach((dataField) => {
+            expect(dataField.Value).toBeDefined();
         });
     });
 });
