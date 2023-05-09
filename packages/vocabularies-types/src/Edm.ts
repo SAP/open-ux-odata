@@ -566,7 +566,9 @@ export type RawSchema = {
     entityTypes: RawEntityType[];
 };
 
-export type RawAction = RemoveAnnotationAndType<Action>;
+export type RawAction = RemoveAnnotationAndType<Action> & {
+    parameters: RawActionParameter[];
+};
 export type RawActionImport = RemoveAnnotationAndType<ActionImport>;
 export type RawActionParameter = RemoveAnnotationAndType<ActionParameter>;
 export type RawEntityType = RemoveAnnotationAndType<EntityType> & {
