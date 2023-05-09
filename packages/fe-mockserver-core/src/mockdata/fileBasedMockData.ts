@@ -48,6 +48,25 @@ function performSimpleComparison(operator: string, mockValue: any, targetLiteral
     }
     return isValid;
 }
+
+function getSourceReference(aggregationAnnotation: RecursiveHierarchy) {
+    const parentNavigationProperty = aggregationAnnotation.ParentNavigationProperty;
+    const referentialConstraint = parentNavigationProperty.$target?.referentialConstraint[0];
+    if (!parentNavigationProperty.$target || !referentialConstraint) {
+        throw new Error(`Unknown ParentNavigationProperty: '${parentNavigationProperty.value}'`);
+    }
+
+    return referentialConstraint.sourceProperty;
+}
+
+function getNodeProperty(aggregationAnnotation: RecursiveHierarchy) {
+    const nodeProperty = aggregationAnnotation.NodeProperty;
+    if (!nodeProperty.$target) {
+        throw new Error(`Unknown NodeProperty: '${nodeProperty.value}'`);
+    }
+    return nodeProperty.$target.name;
+}
+
 export class FileBasedMockData {
     protected _mockData: object[];
     protected _hierarchyTree: Record<string, Record<string, any>> = {};
@@ -731,7 +750,7 @@ export class FileBasedMockData {
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
 
         if (aggregationAnnotation) {
-            const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
+            const nodeProperty = getNodeProperty(aggregationAnnotation);
             let adjustedData = data.map((adjustedRowData: any) => {
                 const item = this._mockData.find(
                     (dataItem: any) => dataItem[nodeProperty] === adjustedRowData[nodeProperty]
@@ -748,8 +767,7 @@ export class FileBasedMockData {
             adjustedData = adjustedData.concat(restOfData);
             const hierarchyDefinition = this.getHierarchyDefinition(hierarchyQualifier);
             const hierarchyNodes = this.buildHierarchyTree(hierarchyQualifier, adjustedData, hierarchyDefinition);
-            const sourceReference =
-                aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+            const sourceReference = getSourceReference(aggregationAnnotation);
             // TODO Considering the input set the top level node is not necessarely the root node
             const allRootNodes = adjustedData.filter((node) => {
                 const parent = adjustedData.find((parent) => parent[nodeProperty] === node[sourceReference]);
@@ -853,7 +871,7 @@ export class FileBasedMockData {
         const hierarchyDefinition = this.getHierarchyDefinition(_parameters.qualifier);
 
         if (aggregationAnnotation) {
-            const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
+            const nodeProperty = getNodeProperty(aggregationAnnotation);
             const adjustedData = this._mockData.map((item: any) => {
                 const adjustedRowData = hierarchyFilter.find(
                     (dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]
@@ -865,8 +883,7 @@ export class FileBasedMockData {
                 }
             });
             const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData, hierarchyDefinition);
-            const sourceReference =
-                aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+            const sourceReference = getSourceReference(aggregationAnnotation);
             const rootNodes = hierarchyNodes[''];
             rootNodes.forEach((rootNode: any) => {
                 this.buildTree(rootNode, hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
@@ -921,8 +938,7 @@ export class FileBasedMockData {
             limitedDescendantCountProperty: hierarchyAnnotation?.LimitedDescendantCountProperty?.$target.name,
             matchedDescendantCountProperty: hierarchyAnnotation?.MatchedDescendantCountProperty?.$target.name,
             matchedProperty: hierarchyAnnotation?.MatchedProperty?.$target.name,
-            sourceReference:
-                aggregationAnnotation!.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty
+            sourceReference: getSourceReference(aggregationAnnotation!)
         };
     }
     async getAncestors(
@@ -938,9 +954,8 @@ export class FileBasedMockData {
         const hierarchyDefinition = this.getHierarchyDefinition(_parameters.qualifier);
 
         if (aggregationAnnotation) {
-            const nodeProperty = aggregationAnnotation.NodeProperty.$target.name;
-            const sourceReference =
-                aggregationAnnotation.ParentNavigationProperty.$target.referentialConstraint[0].sourceProperty;
+            const nodeProperty = getNodeProperty(aggregationAnnotation);
+            const sourceReference = getSourceReference(aggregationAnnotation);
             const adjustedData = this._mockData.map((item: any) => {
                 const adjustedRowData = limitedHierarchy.find(
                     (dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]
