@@ -422,6 +422,10 @@ export type ActionParameter = {
     name: string;
     fullyQualifiedName: string;
     type: string;
+    maxLength?: number;
+    precision?: number;
+    scale?: number;
+    nullable?: boolean;
     typeReference?: TypeDefinition | ComplexType | EntityType;
     annotations: ParameterAnnotations;
 };
@@ -562,8 +566,11 @@ export type RawSchema = {
     entityTypes: RawEntityType[];
 };
 
-export type RawAction = RemoveAnnotationAndType<Action>;
+export type RawAction = RemoveAnnotationAndType<Action> & {
+    parameters: RawActionParameter[];
+};
 export type RawActionImport = RemoveAnnotationAndType<ActionImport>;
+export type RawActionParameter = RemoveAnnotationAndType<ActionParameter>;
 export type RawEntityType = RemoveAnnotationAndType<EntityType> & {
     navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
 };

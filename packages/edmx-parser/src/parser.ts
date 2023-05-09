@@ -13,6 +13,7 @@ import type {
     PropertyValue,
     RawAction,
     RawActionImport,
+    RawActionParameter,
     RawAnnotation,
     RawAssociation,
     RawAssociationEnd,
@@ -566,13 +567,27 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
             isFunction: isFunction,
             parameters: parameters.map((param) => {
                 const { isCollection, type } = unaliasType(param._attributes.Type);
-                return {
+
+                const edmActionParameter: RawActionParameter = {
                     _type: 'ActionParameter',
                     fullyQualifiedName: `${fullyQualifiedName}/${param._attributes.Name}`,
                     name: `${param._attributes.Name}`,
                     type,
                     isCollection
                 };
+                if (param._attributes.MaxLength) {
+                    edmActionParameter.maxLength = parseInt(param._attributes.MaxLength, 10);
+                }
+                if (param._attributes.Precision) {
+                    edmActionParameter.precision = parseInt(param._attributes.Precision, 10);
+                }
+                if (param._attributes.Scale) {
+                    edmActionParameter.scale = parseInt(param._attributes.Scale, 10);
+                }
+                if (param._attributes.Nullable) {
+                    edmActionParameter.nullable = param._attributes.Nullable !== 'false';
+                }
+                return edmActionParameter;
             }),
             returnType: action.ReturnType ? unaliasType(action.ReturnType._attributes.Type).type : ''
         };
