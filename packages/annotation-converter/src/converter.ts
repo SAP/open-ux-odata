@@ -509,7 +509,9 @@ function mapPath(
         type: 'Path',
         path: path.Path,
         fullyQualifiedName: fullyQualifiedName,
-        getValue(): any {},
+        getValue(): any {
+            return undefined; // TODO: Required according to the type...
+        },
         [ANNOTATION_TARGET]: currentTarget
     };
 
