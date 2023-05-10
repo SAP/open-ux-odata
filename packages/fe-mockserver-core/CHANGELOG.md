@@ -1,5 +1,14 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.87
+
+### Patch Changes
+
+-   df52a22: The `$target` property of types `PropertyPath`, `NavigationPropertyPath`, `AnnotationPath` and `PathAnnotationExpression` can now be undefined
+-   Updated dependencies [df52a22]
+    -   @sap-ux/annotation-converter@0.6.13
+    -   @sap-ux/edmx-parser@0.5.14
+
 ## 1.1.86
 
 ### Patch Changes

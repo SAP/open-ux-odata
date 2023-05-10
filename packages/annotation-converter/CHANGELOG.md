@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.6.13
+
+### Patch Changes
+
+-   df52a22: The `$target` property of types `PropertyPath`, `NavigationPropertyPath`, `AnnotationPath` and `PathAnnotationExpression` can now be undefined
+-   Updated dependencies [df52a22]
+    -   @sap-ux/vocabularies-types@0.7.6
+
 ## 0.6.12
 
 ### Patch Changes

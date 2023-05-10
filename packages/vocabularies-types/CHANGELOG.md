@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.7.6
+
+### Patch Changes
+
+-   df52a22: The `$target` property of types `PropertyPath`, `NavigationPropertyPath`, `AnnotationPath` and `PathAnnotationExpression` can now be undefined
+
 ## 0.7.5
 
 ### Patch Changes
