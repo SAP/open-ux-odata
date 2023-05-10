@@ -28,21 +28,24 @@ import type {
 // Generated EDM Types for the converter
 
 export type PropertyPath = {
-    fullyQualifiedName: string;
     type: 'PropertyPath';
+    fullyQualifiedName: FullyQualifiedName;
     value: string;
-    $target: Property;
+    $target: Property | undefined;
 };
+
 export type NavigationPropertyPath = {
     type: 'NavigationPropertyPath';
+    fullyQualifiedName: FullyQualifiedName;
     value: string;
-    $target: NavigationProperty;
+    $target: NavigationProperty | undefined;
 };
 
 export type AnnotationPath<P> = {
     type: 'AnnotationPath';
+    fullyQualifiedName: FullyQualifiedName;
     value: string;
-    $target: AnnotationTerm<P> & { term: string };
+    $target: (AnnotationTerm<P> & { term: string }) | undefined;
 };
 
 type PrimitiveTypeCast<P, G> =
@@ -73,8 +76,9 @@ export type PropertyOfType<P extends keyof TypeToString1> = Property & {
 
 export type PathAnnotationExpression<P> = {
     type: 'Path';
+    fullyQualifiedName: FullyQualifiedName;
     path: string; // The defined path
-    $target: Property;
+    $target: Property | undefined;
     getValue(): P;
 };
 
@@ -469,7 +473,7 @@ export type ServiceObject =
 export type ServiceObjectAndAnnotation = ServiceObject | AnyAnnotation;
 
 export type ResolutionTarget<T> = {
-    target: undefined | null | T;
+    target: undefined | T;
     objectPath: ServiceObjectAndAnnotation[];
     messages: { message: string }[];
 };
