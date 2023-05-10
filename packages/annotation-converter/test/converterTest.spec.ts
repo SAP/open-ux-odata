@@ -18,6 +18,7 @@ import type { EntitySetAnnotations_Capabilities } from '@sap-ux/vocabularies-typ
 import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Common';
 import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
+import type { EntityTypeAnnotations_Communication } from '@sap-ux/vocabularies-types/vocabularies/Communication_Edm';
 import type {
     CriticalityType,
     DataField,
@@ -44,8 +45,9 @@ describe('Annotation Converter', () => {
      * @param key
      */
     function checkUnique<T>(array: T[], key: keyof T) {
-        const distinctValues = new Set(array.map((element) => element[key]));
-        expect(array.length).toEqual(distinctValues.size);
+        const values = array.map((element) => element[key]);
+        const distinctValues = Array.from(new Set(values));
+        expect(values).toEqual(distinctValues);
     }
 
     it('can convert EDMX with multiple schemas', async () => {
@@ -100,12 +102,14 @@ describe('Annotation Converter', () => {
 
     describe('Converts enums', () => {
         let capabilities: EntitySetAnnotations_Capabilities;
+        let communication: EntityTypeAnnotations_Communication;
 
         beforeAll(async () => {
             const parsedEDMX = parse(await loadFixture('v4/metamodelEnums.xml'));
             const convertedTypes = convert(parsedEDMX);
             expect(convertedTypes.entitySets[0].annotations.Capabilities).toBeDefined();
             capabilities = convertedTypes.entitySets[0].annotations.Capabilities!;
+            communication = convertedTypes.entitySets[0].entityType.annotations.Communication!;
             checkUnique(convertedTypes.references, 'namespace');
         });
 
@@ -122,9 +126,9 @@ describe('Annotation Converter', () => {
         });
 
         it('should convert a single-valued enum with non-standard alias', () => {
-            expect(capabilities['SearchRestrictions#NonStandardAlias']?.UnsupportedExpressions).toMatchInlineSnapshot(`
+            expect(communication['Contact#NonStandardAlias']?.tel[0].type).toMatchInlineSnapshot(`
                 [
-                  "Capabilities.SearchExpressions/AND",
+                  "Communication.PhoneType/cell",
                 ]
             `);
         });
@@ -140,12 +144,11 @@ describe('Annotation Converter', () => {
         });
 
         it('should convert a multi-valued enum with non-standard alias', () => {
-            expect(capabilities['SearchRestrictions#NonStandardAliasMultiple']?.UnsupportedExpressions)
-                .toMatchInlineSnapshot(`
+            expect(communication['Contact#NonStandardAliasMultiple']?.tel[0].type).toMatchInlineSnapshot(`
                 [
-                  "Capabilities.SearchExpressions/AND",
-                  "Capabilities.SearchExpressions/group",
-                  "Capabilities.SearchExpressions/phrase",
+                  "Communication.PhoneType/cell",
+                  "Communication.PhoneType/fax",
+                  "Communication.PhoneType/voice",
                 ]
             `);
         });
@@ -157,8 +160,8 @@ describe('Annotation Converter', () => {
         });
 
         it('should convert an enum that is not a flag (with non-standard alias)', () => {
-            expect(capabilities['NavigationRestrictions#NonStandardAlias']?.Navigability).toMatchInlineSnapshot(
-                `"Capabilities.NavigationType/Single"`
+            expect(communication['Contact#NonStandardAlias']?.gender).toMatchInlineSnapshot(
+                `"Communication.GenderType/F"`
             );
         });
     });

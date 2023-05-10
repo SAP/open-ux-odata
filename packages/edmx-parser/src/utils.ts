@@ -120,7 +120,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
      */
     public addParserOutput(parserOutput: RawMetadata): void {
         this._parserOutput.push(parserOutput);
-        this._references = this._references.concat(parserOutput.references);
+        this.mergeReferences(parserOutput.references);
         this._associations = this._associations.concat(parserOutput.schema.associations);
         this._associationSets = this._associationSets.concat(parserOutput.schema.associationSets);
         this._annotations = Object.assign(this._annotations, parserOutput.schema.annotations);
@@ -133,6 +133,19 @@ export class MergedRawMetadata implements RawMetadataInstance {
         this._typeDefinitions = this._typeDefinitions.concat(parserOutput.schema.typeDefinitions);
         if (parserOutput.schema.entityContainer.fullyQualifiedName.length > 0) {
             this._entityContainer = Object.assign(this._entityContainer, parserOutput.schema.entityContainer);
+        }
+    }
+
+    private mergeReferences(references: Reference[]) {
+        for (const reference of references) {
+            const clash = this._references.find(
+                (r) => r.namespace === reference.namespace || r.alias === reference.alias
+            );
+            // Assuming that the parser output passed to addParserOutput() is unaliased, it is safe to ignore
+            // non-unique references here. If it is not, then this is going to be problematic
+            if (!clash) {
+                this._references.push(reference);
+            }
         }
     }
 }
