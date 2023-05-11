@@ -3,11 +3,11 @@
     <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
         <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
     </edmx:Reference>
-    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
-        <edmx:Include Alias="MyCapabilities" Namespace="Org.OData.Capabilities.V1"/>
-    </edmx:Reference>
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
         <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
+        <edmx:Include Alias="MyCommunication" Namespace="com.sap.vocabularies.Communication.v1"/>
     </edmx:Reference>
     <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
         <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
@@ -34,12 +34,14 @@
             <Annotations Target="sap.fe.test.JestService.EntityContainer/Entities">
                 <Annotation Term="Capabilities.SearchRestrictions">
                     <Record Type="Capabilities.SearchRestrictionsType">
-                        <PropertyValue Property="UnsupportedExpressions" EnumMember="Capabilities.SearchExpressions/AND Capabilities.SearchExpressions/group Capabilities.SearchExpressions/phrase"/>
+                        <PropertyValue Property="UnsupportedExpressions"
+                                       EnumMember="Capabilities.SearchExpressions/AND Capabilities.SearchExpressions/group Capabilities.SearchExpressions/phrase"/>
                     </Record>
                 </Annotation>
                 <Annotation Term="Capabilities.SearchRestrictions" Qualifier="Alone">
                     <Record Type="Capabilities.SearchRestrictionsType">
-                        <PropertyValue Property="UnsupportedExpressions" EnumMember="Capabilities.SearchExpressions/AND"/>
+                        <PropertyValue Property="UnsupportedExpressions"
+                                       EnumMember="Capabilities.SearchExpressions/AND"/>
                     </Record>
                 </Annotation>
                 <Annotation Term="Capabilities.SearchRestrictions" Qualifier="Empty">
@@ -47,24 +49,36 @@
                         <PropertyValue Property="UnsupportedExpressions" EnumMember=""/>
                     </Record>
                 </Annotation>
-                <Annotation Term="Capabilities.SearchRestrictions" Qualifier="NonStandardAlias">
-                    <Record Type="Capabilities.SearchRestrictionsType">
-                        <PropertyValue Property="UnsupportedExpressions" EnumMember="MyCapabilities.SearchExpressions/AND"/>
-                    </Record>
-                </Annotation>
-                <Annotation Term="Capabilities.SearchRestrictions" Qualifier="NonStandardAliasMultiple">
-                    <Record Type="Capabilities.SearchRestrictionsType">
-                        <PropertyValue Property="UnsupportedExpressions" EnumMember="MyCapabilities.SearchExpressions/AND MyCapabilities.SearchExpressions/group MyCapabilities.SearchExpressions/phrase"/>
-                    </Record>
-                </Annotation>
                 <Annotation Term="Capabilities.NavigationRestrictions">
                     <Record Type="Capabilities.NavigationRestrictionsType">
                         <PropertyValue Property="Navigability" EnumMember="Capabilities.NavigationType/Single"/>
                     </Record>
                 </Annotation>
-                <Annotation Term="Capabilities.NavigationRestrictions" Qualifier="NonStandardAlias">
-                    <Record Type="Capabilities.NavigationRestrictionsType">
-                        <PropertyValue Property="Navigability" EnumMember="MyCapabilities.NavigationType/Single"/>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Entities">
+                <Annotation Term="MyCommunication.Contact" Qualifier="NonStandardAlias">
+                    <Record Type="MyCommunication.ContactType">
+                        <PropertyValue Property="tel">
+                            <Collection>
+                                <Record Type="MyCommunication.PhoneNumberType">
+                                    <PropertyValue Property="type"
+                                                   EnumMember="MyCommunication.PhoneType/cell"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="gender" EnumMember="MyCommunication.GenderType/F"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="MyCommunication.Contact" Qualifier="NonStandardAliasMultiple">
+                    <Record Type="MyCommunication.ContactType">
+                        <PropertyValue Property="tel">
+                            <Collection>
+                                <Record Type="MyCommunication.PhoneNumberType">
+                                    <PropertyValue Property="type"
+                                                   EnumMember="MyCommunication.PhoneType/cell MyCommunication.PhoneType/fax MyCommunication.PhoneType/voice"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
                     </Record>
                 </Annotation>
             </Annotations>

@@ -33,6 +33,7 @@ import type {
     RawTypeDefinition,
     RawV2NavigationProperty,
     RawV4NavigationProperty,
+    Reference,
     RemoveAnnotationAndType,
     ResolutionTarget,
     Singleton,
@@ -1541,6 +1542,48 @@ function convertTypeDefinition(converter: Converter, rawTypeDefinition: RawTypeD
     return convertedTypeDefinition;
 }
 
+function getReferences(converter: Converter, rawMetadataReferences: Reference[]) {
+    if (rawMetadataReferences.length === 0) {
+        return VocabularyReferences;
+    }
+
+    const references: Reference[] = [];
+    const duplicates = new Set<Reference>();
+
+    const collides = (a: Reference, b: Reference) => a.namespace === b.namespace || a.alias === b.alias;
+
+    // process the raw references, making sure they are unique (first one wins)
+    for (const reference of rawMetadataReferences) {
+        const collisions = references.filter((existingReference) => collides(existingReference, reference));
+
+        if (collisions.length > 0) {
+            collisions.forEach((reference) => duplicates.add(reference));
+            duplicates.add(reference);
+        } else {
+            references.push(reference);
+        }
+    }
+
+    // add default vocabulary references (if not there already). Do not report conflicts as errors.
+    references.push(
+        ...VocabularyReferences.filter((reference) =>
+            references.every((existingReference) => !collides(existingReference, reference))
+        )
+    );
+
+    if (duplicates.size > 0) {
+        converter.logError(
+            `The following references are not unique. Check if they are imported multiple times.\n${JSON.stringify(
+                Array.from(duplicates),
+                null,
+                2
+            )}`
+        );
+    }
+
+    return references;
+}
+
 /**
  * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
  *
@@ -1553,17 +1596,13 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         version: rawMetadata.version,
         namespace: rawMetadata.schema.namespace,
         annotations: rawMetadata.schema.annotations,
-        references: VocabularyReferences.concat(rawMetadata.references),
         diagnostics: []
     } as any;
 
-    // fall back on the default references if the caller does not specify any
-    if (rawMetadata.references.length === 0) {
-        rawMetadata.references = VocabularyReferences;
-    }
-
     // Converter
     const converter = new Converter(rawMetadata, convertedOutput);
+
+    lazy(convertedOutput, 'references', () => getReferences(converter, rawMetadata.references));
 
     lazy(
         convertedOutput,
