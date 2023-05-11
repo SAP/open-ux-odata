@@ -1108,9 +1108,9 @@ describe('Annotation Converter', () => {
             <edmx:Reference Uri="https://example.org/namespace/1">
                 <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
                 <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
+                <edmx:Include Alias="Alias2" Namespace="org.example.namespace.2"/>
                 <edmx:Include Alias="Alias2" Namespace="org.example.namespace.1"/>
                 <edmx:Include Alias="Alias1" Namespace="org.example.namespace.2"/>
-                <edmx:Include Alias="Alias2" Namespace="org.example.namespace.2"/>
                 <edmx:Include Alias="ThisIsOk" Namespace="org.example.ok.1"/>
             </edmx:Reference>
             <edmx:Reference Uri="https://example.org/namespace/2">
@@ -1126,9 +1126,13 @@ describe('Annotation Converter', () => {
 
         const parsedEDMX = parse(metadata);
         const convertedTypes = convert(parsedEDMX);
+        const references = convertedTypes.references;
 
-        expect(() => convertedTypes.references).toThrowErrorMatchingInlineSnapshot(`
-            "Non-unique references:
+        expect(references.length).toEqual(19);
+        expect(convertedTypes.diagnostics).toMatchInlineSnapshot(`
+            [
+              {
+                "message": "The following references are not unique. Check if they are imported multiple times.
             [
               {
                 "uri": "https://example.org/namespace/1",
@@ -1143,16 +1147,16 @@ describe('Annotation Converter', () => {
               {
                 "uri": "https://example.org/namespace/1",
                 "alias": "Alias2",
-                "namespace": "org.example.namespace.1"
-              },
-              {
-                "uri": "https://example.org/namespace/1",
-                "alias": "Alias1",
                 "namespace": "org.example.namespace.2"
               },
               {
                 "uri": "https://example.org/namespace/1",
                 "alias": "Alias2",
+                "namespace": "org.example.namespace.1"
+              },
+              {
+                "uri": "https://example.org/namespace/1",
+                "alias": "Alias1",
                 "namespace": "org.example.namespace.2"
               },
               {
@@ -1160,7 +1164,9 @@ describe('Annotation Converter', () => {
                 "alias": "Alias1",
                 "namespace": "org.example.namespace.1"
               }
-            ]"
+            ]",
+              },
+            ]
         `);
     });
 });

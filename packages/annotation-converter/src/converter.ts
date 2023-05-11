@@ -1542,35 +1542,45 @@ function convertTypeDefinition(converter: Converter, rawTypeDefinition: RawTypeD
     return convertedTypeDefinition;
 }
 
-function getReferences(rawMetadataReferences: Reference[]) {
+function getReferences(converter: Converter, rawMetadataReferences: Reference[]) {
     if (rawMetadataReferences.length === 0) {
         return VocabularyReferences;
     }
 
-    // the provided references must be unique
-    const violations = rawMetadataReferences.filter((reference) =>
-        rawMetadataReferences.some(
-            (otherReference) =>
-                otherReference !== reference &&
-                (otherReference.alias === reference.alias || otherReference.namespace === reference.namespace)
+    const references: Reference[] = [];
+    const duplicates = new Set<Reference>();
+
+    const collides = (a: Reference, b: Reference) => a.namespace === b.namespace || a.alias === b.alias;
+
+    // process the raw references, making sure they are unique (first one wins)
+    for (const reference of rawMetadataReferences) {
+        const collisions = references.filter((existingReference) => collides(existingReference, reference));
+
+        if (collisions.length > 0) {
+            collisions.forEach((reference) => duplicates.add(reference));
+            duplicates.add(reference);
+        } else {
+            references.push(reference);
+        }
+    }
+
+    // add default vocabulary references (if not there already). Do not report conflicts as errors.
+    references.push(
+        ...VocabularyReferences.filter((reference) =>
+            references.every((existingReference) => !collides(existingReference, reference))
         )
     );
 
-    if (violations.length) {
-        throw new Error(`Non-unique references:\n${JSON.stringify(violations, null, 2)}`);
+    if (duplicates.size > 0) {
+        converter.logError(
+            `The following references are not unique. Check if they are imported multiple times.\n${JSON.stringify(
+                Array.from(duplicates),
+                null,
+                2
+            )}`
+        );
     }
 
-    const references = [...rawMetadataReferences];
-    for (const defaultReference of VocabularyReferences) {
-        if (
-            !references.some(
-                (reference) =>
-                    reference.namespace === defaultReference.namespace || reference.alias === defaultReference.alias
-            )
-        ) {
-            references.push(defaultReference);
-        }
-    }
     return references;
 }
 
@@ -1592,7 +1602,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     // Converter
     const converter = new Converter(rawMetadata, convertedOutput);
 
-    lazy(convertedOutput, 'references', () => getReferences(rawMetadata.references));
+    lazy(convertedOutput, 'references', () => getReferences(converter, rawMetadata.references));
 
     lazy(
         convertedOutput,
