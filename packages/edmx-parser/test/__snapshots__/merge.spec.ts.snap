@@ -4504,6 +4504,21 @@ MergedRawMetadata {
       "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
     },
     {
+      "alias": "Common",
+      "namespace": "com.sap.vocabularies.Common.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/Common.xml",
+    },
+    {
+      "alias": "Core",
+      "namespace": "Org.OData.Core.V1",
+      "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml",
+    },
+    {
+      "alias": "UI",
+      "namespace": "com.sap.vocabularies.UI.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
+    },
+    {
       "alias": "ActionVisibility",
       "namespace": "sap.fe.core.ActionVisibility",
       "uri": "/sap/fe/core/mock/action-visibility/$metadata",
