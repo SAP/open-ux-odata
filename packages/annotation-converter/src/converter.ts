@@ -1553,7 +1553,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         version: rawMetadata.version,
         namespace: rawMetadata.schema.namespace,
         annotations: rawMetadata.schema.annotations,
-        references: VocabularyReferences.concat(rawMetadata.references),
+        references: VocabularyReferences,
         diagnostics: []
     } as any;
 

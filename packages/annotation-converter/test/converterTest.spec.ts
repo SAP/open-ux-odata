@@ -33,6 +33,7 @@ import {
     UIAnnotationTerms,
     UIAnnotationTypes
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
+import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 import { convert, defaultReferences, revertTermToGenericType } from '../src';
 import { loadFixture } from './fixturesHelper';
 
@@ -1047,5 +1048,42 @@ describe('Annotation Converter', () => {
         dataFields?.forEach((dataField) => {
             expect(dataField.Value).toBeDefined();
         });
+    });
+
+    it('returns the right set of references', () => {
+        const convertedTypes = convert({
+            identification: '',
+            references: [{ alias: 'MyAlias', namespace: 'MyNamespace', uri: 'MyUri' }],
+            version: '4.0',
+            schema: {
+                namespace: '',
+                actions: [],
+                annotations: {},
+                entityTypes: [],
+                entitySets: [],
+                associations: [],
+                actionImports: [],
+                complexTypes: [],
+                entityContainer: {
+                    _type: 'EntityContainer',
+                    name: '',
+                    fullyQualifiedName: ''
+                },
+                singletons: [],
+                typeDefinitions: [],
+                associationSets: []
+            }
+        });
+
+        expect(convertedTypes.references).toEqual(VocabularyReferences);
+
+        const hasCollision = convertedTypes.references.some((reference) =>
+            convertedTypes.references.some(
+                (otherReference) =>
+                    otherReference !== reference &&
+                    (otherReference.alias === reference.alias || otherReference.namespace === reference.namespace)
+            )
+        );
+        expect(hasCollision).toBeFalsy();
     });
 });
