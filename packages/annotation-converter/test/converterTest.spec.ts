@@ -1101,4 +1101,66 @@ describe('Annotation Converter', () => {
             expect(dataField.Value).toBeDefined();
         });
     });
+
+    it('validates uniqueness of references', () => {
+        const metadata = `
+        <edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+            <edmx:Reference Uri="https://example.org/namespace/1">
+                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
+                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
+                <edmx:Include Alias="Alias2" Namespace="org.example.namespace.1"/>
+                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.2"/>
+                <edmx:Include Alias="Alias2" Namespace="org.example.namespace.2"/>
+                <edmx:Include Alias="ThisIsOk" Namespace="org.example.ok.1"/>
+            </edmx:Reference>
+            <edmx:Reference Uri="https://example.org/namespace/2">
+                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
+            </edmx:Reference>
+            <edmx:Reference Uri="https://example.org/namespace/3">
+                <edmx:Include Alias="Alias3" Namespace="org.example.namespace.3"/>
+            </edmx:Reference>
+            <edmx:DataServices>
+                <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="LocalAlias"/>
+            </edmx:DataServices>
+        </edmx:Edmx>`;
+
+        const parsedEDMX = parse(metadata);
+        const convertedTypes = convert(parsedEDMX);
+
+        expect(() => convertedTypes.references).toThrowErrorMatchingInlineSnapshot(`
+            "Non-unique references:
+            [
+              {
+                "uri": "https://example.org/namespace/1",
+                "alias": "Alias1",
+                "namespace": "org.example.namespace.1"
+              },
+              {
+                "uri": "https://example.org/namespace/1",
+                "alias": "Alias1",
+                "namespace": "org.example.namespace.1"
+              },
+              {
+                "uri": "https://example.org/namespace/1",
+                "alias": "Alias2",
+                "namespace": "org.example.namespace.1"
+              },
+              {
+                "uri": "https://example.org/namespace/1",
+                "alias": "Alias1",
+                "namespace": "org.example.namespace.2"
+              },
+              {
+                "uri": "https://example.org/namespace/1",
+                "alias": "Alias2",
+                "namespace": "org.example.namespace.2"
+              },
+              {
+                "uri": "https://example.org/namespace/2",
+                "alias": "Alias1",
+                "namespace": "org.example.namespace.1"
+              }
+            ]"
+        `);
+    });
 });

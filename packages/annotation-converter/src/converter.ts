@@ -1548,18 +1548,16 @@ function getReferences(rawMetadataReferences: Reference[]) {
     }
 
     // the provided references must be unique
-    const violations = rawMetadataReferences
-        .filter((reference) =>
-            rawMetadataReferences.some(
-                (otherReference) =>
-                    otherReference !== reference &&
-                    (otherReference.alias === reference.alias || otherReference.namespace === reference.namespace)
-            )
+    const violations = rawMetadataReferences.filter((reference) =>
+        rawMetadataReferences.some(
+            (otherReference) =>
+                otherReference !== reference &&
+                (otherReference.alias === reference.alias || otherReference.namespace === reference.namespace)
         )
-        .map((reference) => `[alias='${reference.alias}', namespace='${reference.namespace}']`);
+    );
 
     if (violations.length) {
-        throw new Error(`Non-unique references:\n  ${violations.join('\n  ')}`);
+        throw new Error(`Non-unique references:\n${JSON.stringify(violations, null, 2)}`);
     }
 
     const references = [...rawMetadataReferences];
