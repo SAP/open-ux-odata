@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.15
+
+### Patch Changes
+
+-   1fc2286: The annotation converter now ensures that references (aliases and namespaces) are unique
+
 ## 0.5.14
 
 ### Patch Changes

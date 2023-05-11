@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.14
+
+### Patch Changes
+
+-   1fc2286: The annotation converter now ensures that references (aliases and namespaces) are unique
+
 ## 0.6.13
 
 ### Patch Changes
