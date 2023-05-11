@@ -49,8 +49,23 @@
 	</edmx:Reference>
 	<edmx:Reference
 		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="https://odata.example:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.Communication.v1',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="vCard"/>
+	</edmx:Reference>
+	<edmx:Reference
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="https://odata.example:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='Measures.V1',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="Org.OData.Measures.V1" Alias="CQP"/>
+	</edmx:Reference>
+	<edmx:Reference
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
 		Uri="https://odata.example:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='Core.V1',Version='0001',SAP__Origin='LOCAL')/$value">
 		<edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+	</edmx:Reference>
+	<edmx:Reference
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="https://odata.example:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='vocabularies.Common.v1',Version='0001',SAP__Origin='LOCAL')/$value">
+		<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
 	</edmx:Reference>
 	<edmx:Reference
 		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"

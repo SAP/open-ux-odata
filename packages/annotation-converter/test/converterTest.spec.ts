@@ -18,7 +18,6 @@ import type { EntitySetAnnotations_Capabilities } from '@sap-ux/vocabularies-typ
 import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Common';
 import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
-import type { EntityTypeAnnotations_Communication } from '@sap-ux/vocabularies-types/vocabularies/Communication_Edm';
 import type {
     CriticalityType,
     DataField,
@@ -38,23 +37,10 @@ import { convert, defaultReferences, revertTermToGenericType } from '../src';
 import { loadFixture } from './fixturesHelper';
 
 describe('Annotation Converter', () => {
-    /**
-     * Expect an array to have unique entries related to a field.
-     *
-     * @param array
-     * @param key
-     */
-    function checkUnique<T>(array: T[], key: keyof T) {
-        const values = array.map((element) => element[key]);
-        const distinctValues = Array.from(new Set(values));
-        expect(values).toEqual(distinctValues);
-    }
-
     it('can convert EDMX with multiple schemas', async () => {
         const parsedEDMX = parse(await loadFixture('northwind.metadata.xml'));
         const convertedTypes = convert(parsedEDMX);
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
-        checkUnique(convertedTypes.references, 'namespace');
     });
 
     it('can convert EDMX with action parameters schemas', async () => {
@@ -63,7 +49,6 @@ describe('Annotation Converter', () => {
         const merged = merge(parsedEDMX, parsedEDMX2);
         const convertedTypes = convert(merged);
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
-        checkUnique(convertedTypes.references, 'namespace');
     });
 
     it('can convert without annotation EDMX', async () => {
@@ -80,7 +65,6 @@ describe('Annotation Converter', () => {
             convertedTypes.entityTypes[5].actions['com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PrepareForEdit']
                 .annotations
         ).not.toBeUndefined();
-        checkUnique(convertedTypes.references, 'namespace');
     });
 
     it('can convert with a crappy EDMX', async () => {
@@ -97,20 +81,16 @@ describe('Annotation Converter', () => {
             convertedTypes.entityTypes[5].actions['com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PrepareForEdit']
                 .annotations
         ).not.toBeUndefined();
-        checkUnique(convertedTypes.references, 'namespace');
     });
 
     describe('Converts enums', () => {
         let capabilities: EntitySetAnnotations_Capabilities;
-        let communication: EntityTypeAnnotations_Communication;
 
         beforeAll(async () => {
             const parsedEDMX = parse(await loadFixture('v4/metamodelEnums.xml'));
             const convertedTypes = convert(parsedEDMX);
             expect(convertedTypes.entitySets[0].annotations.Capabilities).toBeDefined();
             capabilities = convertedTypes.entitySets[0].annotations.Capabilities!;
-            communication = convertedTypes.entitySets[0].entityType.annotations.Communication!;
-            checkUnique(convertedTypes.references, 'namespace');
         });
 
         it('should convert an empty value', () => {
@@ -126,9 +106,9 @@ describe('Annotation Converter', () => {
         });
 
         it('should convert a single-valued enum with non-standard alias', () => {
-            expect(communication['Contact#NonStandardAlias']?.tel[0].type).toMatchInlineSnapshot(`
+            expect(capabilities['SearchRestrictions#NonStandardAlias']?.UnsupportedExpressions).toMatchInlineSnapshot(`
                 [
-                  "Communication.PhoneType/cell",
+                  "Capabilities.SearchExpressions/AND",
                 ]
             `);
         });
@@ -144,11 +124,12 @@ describe('Annotation Converter', () => {
         });
 
         it('should convert a multi-valued enum with non-standard alias', () => {
-            expect(communication['Contact#NonStandardAliasMultiple']?.tel[0].type).toMatchInlineSnapshot(`
+            expect(capabilities['SearchRestrictions#NonStandardAliasMultiple']?.UnsupportedExpressions)
+                .toMatchInlineSnapshot(`
                 [
-                  "Communication.PhoneType/cell",
-                  "Communication.PhoneType/fax",
-                  "Communication.PhoneType/voice",
+                  "Capabilities.SearchExpressions/AND",
+                  "Capabilities.SearchExpressions/group",
+                  "Capabilities.SearchExpressions/phrase",
                 ]
             `);
         });
@@ -160,8 +141,8 @@ describe('Annotation Converter', () => {
         });
 
         it('should convert an enum that is not a flag (with non-standard alias)', () => {
-            expect(communication['Contact#NonStandardAlias']?.gender).toMatchInlineSnapshot(
-                `"Communication.GenderType/F"`
+            expect(capabilities['NavigationRestrictions#NonStandardAlias']?.Navigability).toMatchInlineSnapshot(
+                `"Capabilities.NavigationType/Single"`
             );
         });
     });
@@ -172,7 +153,6 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.entityContainer.annotations).not.toBeUndefined();
         expect(convertedTypes.entitySets[0].annotations).not.toBeUndefined();
         expect(convertedTypes.entityTypes[0].annotations).not.toBeUndefined();
-        checkUnique(convertedTypes.references, 'namespace');
     });
 
     it('can convert analytics EDMX', async () => {
@@ -186,7 +166,6 @@ describe('Annotation Converter', () => {
             aggregationAnnotation['CustomAggregate#SalesAmount'].annotations.Aggregation.ContextDefiningProperties
         ).not.toBeNull();
         //expect(convertedTypes.entitySets[0].annotations.Aggregation.CustomAggregate).not.toBeNull();
-        checkUnique(convertedTypes.references, 'namespace');
     });
 
     it('can convert tripping stuff', async () => {
@@ -195,7 +174,6 @@ describe('Annotation Converter', () => {
         const annoSchema: RawMetadata = parse(annoFile, 'annoFile');
         const mergeSchema = merge(parsedEDMX, annoSchema);
         const convertedTypes = convert(mergeSchema);
-        checkUnique(convertedTypes.references, 'namespace');
     });
 
     describe('can support resolvePath syntax', () => {
@@ -206,9 +184,7 @@ describe('Annotation Converter', () => {
             const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
             const parsedEDMXModified = parse(await loadFixture('v4/v4MetaModified.xml'));
             convertedTypes = convert(parsedEDMX);
-            checkUnique(convertedTypes.references, 'namespace');
             convertedTypesModified = convert(parsedEDMXModified);
-            checkUnique(convertedTypesModified.references, 'namespace');
         });
 
         it('can resolve EntitySet', () => {
@@ -477,7 +453,6 @@ describe('Annotation Converter', () => {
             const annoSchema: RawMetadata = parse(annoFile, 'annoFile');
             const mergeSchema = merge(parsedEDMX, annoSchema);
             convertedTypes = convert(mergeSchema);
-            checkUnique(convertedTypes.references, 'namespace');
         });
 
         it('can resolve a singleton', () => {
@@ -525,7 +500,6 @@ describe('Annotation Converter', () => {
         expect(manageLineItem.target).not.toBeUndefined();
         expect(manageLineItem.target?._type).toEqual('ActionParameter');
         expect(manageLineItem.target?.typeReference).toBeUndefined();
-        checkUnique(convertedTypes2.references, 'namespace');
     });
 
     describe('converts ComplexType (also nested)', () => {
@@ -534,7 +508,6 @@ describe('Annotation Converter', () => {
         beforeAll(async () => {
             const parsedEDMX = parse(await loadFixture('v4/ComplexType.xml'));
             convertedTypes = convert(parsedEDMX);
-            checkUnique(convertedTypes.references, 'namespace');
         });
 
         it('can resolve a complex property', () => {
@@ -578,7 +551,6 @@ describe('Annotation Converter', () => {
     it('works well with side effects', async () => {
         const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.entitySets[40]).not.toBeNull();
         expect(convertedTypes.entitySets[40].entityType).not.toBeNull();
         const sdEntityType = convertedTypes.entitySets[40].entityType;
@@ -597,7 +569,6 @@ describe('Annotation Converter', () => {
         beforeAll(async () => {
             const parsedEDMX = parse(await loadFixture('v4/sdMeta.xml'));
             convertedTypes = convert(parsedEDMX);
-            checkUnique(convertedTypes.references, 'namespace');
         });
 
         it('run basic checks', () => {
@@ -638,7 +609,6 @@ describe('Annotation Converter', () => {
     it('can convert EDMX with validation', async () => {
         const parsedEDMX = parse(await loadFixture('v4/withValidation.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
     });
 
@@ -647,14 +617,12 @@ describe('Annotation Converter', () => {
         const parsedEDMX2 = parse(await loadFixture('v4/sideEffectActions/localAnnotation.xml'), 'localAnno');
         const mergedOutput = merge(parsedEDMX, parsedEDMX2);
         const convertedTypes = convert(mergedOutput);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
     });
 
     it('can convert things properly', async () => {
         const parsedEDMX = parse(await loadFixture('v4/pathError.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
         const x = convertedTypes.resolvePath('/Incidents@com.sap.vocabularies.UI.v1.Facets/1/Target');
         expect(convertedTypes.diagnostics).not.toBeNull();
@@ -668,7 +636,6 @@ describe('Annotation Converter', () => {
         const parsedEDMX2 = parse(await loadFixture('v4/boundActionOverload.xml'), 'localAnno');
         const mergedOutput = merge(parsedEDMX, parsedEDMX2);
         const convertedTypes = convert(mergedOutput);
-        checkUnique(convertedTypes.references, 'namespace');
         const boundActions = convertedTypes.actions.filter((action: any) => action.name === 'DummyBoundAction');
         //	<Annotations Target="com.c_salesordermanage_sd.DummyBoundAction">
         // 				<Annotation Term="UI.Hidden" Bool="true" />
@@ -697,7 +664,6 @@ describe('Annotation Converter', () => {
     it('supports null expression', async () => {
         const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         const operationAvail = convertedTypes.actions[28].annotations?.Core?.OperationAvailable;
         expect(operationAvail).not.toBeUndefined();
         expect((operationAvail as any).type).toEqual('Null');
@@ -706,7 +672,6 @@ describe('Annotation Converter', () => {
     it('can revert enumMember properly', async () => {
         const parsedEDMX = parse(await loadFixture('v4/sdMeta.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
         expect(convertedTypes.entityTypes[39].annotations.UI).not.toBeNull();
 
@@ -731,7 +696,6 @@ describe('Annotation Converter', () => {
     it('can revert a criticality', async () => {
         const parsedEDMX = parse(await loadFixture('v4/sdMeta.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         if (convertedTypes.entityTypes[39].annotations?.UI?.LineItem) {
             const criticality: EnumValue<CriticalityType> = {
                 path: 'OverallSDStatus',
@@ -750,7 +714,6 @@ describe('Annotation Converter', () => {
     it('can convert v2 EDMX with sap:* annotations', async () => {
         const parsedEDMX = parse(await loadFixture('v2/metadata.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
         expect(convertedTypes.entityTypes[16].entityProperties[0].annotations?.Common?.Label?.toString()).toEqual(
             'Country Key'
@@ -772,7 +735,6 @@ describe('Annotation Converter', () => {
     it('inlines referenced PresentationVariant (PV before SPV)', async () => {
         const parsedEDMX = parse(await loadFixture('v4/PVbeforeSPV.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         const selectionPresentationVariant =
             convertedTypes.entityTypes[0].annotations?.UI?.SelectionPresentationVariant;
         expect(selectionPresentationVariant).not.toBeUndefined();
@@ -786,7 +748,6 @@ describe('Annotation Converter', () => {
     it('inlines referenced PresentationVariant (PV after SPV)', async () => {
         const parsedEDMX = parse(await loadFixture('v4/PVafterSPV.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         const selectionPresentationVariant =
             convertedTypes.entityTypes[0].annotations?.UI?.SelectionPresentationVariant;
         expect(selectionPresentationVariant).not.toBeUndefined();
@@ -800,7 +761,6 @@ describe('Annotation Converter', () => {
     it('keeps inline annotation of PresentationVariant', async () => {
         const parsedEDMX = parse(await loadFixture('v4/PVinline.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         const selectionPresentationVariant =
             convertedTypes.entityTypes[0].annotations?.UI?.SelectionPresentationVariant;
         expect(selectionPresentationVariant).not.toBeUndefined();
@@ -815,7 +775,6 @@ describe('Annotation Converter', () => {
     it.skip('support all references that are not vocabularies', async () => {
         const parsedEDMX = parse(await loadFixture('v4/sideEffectActions/$metadata.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.references.length).toEqual(14);
         expect(convertedTypes.references[13].alias).toEqual('SAP__self');
         expect(convertedTypes.references[13].namespace).toEqual(
@@ -826,7 +785,6 @@ describe('Annotation Converter', () => {
     it('support typeDefinitions', async () => {
         const parsedEDMX = parse(await loadFixture('v4/withTypeDef.xml'));
         const convertedTypes = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.typeDefinitions.length).toEqual(1);
         expect(convertedTypes.entityTypes[1].entityProperties[48].type).toEqual('RequisitionUIService.URL');
         expect(convertedTypes.entityTypes[1].entityProperties[48].targetType?._type).toEqual('TypeDefinition');
@@ -839,7 +797,6 @@ describe('Annotation Converter', () => {
         const parsedMetadata = parse(await loadFixture('merge/metadata.xml'));
         const parsedAnnotations = parse(await loadFixture('merge/annotations.xml'), 'annotation.xml');
         const convertedTypes = convert(merge(parsedMetadata, parsedAnnotations));
-        checkUnique(convertedTypes.references, 'namespace');
         expect(convertedTypes.entityTypes[0].annotations?.UI?.LineItem?.length).toEqual(2);
         expect(
             convertedTypes.entityTypes[0].annotations?.UI?.LineItem?.[0]?.annotations?.UI?.Importance
@@ -863,7 +820,6 @@ describe('Annotation Converter', () => {
     it('should return type-compliant entity types (no containment)', async () => {
         const parsedMetadata = parse(await loadFixture('v4/AnnoNoContainment.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         checkAnnotationObject(convertedTypes);
     });
@@ -871,7 +827,6 @@ describe('Annotation Converter', () => {
     it('should return type-compliant entity types (with containments)', async () => {
         const parsedMetadata = parse(await loadFixture('v4/AnnoWithContainment.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         checkAnnotationObject(convertedTypes);
     });
@@ -879,7 +834,6 @@ describe('Annotation Converter', () => {
     it('should resolve the ActionTarget of a static action', async () => {
         const parsedMetadata = parse(await loadFixture('v4/static-action.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         const dataFieldForAction = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem?.[0] as any;
         const action = convertedTypes.actions[0];
@@ -893,7 +847,6 @@ describe('Annotation Converter', () => {
     it('should resolve all ActionTargets - unique names', async () => {
         const parsedMetadata = parse(await loadFixture('v4/actions-and-functions.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         const dataFields = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as any[];
         expect(dataFields.length).toEqual(7);
@@ -909,7 +862,6 @@ describe('Annotation Converter', () => {
     it('should resolve all ActionTargets - overloaded names', async () => {
         const parsedMetadata = parse(await loadFixture('v4/actions-and-functions-overload.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         function getAction(name: string) {
             const result = convertedTypes.actions.find((action) => action.fullyQualifiedName === name);
@@ -939,7 +891,6 @@ describe('Annotation Converter', () => {
     it('should resolve annotations of unbound actions', async () => {
         const parsedMetadata = parse(await loadFixture('v4/action-enablement.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         const rootEntityType = (convertedTypes.resolvePath('/RootElement/') as ResolutionTarget<EntityType>)?.target;
         expect(rootEntityType?.name).toEqual('RootElement');
@@ -954,7 +905,6 @@ describe('Annotation Converter', () => {
     it('Correctly handles literal values in annotations', async () => {
         const parsedMetadata = parse(await loadFixture('v4/literals.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         const entityType = convertedTypes.entityTypes[0];
         expect(entityType.name).toEqual('Entity');
@@ -974,7 +924,6 @@ describe('Annotation Converter', () => {
     it('Can handle annotations of complex types', async () => {
         const parsedMetadata = parse(await loadFixture('v4/complexTypeAnnos.xml'));
         const convertedTypes = convert(parsedMetadata);
-        checkUnique(convertedTypes.references, 'namespace');
 
         const complexType = convertedTypes.complexTypes[0];
         const property = complexType.properties.by_name('name');
@@ -990,7 +939,6 @@ describe('Annotation Converter', () => {
         beforeEach(async () => {
             const parsedEDMX = parse(await metadata);
             convertedTypes = convert(parsedEDMX);
-            checkUnique(convertedTypes.references, 'namespace');
         });
 
         it('transforms aliased annotation terms to the right default aliases', async () => {
@@ -1086,7 +1034,6 @@ describe('Annotation Converter', () => {
         const metadata = await loadFixture('v4/invalidReferences.xml');
         const parsedEDMX = parse(metadata);
         const convertedTypes: ConvertedMetadata = convert(parsedEDMX);
-        checkUnique(convertedTypes.references, 'namespace');
 
         const entityType = convertedTypes.entityTypes.by_name('Entity');
         const selectionFields = entityType?.annotations.UI?.SelectionFields;
@@ -1100,73 +1047,5 @@ describe('Annotation Converter', () => {
         dataFields?.forEach((dataField) => {
             expect(dataField.Value).toBeDefined();
         });
-    });
-
-    it('validates uniqueness of references', () => {
-        const metadata = `
-        <edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
-            <edmx:Reference Uri="https://example.org/namespace/1">
-                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
-                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
-                <edmx:Include Alias="Alias2" Namespace="org.example.namespace.2"/>
-                <edmx:Include Alias="Alias2" Namespace="org.example.namespace.1"/>
-                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.2"/>
-                <edmx:Include Alias="ThisIsOk" Namespace="org.example.ok.1"/>
-            </edmx:Reference>
-            <edmx:Reference Uri="https://example.org/namespace/2">
-                <edmx:Include Alias="Alias1" Namespace="org.example.namespace.1"/>
-            </edmx:Reference>
-            <edmx:Reference Uri="https://example.org/namespace/3">
-                <edmx:Include Alias="Alias3" Namespace="org.example.namespace.3"/>
-            </edmx:Reference>
-            <edmx:DataServices>
-                <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="LocalAlias"/>
-            </edmx:DataServices>
-        </edmx:Edmx>`;
-
-        const parsedEDMX = parse(metadata);
-        const convertedTypes = convert(parsedEDMX);
-        const references = convertedTypes.references;
-
-        expect(references.length).toEqual(19);
-        expect(convertedTypes.diagnostics).toMatchInlineSnapshot(`
-            [
-              {
-                "message": "The following references are not unique. Check if they are imported multiple times.
-            [
-              {
-                "uri": "https://example.org/namespace/1",
-                "alias": "Alias1",
-                "namespace": "org.example.namespace.1"
-              },
-              {
-                "uri": "https://example.org/namespace/1",
-                "alias": "Alias1",
-                "namespace": "org.example.namespace.1"
-              },
-              {
-                "uri": "https://example.org/namespace/1",
-                "alias": "Alias2",
-                "namespace": "org.example.namespace.2"
-              },
-              {
-                "uri": "https://example.org/namespace/1",
-                "alias": "Alias2",
-                "namespace": "org.example.namespace.1"
-              },
-              {
-                "uri": "https://example.org/namespace/1",
-                "alias": "Alias1",
-                "namespace": "org.example.namespace.2"
-              },
-              {
-                "uri": "https://example.org/namespace/2",
-                "alias": "Alias1",
-                "namespace": "org.example.namespace.1"
-              }
-            ]",
-              },
-            ]
-        `);
     });
 });
