@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.5.16
+
+### Patch Changes
+
+-   3116cd5: The annotation converter now returns the correct references
+
 ## 0.5.15
 
 ### Patch Changes

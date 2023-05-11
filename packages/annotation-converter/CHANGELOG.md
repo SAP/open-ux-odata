@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.6.15
+
+### Patch Changes
+
+-   3116cd5: The annotation converter now returns the correct references
+
 ## 0.6.14
 
 ### Patch Changes
