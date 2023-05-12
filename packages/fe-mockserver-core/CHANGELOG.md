@@ -1,5 +1,12 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.90
+
+### Patch Changes
+
+-   Updated dependencies [9475a66]
+    -   @sap-ux/annotation-converter@0.6.16
+
 ## 1.1.89
 
 ### Patch Changes

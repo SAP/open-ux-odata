@@ -1,5 +1,12 @@
 # @sap-ux/annotation-converter
 
+## 0.6.16
+
+### Patch Changes
+
+-   9475a66: - Annotations from different sources are now merged correctly even if the sources used different aliases.
+    -   Aliases in the `value` property of `AnnotationTarget`s are now always expanded to the full namespace.
+
 ## 0.6.15
 
 ### Patch Changes
