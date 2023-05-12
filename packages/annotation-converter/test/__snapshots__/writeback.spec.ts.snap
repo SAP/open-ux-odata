@@ -281,7 +281,7 @@ exports[`Writeback capabilities can deal with annotation on collection 1`] = `
                   {
                     "name": "Target",
                     "value": {
-                      "AnnotationPath": "@UI.FieldGroup#SoldToQuickView",
+                      "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#SoldToQuickView",
                       "type": "AnnotationPath",
                     },
                   },
@@ -325,7 +325,7 @@ exports[`Writeback capabilities can deal with annotation on collection 1`] = `
                   {
                     "name": "Target",
                     "value": {
-                      "AnnotationPath": "@UI.FieldGroup#Contact",
+                      "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#Contact",
                       "type": "AnnotationPath",
                     },
                   },
@@ -382,7 +382,7 @@ exports[`Writeback capabilities can deal with weird things such as annotation on
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#multipleActionFields",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#multipleActionFields",
             "type": "AnnotationPath",
           },
         },
@@ -434,7 +434,7 @@ exports[`Writeback capabilities can deal with weird things such as annotation on
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@Communication.Contact",
+            "AnnotationPath": "@com.sap.vocabularies.Communication.v1.Contact",
             "type": "AnnotationPath",
           },
         },
@@ -611,7 +611,7 @@ exports[`Writeback capabilities can revert a Line Item definition 1`] = `
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.DataPoint#withValueFormat",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.DataPoint#withValueFormat",
             "type": "AnnotationPath",
           },
         },
@@ -1375,7 +1375,7 @@ exports[`Writeback capabilities can revert a Line Item definition 1`] = `
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#InlineOABoundTrue",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#InlineOABoundTrue",
             "type": "AnnotationPath",
           },
         },
@@ -1394,7 +1394,7 @@ exports[`Writeback capabilities can revert a Line Item definition 1`] = `
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#InlineOABoundFalse",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#InlineOABoundFalse",
             "type": "AnnotationPath",
           },
         },
@@ -1413,7 +1413,7 @@ exports[`Writeback capabilities can revert a Line Item definition 1`] = `
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#InlineOAUnboundFalse",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#InlineOAUnboundFalse",
             "type": "AnnotationPath",
           },
         },
@@ -1432,7 +1432,7 @@ exports[`Writeback capabilities can revert a Line Item definition 1`] = `
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#InlineOABoundDynamic",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#InlineOABoundDynamic",
             "type": "AnnotationPath",
           },
         },
@@ -1461,7 +1461,7 @@ exports[`Writeback capabilities can revert a Line Item definition 1`] = `
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#InlineOAUnboundTrue",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#InlineOAUnboundTrue",
             "type": "AnnotationPath",
           },
         },
@@ -1684,7 +1684,7 @@ exports[`Writeback capabilities can revert a SelectionPresentationVariant 1`] = 
                 "value": {
                   "Collection": [
                     {
-                      "AnnotationPath": "@UI.LineItem#SPVPath",
+                      "AnnotationPath": "@com.sap.vocabularies.UI.v1.LineItem#SPVPath",
                       "type": "AnnotationPath",
                     },
                   ],

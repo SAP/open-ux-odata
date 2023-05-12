@@ -45,6 +45,7 @@ import {
     Decimal,
     EnumIsFlag,
     lazy,
+    mergeAnnotations,
     splitAtFirst,
     splitAtLast,
     substringBeforeFirst,
@@ -453,7 +454,7 @@ function mapAnnotationPath(
 ) {
     const result: Omit<AnnotationValue<AnnotationPath<any>>, '$target'> = {
         type: 'AnnotationPath',
-        value: annotationPath.AnnotationPath,
+        value: converter.unalias(annotationPath.AnnotationPath),
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
     };
@@ -461,9 +462,7 @@ function mapAnnotationPath(
     lazy(
         result as AnnotationValue<AnnotationPath<any>>,
         '$target',
-        () =>
-            resolveTarget(converter, currentTarget, converter.unalias(annotationPath.AnnotationPath), currentTerm)
-                .target
+        () => resolveTarget(converter, currentTarget, result.value, currentTerm).target
     );
 
     return result as AnnotationValue<AnnotationPath<any>>;
@@ -942,47 +941,6 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
     return annotation as Annotation;
 }
 
-/**
- * Merge annotation from different source together by overwriting at the term level.
- *
- * @param converter
- * @returns the resulting merged annotations
- */
-function mergeAnnotations(converter: Converter): Record<string, Annotation[]> {
-    return Object.keys(converter.rawSchema.annotations).reduceRight((annotationsPerTarget, annotationSource) => {
-        for (const { target, annotations: rawAnnotations } of converter.rawSchema.annotations[annotationSource]) {
-            if (!annotationsPerTarget[target]) {
-                annotationsPerTarget[target] = [];
-            }
-
-            annotationsPerTarget[target].push(
-                ...rawAnnotations
-                    .filter(
-                        (rawAnnotation) =>
-                            !annotationsPerTarget[target].some(
-                                (existingAnnotation) =>
-                                    existingAnnotation.term === rawAnnotation.term &&
-                                    existingAnnotation.qualifier === rawAnnotation.qualifier
-                            )
-                    )
-                    .map((rawAnnotation) => {
-                        let annotationFQN = `${target}@${converter.unalias(rawAnnotation.term)}`;
-                        if (rawAnnotation.qualifier) {
-                            annotationFQN = `${annotationFQN}#${rawAnnotation.qualifier}`;
-                        }
-
-                        const annotation = rawAnnotation as Annotation & { __source: string };
-                        annotation.fullyQualifiedName = annotationFQN;
-                        annotation.__source = annotationSource;
-                        return annotation;
-                    })
-            );
-        }
-
-        return annotationsPerTarget;
-    }, {} as Record<string, Annotation[]>);
-}
-
 class Converter {
     private annotationsByTarget: Record<FullyQualifiedName, Annotation[]>;
 
@@ -994,7 +952,12 @@ class Converter {
      */
     getAnnotations(target: FullyQualifiedName): Annotation[] {
         if (this.annotationsByTarget === undefined) {
-            this.annotationsByTarget = mergeAnnotations(this);
+            const annotationSources = Object.keys(this.rawSchema.annotations).map((source) => ({
+                name: source,
+                annotationList: this.rawSchema.annotations[source]
+            }));
+
+            this.annotationsByTarget = mergeAnnotations(this.rawMetadata.references, ...annotationSources);
         }
 
         return this.annotationsByTarget[target] ?? [];

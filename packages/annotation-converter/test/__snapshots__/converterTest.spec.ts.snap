@@ -155,7 +155,7 @@ exports[`Annotation Converter can convert EDMX array-typed annotation 1`] = `
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#multipleActionFields",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#multipleActionFields",
             "type": "AnnotationPath",
           },
         },

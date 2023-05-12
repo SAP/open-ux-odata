@@ -182,11 +182,7 @@ describe('Writeback capabilities', () => {
             defaultReferences,
             (convertedTypes.entityTypes['41']?.annotations?.UI as any)['SelectionPresentationVariant#SPVPath']
         ) as any;
-        const target = parsedEDMX.schema.annotations.serviceFile['245'].annotations['37'] as any;
-        delete target.fullyQualifiedName;
-        delete target.__source;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
-        expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
         expect(transformedFilterDefaultValue).toMatchSnapshot();
     });
 

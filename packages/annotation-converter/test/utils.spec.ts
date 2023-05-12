@@ -1,7 +1,8 @@
-import type { Reference } from '@sap-ux/vocabularies-types';
+import type { AnnotationList, Reference } from '@sap-ux/vocabularies-types';
 import {
     addGetByValue,
     lazy,
+    mergeAnnotations,
     splitAtFirst,
     splitAtLast,
     substringBeforeFirst,
@@ -297,5 +298,89 @@ describe('utils', () => {
                 expect(result2).toEqual(expectedIfNoNamespace);
             }
         );
+    });
+
+    describe('mergeAnnotations()', () => {
+        it('overwrites annotations with aliased targets', () => {
+            const source1 = {
+                name: '1',
+                annotationList: [
+                    {
+                        target: 'TargetAlias1.Target',
+                        annotations: [{ term: 'TermAlias1.Term', value: { String: 'Value 1' } }]
+                    },
+                    {
+                        target: 'TargetAlias1.Target',
+                        annotations: [
+                            {
+                                term: 'TermAlias1.Term',
+                                qualifier: 'Qualifier1',
+                                value: { String: 'Value 1 / Qualifier 1' }
+                            }
+                        ]
+                    }
+                ] as AnnotationList[]
+            };
+            const source2 = {
+                name: '2',
+                annotationList: [
+                    {
+                        target: 'TargetAlias2.Target',
+                        annotations: [{ term: 'TermAlias2.Term', value: { String: 'Value 2' } }]
+                    },
+                    {
+                        target: 'TargetAlias2.Target',
+                        annotations: [
+                            {
+                                term: 'TermAlias2.Term',
+                                qualifier: 'Qualifier2',
+                                value: { String: 'Value 2 / Qualifier 2' }
+                            }
+                        ]
+                    }
+                ] as AnnotationList[]
+            };
+
+            const references: Reference[] = [
+                { alias: 'TargetAlias1', namespace: 'service.namespace', uri: '' },
+                { alias: 'TargetAlias2', namespace: 'service.namespace', uri: '' },
+                { alias: 'TermAlias1', namespace: 'term.namespace', uri: '' },
+                { alias: 'TermAlias2', namespace: 'term.namespace', uri: '' }
+            ];
+
+            const result = mergeAnnotations(references, source1, source2);
+            expect(result).toMatchInlineSnapshot(`
+                {
+                  "service.namespace.Target": [
+                    {
+                      "__source": "2",
+                      "fullyQualifiedName": "service.namespace.Target@term.namespace.Term",
+                      "term": "term.namespace.Term",
+                      "value": {
+                        "String": "Value 2",
+                      },
+                    },
+                    {
+                      "__source": "2",
+                      "fullyQualifiedName": "service.namespace.Target@term.namespace.Term#Qualifier2",
+                      "qualifier": "Qualifier2",
+                      "term": "term.namespace.Term",
+                      "value": {
+                        "String": "Value 2 / Qualifier 2",
+                      },
+                    },
+                    {
+                      "__source": "1",
+                      "fullyQualifiedName": "service.namespace.Target@term.namespace.Term#Qualifier1",
+                      "qualifier": "Qualifier1",
+                      "term": "term.namespace.Term",
+                      "value": {
+                        "String": "Value 1 / Qualifier 1",
+                      },
+                    },
+                  ],
+                }
+            `);
+        });
     });
 });
