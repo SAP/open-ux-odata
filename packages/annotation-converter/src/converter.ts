@@ -461,7 +461,7 @@ function mapAnnotationPath(
     lazy(
         result as AnnotationValue<AnnotationPath<any>>,
         '$target',
-        () => resolveTarget(converter, currentTarget, annotationPath.AnnotationPath, currentTerm).target
+        () => resolveTarget(converter, currentTarget, result.value, currentTerm).target
     );
 
     return result as AnnotationValue<AnnotationPath<any>>;
