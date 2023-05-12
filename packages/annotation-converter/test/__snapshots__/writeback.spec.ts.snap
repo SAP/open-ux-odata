@@ -281,7 +281,7 @@ exports[`Writeback capabilities can deal with annotation on collection 1`] = `
                   {
                     "name": "Target",
                     "value": {
-                      "AnnotationPath": "@UI.FieldGroup#SoldToQuickView",
+                      "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#SoldToQuickView",
                       "type": "AnnotationPath",
                     },
                   },
@@ -325,7 +325,7 @@ exports[`Writeback capabilities can deal with annotation on collection 1`] = `
                   {
                     "name": "Target",
                     "value": {
-                      "AnnotationPath": "@UI.FieldGroup#Contact",
+                      "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#Contact",
                       "type": "AnnotationPath",
                     },
                   },
@@ -382,7 +382,7 @@ exports[`Writeback capabilities can deal with weird things such as annotation on
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@UI.FieldGroup#multipleActionFields",
+            "AnnotationPath": "@com.sap.vocabularies.UI.v1.FieldGroup#multipleActionFields",
             "type": "AnnotationPath",
           },
         },
@@ -434,7 +434,7 @@ exports[`Writeback capabilities can deal with weird things such as annotation on
         {
           "name": "Target",
           "value": {
-            "AnnotationPath": "@Communication.Contact",
+            "AnnotationPath": "@com.sap.vocabularies.Communication.v1.Contact",
             "type": "AnnotationPath",
           },
         },
@@ -1684,7 +1684,7 @@ exports[`Writeback capabilities can revert a SelectionPresentationVariant 1`] = 
                 "value": {
                   "Collection": [
                     {
-                      "AnnotationPath": "@UI.LineItem#SPVPath",
+                      "AnnotationPath": "@com.sap.vocabularies.UI.v1.LineItem#SPVPath",
                       "type": "AnnotationPath",
                     },
                   ],

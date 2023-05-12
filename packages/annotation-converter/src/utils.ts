@@ -1,4 +1,12 @@
-import type { ArrayWithIndex, ComplexType, Index, Reference, TypeDefinition } from '@sap-ux/vocabularies-types';
+import type {
+    Annotation,
+    AnnotationList,
+    ArrayWithIndex,
+    ComplexType,
+    Index,
+    Reference,
+    TypeDefinition
+} from '@sap-ux/vocabularies-types';
 
 export { EnumIsFlag } from '@sap-ux/vocabularies-types/vocabularies/EnumIsFlag';
 export { TermToTypes } from '@sap-ux/vocabularies-types/vocabularies/TermToTypes';
@@ -251,4 +259,50 @@ export function addGetByValue<T, P extends Extract<keyof T, string>>(array: Arra
         throw new Error(`Property '${indexName}' already exists`);
     }
     return array as ArrayWithIndex<T, P>;
+}
+
+/**
+ * Merge annotations from different sources together by overwriting at the term level.
+ *
+ * @param references        References, used to resolve aliased annotation targets and aliased annotation terms.
+ * @param annotationSources Annotation sources
+ * @returns the resulting merged annotations
+ */
+export function mergeAnnotations(
+    references: Reference[],
+    ...annotationSources: { name: string; annotationList: AnnotationList[] }[]
+): Record<string, Annotation[]> {
+    return annotationSources.reduceRight((result, { name, annotationList }) => {
+        for (const { target, annotations } of annotationList) {
+            const annotationTarget = unalias(references, target) ?? target;
+            if (!result[annotationTarget]) {
+                result[annotationTarget] = [];
+            }
+
+            const annotationsOnTarget = annotations
+                .map((rawAnnotation): Annotation => {
+                    rawAnnotation.term = unalias(references, rawAnnotation.term) ?? rawAnnotation.term;
+
+                    (rawAnnotation as any).fullyQualifiedName = rawAnnotation.qualifier
+                        ? `${annotationTarget}@${rawAnnotation.term}#${rawAnnotation.qualifier}`
+                        : `${annotationTarget}@${rawAnnotation.term}`;
+
+                    (rawAnnotation as any).__source = name;
+
+                    return rawAnnotation as Annotation;
+                })
+                .filter(
+                    (annotation) =>
+                        !result[annotationTarget].some(
+                            (existingAnnotation) =>
+                                existingAnnotation.term === annotation.term &&
+                                existingAnnotation.qualifier === annotation.qualifier
+                        )
+                );
+
+            result[annotationTarget].push(...annotationsOnTarget);
+        }
+
+        return result;
+    }, {} as Record<string, Annotation[]>);
 }
