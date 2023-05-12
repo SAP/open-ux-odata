@@ -9,7 +9,7 @@ import type {
     RawAnnotation,
     Reference
 } from '@sap-ux/vocabularies-types';
-import { alias, unalias } from './utils';
+import { unalias } from './utils';
 
 /**
  * Revert an object to its raw type equivalent.
@@ -71,7 +71,7 @@ function revertObjectToRawType(references: Reference[], value: any) {
     } else if (value.type === 'AnnotationPath') {
         result = {
             type: 'AnnotationPath',
-            AnnotationPath: alias(references, value.value)
+            AnnotationPath: value.value
         };
     } else if (value.type === 'Apply') {
         result = {
@@ -241,7 +241,7 @@ function revertCollectionItemToRawType(
         } else if (collectionItem.type === 'AnnotationPath') {
             return {
                 type: 'AnnotationPath',
-                AnnotationPath: alias(references, collectionItem.value)
+                AnnotationPath: collectionItem.value
             };
         } else if (collectionItem.type === 'NavigationPropertyPath') {
             return {
