@@ -743,7 +743,7 @@ describe('Annotation Converter', () => {
 
         const presentationVariant = selectionPresentationVariant?.PresentationVariant;
         expect(presentationVariant?.Visualizations).not.toBeUndefined();
-        expect(presentationVariant?.Visualizations?.[0]?.value).toEqual('@UI.LineItem');
+        expect(presentationVariant?.Visualizations?.[0]?.value).toEqual('@com.sap.vocabularies.UI.v1.LineItem');
     });
 
     it('inlines referenced PresentationVariant (PV after SPV)', async () => {
@@ -756,7 +756,7 @@ describe('Annotation Converter', () => {
 
         const presentationVariant = selectionPresentationVariant?.PresentationVariant;
         expect(presentationVariant?.Visualizations).not.toBeUndefined();
-        expect(presentationVariant?.Visualizations?.[0]?.value).toEqual('@UI.LineItem');
+        expect(presentationVariant?.Visualizations?.[0]?.value).toEqual('@com.sap.vocabularies.UI.v1.LineItem');
     });
 
     it('keeps inline annotation of PresentationVariant', async () => {
@@ -769,7 +769,7 @@ describe('Annotation Converter', () => {
 
         const presentationVariant = selectionPresentationVariant?.PresentationVariant;
         expect(presentationVariant?.Visualizations).not.toBeUndefined();
-        expect(presentationVariant?.Visualizations?.[0]?.value).toEqual('@UI.LineItem');
+        expect(presentationVariant?.Visualizations?.[0]?.value).toEqual('@com.sap.vocabularies.UI.v1.LineItem');
         expect(presentationVariant?.$Type).toEqual('com.sap.vocabularies.UI.v1.PresentationVariantType');
     });
 

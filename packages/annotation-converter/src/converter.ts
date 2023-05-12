@@ -453,7 +453,7 @@ function mapAnnotationPath(
 ) {
     const result: Omit<AnnotationValue<AnnotationPath<any>>, '$target'> = {
         type: 'AnnotationPath',
-        value: annotationPath.AnnotationPath,
+        value: converter.unalias(annotationPath.AnnotationPath),
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
     };
@@ -461,9 +461,7 @@ function mapAnnotationPath(
     lazy(
         result as AnnotationValue<AnnotationPath<any>>,
         '$target',
-        () =>
-            resolveTarget(converter, currentTarget, converter.unalias(annotationPath.AnnotationPath), currentTerm)
-                .target
+        () => resolveTarget(converter, currentTarget, annotationPath.AnnotationPath, currentTerm).target
     );
 
     return result as AnnotationValue<AnnotationPath<any>>;
