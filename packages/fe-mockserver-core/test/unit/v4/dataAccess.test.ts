@@ -904,7 +904,7 @@ describe('Data Access', () => {
             SalesOrderType: 'OR'
         });
         expect(actionResult.SalesOrderType).toEqual('OR');
-        expect(request.responseHeaders['sap-contextid']).toBeDefined();
+        expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
         //const contextID = request.headers['/Sap-contextid'];
         // On normal request new data should not be there
         sdData = await stickyDataAccess.getData(
@@ -941,7 +941,7 @@ describe('Data Access', () => {
             }
         );
         expect(actionResult.SalesOrderType).toEqual('OR');
-        expect(request.responseHeaders['sap-contextid']).toBeDefined();
+        expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
         // Activate it
         actionResult = await stickyDataAccess.performAction(
             new ODataRequest(

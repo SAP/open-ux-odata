@@ -157,8 +157,8 @@ export class StickyMockEntitySet extends MockDataEntitySet {
     addSessionToken(odataRequest: ODataRequest) {
         const uuid = generateId(16);
         this.currentUUID = uuid;
-        odataRequest.addResponseHeader('sap-contextid', 'SID:ANON:' + uuid);
-        odataRequest.addResponseHeader('sap-http-session-timeout', this.sessionTimeoutTime.toString());
+        odataRequest.addResponseHeader('sap-contextid', 'SID:ANON:' + uuid, true);
+        odataRequest.addResponseHeader('sap-http-session-timeout', this.sessionTimeoutTime.toString(), true);
     }
 
     public performGET(
