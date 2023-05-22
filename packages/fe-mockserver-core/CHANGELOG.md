@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.92
+
+### Patch Changes
+
+-   f23406b: Properly set the contextID for sticky in all cases
+
 ## 1.1.91
 
 ### Patch Changes
