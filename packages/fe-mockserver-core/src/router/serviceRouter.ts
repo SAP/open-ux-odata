@@ -144,6 +144,9 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
             for (const responseHeader in oDataRequest.responseHeaders) {
                 res.setHeader(responseHeader, oDataRequest.responseHeaders[responseHeader]);
             }
+            for (const responseHeader in oDataRequest.globalResponseHeaders) {
+                res.setHeader(responseHeader, oDataRequest.globalResponseHeaders[responseHeader]);
+            }
             if (responseData) {
                 res.write(responseData);
             }
