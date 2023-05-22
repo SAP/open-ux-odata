@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.91
+
+### Patch Changes
+
+-   a5129b2: Sticky session is now properly set
+
 ## 1.1.90
 
 ### Patch Changes
