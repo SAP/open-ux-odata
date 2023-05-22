@@ -51,6 +51,7 @@ export default class ODataRequest {
     public selectedProperties: Record<string, boolean>;
     public expandProperties: Record<string, ExpandDefinition> = {};
     public responseHeaders: Record<string, string> = {};
+    public globalResponseHeaders: Record<string, string> = {};
     public statusCode: number = 200;
     public dataCount: number;
 
@@ -513,8 +514,12 @@ export default class ODataRequest {
         this.messages.push(messageData);
     }
 
-    public addResponseHeader(headerName: string, headerValue: string) {
-        this.responseHeaders[headerName] = headerValue;
+    public addResponseHeader(headerName: string, headerValue: string, globalHeader: boolean = false) {
+        if (globalHeader) {
+            this.globalResponseHeaders[headerName] = headerValue;
+        } else {
+            this.responseHeaders[headerName] = headerValue;
+        }
     }
 
     public addResponseAnnotation(annotationName: string, annotationValue: any) {
