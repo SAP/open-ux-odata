@@ -1,8 +1,8 @@
+/// <reference lib="dom" /> TODO: Cheap workaround to make the native fetch() known to TS (https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch); remove when supported officially
 import finalHandler from 'finalhandler';
 import * as fs from 'fs';
 import type { Server } from 'http';
 import * as http from 'http';
-import fetch, { Headers } from 'node-fetch';
 import * as path from 'path';
 import FEMockserver from '../../src';
 import { ODataV4Requestor } from './__testData/Requestor';

@@ -46,13 +46,11 @@
         "@types/body-parser": "1.19.2",
         "@types/graceful-fs": "^4.1.5",
         "@types/connect": "^3.4.35",
-        "@types/node-fetch": "2",
         "@types/express": "4.17.17",
         "@types/lodash.clonedeep": "4.5.7",
         "@types/etag": "1.8.1",
         "@types/balanced-match": "^1.0.2",
         "@types/finalhandler": "^1.1.1",
-        "node-fetch": "2.6.9",
         "finalhandler": "1.2.0"
     },
     "files": [
