@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="csdl.d.ts"/>
+/// <reference lib="dom" /> TODO: Cheap workaround to make the native fetch() known to TS (https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch); remove when supported officially
 import type {
     Action,
     ComplexType,
@@ -11,11 +12,10 @@ import type {
     Term,
     TypeDefinition
 } from '@sap-ux/vocabularies/CSDL';
-import axios from 'axios';
-import * as fs from 'fs';
-import * as mkdirp from 'mkdirp';
-import * as path from 'path';
-import * as util from 'util';
+
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import * as util from 'node:util';
 
 const writeFile = util.promisify(fs.writeFile);
 
@@ -49,8 +49,8 @@ const ANNOTATION_TARGETS = [
 
 export const getVocabularyFile = async (url: string): Promise<CSDL> => {
     try {
-        const response = await axios.get(url);
-        return response.data;
+        const response = await fetch(url);
+        return response.json();
     } catch (error) {
         throw error;
     }
@@ -209,7 +209,7 @@ function formatType(typeValue: string, currentAlias: string) {
  * @param targetFolder the target folder for the types
  */
 async function generateTypes(targetFolder: string) {
-    mkdirp.sync(targetFolder);
+    await fs.promises.mkdir(targetFolder, { recursive: true });
 
     const vocabularyPromises = Object.keys(vocabularyConfig).map(async (vocabularyName) => {
         const vocabularyContent = await getVocabularyFile(vocabularyConfig[vocabularyName]);
