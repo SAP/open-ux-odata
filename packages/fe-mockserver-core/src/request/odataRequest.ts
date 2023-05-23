@@ -522,6 +522,11 @@ export default class ODataRequest {
         }
     }
 
+    public removeResponseHeader(headerName: string) {
+        delete this.globalResponseHeaders[headerName];
+        delete this.responseHeaders[headerName];
+    }
+
     public addResponseAnnotation(annotationName: string, annotationValue: any) {
         this.responseAnnotations[annotationName] = annotationValue;
     }

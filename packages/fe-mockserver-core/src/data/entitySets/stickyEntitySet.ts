@@ -49,8 +49,12 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         return this._currentSessionObject[tenantId];
     }
 
-    private setSessionObject(tenantId: string, objectData: any) {
+    private setSessionObject(tenantId: string, objectData: any, odataRequest?: ODataRequest) {
         this._currentSessionObject[tenantId] = objectData;
+        if (objectData === null && odataRequest) {
+            odataRequest.removeResponseHeader('sap-contextid');
+            odataRequest.removeResponseHeader('sap-http-session-timeout');
+        }
     }
 
     public resetSessionTimeout(tenantId: string): any {
@@ -124,6 +128,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
             case this.discardAction?.fullyQualifiedName:
                 // Discard
                 this.setSessionObject(odataRequest.tenantId, null);
+
                 responseObject = null;
                 break;
 
@@ -137,6 +142,8 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 }
 
                 this.setSessionObject(odataRequest.tenantId, null);
+                odataRequest.removeResponseHeader('sap-contextid');
+                odataRequest.removeResponseHeader('sap-http-session-timeout');
 
                 responseObject = newData;
                 break;

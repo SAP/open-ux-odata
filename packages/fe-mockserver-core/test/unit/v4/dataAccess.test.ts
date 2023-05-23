@@ -918,10 +918,9 @@ describe('Data Access', () => {
         expect(sdData.SalesOrderType).toEqual('OR');
 
         // Discard it
-
-        actionResult = await stickyDataAccess.performAction(
-            new ODataRequest({ method: 'GET', url: '/DiscardChanges' }, dataAccess)
-        );
+        const discardRequest = new ODataRequest({ method: 'GET', url: '/DiscardChanges' }, dataAccess);
+        actionResult = await stickyDataAccess.performAction(discardRequest);
+        expect(discardRequest.globalResponseHeaders['sap-contextid']).toBeUndefined();
         sdData = await stickyDataAccess.getData(
             new ODataRequest({ method: 'GET', url: "/SalesOrderManage('')" }, dataAccess)
         );
@@ -943,15 +942,15 @@ describe('Data Access', () => {
         expect(actionResult.SalesOrderType).toEqual('OR');
         expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
         // Activate it
-        actionResult = await stickyDataAccess.performAction(
-            new ODataRequest(
-                {
-                    url: '/SalesOrderManage/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SaveChanges',
-                    method: '/POST'
-                },
-                stickyDataAccess
-            )
+        const activateRequest = new ODataRequest(
+            {
+                url: '/SalesOrderManage/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SaveChanges',
+                method: '/POST'
+            },
+            stickyDataAccess
         );
+        actionResult = await stickyDataAccess.performAction(activateRequest);
+        expect(activateRequest.globalResponseHeaders['sap-contextid']).toBeUndefined();
         sdData = await stickyDataAccess.getData(
             new ODataRequest({ method: 'GET', url: "/SalesOrderManage('')" }, dataAccess)
         );

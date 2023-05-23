@@ -222,6 +222,7 @@ export class DataAccess implements DataAccessInterface {
                             odataRequest.queryPath[0].keys
                         );
                     }
+
                     return true;
                 } else {
                     // Treat this as a normal unbound action
