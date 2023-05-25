@@ -277,13 +277,17 @@ function parseNavigationProperties(
     );
 }
 
-function parseAssociationSets(associations: EDMX.AssociationSet[], namespace: string): RawAssociationSet[] {
+function parseAssociationSets(
+    associations: EDMX.AssociationSet[],
+    namespace: string,
+    entityContainer: EDMX.EntityContainer
+): RawAssociationSet[] {
     return associations.map((association) => {
         const associationFQN = `${namespace}.${association._attributes.Name}`;
         const associationEnd: RawAssociationSetEnd[] = ensureArray(association.End).map(
             (endValue: EDMX.AssociationSetEnd) => {
                 return {
-                    entitySet: endValue._attributes.EntitySet,
+                    entitySet: `${namespace}.${entityContainer._attributes.Name}/${endValue._attributes.EntitySet}`,
                     role: endValue._attributes.Role
                 };
             }
@@ -413,11 +417,20 @@ function parseEntitySets(
     annotationLists: AnnotationList[]
 ): RawEntitySet[] {
     const outEntitySets: RawEntitySet[] = entitySets.map((entitySet) => {
+        const navigationPropertyBinding = Object.fromEntries(
+            ensureArray(entitySet.NavigationPropertyBinding).map((navPropertyBinding) => {
+                return [
+                    navPropertyBinding._attributes.Path,
+                    `${namespace}.${entityContainerName}/${navPropertyBinding._attributes.Target}`
+                ];
+            })
+        );
+
         const outEntitySet: RawEntitySet = {
             _type: 'EntitySet',
             name: entitySet._attributes.Name,
             entityTypeName: unalias(entitySet._attributes.EntityType),
-            navigationPropertyBinding: {},
+            navigationPropertyBinding,
             fullyQualifiedName: `${namespace}.${entityContainerName}/${entitySet._attributes.Name}`
         };
         const v2Annotations = convertV2Annotations(
@@ -430,22 +443,6 @@ function parseEntitySets(
         }
         return outEntitySet;
     });
-    entitySets.forEach((entitySet) => {
-        const currentOutEntitySet = outEntitySets.find(
-            (outEntitySet) => outEntitySet.name === entitySet._attributes.Name
-        );
-        if (currentOutEntitySet) {
-            ensureArray(entitySet.NavigationPropertyBinding).forEach((navPropertyBinding) => {
-                const currentTargetEntitySet = outEntitySets.find(
-                    (outEntitySet) => outEntitySet.name === navPropertyBinding._attributes.Target
-                );
-                if (currentTargetEntitySet) {
-                    currentOutEntitySet.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
-                        currentTargetEntitySet;
-                }
-            });
-        }
-    });
 
     return outEntitySets;
 }
@@ -457,12 +454,21 @@ function parseSingletons(
     annotationLists: AnnotationList[]
 ): RawSingleton[] {
     const outSingletons: RawSingleton[] = singletons.map((singleton) => {
+        const navigationPropertyBinding = Object.fromEntries(
+            ensureArray(singleton.NavigationPropertyBinding).map((navPropertyBinding) => {
+                return [
+                    navPropertyBinding._attributes.Path,
+                    `${namespace}.${entityContainerName}/${navPropertyBinding._attributes.Target}`
+                ];
+            })
+        );
+
         const outSingleton: RawSingleton = {
             _type: 'Singleton',
             name: singleton._attributes.Name,
             entityTypeName: unalias(singleton._attributes.Type),
             nullable: singleton._attributes.Nullable !== 'false',
-            navigationPropertyBinding: {},
+            navigationPropertyBinding,
             fullyQualifiedName: `${namespace}.${entityContainerName}/${singleton._attributes.Name}`
         };
         const v2Annotations = convertV2Annotations(
@@ -475,78 +481,8 @@ function parseSingletons(
         }
         return outSingleton;
     });
-    singletons.forEach((singleton) => {
-        const currentOutSingleton = outSingletons.find(
-            (outSingleton) => outSingleton.name === singleton._attributes.Name
-        );
-        if (currentOutSingleton) {
-            ensureArray(singleton.NavigationPropertyBinding).forEach((navPropertyBinding) => {
-                const currentTargetSingleton = outSingletons.find(
-                    (outSingleton) => outSingleton.name === navPropertyBinding._attributes.Target
-                );
-                if (currentTargetSingleton) {
-                    currentOutSingleton.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
-                        currentTargetSingleton;
-                }
-            });
-        }
-    });
 
     return outSingletons;
-}
-
-function resolveNavigationPropertyBindings(
-    entitySets: EDMX.EntitySet[],
-    singletons: EDMX.Singleton[],
-    outEntitySets: RawEntitySet[],
-    outSingletons: RawSingleton[]
-): void {
-    entitySets.forEach((entitySet) => {
-        const currentOutEntitySet = outEntitySets.find(
-            (outEntitySet) => outEntitySet.name === entitySet._attributes.Name
-        );
-        if (currentOutEntitySet) {
-            ensureArray(entitySet.NavigationPropertyBinding).forEach((navPropertyBinding) => {
-                const currentTargetEntitySet = outEntitySets.find(
-                    (entitySet) => entitySet.name === navPropertyBinding._attributes.Target
-                );
-                if (currentTargetEntitySet) {
-                    currentOutEntitySet.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
-                        currentTargetEntitySet;
-                }
-                const currentTargetSingleton = outSingletons.find(
-                    (singleton) => singleton.name === navPropertyBinding._attributes.Target
-                );
-                if (currentTargetSingleton) {
-                    currentOutEntitySet.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
-                        currentTargetSingleton;
-                }
-            });
-        }
-    });
-    singletons.forEach((singleton) => {
-        const currentOutSingleton = outSingletons.find(
-            (outSingleton) => outSingleton.name === singleton._attributes.Name
-        );
-        if (currentOutSingleton) {
-            ensureArray(singleton.NavigationPropertyBinding).forEach((navPropertyBinding) => {
-                const currentTargetEntitySet = outEntitySets.find(
-                    (entitySet) => entitySet.name === navPropertyBinding._attributes.Target
-                );
-                if (currentTargetEntitySet) {
-                    currentOutSingleton.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
-                        currentTargetEntitySet;
-                }
-                const currentTargetSingleton = outSingletons.find(
-                    (singleton) => singleton.name === navPropertyBinding._attributes.Target
-                );
-                if (currentTargetSingleton) {
-                    currentOutSingleton.navigationPropertyBinding[navPropertyBinding._attributes.Path] =
-                        currentTargetSingleton;
-                }
-            });
-        }
-    });
 }
 
 function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: string, isFunction: boolean): RawAction[] {
@@ -1080,13 +1016,12 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
             edmSchema.EntityContainer._attributes.Name,
             annotations
         );
-        resolveNavigationPropertyBindings(
-            ensureArray(edmSchema.EntityContainer.EntitySet),
-            ensureArray(edmSchema.EntityContainer.Singleton),
-            entitySets,
-            singletons
+
+        associationSets = parseAssociationSets(
+            ensureArray(edmSchema.EntityContainer.AssociationSet),
+            namespace,
+            edmSchema.EntityContainer
         );
-        associationSets = parseAssociationSets(ensureArray(edmSchema.EntityContainer.AssociationSet), namespace);
         entityContainer = {
             _type: 'EntityContainer',
             name: edmSchema.EntityContainer._attributes.Name,
@@ -1247,21 +1182,16 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
         const entityType = entityTypes.find(
             (rawEntityType) => rawEntityType.fullyQualifiedName === entitySet.entityTypeName
         );
-        entityType?.navigationProperties.forEach((navProp: any) => {
+        entityType?.navigationProperties.forEach((navProp) => {
             const v2NavProp: RawV2NavigationProperty = navProp as RawV2NavigationProperty;
             const associationSet = associationSets.find((assoc) => assoc.association === v2NavProp.relationship);
             if (associationSet) {
-                const associationEndEntitySets = associationSet.associationEnd.map(
-                    (associationEnd: RawAssociationSetEnd) => {
-                        return entitySets.find((rawEntitySet) => rawEntitySet.name === associationEnd.entitySet);
-                    }
+                const targetEntitySet = associationSet.associationEnd.find(
+                    (associationEnd) => associationEnd.entitySet !== entitySet.fullyQualifiedName
                 );
-                const targetEntitySet = associationEndEntitySets.find(
-                    (associationEntitySet: any) =>
-                        associationEntitySet?.fullyQualifiedName !== entitySet.fullyQualifiedName
-                );
+
                 if (targetEntitySet) {
-                    entitySet.navigationPropertyBinding[navProp.name] = targetEntitySet;
+                    entitySet.navigationPropertyBinding[navProp.name] = targetEntitySet.entitySet;
                 }
             }
         });

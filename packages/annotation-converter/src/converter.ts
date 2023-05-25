@@ -27,6 +27,7 @@ import type {
     RawEntitySet,
     RawEntityType,
     RawMetadata,
+    RawNavigationPropertyBinding,
     RawProperty,
     RawSchema,
     RawSingleton,
@@ -1102,28 +1103,20 @@ function resolveEntityType(converter: Converter, fullyQualifiedName: FullyQualif
 
 function resolveNavigationPropertyBindings(
     converter: Converter,
-    rawNavigationPropertyBindings: Singleton['navigationPropertyBinding'] | EntitySet['navigationPropertyBinding'],
-    rawElement: RawSingleton | RawEntitySet
+    rawNavigationPropertyBindings: RawNavigationPropertyBinding
 ) {
     return () =>
-        Object.keys(rawNavigationPropertyBindings).reduce((navigationPropertyBindings, bindingName) => {
-            const rawBindingTarget = rawNavigationPropertyBindings[bindingName];
+        Object.keys(rawNavigationPropertyBindings).reduce((navigationPropertyBindings, bindingPath) => {
+            const rawBindingTarget = rawNavigationPropertyBindings[bindingPath];
 
-            lazy(navigationPropertyBindings, bindingName, () => {
-                let resolvedBindingTarget;
-                if (rawBindingTarget._type === 'Singleton') {
-                    resolvedBindingTarget = converter.getConvertedSingleton(rawBindingTarget.fullyQualifiedName);
-                } else {
-                    resolvedBindingTarget = converter.getConvertedEntitySet(rawBindingTarget.fullyQualifiedName);
-                }
-                if (!resolvedBindingTarget) {
-                    converter.logError(
-                        `${rawElement._type} '${rawElement.fullyQualifiedName}': Failed to resolve NavigationPropertyBinding ${bindingName}`
-                    );
-                    resolvedBindingTarget = {} as any;
-                }
-                return resolvedBindingTarget;
-            });
+            lazy(
+                navigationPropertyBindings,
+                bindingPath,
+                () =>
+                    // the NavigationPropertyBinding will lead to either an EntitySet or a Singleton, it cannot be undefined
+                    (converter.getConvertedEntitySet(rawBindingTarget) ??
+                        converter.getConvertedSingleton(rawBindingTarget))!
+            );
             return navigationPropertyBindings;
         }, {} as EntitySet['navigationPropertyBinding'] | Singleton['navigationPropertyBinding']);
 }
@@ -1222,20 +1215,16 @@ function convertEntityContainer(converter: Converter, rawEntityContainer: RawEnt
  * @returns The converted Singleton
  */
 function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Singleton {
-    const convertedSingleton = rawSingleton as Singleton;
+    const convertedSingleton = rawSingleton as unknown as Singleton;
 
     lazy(convertedSingleton, 'entityType', resolveEntityType(converter, rawSingleton.entityTypeName));
-    lazy(convertedSingleton, 'annotations', resolveAnnotations(converter, rawSingleton as Singleton));
+    lazy(convertedSingleton, 'annotations', resolveAnnotations(converter, convertedSingleton));
 
     const _rawNavigationPropertyBindings = rawSingleton.navigationPropertyBinding;
     lazy(
         convertedSingleton,
         'navigationPropertyBinding',
-        resolveNavigationPropertyBindings(
-            converter,
-            _rawNavigationPropertyBindings as Singleton['navigationPropertyBinding'],
-            rawSingleton
-        )
+        resolveNavigationPropertyBindings(converter, _rawNavigationPropertyBindings)
     );
 
     return convertedSingleton;
@@ -1249,20 +1238,16 @@ function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Sin
  * @returns The converted EntitySet
  */
 function convertEntitySet(converter: Converter, rawEntitySet: RawEntitySet): EntitySet {
-    const convertedEntitySet = rawEntitySet as EntitySet;
+    const convertedEntitySet = rawEntitySet as unknown as EntitySet;
 
     lazy(convertedEntitySet, 'entityType', resolveEntityType(converter, rawEntitySet.entityTypeName));
-    lazy(convertedEntitySet, 'annotations', resolveAnnotations(converter, rawEntitySet as EntitySet));
+    lazy(convertedEntitySet, 'annotations', resolveAnnotations(converter, convertedEntitySet));
 
     const _rawNavigationPropertyBindings = rawEntitySet.navigationPropertyBinding;
     lazy(
         convertedEntitySet,
         'navigationPropertyBinding',
-        resolveNavigationPropertyBindings(
-            converter,
-            _rawNavigationPropertyBindings as EntitySet['navigationPropertyBinding'],
-            rawEntitySet
-        )
+        resolveNavigationPropertyBindings(converter, _rawNavigationPropertyBindings)
     );
 
     return convertedEntitySet;
