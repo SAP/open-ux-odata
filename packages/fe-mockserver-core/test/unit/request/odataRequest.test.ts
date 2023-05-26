@@ -210,7 +210,7 @@ describe('OData Request', () => {
         let myRequest = new ODataRequest(
             {
                 method: 'GET',
-                url: '/Countries?$expand=Value1,Value2,,Value3,Value4/Value5'
+                url: '/Countries?$expand=Value1,Value2,,Value3,Value4/Value5,Value4/Value6,Value4/Value7,Value4/Value6/Value8'
             },
             fakeDataAccessV2
         );
@@ -246,6 +246,25 @@ describe('OData Request', () => {
               "Value4": {
                 "expand": {
                   "Value5": {
+                    "expand": {},
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                  "Value6": {
+                    "expand": {
+                      "Value8": {
+                        "expand": {},
+                        "properties": {
+                          "*": true,
+                        },
+                      },
+                    },
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                  "Value7": {
                     "expand": {},
                     "properties": {
                       "*": true,
