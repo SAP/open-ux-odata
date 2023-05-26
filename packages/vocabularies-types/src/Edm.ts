@@ -455,7 +455,7 @@ export type ActionImport = {
     name: SimpleIdentifier;
     fullyQualifiedName: SimpleIdentifier;
     actionName: string;
-    action?: Action;
+    action: Action;
     annotations: ActionImportAnnotations;
 };
 
@@ -491,7 +491,7 @@ export type ConvertedMetadata = {
     version: string;
     annotations: Record<string, AnnotationList[]>;
     namespace: string;
-    actions: ArrayWithIndex<Action, 'name' | 'fullyQualifiedName'>;
+    actions: ArrayWithIndex<Action, 'fullyQualifiedName'>;
     actionImports: ArrayWithIndex<ActionImport, 'name' | 'fullyQualifiedName'>;
     entityContainer: EntityContainer;
     complexTypes: ArrayWithIndex<ComplexType, 'name' | 'fullyQualifiedName'>;
@@ -519,6 +519,7 @@ export type RemoveAnnotationAndType<T> = {
         | 'entitySets'
         | 'singletons'
         | 'actionImports'
+        | 'action'
     >]: T[K] extends object
         ? T[K] extends Array<infer Item>
             ? RemoveAnnotationAndType<Item>[]
