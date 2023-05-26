@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.93
+
+### Patch Changes
+
+-   4b255c9: Complex and nested expand in v2 are now working correctly
+
 ## 1.1.92
 
 ### Patch Changes
