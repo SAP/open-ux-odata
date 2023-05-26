@@ -242,14 +242,20 @@ export default class ODataRequest {
                     const propertySplit = property.split('/');
                     const name = propertySplit[0];
                     const expand = propertySplit[1]
-                        ? this.parseExpand(propertySplit[1])
+                        ? this.parseExpand(propertySplit.slice(1).join('/'))
                         : { expand: {}, properties: {} };
-                    reducer.expand[name] = {
-                        expand: expand.expand,
-                        properties: {
-                            '*': true
-                        }
-                    };
+                    if (!reducer.expand[name]) {
+                        reducer.expand[name] = {
+                            expand: expand.expand,
+                            properties: {
+                                '*': true
+                            }
+                        };
+                    } else {
+                        reducer.expand[name].expand = Object.assign({}, reducer.expand[name].expand, expand.expand);
+                        //debugger;
+                    }
+
                     reducer.properties[name] = true;
                     return reducer;
                 }
