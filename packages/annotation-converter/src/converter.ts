@@ -1489,7 +1489,9 @@ function convertActionParameter(
 
     lazy(convertedActionParameter, 'annotations', () => {
         // annotations on action parameters are resolved following the rules for actions
-        const unspecificOverloadTarget = rawActionParameter.fullyQualifiedName.replace(/\(.*\)/, '');
+        const unspecificOverloadTarget =
+            rawActionParameter.fullyQualifiedName.substring(0, rawActionParameter.fullyQualifiedName.indexOf('(')) +
+            rawActionParameter.fullyQualifiedName.substring(rawActionParameter.fullyQualifiedName.indexOf(')') + 1);
         const specificOverloadTarget = rawActionParameter.fullyQualifiedName;
 
         const effectiveAnnotations = converter.getAnnotations(specificOverloadTarget);
