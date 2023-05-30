@@ -107,4 +107,21 @@ describe('Parser', function () {
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
+
+    it('creates the correct fully-qualified names for functions and actions', async () => {
+        const xmlFile = await loadFixture('v4/action-parameters.xml');
+        const schema = parse(xmlFile);
+
+        const fqns = schema.schema.actions.map((action) => action.fullyQualifiedName);
+        expect(fqns).toMatchInlineSnapshot(`
+            [
+              "TestService.action(TestService.Entity1)",
+              "TestService.action(TestService.Entity2)",
+              "TestService.action()",
+              "TestService.function(TestService.Entity1,Edm.String,Edm.String)",
+              "TestService.function(TestService.Entity2,Edm.String,Edm.String)",
+              "TestService.function(Edm.String,Edm.String)",
+            ]
+        `);
+    });
 });

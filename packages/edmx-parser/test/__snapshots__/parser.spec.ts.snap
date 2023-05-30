@@ -2556,7 +2556,7 @@ MergedRawMetadata {
   "_actions": [
     {
       "_type": "Action",
-      "fullyQualifiedName": "Trippin.ResetDataSource",
+      "fullyQualifiedName": "Trippin.ResetDataSource()",
       "isBound": false,
       "isFunction": false,
       "name": "ResetDataSource",
@@ -2626,7 +2626,7 @@ MergedRawMetadata {
     },
     {
       "_type": "Action",
-      "fullyQualifiedName": "Trippin.GetPersonWithMostFriends",
+      "fullyQualifiedName": "Trippin.GetPersonWithMostFriends()",
       "isBound": false,
       "isFunction": true,
       "name": "GetPersonWithMostFriends",
@@ -2636,14 +2636,14 @@ MergedRawMetadata {
     },
     {
       "_type": "Action",
-      "fullyQualifiedName": "Trippin.GetNearestAirport",
+      "fullyQualifiedName": "Trippin.GetNearestAirport(Edm.Double,Edm.Double)",
       "isBound": false,
       "isFunction": true,
       "name": "GetNearestAirport",
       "parameters": [
         {
           "_type": "ActionParameter",
-          "fullyQualifiedName": "Trippin.GetNearestAirport/lat",
+          "fullyQualifiedName": "Trippin.GetNearestAirport(Edm.Double,Edm.Double)/lat",
           "isCollection": false,
           "name": "lat",
           "nullable": false,
@@ -2651,7 +2651,7 @@ MergedRawMetadata {
         },
         {
           "_type": "ActionParameter",
-          "fullyQualifiedName": "Trippin.GetNearestAirport/lon",
+          "fullyQualifiedName": "Trippin.GetNearestAirport(Edm.Double,Edm.Double)/lon",
           "isCollection": false,
           "name": "lon",
           "nullable": false,
@@ -2681,21 +2681,21 @@ MergedRawMetadata {
     },
     {
       "_type": "Action",
-      "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person)",
+      "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person,Edm.String)",
       "isBound": true,
       "isFunction": true,
       "name": "GetFriendsTrips",
       "parameters": [
         {
           "_type": "ActionParameter",
-          "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person)/person",
+          "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person,Edm.String)/person",
           "isCollection": false,
           "name": "person",
           "type": "Trippin.Person",
         },
         {
           "_type": "ActionParameter",
-          "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person)/userName",
+          "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person,Edm.String)/userName",
           "isCollection": false,
           "name": "userName",
           "nullable": false,
@@ -3346,7 +3346,7 @@ MergedRawMetadata {
         "actions": [
           {
             "_type": "Action",
-            "fullyQualifiedName": "Trippin.ResetDataSource",
+            "fullyQualifiedName": "Trippin.ResetDataSource()",
             "isBound": false,
             "isFunction": false,
             "name": "ResetDataSource",
@@ -3416,7 +3416,7 @@ MergedRawMetadata {
           },
           {
             "_type": "Action",
-            "fullyQualifiedName": "Trippin.GetPersonWithMostFriends",
+            "fullyQualifiedName": "Trippin.GetPersonWithMostFriends()",
             "isBound": false,
             "isFunction": true,
             "name": "GetPersonWithMostFriends",
@@ -3426,14 +3426,14 @@ MergedRawMetadata {
           },
           {
             "_type": "Action",
-            "fullyQualifiedName": "Trippin.GetNearestAirport",
+            "fullyQualifiedName": "Trippin.GetNearestAirport(Edm.Double,Edm.Double)",
             "isBound": false,
             "isFunction": true,
             "name": "GetNearestAirport",
             "parameters": [
               {
                 "_type": "ActionParameter",
-                "fullyQualifiedName": "Trippin.GetNearestAirport/lat",
+                "fullyQualifiedName": "Trippin.GetNearestAirport(Edm.Double,Edm.Double)/lat",
                 "isCollection": false,
                 "name": "lat",
                 "nullable": false,
@@ -3441,7 +3441,7 @@ MergedRawMetadata {
               },
               {
                 "_type": "ActionParameter",
-                "fullyQualifiedName": "Trippin.GetNearestAirport/lon",
+                "fullyQualifiedName": "Trippin.GetNearestAirport(Edm.Double,Edm.Double)/lon",
                 "isCollection": false,
                 "name": "lon",
                 "nullable": false,
@@ -3471,21 +3471,21 @@ MergedRawMetadata {
           },
           {
             "_type": "Action",
-            "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person)",
+            "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person,Edm.String)",
             "isBound": true,
             "isFunction": true,
             "name": "GetFriendsTrips",
             "parameters": [
               {
                 "_type": "ActionParameter",
-                "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person)/person",
+                "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person,Edm.String)/person",
                 "isCollection": false,
                 "name": "person",
                 "type": "Trippin.Person",
               },
               {
                 "_type": "ActionParameter",
-                "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person)/userName",
+                "fullyQualifiedName": "Trippin.GetFriendsTrips(Trippin.Person,Edm.String)/userName",
                 "isCollection": false,
                 "name": "userName",
                 "nullable": false,
@@ -34834,7 +34834,7 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DiscardChanges",
+        "fullyQualifiedName": "com.sap.gateway.srvd.c_salesordermanage_sd.v0001.DiscardChanges()",
         "isBound": false,
         "isFunction": false,
         "name": "DiscardChanges",
@@ -43792,7 +43792,7 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "TestService.action",
+        "fullyQualifiedName": "TestService.action()",
         "isBound": false,
         "isFunction": false,
         "name": "action",
@@ -43838,7 +43838,7 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "TestService.function",
+        "fullyQualifiedName": "TestService.function()",
         "isBound": false,
         "isFunction": true,
         "name": "function",
@@ -43992,7 +43992,7 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "TestService.unboundAction",
+        "fullyQualifiedName": "TestService.unboundAction()",
         "isBound": false,
         "isFunction": false,
         "name": "unboundAction",
@@ -44020,7 +44020,7 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "TestService.unboundFunction",
+        "fullyQualifiedName": "TestService.unboundFunction()",
         "isBound": false,
         "isFunction": true,
         "name": "unboundFunction",
@@ -44152,7 +44152,7 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "sap.fe.test.JestService.doSomethingUnbound",
+        "fullyQualifiedName": "sap.fe.test.JestService.doSomethingUnbound()",
         "isBound": false,
         "isFunction": false,
         "name": "doSomethingUnbound",
@@ -45089,7 +45089,7 @@ MergedRawMetadata {
     },
     {
       "_type": "Action",
-      "fullyQualifiedName": "com.c_salesordermanage_sd.ReturnInProcess",
+      "fullyQualifiedName": "com.c_salesordermanage_sd.ReturnInProcess()",
       "isBound": false,
       "isFunction": false,
       "name": "ReturnInProcess",
@@ -45099,14 +45099,14 @@ MergedRawMetadata {
     },
     {
       "_type": "Action",
-      "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction",
+      "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction()",
       "isBound": false,
       "isFunction": false,
       "name": "UnboundAction",
       "parameters": [
         {
           "_type": "ActionParameter",
-          "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction/MessageText",
+          "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction()/MessageText",
           "isCollection": false,
           "maxLength": 4,
           "name": "MessageText",
@@ -66652,7 +66652,7 @@ MergedRawMetadata {
           },
           {
             "_type": "Action",
-            "fullyQualifiedName": "com.c_salesordermanage_sd.ReturnInProcess",
+            "fullyQualifiedName": "com.c_salesordermanage_sd.ReturnInProcess()",
             "isBound": false,
             "isFunction": false,
             "name": "ReturnInProcess",
@@ -66662,14 +66662,14 @@ MergedRawMetadata {
           },
           {
             "_type": "Action",
-            "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction",
+            "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction()",
             "isBound": false,
             "isFunction": false,
             "name": "UnboundAction",
             "parameters": [
               {
                 "_type": "ActionParameter",
-                "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction/MessageText",
+                "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction()/MessageText",
                 "isCollection": false,
                 "maxLength": 4,
                 "name": "MessageText",
@@ -88144,7 +88144,7 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "com.c_salesordermanage_sd.ReturnInProcess",
+        "fullyQualifiedName": "com.c_salesordermanage_sd.ReturnInProcess()",
         "isBound": false,
         "isFunction": false,
         "name": "ReturnInProcess",
@@ -88154,14 +88154,14 @@ RawMetadataInstance {
       },
       {
         "_type": "Action",
-        "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction",
+        "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction()",
         "isBound": false,
         "isFunction": false,
         "name": "UnboundAction",
         "parameters": [
           {
             "_type": "ActionParameter",
-            "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction/MessageText",
+            "fullyQualifiedName": "com.c_salesordermanage_sd.UnboundAction()/MessageText",
             "isCollection": false,
             "maxLength": 4,
             "name": "MessageText",

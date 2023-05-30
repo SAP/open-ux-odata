@@ -490,10 +490,20 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
         const parameters = ensureArray(action.Parameter);
         const isBound = action._attributes.IsBound === 'true';
 
-        const fullyQualifiedName: string = isBound
-            ? `${namespace}.${action._attributes.Name}(${unaliasType(parameters[0]._attributes.Type).type})`
-            : `${namespace}.${action._attributes.Name}`;
+        let overload: string;
+        if (isFunction) {
+            // function
+            // https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionOverloads
+            // Unbound: "The combination of function name and ordered set of parameter types MUST be unique within a schema."
+            // Bound:   "The combination of function name, binding parameter type, and ordered set of parameter types MUST be unique within a schema."
+            //  ==> consider all parameters for the FQN
+            overload = parameters.map((parameter) => unaliasType(parameter._attributes.Type).type).join(',');
+        } else {
+            // action
+            overload = isBound ? unaliasType(parameters[0]._attributes.Type).type : ''; // '' = the unbound overload
+        }
 
+        const fullyQualifiedName: FullyQualifiedName = `${namespace}.${action._attributes.Name}(${overload})`;
         return {
             _type: 'Action',
             name: action._attributes.Name,
