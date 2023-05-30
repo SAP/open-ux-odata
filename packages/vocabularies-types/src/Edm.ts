@@ -405,7 +405,7 @@ export type Singleton = {
     fullyQualifiedName: SimpleIdentifier;
     entityType: EntityType;
     nullable: boolean;
-    navigationPropertyBinding: Record<string, Singleton | EntitySet>; //above for entity set?
+    navigationPropertyBinding: Record<string, EntitySet | Singleton>;
     annotations: SingletonAnnotations;
 };
 
@@ -516,6 +516,7 @@ export type RemoveAnnotationAndType<T> = {
         | 'resolvePath'
         | 'entityType'
         | 'navigationProperties'
+        | 'navigationPropertyBinding'
         | 'entitySets'
         | 'singletons'
         | 'actionImports'
@@ -578,9 +579,17 @@ export type RawActionParameter = RemoveAnnotationAndType<ActionParameter>;
 export type RawEntityType = RemoveAnnotationAndType<EntityType> & {
     navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
 };
-export type RawEntitySet = RemoveAnnotationAndType<EntitySet>;
 export type RawProperty = RemoveAnnotationAndType<Property>;
-export type RawSingleton = RemoveAnnotationAndType<Singleton>;
+export type RawNavigationPropertyBinding = Record<string, FullyQualifiedName>;
+
+export type RawEntitySet = RemoveAnnotationAndType<EntitySet> & {
+    navigationPropertyBinding: RawNavigationPropertyBinding;
+};
+
+export type RawSingleton = RemoveAnnotationAndType<Singleton> & {
+    navigationPropertyBinding: RawNavigationPropertyBinding;
+};
+
 export type RawEntityContainer = RemoveAnnotationAndType<EntityContainer>;
 export type RawTypeDefinition = RemoveAnnotationAndType<TypeDefinition>;
 export type RawComplexType = RemoveAnnotationAndType<ComplexType> & {
