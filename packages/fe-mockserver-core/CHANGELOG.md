@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.95
+
+### Patch Changes
+
+-   d93101e: We now properly merge deep expand of the same level
+
 ## 1.1.94
 
 ### Patch Changes
