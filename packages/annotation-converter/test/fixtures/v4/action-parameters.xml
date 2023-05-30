@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Entity1" EntityType="TestService.Entity1"/>
+        <EntitySet Name="Entity2" EntityType="TestService.Entity2"/>
+        <ActionImport Name="action" Action="TestService.action"/>
+        <FunctionImport Name="function" Function="TestService.function"/>
+      </EntityContainer>
+      <EntityType Name="Entity1">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="Entity2">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <Action Name="action" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+        <Parameter Name="param1" Type="Edm.String"/>
+        <Parameter Name="param2" Type="Edm.String"/>
+      </Action>
+      <Action Name="action" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+        <Parameter Name="param1" Type="Edm.String"/>
+        <Parameter Name="param2" Type="Edm.String"/>
+      </Action>
+      <Action Name="action" IsBound="false">
+        <Parameter Name="param1" Type="Edm.String"/>
+        <Parameter Name="param2" Type="Edm.String"/>
+      </Action>
+      <Function Name="function" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+        <Parameter Name="param1" Type="Edm.String"/>
+        <Parameter Name="param2" Type="Edm.String"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Function Name="function" IsBound="true" IsComposable="false">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+        <Parameter Name="param1" Type="Edm.String"/>
+        <Parameter Name="param2" Type="Edm.String"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Function Name="function" IsBound="false" IsComposable="false">
+        <Parameter Name="param1" Type="Edm.String"/>
+        <Parameter Name="param2" Type="Edm.String"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Function>
+      <Annotations Target="TestService.action(TestService.Entity1)/param1">
+        <Annotation Term="Common.Label" String="[specific bound overload] Entity1/action/param1"/>
+      </Annotations>
+      <Annotations Target="TestService.function(TestService.Entity1,Edm.String,Edm.String)/param1">
+        <Annotation Term="Common.Label" String="[specific bound overload] Entity1/function/param1"/>
+      </Annotations>
+      <Annotations Target="TestService.function(Edm.String,Edm.String)/param1">
+        <Annotation Term="Common.Label" String="[specific unbound overload] function/param1"/>
+      </Annotations>
+      <Annotations Target="TestService.action()/param1">
+        <Annotation Term="Common.Label" String="[specific unbound overload] action/param1"/>
+      </Annotations>
+      <Annotations Target="TestService.action/param1">
+        <Annotation Term="Common.Label" String="[unspecific] action/param1"/>
+      </Annotations>
+      <Annotations Target="TestService.action/param2">
+        <Annotation Term="Common.Label" String="[unspecific] action/param2"/>
+      </Annotations>
+      <Annotations Target="TestService.function/param1">
+        <Annotation Term="Common.Label" String="[unspecific] function/param1"/>
+      </Annotations>
+      <Annotations Target="TestService.function/param2">
+        <Annotation Term="Common.Label" String="[unspecific] function/param2"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

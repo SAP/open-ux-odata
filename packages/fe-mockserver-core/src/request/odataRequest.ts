@@ -1,5 +1,6 @@
 import balanced from 'balanced-match';
 import type { IncomingHttpHeaders } from 'http';
+import merge from 'lodash.merge';
 import { parse } from 'query-string';
 import type { URLSearchParams } from 'url';
 import { URL } from 'url';
@@ -252,8 +253,7 @@ export default class ODataRequest {
                             }
                         };
                     } else {
-                        reducer.expand[name].expand = Object.assign({}, reducer.expand[name].expand, expand.expand);
-                        //debugger;
+                        reducer.expand[name].expand = merge({}, reducer.expand[name].expand, expand.expand);
                     }
 
                     reducer.properties[name] = true;
