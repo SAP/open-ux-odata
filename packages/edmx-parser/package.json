@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/edmx-parser",
-    "version": "0.5.16",
+    "version": "0.6.0",
     "description": "SAP Fiori OData - EDMX File parser",
     "repository": {
         "type": "git",
