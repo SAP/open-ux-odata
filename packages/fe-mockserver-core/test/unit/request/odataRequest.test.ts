@@ -650,7 +650,10 @@ describe('OData Request', () => {
             { keyValue: '1', parsedValue: 1 },
             { keyValue: '123', parsedValue: 123 },
             { keyValue: 'true', parsedValue: true },
-            { keyValue: 'false', parsedValue: false }
+            { keyValue: "'true'", parsedValue: 'true' },
+            { keyValue: 'false', parsedValue: false },
+            { keyValue: "'false'", parsedValue: 'false' },
+            { keyValue: '%27Tablet%27', parsedValue: 'Tablet' }
         ];
 
         test.each(keyValues)('$keyValue -> $parsedValue', ({ keyValue, parsedValue }) => {

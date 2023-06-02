@@ -319,6 +319,8 @@ export default class ODataRequest {
      * @returns The parsed value
      */
     private static parseKeyValue(value: string): string | number | boolean {
+        value = decodeURIComponent(value);
+
         // string, e.g. "/Entity(key='abc')?
         if (value.startsWith("'") && value.endsWith("'")) {
             return decodeURIComponent(value.substring(1, value.length - 1));
@@ -336,7 +338,7 @@ export default class ODataRequest {
         }
 
         // some other type, e.g. a UUID or a date - leave as string
-        return decodeURIComponent(value);
+        return value;
     }
 
     //
