@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.97
+
+### Patch Changes
+
+-   dfe9f06: Function are now properly resolved
+
 ## 1.1.96
 
 ### Patch Changes
