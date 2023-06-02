@@ -85,7 +85,7 @@ export type PathAnnotationExpression<P> = {
 export type ApplyAnnotationExpression<P> = {
     type: 'Apply';
     Apply: PropertyAnnotationValue<P>[];
-    Function: 'odata.concat' | 'odata.fillUriTemplate' | 'odata.uriEncode';
+    Function: 'odata.concat';
 };
 
 export type EqConditionalExpression = {
