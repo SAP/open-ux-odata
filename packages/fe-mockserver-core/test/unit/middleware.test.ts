@@ -102,7 +102,7 @@ describe('V4 Requestor', function () {
                 "/RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.baseFunction(data='I am data')"
             )
             .execute('GET');
-        expect(dataRes).toMatchInlineSnapshot(`"'I am data'"`);
+        expect(dataRes).toMatchInlineSnapshot(`"I am data"`);
     });
     it('can get the metadata', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
