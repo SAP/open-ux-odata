@@ -126,8 +126,9 @@ export class DataAccess implements DataAccessInterface {
         return this.entitySets[entityTypeName!].readyPromise;
     }
 
-    public async performAction(odataRequest: ODataRequest, actionData?: object): Promise<any> {
+    public async performAction(odataRequest: ODataRequest, bodyActionData?: object): Promise<any> {
         // if it's a bound action we need to look for the action type
+        const actionData = bodyActionData ?? odataRequest.queryPath[odataRequest.queryPath.length - 1].keys;
         const rootEntitySet = this.metadata.getEntitySet(odataRequest.queryPath[0].path);
         if (rootEntitySet) {
             let currentEntityType = rootEntitySet.entityType;
@@ -165,7 +166,17 @@ export class DataAccess implements DataAccessInterface {
                         collecactionDefinition,
                         actionData,
                         odataRequest,
-                        odataRequest.queryPath[0].keys
+                        odataRequest.queryPath[i - 1].keys
+                    );
+                }
+                // Fallback with local resolving, useful for function where the FQN also include all parameter types
+                const functionDefinition = currentEntityType.resolvePath(actionName);
+                if (functionDefinition) {
+                    return (await this.getMockEntitySet(entitySetName)).executeAction(
+                        functionDefinition,
+                        actionData,
+                        odataRequest,
+                        odataRequest.queryPath[i - 1].keys
                     );
                 }
             }

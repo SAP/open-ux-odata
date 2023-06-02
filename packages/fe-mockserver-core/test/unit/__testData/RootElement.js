@@ -8,10 +8,12 @@ module.exports = {
         return JSON.parse(fs.readFileSync(path.join(__dirname, 'RootElement.json')).toString('utf-8'));
     },
 
-    executeAction: async function (actionDefinition, actionData, keys, odataRequest) {
+    executeAction: function (actionDefinition, actionData, keys, odataRequest) {
         switch (actionDefinition.name) {
             case 'boundActionReturnsVoid':
                 return undefined;
+            case 'baseFunction':
+                return actionData.data;
             default:
                 this.throwError('Not implemented', 501, {
                     error: {

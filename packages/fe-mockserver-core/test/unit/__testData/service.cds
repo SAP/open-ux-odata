@@ -205,5 +205,7 @@ service ActionVisibility {
 	 	@cds.odata.bindingparameter.name : 'self'
 	 	action boundAction3() returns RootElement;
 		action boundActionReturnsVoid();
+		@cds.odata.bindingparameter.name : 'self'
+		function baseFunction(data: String) returns String;
     };
 }

@@ -95,6 +95,15 @@ describe('V4 Requestor', function () {
             .execute('POST');
         expect(dataRes).toMatchInlineSnapshot(`""`);
     });
+    it('can execute a function', async () => {
+        const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataRes = await dataRequestor
+            .callGETAction(
+                "/RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.baseFunction(data='I am data')"
+            )
+            .execute('GET');
+        expect(dataRes).toMatchInlineSnapshot(`"%27I%20am%20data%27"`);
+    });
     it('can get the metadata', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.getMetadata().execute();
