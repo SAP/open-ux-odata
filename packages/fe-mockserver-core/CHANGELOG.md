@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.96
+
+### Patch Changes
+
+-   a734d07: Leading and trailing apostrophes are now removed from string values in keys
+
 ## 1.1.95
 
 ### Patch Changes
