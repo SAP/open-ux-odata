@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.98
+
+### Patch Changes
+
+-   bcc6971: key values are now parsed into a more specific type
+
 ## 1.1.97
 
 ### Patch Changes

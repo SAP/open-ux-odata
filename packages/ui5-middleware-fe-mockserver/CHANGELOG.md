@@ -1,5 +1,12 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.101
+
+### Patch Changes
+
+-   Updated dependencies [bcc6971]
+    -   @sap-ux/fe-mockserver-core@1.1.98
+
 ## 2.1.100
 
 ### Patch Changes
