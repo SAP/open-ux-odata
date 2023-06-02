@@ -54,7 +54,7 @@
         "@types/etag": "1.8.1",
         "@types/balanced-match": "^1.0.2",
         "@types/finalhandler": "^1.1.1",
-        "node-fetch": "2.6.9",
+        "node-fetch": "2.6.11",
         "finalhandler": "1.2.0"
     },
     "files": [
