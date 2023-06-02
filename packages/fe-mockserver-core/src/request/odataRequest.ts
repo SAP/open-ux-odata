@@ -294,7 +294,12 @@ export default class ODataRequest {
                 keysList.forEach((keyValue) => {
                     const [key, value] = keyValue.split('=');
                     if (value) {
-                        keys[key] = decodeURIComponent(value.replace(/^(?:')$/g, ''));
+                        if (value.startsWith("'") && value.endsWith("'")) {
+                            // string value
+                            keys[key] = decodeURIComponent(value.substring(1, value.length - 1));
+                        } else {
+                            keys[key] = value;
+                        }
                     } else {
                         keys[key] = undefined;
                     }
