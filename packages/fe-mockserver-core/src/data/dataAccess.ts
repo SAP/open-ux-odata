@@ -12,7 +12,7 @@ import cloneDeep from 'lodash.clonedeep';
 import type { ServiceConfig } from '../api';
 import type { IFileLoader } from '../index';
 import { getLogger } from '../logger';
-import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
+import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
 import { MockEntityContainer } from '../mockdata/mockEntityContainer';
 import type {
     AggregatesTransformation,
@@ -22,7 +22,7 @@ import type {
     TransformationDefinition
 } from '../request/applyParser';
 import type { FilterExpression } from '../request/filterParser';
-import type { ExpandDefinition, QueryPath } from '../request/odataRequest';
+import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface, PartialReferentialConstraint } from './common';
 import { getData, _getDateTimeOffset } from './common';
@@ -261,10 +261,10 @@ export class DataAccess implements DataAccessInterface {
         navPropDetail: any,
         currentEntityType: EntityType,
         currentEntitySet: EntitySet | Singleton | undefined,
-        currentKeys: Record<string, string>,
+        currentKeys: KeyDefinitions,
         tenantId: string,
         forCreate = false
-    ): Promise<Record<string, string>> {
+    ): Promise<KeyDefinitions> {
         const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
         let referentialConstraints = await mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail);
         if (!referentialConstraints) {
@@ -516,7 +516,7 @@ export class DataAccess implements DataAccessInterface {
         let data: any = await odataRequest.queryPath.reduce(
             async (inData: Promise<any>, queryPathPart: QueryPath, index: number) => {
                 const innerData = await inData;
-                let currentKeys: Record<string, any> = queryPathPart.keys || {};
+                let currentKeys: KeyDefinitions = queryPathPart.keys || {};
                 let asArray: boolean = Object.keys(currentKeys).length === 0;
                 if (queryPathPart.path === '$count') {
                     isCount = true;
@@ -956,10 +956,10 @@ export class DataAccess implements DataAccessInterface {
         }
     }
 
-    private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: Record<string, string>, postData: any) {
+    private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: KeyDefinitions, postData: any) {
         let keyStr = '';
         if (Object.keys(currentKeys).length === 1) {
-            keyStr = currentKeys[Object.keys(currentKeys)[0]];
+            keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
         } else {
             keyStr = Object.keys(currentKeys)
                 .map((key) => `${key}='${currentKeys[key]}'`)
