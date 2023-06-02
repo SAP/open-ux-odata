@@ -431,4 +431,8 @@ export class ODataV4Requestor extends ODataRequestor {
     public callAction<T>(actionPath: string, actionParameters: any, noJSON: boolean = false): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest<T>(this.odataRootUri, actionPath, {}, 'POST').setBody(actionParameters, noJSON);
     }
+
+    public callGETAction<T>(actionPath: string): ODataV4ObjectRequest<T> {
+        return new ODataV4ObjectRequest<T>(this.odataRootUri, actionPath, {}, 'GET');
+    }
 }

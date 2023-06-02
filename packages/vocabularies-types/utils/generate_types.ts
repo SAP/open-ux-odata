@@ -322,7 +322,6 @@ async function generateTypes(targetFolder: string) {
                             //needNewLine = true;
                         } else if (
                             renamedTermType === 'Core.Tag' ||
-                            renamedTermType.startsWith('Edm.String') ||
                             (isSchemaElement(termName, targetTerm) && isSimpleType(targetTerm))
                         ) {
                             vocabularyDef += `export type ${vocabularyTerm} = { term : ${vocabularyAlias}AnnotationTerms.${vocabularyTerm}} & AnnotationTerm<PropertyAnnotationValue<${renamedTermType}>>`;
@@ -382,7 +381,7 @@ async function generateTypes(targetFolder: string) {
                                     if (vocabularyTermInfo[vocabularyTermKey].$Collection) {
                                         keyType += `[]`;
                                     }
-                                    keyType = `PropertyAnnotationValue<${keyType}>`;
+                                    keyType = `${keyType}`;
                                 } else if (
                                     targetTerm &&
                                     isSchemaElement(keyType, targetTerm) &&
