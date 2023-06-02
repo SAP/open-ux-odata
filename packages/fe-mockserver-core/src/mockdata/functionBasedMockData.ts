@@ -3,7 +3,7 @@ import type { EntitySetInterface, PartialReferentialConstraint } from '../data/c
 import { ExecutionError } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
-import type { KeyDefinitions } from './fileBasedMockData';
+import type { KeyDefinitions } from '../request/odataRequest';
 import { FileBasedMockData } from './fileBasedMockData';
 
 export type MockDataContributor<T extends object> = {

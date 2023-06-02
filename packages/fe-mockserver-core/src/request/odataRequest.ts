@@ -32,9 +32,11 @@ type OrderByDefinition = {
     direction: 'asc' | 'desc';
 };
 
+export type KeyDefinitions = Record<string, number | boolean | string>;
+
 export type QueryPath = {
     path: string;
-    keys: Record<string, any>;
+    keys: KeyDefinitions;
 };
 
 export default class ODataRequest {
@@ -284,24 +286,22 @@ export default class ODataRequest {
         const pathSplit = path.split('/');
         return pathSplit.reduce((pathArr: QueryPath[], pathPart) => {
             const keysStart = pathPart.indexOf('(');
-            const keysEnd = pathPart.indexOf(')');
+            const keysEnd = pathPart.lastIndexOf(')');
             let entity!: string;
-            let keys: Record<string, any> = {};
+            let keys: KeyDefinitions = {};
             if (keysStart > -1) {
                 entity = pathPart.substring(0, keysStart) + pathPart.substring(keysEnd + 1);
                 const keysList = pathPart.substring(keysStart + 1, keysEnd).split(',');
                 keys = {};
                 keysList.forEach((keyValue) => {
                     const [key, value] = keyValue.split('=');
+
                     if (value) {
-                        if (value.startsWith("'") && value.endsWith("'")) {
-                            // string value
-                            keys[key] = decodeURIComponent(value.substring(1, value.length - 1));
-                        } else {
-                            keys[key] = value;
-                        }
+                        // .../Entity(ID='abc',IsActiveEntity=true) -> {ID: 'abc', IsActiveEntity: true}
+                        keys[key] = ODataRequest.parseKeyValue(value);
                     } else {
-                        keys[key] = undefined;
+                        // .../Entity('abc') -> {'': 'abc'}
+                        keys[''] = ODataRequest.parseKeyValue(key);
                     }
                 });
             } else {
@@ -311,6 +311,34 @@ export default class ODataRequest {
             return pathArr;
         }, []);
     }
+
+    /**
+     * Parse an OData key value.
+     *
+     * @param value The key value. Strings are expected to be surrounded by single quotes.
+     * @returns The parsed value
+     */
+    private static parseKeyValue(value: string): string | number | boolean {
+        // string, e.g. "/Entity(key='abc')?
+        if (value.startsWith("'") && value.endsWith("'")) {
+            return decodeURIComponent(value.substring(1, value.length - 1));
+        }
+
+        // boolean, e.g. "/Entity(key=true)"?
+        if (value === 'true' || value === 'false') {
+            return value === 'true';
+        }
+
+        // number, e.g. "/Entity(key=123)"?
+        const number = Number(value);
+        if (!isNaN(number)) {
+            return number;
+        }
+
+        // some other type, e.g. a UUID or a date - leave as string
+        return decodeURIComponent(value);
+    }
+
     //
     // private parseApply(applyParameters: string | null): AggregateDefinition | undefined {
     //     if (!applyParameters) {

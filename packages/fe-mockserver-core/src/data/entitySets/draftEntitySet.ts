@@ -1,6 +1,7 @@
 import type { Action, EntitySet, EntityType, NavigationProperty, Property } from '@sap-ux/vocabularies-types';
-import type { FileBasedMockData, KeyDefinitions } from '../../mockdata/fileBasedMockData';
+import type { FileBasedMockData } from '../../mockdata/fileBasedMockData';
 import type ODataRequest from '../../request/odataRequest';
+import type { KeyDefinitions } from '../../request/odataRequest';
 import type { DataAccessInterface } from '../common';
 import { uuidv4, _getDateTimeOffset } from '../common';
 import { MockDataEntitySet } from './entitySet';

@@ -631,27 +631,34 @@ describe('OData Request', () => {
         });
     });
 
-    test('It can parse keys', () => {
-        const myRequest = new ODataRequest(
-            {
-                method: 'POST',
-                url: "/Entity(StringKey='string%2Fvalue',NumericKey=123,BooleanKeyTrue=true,BooleanKeyFalse=false,UUIDKey=03bf61bc-c2f5-447e-8e3c-9d598fc8d098)"
-            },
-            fakeDataAccess
-        );
-        expect(myRequest.queryPath).toMatchInlineSnapshot(`
-            [
-              {
-                "keys": {
-                  "BooleanKeyFalse": "false",
-                  "BooleanKeyTrue": "true",
-                  "NumericKey": "123",
-                  "StringKey": "string/value",
-                  "UUIDKey": "03bf61bc-c2f5-447e-8e3c-9d598fc8d098",
-                },
-                "path": "Entity",
-              },
-            ]
-        `);
+    describe('It can parse keys', () => {
+        // test values in parts taken from https://docs.oasis-open.org/odata/odata/v4.01/os/abnf/odata-abnf-testcases.xml
+        const keyValues: { keyValue: string; parsedValue: string | number | boolean }[] = [
+            { keyValue: "''", parsedValue: '' },
+            { keyValue: "'Tablet'", parsedValue: 'Tablet' },
+            { keyValue: "'7''''%20Tablet'", parsedValue: "7'''' Tablet" },
+            { keyValue: "'Tablet%2FSlate'", parsedValue: 'Tablet/Slate' },
+            { keyValue: "'Tablet%20%28small%29'", parsedValue: 'Tablet (small)' },
+            { keyValue: "'Tablet%20(small)'", parsedValue: 'Tablet (small)' },
+            { keyValue: "'Tablet%20)small('", parsedValue: 'Tablet )small(' },
+            { keyValue: '2018-02-13T23:59:59Z', parsedValue: '2018-02-13T23:59:59Z' },
+            { keyValue: '2018-02-13T23%3A59%3A59Z', parsedValue: '2018-02-13T23:59:59Z' },
+            { keyValue: '23:59:59', parsedValue: '23:59:59' },
+            { keyValue: '23%3A59%3A59', parsedValue: '23:59:59' },
+            { keyValue: '0583fe64-bf12-4b22-b473-d1ad99becc5f', parsedValue: '0583fe64-bf12-4b22-b473-d1ad99becc5f' },
+            { keyValue: '0', parsedValue: 0 },
+            { keyValue: '1', parsedValue: 1 },
+            { keyValue: '123', parsedValue: 123 },
+            { keyValue: 'true', parsedValue: true },
+            { keyValue: 'false', parsedValue: false }
+        ];
+
+        test.each(keyValues)('$keyValue -> $parsedValue', ({ keyValue, parsedValue }) => {
+            const namedKey = new ODataRequest({ method: 'POST', url: `/Entity(key=${keyValue})` }, fakeDataAccess);
+            expect(namedKey.queryPath[0].keys).toEqual({ key: parsedValue });
+
+            const defaultKey = new ODataRequest({ method: 'POST', url: `/Entity(${keyValue})` }, fakeDataAccess);
+            expect(defaultKey.queryPath[0].keys).toEqual({ '': parsedValue });
+        });
     });
 });

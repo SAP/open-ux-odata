@@ -2,12 +2,12 @@ import { join } from 'path';
 
 import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
-import type { KeyDefinitions } from '../../mockdata/fileBasedMockData';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
 import type { MockDataContributor } from '../../mockdata/functionBasedMockData';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
 import type { FilterMethodCall, LambdaExpression } from '../../request/filterParser';
 import type ODataRequest from '../../request/odataRequest';
+import type { KeyDefinitions } from '../../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from '../common';
 import { getData } from '../common';
 
@@ -436,16 +436,8 @@ export class MockDataEntitySet implements EntitySetInterface {
                     }
                     return mockData[keyName] === keyValues[keyName];
                 case 'Edm.String':
-                    if (keyValues[keyName] && keyValues[keyName].startsWith("'")) {
-                        return mockData[keyName] === keyValues[keyName].substring(1, keyValues[keyName].length - 1);
-                    }
-                    return mockData[keyName] === keyValues[keyName];
                 case 'Edm.Boolean':
-                    let booleanKeyValue = keyValues[keyName];
-                    if (typeof booleanKeyValue === 'string') {
-                        booleanKeyValue = booleanKeyValue === 'true';
-                    }
-                    return mockData[keyName] === booleanKeyValue;
+                    return mockData[keyName] === keyValues[keyName];
                 case 'Edm.Int32':
                 case 'Edm.Int64':
                 case 'Edm.Int16':
@@ -468,30 +460,14 @@ export class MockDataEntitySet implements EntitySetInterface {
     }
 
     protected prepareKeys(keyValues: KeyDefinitions): KeyDefinitions {
-        let outKeys: Record<string, any> = {};
-        if (keyValues === undefined) {
-            return outKeys;
-        }
-        if (Object.keys(keyValues).length === 1 && Object.values(keyValues)[0] === undefined) {
-            let keyValue;
-            Object.keys(keyValues).forEach((currentKeyName) => {
-                keyValue = currentKeyName;
-                if (keyValue.startsWith("'")) {
-                    keyValue = keyValue.substring(1, keyValue.length - 1);
-                }
-            });
+        if (Object.keys(keyValues).length === 1 && Object.keys(keyValues)[0] === '') {
+            // "default" key - .../Entity('abc')
             const keyName = this.entityTypeDefinition.keys[0].name;
-            outKeys[keyName] = keyValue;
+            return { [keyName]: keyValues[''] };
         } else {
-            outKeys = {};
-            Object.keys(keyValues).forEach((keyName) => {
-                outKeys[keyName] = keyValues[keyName];
-                if (outKeys[keyName]?.startsWith && outKeys[keyName].startsWith("'")) {
-                    outKeys[keyName] = outKeys[keyName].substring(1, outKeys[keyName].length - 1);
-                }
-            });
+            // named keys - .../Entity(ID='abc')
+            return { ...keyValues };
         }
-        return outKeys;
     }
 
     public performGET(

@@ -1,7 +1,7 @@
 import type { Action, EntitySet, EntityType } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
-import type { KeyDefinitions } from '../../mockdata/fileBasedMockData';
 import type ODataRequest from '../../request/odataRequest';
+import type { KeyDefinitions } from '../../request/odataRequest';
 import type { DataAccessInterface } from '../common';
 import { generateId } from '../common';
 import { MockDataEntitySet } from './entitySet';
@@ -171,7 +171,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         const currentSessionObject = this.getSessionObject(tenantId);
         if (currentSessionObject && keyValues && Object.keys(keyValues).length) {
             if (
-                (Object.prototype.hasOwnProperty.call(keyValues, "''") && keyValues["''"] === undefined) ||
+                (Object.prototype.hasOwnProperty.call(keyValues, '') && keyValues[''] === '') ||
                 this.checkKeys(keyValues, currentSessionObject, this.entityTypeDefinition.keys)
             ) {
                 if (odataRequest) {

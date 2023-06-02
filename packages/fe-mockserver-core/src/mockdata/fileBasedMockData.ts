@@ -13,8 +13,8 @@ import type { EntitySetInterface, PartialReferentialConstraint } from '../data/c
 import { generateId, uuidv4 } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
+import type { KeyDefinitions } from '../request/odataRequest';
 
-export type KeyDefinitions = Record<string, number | boolean | string>;
 type HierarchyDefinition = {
     distanceFromRootProperty: string | undefined;
     drillStateProperty: string | undefined;
