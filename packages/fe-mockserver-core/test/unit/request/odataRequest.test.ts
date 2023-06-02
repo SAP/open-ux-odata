@@ -630,4 +630,28 @@ describe('OData Request', () => {
             }).toMatchSnapshot();
         });
     });
+
+    test('It can parse keys', () => {
+        const myRequest = new ODataRequest(
+            {
+                method: 'POST',
+                url: "/Entity(StringKey='string%2Fvalue',NumericKey=123,BooleanKeyTrue=true,BooleanKeyFalse=false,UUIDKey=03bf61bc-c2f5-447e-8e3c-9d598fc8d098)"
+            },
+            fakeDataAccess
+        );
+        expect(myRequest.queryPath).toMatchInlineSnapshot(`
+            [
+              {
+                "keys": {
+                  "BooleanKeyFalse": "false",
+                  "BooleanKeyTrue": "true",
+                  "NumericKey": "123",
+                  "StringKey": "string/value",
+                  "UUIDKey": "03bf61bc-c2f5-447e-8e3c-9d598fc8d098",
+                },
+                "path": "Entity",
+              },
+            ]
+        `);
+    });
 });
