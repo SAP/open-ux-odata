@@ -70,6 +70,7 @@ export default class ODataRequest {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
         this.tenantId = requestContent.tenantId || 'tenant-default';
         this.context = requestContent.url.split('?')[0].substring(1);
+        this.dataAccess.log.info(`ODataRequest: ${requestContent.method} ${requestContent.url}`);
         if (this.tenantId) {
             this.addResponseHeader('sap-tenantid', this.tenantId);
         }
