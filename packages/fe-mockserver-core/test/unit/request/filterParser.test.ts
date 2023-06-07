@@ -48,6 +48,11 @@ describe('Filter Parser', () => {
         expect(dateTZ?.expressions[0].identifier).toBe('EventDateTimeFrom');
         expect(dateTZ?.expressions[0].operator).toBe('eq');
 
+        const dateTZ2 = parseFilter(
+            "EventDateTimeFrom eq 2023-05-02T08:00:00.0000000Z and EventDateTimeTo eq 2023-05-02T23:59:59.0000000Z and ObjectCode eq '(01)18803913000001(21)0000010137'"
+        );
+        expect(dateTZ2?.expressions[0].identifier).toBe('EventDateTimeFrom');
+        expect(dateTZ2?.expressions[0].operator).toBe('eq');
         const dateBetweenTZ = parseFilter(
             'DateTime ge 2022-05-16T00:00:00+02:00 and DateTime le 2022-05-22T23:59:59+02:00'
         );
