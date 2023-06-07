@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.100
+
+### Patch Changes
+
+-   0e0c7e2: Further fix on the filter parser for date time with timezone
+
 ## 1.1.99
 
 ### Patch Changes
