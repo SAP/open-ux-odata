@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.101
+
+### Patch Changes
+
+-   cd6efe3: Navigation properties will no longer be mistaken for actions
+
 ## 1.1.100
 
 ### Patch Changes
