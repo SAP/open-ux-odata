@@ -9,6 +9,14 @@ describe('OData Request', () => {
                     return '4.0';
                 }
             };
+        },
+        log: {
+            info: (message: string) => {
+                /* nothing */
+            },
+            error: (message: string | Error) => {
+                /* nothing */
+            }
         }
     } as DataAccess;
     const fakeDataAccessV2: DataAccess = {
@@ -18,6 +26,14 @@ describe('OData Request', () => {
                     return '3.0';
                 }
             };
+        },
+        log: {
+            info: (message: string) => {
+                /* nothing */
+            },
+            error: (message: string | Error) => {
+                /* nothing */
+            }
         }
     } as DataAccess;
     test('It can parse queries', () => {

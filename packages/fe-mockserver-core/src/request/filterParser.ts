@@ -366,7 +366,7 @@ export function parseFilter(filterParameters: string | null) {
 
     if (parser.errors.length > 0) {
         parser.errors.forEach(console.error);
-        throw new Error('Parsing errors detected');
+        throw new Error(`Parsing errors detected when parsing ${filterParameters}`);
     }
     return output;
 }
