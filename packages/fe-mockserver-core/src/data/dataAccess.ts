@@ -171,7 +171,7 @@ export class DataAccess implements DataAccessInterface {
                 }
                 // Fallback with local resolving, useful for function where the FQN also include all parameter types
                 const functionDefinition = currentEntityType.resolvePath(actionName);
-                if (functionDefinition) {
+                if (functionDefinition?._type === 'Function' || functionDefinition?._type === 'Action') {
                     return (await this.getMockEntitySet(entitySetName)).executeAction(
                         functionDefinition,
                         actionData,
