@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.99
+
+### Patch Changes
+
+-   cb37ec6: Add more logging info on debug
+
 ## 1.1.98
 
 ### Patch Changes
