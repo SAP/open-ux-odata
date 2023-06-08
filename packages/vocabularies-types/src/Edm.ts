@@ -203,7 +203,6 @@ export type LeAnnotationExpression<P> = {
     Le: LeConditionalExpression[];
 };
 
-//type ConstantAnnotationExpression<P> = Omit<P, 'toString' | 'valueOf'>;
 export type PropertyAnnotationValue<P> = DynamicAnnotationExpression<P>;
 
 export type DynamicAnnotationExpression<P> =
