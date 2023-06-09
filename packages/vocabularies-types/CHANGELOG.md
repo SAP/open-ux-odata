@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.9.0
+
+### Minor Changes
+
+-   4509062: Annotation values are no longer dynamic by default, only specific ones are defined as such
+
 ## 0.8.0
 
 ### Minor Changes
