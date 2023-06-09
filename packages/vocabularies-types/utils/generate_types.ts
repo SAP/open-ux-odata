@@ -60,7 +60,7 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         SelectionVariantType: {
             Text: true
         },
-        ValueListRelevantQualifiers: true,
+
         //ValueCriticality: true,
         DataFieldAbstract: {
             Criticality: true
@@ -88,7 +88,8 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         FieldControl: true,
         QuickInfo: true,
         //Label: true,
-        Timezone: true
+        Timezone: true,
+        ValueListRelevantQualifiers: true
     },
     Capabilities: {
         DeleteRestrictionsType: {
