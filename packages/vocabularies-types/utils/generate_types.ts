@@ -60,6 +60,7 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         SelectionVariantType: {
             Text: true
         },
+        ValueListRelevantQualifiers: true,
         //ValueCriticality: true,
         DataFieldAbstract: {
             Criticality: true
