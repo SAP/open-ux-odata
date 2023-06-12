@@ -717,7 +717,9 @@ export class DataAccess implements DataAccessInterface {
             }
             // Apply $select
             const originalData = data;
-            data = cloneDeep(data);
+            if (!dontClone) {
+                data = cloneDeep(data);
+            }
             if (odataRequest.selectedProperties) {
                 if (odataRequest.selectedProperties['DraftAdministrativeData']) {
                     if (Array.isArray(data)) {
