@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.103
+
+### Patch Changes
+
+-   5bbed77: DraftAdminData is now properly maintained
+
 ## 1.1.102
 
 ### Patch Changes
