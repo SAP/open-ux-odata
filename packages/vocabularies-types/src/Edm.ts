@@ -203,8 +203,9 @@ export type LeAnnotationExpression<P> = {
     Le: LeConditionalExpression[];
 };
 
-export type PropertyAnnotationValue<P> =
-    | P
+export type PropertyAnnotationValue<P> = DynamicAnnotationExpression<P>;
+
+export type DynamicAnnotationExpression<P> =
     | PathAnnotationExpression<P>
     | ApplyAnnotationExpression<P>
     | AndAnnotationExpression<P>
@@ -278,8 +279,6 @@ export type PrimitiveType =
 // | Edm.GeometryMultiLineString
 // | Edm.GeometryMultiPolygon
 // | Edm.GeometryCollection;
-
-export type EnumValue<P> = P | PathAnnotationExpression<P> | ApplyAnnotationExpression<P> | IfAnnotationExpression<P>;
 
 export type String = InstanceType<StringConstructor>;
 export type Boolean = InstanceType<BooleanConstructor>;
