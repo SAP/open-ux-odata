@@ -797,15 +797,30 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
+        const preDeleteData = await dataAccess.getData(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,DraftAdministrativeData'
+                },
+                dataAccess
+            )
+        );
         // Delete one child
         actionResult = await dataAccess.deleteData(
             new ODataRequest({ method: 'DELETE', url: '/SubElements(ID=777,IsActiveEntity=false)' }, dataAccess)
         );
         formData = await dataAccess.getData(
             new ODataRequest(
-                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements' },
+                {
+                    method: 'GET',
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,DraftAdministrativeData'
+                },
                 dataAccess
             )
+        );
+        expect(preDeleteData[0].DraftAdministrativeData.LastChangeDateTime).not.toEqual(
+            formData[0].DraftAdministrativeData.LastChangeDateTime
         );
         expect(formData.length).toEqual(1);
         expect(formData[0].FirstName).toEqual('Mark');
