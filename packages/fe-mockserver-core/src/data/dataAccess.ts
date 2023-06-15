@@ -1143,6 +1143,24 @@ export class DataAccess implements DataAccessInterface {
         currentEntityType: EntityType
     ): Promise<object[]> {
         switch (transformationDef.type) {
+            case 'concat':
+                const concatData: object[] = [];
+                let startingData = cloneDeep(data);
+                for (const concatExpressions of transformationDef.concatExpr) {
+                    for (const concatExpression of concatExpressions) {
+                        startingData = await this.applyTransformation(
+                            concatExpression,
+                            startingData,
+                            odataRequest,
+                            mockEntitySet,
+                            mockData,
+                            currentEntityType
+                        );
+                    }
+                    concatData.push(...startingData);
+                }
+                data = concatData;
+                break;
             case 'orderBy':
                 data = this._applyOrderBy(data, transformationDef.orderBy);
                 break;
@@ -1171,6 +1189,8 @@ export class DataAccess implements DataAccessInterface {
                 );
                 break;
             case 'skip':
+                break;
+            case 'top':
                 break;
             case 'search':
                 data = data.filter((dataLine) => {

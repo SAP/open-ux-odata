@@ -614,6 +614,208 @@ describe('OData Request', () => {
               },
             ]
         `);
+
+        const anotherAnotherALPREquest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `BusinessPartners?$apply=filter(Segment%20eq%20'Large')/concat(groupby((CountryVisibility,Country_Code,Currency,Id,LocalCurrency,Name,QuantityTrend,Region,Segment,ValuationDate))/aggregate($count%20as%20UI5__leaves),aggregate(Rating,RequestedQuantity,QuantityUnit,RequestedQuantityLocalUnit,LocalQuantityUnit,SalesAmount,Currency,SalesAmountLocalCurrency,LocalCurrency),groupby((Country_Code,Country),aggregate(Rating,RequestedQuantity,QuantityUnit,RequestedQuantityLocalUnit,LocalQuantityUnit,SalesAmount,Currency,SalesAmountLocalCurrency,LocalCurrency))/orderby(SalesAmount)/concat(aggregate($count%20as%20UI5__count),top(69)))`
+            },
+            fakeDataAccess
+        );
+        expect(anotherAnotherALPREquest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "filterExpr": {
+                  "expressions": [
+                    {
+                      "identifier": "Segment",
+                      "literal": "'Large'",
+                      "operator": "eq",
+                    },
+                  ],
+                },
+                "type": "filter",
+              },
+              {
+                "concatExpr": [
+                  [
+                    {
+                      "groupBy": [
+                        "CountryVisibility",
+                        "Country_Code",
+                        "Currency",
+                        "Id",
+                        "LocalCurrency",
+                        "Name",
+                        "QuantityTrend",
+                        "Region",
+                        "Segment",
+                        "ValuationDate",
+                      ],
+                      "subTransformations": [],
+                      "type": "groupBy",
+                    },
+                    {
+                      "aggregateDef": [
+                        {
+                          "name": "UI5__leaves",
+                          "operator": undefined,
+                          "sourceProperty": "count",
+                        },
+                      ],
+                      "type": "aggregates",
+                    },
+                  ],
+                  [
+                    {
+                      "aggregateDef": [
+                        {
+                          "name": "Rating",
+                          "operator": undefined,
+                          "sourceProperty": "Rating",
+                        },
+                        {
+                          "name": "RequestedQuantity",
+                          "operator": undefined,
+                          "sourceProperty": "RequestedQuantity",
+                        },
+                        {
+                          "name": "QuantityUnit",
+                          "operator": undefined,
+                          "sourceProperty": "QuantityUnit",
+                        },
+                        {
+                          "name": "RequestedQuantityLocalUnit",
+                          "operator": undefined,
+                          "sourceProperty": "RequestedQuantityLocalUnit",
+                        },
+                        {
+                          "name": "LocalQuantityUnit",
+                          "operator": undefined,
+                          "sourceProperty": "LocalQuantityUnit",
+                        },
+                        {
+                          "name": "SalesAmount",
+                          "operator": undefined,
+                          "sourceProperty": "SalesAmount",
+                        },
+                        {
+                          "name": "Currency",
+                          "operator": undefined,
+                          "sourceProperty": "Currency",
+                        },
+                        {
+                          "name": "SalesAmountLocalCurrency",
+                          "operator": undefined,
+                          "sourceProperty": "SalesAmountLocalCurrency",
+                        },
+                        {
+                          "name": "LocalCurrency",
+                          "operator": undefined,
+                          "sourceProperty": "LocalCurrency",
+                        },
+                      ],
+                      "type": "aggregates",
+                    },
+                  ],
+                  [
+                    {
+                      "groupBy": [
+                        "Country_Code",
+                        "Country",
+                      ],
+                      "subTransformations": [
+                        {
+                          "aggregateDef": [
+                            {
+                              "name": "Rating",
+                              "operator": undefined,
+                              "sourceProperty": "Rating",
+                            },
+                            {
+                              "name": "RequestedQuantity",
+                              "operator": undefined,
+                              "sourceProperty": "RequestedQuantity",
+                            },
+                            {
+                              "name": "QuantityUnit",
+                              "operator": undefined,
+                              "sourceProperty": "QuantityUnit",
+                            },
+                            {
+                              "name": "RequestedQuantityLocalUnit",
+                              "operator": undefined,
+                              "sourceProperty": "RequestedQuantityLocalUnit",
+                            },
+                            {
+                              "name": "LocalQuantityUnit",
+                              "operator": undefined,
+                              "sourceProperty": "LocalQuantityUnit",
+                            },
+                            {
+                              "name": "SalesAmount",
+                              "operator": undefined,
+                              "sourceProperty": "SalesAmount",
+                            },
+                            {
+                              "name": "Currency",
+                              "operator": undefined,
+                              "sourceProperty": "Currency",
+                            },
+                            {
+                              "name": "SalesAmountLocalCurrency",
+                              "operator": undefined,
+                              "sourceProperty": "SalesAmountLocalCurrency",
+                            },
+                            {
+                              "name": "LocalCurrency",
+                              "operator": undefined,
+                              "sourceProperty": "LocalCurrency",
+                            },
+                          ],
+                          "type": "aggregates",
+                        },
+                      ],
+                      "type": "groupBy",
+                    },
+                    {
+                      "orderBy": [
+                        {
+                          "direction": "asc",
+                          "name": "SalesAmount",
+                        },
+                      ],
+                      "type": "orderBy",
+                    },
+                    {
+                      "concatExpr": [
+                        [
+                          {
+                            "aggregateDef": [
+                              {
+                                "name": "UI5__count",
+                                "operator": undefined,
+                                "sourceProperty": "count",
+                              },
+                            ],
+                            "type": "aggregates",
+                          },
+                        ],
+                        [
+                          {
+                            "topCount": 69,
+                            "type": "top",
+                          },
+                        ],
+                      ],
+                      "type": "concat",
+                    },
+                  ],
+                ],
+                "type": "concat",
+              },
+            ]
+        `);
     });
 
     // $filter
