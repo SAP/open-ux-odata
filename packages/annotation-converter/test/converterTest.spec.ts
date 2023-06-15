@@ -6,7 +6,6 @@ import type {
     ConvertedMetadata,
     EntitySet,
     EntityType,
-    EnumValue,
     NavigationProperty,
     PathAnnotationExpression,
     Property,
@@ -19,7 +18,7 @@ import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/C
 import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import type {
-    CriticalityType,
+    Criticality,
     DataField,
     DataFieldAbstractTypes,
     DataFieldForAction,
@@ -698,10 +697,10 @@ describe('Annotation Converter', () => {
         const parsedEDMX = parse(await loadFixture('v4/sdMeta.xml'));
         const convertedTypes = convert(parsedEDMX);
         if (convertedTypes.entityTypes[39].annotations?.UI?.LineItem) {
-            const criticality: EnumValue<CriticalityType> = {
+            const criticality: Criticality = {
                 path: 'OverallSDStatus',
                 type: 'Path'
-            } as EnumValue<CriticalityType>;
+            } as Criticality;
             const LineItem = convertedTypes.entityTypes[39].annotations.UI.LineItem;
             LineItem.annotations = { UI: { Criticality: criticality } };
             const transformedLineItem = revertTermToGenericType(defaultReferences, LineItem) as any;
