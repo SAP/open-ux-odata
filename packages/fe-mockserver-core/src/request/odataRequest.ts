@@ -41,6 +41,7 @@ export type QueryPath = {
 
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
+    public isStrictMode: boolean;
     public tenantId: string;
     public queryPath: QueryPath[];
     public searchQuery: string[];
@@ -75,6 +76,7 @@ export default class ODataRequest {
             this.addResponseHeader('sap-tenantid', this.tenantId);
         }
         this.isMinimalRepresentation = requestContent.headers?.['prefer'] === 'return=minimal';
+        this.isStrictMode = requestContent.headers?.['prefer']?.includes('handling=strict') ?? false;
         this.queryPath = this.parsePath(parsedUrl.pathname.substring(1));
         this.parseParameters(parsedUrl.searchParams);
     }
