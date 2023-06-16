@@ -1070,57 +1070,72 @@ export class DataAccess implements DataAccessInterface {
             dataByGroup[aggregateKey].push(dataLine);
         });
 
-        data = Object.keys(dataByGroup).map((groupName) => {
-            const dataToAggregate = dataByGroup[groupName];
-            const outData: any = {};
-            applyDefinition.groupBy.forEach((propName) => {
-                outData[propName] = dataToAggregate[0][propName];
-            });
+        const dataGroups = Object.keys(dataByGroup);
+        if (dataGroups.length === 0 && applyDefinition.groupBy.length === 0) {
+            const targetData: Record<string, unknown> = {};
             if (applyDefinition.subTransformations.length > 0) {
                 const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
                 aggregateDefinition.aggregateDef.forEach((subAggregateDefinition) => {
-                    let propValue: any;
-                    if (
-                        subAggregateDefinition.operator === undefined &&
-                        mockData &&
-                        mockData.hasCustomAggregate(subAggregateDefinition.name, odataRequest)
-                    ) {
-                        propValue = mockData.performCustomAggregate(
-                            subAggregateDefinition.name,
-                            dataToAggregate,
-                            odataRequest
-                        );
-                    } else {
-                        dataToAggregate.forEach((dataLine) => {
-                            const currentValue = dataLine[subAggregateDefinition.sourceProperty];
-                            if (propValue === undefined) {
-                                propValue = currentValue;
-                            } else {
-                                switch (subAggregateDefinition.operator) {
-                                    case 'max':
-                                        propValue = Math.max(propValue, currentValue);
-                                        break;
-                                    case 'min':
-                                        propValue = Math.min(propValue, currentValue);
-                                        break;
-                                    case 'average':
-                                        propValue += currentValue;
-                                        break;
-                                    default:
-                                        propValue += currentValue;
-                                        break;
-                                }
-                            }
-                        });
-                    }
-                    if (subAggregateDefinition.operator === 'average') {
-                        propValue = propValue / dataToAggregate.length;
-                    }
-                    outData[subAggregateDefinition.name] = propValue;
+                    targetData[subAggregateDefinition.name] = 0;
                 });
             }
-            return outData;
-        });
+            data = [targetData];
+        } else {
+            data = dataGroups.map((groupName) => {
+                const dataToAggregate = dataByGroup[groupName];
+                const outData: any = {};
+                applyDefinition.groupBy.forEach((propName) => {
+                    outData[propName] = dataToAggregate[0][propName];
+                });
+                if (applyDefinition.subTransformations.length > 0) {
+                    const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
+                    aggregateDefinition.aggregateDef.forEach((subAggregateDefinition) => {
+                        let propValue: any;
+                        if (
+                            subAggregateDefinition.operator === undefined &&
+                            mockData &&
+                            mockData.hasCustomAggregate(subAggregateDefinition.name, odataRequest)
+                        ) {
+                            propValue = mockData.performCustomAggregate(
+                                subAggregateDefinition.name,
+                                dataToAggregate,
+                                odataRequest
+                            );
+                        } else {
+                            dataToAggregate.forEach((dataLine) => {
+                                const currentValue =
+                                    subAggregateDefinition.sourceProperty === 'count'
+                                        ? 1
+                                        : dataLine[subAggregateDefinition.sourceProperty];
+                                if (propValue === undefined) {
+                                    propValue = currentValue;
+                                } else {
+                                    switch (subAggregateDefinition.operator) {
+                                        case 'max':
+                                            propValue = Math.max(propValue, currentValue);
+                                            break;
+                                        case 'min':
+                                            propValue = Math.min(propValue, currentValue);
+                                            break;
+                                        case 'average':
+                                            propValue += currentValue;
+                                            break;
+                                        default:
+                                            propValue += currentValue;
+                                            break;
+                                    }
+                                }
+                            });
+                        }
+                        if (subAggregateDefinition.operator === 'average') {
+                            propValue = propValue / dataToAggregate.length;
+                        }
+                        outData[subAggregateDefinition.name] = propValue;
+                    });
+                }
+                return outData;
+            });
+        }
         return data;
     }
     private async _applyFilter(
@@ -1143,6 +1158,24 @@ export class DataAccess implements DataAccessInterface {
         currentEntityType: EntityType
     ): Promise<object[]> {
         switch (transformationDef.type) {
+            case 'concat':
+                const concatData: object[] = [];
+                const startingData = cloneDeep(data);
+                for (const concatExpressions of transformationDef.concatExpr) {
+                    for (const concatExpression of concatExpressions) {
+                        const transformedData = await this.applyTransformation(
+                            concatExpression,
+                            startingData,
+                            odataRequest,
+                            mockEntitySet,
+                            mockData,
+                            currentEntityType
+                        );
+                        concatData.push(...transformedData);
+                    }
+                }
+                data = concatData;
+                break;
             case 'orderBy':
                 data = this._applyOrderBy(data, transformationDef.orderBy);
                 break;
@@ -1151,6 +1184,16 @@ export class DataAccess implements DataAccessInterface {
                 this.lastFilterTransformationResult = data;
                 break;
             case 'aggregates':
+                data = await this._applyGroupBy(
+                    data,
+                    {
+                        type: 'groupBy',
+                        groupBy: [],
+                        subTransformations: [transformationDef]
+                    },
+                    odataRequest,
+                    mockData
+                );
                 break;
             case 'ancestors':
                 const limitedHierarchyForAncestors = await this.applyTransformation(
@@ -1171,6 +1214,10 @@ export class DataAccess implements DataAccessInterface {
                 );
                 break;
             case 'skip':
+                data = [];
+                break;
+            case 'top':
+                data = [];
                 break;
             case 'search':
                 data = data.filter((dataLine) => {
