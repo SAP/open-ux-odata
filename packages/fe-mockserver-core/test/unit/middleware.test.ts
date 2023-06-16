@@ -103,6 +103,12 @@ describe('V4 Requestor', function () {
             )
             .execute('GET');
         expect(dataRes).toMatchInlineSnapshot(`"I am data"`);
+        const dataResStrict = dataRequestor.callGETAction(
+            "/RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.baseFunction(data='I am data')"
+        );
+        dataResStrict.headers['Prefer'] = 'handling=strict';
+        const strictResult = await dataResStrict.execute('GET');
+        expect(strictResult).toMatchInlineSnapshot(`"STRICT :: I am data"`);
         const dataRes2 = await dataRequestor
             .callGETAction('/RootElement(ID=1,IsActiveEntity=true)/_Elements')
             .execute('GET');
@@ -344,6 +350,13 @@ describe('V4 Requestor', function () {
         return myPromise;
     });
     beforeAll(() => {
+        const myJSON = JSON.parse(
+            fs.readFileSync(path.join(__dirname, '__testData', 'RootElement.json')).toString('utf-8')
+        );
+        myJSON[0].Prop1 = 'First Prop';
+        fs.writeFileSync(path.join(__dirname, '__testData', 'RootElement.json'), JSON.stringify(myJSON, null, 4));
+    });
+    afterAll(() => {
         const myJSON = JSON.parse(
             fs.readFileSync(path.join(__dirname, '__testData', 'RootElement.json')).toString('utf-8')
         );
