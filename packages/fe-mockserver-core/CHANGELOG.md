@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.104
+
+### Patch Changes
+
+-   4bdf473: Allow more queries on the analytical use case
+
 ## 1.1.103
 
 ### Patch Changes
