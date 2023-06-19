@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.105
+
+### Patch Changes
+
+-   cd5b778: Strict mode is now properly evaluated on the odataRequest
+
 ## 1.1.104
 
 ### Patch Changes
