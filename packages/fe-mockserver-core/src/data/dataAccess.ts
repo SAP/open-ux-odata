@@ -276,14 +276,20 @@ export class DataAccess implements DataAccessInterface {
                 referentialConstraints!.forEach((refConstr: PartialReferentialConstraint) => {
                     currentKeys[refConstr.targetProperty] = navigationData[refConstr.sourceProperty];
                 });
-                if (
+                const targetEntitySet = currentEntitySet?.navigationPropertyBinding[navPropDetail.name];
+                const isTargetDraftEnabled =
+                    (targetEntitySet?.annotations?.Common as any)?.DraftRoot ||
+                    (targetEntitySet?.annotations?.Common as any)?.DraftNode;
+                if (currentEntitySet && navigationData.hasOwnProperty('IsActiveEntity') && isTargetDraftEnabled) {
+                    currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
+                } else if (
                     currentEntitySet &&
                     navigationData.hasOwnProperty('IsActiveEntity') &&
-                    ((currentEntitySet?.annotations?.Common as any)?.DraftNode ||
-                        (currentEntitySet?.annotations?.Common as any)?.DraftRoot)
+                    navPropDetail.targetType.keys.find((key: Property) => key.name === 'IsActiveEntity')
                 ) {
                     currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
                 }
+
                 if (
                     navigationData.hasOwnProperty('IsActiveEntity') &&
                     (navPropDetail.targetType.annotations?.Common?.DraftNode ||
