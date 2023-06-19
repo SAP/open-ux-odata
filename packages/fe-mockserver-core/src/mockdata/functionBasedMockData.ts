@@ -13,10 +13,10 @@ export type MockDataContributor<T extends object> = {
     removeEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
     hasEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
     hasEntries?: (odataRequest: ODataRequest) => boolean;
-    fetchEntries?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
-    getAllEntries?: (odataRequest: ODataRequest) => object[];
-    getEmptyObject?: (odataRequest: ODataRequest) => object;
-    getDefaultElement?: (odataRequest: ODataRequest) => object;
+    fetchEntries?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => T[];
+    getAllEntries?: (odataRequest: ODataRequest) => T[];
+    getEmptyObject?: (odataRequest: ODataRequest) => T;
+    getDefaultElement?: (odataRequest: ODataRequest) => T;
 
     getReferentialConstraints?: (
         _navigationProperty: NavigationProperty
@@ -86,11 +86,11 @@ export type MockDataContributor<T extends object> = {
         updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => Promise<void>;
         removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<void>;
         hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
-        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
+        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => T[];
         hasEntries: (odataRequest: ODataRequest) => boolean;
-        getAllEntries: (odataRequest: ODataRequest) => object[];
-        getEmptyObject: (odataRequest: ODataRequest) => object;
-        getDefaultElement: (odataRequest: ODataRequest) => object;
+        getAllEntries: (odataRequest: ODataRequest) => T[];
+        getEmptyObject: (odataRequest: ODataRequest) => T;
+        getDefaultElement: (odataRequest: ODataRequest) => T;
         getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
         getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
         checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;

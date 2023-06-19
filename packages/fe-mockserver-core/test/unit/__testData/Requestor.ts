@@ -265,7 +265,7 @@ export class ODataV4ObjectRequest<T> extends ODataRequest<T> {
         targetPath: string,
         protected objectKey: ODataKey = {},
         protected method: string = 'GET',
-        protected headers: Record<string, string> = {}
+        public headers: Record<string, string> = {}
     ) {
         super(odataRootUri, targetPath);
 
