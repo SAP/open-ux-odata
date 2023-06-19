@@ -132,6 +132,7 @@ describe('Data Access', () => {
                 method: 'POST',
                 url: "/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity=true)",
                 body: {
+                    ProductID: 1,
                     Product: 'Acme_Bazooka',
                     DraftUUID: '',
                     Price: 3,
