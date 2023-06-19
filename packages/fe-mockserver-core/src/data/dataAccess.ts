@@ -960,11 +960,26 @@ export class DataAccess implements DataAccessInterface {
 
     private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: KeyDefinitions, postData: any) {
         let keyStr = '';
+        const propertyKeys = entitySet.entityType.keys;
+
         if (Object.keys(currentKeys).length === 1) {
             keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
         } else {
             keyStr = Object.keys(currentKeys)
-                .map((key) => `${key}='${currentKeys[key]}'`)
+                .map((key) => {
+                    const propertyDef = propertyKeys.by_name(key);
+                    switch (propertyDef?.type) {
+                        case 'Edm.Byte':
+                        case 'Edm.Int16':
+                        case 'Edm.Int32':
+                        case 'Edm.Int64': {
+                            return `${key}=${currentKeys[key]}`;
+                        }
+                        default: {
+                            return `${key}='${currentKeys[key]}'`;
+                        }
+                    }
+                })
                 .join(',');
         }
         const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
