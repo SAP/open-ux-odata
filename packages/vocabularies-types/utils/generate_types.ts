@@ -673,13 +673,13 @@ async function generateTypes(targetFolder: string) {
     }
 
     let edmTypesValue = ``;
-    Object.keys(allVocabularies).map((vocabularyAlias) => {
+    Object.keys(allVocabularies).forEach((vocabularyAlias) => {
         edmTypesValue += `import * as ${vocabularyAlias} from "./${vocabularyAlias}_Edm";\n`;
     });
     edmTypesValue += '\n';
     ANNOTATION_TARGETS.forEach((annotationTarget) => {
         edmTypesValue += `export type ${annotationTarget}Annotations = {\n`;
-        Object.keys(allVocabularies).map((vocabularyAlias) => {
+        Object.keys(allVocabularies).forEach((vocabularyAlias) => {
             edmTypesValue += `    ${vocabularyAlias}?: ${vocabularyAlias}.${annotationTarget}Annotations_${vocabularyAlias};\n`;
         });
 
