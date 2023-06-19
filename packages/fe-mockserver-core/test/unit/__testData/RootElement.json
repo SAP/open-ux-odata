@@ -1,7 +1,7 @@
 [
     {
         "ID": 1,
-        "Prop1": "SomethingElse",
+        "Prop1": "First Prop",
         "Prop2": "Second Prop",
         "isBoundAction1Hidden": false,
         "isBoundAction2Hidden": false,

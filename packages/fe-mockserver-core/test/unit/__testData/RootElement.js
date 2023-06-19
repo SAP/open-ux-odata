@@ -13,6 +13,9 @@ module.exports = {
             case 'boundActionReturnsVoid':
                 return undefined;
             case 'baseFunction':
+                if (odataRequest.isStrictMode) {
+                    return `STRICT :: ${actionData.data}`;
+                }
                 return actionData.data;
             default:
                 this.throwError('Not implemented', 501, {
