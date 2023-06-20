@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.106
+
+### Patch Changes
+
+-   c8d1d8f: fix: v2 metadata contains incorrect data
+
 ## 1.1.105
 
 ### Patch Changes

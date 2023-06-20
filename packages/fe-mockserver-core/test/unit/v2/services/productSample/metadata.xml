@@ -111,7 +111,7 @@
             </EntityType>
             <EntityType Name="SEPMRA_C_PD_ProductType" sap:label="Product" sap:content-version="1">
                 <Key>
-                    <PropertyRef Name="Product"/>
+                    <PropertyRef Name="ProductID"/>
                     <PropertyRef Name="DraftUUID"/>
                     <PropertyRef Name="IsActiveEntity"/>
                 </Key>
@@ -131,6 +131,7 @@
                 <Property Name="Validation_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Description_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="ProductForEdit_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ProductID" Type="Edm.Int32" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Product" sap:quickinfo="Product ID" sap:creatable="false" sap:updatable="false"/>
                 <Property Name="Product" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Product" sap:quickinfo="Product ID" sap:creatable="false" sap:updatable="false"/>
                 <Property Name="ProductForEdit" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:field-control="ProductForEdit_fc" sap:text="to_ProductTextInOriginalLang/Name" sap:label="Product" sap:quickinfo="Product ID"/>
                 <Property Name="ProductCategory" Type="Edm.String" MaxLength="40" sap:label="Category" sap:quickinfo="Product Sub-Category" sap:value-list="standard"/>
