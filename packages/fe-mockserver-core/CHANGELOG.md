@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.107
+
+### Patch Changes
+
+-   09052b5: Navigation property are not expected to be draft enabled anymore
+
 ## 1.1.106
 
 ### Patch Changes
