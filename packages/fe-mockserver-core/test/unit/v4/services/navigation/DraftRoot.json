@@ -1,6 +1,7 @@
 [
     {
         "ID": "A1",
+        "IsActiveEntity": true,
         "_toDraftNode_ID": "DraftNode1",
         "_toDraftNodeNoConstraint_ID": "DraftNode1",
         "_toOther_ID": "OtherEntity1",

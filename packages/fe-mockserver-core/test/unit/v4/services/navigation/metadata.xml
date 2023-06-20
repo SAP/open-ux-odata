@@ -29,7 +29,6 @@
                 </EntitySet>
                 <EntitySet Name="OtherEntity" EntityType="TestService.OtherEntity">
                     <NavigationPropertyBinding Path="_up" Target="DraftRoot"/>
-                    <NavigationPropertyBinding Path="SiblingEntity" Target="OtherEntity"/>
                 </EntitySet>
             </EntityContainer>
             <EntityType Name="DraftRoot">
@@ -61,7 +60,6 @@
                 <Property Name="_toOther_ID" Type="Edm.String"/>
                 <NavigationProperty Name="_toOtherNoConstraint" Type="TestService.OtherEntity"/>
                 <NavigationProperty Name="_toOthers" Type="Collection(TestService.OtherEntity)" Partner="_up">
-                    <OnDelete Action="Cascade"/>
                     <ReferentialConstraint Property="ID" ReferencedProperty="_up_ID"/>
                 </NavigationProperty>
                 <NavigationProperty Name="_toOthersNoConstraint" Type="Collection(TestService.OtherEntity)"/>
@@ -92,19 +90,12 @@
             <EntityType Name="OtherEntity">
                 <Key>
                     <PropertyRef Name="ID"/>
-                    <PropertyRef Name="IsActiveEntity"/>
                 </Key>
                 <Property Name="ID" Type="Edm.String" Nullable="false"/>
                 <NavigationProperty Name="_up" Type="TestService.DraftRoot" Partner="_toOthers">
                     <ReferentialConstraint Property="_up_ID" ReferencedProperty="ID"/>
                 </NavigationProperty>
                 <Property Name="_up_ID" Type="Edm.String"/>
-                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
-                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
-                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
-                <NavigationProperty Name="DraftAdministrativeData" Type="TestService.DraftAdministrativeData"
-                                    ContainsTarget="true"/>
-                <NavigationProperty Name="SiblingEntity" Type="TestService.OtherEntity"/>
             </EntityType>
             <EntityType Name="DraftAdministrativeData">
                 <Key>
@@ -128,11 +119,6 @@
                 <Parameter Name="in" Type="TestService.DraftNode"/>
                 <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
                 <ReturnType Type="TestService.DraftNode"/>
-            </Action>
-            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
-                <Parameter Name="in" Type="TestService.OtherEntity"/>
-                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
-                <ReturnType Type="TestService.OtherEntity"/>
             </Action>
             <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
                 <Parameter Name="in" Type="TestService.DraftRoot"/>
@@ -211,25 +197,6 @@
                 <Annotation Term="UI.Hidden" Bool="true"/>
             </Annotations>
             <Annotations Target="TestService.DraftNode/DraftAdministrativeData">
-                <Annotation Term="UI.Hidden" Bool="true"/>
-            </Annotations>
-            <Annotations Target="TestService.EntityContainer/OtherEntity">
-                <Annotation Term="Common.DraftNode">
-                    <Record Type="Common.DraftNodeType">
-                        <PropertyValue Property="PreparationAction" String="TestService.draftPrepare"/>
-                    </Record>
-                </Annotation>
-            </Annotations>
-            <Annotations Target="TestService.OtherEntity/IsActiveEntity">
-                <Annotation Term="UI.Hidden" Bool="true"/>
-            </Annotations>
-            <Annotations Target="TestService.OtherEntity/HasActiveEntity">
-                <Annotation Term="UI.Hidden" Bool="true"/>
-            </Annotations>
-            <Annotations Target="TestService.OtherEntity/HasDraftEntity">
-                <Annotation Term="UI.Hidden" Bool="true"/>
-            </Annotations>
-            <Annotations Target="TestService.OtherEntity/DraftAdministrativeData">
                 <Annotation Term="UI.Hidden" Bool="true"/>
             </Annotations>
             <Annotations Target="TestService.DraftAdministrativeData">

@@ -1298,7 +1298,7 @@ describe('Data Access', () => {
             ID: 'DraftNode1',
             _up_ID: 'A1',
             IsActiveEntity: true,
-            HasActiveEntity: true,
+            HasActiveEntity: false,
             HasDraftEntity: false
         };
         const expectedOtherEntity = {

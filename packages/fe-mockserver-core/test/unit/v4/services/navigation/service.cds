@@ -30,7 +30,7 @@ service TestService {
                                             on _toOtherNoConstraint.ID = 'OtherEntity1';
 
             @Core.Description: '1:n to non-draft, with referential constraint'
-            _toOthers                 : Composition of many OtherEntity
+            _toOthers                 : Association to many  OtherEntity
                                             on _toOthers._up = $self;
 
             @Core.Description: '1:n to non-draft, without referential constraint'

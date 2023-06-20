@@ -1,4 +1,5 @@
 [
-    { "ID": "DraftNode1", "_up_ID": "A1" },
-    { "ID": "DraftNode2", "_up_ID": "DoesNotExist" }
+    { "ID": "DraftNode1", "IsActiveEntity": true, "_up_ID": "A1" },
+    { "ID": "DraftNode1", "IsActiveEntity": false, "_up_ID": "A1" },
+    { "ID": "DraftNode2", "IsActiveEntity": true, "_up_ID": "DoesNotExist" }
 ]
