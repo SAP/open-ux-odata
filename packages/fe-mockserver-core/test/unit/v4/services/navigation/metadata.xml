@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="DraftRoot" EntityType="TestService.DraftRoot">
+                    <NavigationPropertyBinding Path="_toDraftNode" Target="DraftNode"/>
+                    <NavigationPropertyBinding Path="_toDraftNodeNoConstraint" Target="DraftNode"/>
+                    <NavigationPropertyBinding Path="_toDraftNodes" Target="DraftNode"/>
+                    <NavigationPropertyBinding Path="_toDraftNodesNoConstraint" Target="DraftNode"/>
+                    <NavigationPropertyBinding Path="_toOther" Target="OtherEntity"/>
+                    <NavigationPropertyBinding Path="_toOtherNoConstraint" Target="OtherEntity"/>
+                    <NavigationPropertyBinding Path="_toOthers" Target="OtherEntity"/>
+                    <NavigationPropertyBinding Path="_toOthersNoConstraint" Target="OtherEntity"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="DraftRoot"/>
+                </EntitySet>
+                <EntitySet Name="DraftNode" EntityType="TestService.DraftNode">
+                    <NavigationPropertyBinding Path="_up" Target="DraftRoot"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="DraftNode"/>
+                </EntitySet>
+                <EntitySet Name="OtherEntity" EntityType="TestService.OtherEntity">
+                    <NavigationPropertyBinding Path="_up" Target="DraftRoot"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="OtherEntity"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="DraftRoot">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="_toDraftNode" Type="TestService.DraftNode">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="_toDraftNode_ID" ReferencedProperty="ID"/>
+                    <ReferentialConstraint Property="IsActiveEntity" ReferencedProperty="IsActiveEntity"/>
+                </NavigationProperty>
+                <Property Name="_toDraftNode_ID" Type="Edm.String"/>
+                <NavigationProperty Name="_toDraftNodeNoConstraint" Type="TestService.DraftNode">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="_toDraftNodes" Type="Collection(TestService.DraftNode)" Partner="_up">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="ID" ReferencedProperty="_up_ID"/>
+                    <ReferentialConstraint Property="IsActiveEntity" ReferencedProperty="IsActiveEntity"/>
+                </NavigationProperty>
+                <NavigationProperty Name="_toDraftNodesNoConstraint" Type="Collection(TestService.DraftNode)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="_toOther" Type="TestService.OtherEntity">
+                    <ReferentialConstraint Property="_toOther_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="_toOther_ID" Type="Edm.String"/>
+                <NavigationProperty Name="_toOtherNoConstraint" Type="TestService.OtherEntity"/>
+                <NavigationProperty Name="_toOthers" Type="Collection(TestService.OtherEntity)" Partner="_up">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="ID" ReferencedProperty="_up_ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="_toOthersNoConstraint" Type="Collection(TestService.OtherEntity)"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="TestService.DraftAdministrativeData"
+                                    ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="TestService.DraftRoot"/>
+            </EntityType>
+            <EntityType Name="DraftNode">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="_up" Type="TestService.DraftRoot" Partner="_toDraftNodes">
+                    <ReferentialConstraint Property="_up_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="_up_ID" Type="Edm.String"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="TestService.DraftAdministrativeData"
+                                    ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="TestService.DraftNode"/>
+            </EntityType>
+            <EntityType Name="OtherEntity">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="_up" Type="TestService.DraftRoot" Partner="_toOthers">
+                    <ReferentialConstraint Property="_up_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="_up_ID" Type="Edm.String"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="TestService.DraftAdministrativeData"
+                                    ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="TestService.OtherEntity"/>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="TestService.DraftRoot"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="TestService.DraftRoot"/>
+            </Action>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="TestService.DraftNode"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="TestService.DraftNode"/>
+            </Action>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="TestService.OtherEntity"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="TestService.OtherEntity"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="TestService.DraftRoot"/>
+                <ReturnType Type="TestService.DraftRoot"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="TestService.DraftRoot"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="TestService.DraftRoot"/>
+            </Action>
+            <Annotations Target="TestService.EntityContainer/DraftRoot">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="TestService.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="TestService.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="TestService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNode">
+                <Annotation Term="Core.Description" String="1:1 to a draft node, with referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNode_ID">
+                <Annotation Term="Core.Description" String="1:1 to a draft node, with referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNodeNoConstraint">
+                <Annotation Term="Core.Description" String="1:1 to a draft node, without referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNodes">
+                <Annotation Term="Core.Description" String="1:n to a draft node, with referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNodesNoConstraint">
+                <Annotation Term="Core.Description" String="1:n to a draft node, without referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toOther">
+                <Annotation Term="Core.Description" String="1:1 to non-draft, with referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toOther_ID">
+                <Annotation Term="Core.Description" String="1:1 to non-draft, with referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toOtherNoConstraint">
+                <Annotation Term="Core.Description" String="1:1 to non-draft, without referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toOthers">
+                <Annotation Term="Core.Description" String="1:n to non-draft, with referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toOthersNoConstraint">
+                <Annotation Term="Core.Description" String="1:n to non-draft, without referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.EntityContainer/DraftNode">
+                <Annotation Term="Common.DraftNode">
+                    <Record Type="Common.DraftNodeType">
+                        <PropertyValue Property="PreparationAction" String="TestService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="TestService.DraftNode/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftNode/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftNode/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftNode/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.EntityContainer/OtherEntity">
+                <Annotation Term="Common.DraftNode">
+                    <Record Type="Common.DraftNodeType">
+                        <PropertyValue Property="PreparationAction" String="TestService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="TestService.OtherEntity/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.OtherEntity/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.OtherEntity/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.OtherEntity/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData">
+                <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/DraftUUID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/CreationDateTime">
+                <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/CreatedByUser">
+                <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/DraftIsCreatedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/LastChangeDateTime">
+                <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/LastChangedByUser">
+                <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/InProcessByUser">
+                <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftAdministrativeData/DraftIsProcessedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

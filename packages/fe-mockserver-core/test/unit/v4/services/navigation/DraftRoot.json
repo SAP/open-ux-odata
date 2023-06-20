@@ -1,0 +1,9 @@
+[
+    {
+        "ID": "A1",
+        "_toDraftNode_ID": "DraftNode1",
+        "_toDraftNodeNoConstraint_ID": "DraftNode1",
+        "_toOther_ID": "OtherEntity1",
+        "_toOtherNoConstraint_ID": "OtherEntity1"
+    }
+]
