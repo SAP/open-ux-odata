@@ -14,8 +14,10 @@
             <EntityContainer Name="EntityContainer">
                 <EntitySet Name="DraftRoot" EntityType="TestService.DraftRoot">
                     <NavigationPropertyBinding Path="_toDraftNode" Target="DraftNode"/>
+                    <NavigationPropertyBinding Path="_toDraftNodeIncompleteConstraint" Target="DraftNode"/>
                     <NavigationPropertyBinding Path="_toDraftNodeNoConstraint" Target="DraftNode"/>
                     <NavigationPropertyBinding Path="_toDraftNodes" Target="DraftNode"/>
+                    <NavigationPropertyBinding Path="_toDraftNodesIncompleteConstraint" Target="DraftNode"/>
                     <NavigationPropertyBinding Path="_toDraftNodesNoConstraint" Target="DraftNode"/>
                     <NavigationPropertyBinding Path="_toOther" Target="OtherEntity"/>
                     <NavigationPropertyBinding Path="_toOtherNoConstraint" Target="OtherEntity"/>
@@ -43,6 +45,11 @@
                     <ReferentialConstraint Property="IsActiveEntity" ReferencedProperty="IsActiveEntity"/>
                 </NavigationProperty>
                 <Property Name="_toDraftNode_ID" Type="Edm.String"/>
+                <NavigationProperty Name="_toDraftNodeIncompleteConstraint" Type="TestService.DraftNode">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="_toDraftNodeIncompleteConstraint_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="_toDraftNodeIncompleteConstraint_ID" Type="Edm.String"/>
                 <NavigationProperty Name="_toDraftNodeNoConstraint" Type="TestService.DraftNode">
                     <OnDelete Action="Cascade"/>
                 </NavigationProperty>
@@ -50,6 +57,10 @@
                     <OnDelete Action="Cascade"/>
                     <ReferentialConstraint Property="ID" ReferencedProperty="_up_ID"/>
                     <ReferentialConstraint Property="IsActiveEntity" ReferencedProperty="IsActiveEntity"/>
+                </NavigationProperty>
+                <NavigationProperty Name="_toDraftNodesIncompleteConstraint" Type="Collection(TestService.DraftNode)">
+                    <OnDelete Action="Cascade"/>
+                    <ReferentialConstraint Property="ID" ReferencedProperty="_up_ID"/>
                 </NavigationProperty>
                 <NavigationProperty Name="_toDraftNodesNoConstraint" Type="Collection(TestService.DraftNode)">
                     <OnDelete Action="Cascade"/>
@@ -76,7 +87,7 @@
                     <PropertyRef Name="IsActiveEntity"/>
                 </Key>
                 <Property Name="ID" Type="Edm.String" Nullable="false"/>
-                <NavigationProperty Name="_up" Type="TestService.DraftRoot" Partner="_toDraftNodes">
+                <NavigationProperty Name="_up" Type="TestService.DraftRoot">
                     <ReferentialConstraint Property="_up_ID" ReferencedProperty="ID"/>
                 </NavigationProperty>
                 <Property Name="_up_ID" Type="Edm.String"/>
@@ -144,10 +155,21 @@
             <Annotations Target="TestService.DraftRoot/_toDraftNode_ID">
                 <Annotation Term="Core.Description" String="1:1 to a draft node, with referential constraint"/>
             </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNodeIncompleteConstraint">
+                <Annotation Term="Core.Description"
+                            String="1:1 to a draft node, with incomplete referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNodeIncompleteConstraint_ID">
+                <Annotation Term="Core.Description"
+                            String="1:1 to a draft node, with incomplete referential constraint"/>
+            </Annotations>
             <Annotations Target="TestService.DraftRoot/_toDraftNodeNoConstraint">
                 <Annotation Term="Core.Description" String="1:1 to a draft node, without referential constraint"/>
             </Annotations>
             <Annotations Target="TestService.DraftRoot/_toDraftNodes">
+                <Annotation Term="Core.Description" String="1:n to a draft node, with referential constraint"/>
+            </Annotations>
+            <Annotations Target="TestService.DraftRoot/_toDraftNodesIncompleteConstraint">
                 <Annotation Term="Core.Description" String="1:n to a draft node, with referential constraint"/>
             </Annotations>
             <Annotations Target="TestService.DraftRoot/_toDraftNodesNoConstraint">

@@ -1313,6 +1313,11 @@ describe('Data Access', () => {
                 expected: expectedDraftNode
             },
             {
+                label: '1:1 draft root to draft node (with incomplete referential constraint- IsActiveEntity missing)',
+                navProp: '_toDraftNodeIncompleteConstraint',
+                expected: expectedDraftNode
+            },
+            {
                 label: '1:1 draft root to draft node (without referential constraint)',
                 navProp: '_toDraftNodeNoConstraint',
                 expected: expectedDraftNode
@@ -1320,6 +1325,11 @@ describe('Data Access', () => {
             {
                 label: '1:n draft root to draft node (with referential constraint)',
                 navProp: '_toDraftNodes',
+                expected: [expectedDraftNode]
+            },
+            {
+                label: '1:n draft root to draft node (with incomplete referential constraint - IsActiveEntity missing)',
+                navProp: '_toDraftNodesIncompleteConstraint',
                 expected: [expectedDraftNode]
             },
             {
