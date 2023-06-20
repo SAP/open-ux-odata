@@ -24,7 +24,7 @@ import type {
 import type { FilterExpression } from '../request/filterParser';
 import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
-import type { DataAccessInterface, EntitySetInterface, PartialReferentialConstraint } from './common';
+import type { DataAccessInterface, EntitySetInterface } from './common';
 import { getData, _getDateTimeOffset } from './common';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
@@ -258,7 +258,7 @@ export class DataAccess implements DataAccessInterface {
 
     public async getNavigationPropertyKeys(
         data: any,
-        navPropDetail: any,
+        navPropDetail: NavigationProperty,
         currentEntityType: EntityType,
         currentEntitySet: EntitySet | Singleton | undefined,
         currentKeys: KeyDefinitions,
@@ -266,30 +266,26 @@ export class DataAccess implements DataAccessInterface {
         forCreate = false
     ): Promise<KeyDefinitions> {
         const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
-        let referentialConstraints = await mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail);
-        if (!referentialConstraints) {
-            referentialConstraints = navPropDetail.referentialConstraint;
-        }
-        if (referentialConstraints && referentialConstraints.length > 0) {
+        const referentialConstraints =
+            (await mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail)) ??
+            navPropDetail.referentialConstraint;
+
+        if (referentialConstraints.length > 0) {
             const dataArray = Array.isArray(data) ? data : [data];
             dataArray.forEach((navigationData) => {
-                referentialConstraints!.forEach((refConstr: PartialReferentialConstraint) => {
+                referentialConstraints.forEach((refConstr) => {
                     currentKeys[refConstr.targetProperty] = navigationData[refConstr.sourceProperty];
                 });
-                if (
-                    currentEntitySet &&
-                    navigationData.hasOwnProperty('IsActiveEntity') &&
-                    ((currentEntitySet?.annotations?.Common as any)?.DraftNode ||
-                        (currentEntitySet?.annotations?.Common as any)?.DraftRoot)
-                ) {
-                    currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
-                }
-                if (
-                    navigationData.hasOwnProperty('IsActiveEntity') &&
-                    (navPropDetail.targetType.annotations?.Common?.DraftNode ||
-                        navPropDetail.targetType.annotations?.Common?.DraftRoot)
-                ) {
-                    currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
+
+                if ('IsActiveEntity' in navigationData && !('IsActiveEntity' in currentKeys)) {
+                    const targetEntitySet = currentEntitySet?.navigationPropertyBinding[navPropDetail.name];
+                    if (
+                        (targetEntitySet?.annotations?.Common as any)?.DraftRoot ||
+                        (targetEntitySet?.annotations?.Common as any)?.DraftNode ||
+                        navPropDetail.targetType.keys.find((key: Property) => key.name === 'IsActiveEntity')
+                    ) {
+                        currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
+                    }
                 }
             });
         } else {
@@ -378,7 +374,7 @@ export class DataAccess implements DataAccessInterface {
         } else if (previousEntitySet && previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')]) {
             targetEntitySet = previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')];
         }
-        if (targetEntitySet) {
+        if (navProp && targetEntitySet) {
             const navEntitySet = await this.getMockEntitySet(targetEntitySet.name);
             const dataArray = Array.isArray(data) ? data : [data];
             for (const dataLine of dataArray) {
@@ -878,58 +874,58 @@ export class DataAccess implements DataAccessInterface {
                 lastNavPropName = odataRequest.queryPath[i].path;
             }
             const entityType = parentEntitySet.entityType;
-            const navPropDetail = entityType.navigationProperties.find(
-                (navProp) => navProp.name === lastNavPropName
-            ) as any;
-            const navPropEntityType = navPropDetail.targetType;
-            const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
-                odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
-                false,
-                odataRequest.tenantId,
-                odataRequest,
-                true
-            );
-
-            const providedKeys: Record<string, any> = {};
-            navPropEntityType.keys.forEach((key: Property) => {
-                if (postData[key.name] !== undefined) {
-                    providedKeys[key.name] = postData[key.name];
-                }
-            });
-            const currentKeys = await this.getNavigationPropertyKeys(
-                data,
-                navPropDetail,
-                parentEntitySet.entityType,
-                parentEntitySet,
-                providedKeys,
-                odataRequest.tenantId,
-                true
-            );
-            if (data.DraftAdministrativeData !== null && data.DraftAdministrativeData !== undefined) {
-                data.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
-            }
-            if (!navPropDetail.containsTarget) {
-                const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName];
-                odataRequest.setContext(`../$metadata#${targetEntitySet.name}/$entity`);
-                odataRequest.addResponseHeader(
-                    'Location',
-                    `${targetEntitySet.name}(${Object.keys(currentKeys)
-                        .map((key) => `${key}='${currentKeys[key]}'`)
-                        .join(',')})`
+            const navPropDetail = entityType.navigationProperties.find((navProp) => navProp.name === lastNavPropName);
+            if (navPropDetail) {
+                const navPropEntityType = navPropDetail.targetType;
+                const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
+                    odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
+                    false,
+                    odataRequest.tenantId,
+                    odataRequest,
+                    true
                 );
-                postData = await (
-                    await this.getMockEntitySet(targetEntitySet.name)
-                ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
-                if (!this.isV4()) {
-                    this.addV2Metadata(parentEntitySet, currentKeys, postData);
+
+                const providedKeys: Record<string, any> = {};
+                navPropEntityType.keys.forEach((key: Property) => {
+                    if (postData[key.name] !== undefined) {
+                        providedKeys[key.name] = postData[key.name];
+                    }
+                });
+                const currentKeys = await this.getNavigationPropertyKeys(
+                    data,
+                    navPropDetail,
+                    parentEntitySet.entityType,
+                    parentEntitySet,
+                    providedKeys,
+                    odataRequest.tenantId,
+                    true
+                );
+                if (data.DraftAdministrativeData !== null && data.DraftAdministrativeData !== undefined) {
+                    data.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
                 }
-            } else {
-                if (!data[lastNavPropName]) {
-                    data[lastNavPropName] = [];
+                if (!navPropDetail.containsTarget) {
+                    const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName];
+                    odataRequest.setContext(`../$metadata#${targetEntitySet.name}/$entity`);
+                    odataRequest.addResponseHeader(
+                        'Location',
+                        `${targetEntitySet.name}(${Object.keys(currentKeys)
+                            .map((key) => `${key}='${currentKeys[key]}'`)
+                            .join(',')})`
+                    );
+                    postData = await (
+                        await this.getMockEntitySet(targetEntitySet.name)
+                    ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+                    if (!this.isV4()) {
+                        this.addV2Metadata(parentEntitySet, currentKeys, postData);
+                    }
+                } else {
+                    if (!data[lastNavPropName]) {
+                        data[lastNavPropName] = [];
+                    }
+                    data[lastNavPropName].push(postData);
                 }
-                data[lastNavPropName].push(postData);
+                return postData;
             }
-            return postData;
         } else if (parentEntitySet) {
             // Creating a main object
             const currentKeys: Record<string, any> = {};
