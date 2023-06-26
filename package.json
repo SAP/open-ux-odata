@@ -51,6 +51,10 @@
     },
     "packageManager": "pnpm@8.6.4",
     "pnpm": {
-        "overrides": {}
+        "overrides": {
+            "semver": ">=7.5.2",
+            "http-cache-semantics@<4.1.1": ">=4.1.1",
+            "json5@<1.0.2": ">=1.0.2"
+        }
     }
 }
