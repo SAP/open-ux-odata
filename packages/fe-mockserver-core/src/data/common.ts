@@ -1,4 +1,11 @@
-import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
+import type {
+    Action,
+    EntitySet,
+    EntityType,
+    NavigationProperty,
+    Property,
+    Singleton
+} from '@sap-ux/vocabularies-types';
 import type { ILogger } from '@ui5/logger';
 import type { IFileLoader } from '../index';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
@@ -56,9 +63,9 @@ export interface DataAccessInterface {
     isV4(): boolean;
     getNavigationPropertyKeys(
         data: any,
-        navPropDetail: any,
+        navPropDetail: NavigationProperty,
         currentEntityType: EntityType,
-        currentEntitySet: EntitySet | undefined,
+        currentEntitySet: EntitySet | Singleton | undefined,
         currentKeys: KeyDefinitions,
         tenantId: string,
         forCreate?: boolean

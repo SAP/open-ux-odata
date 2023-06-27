@@ -1,0 +1,4 @@
+[
+    { "ID": "OtherEntity1", "_up_ID": "A1" },
+    { "ID": "OtherEntity2", "_up_ID": "DoesNotExist" }
+]
