@@ -124,7 +124,12 @@ export class FunctionBasedMockData extends FileBasedMockData {
             mockDataEntitySet,
             contextId
         );
-        this._mockDataFn = mockDataFn;
+        const targetMock: any = {};
+        for (const targetMockKey in mockDataFn) {
+            targetMock[targetMockKey] = mockDataFn[targetMockKey as keyof typeof mockDataFn];
+        }
+        this._mockDataFn = targetMock;
+
         this._mockDataFn.base = {
             generateMockData: super.generateMockData.bind(this),
             generateKey: super.generateKey.bind(this),

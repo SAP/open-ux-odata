@@ -65,6 +65,36 @@ describe('Function Based Mock Data', () => {
         expect(responseData).toMatchSnapshot();
         expect(fakeRequest2.responseHeaders).toMatchSnapshot();
     });
+    it('will not leak from one tenant to the other', async () => {
+        const fakeRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: 'MyRootEntity'
+            },
+            dataAccess
+        );
+        const mockData = myEntitySet.getMockData('default');
+        let allData = mockData.getAllEntries(fakeRequest) as any;
+        expect(allData.length).toBe(3);
+        await mockData.addEntry(
+            {
+                ID: 4,
+                Name: 'My Name4',
+                Value: 'My Value4'
+            },
+            fakeRequest
+        );
+        allData = mockData.getAllEntries(fakeRequest) as any;
+        expect(allData.length).toBe(4);
+        const mockData2 = myEntitySet.getMockData('notdefault');
+        const allData2 = mockData2.getAllEntries(fakeRequest) as any;
+        expect(allData2.length).toBe(3);
+        allData = mockData.getAllEntries(fakeRequest) as any;
+        expect(allData.length).toBe(4);
+        await mockData.removeEntry({ ID: 4 }, fakeRequest);
+        allData = mockData.getAllEntries(fakeRequest) as any;
+        expect(allData.length).toBe(3);
+    });
     it('can Update Entries', async () => {
         const fakeRequest = new ODataRequest(
             {
