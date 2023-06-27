@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.108
+
+### Patch Changes
+
+-   7d98e16: Tenant based data will no longer leak onto one another
+
 ## 1.1.107
 
 ### Patch Changes
