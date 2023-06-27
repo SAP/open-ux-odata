@@ -180,8 +180,8 @@ importers:
         specifier: workspace:*
         version: link:../fe-mockserver-core
       '@sap/cds-compiler':
-        specifier: ^3.1.0
-        version: 3.1.2
+        specifier: ^4
+        version: 4.0.0
 
   packages/ui5-middleware-fe-mockserver:
     dependencies:
@@ -1280,9 +1280,9 @@ packages:
       config-chain: 1.1.13
     dev: true
 
-  /@sap/cds-compiler@3.1.2:
-    resolution: {integrity: sha512-csH3aEs4aPCzAtc75Jx/Ayym2A06JgAeaDUFLXI867/Vsp2F0g7MJxuCkNhpa+zVZsXcyB0Kxzzv4xU7zuJXsQ==}
-    engines: {node: '>=14'}
+  /@sap/cds-compiler@4.0.0:
+    resolution: {integrity: sha512-sTOOI8vlBzPFXnXgs+Dy74sm2D6GycR9LS9O7lTjxE8SXWAbecmUAWMN2WJsb/IiwwJGJonHGwDG4shz+1sZYQ==}
+    engines: {node: '>=16'}
     hasBin: true
     dependencies:
       antlr4: 4.9.3
