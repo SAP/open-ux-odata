@@ -5,6 +5,7 @@ node_modules/
 typings/
 **/__snapshots__
 dependabot.yml
+pnpm-lock.yaml
 
 # Generated vocabularies type file
 packages/vocabularies-types/src/generated
