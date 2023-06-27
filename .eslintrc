@@ -3,7 +3,7 @@
         "node": true,
         "es6": true
     },
-    "plugins": ["promise", "prettier", "jsdoc", "@typescript-eslint", "import"],
+    "plugins": ["promise", "prettier", "jsdoc", "@typescript-eslint"],
     "extends": ["plugin:jsdoc/recommended", "plugin:prettier/recommended"],
     "overrides": [
         {
@@ -251,7 +251,6 @@
         ],
         //		"sap-no-jquery": 2
         // turn on errors for missing imports
-        "import/no-unresolved": "error",
         "prettier/prettier": [
             "error",
             {
