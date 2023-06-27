@@ -1,4 +1,3 @@
-const ODataRequest = require('../../../../src/request/odataRequest');
 module.exports = {
     getAllEntries(odataRequest) {
         const allEntries = this.base.getAllEntries(); // Retrieve them from the base
@@ -34,6 +33,9 @@ module.exports = {
         } else {
             return this.base.updateEntry(keyValues, newData);
         }
+    },
+    removeEntry(keyValues, odataRequest) {
+        return this.base.removeEntry(keyValues, odataRequest);
     },
     checkFilterValue(comparisonType, mockValue, literal, operator, _odataRequest) {
         if (_odataRequest.tenantId === 'tenant-007') {
