@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.0.5
+
+### Patch Changes
+
+-   de67a11: Update to @sap/cds-compiler 4.x
+
 ## 1.0.4
 
 ### Patch Changes
