@@ -467,6 +467,7 @@ export type ServiceObject =
     | TypeDefinition
     | NavigationProperty
     | Action
+    | ActionParameter
     | ActionImport
     | EntityContainer;
 export type ServiceObjectAndAnnotation = ServiceObject | AnyAnnotation;

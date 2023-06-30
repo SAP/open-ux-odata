@@ -60,7 +60,6 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         SelectionVariantType: {
             Text: true
         },
-
         //ValueCriticality: true,
         DataFieldAbstract: {
             Criticality: true
@@ -80,6 +79,11 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
             TypeImageUrl: true,
             ImageUrl: true,
             Initials: true
+        }
+    },
+    Communication: {
+        ContactType: {
+            fn: true
         }
     },
     Common: {
