@@ -171,8 +171,8 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
       node-fetch:
-        specifier: 2.6.11
-        version: 2.6.11
+        specifier: 2.6.12
+        version: 2.6.12
 
   packages/fe-mockserver-plugin-cds:
     devDependencies:
@@ -5520,8 +5520,8 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /node-fetch@2.6.11:
-    resolution: {integrity: sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==}
+  /node-fetch@2.6.12:
+    resolution: {integrity: sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
       encoding: ^0.1.0
