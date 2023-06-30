@@ -1,5 +1,12 @@
 # @sap-ux/annotation-converter
 
+## 0.7.2
+
+### Patch Changes
+
+-   Updated dependencies [06396a1]
+    -   @sap-ux/vocabularies-types@0.9.1
+
 ## 0.7.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.9.1
+
+### Patch Changes
+
+-   06396a1: Fix the definition of ServiceObject and make contact/fn dynamic
+
 ## 0.9.0
 
 ### Minor Changes
