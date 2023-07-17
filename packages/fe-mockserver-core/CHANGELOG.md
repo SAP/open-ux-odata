@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.110
+
+### Patch Changes
+
+-   4dc98e0: Allow to perform maintenance on hierrchy nodes
+
 ## 1.1.109
 
 ### Patch Changes
