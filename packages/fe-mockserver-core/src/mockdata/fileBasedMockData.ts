@@ -188,6 +188,7 @@ export class FileBasedMockData {
 
     async removeEntry(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<void> {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
+
         if (dataIndex !== -1) {
             this._mockData.splice(dataIndex, 1);
         }
@@ -892,17 +893,27 @@ export class FileBasedMockData {
             const subTrees: object[] = [];
             hierarchyFilter.forEach((item: any) => {
                 const parentNodeChildren = hierarchyNodes[item[sourceReference]];
-                const currentNode = parentNodeChildren.find((node: any) => node[nodeProperty] === item[nodeProperty]);
-                if (_parameters.keepStart) {
-                    if (hierarchyDefinition.matchedProperty) {
-                        // TODO compare with lastFilterTransformationResult
-                        currentNode[hierarchyDefinition.matchedProperty] = true;
+                if (parentNodeChildren) {
+                    const currentNode = parentNodeChildren.find(
+                        (node: any) => node[nodeProperty] === item[nodeProperty]
+                    );
+                    if (_parameters.keepStart) {
+                        if (hierarchyDefinition.matchedProperty) {
+                            // TODO compare with lastFilterTransformationResult
+                            currentNode[hierarchyDefinition.matchedProperty] = true;
+                        }
+                        subTrees.push(currentNode);
                     }
-                    subTrees.push(currentNode);
+                    currentNode.$children?.forEach((child: any) => {
+                        this.flattenTree(
+                            child,
+                            subTrees,
+                            nodeProperty,
+                            hierarchyDefinition,
+                            _parameters.maximumDistance
+                        );
+                    });
                 }
-                currentNode.$children.forEach((child: any) => {
-                    this.flattenTree(child, subTrees, nodeProperty, hierarchyDefinition, _parameters.maximumDistance);
-                });
             });
             const outData: object[] = [];
             inputSet.forEach((item: any) => {
