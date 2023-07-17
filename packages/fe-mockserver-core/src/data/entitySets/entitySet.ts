@@ -10,7 +10,7 @@ import type { KeyDefinitions } from '../../request/odataRequest';
 import ODataRequest from '../../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from '../common';
 import { getData } from '../common';
-import { DataAccess } from '../dataAccess';
+import type { DataAccess } from '../dataAccess';
 
 type PreparedFunction = {
     fn: Function;

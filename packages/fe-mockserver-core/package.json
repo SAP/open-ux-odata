@@ -18,7 +18,7 @@
         "clean": "rimraf dist build",
         "dev": "pnpm clean && tsc -project ./tsconfig.dev.json --watch",
         "format": "prettier **/* --write --ignore-unknown --ignore-path ../../.prettierignore",
-        "lint": "eslint . --ext .ts",
+        "lint": "eslint . --ext .ts  --quiet",
         "lint:fix": "eslint . --ext .ts --fix",
         "watch": "tsc --watch",
         "link": "pnpm link --global",
