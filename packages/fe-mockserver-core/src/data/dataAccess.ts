@@ -971,6 +971,10 @@ export class DataAccess implements DataAccessInterface {
                         case 'Edm.Int64': {
                             return `${key}=${currentKeys[key]}`;
                         }
+                        case 'Edm.Boolean':
+                            return `${key}=${currentKeys[key]}`;
+                        case 'Edm.Guid':
+                            return `${key}=guid'${currentKeys[key]}'`;
                         default: {
                             return `${key}='${currentKeys[key]}'`;
                         }
