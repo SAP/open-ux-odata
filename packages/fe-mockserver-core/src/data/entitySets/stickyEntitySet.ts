@@ -172,7 +172,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         if (currentSessionObject && keyValues && Object.keys(keyValues).length) {
             if (
                 (Object.prototype.hasOwnProperty.call(keyValues, '') && keyValues[''] === '') ||
-                this.checkKeys(keyValues, currentSessionObject, this.entityTypeDefinition.keys)
+                this.checkKeys(this.prepareKeys(keyValues), currentSessionObject, this.entityTypeDefinition.keys)
             ) {
                 if (odataRequest) {
                     odataRequest.addResponseHeader('sap-contextid', 'SID:ANON:' + this.currentUUID);
