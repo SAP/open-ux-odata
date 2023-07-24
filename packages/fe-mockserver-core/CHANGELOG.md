@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.111
+
+### Patch Changes
+
+-   2ecd0c5: fix: update metadata definition for v2 requests
+
 ## 1.1.110
 
 ### Patch Changes
