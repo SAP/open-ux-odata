@@ -193,12 +193,9 @@ export class DataAccess implements DataAccessInterface {
                 if (actionDefinition.sourceType !== '') {
                     const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
                     if (targetEntitySet) {
-                        let outData: any = (await this.getMockEntitySet(targetEntitySet.name)).executeAction(
-                            actionDefinition,
-                            Object.assign({}, actionData),
-                            odataRequest,
-                            {}
-                        );
+                        let outData = await (
+                            await this.getMockEntitySet(targetEntitySet.name)
+                        ).executeAction(actionDefinition, Object.assign({}, actionData), odataRequest, {});
                         if (!this.isV4()) {
                             const enrichElement = (entitySet: EntitySet, dataLine: any) => {
                                 const keyValues: Record<string, string> = {};
@@ -959,7 +956,24 @@ export class DataAccess implements DataAccessInterface {
         const propertyKeys = entitySet.entityType.keys;
 
         if (Object.keys(currentKeys).length === 1) {
-            keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
+            const propertyDef = propertyKeys.by_name(propertyKeys[0].name);
+            switch (propertyDef?.type) {
+                case 'Edm.Byte':
+                case 'Edm.Int16':
+                case 'Edm.Int32':
+                case 'Edm.Boolean':
+                case 'Edm.Int64': {
+                    keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
+                    break;
+                }
+                case 'Edm.Guid':
+                    keyStr = `guid'${currentKeys[Object.keys(currentKeys)[0]]}'`;
+                    break;
+                default: {
+                    keyStr = `'${currentKeys[Object.keys(currentKeys)[0]].toString()}'`;
+                    break;
+                }
+            }
         } else {
             keyStr = Object.keys(currentKeys)
                 .map((key) => {
@@ -968,11 +982,10 @@ export class DataAccess implements DataAccessInterface {
                         case 'Edm.Byte':
                         case 'Edm.Int16':
                         case 'Edm.Int32':
+                        case 'Edm.Boolean':
                         case 'Edm.Int64': {
                             return `${key}=${currentKeys[key]}`;
                         }
-                        case 'Edm.Boolean':
-                            return `${key}=${currentKeys[key]}`;
                         case 'Edm.Guid':
                             return `${key}=guid'${currentKeys[key]}'`;
                         default: {
