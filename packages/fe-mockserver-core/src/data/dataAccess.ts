@@ -1,5 +1,6 @@
 import type {
     Action,
+    ArrayWithIndex,
     EntitySet,
     EntityType,
     NavigationProperty,
@@ -935,14 +936,22 @@ export class DataAccess implements DataAccessInterface {
                 await this.getMockEntitySet(parentEntitySet.name)
             ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
             odataRequest.setContext(`../$metadata#${parentEntitySet.name}/$entity`);
-            odataRequest.addResponseHeader(
-                'Location',
-                `${parentEntitySet.name}(${Object.keys(currentKeys)
-                    .map((key) => `${key}='${currentKeys[key]}'`)
-                    .join(',')})`
-            );
             if (!this.isV4()) {
+                odataRequest.addResponseHeader(
+                    'Location',
+                    `${parentEntitySet.name}(${this.getV2KeyString(
+                        currentKeys,
+                        parentEntitySet.entityType.entityProperties
+                    )})`
+                );
                 this.addV2Metadata(parentEntitySet, currentKeys, postData);
+            } else {
+                odataRequest.addResponseHeader(
+                    'Location',
+                    `${parentEntitySet.name}(${Object.keys(currentKeys)
+                        .map((key) => `${key}='${currentKeys[key]}'`)
+                        .join(',')})`
+                );
             }
             odataRequest.setResponseData(await postData);
             return postData;
@@ -952,9 +961,19 @@ export class DataAccess implements DataAccessInterface {
     }
 
     private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: KeyDefinitions, postData: any) {
-        let keyStr = '';
         const propertyKeys = entitySet.entityType.keys;
 
+        const keyStr = this.getV2KeyString(currentKeys, propertyKeys);
+        const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
+        postData['__metadata'] = {
+            id: uri,
+            uri: uri,
+            type: entitySet.entityTypeName
+        };
+    }
+
+    private getV2KeyString(currentKeys: KeyDefinitions, propertyKeys: ArrayWithIndex<Property, 'name'>) {
+        let keyStr = '';
         if (Object.keys(currentKeys).length === 1) {
             const propertyDef = propertyKeys.by_name(propertyKeys[0].name);
             switch (propertyDef?.type) {
@@ -975,7 +994,7 @@ export class DataAccess implements DataAccessInterface {
                 }
             }
         } else {
-            keyStr = Object.keys(currentKeys)
+            return Object.keys(currentKeys)
                 .map((key) => {
                     const propertyDef = propertyKeys.by_name(key);
                     switch (propertyDef?.type) {
@@ -995,12 +1014,7 @@ export class DataAccess implements DataAccessInterface {
                 })
                 .join(',');
         }
-        const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
-        postData['__metadata'] = {
-            id: uri,
-            uri: uri,
-            type: entitySet.entityTypeName
-        };
+        return keyStr;
     }
 
     public async deleteData(odataRequest: ODataRequest) {
