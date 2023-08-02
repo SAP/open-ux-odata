@@ -935,6 +935,12 @@ export class DataAccess implements DataAccessInterface {
             postData = await (
                 await this.getMockEntitySet(parentEntitySet.name)
             ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+            // Update keys from location
+            parentEntitySet.entityType.keys.forEach((key) => {
+                if (postData[key.name] !== undefined) {
+                    currentKeys[key.name] = postData[key.name];
+                }
+            });
             odataRequest.setContext(`../$metadata#${parentEntitySet.name}/$entity`);
             if (!this.isV4()) {
                 odataRequest.addResponseHeader(
