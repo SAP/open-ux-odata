@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.112
+
+### Patch Changes
+
+-   cc971c4: Fix various issues with v2
+
 ## 1.1.111
 
 ### Patch Changes
