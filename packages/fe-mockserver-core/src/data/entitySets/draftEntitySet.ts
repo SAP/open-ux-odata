@@ -357,7 +357,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         }
         const currentDate = _getDateTimeOffset(this.isV4());
         postData.DraftAdministrativeData = {
-            DraftUUID: uuidv4(),
+            DraftUUID: postData.DraftUUID ?? uuidv4(),
             CreationDateTime: currentDate,
             CreatedByUser: 'nobody',
             DraftIsCreatedByMe: true,

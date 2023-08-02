@@ -1,5 +1,6 @@
 import type {
     Action,
+    ArrayWithIndex,
     EntitySet,
     EntityType,
     NavigationProperty,
@@ -193,12 +194,9 @@ export class DataAccess implements DataAccessInterface {
                 if (actionDefinition.sourceType !== '') {
                     const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
                     if (targetEntitySet) {
-                        let outData: any = (await this.getMockEntitySet(targetEntitySet.name)).executeAction(
-                            actionDefinition,
-                            Object.assign({}, actionData),
-                            odataRequest,
-                            {}
-                        );
+                        let outData = await (
+                            await this.getMockEntitySet(targetEntitySet.name)
+                        ).executeAction(actionDefinition, Object.assign({}, actionData), odataRequest, {});
                         if (!this.isV4()) {
                             const enrichElement = (entitySet: EntitySet, dataLine: any) => {
                                 const keyValues: Record<string, string> = {};
@@ -937,15 +935,29 @@ export class DataAccess implements DataAccessInterface {
             postData = await (
                 await this.getMockEntitySet(parentEntitySet.name)
             ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+            // Update keys from location
+            parentEntitySet.entityType.keys.forEach((key) => {
+                if (postData[key.name] !== undefined) {
+                    currentKeys[key.name] = postData[key.name];
+                }
+            });
             odataRequest.setContext(`../$metadata#${parentEntitySet.name}/$entity`);
-            odataRequest.addResponseHeader(
-                'Location',
-                `${parentEntitySet.name}(${Object.keys(currentKeys)
-                    .map((key) => `${key}='${currentKeys[key]}'`)
-                    .join(',')})`
-            );
             if (!this.isV4()) {
+                odataRequest.addResponseHeader(
+                    'Location',
+                    `${parentEntitySet.name}(${this.getV2KeyString(
+                        currentKeys,
+                        parentEntitySet.entityType.entityProperties
+                    )})`
+                );
                 this.addV2Metadata(parentEntitySet, currentKeys, postData);
+            } else {
+                odataRequest.addResponseHeader(
+                    'Location',
+                    `${parentEntitySet.name}(${Object.keys(currentKeys)
+                        .map((key) => `${key}='${currentKeys[key]}'`)
+                        .join(',')})`
+                );
             }
             odataRequest.setResponseData(await postData);
             return postData;
@@ -955,24 +967,50 @@ export class DataAccess implements DataAccessInterface {
     }
 
     private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: KeyDefinitions, postData: any) {
-        let keyStr = '';
         const propertyKeys = entitySet.entityType.keys;
 
+        const keyStr = this.getV2KeyString(currentKeys, propertyKeys);
+        const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
+        postData['__metadata'] = {
+            id: uri,
+            uri: uri,
+            type: entitySet.entityTypeName
+        };
+    }
+
+    private getV2KeyString(currentKeys: KeyDefinitions, propertyKeys: ArrayWithIndex<Property, 'name'>) {
+        let keyStr = '';
         if (Object.keys(currentKeys).length === 1) {
-            keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
+            const propertyDef = propertyKeys.by_name(propertyKeys[0].name);
+            switch (propertyDef?.type) {
+                case 'Edm.Byte':
+                case 'Edm.Int16':
+                case 'Edm.Int32':
+                case 'Edm.Boolean':
+                case 'Edm.Int64': {
+                    keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
+                    break;
+                }
+                case 'Edm.Guid':
+                    keyStr = `guid'${currentKeys[Object.keys(currentKeys)[0]]}'`;
+                    break;
+                default: {
+                    keyStr = `'${currentKeys[Object.keys(currentKeys)[0]].toString()}'`;
+                    break;
+                }
+            }
         } else {
-            keyStr = Object.keys(currentKeys)
+            return Object.keys(currentKeys)
                 .map((key) => {
                     const propertyDef = propertyKeys.by_name(key);
                     switch (propertyDef?.type) {
                         case 'Edm.Byte':
                         case 'Edm.Int16':
                         case 'Edm.Int32':
+                        case 'Edm.Boolean':
                         case 'Edm.Int64': {
                             return `${key}=${currentKeys[key]}`;
                         }
-                        case 'Edm.Boolean':
-                            return `${key}=${currentKeys[key]}`;
                         case 'Edm.Guid':
                             return `${key}=guid'${currentKeys[key]}'`;
                         default: {
@@ -982,12 +1020,7 @@ export class DataAccess implements DataAccessInterface {
                 })
                 .join(',');
         }
-        const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
-        postData['__metadata'] = {
-            id: uri,
-            uri: uri,
-            type: entitySet.entityTypeName
-        };
+        return keyStr;
     }
 
     public async deleteData(odataRequest: ODataRequest) {

@@ -134,7 +134,7 @@ describe('Data Access', () => {
                 body: {
                     ProductID: 1,
                     Product: 'Acme_Bazooka',
-                    DraftUUID: '',
+                    DraftUUID: '0c241e36-7e4c-44b4-a748-3bf31fcc2135',
                     Price: 3,
                     Name: 'Acme Bazooka',
                     Supplier: 'Acme FR',
@@ -146,7 +146,6 @@ describe('Data Access', () => {
         await odataRequestPost.handleRequest();
         let responseDataPost = odataRequestPost.getResponseData() || '';
         responseDataPost = responseDataPost.replace(/\/Date\([^)]+\)/g, '/Date()');
-        responseDataPost = responseDataPost.replace(/DraftUUID":"[^"]+"/g, 'DraftUUID":""');
         expect(responseDataPost).toMatchSnapshot();
         expect(odataRequestPost.responseHeaders).toMatchSnapshot();
     });
