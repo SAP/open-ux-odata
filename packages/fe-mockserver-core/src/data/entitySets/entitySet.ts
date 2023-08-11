@@ -546,7 +546,8 @@ export class MockDataEntitySet implements EntitySetInterface {
                         new ODataRequest(
                             {
                                 method: 'GET',
-                                url: '/' + reference
+                                url: '/' + reference,
+                                tenantId
                             },
                             this.dataAccess as DataAccess
                         )

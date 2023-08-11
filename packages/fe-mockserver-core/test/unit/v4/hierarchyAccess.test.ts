@@ -1580,7 +1580,7 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
-    test('9 - Create new root', async () => {
+    test('9 - Create new root and a child', async () => {
         const createRequest = new ODataRequest(
             {
                 method: 'POST',
@@ -1648,6 +1648,68 @@ describe('Hierarchy Access', () => {
               },
             ]
         `);
+
+        const createRequestChild = new ODataRequest(
+            {
+                method: 'POST',
+                url: '/SalesOrganizations',
+                tenantId: 'createRoot'
+            },
+            dataAccess
+        );
+        await dataAccess.createData(createRequest, {
+            ID: 'NZL_C',
+            Name: 'NZL_C',
+            'Superordinate@odata.bind': "SalesOrganizations('NZL')"
+        });
+        const odataRequest2 = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2)&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=10",
+                tenantId: 'createRoot'
+            },
+            dataAccess
+        );
+        const data2 = await dataAccess.getData(odataRequest2);
+        expect(data2).toMatchInlineSnapshot(`
+          [
+            {
+              "DistanceFromRoot": 0,
+              "DrillState": "expanded",
+              "ID": "NZL",
+              "LimitedDescendantCount": 1,
+              "Name": "NZL",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "leaf",
+              "ID": "NZL_C",
+              "LimitedDescendantCount": 0,
+              "Name": "NZL_C",
+            },
+            {
+              "DistanceFromRoot": 0,
+              "DrillState": "expanded",
+              "ID": "Sales",
+              "LimitedDescendantCount": 2,
+              "Name": "Corporate Sales",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "collapsed",
+              "ID": "EMEA",
+              "LimitedDescendantCount": 0,
+              "Name": "EMEA",
+            },
+            {
+              "DistanceFromRoot": 1,
+              "DrillState": "collapsed",
+              "ID": "US",
+              "LimitedDescendantCount": 0,
+              "Name": "US",
+            },
+          ]
+      `);
     });
     test('10 - Create new child node of existing node', async () => {
         const createRequest = new ODataRequest(
