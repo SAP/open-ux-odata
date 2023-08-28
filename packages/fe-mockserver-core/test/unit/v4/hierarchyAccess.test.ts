@@ -1649,14 +1649,6 @@ describe('Hierarchy Access', () => {
             ]
         `);
 
-        const createRequestChild = new ODataRequest(
-            {
-                method: 'POST',
-                url: '/SalesOrganizations',
-                tenantId: 'createRoot'
-            },
-            dataAccess
-        );
         await dataAccess.createData(createRequest, {
             ID: 'NZL_C',
             Name: 'NZL_C',
