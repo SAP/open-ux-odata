@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.114
+
+### Patch Changes
+
+-   17d8ba5: fix: prevent keyword from interfering with queries
+
 ## 1.1.113
 
 ### Patch Changes
