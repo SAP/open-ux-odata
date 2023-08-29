@@ -50,6 +50,7 @@ const ANNOTATION_TARGETS = [
 const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<string, boolean>>> = {
     UI: {
         Hidden: true,
+        CreateHidden: true,
         DeleteHidden: true,
         UpdateHidden: true,
         Criticality: true,
