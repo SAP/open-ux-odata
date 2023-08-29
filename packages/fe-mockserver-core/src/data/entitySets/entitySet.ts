@@ -257,6 +257,8 @@ export class MockDataEntitySet implements EntitySetInterface {
             this.contextBasedMockData[contextId] = this._rootMockDataFn
                 ? new FunctionBasedMockData(this._rootMockDataFn, this.entityTypeDefinition, this, contextId)
                 : new FileBasedMockData(this._rootMockData, this.entityTypeDefinition, this, contextId);
+        } else {
+            this.contextBasedMockData[contextId].cleanupHierarchies();
         }
         return this.contextBasedMockData[contextId];
     }
@@ -546,7 +548,8 @@ export class MockDataEntitySet implements EntitySetInterface {
                         new ODataRequest(
                             {
                                 method: 'GET',
-                                url: '/' + reference
+                                url: '/' + reference,
+                                tenantId
                             },
                             this.dataAccess as DataAccess
                         )

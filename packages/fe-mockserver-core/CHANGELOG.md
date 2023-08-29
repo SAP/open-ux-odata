@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.113
+
+### Patch Changes
+
+-   dda5847: fix: cannot create a node in a hierarchy and a node below it
+
 ## 1.1.112
 
 ### Patch Changes
