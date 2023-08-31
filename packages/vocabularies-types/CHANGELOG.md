@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.9.2
+
+### Patch Changes
+
+-   39eadb1: Allow dynamic expression for UI.CreateHidden annotation
+
 ## 0.9.1
 
 ### Patch Changes
