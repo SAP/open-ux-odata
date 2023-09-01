@@ -1911,4 +1911,67 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+    test('apply queries', () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url:
+                    '/SalesOrganizations?$apply=ancestors(' +
+                    '$root/PurchaseRequisitionItem,' +
+                    'I_PPS_ProcPurReqnItemHNRltn,__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId,' +
+                    "filter((PPSLoggedInUsrIsRespPurr%20eq%20true)%20and%20(PPSPurReqnItemCompletionStatus%20eq%20'0')),keep%20start)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/PurchaseRequisitionItem,HierarchyQualifier='I_PPS_ProcPurReqnItemHNRltn',NodeProperty='__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId',Levels=1)"
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "parameters": {
+                  "hierarchyRoot": "$root/PurchaseRequisitionItem",
+                  "inputSetTransformations": [
+                    {
+                      "filterExpr": {
+                        "expressions": [
+                          {
+                            "expressions": [
+                              {
+                                "identifier": "PPSLoggedInUsrIsRespPurr",
+                                "literal": "true",
+                                "operator": "eq",
+                              },
+                            ],
+                            "isGroup": true,
+                            "operator": undefined,
+                          },
+                          {
+                            "identifier": "PPSPurReqnItemCompletionStatus",
+                            "literal": "'0'",
+                            "operator": "eq",
+                          },
+                        ],
+                        "operator": "AND",
+                      },
+                      "type": "filter",
+                    },
+                  ],
+                  "keepStart": true,
+                  "maximumDistance": -1,
+                  "propertyPath": "__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId",
+                  "qualifier": "I_PPS_ProcPurReqnItemHNRltn",
+                },
+                "type": "ancestors",
+              },
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "HierarchyNodes": "$root/PurchaseRequisitionItem",
+                  "HierarchyQualifier": "'I_PPS_ProcPurReqnItemHNRltn'",
+                  "Levels": "1",
+                  "NodeProperty": "'__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId'",
+                },
+                "type": "customFunction",
+              },
+            ]
+        `);
+    });
 });
