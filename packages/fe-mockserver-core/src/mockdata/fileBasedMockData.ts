@@ -86,20 +86,9 @@ export class FileBasedMockData {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
                     this.validateProperties(mockLine, this._entityType.entityProperties);
-                    const allAggregations = this._entityType.annotations?.Aggregation ?? {};
-                    Object.keys(allAggregations)
-                        .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
-                        .forEach((aggregationName) => {
-                            const aggregationDefinition: RecursiveHierarchy = allAggregations[
-                                aggregationName as keyof typeof allAggregations
-                            ] as RecursiveHierarchy;
-                            const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
-                                aggregationDefinition.qualifier
-                            );
-                            this.cleanupHierarchyData(mockLine, hierarchyDefinition);
-                        });
                 });
             }
+            this.cleanupHierarchies();
         }
     }
 
@@ -113,7 +102,24 @@ export class FileBasedMockData {
             }
         });
     }
-
+    public cleanupHierarchies() {
+        const allAggregations = this._entityType.annotations?.Aggregation ?? {};
+        Object.keys(allAggregations)
+            .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
+            .forEach((aggregationName) => {
+                const aggregationDefinition: RecursiveHierarchy = allAggregations[
+                    aggregationName as keyof typeof allAggregations
+                ] as RecursiveHierarchy;
+                const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
+                    aggregationDefinition.qualifier
+                );
+                if (this._mockData.forEach) {
+                    this._mockData.forEach((mockLine) => {
+                        this.cleanupHierarchyData(mockLine, hierarchyDefinition);
+                    });
+                }
+            });
+    }
     private cleanupHierarchyData(mockEntry: any, hierarchyDefinition: HierarchyDefinition) {
         if (hierarchyDefinition.matchedProperty) {
             delete mockEntry[hierarchyDefinition.matchedProperty];

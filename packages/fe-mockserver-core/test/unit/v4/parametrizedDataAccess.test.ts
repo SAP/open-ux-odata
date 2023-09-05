@@ -93,6 +93,26 @@ describe('Parametrized Data Access', () => {
         );
         expect(customerData.length).toBe(4);
     });
+    test('can do a groupby on description', async () => {
+        const request = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/Customer(P_CompanyCode='0001')/Set?$apply=groupby((description))"
+            },
+            dataAccess
+        );
+        expect(request.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "groupBy": [
+                  "description",
+                ],
+                "subTransformations": [],
+                "type": "groupBy",
+              },
+            ]
+        `);
+    });
     test('can aggregate data with a custom aggregate', async () => {
         const customerData = await dataAccess.getData(
             new ODataRequest(

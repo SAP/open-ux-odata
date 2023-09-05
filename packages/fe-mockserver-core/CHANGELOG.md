@@ -1,5 +1,24 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.115
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.7.3
+-   @sap-ux/edmx-parser@0.6.0
+
+## 1.1.114
+
+### Patch Changes
+
+-   17d8ba5: fix: prevent keyword from interfering with queries
+
+## 1.1.113
+
+### Patch Changes
+
+-   dda5847: fix: cannot create a node in a hierarchy and a node below it
+
 ## 1.1.112
 
 ### Patch Changes
