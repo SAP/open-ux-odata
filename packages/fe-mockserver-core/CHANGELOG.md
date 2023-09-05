@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.116
+
+### Patch Changes
+
+-   2d25b15: ancestor queries can be parsed on complex navigation
+
 ## 1.1.115
 
 ### Patch Changes
