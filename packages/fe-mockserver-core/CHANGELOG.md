@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.117
+
+### Patch Changes
+
+-   bae3664: V2 metadata response now encode special characters in keys
+
 ## 1.1.116
 
 ### Patch Changes
