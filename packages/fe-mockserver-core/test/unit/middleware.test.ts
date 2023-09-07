@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../../../fetch.d.ts" /> TODO: Remove once the native global fetch API types are available out of the box
+/// <reference lib="dom" /> TODO: Cheap workaround to make the native fetch() known to TS (https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch); remove when supported officially
 import finalHandler from 'finalhandler';
 import * as fs from 'fs';
 import type { Server } from 'http';
