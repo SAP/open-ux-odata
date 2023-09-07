@@ -1,5 +1,6 @@
 import type {
     Action,
+    ArrayWithIndex,
     EntitySet,
     EntityType,
     NavigationProperty,
@@ -12,7 +13,7 @@ import cloneDeep from 'lodash.clonedeep';
 import type { ServiceConfig } from '../api';
 import type { IFileLoader } from '../index';
 import { getLogger } from '../logger';
-import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
+import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
 import { MockEntityContainer } from '../mockdata/mockEntityContainer';
 import type {
     AggregatesTransformation,
@@ -22,9 +23,9 @@ import type {
     TransformationDefinition
 } from '../request/applyParser';
 import type { FilterExpression } from '../request/filterParser';
-import type { ExpandDefinition, QueryPath } from '../request/odataRequest';
+import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
-import type { DataAccessInterface, EntitySetInterface, PartialReferentialConstraint } from './common';
+import type { DataAccessInterface, EntitySetInterface } from './common';
 import { getData, _getDateTimeOffset } from './common';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
@@ -126,8 +127,9 @@ export class DataAccess implements DataAccessInterface {
         return this.entitySets[entityTypeName!].readyPromise;
     }
 
-    public async performAction(odataRequest: ODataRequest, actionData?: object): Promise<any> {
+    public async performAction(odataRequest: ODataRequest, bodyActionData?: object): Promise<any> {
         // if it's a bound action we need to look for the action type
+        const actionData = bodyActionData ?? odataRequest.queryPath[odataRequest.queryPath.length - 1].keys;
         const rootEntitySet = this.metadata.getEntitySet(odataRequest.queryPath[0].path);
         if (rootEntitySet) {
             let currentEntityType = rootEntitySet.entityType;
@@ -165,7 +167,17 @@ export class DataAccess implements DataAccessInterface {
                         collecactionDefinition,
                         actionData,
                         odataRequest,
-                        odataRequest.queryPath[0].keys
+                        odataRequest.queryPath[i - 1].keys
+                    );
+                }
+                // Fallback with local resolving, useful for function where the FQN also include all parameter types
+                const functionDefinition = currentEntityType.resolvePath(actionName);
+                if (functionDefinition?._type === 'Function' || functionDefinition?._type === 'Action') {
+                    return (await this.getMockEntitySet(entitySetName)).executeAction(
+                        functionDefinition,
+                        actionData,
+                        odataRequest,
+                        odataRequest.queryPath[i - 1].keys
                     );
                 }
             }
@@ -182,12 +194,9 @@ export class DataAccess implements DataAccessInterface {
                 if (actionDefinition.sourceType !== '') {
                     const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
                     if (targetEntitySet) {
-                        let outData: any = (await this.getMockEntitySet(targetEntitySet.name)).executeAction(
-                            actionDefinition,
-                            Object.assign({}, actionData),
-                            odataRequest,
-                            {}
-                        );
+                        let outData = await (
+                            await this.getMockEntitySet(targetEntitySet.name)
+                        ).executeAction(actionDefinition, Object.assign({}, actionData), odataRequest, {});
                         if (!this.isV4()) {
                             const enrichElement = (entitySet: EntitySet, dataLine: any) => {
                                 const keyValues: Record<string, string> = {};
@@ -247,38 +256,34 @@ export class DataAccess implements DataAccessInterface {
 
     public async getNavigationPropertyKeys(
         data: any,
-        navPropDetail: any,
+        navPropDetail: NavigationProperty,
         currentEntityType: EntityType,
         currentEntitySet: EntitySet | Singleton | undefined,
-        currentKeys: Record<string, string>,
+        currentKeys: KeyDefinitions,
         tenantId: string,
         forCreate = false
-    ): Promise<Record<string, string>> {
+    ): Promise<KeyDefinitions> {
         const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
-        let referentialConstraints = await mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail);
-        if (!referentialConstraints) {
-            referentialConstraints = navPropDetail.referentialConstraint;
-        }
-        if (referentialConstraints && referentialConstraints.length > 0) {
+        const referentialConstraints =
+            (await mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail)) ??
+            navPropDetail.referentialConstraint;
+
+        if (referentialConstraints.length > 0) {
             const dataArray = Array.isArray(data) ? data : [data];
             dataArray.forEach((navigationData) => {
-                referentialConstraints!.forEach((refConstr: PartialReferentialConstraint) => {
+                referentialConstraints.forEach((refConstr) => {
                     currentKeys[refConstr.targetProperty] = navigationData[refConstr.sourceProperty];
                 });
-                if (
-                    currentEntitySet &&
-                    navigationData.hasOwnProperty('IsActiveEntity') &&
-                    ((currentEntitySet?.annotations?.Common as any)?.DraftNode ||
-                        (currentEntitySet?.annotations?.Common as any)?.DraftRoot)
-                ) {
-                    currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
-                }
-                if (
-                    navigationData.hasOwnProperty('IsActiveEntity') &&
-                    (navPropDetail.targetType.annotations?.Common?.DraftNode ||
-                        navPropDetail.targetType.annotations?.Common?.DraftRoot)
-                ) {
-                    currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
+
+                if ('IsActiveEntity' in navigationData && !('IsActiveEntity' in currentKeys)) {
+                    const targetEntitySet = currentEntitySet?.navigationPropertyBinding[navPropDetail.name];
+                    if (
+                        (targetEntitySet?.annotations?.Common as any)?.DraftRoot ||
+                        (targetEntitySet?.annotations?.Common as any)?.DraftNode ||
+                        navPropDetail.targetType.keys.find((key: Property) => key.name === 'IsActiveEntity')
+                    ) {
+                        currentKeys['IsActiveEntity'] = navigationData.IsActiveEntity;
+                    }
                 }
             });
         } else {
@@ -367,7 +372,7 @@ export class DataAccess implements DataAccessInterface {
         } else if (previousEntitySet && previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')]) {
             targetEntitySet = previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')];
         }
-        if (targetEntitySet) {
+        if (navProp && targetEntitySet) {
             const navEntitySet = await this.getMockEntitySet(targetEntitySet.name);
             const dataArray = Array.isArray(data) ? data : [data];
             for (const dataLine of dataArray) {
@@ -505,7 +510,7 @@ export class DataAccess implements DataAccessInterface {
         let data: any = await odataRequest.queryPath.reduce(
             async (inData: Promise<any>, queryPathPart: QueryPath, index: number) => {
                 const innerData = await inData;
-                let currentKeys: Record<string, any> = queryPathPart.keys || {};
+                let currentKeys: KeyDefinitions = queryPathPart.keys || {};
                 let asArray: boolean = Object.keys(currentKeys).length === 0;
                 if (queryPathPart.path === '$count') {
                     isCount = true;
@@ -706,7 +711,9 @@ export class DataAccess implements DataAccessInterface {
             }
             // Apply $select
             const originalData = data;
-            data = cloneDeep(data);
+            if (!dontClone) {
+                data = cloneDeep(data);
+            }
             if (odataRequest.selectedProperties) {
                 if (odataRequest.selectedProperties['DraftAdministrativeData']) {
                     if (Array.isArray(data)) {
@@ -865,58 +872,58 @@ export class DataAccess implements DataAccessInterface {
                 lastNavPropName = odataRequest.queryPath[i].path;
             }
             const entityType = parentEntitySet.entityType;
-            const navPropDetail = entityType.navigationProperties.find(
-                (navProp) => navProp.name === lastNavPropName
-            ) as any;
-            const navPropEntityType = navPropDetail.targetType;
-            const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
-                odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
-                false,
-                odataRequest.tenantId,
-                odataRequest,
-                true
-            );
-
-            const providedKeys: Record<string, any> = {};
-            navPropEntityType.keys.forEach((key: Property) => {
-                if (postData[key.name] !== undefined) {
-                    providedKeys[key.name] = postData[key.name];
-                }
-            });
-            const currentKeys = await this.getNavigationPropertyKeys(
-                data,
-                navPropDetail,
-                parentEntitySet.entityType,
-                parentEntitySet,
-                providedKeys,
-                odataRequest.tenantId,
-                true
-            );
-            if (data.DraftAdministrativeData !== null && data.DraftAdministrativeData !== undefined) {
-                data.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
-            }
-            if (!navPropDetail.containsTarget) {
-                const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName];
-                odataRequest.setContext(`../$metadata#${targetEntitySet.name}/$entity`);
-                odataRequest.addResponseHeader(
-                    'Location',
-                    `${targetEntitySet.name}(${Object.keys(currentKeys)
-                        .map((key) => `${key}='${currentKeys[key]}'`)
-                        .join(',')})`
+            const navPropDetail = entityType.navigationProperties.find((navProp) => navProp.name === lastNavPropName);
+            if (navPropDetail) {
+                const navPropEntityType = navPropDetail.targetType;
+                const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
+                    odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
+                    false,
+                    odataRequest.tenantId,
+                    odataRequest,
+                    true
                 );
-                postData = await (
-                    await this.getMockEntitySet(targetEntitySet.name)
-                ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
-                if (!this.isV4()) {
-                    this.addV2Metadata(parentEntitySet, currentKeys, postData);
+
+                const providedKeys: Record<string, any> = {};
+                navPropEntityType.keys.forEach((key: Property) => {
+                    if (postData[key.name] !== undefined) {
+                        providedKeys[key.name] = postData[key.name];
+                    }
+                });
+                const currentKeys = await this.getNavigationPropertyKeys(
+                    data,
+                    navPropDetail,
+                    parentEntitySet.entityType,
+                    parentEntitySet,
+                    providedKeys,
+                    odataRequest.tenantId,
+                    true
+                );
+                if (data.DraftAdministrativeData !== null && data.DraftAdministrativeData !== undefined) {
+                    data.DraftAdministrativeData.LastChangeDateTime = _getDateTimeOffset(this.isV4());
                 }
-            } else {
-                if (!data[lastNavPropName]) {
-                    data[lastNavPropName] = [];
+                if (!navPropDetail.containsTarget) {
+                    const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName];
+                    odataRequest.setContext(`../$metadata#${targetEntitySet.name}/$entity`);
+                    odataRequest.addResponseHeader(
+                        'Location',
+                        `${targetEntitySet.name}(${Object.keys(currentKeys)
+                            .map((key) => `${key}='${currentKeys[key]}'`)
+                            .join(',')})`
+                    );
+                    postData = await (
+                        await this.getMockEntitySet(targetEntitySet.name)
+                    ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+                    if (!this.isV4()) {
+                        this.addV2Metadata(parentEntitySet, currentKeys, postData);
+                    }
+                } else {
+                    if (!data[lastNavPropName]) {
+                        data[lastNavPropName] = [];
+                    }
+                    data[lastNavPropName].push(postData);
                 }
-                data[lastNavPropName].push(postData);
+                return postData;
             }
-            return postData;
         } else if (parentEntitySet) {
             // Creating a main object
             const currentKeys: Record<string, any> = {};
@@ -928,15 +935,29 @@ export class DataAccess implements DataAccessInterface {
             postData = await (
                 await this.getMockEntitySet(parentEntitySet.name)
             ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+            // Update keys from location
+            parentEntitySet.entityType.keys.forEach((key) => {
+                if (postData[key.name] !== undefined) {
+                    currentKeys[key.name] = postData[key.name];
+                }
+            });
             odataRequest.setContext(`../$metadata#${parentEntitySet.name}/$entity`);
-            odataRequest.addResponseHeader(
-                'Location',
-                `${parentEntitySet.name}(${Object.keys(currentKeys)
-                    .map((key) => `${key}='${currentKeys[key]}'`)
-                    .join(',')})`
-            );
             if (!this.isV4()) {
+                odataRequest.addResponseHeader(
+                    'Location',
+                    `${parentEntitySet.name}(${this.getV2KeyString(
+                        currentKeys,
+                        parentEntitySet.entityType.entityProperties
+                    )})`
+                );
                 this.addV2Metadata(parentEntitySet, currentKeys, postData);
+            } else {
+                odataRequest.addResponseHeader(
+                    'Location',
+                    `${parentEntitySet.name}(${Object.keys(currentKeys)
+                        .map((key) => `${key}='${currentKeys[key]}'`)
+                        .join(',')})`
+                );
             }
             odataRequest.setResponseData(await postData);
             return postData;
@@ -945,21 +966,61 @@ export class DataAccess implements DataAccessInterface {
         }
     }
 
-    private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: Record<string, string>, postData: any) {
-        let keyStr = '';
-        if (Object.keys(currentKeys).length === 1) {
-            keyStr = currentKeys[Object.keys(currentKeys)[0]];
-        } else {
-            keyStr = Object.keys(currentKeys)
-                .map((key) => `${key}='${currentKeys[key]}'`)
-                .join(',');
-        }
+    private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: KeyDefinitions, postData: any) {
+        const propertyKeys = entitySet.entityType.keys;
+
+        const keyStr = this.getV2KeyString(currentKeys, propertyKeys);
         const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
         postData['__metadata'] = {
             id: uri,
             uri: uri,
             type: entitySet.entityTypeName
         };
+    }
+
+    private getV2KeyString(currentKeys: KeyDefinitions, propertyKeys: ArrayWithIndex<Property, 'name'>) {
+        let keyStr = '';
+        if (Object.keys(currentKeys).length === 1) {
+            const propertyDef = propertyKeys.by_name(propertyKeys[0].name);
+            switch (propertyDef?.type) {
+                case 'Edm.Byte':
+                case 'Edm.Int16':
+                case 'Edm.Int32':
+                case 'Edm.Boolean':
+                case 'Edm.Int64': {
+                    keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
+                    break;
+                }
+                case 'Edm.Guid':
+                    keyStr = `guid'${currentKeys[Object.keys(currentKeys)[0]]}'`;
+                    break;
+                default: {
+                    keyStr = encodeURIComponent(`'${currentKeys[Object.keys(currentKeys)[0]].toString()}'`);
+                    break;
+                }
+            }
+        } else {
+            return Object.keys(currentKeys)
+                .map((key) => {
+                    const propertyDef = propertyKeys.by_name(key);
+                    switch (propertyDef?.type) {
+                        case 'Edm.Byte':
+                        case 'Edm.Int16':
+                        case 'Edm.Int32':
+                        case 'Edm.Boolean':
+                        case 'Edm.Int64': {
+                            return `${key}=${currentKeys[key]}`;
+                        }
+                        case 'Edm.Guid':
+                            return `${key}=guid'${currentKeys[key]}'`;
+                        default: {
+                            return `${key}='${currentKeys[key]}'`;
+                        }
+                    }
+                })
+                .join(',');
+        }
+        return keyStr;
     }
 
     public async deleteData(odataRequest: ODataRequest) {
@@ -1005,8 +1066,8 @@ export class DataAccess implements DataAccessInterface {
             UUID = entitySet.resetSessionTimeout(tenantId);
             timeoutTime = entitySet.sessionTimeoutTime;
         });
-        odataRequest.addResponseHeader('sap-contextid', UUID);
-        odataRequest.addResponseHeader('sap-http-session-timeout', timeoutTime.toString());
+        odataRequest.addResponseHeader('sap-contextid', UUID, true);
+        odataRequest.addResponseHeader('sap-http-session-timeout', timeoutTime.toString(), true);
     }
 
     private _applyOrderBy(data: object[], orderByDefinition: OrderByProp[]): object[] {
@@ -1057,57 +1118,72 @@ export class DataAccess implements DataAccessInterface {
             dataByGroup[aggregateKey].push(dataLine);
         });
 
-        data = Object.keys(dataByGroup).map((groupName) => {
-            const dataToAggregate = dataByGroup[groupName];
-            const outData: any = {};
-            applyDefinition.groupBy.forEach((propName) => {
-                outData[propName] = dataToAggregate[0][propName];
-            });
+        const dataGroups = Object.keys(dataByGroup);
+        if (dataGroups.length === 0 && applyDefinition.groupBy.length === 0) {
+            const targetData: Record<string, unknown> = {};
             if (applyDefinition.subTransformations.length > 0) {
                 const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
                 aggregateDefinition.aggregateDef.forEach((subAggregateDefinition) => {
-                    let propValue: any;
-                    if (
-                        subAggregateDefinition.operator === undefined &&
-                        mockData &&
-                        mockData.hasCustomAggregate(subAggregateDefinition.name, odataRequest)
-                    ) {
-                        propValue = mockData.performCustomAggregate(
-                            subAggregateDefinition.name,
-                            dataToAggregate,
-                            odataRequest
-                        );
-                    } else {
-                        dataToAggregate.forEach((dataLine) => {
-                            const currentValue = dataLine[subAggregateDefinition.sourceProperty];
-                            if (propValue === undefined) {
-                                propValue = currentValue;
-                            } else {
-                                switch (subAggregateDefinition.operator) {
-                                    case 'max':
-                                        propValue = Math.max(propValue, currentValue);
-                                        break;
-                                    case 'min':
-                                        propValue = Math.min(propValue, currentValue);
-                                        break;
-                                    case 'average':
-                                        propValue += currentValue;
-                                        break;
-                                    default:
-                                        propValue += currentValue;
-                                        break;
-                                }
-                            }
-                        });
-                    }
-                    if (subAggregateDefinition.operator === 'average') {
-                        propValue = propValue / dataToAggregate.length;
-                    }
-                    outData[subAggregateDefinition.name] = propValue;
+                    targetData[subAggregateDefinition.name] = 0;
                 });
             }
-            return outData;
-        });
+            data = [targetData];
+        } else {
+            data = dataGroups.map((groupName) => {
+                const dataToAggregate = dataByGroup[groupName];
+                const outData: any = {};
+                applyDefinition.groupBy.forEach((propName) => {
+                    outData[propName] = dataToAggregate[0][propName];
+                });
+                if (applyDefinition.subTransformations.length > 0) {
+                    const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
+                    aggregateDefinition.aggregateDef.forEach((subAggregateDefinition) => {
+                        let propValue: any;
+                        if (
+                            subAggregateDefinition.operator === undefined &&
+                            mockData &&
+                            mockData.hasCustomAggregate(subAggregateDefinition.name, odataRequest)
+                        ) {
+                            propValue = mockData.performCustomAggregate(
+                                subAggregateDefinition.name,
+                                dataToAggregate,
+                                odataRequest
+                            );
+                        } else {
+                            dataToAggregate.forEach((dataLine) => {
+                                const currentValue =
+                                    subAggregateDefinition.sourceProperty === 'count'
+                                        ? 1
+                                        : dataLine[subAggregateDefinition.sourceProperty];
+                                if (propValue === undefined) {
+                                    propValue = currentValue;
+                                } else {
+                                    switch (subAggregateDefinition.operator) {
+                                        case 'max':
+                                            propValue = Math.max(propValue, currentValue);
+                                            break;
+                                        case 'min':
+                                            propValue = Math.min(propValue, currentValue);
+                                            break;
+                                        case 'average':
+                                            propValue += currentValue;
+                                            break;
+                                        default:
+                                            propValue += currentValue;
+                                            break;
+                                    }
+                                }
+                            });
+                        }
+                        if (subAggregateDefinition.operator === 'average') {
+                            propValue = propValue / dataToAggregate.length;
+                        }
+                        outData[subAggregateDefinition.name] = propValue;
+                    });
+                }
+                return outData;
+            });
+        }
         return data;
     }
     private async _applyFilter(
@@ -1130,6 +1206,24 @@ export class DataAccess implements DataAccessInterface {
         currentEntityType: EntityType
     ): Promise<object[]> {
         switch (transformationDef.type) {
+            case 'concat':
+                const concatData: object[] = [];
+                const startingData = cloneDeep(data);
+                for (const concatExpressions of transformationDef.concatExpr) {
+                    for (const concatExpression of concatExpressions) {
+                        const transformedData = await this.applyTransformation(
+                            concatExpression,
+                            startingData,
+                            odataRequest,
+                            mockEntitySet,
+                            mockData,
+                            currentEntityType
+                        );
+                        concatData.push(...transformedData);
+                    }
+                }
+                data = concatData;
+                break;
             case 'orderBy':
                 data = this._applyOrderBy(data, transformationDef.orderBy);
                 break;
@@ -1138,6 +1232,16 @@ export class DataAccess implements DataAccessInterface {
                 this.lastFilterTransformationResult = data;
                 break;
             case 'aggregates':
+                data = await this._applyGroupBy(
+                    data,
+                    {
+                        type: 'groupBy',
+                        groupBy: [],
+                        subTransformations: [transformationDef]
+                    },
+                    odataRequest,
+                    mockData
+                );
                 break;
             case 'ancestors':
                 const limitedHierarchyForAncestors = await this.applyTransformation(
@@ -1158,6 +1262,10 @@ export class DataAccess implements DataAccessInterface {
                 );
                 break;
             case 'skip':
+                data = [];
+                break;
+            case 'top':
+                data = [];
                 break;
             case 'search':
                 data = data.filter((dataLine) => {

@@ -1,5 +1,38 @@
 # @sap-ux/annotation-converter
 
+## 0.7.3
+
+### Patch Changes
+
+-   Updated dependencies [39eadb1]
+    -   @sap-ux/vocabularies-types@0.9.2
+
+## 0.7.2
+
+### Patch Changes
+
+-   Updated dependencies [06396a1]
+    -   @sap-ux/vocabularies-types@0.9.1
+
+## 0.7.1
+
+### Patch Changes
+
+-   Updated dependencies [4509062]
+    -   @sap-ux/vocabularies-types@0.9.0
+
+## 0.7.0
+
+### Minor Changes
+
+-   e70d625: - NavigationPropertyBindings are now resolved by the annotation converter. This is a breaking change for consumers of types `RawSingleton` or `RawEntitySet` from package @sap-ux/vocabularies-types (the type of property `navigationPropertyBinding` changed).
+    -   Annotations of action parameters are now also resolved for unbound actions and unbound functions. The fully-qualified name of unbound actions and unbound functions changed - they now always include their overloads. E.g., in case of unbound actions: old `myAction`, new: `myAction()` - `()` denotes the "unbound overload".
+
+### Patch Changes
+
+-   Updated dependencies [e70d625]
+    -   @sap-ux/vocabularies-types@0.8.0
+
 ## 0.6.16
 
 ### Patch Changes

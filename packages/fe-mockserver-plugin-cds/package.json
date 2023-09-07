@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/fe-mockserver-plugin-cds",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "SAP Fiori Tools - FE Mockserver CDS Plugin",
     "repository": {
         "type": "git",
@@ -26,10 +26,10 @@
         "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u"
     },
     "peerDependencies": {
-        "@sap/cds-compiler": "^3.1.0"
+        "@sap/cds-compiler": "^4"
     },
     "devDependencies": {
-        "@sap/cds-compiler": "^3.1.0",
+        "@sap/cds-compiler": "^4",
         "@sap-ux/fe-mockserver-core": "workspace:*"
     }
 }

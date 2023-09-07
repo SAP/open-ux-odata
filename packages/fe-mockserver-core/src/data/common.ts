@@ -1,8 +1,16 @@
-import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
+import type {
+    Action,
+    EntitySet,
+    EntityType,
+    NavigationProperty,
+    Property,
+    Singleton
+} from '@sap-ux/vocabularies-types';
 import type { ILogger } from '@ui5/logger';
 import type { IFileLoader } from '../index';
-import type { FileBasedMockData, KeyDefinitions } from '../mockdata/fileBasedMockData';
+import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
 import type ODataRequest from '../request/odataRequest';
+import type { KeyDefinitions } from '../request/odataRequest';
 import type { ODataMetadata } from './metadata';
 
 export type PartialReferentialConstraint = {
@@ -55,13 +63,13 @@ export interface DataAccessInterface {
     isV4(): boolean;
     getNavigationPropertyKeys(
         data: any,
-        navPropDetail: any,
+        navPropDetail: NavigationProperty,
         currentEntityType: EntityType,
-        currentEntitySet: EntitySet | undefined,
-        currentKeys: Record<string, string>,
+        currentEntitySet: EntitySet | Singleton | undefined,
+        currentKeys: KeyDefinitions,
         tenantId: string,
         forCreate?: boolean
-    ): Promise<Record<string, string>>;
+    ): Promise<KeyDefinitions>;
     getMockEntitySet(
         entityTypeName: string,
         generateMockData?: boolean,

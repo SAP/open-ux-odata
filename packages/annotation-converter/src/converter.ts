@@ -27,6 +27,7 @@ import type {
     RawEntitySet,
     RawEntityType,
     RawMetadata,
+    RawNavigationPropertyBinding,
     RawProperty,
     RawSchema,
     RawSingleton,
@@ -705,19 +706,19 @@ function parseRecord(
 
     if (isDataFieldWithForAction(record)) {
         lazy(record, 'ActionTarget', () => {
-            const actionTargetFQN = converter.unalias(record.Action?.toString());
+            const actionName = converter.unalias(record.Action?.toString());
 
             // (1) Bound action of the annotation target?
-            let actionTarget = currentTarget.actions?.[actionTargetFQN];
+            let actionTarget = currentTarget.actions[actionName];
 
             if (!actionTarget) {
                 // (2) ActionImport (= unbound action)?
-                actionTarget = converter.getConvertedActionImport(actionTargetFQN)?.action;
+                actionTarget = converter.getConvertedActionImport(actionName)?.action;
             }
 
             if (!actionTarget) {
-                // (3) Bound action of a different EntityType
-                actionTarget = converter.getConvertedAction(actionTargetFQN);
+                // (3) Bound action of a different EntityType (the actionName is fully qualified in this case)
+                actionTarget = converter.getConvertedAction(actionName);
                 if (!actionTarget?.isBound) {
                     actionTarget = undefined;
                 }
@@ -725,7 +726,7 @@ function parseRecord(
 
             if (!actionTarget) {
                 converter.logError(
-                    `${record.fullyQualifiedName}: Unable to resolve '${record.Action}' ('${actionTargetFQN}')`
+                    `${record.fullyQualifiedName}: Unable to resolve '${record.Action}' ('${actionName}')`
                 );
             }
             return actionTarget;
@@ -1102,28 +1103,20 @@ function resolveEntityType(converter: Converter, fullyQualifiedName: FullyQualif
 
 function resolveNavigationPropertyBindings(
     converter: Converter,
-    rawNavigationPropertyBindings: Singleton['navigationPropertyBinding'] | EntitySet['navigationPropertyBinding'],
-    rawElement: RawSingleton | RawEntitySet
+    rawNavigationPropertyBindings: RawNavigationPropertyBinding
 ) {
     return () =>
-        Object.keys(rawNavigationPropertyBindings).reduce((navigationPropertyBindings, bindingName) => {
-            const rawBindingTarget = rawNavigationPropertyBindings[bindingName];
+        Object.keys(rawNavigationPropertyBindings).reduce((navigationPropertyBindings, bindingPath) => {
+            const rawBindingTarget = rawNavigationPropertyBindings[bindingPath];
 
-            lazy(navigationPropertyBindings, bindingName, () => {
-                let resolvedBindingTarget;
-                if (rawBindingTarget._type === 'Singleton') {
-                    resolvedBindingTarget = converter.getConvertedSingleton(rawBindingTarget.fullyQualifiedName);
-                } else {
-                    resolvedBindingTarget = converter.getConvertedEntitySet(rawBindingTarget.fullyQualifiedName);
-                }
-                if (!resolvedBindingTarget) {
-                    converter.logError(
-                        `${rawElement._type} '${rawElement.fullyQualifiedName}': Failed to resolve NavigationPropertyBinding ${bindingName}`
-                    );
-                    resolvedBindingTarget = {} as any;
-                }
-                return resolvedBindingTarget;
-            });
+            lazy(
+                navigationPropertyBindings,
+                bindingPath,
+                () =>
+                    // the NavigationPropertyBinding will lead to either an EntitySet or a Singleton, it cannot be undefined
+                    (converter.getConvertedEntitySet(rawBindingTarget) ??
+                        converter.getConvertedSingleton(rawBindingTarget))!
+            );
             return navigationPropertyBindings;
         }, {} as EntitySet['navigationPropertyBinding'] | Singleton['navigationPropertyBinding']);
 }
@@ -1222,20 +1215,16 @@ function convertEntityContainer(converter: Converter, rawEntityContainer: RawEnt
  * @returns The converted Singleton
  */
 function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Singleton {
-    const convertedSingleton = rawSingleton as Singleton;
+    const convertedSingleton = rawSingleton as unknown as Singleton;
 
     lazy(convertedSingleton, 'entityType', resolveEntityType(converter, rawSingleton.entityTypeName));
-    lazy(convertedSingleton, 'annotations', resolveAnnotations(converter, rawSingleton as Singleton));
+    lazy(convertedSingleton, 'annotations', resolveAnnotations(converter, convertedSingleton));
 
     const _rawNavigationPropertyBindings = rawSingleton.navigationPropertyBinding;
     lazy(
         convertedSingleton,
         'navigationPropertyBinding',
-        resolveNavigationPropertyBindings(
-            converter,
-            _rawNavigationPropertyBindings as Singleton['navigationPropertyBinding'],
-            rawSingleton
-        )
+        resolveNavigationPropertyBindings(converter, _rawNavigationPropertyBindings)
     );
 
     return convertedSingleton;
@@ -1249,20 +1238,16 @@ function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Sin
  * @returns The converted EntitySet
  */
 function convertEntitySet(converter: Converter, rawEntitySet: RawEntitySet): EntitySet {
-    const convertedEntitySet = rawEntitySet as EntitySet;
+    const convertedEntitySet = rawEntitySet as unknown as EntitySet;
 
     lazy(convertedEntitySet, 'entityType', resolveEntityType(converter, rawEntitySet.entityTypeName));
-    lazy(convertedEntitySet, 'annotations', resolveAnnotations(converter, rawEntitySet as EntitySet));
+    lazy(convertedEntitySet, 'annotations', resolveAnnotations(converter, convertedEntitySet));
 
     const _rawNavigationPropertyBindings = rawEntitySet.navigationPropertyBinding;
     lazy(
         convertedEntitySet,
         'navigationPropertyBinding',
-        resolveNavigationPropertyBindings(
-            converter,
-            _rawNavigationPropertyBindings as EntitySet['navigationPropertyBinding'],
-            rawEntitySet
-        )
+        resolveNavigationPropertyBindings(converter, _rawNavigationPropertyBindings)
     );
 
     return convertedEntitySet;
@@ -1388,7 +1373,20 @@ function convertActionImport(converter: Converter, rawActionImport: RawActionImp
 
     lazy(convertedActionImport, 'annotations', resolveAnnotations(converter, rawActionImport));
 
-    lazy(convertedActionImport, 'action', () => converter.getConvertedAction(rawActionImport.actionName));
+    lazy(convertedActionImport, 'action', () => {
+        const rawActions = converter.rawSchema.actions.filter(
+            (rawAction) => !rawAction.isBound && rawAction.fullyQualifiedName.startsWith(rawActionImport.actionName)
+        );
+
+        // this always resolves to a unique unbound action, but resolution of unbound functions can be ambiguous:
+        // unbound function FQNs have overloads depending on all of their parameters
+        if (rawActions.length > 1) {
+            converter.logError(`Ambiguous reference in action import: ${rawActionImport.fullyQualifiedName}`);
+        }
+
+        // return the first matching action or function
+        return converter.getConvertedAction(rawActions[0].fullyQualifiedName)!;
+    });
 
     return convertedActionImport;
 }
@@ -1414,28 +1412,39 @@ function convertAction(converter: Converter, rawAction: RawAction): Action {
     lazy(convertedAction, 'parameters', converter.convert(rawAction.parameters, convertActionParameter));
 
     lazy(convertedAction, 'annotations', () => {
-        const action = substringBeforeFirst(rawAction.fullyQualifiedName, '(');
+        /*
+            Annotation resolution rule for actions:
 
-        // if the action is unbound (e.g. "myAction"), the annotation target is "myAction()"
-        const annotationTargetFQN = rawAction.isBound
-            ? rawAction.fullyQualifiedName
-            : `${rawAction.fullyQualifiedName}()`;
+            (1) annotation target: the specific unbound or bound overload, e.g.
+                    - for actions:   "x.y.z.unboundAction()" / "x.y.z.boundAction(x.y.z.Entity)"
+                    - for functions: "x.y.z.unboundFunction(Edm.String)" / "x.y.z.unboundFunction(x.y.z.Entity,Edm.String)"
+            (2) annotation target: unspecified overload, e.g.
+                - for actions:   "x.y.z.unboundAction" / "x.y.z.boundAction"
+                - for functions: "x.y.z.unboundFunction" / "x.y.z.unboundFunction"
 
-        const rawAnnotations = converter.getAnnotations(annotationTargetFQN);
-        const baseAnnotations = converter.getAnnotations(action);
+            When resolving (1) takes precedence over (2). That is, annotations on the specific overload overwrite
+            annotations on the unspecific overload, on term/qualifier level.
+        */
 
-        for (const baseAnnotation of baseAnnotations) {
+        const unspecificOverloadTarget = substringBeforeFirst(rawAction.fullyQualifiedName, '(');
+        const specificOverloadTarget = rawAction.fullyQualifiedName;
+
+        const effectiveAnnotations = converter.getAnnotations(specificOverloadTarget);
+        const unspecificAnnotations = converter.getAnnotations(unspecificOverloadTarget);
+
+        for (const unspecificAnnotation of unspecificAnnotations) {
             if (
-                !rawAnnotations.some(
+                !effectiveAnnotations.some(
                     (annotation) =>
-                        annotation.term === baseAnnotation.term && annotation.qualifier === baseAnnotation.qualifier
+                        annotation.term === unspecificAnnotation.term &&
+                        annotation.qualifier === unspecificAnnotation.qualifier
                 )
             ) {
-                rawAnnotations.push(baseAnnotation);
+                effectiveAnnotations.push(unspecificAnnotation);
             }
         }
 
-        return createAnnotationsObject(converter, rawAction, rawAnnotations);
+        return createAnnotationsObject(converter, rawAction, effectiveAnnotations);
     });
 
     return convertedAction;
@@ -1463,7 +1472,30 @@ function convertActionParameter(
             converter.getConvertedTypeDefinition(rawActionParameter.type)
     );
 
-    lazy(convertedActionParameter, 'annotations', resolveAnnotations(converter, rawActionParameter));
+    lazy(convertedActionParameter, 'annotations', () => {
+        // annotations on action parameters are resolved following the rules for actions
+        const unspecificOverloadTarget =
+            rawActionParameter.fullyQualifiedName.substring(0, rawActionParameter.fullyQualifiedName.indexOf('(')) +
+            rawActionParameter.fullyQualifiedName.substring(rawActionParameter.fullyQualifiedName.indexOf(')') + 1);
+        const specificOverloadTarget = rawActionParameter.fullyQualifiedName;
+
+        const effectiveAnnotations = converter.getAnnotations(specificOverloadTarget);
+        const unspecificAnnotations = converter.getAnnotations(unspecificOverloadTarget);
+
+        for (const unspecificAnnotation of unspecificAnnotations) {
+            if (
+                !effectiveAnnotations.some(
+                    (annotation) =>
+                        annotation.term === unspecificAnnotation.term &&
+                        annotation.qualifier === unspecificAnnotation.qualifier
+                )
+            ) {
+                effectiveAnnotations.push(unspecificAnnotation);
+            }
+        }
+
+        return createAnnotationsObject(converter, rawActionParameter, effectiveAnnotations);
+    });
 
     return convertedActionParameter;
 }

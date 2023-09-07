@@ -95,6 +95,69 @@ describe('V4 Requestor', function () {
             .execute('POST');
         expect(dataRes).toMatchInlineSnapshot(`""`);
     });
+    it('can execute a function', async () => {
+        const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataRes = await dataRequestor
+            .callGETAction(
+                "/RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.baseFunction(data='I am data')"
+            )
+            .execute('GET');
+        expect(dataRes).toMatchInlineSnapshot(`"I am data"`);
+        const dataResStrict = dataRequestor.callGETAction(
+            "/RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.baseFunction(data='I am data')"
+        );
+        dataResStrict.headers['Prefer'] = 'handling=strict';
+        const strictResult = await dataResStrict.execute('GET');
+        expect(strictResult).toMatchInlineSnapshot(`"STRICT :: I am data"`);
+        const dataRes2 = await dataRequestor
+            .callGETAction('/RootElement(ID=1,IsActiveEntity=true)/_Elements')
+            .execute('GET');
+        expect(dataRes2).toMatchInlineSnapshot(`
+            {
+              "@odata.context": "$metadata#RootElement(ID=1,IsActiveEntity=true)/_Elements",
+              "@odata.count": 3,
+              "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+              "value": [
+                {
+                  "HasActiveEntity": true,
+                  "HasDraftEntity": false,
+                  "ID": 1,
+                  "IsActiveEntity": true,
+                  "SubProp1": "First Prop for 1-1",
+                  "SubProp2": "Second Prop for 1-1",
+                  "isBoundAction3Hidden": false,
+                  "isBoundAction4Hidden": false,
+                  "owner_ID": 1,
+                  "sibling_ID": 2,
+                },
+                {
+                  "HasActiveEntity": true,
+                  "HasDraftEntity": false,
+                  "ID": 2,
+                  "IsActiveEntity": true,
+                  "SubProp1": "First Prop for 1-2",
+                  "SubProp2": "Second Prop for 1-2",
+                  "isBoundAction3Hidden": true,
+                  "isBoundAction4Hidden": true,
+                  "owner_ID": 1,
+                  "sibling_ID": 1,
+                },
+                {
+                  "HasActiveEntity": true,
+                  "HasDraftEntity": false,
+                  "ID": 3,
+                  "IsActiveEntity": true,
+                  "SubProp1": "First Prop for 1-3",
+                  "SubProp2": "Second Prop for 1-3",
+                  "isBoundAction3Hidden": false,
+                  "isBoundAction4Hidden": false,
+                  "owner_ID": 1,
+                  "sibling_ID": 3,
+                },
+              ],
+            }
+        `);
+    });
     it('can get the metadata', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.getMetadata().execute();
@@ -287,6 +350,13 @@ describe('V4 Requestor', function () {
         return myPromise;
     });
     beforeAll(() => {
+        const myJSON = JSON.parse(
+            fs.readFileSync(path.join(__dirname, '__testData', 'RootElement.json')).toString('utf-8')
+        );
+        myJSON[0].Prop1 = 'First Prop';
+        fs.writeFileSync(path.join(__dirname, '__testData', 'RootElement.json'), JSON.stringify(myJSON, null, 4));
+    });
+    afterAll(() => {
         const myJSON = JSON.parse(
             fs.readFileSync(path.join(__dirname, '__testData', 'RootElement.json')).toString('utf-8')
         );

@@ -1,5 +1,6 @@
 import balanced from 'balanced-match';
 import type { IncomingHttpHeaders } from 'http';
+import merge from 'lodash.merge';
 import { parse } from 'query-string';
 import type { URLSearchParams } from 'url';
 import { URL } from 'url';
@@ -31,13 +32,16 @@ type OrderByDefinition = {
     direction: 'asc' | 'desc';
 };
 
+export type KeyDefinitions = Record<string, number | boolean | string>;
+
 export type QueryPath = {
     path: string;
-    keys: Record<string, any>;
+    keys: KeyDefinitions;
 };
 
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
+    public isStrictMode: boolean;
     public tenantId: string;
     public queryPath: QueryPath[];
     public searchQuery: string[];
@@ -67,10 +71,12 @@ export default class ODataRequest {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
         this.tenantId = requestContent.tenantId || 'tenant-default';
         this.context = requestContent.url.split('?')[0].substring(1);
+        this.dataAccess.log.info(`ODataRequest: ${requestContent.method} ${requestContent.url}`);
         if (this.tenantId) {
             this.addResponseHeader('sap-tenantid', this.tenantId);
         }
         this.isMinimalRepresentation = requestContent.headers?.['prefer'] === 'return=minimal';
+        this.isStrictMode = requestContent.headers?.['prefer']?.includes('handling=strict') ?? false;
         this.queryPath = this.parsePath(parsedUrl.pathname.substring(1));
         this.parseParameters(parsedUrl.searchParams);
     }
@@ -242,14 +248,19 @@ export default class ODataRequest {
                     const propertySplit = property.split('/');
                     const name = propertySplit[0];
                     const expand = propertySplit[1]
-                        ? this.parseExpand(propertySplit[1])
+                        ? this.parseExpand(propertySplit.slice(1).join('/'))
                         : { expand: {}, properties: {} };
-                    reducer.expand[name] = {
-                        expand: expand.expand,
-                        properties: {
-                            '*': true
-                        }
-                    };
+                    if (!reducer.expand[name]) {
+                        reducer.expand[name] = {
+                            expand: expand.expand,
+                            properties: {
+                                '*': true
+                            }
+                        };
+                    } else {
+                        reducer.expand[name].expand = merge({}, reducer.expand[name].expand, expand.expand);
+                    }
+
                     reducer.properties[name] = true;
                     return reducer;
                 }
@@ -278,19 +289,22 @@ export default class ODataRequest {
         const pathSplit = path.split('/');
         return pathSplit.reduce((pathArr: QueryPath[], pathPart) => {
             const keysStart = pathPart.indexOf('(');
-            const keysEnd = pathPart.indexOf(')');
+            const keysEnd = pathPart.lastIndexOf(')');
             let entity!: string;
-            let keys: Record<string, any> = {};
+            let keys: KeyDefinitions = {};
             if (keysStart > -1) {
                 entity = pathPart.substring(0, keysStart) + pathPart.substring(keysEnd + 1);
                 const keysList = pathPart.substring(keysStart + 1, keysEnd).split(',');
                 keys = {};
                 keysList.forEach((keyValue) => {
                     const [key, value] = keyValue.split('=');
+
                     if (value) {
-                        keys[key] = decodeURIComponent(value.replace(/^(?:')$/g, ''));
+                        // .../Entity(ID='abc',IsActiveEntity=true) -> {ID: 'abc', IsActiveEntity: true}
+                        keys[key] = ODataRequest.parseKeyValue(value);
                     } else {
-                        keys[key] = undefined;
+                        // .../Entity('abc') -> {'': 'abc'}
+                        keys[''] = ODataRequest.parseKeyValue(key);
                     }
                 });
             } else {
@@ -300,6 +314,36 @@ export default class ODataRequest {
             return pathArr;
         }, []);
     }
+
+    /**
+     * Parse an OData key value.
+     *
+     * @param value The key value. Strings are expected to be surrounded by single quotes.
+     * @returns The parsed value
+     */
+    private static parseKeyValue(value: string): string | number | boolean {
+        value = decodeURIComponent(value);
+
+        // string, e.g. "/Entity(key='abc')?
+        if (value.startsWith("'") && value.endsWith("'")) {
+            return decodeURIComponent(value.substring(1, value.length - 1));
+        }
+
+        // boolean, e.g. "/Entity(key=true)"?
+        if (value === 'true' || value === 'false') {
+            return value === 'true';
+        }
+
+        // number, e.g. "/Entity(key=123)"?
+        const number = Number(value);
+        if (!isNaN(number)) {
+            return number;
+        }
+
+        // some other type, e.g. a UUID or a date - leave as string
+        return value;
+    }
+
     //
     // private parseApply(applyParameters: string | null): AggregateDefinition | undefined {
     //     if (!applyParameters) {

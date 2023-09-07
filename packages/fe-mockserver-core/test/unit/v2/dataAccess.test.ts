@@ -87,6 +87,19 @@ describe('Data Access', () => {
         expect(productData[2].Name).toEqual('Acme Boomerang');
         expect(productData[3].Name).toEqual('Acme Extra Comfy Safe');
     });
+    test('v2metadata - it can GET data for an entity with keys that needs encoding', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/I_Currency'
+            },
+            dataAccess
+        );
+        const currencyData = await dataAccess.getData(odataRequest);
+        expect(currencyData.length).toEqual(2);
+        expect(odataRequest.dataCount).toEqual(2);
+        expect(currencyData[1]).toMatchSnapshot();
+    });
     test('v2dataAccess - it can GET data for an entity when there is no mock data', async () => {
         const odataRequest = new ODataRequest(
             {
@@ -132,8 +145,9 @@ describe('Data Access', () => {
                 method: 'POST',
                 url: "/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity=true)",
                 body: {
-                    Product: 'Acme_Bazooka',
-                    DraftUUID: '',
+                    ProductID: 1,
+                    Product: 'Acme_%Bazooka',
+                    DraftUUID: '0c241e36-7e4c-44b4-a748-3bf31fcc2135',
                     Price: 3,
                     Name: 'Acme Bazooka',
                     Supplier: 'Acme FR',
@@ -145,7 +159,6 @@ describe('Data Access', () => {
         await odataRequestPost.handleRequest();
         let responseDataPost = odataRequestPost.getResponseData() || '';
         responseDataPost = responseDataPost.replace(/\/Date\([^)]+\)/g, '/Date()');
-        responseDataPost = responseDataPost.replace(/DraftUUID":"[^"]+"/g, 'DraftUUID":""');
         expect(responseDataPost).toMatchSnapshot();
         expect(odataRequestPost.responseHeaders).toMatchSnapshot();
     });

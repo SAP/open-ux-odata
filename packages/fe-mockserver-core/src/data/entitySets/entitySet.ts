@@ -2,14 +2,15 @@ import { join } from 'path';
 
 import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
-import type { KeyDefinitions } from '../../mockdata/fileBasedMockData';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
 import type { MockDataContributor } from '../../mockdata/functionBasedMockData';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
 import type { FilterMethodCall, LambdaExpression } from '../../request/filterParser';
-import type ODataRequest from '../../request/odataRequest';
+import type { KeyDefinitions } from '../../request/odataRequest';
+import ODataRequest from '../../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from '../common';
 import { getData } from '../common';
+import type { DataAccess } from '../dataAccess';
 
 type PreparedFunction = {
     fn: Function;
@@ -256,6 +257,8 @@ export class MockDataEntitySet implements EntitySetInterface {
             this.contextBasedMockData[contextId] = this._rootMockDataFn
                 ? new FunctionBasedMockData(this._rootMockDataFn, this.entityTypeDefinition, this, contextId)
                 : new FileBasedMockData(this._rootMockData, this.entityTypeDefinition, this, contextId);
+        } else {
+            this.contextBasedMockData[contextId].cleanupHierarchies();
         }
         return this.contextBasedMockData[contextId];
     }
@@ -436,16 +439,8 @@ export class MockDataEntitySet implements EntitySetInterface {
                     }
                     return mockData[keyName] === keyValues[keyName];
                 case 'Edm.String':
-                    if (keyValues[keyName] && keyValues[keyName].startsWith("'")) {
-                        return mockData[keyName] === keyValues[keyName].substring(1, keyValues[keyName].length - 1);
-                    }
-                    return mockData[keyName] === keyValues[keyName];
                 case 'Edm.Boolean':
-                    let booleanKeyValue = keyValues[keyName];
-                    if (typeof booleanKeyValue === 'string') {
-                        booleanKeyValue = booleanKeyValue === 'true';
-                    }
-                    return mockData[keyName] === booleanKeyValue;
+                    return mockData[keyName] === keyValues[keyName];
                 case 'Edm.Int32':
                 case 'Edm.Int64':
                 case 'Edm.Int16':
@@ -468,30 +463,14 @@ export class MockDataEntitySet implements EntitySetInterface {
     }
 
     protected prepareKeys(keyValues: KeyDefinitions): KeyDefinitions {
-        let outKeys: Record<string, any> = {};
-        if (keyValues === undefined) {
-            return outKeys;
-        }
-        if (Object.keys(keyValues).length === 1 && Object.values(keyValues)[0] === undefined) {
-            let keyValue;
-            Object.keys(keyValues).forEach((currentKeyName) => {
-                keyValue = currentKeyName;
-                if (keyValue.startsWith("'")) {
-                    keyValue = keyValue.substring(1, keyValue.length - 1);
-                }
-            });
+        if (Object.keys(keyValues).length === 1 && Object.keys(keyValues)[0] === '') {
+            // "default" key - .../Entity('abc')
             const keyName = this.entityTypeDefinition.keys[0].name;
-            outKeys[keyName] = keyValue;
+            return { [keyName]: keyValues[''] };
         } else {
-            outKeys = {};
-            Object.keys(keyValues).forEach((keyName) => {
-                outKeys[keyName] = keyValues[keyName];
-                if (outKeys[keyName]?.startsWith && outKeys[keyName].startsWith("'")) {
-                    outKeys[keyName] = outKeys[keyName].substring(1, outKeys[keyName].length - 1);
-                }
-            });
+            // named keys - .../Entity(ID='abc')
+            return { ...keyValues };
         }
-        return outKeys;
     }
 
     public performGET(
@@ -560,6 +539,29 @@ export class MockDataEntitySet implements EntitySetInterface {
             }
         });
         let newObject = currentMockData.getEmptyObject(odataRequest);
+        for (const navigationProperty of this.entityTypeDefinition.navigationProperties) {
+            const navigationPropertyBindgOperator = `${navigationProperty.name}@odata.bind`;
+            if (postData.hasOwnProperty(navigationPropertyBindgOperator)) {
+                const reference = postData[navigationPropertyBindgOperator];
+                if (this.entitySetDefinition?.navigationPropertyBinding[navigationProperty.name]) {
+                    const content = await this.dataAccess.getData(
+                        new ODataRequest(
+                            {
+                                method: 'GET',
+                                url: '/' + reference,
+                                tenantId
+                            },
+                            this.dataAccess as DataAccess
+                        )
+                    );
+                    for (const referentialConstraint of navigationProperty.referentialConstraint) {
+                        postData[referentialConstraint.sourceProperty] = content[referentialConstraint.targetProperty];
+                    }
+                }
+
+                delete postData[navigationPropertyBindgOperator];
+            }
+        }
         newObject = Object.assign(newObject, postData);
         await currentMockData.addEntry(newObject, odataRequest);
         return newObject;
@@ -567,7 +569,7 @@ export class MockDataEntitySet implements EntitySetInterface {
 
     public async performPATCH(
         keyValues: KeyDefinitions,
-        patchData: object,
+        patchData: any,
         tenantId: string,
         odataRequest: ODataRequest,
         _updateParent: boolean = false
@@ -576,6 +578,34 @@ export class MockDataEntitySet implements EntitySetInterface {
         const data = this.performGET(keyValues, false, tenantId, odataRequest);
         const currentMockData = this.getMockData(tenantId);
         const updatedData = Object.assign(data, patchData);
+        for (const navigationProperty of this.entityTypeDefinition.navigationProperties) {
+            const navigationPropertyBindgOperator = `${navigationProperty.name}@odata.bind`;
+            if (patchData.hasOwnProperty(navigationPropertyBindgOperator)) {
+                const reference = patchData[navigationPropertyBindgOperator];
+                if (reference === null) {
+                    for (const referentialConstraint of navigationProperty.referentialConstraint) {
+                        delete updatedData[referentialConstraint.sourceProperty];
+                    }
+                } else if (this.entitySetDefinition?.navigationPropertyBinding[navigationProperty.name]) {
+                    const content = await this.dataAccess.getData(
+                        new ODataRequest(
+                            {
+                                method: 'GET',
+                                url: '/' + reference
+                            },
+                            this.dataAccess as DataAccess
+                        )
+                    );
+                    for (const referentialConstraint of navigationProperty.referentialConstraint) {
+                        updatedData[referentialConstraint.sourceProperty] =
+                            content[referentialConstraint.targetProperty];
+                    }
+                }
+
+                delete updatedData[navigationPropertyBindgOperator];
+            }
+        }
+
         await currentMockData.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
         await currentMockData.updateEntry(keyValues, updatedData, patchData, odataRequest);
         await currentMockData.onAfterUpdateEntry(keyValues, updatedData, odataRequest);
@@ -590,7 +620,40 @@ export class MockDataEntitySet implements EntitySetInterface {
     ): Promise<void> {
         const currentMockData = this.getMockData(tenantId);
         keyValues = this.prepareKeys(keyValues);
+
+        const entryToRemove = currentMockData.fetchEntries(keyValues, odataRequest);
+        let additionalEntriesToRemove: any[] = [];
+        for (const aggregationElementName in this.entityTypeDefinition.annotations.Aggregation) {
+            if (aggregationElementName.startsWith('RecursiveHierarchy')) {
+                const recursiveHierarchy =
+                    this.entityTypeDefinition.annotations.Aggregation[
+                        aggregationElementName as `RecursiveHierarchy#xxx`
+                    ]!;
+                const allData = currentMockData.getAllEntries(odataRequest, true);
+                additionalEntriesToRemove = await currentMockData.getDescendants(
+                    allData,
+                    allData,
+                    entryToRemove,
+                    this.entityTypeDefinition,
+                    {
+                        hierarchyRoot: '',
+                        inputSetTransformations: [],
+                        qualifier: recursiveHierarchy.qualifier,
+                        propertyPath: '',
+                        maximumDistance: -1,
+                        keepStart: false
+                    },
+                    odataRequest
+                );
+            }
+        }
+
         await currentMockData.removeEntry(keyValues, odataRequest);
+        if (additionalEntriesToRemove.length > 0) {
+            for (const additionalEntriesToRemoveElement of additionalEntriesToRemove) {
+                await this.performDELETE(this.getKeys(additionalEntriesToRemoveElement), tenantId, odataRequest, true);
+            }
+        }
     }
 
     public async executeAction(

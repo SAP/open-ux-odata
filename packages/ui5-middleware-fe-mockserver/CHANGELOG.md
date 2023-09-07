@@ -1,5 +1,183 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.120
+
+### Patch Changes
+
+-   Updated dependencies [bae3664]
+    -   @sap-ux/fe-mockserver-core@1.1.117
+
+## 2.1.119
+
+### Patch Changes
+
+-   Updated dependencies [2d25b15]
+    -   @sap-ux/fe-mockserver-core@1.1.116
+
+## 2.1.118
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.1.115
+
+## 2.1.117
+
+### Patch Changes
+
+-   Updated dependencies [17d8ba5]
+    -   @sap-ux/fe-mockserver-core@1.1.114
+
+## 2.1.116
+
+### Patch Changes
+
+-   Updated dependencies [dda5847]
+    -   @sap-ux/fe-mockserver-core@1.1.113
+
+## 2.1.115
+
+### Patch Changes
+
+-   Updated dependencies [cc971c4]
+    -   @sap-ux/fe-mockserver-core@1.1.112
+
+## 2.1.114
+
+### Patch Changes
+
+-   Updated dependencies [2ecd0c5]
+    -   @sap-ux/fe-mockserver-core@1.1.111
+
+## 2.1.113
+
+### Patch Changes
+
+-   Updated dependencies [4dc98e0]
+    -   @sap-ux/fe-mockserver-core@1.1.110
+
+## 2.1.112
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.1.109
+
+## 2.1.111
+
+### Patch Changes
+
+-   Updated dependencies [7d98e16]
+    -   @sap-ux/fe-mockserver-core@1.1.108
+
+## 2.1.110
+
+### Patch Changes
+
+-   Updated dependencies [09052b5]
+    -   @sap-ux/fe-mockserver-core@1.1.107
+
+## 2.1.109
+
+### Patch Changes
+
+-   Updated dependencies [c8d1d8f]
+    -   @sap-ux/fe-mockserver-core@1.1.106
+
+## 2.1.108
+
+### Patch Changes
+
+-   Updated dependencies [cd5b778]
+    -   @sap-ux/fe-mockserver-core@1.1.105
+
+## 2.1.107
+
+### Patch Changes
+
+-   Updated dependencies [4bdf473]
+    -   @sap-ux/fe-mockserver-core@1.1.104
+
+## 2.1.106
+
+### Patch Changes
+
+-   Updated dependencies [5bbed77]
+    -   @sap-ux/fe-mockserver-core@1.1.103
+
+## 2.1.105
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.1.102
+
+## 2.1.104
+
+### Patch Changes
+
+-   Updated dependencies [cd6efe3]
+    -   @sap-ux/fe-mockserver-core@1.1.101
+
+## 2.1.103
+
+### Patch Changes
+
+-   Updated dependencies [0e0c7e2]
+    -   @sap-ux/fe-mockserver-core@1.1.100
+
+## 2.1.102
+
+### Patch Changes
+
+-   Updated dependencies [cb37ec6]
+    -   @sap-ux/fe-mockserver-core@1.1.99
+
+## 2.1.101
+
+### Patch Changes
+
+-   Updated dependencies [bcc6971]
+    -   @sap-ux/fe-mockserver-core@1.1.98
+
+## 2.1.100
+
+### Patch Changes
+
+-   Updated dependencies [dfe9f06]
+    -   @sap-ux/fe-mockserver-core@1.1.97
+
+## 2.1.99
+
+### Patch Changes
+
+-   Updated dependencies [a734d07]
+    -   @sap-ux/fe-mockserver-core@1.1.96
+
+## 2.1.98
+
+### Patch Changes
+
+-   Updated dependencies [d93101e]
+    -   @sap-ux/fe-mockserver-core@1.1.95
+
+## 2.1.97
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.1.94
+
+## 2.1.96
+
+### Patch Changes
+
+-   Updated dependencies [4b255c9]
+    -   @sap-ux/fe-mockserver-core@1.1.93
+
+## 2.1.95
+
+### Patch Changes
+
+-   Updated dependencies [f23406b]
+    -   @sap-ux/fe-mockserver-core@1.1.92
+
 ## 2.1.94
 
 ### Patch Changes

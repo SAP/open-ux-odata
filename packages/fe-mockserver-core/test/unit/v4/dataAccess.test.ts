@@ -797,15 +797,30 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
+        const preDeleteData = await dataAccess.getData(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,DraftAdministrativeData'
+                },
+                dataAccess
+            )
+        );
         // Delete one child
         actionResult = await dataAccess.deleteData(
             new ODataRequest({ method: 'DELETE', url: '/SubElements(ID=777,IsActiveEntity=false)' }, dataAccess)
         );
         formData = await dataAccess.getData(
             new ODataRequest(
-                { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements' },
+                {
+                    method: 'GET',
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,DraftAdministrativeData'
+                },
                 dataAccess
             )
+        );
+        expect(preDeleteData[0].DraftAdministrativeData.LastChangeDateTime).not.toEqual(
+            formData[0].DraftAdministrativeData.LastChangeDateTime
         );
         expect(formData.length).toEqual(1);
         expect(formData[0].FirstName).toEqual('Mark');
@@ -1261,6 +1276,96 @@ describe('Data Access', () => {
                   },
                 ]
             `);
+        });
+    });
+
+    describe('navigation', () => {
+        let dataAccess!: DataAccess;
+
+        beforeAll(async () => {
+            const baseDir = join(__dirname, 'services', 'navigation');
+
+            // The CDS compiler does not create proper referential constraints if a draft is involved. Therefore, load
+            // the (manually adjusted) metadata.xml file here instead of compiling it from CDS sources on the fly.
+            // const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
+            const edmx = readFileSync(join(baseDir, 'metadata.xml'), 'utf8');
+            const metadata = await ODataMetadata.parse(edmx, '/TestService/$metadata');
+
+            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        });
+
+        const expectedDraftNode = {
+            ID: 'DraftNode1',
+            _up_ID: 'A1',
+            IsActiveEntity: true,
+            HasActiveEntity: false,
+            HasDraftEntity: false
+        };
+        const expectedOtherEntity = {
+            ID: 'OtherEntity1',
+            _up_ID: 'A1'
+        };
+
+        const tests: { label: string; navProp: string; expected: any }[] = [
+            {
+                label: '1:1 draft root to draft node (with referential constraint)',
+                navProp: '_toDraftNode',
+                expected: expectedDraftNode
+            },
+            {
+                label: '1:1 draft root to draft node (with incomplete referential constraint- IsActiveEntity missing)',
+                navProp: '_toDraftNodeIncompleteConstraint',
+                expected: expectedDraftNode
+            },
+            {
+                label: '1:1 draft root to draft node (without referential constraint)',
+                navProp: '_toDraftNodeNoConstraint',
+                expected: expectedDraftNode
+            },
+            {
+                label: '1:n draft root to draft node (with referential constraint)',
+                navProp: '_toDraftNodes',
+                expected: [expectedDraftNode]
+            },
+            {
+                label: '1:n draft root to draft node (with incomplete referential constraint - IsActiveEntity missing)',
+                navProp: '_toDraftNodesIncompleteConstraint',
+                expected: [expectedDraftNode]
+            },
+            {
+                label: '1:n draft root to draft node (without referential constraint)',
+                navProp: '_toDraftNodesNoConstraint',
+                expected: [expectedDraftNode]
+            },
+            {
+                label: '1:1 entity to non-draft entity (with referential constraint)',
+                navProp: '_toOther',
+                expected: expectedOtherEntity
+            },
+            {
+                label: '1:1 entity to non-draft entity (without referential constraint)',
+                navProp: '_toOtherNoConstraint',
+                expected: expectedOtherEntity
+            },
+            {
+                label: '1:n entity to non-draft entity (with referential constraint)',
+                navProp: '_toOthers',
+                expected: [expectedOtherEntity]
+            },
+            {
+                label: '1:n entity to non-draft entity (without referential constraint)',
+                navProp: '_toOthersNoConstraint',
+                expected: [expectedOtherEntity]
+            }
+        ];
+
+        test.each(tests)('$label', async ({ label, navProp, expected }) => {
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: `/DraftRoot(ID='A1',IsActiveEntity=true)/${navProp}` },
+                dataAccess
+            );
+            const data = await dataAccess.getData(odataRequest);
+            expect(data).toEqual(expected);
         });
     });
 });

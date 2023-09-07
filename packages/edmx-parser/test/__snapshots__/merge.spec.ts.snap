@@ -1791,19 +1791,9 @@ MergedRawMetadata {
       "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
       "name": "RootElement",
       "navigationPropertyBinding": {
-        "Sibling": [Circular],
-        "SiblingEntity": [Circular],
-        "_Elements": {
-          "_type": "EntitySet",
-          "entityTypeName": "sap.fe.core.ActionVisibility.SubElement",
-          "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
-          "name": "SubElement",
-          "navigationPropertyBinding": {
-            "Sibling": [Circular],
-            "SiblingEntity": [Circular],
-            "owner": [Circular],
-          },
-        },
+        "Sibling": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+        "SiblingEntity": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+        "_Elements": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
       },
     },
     {
@@ -1812,19 +1802,9 @@ MergedRawMetadata {
       "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
       "name": "SubElement",
       "navigationPropertyBinding": {
-        "Sibling": [Circular],
-        "SiblingEntity": [Circular],
-        "owner": {
-          "_type": "EntitySet",
-          "entityTypeName": "sap.fe.core.ActionVisibility.RootElement",
-          "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
-          "name": "RootElement",
-          "navigationPropertyBinding": {
-            "Sibling": [Circular],
-            "SiblingEntity": [Circular],
-            "_Elements": [Circular],
-          },
-        },
+        "Sibling": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+        "SiblingEntity": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+        "owner": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
       },
     },
   ],
@@ -3798,19 +3778,9 @@ MergedRawMetadata {
             "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
             "name": "RootElement",
             "navigationPropertyBinding": {
-              "Sibling": [Circular],
-              "SiblingEntity": [Circular],
-              "_Elements": {
-                "_type": "EntitySet",
-                "entityTypeName": "sap.fe.core.ActionVisibility.SubElement",
-                "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
-                "name": "SubElement",
-                "navigationPropertyBinding": {
-                  "Sibling": [Circular],
-                  "SiblingEntity": [Circular],
-                  "owner": [Circular],
-                },
-              },
+              "Sibling": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+              "SiblingEntity": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
+              "_Elements": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
             },
           },
           {
@@ -3819,19 +3789,9 @@ MergedRawMetadata {
             "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
             "name": "SubElement",
             "navigationPropertyBinding": {
-              "Sibling": [Circular],
-              "SiblingEntity": [Circular],
-              "owner": {
-                "_type": "EntitySet",
-                "entityTypeName": "sap.fe.core.ActionVisibility.RootElement",
-                "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
-                "name": "RootElement",
-                "navigationPropertyBinding": {
-                  "Sibling": [Circular],
-                  "SiblingEntity": [Circular],
-                  "_Elements": [Circular],
-                },
-              },
+              "Sibling": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+              "SiblingEntity": "sap.fe.core.ActionVisibility.EntityContainer/SubElement",
+              "owner": "sap.fe.core.ActionVisibility.EntityContainer/RootElement",
             },
           },
         ],

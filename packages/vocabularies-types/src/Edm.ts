@@ -203,8 +203,9 @@ export type LeAnnotationExpression<P> = {
     Le: LeConditionalExpression[];
 };
 
-export type PropertyAnnotationValue<P> =
-    | P
+export type PropertyAnnotationValue<P> = DynamicAnnotationExpression<P>;
+
+export type DynamicAnnotationExpression<P> =
     | PathAnnotationExpression<P>
     | ApplyAnnotationExpression<P>
     | AndAnnotationExpression<P>
@@ -278,8 +279,6 @@ export type PrimitiveType =
 // | Edm.GeometryMultiLineString
 // | Edm.GeometryMultiPolygon
 // | Edm.GeometryCollection;
-
-export type EnumValue<P> = P | PathAnnotationExpression<P> | ApplyAnnotationExpression<P> | IfAnnotationExpression<P>;
 
 export type String = InstanceType<StringConstructor>;
 export type Boolean = InstanceType<BooleanConstructor>;
@@ -405,7 +404,7 @@ export type Singleton = {
     fullyQualifiedName: SimpleIdentifier;
     entityType: EntityType;
     nullable: boolean;
-    navigationPropertyBinding: Record<string, Singleton | EntitySet>; //above for entity set?
+    navigationPropertyBinding: Record<string, EntitySet | Singleton>;
     annotations: SingletonAnnotations;
 };
 
@@ -455,7 +454,7 @@ export type ActionImport = {
     name: SimpleIdentifier;
     fullyQualifiedName: SimpleIdentifier;
     actionName: string;
-    action?: Action;
+    action: Action;
     annotations: ActionImportAnnotations;
 };
 
@@ -468,6 +467,7 @@ export type ServiceObject =
     | TypeDefinition
     | NavigationProperty
     | Action
+    | ActionParameter
     | ActionImport
     | EntityContainer;
 export type ServiceObjectAndAnnotation = ServiceObject | AnyAnnotation;
@@ -491,7 +491,7 @@ export type ConvertedMetadata = {
     version: string;
     annotations: Record<string, AnnotationList[]>;
     namespace: string;
-    actions: ArrayWithIndex<Action, 'name' | 'fullyQualifiedName'>;
+    actions: ArrayWithIndex<Action, 'fullyQualifiedName'>;
     actionImports: ArrayWithIndex<ActionImport, 'name' | 'fullyQualifiedName'>;
     entityContainer: EntityContainer;
     complexTypes: ArrayWithIndex<ComplexType, 'name' | 'fullyQualifiedName'>;
@@ -516,9 +516,11 @@ export type RemoveAnnotationAndType<T> = {
         | 'resolvePath'
         | 'entityType'
         | 'navigationProperties'
+        | 'navigationPropertyBinding'
         | 'entitySets'
         | 'singletons'
         | 'actionImports'
+        | 'action'
     >]: T[K] extends object
         ? T[K] extends Array<infer Item>
             ? RemoveAnnotationAndType<Item>[]
@@ -578,9 +580,17 @@ export type RawActionParameter = RemoveAnnotationAndType<ActionParameter>;
 export type RawEntityType = RemoveAnnotationAndType<EntityType> & {
     navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
 };
-export type RawEntitySet = RemoveAnnotationAndType<EntitySet>;
 export type RawProperty = RemoveAnnotationAndType<Property>;
-export type RawSingleton = RemoveAnnotationAndType<Singleton>;
+export type RawNavigationPropertyBinding = Record<string, FullyQualifiedName>;
+
+export type RawEntitySet = RemoveAnnotationAndType<EntitySet> & {
+    navigationPropertyBinding: RawNavigationPropertyBinding;
+};
+
+export type RawSingleton = RemoveAnnotationAndType<Singleton> & {
+    navigationPropertyBinding: RawNavigationPropertyBinding;
+};
+
 export type RawEntityContainer = RemoveAnnotationAndType<EntityContainer>;
 export type RawTypeDefinition = RemoveAnnotationAndType<TypeDefinition>;
 export type RawComplexType = RemoveAnnotationAndType<ComplexType> & {

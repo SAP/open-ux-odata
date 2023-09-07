@@ -9,6 +9,14 @@ describe('OData Request', () => {
                     return '4.0';
                 }
             };
+        },
+        log: {
+            info: (message: string) => {
+                /* nothing */
+            },
+            error: (message: string | Error) => {
+                /* nothing */
+            }
         }
     } as DataAccess;
     const fakeDataAccessV2: DataAccess = {
@@ -18,6 +26,14 @@ describe('OData Request', () => {
                     return '3.0';
                 }
             };
+        },
+        log: {
+            info: (message: string) => {
+                /* nothing */
+            },
+            error: (message: string | Error) => {
+                /* nothing */
+            }
         }
     } as DataAccess;
     test('It can parse queries', () => {
@@ -210,7 +226,7 @@ describe('OData Request', () => {
         let myRequest = new ODataRequest(
             {
                 method: 'GET',
-                url: '/Countries?$expand=Value1,Value2,,Value3,Value4/Value5'
+                url: '/Countries?$expand=Value1,Value2,,Value3,Value4/Value5,Value4/Value6,Value4/Value7,Value4/Value6/Value8,Value4/Value6/Value9'
             },
             fakeDataAccessV2
         );
@@ -246,6 +262,31 @@ describe('OData Request', () => {
               "Value4": {
                 "expand": {
                   "Value5": {
+                    "expand": {},
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                  "Value6": {
+                    "expand": {
+                      "Value8": {
+                        "expand": {},
+                        "properties": {
+                          "*": true,
+                        },
+                      },
+                      "Value9": {
+                        "expand": {},
+                        "properties": {
+                          "*": true,
+                        },
+                      },
+                    },
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                  "Value7": {
                     "expand": {},
                     "properties": {
                       "*": true,
@@ -573,6 +614,208 @@ describe('OData Request', () => {
               },
             ]
         `);
+
+        const anotherAnotherALPREquest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `BusinessPartners?$apply=filter(Segment%20eq%20'Large')/concat(groupby((CountryVisibility,Country_Code,Currency,Id,LocalCurrency,Name,QuantityTrend,Region,Segment,ValuationDate))/aggregate($count%20as%20UI5__leaves),aggregate(Rating,RequestedQuantity,QuantityUnit,RequestedQuantityLocalUnit,LocalQuantityUnit,SalesAmount,Currency,SalesAmountLocalCurrency,LocalCurrency),groupby((Country_Code,Country),aggregate(Rating,RequestedQuantity,QuantityUnit,RequestedQuantityLocalUnit,LocalQuantityUnit,SalesAmount,Currency,SalesAmountLocalCurrency,LocalCurrency))/orderby(SalesAmount)/concat(aggregate($count%20as%20UI5__count),top(69)))`
+            },
+            fakeDataAccess
+        );
+        expect(anotherAnotherALPREquest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "filterExpr": {
+                  "expressions": [
+                    {
+                      "identifier": "Segment",
+                      "literal": "'Large'",
+                      "operator": "eq",
+                    },
+                  ],
+                },
+                "type": "filter",
+              },
+              {
+                "concatExpr": [
+                  [
+                    {
+                      "groupBy": [
+                        "CountryVisibility",
+                        "Country_Code",
+                        "Currency",
+                        "Id",
+                        "LocalCurrency",
+                        "Name",
+                        "QuantityTrend",
+                        "Region",
+                        "Segment",
+                        "ValuationDate",
+                      ],
+                      "subTransformations": [],
+                      "type": "groupBy",
+                    },
+                    {
+                      "aggregateDef": [
+                        {
+                          "name": "UI5__leaves",
+                          "operator": undefined,
+                          "sourceProperty": "count",
+                        },
+                      ],
+                      "type": "aggregates",
+                    },
+                  ],
+                  [
+                    {
+                      "aggregateDef": [
+                        {
+                          "name": "Rating",
+                          "operator": undefined,
+                          "sourceProperty": "Rating",
+                        },
+                        {
+                          "name": "RequestedQuantity",
+                          "operator": undefined,
+                          "sourceProperty": "RequestedQuantity",
+                        },
+                        {
+                          "name": "QuantityUnit",
+                          "operator": undefined,
+                          "sourceProperty": "QuantityUnit",
+                        },
+                        {
+                          "name": "RequestedQuantityLocalUnit",
+                          "operator": undefined,
+                          "sourceProperty": "RequestedQuantityLocalUnit",
+                        },
+                        {
+                          "name": "LocalQuantityUnit",
+                          "operator": undefined,
+                          "sourceProperty": "LocalQuantityUnit",
+                        },
+                        {
+                          "name": "SalesAmount",
+                          "operator": undefined,
+                          "sourceProperty": "SalesAmount",
+                        },
+                        {
+                          "name": "Currency",
+                          "operator": undefined,
+                          "sourceProperty": "Currency",
+                        },
+                        {
+                          "name": "SalesAmountLocalCurrency",
+                          "operator": undefined,
+                          "sourceProperty": "SalesAmountLocalCurrency",
+                        },
+                        {
+                          "name": "LocalCurrency",
+                          "operator": undefined,
+                          "sourceProperty": "LocalCurrency",
+                        },
+                      ],
+                      "type": "aggregates",
+                    },
+                  ],
+                  [
+                    {
+                      "groupBy": [
+                        "Country_Code",
+                        "Country",
+                      ],
+                      "subTransformations": [
+                        {
+                          "aggregateDef": [
+                            {
+                              "name": "Rating",
+                              "operator": undefined,
+                              "sourceProperty": "Rating",
+                            },
+                            {
+                              "name": "RequestedQuantity",
+                              "operator": undefined,
+                              "sourceProperty": "RequestedQuantity",
+                            },
+                            {
+                              "name": "QuantityUnit",
+                              "operator": undefined,
+                              "sourceProperty": "QuantityUnit",
+                            },
+                            {
+                              "name": "RequestedQuantityLocalUnit",
+                              "operator": undefined,
+                              "sourceProperty": "RequestedQuantityLocalUnit",
+                            },
+                            {
+                              "name": "LocalQuantityUnit",
+                              "operator": undefined,
+                              "sourceProperty": "LocalQuantityUnit",
+                            },
+                            {
+                              "name": "SalesAmount",
+                              "operator": undefined,
+                              "sourceProperty": "SalesAmount",
+                            },
+                            {
+                              "name": "Currency",
+                              "operator": undefined,
+                              "sourceProperty": "Currency",
+                            },
+                            {
+                              "name": "SalesAmountLocalCurrency",
+                              "operator": undefined,
+                              "sourceProperty": "SalesAmountLocalCurrency",
+                            },
+                            {
+                              "name": "LocalCurrency",
+                              "operator": undefined,
+                              "sourceProperty": "LocalCurrency",
+                            },
+                          ],
+                          "type": "aggregates",
+                        },
+                      ],
+                      "type": "groupBy",
+                    },
+                    {
+                      "orderBy": [
+                        {
+                          "direction": "asc",
+                          "name": "SalesAmount",
+                        },
+                      ],
+                      "type": "orderBy",
+                    },
+                    {
+                      "concatExpr": [
+                        [
+                          {
+                            "aggregateDef": [
+                              {
+                                "name": "UI5__count",
+                                "operator": undefined,
+                                "sourceProperty": "count",
+                              },
+                            ],
+                            "type": "aggregates",
+                          },
+                        ],
+                        [
+                          {
+                            "topCount": 69,
+                            "type": "top",
+                          },
+                        ],
+                      ],
+                      "type": "concat",
+                    },
+                  ],
+                ],
+                "type": "concat",
+              },
+            ]
+        `);
     });
 
     // $filter
@@ -603,6 +846,40 @@ describe('OData Request', () => {
                 expandProperties: request.expandProperties, // $filter can affect the expandProperties
                 filterDefinition: request.filterDefinition
             }).toMatchSnapshot();
+        });
+    });
+
+    describe('It can parse keys', () => {
+        // test values in parts taken from https://docs.oasis-open.org/odata/odata/v4.01/os/abnf/odata-abnf-testcases.xml
+        const keyValues: { keyValue: string; parsedValue: string | number | boolean }[] = [
+            { keyValue: "''", parsedValue: '' },
+            { keyValue: "'Tablet'", parsedValue: 'Tablet' },
+            { keyValue: "'7''''%20Tablet'", parsedValue: "7'''' Tablet" },
+            { keyValue: "'Tablet%2FSlate'", parsedValue: 'Tablet/Slate' },
+            { keyValue: "'Tablet%20%28small%29'", parsedValue: 'Tablet (small)' },
+            { keyValue: "'Tablet%20(small)'", parsedValue: 'Tablet (small)' },
+            { keyValue: "'Tablet%20)small('", parsedValue: 'Tablet )small(' },
+            { keyValue: '2018-02-13T23:59:59Z', parsedValue: '2018-02-13T23:59:59Z' },
+            { keyValue: '2018-02-13T23%3A59%3A59Z', parsedValue: '2018-02-13T23:59:59Z' },
+            { keyValue: '23:59:59', parsedValue: '23:59:59' },
+            { keyValue: '23%3A59%3A59', parsedValue: '23:59:59' },
+            { keyValue: '0583fe64-bf12-4b22-b473-d1ad99becc5f', parsedValue: '0583fe64-bf12-4b22-b473-d1ad99becc5f' },
+            { keyValue: '0', parsedValue: 0 },
+            { keyValue: '1', parsedValue: 1 },
+            { keyValue: '123', parsedValue: 123 },
+            { keyValue: 'true', parsedValue: true },
+            { keyValue: "'true'", parsedValue: 'true' },
+            { keyValue: 'false', parsedValue: false },
+            { keyValue: "'false'", parsedValue: 'false' },
+            { keyValue: '%27Tablet%27', parsedValue: 'Tablet' }
+        ];
+
+        test.each(keyValues)('$keyValue -> $parsedValue', ({ keyValue, parsedValue }) => {
+            const namedKey = new ODataRequest({ method: 'POST', url: `/Entity(key=${keyValue})` }, fakeDataAccess);
+            expect(namedKey.queryPath[0].keys).toEqual({ key: parsedValue });
+
+            const defaultKey = new ODataRequest({ method: 'POST', url: `/Entity(${keyValue})` }, fakeDataAccess);
+            expect(defaultKey.queryPath[0].keys).toEqual({ '': parsedValue });
         });
     });
 });

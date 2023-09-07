@@ -47,6 +47,76 @@ const ANNOTATION_TARGETS = [
     'PropertyValue'
 ];
 
+const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<string, boolean>>> = {
+    UI: {
+        Hidden: true,
+        CreateHidden: true,
+        DeleteHidden: true,
+        UpdateHidden: true,
+        Criticality: true,
+        Emphasized: true,
+        SelectionPresentationVariantType: {
+            Text: true
+        },
+        SelectionVariantType: {
+            Text: true
+        },
+        //ValueCriticality: true,
+        DataFieldAbstract: {
+            Criticality: true
+        },
+        Facet: {
+            Label: true
+        },
+        DataFieldForIntentBasedNavigation: {
+            SemanticObject: true,
+            Action: true,
+            NavigationAvailable: true,
+            RequiresContext: true
+        },
+        HeaderInfoType: {
+            TypeName: true,
+            TypeNamePlural: true,
+            TypeImageUrl: true,
+            ImageUrl: true,
+            Initials: true
+        }
+    },
+    Communication: {
+        ContactType: {
+            fn: true
+        }
+    },
+    Common: {
+        SemanticObject: true,
+        Text: true,
+        FieldControl: true,
+        QuickInfo: true,
+        //Label: true,
+        Timezone: true,
+        ValueListRelevantQualifiers: true
+    },
+    Capabilities: {
+        DeleteRestrictionsType: {
+            Deletable: true
+        },
+        UpdateRestrictionsType: {
+            Updatable: true
+        }
+    },
+    Core: {
+        OperationAvailable: true,
+        ContentDispositionType: {
+            Filename: true
+        },
+        MediaType: true
+    },
+    Measures: {
+        ISOCurrency: true,
+        Unit: true
+    }
+};
+
 export const getVocabularyFile = async (url: string): Promise<CSDL> => {
     try {
         const response = await fetch(url);
@@ -143,11 +213,15 @@ function isEnumType(schemaElement: SchemaElement): schemaElement is EnumType {
 }
 
 /**
- * @param schemaElement the schema element to evaluate
- * @returns true if the element is a TypeDefinition
+ * Returns true if the target expression should allow dynamic values.
+ * @param vocabularyAlias the vocabulary name
+ * @param termName the current term
+ * @param propertyName the current property
+ * @returns true if the expression should allow dynamic values
  */
-function isSimpleType(schemaElement: SchemaElement): schemaElement is TypeDefinition {
-    return schemaElement && (schemaElement as TypeDefinition).$Kind === 'TypeDefinition';
+function isDynamicExpression(vocabularyAlias: string, termName: string, propertyName: string = ''): boolean {
+    const target = KNOWN_DYNAMIC_EXPRESSIONS[vocabularyAlias]?.[termName];
+    return (target && target == true) || (typeof target !== 'boolean' && target?.[propertyName] === true);
 }
 
 /**
@@ -253,7 +327,6 @@ async function generateTypes(targetFolder: string) {
         vocabularyDef += 'import * as Edm from "../Edm";\n';
         vocabularyDef += 'import AnnotationTerm = Edm.AnnotationTerm;\n';
         vocabularyDef += 'import PropertyAnnotationValue = Edm.PropertyAnnotationValue;\n';
-        vocabularyDef += 'import EnumValue = Edm.EnumValue;\n';
         vocabularyDef += 'import ComplexType = Edm.RecordComplexType;\n';
         // vocabularyDef += "    import AnnotationRecord = Edm.AnnotationRecord;\n";
         vocabularyDef += '\n';
@@ -304,28 +377,29 @@ async function generateTypes(targetFolder: string) {
                         ) {
                             renamedTermType += `Types`;
                         }
+
                         if (renamedTermType === 'Edm.AnnotationPath') {
                             renamedTermType = 'Edm.AnnotationPath<any>';
                         }
                         if (vocabularyTermInfo.$Collection) {
                             renamedTermType += `[]`;
                         }
+                        if (isSchemaElement(termName, targetTerm) && isEnumType(targetTerm)) {
+                            renamedTermType = `${renamedTermType} | ${renamedTermType}Values`;
+                        }
+                        if (isDynamicExpression(vocabularyAlias, vocabularyTerm)) {
+                            renamedTermType = `PropertyAnnotationValue<${renamedTermType}>`;
+                        }
                         //let needNewLine = false;
 
                         if (isSchemaElement(termName, targetTerm) && isEnumType(targetTerm)) {
                             if (targetTerm.$IsFlags) {
-                                vocabularyDef += `export type ${vocabularyTerm} = EnumValue<${renamedTermType}>[]`;
+                                vocabularyDef += `export type ${vocabularyTerm} = ${renamedTermType}[]`;
                             } else {
-                                vocabularyDef += `export type ${vocabularyTerm} = EnumValue<${renamedTermType}>`;
+                                vocabularyDef += `export type ${vocabularyTerm} = ${renamedTermType}`;
                             }
 
                             //needNewLine = true;
-                        } else if (
-                            renamedTermType === 'Core.Tag' ||
-                            renamedTermType.startsWith('Edm.String') ||
-                            (isSchemaElement(termName, targetTerm) && isSimpleType(targetTerm))
-                        ) {
-                            vocabularyDef += `export type ${vocabularyTerm} = { term : ${vocabularyAlias}AnnotationTerms.${vocabularyTerm}} & AnnotationTerm<PropertyAnnotationValue<${renamedTermType}>>`;
                         } else {
                             vocabularyDef += `export type ${vocabularyTerm} = { term : ${vocabularyAlias}AnnotationTerms.${vocabularyTerm} } & AnnotationTerm<${renamedTermType}>`;
                         }
@@ -382,7 +456,11 @@ async function generateTypes(targetFolder: string) {
                                     if (vocabularyTermInfo[vocabularyTermKey].$Collection) {
                                         keyType += `[]`;
                                     }
-                                    keyType = `PropertyAnnotationValue<${keyType}>`;
+                                    if (isDynamicExpression(vocabularyAlias, vocabularyTerm, vocabularyTermKey)) {
+                                        keyType = `PropertyAnnotationValue<${keyType}>`;
+                                    } else {
+                                        keyType = `${keyType}`;
+                                    }
                                 } else if (
                                     targetTerm &&
                                     isSchemaElement(keyType, targetTerm) &&
@@ -392,7 +470,11 @@ async function generateTypes(targetFolder: string) {
                                     if (vocabularyTermInfo[vocabularyTermKey].$Collection) {
                                         keyType += `[]`;
                                     }
-                                    keyType = `${keyType}`;
+                                    if (isDynamicExpression(vocabularyAlias, vocabularyTerm, vocabularyTermKey)) {
+                                        keyType = `PropertyAnnotationValue<${keyType}>`;
+                                    } else {
+                                        keyType = `${keyType}`;
+                                    }
                                 } else if (
                                     targetTerm &&
                                     isSchemaElement(keyType, targetTerm) &&
@@ -401,7 +483,11 @@ async function generateTypes(targetFolder: string) {
                                     if (targetTerm.$IsFlags) {
                                         keyType += `[]`;
                                     }
-                                    keyType = `${keyType}`;
+                                    if (isDynamicExpression(vocabularyAlias, vocabularyTerm, vocabularyTermKey)) {
+                                        keyType = `PropertyAnnotationValue<${keyType}>`;
+                                    } else {
+                                        keyType = `${keyType}`;
+                                    }
                                 } else {
                                     if (keyType === 'Edm.AnnotationPath') {
                                         if (vocabularyTermInfo[vocabularyTermKey]['@Validation.AllowedTerms']) {
@@ -442,6 +528,7 @@ async function generateTypes(targetFolder: string) {
                     case 'EnumType':
                         vocabularyDef += `\n// EnumType \n`;
                         vocabularyDef += getDescription(vocabularyTermInfo);
+                        let valueBasedNum = `export const enum ${vocabularyTerm}Values {\n`;
                         vocabularyDef += `export const enum ${vocabularyTerm} {\n`;
                         enumIsFlagList[`${vocabularyAlias}.${vocabularyTerm}`] = !!vocabularyTermInfo.$IsFlags;
                         let hasPreviousEnum = false;
@@ -454,9 +541,13 @@ async function generateTypes(targetFolder: string) {
                                 if (hasPreviousEnum) {
                                     vocabularyDef += ',';
                                     vocabularyDef += '\n';
+                                    valueBasedNum += ',\n';
                                 }
                                 if (vocabularyTermInfo[vocabularyTermKey + '@Core.Description']) {
                                     vocabularyDef += `	/**\n	${
+                                        vocabularyTermInfo[vocabularyTermKey + '@Core.Description']
+                                    }\n    */\n`;
+                                    valueBasedNum += `	/**\n	${
                                         vocabularyTermInfo[vocabularyTermKey + '@Core.Description']
                                     }\n    */\n`;
                                 }
@@ -464,14 +555,20 @@ async function generateTypes(targetFolder: string) {
                                     vocabularyDef += `	/**\n	${
                                         vocabularyTermInfo[vocabularyTermKey + '@Core.LongDescription']
                                     }\n    */\n`;
+                                    valueBasedNum += `	/**\n	${
+                                        vocabularyTermInfo[vocabularyTermKey + '@Core.LongDescription']
+                                    }\n    */\n`;
                                 }
 
                                 vocabularyDef += `	${vocabularyTermKey} = "${vocabularyAlias}.${vocabularyTerm}/${vocabularyTermKey}"`;
+                                valueBasedNum += `	${vocabularyTermKey} = ${vocabularyTermInfo[vocabularyTermKey]}`;
                                 hasPreviousEnum = true;
                             }
                         });
                         vocabularyDef += '\n';
                         vocabularyDef += `}\n`;
+                        valueBasedNum += '\n}\n';
+                        vocabularyDef += valueBasedNum;
                         break;
 
                     default:
@@ -581,13 +678,13 @@ async function generateTypes(targetFolder: string) {
     }
 
     let edmTypesValue = ``;
-    Object.keys(allVocabularies).map((vocabularyAlias) => {
+    Object.keys(allVocabularies).forEach((vocabularyAlias) => {
         edmTypesValue += `import * as ${vocabularyAlias} from "./${vocabularyAlias}_Edm";\n`;
     });
     edmTypesValue += '\n';
     ANNOTATION_TARGETS.forEach((annotationTarget) => {
         edmTypesValue += `export type ${annotationTarget}Annotations = {\n`;
-        Object.keys(allVocabularies).map((vocabularyAlias) => {
+        Object.keys(allVocabularies).forEach((vocabularyAlias) => {
             edmTypesValue += `    ${vocabularyAlias}?: ${vocabularyAlias}.${annotationTarget}Annotations_${vocabularyAlias};\n`;
         });
 

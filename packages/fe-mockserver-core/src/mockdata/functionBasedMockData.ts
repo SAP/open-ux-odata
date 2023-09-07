@@ -3,7 +3,7 @@ import type { EntitySetInterface, PartialReferentialConstraint } from '../data/c
 import { ExecutionError } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
-import type { KeyDefinitions } from './fileBasedMockData';
+import type { KeyDefinitions } from '../request/odataRequest';
 import { FileBasedMockData } from './fileBasedMockData';
 
 export type MockDataContributor<T extends object> = {
@@ -13,10 +13,10 @@ export type MockDataContributor<T extends object> = {
     removeEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;
     hasEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
     hasEntries?: (odataRequest: ODataRequest) => boolean;
-    fetchEntries?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
-    getAllEntries?: (odataRequest: ODataRequest) => object[];
-    getEmptyObject?: (odataRequest: ODataRequest) => object;
-    getDefaultElement?: (odataRequest: ODataRequest) => object;
+    fetchEntries?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => T[];
+    getAllEntries?: (odataRequest: ODataRequest) => T[];
+    getEmptyObject?: (odataRequest: ODataRequest) => T;
+    getDefaultElement?: (odataRequest: ODataRequest) => T;
 
     getReferentialConstraints?: (
         _navigationProperty: NavigationProperty
@@ -86,11 +86,11 @@ export type MockDataContributor<T extends object> = {
         updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => Promise<void>;
         removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<void>;
         hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
-        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => object[];
+        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => T[];
         hasEntries: (odataRequest: ODataRequest) => boolean;
-        getAllEntries: (odataRequest: ODataRequest) => object[];
-        getEmptyObject: (odataRequest: ODataRequest) => object;
-        getDefaultElement: (odataRequest: ODataRequest) => object;
+        getAllEntries: (odataRequest: ODataRequest) => T[];
+        getEmptyObject: (odataRequest: ODataRequest) => T;
+        getDefaultElement: (odataRequest: ODataRequest) => T;
         getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
         getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
         checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
@@ -124,7 +124,12 @@ export class FunctionBasedMockData extends FileBasedMockData {
             mockDataEntitySet,
             contextId
         );
-        this._mockDataFn = mockDataFn;
+        const targetMock: any = {};
+        for (const targetMockKey in mockDataFn) {
+            targetMock[targetMockKey] = mockDataFn[targetMockKey as keyof typeof mockDataFn];
+        }
+        this._mockDataFn = targetMock;
+
         this._mockDataFn.base = {
             generateMockData: super.generateMockData.bind(this),
             generateKey: super.generateKey.bind(this),

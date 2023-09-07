@@ -13,6 +13,7 @@ import {
     COLON,
     COMMA,
     COMPLEX_METHOD,
+    CONCAT_TOKEN,
     DESCENDANTS_TOKEN,
     DOT,
     EQ,
@@ -22,7 +23,6 @@ import {
     KEEP_START_TOKEN,
     LITERAL,
     LOGICAL_OPERATOR,
-    NUMBER,
     OPEN,
     OPEN_BRACKET,
     ORDERBY_TOKEN,
@@ -33,6 +33,7 @@ import {
     SIMPLE_METHOD,
     SKIP_TOKEN,
     SLASH,
+    TOP_TOKEN,
     TYPEDEF,
     WITH_TOKEN,
     WS
@@ -52,12 +53,14 @@ const applyTokens = [
     CLOSE_BRACKET,
     COMMA,
     ANCESTORS_TOKEN,
+    CONCAT_TOKEN,
     KEEP_START_TOKEN,
     DESCENDANTS_TOKEN,
     ROOT_TOKEN,
     SEARCH_TOKEN,
     ORDERBY_TOKEN,
     FILTER_TOKEN,
+    TOP_TOKEN,
     SKIP_TOKEN,
     GROUPBY_TOKEN,
     AGGREGATE_TOKEN,
@@ -77,8 +80,7 @@ const applyTokens = [
     LOGICAL_OPERATOR,
     TYPEDEF,
     LITERAL,
-    SIMPLEIDENTIFIER,
-    NUMBER
+    SIMPLEIDENTIFIER
 ];
 
 export const SearchLexer = new Lexer(applyTokens, {
@@ -111,6 +113,10 @@ export type SearchTransformation = {
     type: 'search';
     searchExpr: string[];
 };
+export type ConcatTransformation = {
+    type: 'concat';
+    concatExpr: TransformationDefinition[][];
+};
 export type GroupByTransformation = {
     type: 'groupBy';
     groupBy: string[];
@@ -123,6 +129,10 @@ export type OrderByTransformation = {
 export type SkipTransformation = {
     type: 'skip';
     skipCount: number;
+};
+export type TopTransformation = {
+    type: 'top';
+    topCount: number;
 };
 export type AggregatesTransformation = {
     type: 'aggregates';
@@ -148,9 +158,11 @@ export type TransformationDefinition =
     | OrderByTransformation
     | GroupByTransformation
     | SkipTransformation
+    | TopTransformation
     | AggregatesTransformation
     | AncestorsTransformation
     | DescendantsTransformation
+    | ConcatTransformation
     | CustomFunctionTransformation;
 export type OrderByProp = {
     name: string;
@@ -178,6 +190,7 @@ export class ApplyParser extends FilterParser {
     searchTrafo: CstRule<void>;
     orderByTrafo: CstRule<void>;
     skipTrafo: CstRule<void>;
+    topTrafo: CstRule<void>;
     constructor() {
         super(applyTokens, {
             recoveryEnabled: true
@@ -216,6 +229,11 @@ export class ApplyParser extends FilterParser {
                 },
                 {
                     ALT: () => {
+                        return this.SUBRULE(this.concatTrafo, { ARGS: [transformations] });
+                    }
+                },
+                {
+                    ALT: () => {
                         return this.SUBRULE(this.preservingTrafo, { ARGS: [transformations] });
                     }
                 }
@@ -237,6 +255,11 @@ export class ApplyParser extends FilterParser {
                 {
                     ALT: () => {
                         return this.SUBRULE(this.skipTrafo, { ARGS: [transformations] });
+                    }
+                },
+                {
+                    ALT: () => {
+                        return this.SUBRULE(this.topTrafo, { ARGS: [transformations] });
                     }
                 },
                 {
@@ -278,9 +301,16 @@ export class ApplyParser extends FilterParser {
         this.skipTrafo = this.RULE('skipTrafo', (transformations: TransformationDefinition[] = []) => {
             this.CONSUME(SKIP_TOKEN);
             this.CONSUME(OPEN);
-            const skip = parseInt(this.CONSUME(NUMBER).image, 10);
+            const skip = parseInt(this.CONSUME(LITERAL).image, 10);
             this.CONSUME(CLOSE);
             transformations.push({ type: 'skip', skipCount: skip });
+        });
+        this.topTrafo = this.RULE('topTrafo', (transformations: TransformationDefinition[] = []) => {
+            this.CONSUME(TOP_TOKEN);
+            this.CONSUME(OPEN);
+            const top = parseInt(this.CONSUME(LITERAL).image, 10);
+            this.CONSUME(CLOSE);
+            transformations.push({ type: 'top', topCount: top });
         });
 
         this.filterTrafo = this.RULE('filterTrafo', (transformations: TransformationDefinition[] = []) => {
@@ -370,23 +400,37 @@ export class ApplyParser extends FilterParser {
                     const sourceProperty = this.CONSUME(SIMPLEIDENTIFIER).image;
                     let operator: string | undefined;
                     let alias = sourceProperty;
-                    this.OPTION2(() => {
-                        this.CONSUME2(WS);
-                        this.CONSUME(WITH_TOKEN);
-                        this.CONSUME3(WS);
-                        operator = this.CONSUME(AGGREGATE_FUNCTION).image;
+                    this.OR([
+                        {
+                            ALT: () => {
+                                this.CONSUME8(WS);
+                                this.CONSUME2(AS_TOKEN);
+                                this.CONSUME9(WS);
+                                alias = this.CONSUME4(SIMPLEIDENTIFIER).image;
+                            }
+                        },
+                        {
+                            ALT: () => {
+                                this.OPTION2(() => {
+                                    this.CONSUME2(WS);
+                                    this.CONSUME(WITH_TOKEN);
+                                    this.CONSUME3(WS);
+                                    operator = this.CONSUME(AGGREGATE_FUNCTION).image;
 
-                        this.OPTION3(() => {
-                            this.CONSUME4(WS);
-                            this.CONSUME(FROM_TOKEN);
-                            this.CONSUME2(SIMPLEIDENTIFIER);
-                        });
-                        this.CONSUME5(WS);
-                        this.CONSUME(AS_TOKEN);
-                        this.CONSUME6(WS);
-                        // NetAmount%20with%20max%20as%20maxAmount
-                        alias = this.CONSUME3(SIMPLEIDENTIFIER).image;
-                    });
+                                    this.OPTION3(() => {
+                                        this.CONSUME4(WS);
+                                        this.CONSUME(FROM_TOKEN);
+                                        this.CONSUME2(SIMPLEIDENTIFIER);
+                                    });
+                                    this.CONSUME5(WS);
+                                    this.CONSUME(AS_TOKEN);
+                                    this.CONSUME6(WS);
+                                    // NetAmount%20with%20max%20as%20maxAmount
+                                    alias = this.CONSUME3(SIMPLEIDENTIFIER).image;
+                                });
+                            }
+                        }
+                    ]);
 
                     aggregates.push({
                         name: alias,
@@ -423,6 +467,26 @@ export class ApplyParser extends FilterParser {
             transformations.push({ type: 'orderBy', orderBy: orderBy });
         });
 
+        this.concatTrafo = this.RULE('concatTrafo', (transformations: TransformationDefinition[] = []) => {
+            //%s"concat" OPEN BWS applyExpr 1*( BWS COMMA BWS applyExpr ) BWS CLOSE
+            this.CONSUME(CONCAT_TOKEN);
+            this.CONSUME(OPEN);
+            this.OPTION(() => this.CONSUME(WS));
+            const concatExpressions: TransformationDefinition[][] = [];
+            this.MANY_SEP({
+                SEP: COMMA,
+                DEF: () => {
+                    concatExpressions.push(this.SUBRULE(this.applyExpr));
+                }
+            });
+            transformations.push({
+                type: 'concat',
+                concatExpr: concatExpressions
+            });
+            this.OPTION2(() => this.CONSUME2(WS));
+            this.CONSUME(CLOSE);
+        });
+
         this.ancestorsTrafo = this.RULE('ancestorsTrafo', (transformations: TransformationDefinition[] = []) => {
             //%s"ancestors" OPEN
             //                   BWS recHierReference BWS
@@ -437,19 +501,23 @@ export class ApplyParser extends FilterParser {
             this.CONSUME(COMMA);
             const recHierQualifier = this.CONSUME2(SIMPLEIDENTIFIER);
             this.CONSUME2(COMMA);
-            const recHierPropertyPath = this.CONSUME3(SIMPLEIDENTIFIER);
+            let recHierPropertyPath = this.CONSUME3(SIMPLEIDENTIFIER).image;
+            this.OPTION2(() => {
+                this.CONSUME(SLASH);
+                recHierPropertyPath += '/' + this.CONSUME4(SIMPLEIDENTIFIER).image;
+            });
             this.CONSUME3(COMMA);
             const subTransformations: TransformationDefinition[] = [];
             this.SUBRULE(this.preservingTrafo, { ARGS: [subTransformations] });
             let maximumDistance = -1;
             // There can be more but we ignore them for now
-            this.OPTION2(() => {
+            this.OPTION3(() => {
                 this.CONSUME4(COMMA);
                 maximumDistance = parseInt(this.CONSUME2(LITERAL).image, 10);
             });
             let shouldKeepStart = false;
             //                  [ COMMA BWS %s"keep start" BWS ]
-            this.OPTION3(() => {
+            this.OPTION4(() => {
                 this.CONSUME5(COMMA);
                 shouldKeepStart = this.CONSUME(KEEP_START_TOKEN).image === 'keep start';
             });
@@ -458,7 +526,7 @@ export class ApplyParser extends FilterParser {
                 parameters: {
                     hierarchyRoot: rootExpr,
                     qualifier: recHierQualifier.image,
-                    propertyPath: recHierPropertyPath.image,
+                    propertyPath: recHierPropertyPath,
                     maximumDistance: maximumDistance,
                     keepStart: shouldKeepStart,
                     inputSetTransformations: subTransformations

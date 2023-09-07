@@ -6,7 +6,6 @@ import type {
     ConvertedMetadata,
     EntitySet,
     EntityType,
-    EnumValue,
     NavigationProperty,
     PathAnnotationExpression,
     Property,
@@ -19,7 +18,7 @@ import { CommonAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/C
 import type { ContactType } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import { CommunicationAnnotationTypes } from '@sap-ux/vocabularies-types/vocabularies/Communication';
 import type {
-    CriticalityType,
+    Criticality,
     DataField,
     DataFieldAbstractTypes,
     DataFieldForAction,
@@ -698,10 +697,10 @@ describe('Annotation Converter', () => {
         const parsedEDMX = parse(await loadFixture('v4/sdMeta.xml'));
         const convertedTypes = convert(parsedEDMX);
         if (convertedTypes.entityTypes[39].annotations?.UI?.LineItem) {
-            const criticality: EnumValue<CriticalityType> = {
+            const criticality: Criticality = {
                 path: 'OverallSDStatus',
                 type: 'Path'
-            } as EnumValue<CriticalityType>;
+            } as Criticality;
             const LineItem = convertedTypes.entityTypes[39].annotations.UI.LineItem;
             LineItem.annotations = { UI: { Criticality: criticality } };
             const transformedLineItem = revertTermToGenericType(defaultReferences, LineItem) as any;
@@ -865,7 +864,7 @@ describe('Annotation Converter', () => {
         const convertedTypes = convert(parsedMetadata);
 
         function getAction(name: string) {
-            const result = convertedTypes.actions.find((action) => action.fullyQualifiedName === name);
+            const result = convertedTypes.actions.by_fullyQualifiedName(name);
             expect(result).toBeDefined();
             return result;
         }
@@ -873,19 +872,19 @@ describe('Annotation Converter', () => {
         const dataFields1 = convertedTypes.entityTypes[0]?.annotations.UI?.LineItem as any[];
         expect(dataFields1[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
         expect(dataFields1[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity1)'));
-        expect(dataFields1[2].ActionTarget).toBe(getAction('TestService.action'));
-        expect(dataFields1[3].ActionTarget).toBe(getAction('TestService.function'));
+        expect(dataFields1[2].ActionTarget).toBe(getAction('TestService.action()'));
+        expect(dataFields1[3].ActionTarget).toBe(getAction('TestService.function()'));
         expect(dataFields1[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
         expect(dataFields1[5].ActionTarget).toBe(undefined);
         expect(dataFields1[6].ActionTarget).toBe(getAction('TestService.action2(TestService.Entity2)'));
-        expect(dataFields1[7].ActionTarget).toBe(getAction('TestService.action'));
-        expect(dataFields1[8].ActionTarget).toBe(getAction('TestService.function'));
+        expect(dataFields1[7].ActionTarget).toBe(getAction('TestService.action()'));
+        expect(dataFields1[8].ActionTarget).toBe(getAction('TestService.function()'));
 
         const dataFields2 = convertedTypes.entityTypes[1]?.annotations.UI?.LineItem as any[];
         expect(dataFields2[0].ActionTarget).toBe(getAction('TestService.action(TestService.Entity2)'));
         expect(dataFields2[1].ActionTarget).toBe(getAction('TestService.function(TestService.Entity2)'));
-        expect(dataFields2[2].ActionTarget).toBe(getAction('TestService.action'));
-        expect(dataFields2[3].ActionTarget).toBe(getAction('TestService.function'));
+        expect(dataFields2[2].ActionTarget).toBe(getAction('TestService.action()'));
+        expect(dataFields2[3].ActionTarget).toBe(getAction('TestService.function()'));
         expect(dataFields2[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
     });
 
@@ -1006,12 +1005,12 @@ describe('Annotation Converter', () => {
                 {
                     dataFieldIndex: 2,
                     expectedDataFieldAction: 'doSomethingUnbound',
-                    expectedDataFieldActionTargetFQN: 'sap.fe.test.JestService.doSomethingUnbound'
+                    expectedDataFieldActionTargetFQN: 'sap.fe.test.JestService.doSomethingUnbound()'
                 },
                 {
                     dataFieldIndex: 3,
                     expectedDataFieldAction: 'MyServiceAlias.EntityContainer/doSomethingUnbound',
-                    expectedDataFieldActionTargetFQN: 'sap.fe.test.JestService.doSomethingUnbound'
+                    expectedDataFieldActionTargetFQN: 'sap.fe.test.JestService.doSomethingUnbound()'
                 }
             ])(
                 '$expectedDataFieldAction',
@@ -1085,5 +1084,97 @@ describe('Annotation Converter', () => {
             )
         );
         expect(hasCollision).toBeFalsy();
+    });
+
+    describe('Annotations on Action Parameters', () => {
+        let convertedTypes: ConvertedMetadata;
+
+        beforeAll(async () => {
+            const metadata = await loadFixture('v4/action-parameters.xml');
+            const parsedEDMX = parse(metadata);
+            convertedTypes = convert(parsedEDMX);
+        });
+
+        it('Actions: Parameters with annotations on the specific overload', () => {
+            // Unbound action: param1
+            let action = convertedTypes.actions.by_fullyQualifiedName('TestService.action()');
+            expect(action?.parameters.by_name('param1')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[specific unbound overload] action/param1'
+            );
+
+            // Bound action on Entity1: param1
+            action = convertedTypes.entityTypes.by_name('Entity1')?.actions['TestService.action'];
+
+            expect(action?.parameters.by_name('param1')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[specific bound overload] Entity1/action/param1'
+            );
+        });
+
+        it('Functions: Parameters with annotations on the specific overload', () => {
+            // Unbound function: param1
+            let action = convertedTypes.actions.by_fullyQualifiedName('TestService.function(Edm.String,Edm.String)');
+            expect(action?.parameters.by_name('param1')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[specific unbound overload] function/param1'
+            );
+
+            // Bound function on Entity1: param1
+            action = convertedTypes.entityTypes.by_name('Entity1')?.actions['TestService.function'];
+
+            expect(action?.parameters.by_name('param1')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[specific bound overload] Entity1/function/param1'
+            );
+        });
+
+        it('Actions: Parameters without annotations on the specific overload', () => {
+            // Unbound action: param2
+            let action = convertedTypes.actions.by_fullyQualifiedName('TestService.action()');
+            expect(action?.parameters.by_name('param2')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] action/param2'
+            );
+
+            // Bound action on Entity1: param2
+            action = convertedTypes.entityTypes.by_name('Entity1')?.actions['TestService.action'];
+
+            expect(action?.parameters.by_name('param2')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] action/param2'
+            );
+
+            // Bound action on Entity2: param1 + param2
+            action = convertedTypes.entityTypes.by_name('Entity2')?.actions['TestService.action'];
+
+            expect(action?.parameters.by_name('param1')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] action/param1'
+            );
+
+            expect(action?.parameters.by_name('param2')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] action/param2'
+            );
+        });
+
+        it('Functions: Parameters without annotations on the specific overload', () => {
+            // Unbound function: param2
+            let action = convertedTypes.actions.by_fullyQualifiedName('TestService.function(Edm.String,Edm.String)');
+            expect(action?.parameters.by_name('param2')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] function/param2'
+            );
+
+            // Bound function on Entity1: param2
+            action = convertedTypes.entityTypes.by_name('Entity1')?.actions['TestService.function'];
+
+            expect(action?.parameters.by_name('param2')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] function/param2'
+            );
+
+            // Bound function on Entity2: param1 + param2
+            action = convertedTypes.entityTypes.by_name('Entity2')?.actions['TestService.function'];
+
+            expect(action?.parameters.by_name('param1')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] function/param1'
+            );
+
+            expect(action?.parameters.by_name('param2')?.annotations.Common?.Label?.valueOf()).toEqual(
+                '[unspecific] function/param2'
+            );
+        });
     });
 });

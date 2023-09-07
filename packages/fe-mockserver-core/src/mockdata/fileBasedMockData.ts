@@ -13,8 +13,8 @@ import type { EntitySetInterface, PartialReferentialConstraint } from '../data/c
 import { generateId, uuidv4 } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
+import type { KeyDefinitions } from '../request/odataRequest';
 
-export type KeyDefinitions = Record<string, number | boolean | string>;
 type HierarchyDefinition = {
     distanceFromRootProperty: string | undefined;
     drillStateProperty: string | undefined;
@@ -86,20 +86,9 @@ export class FileBasedMockData {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
                     this.validateProperties(mockLine, this._entityType.entityProperties);
-                    const allAggregations = this._entityType.annotations?.Aggregation ?? {};
-                    Object.keys(allAggregations)
-                        .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
-                        .forEach((aggregationName) => {
-                            const aggregationDefinition: RecursiveHierarchy = allAggregations[
-                                aggregationName as keyof typeof allAggregations
-                            ] as RecursiveHierarchy;
-                            const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
-                                aggregationDefinition.qualifier
-                            );
-                            this.cleanupHierarchyData(mockLine, hierarchyDefinition);
-                        });
                 });
             }
+            this.cleanupHierarchies();
         }
     }
 
@@ -113,7 +102,24 @@ export class FileBasedMockData {
             }
         });
     }
-
+    public cleanupHierarchies() {
+        const allAggregations = this._entityType.annotations?.Aggregation ?? {};
+        Object.keys(allAggregations)
+            .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
+            .forEach((aggregationName) => {
+                const aggregationDefinition: RecursiveHierarchy = allAggregations[
+                    aggregationName as keyof typeof allAggregations
+                ] as RecursiveHierarchy;
+                const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
+                    aggregationDefinition.qualifier
+                );
+                if (this._mockData.forEach) {
+                    this._mockData.forEach((mockLine) => {
+                        this.cleanupHierarchyData(mockLine, hierarchyDefinition);
+                    });
+                }
+            });
+    }
     private cleanupHierarchyData(mockEntry: any, hierarchyDefinition: HierarchyDefinition) {
         if (hierarchyDefinition.matchedProperty) {
             delete mockEntry[hierarchyDefinition.matchedProperty];
@@ -188,6 +194,7 @@ export class FileBasedMockData {
 
     async removeEntry(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<void> {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
+
         if (dataIndex !== -1) {
             this._mockData.splice(dataIndex, 1);
         }
@@ -892,17 +899,27 @@ export class FileBasedMockData {
             const subTrees: object[] = [];
             hierarchyFilter.forEach((item: any) => {
                 const parentNodeChildren = hierarchyNodes[item[sourceReference]];
-                const currentNode = parentNodeChildren.find((node: any) => node[nodeProperty] === item[nodeProperty]);
-                if (_parameters.keepStart) {
-                    if (hierarchyDefinition.matchedProperty) {
-                        // TODO compare with lastFilterTransformationResult
-                        currentNode[hierarchyDefinition.matchedProperty] = true;
+                if (parentNodeChildren) {
+                    const currentNode = parentNodeChildren.find(
+                        (node: any) => node[nodeProperty] === item[nodeProperty]
+                    );
+                    if (_parameters.keepStart) {
+                        if (hierarchyDefinition.matchedProperty) {
+                            // TODO compare with lastFilterTransformationResult
+                            currentNode[hierarchyDefinition.matchedProperty] = true;
+                        }
+                        subTrees.push(currentNode);
                     }
-                    subTrees.push(currentNode);
+                    currentNode.$children?.forEach((child: any) => {
+                        this.flattenTree(
+                            child,
+                            subTrees,
+                            nodeProperty,
+                            hierarchyDefinition,
+                            _parameters.maximumDistance
+                        );
+                    });
                 }
-                currentNode.$children.forEach((child: any) => {
-                    this.flattenTree(child, subTrees, nodeProperty, hierarchyDefinition, _parameters.maximumDistance);
-                });
             });
             const outData: object[] = [];
             inputSet.forEach((item: any) => {

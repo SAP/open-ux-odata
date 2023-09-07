@@ -1,5 +1,166 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.117
+
+### Patch Changes
+
+-   bae3664: V2 metadata response now encode special characters in keys
+
+## 1.1.116
+
+### Patch Changes
+
+-   2d25b15: ancestor queries can be parsed on complex navigation
+
+## 1.1.115
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.7.3
+-   @sap-ux/edmx-parser@0.6.0
+
+## 1.1.114
+
+### Patch Changes
+
+-   17d8ba5: fix: prevent keyword from interfering with queries
+
+## 1.1.113
+
+### Patch Changes
+
+-   dda5847: fix: cannot create a node in a hierarchy and a node below it
+
+## 1.1.112
+
+### Patch Changes
+
+-   cc971c4: Fix various issues with v2
+
+## 1.1.111
+
+### Patch Changes
+
+-   2ecd0c5: fix: update metadata definition for v2 requests
+
+## 1.1.110
+
+### Patch Changes
+
+-   4dc98e0: Allow to perform maintenance on hierrchy nodes
+
+## 1.1.109
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.7.2
+-   @sap-ux/edmx-parser@0.6.0
+
+## 1.1.108
+
+### Patch Changes
+
+-   7d98e16: Tenant based data will no longer leak onto one another
+
+## 1.1.107
+
+### Patch Changes
+
+-   09052b5: Navigation property are not expected to be draft enabled anymore
+
+## 1.1.106
+
+### Patch Changes
+
+-   c8d1d8f: fix: v2 metadata contains incorrect data
+
+## 1.1.105
+
+### Patch Changes
+
+-   cd5b778: Strict mode is now properly evaluated on the odataRequest
+
+## 1.1.104
+
+### Patch Changes
+
+-   4bdf473: Allow more queries on the analytical use case
+
+## 1.1.103
+
+### Patch Changes
+
+-   5bbed77: DraftAdminData is now properly maintained
+
+## 1.1.102
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.7.1
+-   @sap-ux/edmx-parser@0.6.0
+
+## 1.1.101
+
+### Patch Changes
+
+-   cd6efe3: Navigation properties will no longer be mistaken for actions
+
+## 1.1.100
+
+### Patch Changes
+
+-   0e0c7e2: Further fix on the filter parser for date time with timezone
+
+## 1.1.99
+
+### Patch Changes
+
+-   cb37ec6: Add more logging info on debug
+
+## 1.1.98
+
+### Patch Changes
+
+-   bcc6971: key values are now parsed into a more specific type
+
+## 1.1.97
+
+### Patch Changes
+
+-   dfe9f06: Function are now properly resolved
+
+## 1.1.96
+
+### Patch Changes
+
+-   a734d07: Leading and trailing apostrophes are now removed from string values in keys
+
+## 1.1.95
+
+### Patch Changes
+
+-   d93101e: We now properly merge deep expand of the same level
+
+## 1.1.94
+
+### Patch Changes
+
+-   Updated dependencies [e70d625]
+    -   @sap-ux/annotation-converter@0.7.0
+    -   @sap-ux/edmx-parser@0.6.0
+
+## 1.1.93
+
+### Patch Changes
+
+-   4b255c9: Complex and nested expand in v2 are now working correctly
+
+## 1.1.92
+
+### Patch Changes
+
+-   f23406b: Properly set the contextID for sticky in all cases
+
 ## 1.1.91
 
 ### Patch Changes
