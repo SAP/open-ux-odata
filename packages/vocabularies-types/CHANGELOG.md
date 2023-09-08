@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.9.3
+
+### Patch Changes
+
+-   8a8081a: fix: update dynamic types list for Communication vocabulary
+
 ## 0.9.2
 
 ### Patch Changes
