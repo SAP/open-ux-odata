@@ -2,6 +2,14 @@
     "name": "@sap-ux/ui5-middleware-fe-mockserver",
     "version": "2.1.121",
     "description": "SAP Fiori tools - UI5 middleware for the Fiori elements mock server",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SAP/open-ux-odata.git",
+        "directory": "packages/ui5-middleware-fe-mockserver"
+    },
+    "bugs": {
+        "url": "https://github.com/SAP/open-ux-odata/issues?q=is%3Aopen+is%3Aissue+label%3Afe-mockserver"
+    },
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "license": "Apache-2.0",
