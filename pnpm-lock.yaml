@@ -141,8 +141,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       '@types/body-parser':
-        specifier: 1.19.2
-        version: 1.19.2
+        specifier: 1.19.3
+        version: 1.19.3
       '@types/connect':
         specifier: ^3.4.35
         version: 3.4.35
@@ -1434,11 +1434,11 @@ packages:
     resolution: {integrity: sha512-KgomuqUNYgN+Sibk22j7HB6vo8gziGz/k3Y8RkauF2duMZfMeIkyUKARef2eIIQuXGrkbIvcOfY5DNF/nQrDZQ==}
     dev: true
 
-  /@types/body-parser@1.19.2:
-    resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
+  /@types/body-parser@1.19.3:
+    resolution: {integrity: sha512-oyl4jvAfTGX9Bt6Or4H9ni1Z447/tQuxnZsytsCaExKlmJiU8sFgnIBRzJUpKwB5eWn9HuBYlUlVA74q/yN0eQ==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 14.14.31
+      '@types/node': 14.18.61
     dev: true
 
   /@types/connect@3.4.35:
@@ -1464,7 +1464,7 @@ packages:
   /@types/express@4.17.17:
     resolution: {integrity: sha512-Q4FmmuLGBG58btUnfS1c1r/NQdlp3DMfGDGig8WhfpA2YRUtEkxAjkZb0yvplJGYdF1fsQ81iMDcH24sSCNC/Q==}
     dependencies:
-      '@types/body-parser': 1.19.2
+      '@types/body-parser': 1.19.3
       '@types/express-serve-static-core': 4.17.33
       '@types/qs': 6.9.7
       '@types/serve-static': 1.13.10
