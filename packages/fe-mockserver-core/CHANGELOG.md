@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.119
+
+### Patch Changes
+
+-   ad8dc44: Don't try to set header to undefined
+
 ## 1.1.118
 
 ### Patch Changes
