@@ -55,4 +55,25 @@ describe('File Based Mock Data', () => {
             } as any)
         ).toBe('myNavProp_ID');
     });
+    it('get hierarchy definition', () => {
+        const mockData: any = [];
+        mockData.__generateMockData = true;
+        const myEntityType = metadata.getEntityType('MyRootEntity')!;
+        myEntityType.annotations.Aggregation = {} as any;
+        myEntityType.annotations.Hierarchy = {} as any;
+        const fileBasedData = new FileBasedMockData(mockData, myEntityType, {} as any, 'default');
+        myEntityType.annotations.Aggregation!['RecursiveHierarchy#MyFunHierarchy'] = {
+            ParentNavigationProperty: { value: 'myNavProp', $target: myEntityType.navigationProperties[0] }
+        } as any;
+        myEntityType.annotations.Hierarchy!['RecursiveHierarchy#MyFunHierarchy'] = {} as any;
+        const myObj = fileBasedData.getHierarchyDefinition('MyFunHierarchy');
+        expect(myObj).toEqual({
+            distanceFromRootProperty: false,
+            drillStateProperty: false,
+            limitedDescendantCountProperty: false,
+            matchedDescendantCountProperty: false,
+            matchedProperty: false,
+            sourceReference: 'myNavProp_ID'
+        });
+    });
 });
