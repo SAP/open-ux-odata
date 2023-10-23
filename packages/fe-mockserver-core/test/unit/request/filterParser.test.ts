@@ -322,4 +322,11 @@ describe('Filter Parser', () => {
         );
         expect(v2ComplexFilter).toMatchSnapshot();
     });
+
+    test('guid filters', () => {
+        const guidFilters = parseFilter(
+            `not (id eq 631e9c9f-b3f7-47e2-aebb-ce76802f883a or id eq 6e67a558-5421-41da-8314-3636bfe9124b)`
+        );
+        expect(guidFilters).toMatchSnapshot();
+    });
 });
