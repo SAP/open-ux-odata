@@ -560,16 +560,18 @@ export class FileBasedMockData {
     }
     getSourceReference(aggregationAnnotation: RecursiveHierarchy) {
         const parentNavigationProperty = aggregationAnnotation.ParentNavigationProperty;
-        const referentialConstraint = this.getReferentialConstraints(parentNavigationProperty.$target!)?.[0];
+
         if (!parentNavigationProperty.$target) {
             throw new Error(`Unknown ParentNavigationProperty: '${parentNavigationProperty.value}'`);
-        } else if (!referentialConstraint) {
+        }
+        const referentialConstraint = this.getReferentialConstraints(parentNavigationProperty.$target);
+        if (!referentialConstraint || referentialConstraint.length === 0) {
             throw new Error(
                 `Referential constraints must be defined for the ParentNavigationProperty: '${parentNavigationProperty.value}'`
             );
         }
 
-        return referentialConstraint.sourceProperty;
+        return referentialConstraint[0].sourceProperty;
     }
     buildTree(
         hierarchyNode: any,
