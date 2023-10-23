@@ -31,11 +31,28 @@ describe('File Based Mock Data', () => {
         expect(allEntries[0].complexComputedNotNullProperty.textDescription.length).toBeLessThan(6);
     });
     it('can recognize propertyPaths', () => {
+        expect(isPropertyPathExpression(undefined)).toBe(false);
         expect(isPropertyPathExpression({})).toBe(false);
         expect(isPropertyPathExpression({ type: 'PropertyPath' })).toBe(true);
     });
     it('can recognize paths', () => {
+        expect(isPathExpression(undefined)).toBe(false);
         expect(isPathExpression({})).toBe(false);
         expect(isPathExpression({ type: 'Path' })).toBe(true);
+    });
+    it('can find the source reference', () => {
+        const mockData: any = [];
+        mockData.__generateMockData = true;
+        const myEntityType = metadata.getEntityType('MyRootEntity')!;
+        const fileBasedData = new FileBasedMockData(mockData, myEntityType, {} as any, 'default');
+        expect(() => {
+            fileBasedData.getSourceReference({ ParentNavigationProperty: { value: 'myNavProp' } } as any);
+        }).toThrowError();
+
+        expect(
+            fileBasedData.getSourceReference({
+                ParentNavigationProperty: { value: 'myNavProp', $target: myEntityType.navigationProperties[0] }
+            } as any)
+        ).toBe('myNavProp_ID');
     });
 });

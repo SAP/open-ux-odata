@@ -16,6 +16,7 @@ service MultiLevelExpand {
         complexProperty: many testComplexType;
         complexComputedNotNullProperty: many testComplexType not null @Core.Computed: true;
         complexNotNullProperty: many testComplexType not null;
+        myNavProp: association to MySecondEntity;
     }
 
     entity MySecondEntity : AbstractEntity {
