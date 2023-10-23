@@ -67,6 +67,15 @@ describe('Data Access', () => {
         expect(productData[0].Name).toEqual('Acme Boomerang');
         productData = await dataAccess.getData(
             new ODataRequest(
+                { method: 'GET', url: "/SEPMRA_C_PD_Product?$filter=not (Supplier eq 'Acme DE')" },
+                dataAccess
+            )
+        );
+        expect(productData.length).toEqual(2);
+        expect(productData[0].Supplier).toEqual('Acme FR');
+        expect(productData[0].Name).toEqual('Acme Trap v2');
+        productData = await dataAccess.getData(
+            new ODataRequest(
                 {
                     method: 'GET',
                     url: "/SEPMRA_C_PD_Product?$filter=StartingSaleDate gt datetime'2022-10-07T06:52:24.189'"
