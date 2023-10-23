@@ -781,7 +781,7 @@ export class FileBasedMockData {
                 return 1;
             });
 
-            const depth: number = parseInt(_parameters.Levels, 10);
+            const depth: number = _parameters.Levels ? parseInt(_parameters.Levels, 10) : 999;
 
             const toExpand = _parameters.Expand?.map((expand) => expand.substring(1, expand.length - 1)) ?? [];
             const toShow = _parameters.Show?.map((collapse) => collapse.substring(1, collapse.length - 1)) ?? [];
