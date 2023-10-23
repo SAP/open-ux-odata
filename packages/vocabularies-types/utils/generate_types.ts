@@ -627,7 +627,7 @@ async function generateTypes(targetFolder: string) {
                                         }
                                         vocabularyDef += `${parameterDetail.$Name}`;
                                         if (parameterDetail.$Type) {
-                                            vocabularyDef += `: ${parameterDetail.$Type}`;
+                                            vocabularyDef += `: ${formatType(parameterDetail.$Type, vocabularyAlias)}`;
                                         } else {
                                             vocabularyDef += `: any`;
                                         }
