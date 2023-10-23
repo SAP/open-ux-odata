@@ -1579,7 +1579,7 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
-    test('9 - Create new root', async () => {
+    test('9 - Create new root and a child', async () => {
         const createRequest = new ODataRequest(
             {
                 method: 'POST',
@@ -1647,6 +1647,60 @@ describe('Hierarchy Access', () => {
               },
             ]
         `);
+
+        await dataAccess.createData(createRequest, {
+            ID: 'NZL_C',
+            Name: 'NZL_C',
+            'Superordinate@odata.bind': "SalesOrganizations('NZL')"
+        });
+        const odataRequest2 = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2)&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=10",
+                tenantId: 'createRoot'
+            },
+            dataAccess
+        );
+        const data2 = await dataAccess.getData(odataRequest2);
+        expect(data2).toMatchInlineSnapshot(`
+                      [
+                        {
+                          "DistanceFromRoot": 0,
+                          "DrillState": "expanded",
+                          "ID": "NZL",
+                          "LimitedDescendantCount": 1,
+                          "Name": "NZL",
+                        },
+                        {
+                          "DistanceFromRoot": 1,
+                          "DrillState": "leaf",
+                          "ID": "NZL_C",
+                          "LimitedDescendantCount": 0,
+                          "Name": "NZL_C",
+                        },
+                        {
+                          "DistanceFromRoot": 0,
+                          "DrillState": "expanded",
+                          "ID": "Sales",
+                          "LimitedDescendantCount": 2,
+                          "Name": "Corporate Sales",
+                        },
+                        {
+                          "DistanceFromRoot": 1,
+                          "DrillState": "collapsed",
+                          "ID": "EMEA",
+                          "LimitedDescendantCount": 0,
+                          "Name": "EMEA",
+                        },
+                        {
+                          "DistanceFromRoot": 1,
+                          "DrillState": "collapsed",
+                          "ID": "US",
+                          "LimitedDescendantCount": 0,
+                          "Name": "US",
+                        },
+                      ]
+              `);
     });
     test('10 - Create new child node of existing node', async () => {
         const createRequest = new ODataRequest(
@@ -1906,6 +1960,70 @@ describe('Hierarchy Access', () => {
                 "ID": "US East",
                 "LimitedDescendantCount": 0,
                 "Name": "US East",
+              },
+            ]
+        `);
+    });
+    test('apply queries', () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url:
+                    '/SalesOrganizations?$apply=ancestors(' +
+                    '$root/PurchaseRequisitionItem,' +
+                    'I_PPS_ProcPurReqnItemHNRltn,__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId,' +
+                    "filter((PPSLoggedInUsrIsRespPurr%20eq%20true)%20and%20(PPSPurReqnItemCompletionStatus%20eq%20'0')),keep%20start)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/PurchaseRequisitionItem,HierarchyQualifier='I_PPS_ProcPurReqnItemHNRltn',NodeProperty='__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId',Levels=1)"
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "parameters": {
+                  "hierarchyRoot": "$root/PurchaseRequisitionItem",
+                  "inputSetTransformations": [
+                    {
+                      "filterExpr": {
+                        "expressions": [
+                          {
+                            "expressions": [
+                              {
+                                "identifier": "PPSLoggedInUsrIsRespPurr",
+                                "literal": "true",
+                                "operator": "eq",
+                              },
+                            ],
+                            "isGroup": true,
+                            "isReversed": false,
+                            "operator": undefined,
+                          },
+                          {
+                            "identifier": "PPSPurReqnItemCompletionStatus",
+                            "literal": "'0'",
+                            "operator": "eq",
+                          },
+                        ],
+                        "operator": "AND",
+                      },
+                      "type": "filter",
+                    },
+                  ],
+                  "keepStart": true,
+                  "maximumDistance": -1,
+                  "propertyPath": "__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId",
+                  "qualifier": "I_PPS_ProcPurReqnItemHNRltn",
+                },
+                "type": "ancestors",
+              },
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "HierarchyNodes": "$root/PurchaseRequisitionItem",
+                  "HierarchyQualifier": "'I_PPS_ProcPurReqnItemHNRltn'",
+                  "Levels": "1",
+                  "NodeProperty": "'__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId'",
+                },
+                "type": "customFunction",
               },
             ]
         `);

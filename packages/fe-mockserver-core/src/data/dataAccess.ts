@@ -995,7 +995,7 @@ export class DataAccess implements DataAccessInterface {
                     keyStr = `guid'${currentKeys[Object.keys(currentKeys)[0]]}'`;
                     break;
                 default: {
-                    keyStr = `'${currentKeys[Object.keys(currentKeys)[0]].toString()}'`;
+                    keyStr = encodeURIComponent(`'${currentKeys[Object.keys(currentKeys)[0]].toString()}'`);
                     break;
                 }
             }

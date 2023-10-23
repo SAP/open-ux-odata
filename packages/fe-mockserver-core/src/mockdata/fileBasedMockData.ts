@@ -86,20 +86,9 @@ export class FileBasedMockData {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
                     this.validateProperties(mockLine, this._entityType.entityProperties);
-                    const allAggregations = this._entityType.annotations?.Aggregation ?? {};
-                    Object.keys(allAggregations)
-                        .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
-                        .forEach((aggregationName) => {
-                            const aggregationDefinition: RecursiveHierarchy = allAggregations[
-                                aggregationName as keyof typeof allAggregations
-                            ] as RecursiveHierarchy;
-                            const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
-                                aggregationDefinition.qualifier
-                            );
-                            this.cleanupHierarchyData(mockLine, hierarchyDefinition);
-                        });
                 });
             }
+            this.cleanupHierarchies();
         }
     }
 
@@ -113,7 +102,24 @@ export class FileBasedMockData {
             }
         });
     }
-
+    public cleanupHierarchies() {
+        const allAggregations = this._entityType.annotations?.Aggregation ?? {};
+        Object.keys(allAggregations)
+            .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
+            .forEach((aggregationName) => {
+                const aggregationDefinition: RecursiveHierarchy = allAggregations[
+                    aggregationName as keyof typeof allAggregations
+                ] as RecursiveHierarchy;
+                const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
+                    aggregationDefinition.qualifier
+                );
+                if (this._mockData.forEach) {
+                    this._mockData.forEach((mockLine) => {
+                        this.cleanupHierarchyData(mockLine, hierarchyDefinition);
+                    });
+                }
+            });
+    }
     private cleanupHierarchyData(mockEntry: any, hierarchyDefinition: HierarchyDefinition) {
         if (hierarchyDefinition.matchedProperty) {
             delete mockEntry[hierarchyDefinition.matchedProperty];
@@ -253,17 +259,18 @@ export class FileBasedMockData {
     }
 
     protected getRandomValueFromType(
-        type: string,
+        property: Property,
         complexType: ComplexType | TypeDefinition | undefined,
         propertyName: string,
         lineIndex: number
     ): any {
+        let type = property.type;
         if (complexType) {
             const outData: any = {};
             if (complexType._type === 'ComplexType') {
                 complexType.properties.forEach((subProp) => {
                     outData[subProp.name] = this.getRandomValueFromType(
-                        subProp.type,
+                        subProp,
                         subProp.targetType,
                         subProp.name,
                         lineIndex
@@ -280,6 +287,10 @@ export class FileBasedMockData {
             case 'Edm.Int64':
                 return Math.floor(Math.random() * 10000);
             case 'Edm.String':
+                if (property.maxLength) {
+                    const remainingLength = property.maxLength - lineIndex - 2;
+                    return `${propertyName.substring(0, remainingLength)}_${lineIndex}`;
+                }
                 return `${propertyName}_${lineIndex}`;
             case 'Edm.Boolean':
                 return Math.random() < 0.5;
@@ -383,7 +394,7 @@ export class FileBasedMockData {
                 outObj[property.name] = this.generateKey(property, iIndex, mockData);
             } else {
                 outObj[property.name] = this.getRandomValueFromType(
-                    property.type,
+                    property,
                     property.targetType,
                     property.name,
                     iIndex

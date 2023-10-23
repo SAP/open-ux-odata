@@ -88,7 +88,9 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
             batchResponse += `--${batchData.boundary}--${NL}`;
             res.statusCode = 200;
             for (const globalHeaderName in globalHeaders) {
-                res.setHeader(globalHeaderName, globalHeaders[globalHeaderName]);
+                if (globalHeaders[globalHeaderName]) {
+                    res.setHeader(globalHeaderName, globalHeaders[globalHeaderName]);
+                }
             }
             res.setHeader('Content-Type', `multipart/mixed; boundary=${batchData.boundary}`);
             res.setHeader('odata-version', dataAccess.getMetadata().getVersion());

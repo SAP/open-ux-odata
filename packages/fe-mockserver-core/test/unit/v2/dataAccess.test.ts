@@ -67,6 +67,15 @@ describe('Data Access', () => {
         expect(productData[0].Name).toEqual('Acme Boomerang');
         productData = await dataAccess.getData(
             new ODataRequest(
+                { method: 'GET', url: "/SEPMRA_C_PD_Product?$filter=not (Supplier eq 'Acme DE')" },
+                dataAccess
+            )
+        );
+        expect(productData.length).toEqual(2);
+        expect(productData[0].Supplier).toEqual('Acme FR');
+        expect(productData[0].Name).toEqual('Acme Trap v2');
+        productData = await dataAccess.getData(
+            new ODataRequest(
                 {
                     method: 'GET',
                     url: "/SEPMRA_C_PD_Product?$filter=StartingSaleDate gt datetime'2022-10-07T06:52:24.189'"
@@ -86,6 +95,19 @@ describe('Data Access', () => {
         expect(productData[1].Name).toEqual('Acme Trap v2');
         expect(productData[2].Name).toEqual('Acme Boomerang');
         expect(productData[3].Name).toEqual('Acme Extra Comfy Safe');
+    });
+    test('v2metadata - it can GET data for an entity with keys that needs encoding', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/I_Currency'
+            },
+            dataAccess
+        );
+        const currencyData = await dataAccess.getData(odataRequest);
+        expect(currencyData.length).toEqual(2);
+        expect(odataRequest.dataCount).toEqual(2);
+        expect(currencyData[1]).toMatchSnapshot();
     });
     test('v2dataAccess - it can GET data for an entity when there is no mock data', async () => {
         const odataRequest = new ODataRequest(
@@ -133,7 +155,7 @@ describe('Data Access', () => {
                 url: "/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID='',IsActiveEntity=true)",
                 body: {
                     ProductID: 1,
-                    Product: 'Acme_Bazooka',
+                    Product: 'Acme_%Bazooka',
                     DraftUUID: '0c241e36-7e4c-44b4-a748-3bf31fcc2135',
                     Price: 3,
                     Name: 'Acme Bazooka',

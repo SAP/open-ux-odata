@@ -34,6 +34,8 @@ export type PropertyPath = {
     $target: Property | undefined;
 };
 
+export type AnyPropertyPath = PropertyPath | NavigationPropertyPath;
+
 export type NavigationPropertyPath = {
     type: 'NavigationPropertyPath';
     fullyQualifiedName: FullyQualifiedName;
