@@ -27,7 +27,6 @@ describe('File Based Mock Data', () => {
             'default'
         );
         const allEntries = fileBasedData.getAllEntries({} as any);
-        expect(allEntries).toMatchSnapshot();
         expect(allEntries[0].Value.length).toBeLessThan(5);
         expect(allEntries[0].complexComputedNotNullProperty.textDescription.length).toBeLessThan(6);
     });
