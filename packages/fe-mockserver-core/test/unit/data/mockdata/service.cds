@@ -1,13 +1,13 @@
 aspect AbstractEntity {
     key ID : Integer;
     Name   : String;
-    Value  : String;
+    Value  : String(4);
 }
 @cds.external
 type testComplexType : {
     name                : String @Common.Text: textDescription;
     number              : Integer;
-    textDescription     : String;
+    textDescription     : String(5);
 };
 
 service MultiLevelExpand {
