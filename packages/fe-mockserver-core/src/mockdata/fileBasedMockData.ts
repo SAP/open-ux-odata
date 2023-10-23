@@ -5,8 +5,10 @@ import type {
     EntityType,
     NavigationProperty,
     Property,
+    PropertyPath,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
+import type { PathAnnotationExpression } from '@sap-ux/vocabularies-types/Edm';
 import type { RecursiveHierarchy } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 import cloneDeep from 'lodash.clonedeep';
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
@@ -23,6 +25,13 @@ type HierarchyDefinition = {
     limitedDescendantCountProperty: string | undefined;
     sourceReference: string;
 };
+export function isPropertyPathExpression(expression: unknown): expression is PropertyPath {
+    return (expression as PropertyPath)?.type === 'PropertyPath';
+}
+export function isPathExpression(expression: unknown): expression is PathAnnotationExpression<Property> {
+    return (expression as PathAnnotationExpression<Property>)?.type === 'Path';
+}
+
 function performSimpleComparison(operator: string, mockValue: any, targetLiteral: any) {
     let isValid = true;
     switch (operator) {
@@ -47,16 +56,6 @@ function performSimpleComparison(operator: string, mockValue: any, targetLiteral
             break;
     }
     return isValid;
-}
-
-function getSourceReference(aggregationAnnotation: RecursiveHierarchy) {
-    const parentNavigationProperty = aggregationAnnotation.ParentNavigationProperty;
-    const referentialConstraint = parentNavigationProperty.$target?.referentialConstraint[0];
-    if (!parentNavigationProperty.$target || !referentialConstraint) {
-        throw new Error(`Unknown ParentNavigationProperty: '${parentNavigationProperty.value}'`);
-    }
-
-    return referentialConstraint.sourceProperty;
 }
 
 function getNodeProperty(aggregationAnnotation: RecursiveHierarchy) {
@@ -104,21 +103,22 @@ export class FileBasedMockData {
     }
     public cleanupHierarchies() {
         const allAggregations = this._entityType.annotations?.Aggregation ?? {};
-        Object.keys(allAggregations)
-            .filter((aggregationName) => aggregationName.startsWith('RecursiveHierarchy'))
-            .forEach((aggregationName) => {
-                const aggregationDefinition: RecursiveHierarchy = allAggregations[
-                    aggregationName as keyof typeof allAggregations
-                ] as RecursiveHierarchy;
-                const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
-                    aggregationDefinition.qualifier
-                );
-                if (this._mockData.forEach) {
-                    this._mockData.forEach((mockLine) => {
-                        this.cleanupHierarchyData(mockLine, hierarchyDefinition);
-                    });
-                }
-            });
+        const hierarchies = Object.keys(allAggregations).filter((aggregationName) =>
+            aggregationName.startsWith('RecursiveHierarchy')
+        );
+        for (const aggregationName of hierarchies) {
+            const aggregationDefinition: RecursiveHierarchy = allAggregations[
+                aggregationName as keyof typeof allAggregations
+            ] as RecursiveHierarchy;
+            const hierarchyDefinition: HierarchyDefinition = this.getHierarchyDefinition(
+                aggregationDefinition.qualifier
+            );
+            if (this._mockData.forEach) {
+                this._mockData.forEach((mockLine) => {
+                    this.cleanupHierarchyData(mockLine, hierarchyDefinition);
+                });
+            }
+        }
     }
     private cleanupHierarchyData(mockEntry: any, hierarchyDefinition: HierarchyDefinition) {
         if (hierarchyDefinition.matchedProperty) {
@@ -208,7 +208,7 @@ export class FileBasedMockData {
         if (complexType) {
             if (complexType._type === 'ComplexType') {
                 const outData: any = {};
-                complexType.properties.forEach((subProp) => {
+                complexType.properties.forEach((subProp: any) => {
                     outData[subProp.name] = this.getDefaultValueFromType(
                         subProp.type,
                         subProp.targetType,
@@ -267,7 +267,7 @@ export class FileBasedMockData {
         if (complexType) {
             const outData: any = {};
             if (complexType._type === 'ComplexType') {
-                complexType.properties.forEach((subProp) => {
+                complexType.properties.forEach((subProp: any) => {
                     outData[subProp.name] = this.getRandomValueFromType(
                         subProp.type,
                         subProp.targetType,
@@ -336,7 +336,7 @@ export class FileBasedMockData {
 
     getEmptyObject(_odataRequest: ODataRequest): object {
         const outObj: any = {};
-        this._entityType.entityProperties.forEach((property) => {
+        this._entityType.entityProperties.forEach((property: Property) => {
             outObj[property.name] = this.getDefaultValueFromType(
                 property.type,
                 property.targetType,
@@ -384,7 +384,7 @@ export class FileBasedMockData {
 
     generateMockDataLine(iIndex: number, mockData: any) {
         const outObj: any = {};
-        this._entityType.entityProperties.forEach((property) => {
+        this._entityType.entityProperties.forEach((property: Property) => {
             if (property.isKey) {
                 outObj[property.name] = this.generateKey(property, iIndex, mockData);
             } else {
@@ -396,7 +396,7 @@ export class FileBasedMockData {
                 );
             }
         });
-        this._entityType.navigationProperties.forEach((navigationProperty) => {
+        this._entityType.navigationProperties.forEach((navigationProperty: NavigationProperty) => {
             if (navigationProperty.containsTarget) {
                 outObj[navigationProperty.name] = [];
             }
@@ -555,10 +555,21 @@ export class FileBasedMockData {
         return isValid;
     }
 
-    async getReferentialConstraints(
-        _navigationProperty: NavigationProperty
-    ): Promise<PartialReferentialConstraint[] | undefined> {
-        return undefined;
+    getReferentialConstraints(_navigationProperty: NavigationProperty): PartialReferentialConstraint[] | undefined {
+        return _navigationProperty.referentialConstraint;
+    }
+    getSourceReference(aggregationAnnotation: RecursiveHierarchy) {
+        const parentNavigationProperty = aggregationAnnotation.ParentNavigationProperty;
+        const referentialConstraint = this.getReferentialConstraints(parentNavigationProperty.$target!)?.[0];
+        if (!parentNavigationProperty.$target) {
+            throw new Error(`Unknown ParentNavigationProperty: '${parentNavigationProperty.value}'`);
+        } else if (!referentialConstraint) {
+            throw new Error(
+                `Referential constraints must be defined for the ParentNavigationProperty: '${parentNavigationProperty.value}'`
+            );
+        }
+
+        return referentialConstraint.sourceProperty;
     }
     buildTree(
         hierarchyNode: any,
@@ -774,7 +785,7 @@ export class FileBasedMockData {
             adjustedData = adjustedData.concat(restOfData);
             const hierarchyDefinition = this.getHierarchyDefinition(hierarchyQualifier);
             const hierarchyNodes = this.buildHierarchyTree(hierarchyQualifier, adjustedData, hierarchyDefinition);
-            const sourceReference = getSourceReference(aggregationAnnotation);
+            const sourceReference = this.getSourceReference(aggregationAnnotation);
             // TODO Considering the input set the top level node is not necessarely the root node
             const allRootNodes = adjustedData.filter((node) => {
                 const parent = adjustedData.find((parent) => parent[nodeProperty] === node[sourceReference]);
@@ -890,7 +901,7 @@ export class FileBasedMockData {
                 }
             });
             const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData, hierarchyDefinition);
-            const sourceReference = getSourceReference(aggregationAnnotation);
+            const sourceReference = this.getSourceReference(aggregationAnnotation);
             const rootNodes = hierarchyNodes[''];
             rootNodes.forEach((rootNode: any) => {
                 this.buildTree(rootNode, hierarchyNodes, nodeProperty, sourceReference, 0, undefined);
@@ -950,12 +961,31 @@ export class FileBasedMockData {
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
         return {
-            distanceFromRootProperty: hierarchyAnnotation?.DistanceFromRootProperty?.$target.name,
-            drillStateProperty: hierarchyAnnotation?.DrillStateProperty?.$target.name,
-            limitedDescendantCountProperty: hierarchyAnnotation?.LimitedDescendantCountProperty?.$target.name,
-            matchedDescendantCountProperty: hierarchyAnnotation?.MatchedDescendantCountProperty?.$target.name,
-            matchedProperty: hierarchyAnnotation?.MatchedProperty?.$target.name,
-            sourceReference: getSourceReference(aggregationAnnotation!)
+            distanceFromRootProperty:
+                (isPropertyPathExpression(hierarchyAnnotation?.DistanceFromRootProperty) &&
+                    hierarchyAnnotation?.DistanceFromRootProperty.value) ||
+                (isPathExpression(hierarchyAnnotation?.DistanceFromRootProperty) &&
+                    hierarchyAnnotation?.DistanceFromRootProperty.path),
+            drillStateProperty:
+                (isPropertyPathExpression(hierarchyAnnotation?.DrillStateProperty) &&
+                    hierarchyAnnotation?.DrillStateProperty?.value) ||
+                (isPathExpression(hierarchyAnnotation?.DrillStateProperty) &&
+                    hierarchyAnnotation?.DrillStateProperty.path),
+            limitedDescendantCountProperty:
+                (isPropertyPathExpression(hierarchyAnnotation?.LimitedDescendantCountProperty) &&
+                    hierarchyAnnotation?.LimitedDescendantCountProperty.value) ||
+                (isPathExpression(hierarchyAnnotation?.LimitedDescendantCountProperty) &&
+                    hierarchyAnnotation?.LimitedDescendantCountProperty.path),
+            matchedDescendantCountProperty:
+                (isPropertyPathExpression(hierarchyAnnotation?.MatchedDescendantCountProperty) &&
+                    hierarchyAnnotation?.MatchedDescendantCountProperty?.value) ||
+                (isPathExpression(hierarchyAnnotation?.MatchedDescendantCountProperty) &&
+                    hierarchyAnnotation?.MatchedDescendantCountProperty.path),
+            matchedProperty:
+                (isPropertyPathExpression(hierarchyAnnotation?.MatchedProperty) &&
+                    hierarchyAnnotation?.MatchedProperty?.value) ||
+                (isPathExpression(hierarchyAnnotation?.MatchedProperty) && hierarchyAnnotation?.MatchedProperty.path),
+            sourceReference: this.getSourceReference(aggregationAnnotation!)
         };
     }
     async getAncestors(
@@ -972,7 +1002,7 @@ export class FileBasedMockData {
 
         if (aggregationAnnotation) {
             const nodeProperty = getNodeProperty(aggregationAnnotation);
-            const sourceReference = getSourceReference(aggregationAnnotation);
+            const sourceReference = this.getSourceReference(aggregationAnnotation);
             const adjustedData = this._mockData.map((item: any) => {
                 const adjustedRowData = limitedHierarchy.find(
                     (dataItem: any) => dataItem[nodeProperty] === item[nodeProperty]
