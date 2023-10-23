@@ -3,7 +3,12 @@ import { join } from 'path';
 import type { ServiceConfig } from '../../../src';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
-import { FileBasedMockData, isPathExpression, isPropertyPathExpression } from '../../../src/mockdata/fileBasedMockData';
+import {
+    FileBasedMockData,
+    getPathOrPropertyPath,
+    isPathExpression,
+    isPropertyPathExpression
+} from '../../../src/mockdata/fileBasedMockData';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 let metadata!: ODataMetadata;
 const baseUrl = '/sap/fe/mock';
@@ -40,6 +45,13 @@ describe('File Based Mock Data', () => {
         expect(isPathExpression({})).toBe(false);
         expect(isPathExpression({ type: 'Path' })).toBe(true);
     });
+
+    it('can get either path or propertyPath', () => {
+        expect(getPathOrPropertyPath(undefined)).toBe(undefined);
+        expect(getPathOrPropertyPath({ type: 'Path', path: 'myPath' })).toBe('myPath');
+        expect(getPathOrPropertyPath({ type: 'PropertyPath', value: 'myPropertyPath' })).toBe('myPropertyPath');
+    });
+
     it('can find the source reference', () => {
         const mockData: any = [];
         mockData.__generateMockData = true;

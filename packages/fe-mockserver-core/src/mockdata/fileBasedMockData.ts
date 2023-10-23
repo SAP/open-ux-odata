@@ -32,6 +32,14 @@ export function isPathExpression(expression: unknown): expression is PathAnnotat
     return (expression as PathAnnotationExpression<Property>)?.type === 'Path';
 }
 
+export function getPathOrPropertyPath(expression: unknown) {
+    if (isPropertyPathExpression(expression)) {
+        return expression.value;
+    } else if (isPathExpression(expression)) {
+        return expression.path;
+    }
+}
+
 function performSimpleComparison(operator: string, mockValue: any, targetLiteral: any) {
     let isValid = true;
     switch (operator) {
@@ -968,30 +976,11 @@ export class FileBasedMockData {
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
         return {
-            distanceFromRootProperty:
-                (isPropertyPathExpression(hierarchyAnnotation?.DistanceFromRootProperty) &&
-                    hierarchyAnnotation?.DistanceFromRootProperty.value) ||
-                (isPathExpression(hierarchyAnnotation?.DistanceFromRootProperty) &&
-                    hierarchyAnnotation?.DistanceFromRootProperty.path),
-            drillStateProperty:
-                (isPropertyPathExpression(hierarchyAnnotation?.DrillStateProperty) &&
-                    hierarchyAnnotation?.DrillStateProperty?.value) ||
-                (isPathExpression(hierarchyAnnotation?.DrillStateProperty) &&
-                    hierarchyAnnotation?.DrillStateProperty.path),
-            limitedDescendantCountProperty:
-                (isPropertyPathExpression(hierarchyAnnotation?.LimitedDescendantCountProperty) &&
-                    hierarchyAnnotation?.LimitedDescendantCountProperty.value) ||
-                (isPathExpression(hierarchyAnnotation?.LimitedDescendantCountProperty) &&
-                    hierarchyAnnotation?.LimitedDescendantCountProperty.path),
-            matchedDescendantCountProperty:
-                (isPropertyPathExpression(hierarchyAnnotation?.MatchedDescendantCountProperty) &&
-                    hierarchyAnnotation?.MatchedDescendantCountProperty?.value) ||
-                (isPathExpression(hierarchyAnnotation?.MatchedDescendantCountProperty) &&
-                    hierarchyAnnotation?.MatchedDescendantCountProperty.path),
-            matchedProperty:
-                (isPropertyPathExpression(hierarchyAnnotation?.MatchedProperty) &&
-                    hierarchyAnnotation?.MatchedProperty?.value) ||
-                (isPathExpression(hierarchyAnnotation?.MatchedProperty) && hierarchyAnnotation?.MatchedProperty.path),
+            distanceFromRootProperty: getPathOrPropertyPath(hierarchyAnnotation.DistanceFromRootProperty),
+            drillStateProperty: getPathOrPropertyPath(hierarchyAnnotation.DrillStateProperty),
+            limitedDescendantCountProperty: getPathOrPropertyPath(hierarchyAnnotation.LimitedDescendantCountProperty),
+            matchedDescendantCountProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedDescendantCountProperty),
+            matchedProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedProperty),
             sourceReference: this.getSourceReference(aggregationAnnotation!)
         };
     }
