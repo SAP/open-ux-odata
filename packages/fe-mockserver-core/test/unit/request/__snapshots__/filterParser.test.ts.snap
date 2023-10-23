@@ -158,6 +158,26 @@ exports[`Filter Parser can deal with nested function calls 3`] = `
 }
 `;
 
+exports[`Filter Parser guid filters 1`] = `
+{
+  "expressions": [
+    {
+      "identifier": "id",
+      "literal": "631e9c9f-b3f7-47e2-aebb-ce76802f883a",
+      "operator": "eq",
+    },
+    {
+      "identifier": "id",
+      "literal": "6e67a558-5421-41da-8314-3636bfe9124b",
+      "operator": "eq",
+    },
+  ],
+  "isGroup": true,
+  "isReversed": true,
+  "operator": "OR",
+}
+`;
+
 exports[`Filter Parser it can deal with v2 specific guid 1`] = `
 {
   "expressions": [
@@ -187,6 +207,7 @@ exports[`Filter Parser v2 alternative filter 1`] = `
         },
       ],
       "isGroup": true,
+      "isReversed": false,
       "operator": "AND",
     },
     {
@@ -219,6 +240,7 @@ exports[`Filter Parser v2 complex filter 1`] = `
     },
   ],
   "isGroup": true,
+  "isReversed": false,
   "operator": "AND",
 }
 `;
@@ -278,6 +300,7 @@ exports[`Filter Parser v2 complex filter 2`] = `
     },
   ],
   "isGroup": true,
+  "isReversed": false,
   "operator": "OR",
 }
 `;
@@ -313,6 +336,7 @@ exports[`Filter Parser v2 complex filter 4`] = `
             },
           ],
           "isGroup": true,
+          "isReversed": false,
           "operator": "AND",
         },
         {
@@ -369,6 +393,7 @@ exports[`Filter Parser v2 complex filter 4`] = `
             },
           ],
           "isGroup": true,
+          "isReversed": false,
           "operator": "OR",
         },
         {
@@ -378,6 +403,7 @@ exports[`Filter Parser v2 complex filter 4`] = `
         },
       ],
       "isGroup": true,
+      "isReversed": false,
       "operator": "AND",
     },
     {
@@ -461,6 +487,7 @@ exports[`Filter Parser v4 complex filter 1`] = `
         },
       ],
       "isGroup": true,
+      "isReversed": false,
       "operator": undefined,
     },
     {
