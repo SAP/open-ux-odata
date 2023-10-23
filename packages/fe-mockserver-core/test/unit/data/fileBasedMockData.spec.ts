@@ -31,10 +31,12 @@ describe('File Based Mock Data', () => {
         expect(allEntries[0].complexComputedNotNullProperty.textDescription.length).toBeLessThan(6);
     });
     it('can recognize propertyPaths', () => {
+        expect(isPropertyPathExpression(undefined)).toBe(false);
         expect(isPropertyPathExpression({})).toBe(false);
         expect(isPropertyPathExpression({ type: 'PropertyPath' })).toBe(true);
     });
     it('can recognize paths', () => {
+        expect(isPathExpression(undefined)).toBe(false);
         expect(isPathExpression({})).toBe(false);
         expect(isPathExpression({ type: 'Path' })).toBe(true);
     });
