@@ -80,11 +80,11 @@ describe('File Based Mock Data', () => {
         myEntityType.annotations.Hierarchy!['RecursiveHierarchy#MyFunHierarchy'] = {} as any;
         const myObj = fileBasedData.getHierarchyDefinition('MyFunHierarchy');
         expect(myObj).toEqual({
-            distanceFromRootProperty: false,
-            drillStateProperty: false,
-            limitedDescendantCountProperty: false,
-            matchedDescendantCountProperty: false,
-            matchedProperty: false,
+            distanceFromRootProperty: undefined,
+            drillStateProperty: undefined,
+            limitedDescendantCountProperty: undefined,
+            matchedDescendantCountProperty: undefined,
+            matchedProperty: undefined,
             sourceReference: 'myNavProp_ID'
         });
     });
