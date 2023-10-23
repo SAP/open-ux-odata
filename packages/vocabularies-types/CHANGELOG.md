@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.9.4
+
+### Patch Changes
+
+-   ac518e6: fix: adjust build following vocabularies change
+
 ## 0.9.3
 
 ### Patch Changes
