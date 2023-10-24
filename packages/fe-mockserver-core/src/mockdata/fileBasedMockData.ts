@@ -259,17 +259,18 @@ export class FileBasedMockData {
     }
 
     protected getRandomValueFromType(
-        type: string,
+        property: Property,
         complexType: ComplexType | TypeDefinition | undefined,
         propertyName: string,
         lineIndex: number
     ): any {
+        let type = property.type;
         if (complexType) {
             const outData: any = {};
             if (complexType._type === 'ComplexType') {
                 complexType.properties.forEach((subProp) => {
                     outData[subProp.name] = this.getRandomValueFromType(
-                        subProp.type,
+                        subProp,
                         subProp.targetType,
                         subProp.name,
                         lineIndex
@@ -286,6 +287,10 @@ export class FileBasedMockData {
             case 'Edm.Int64':
                 return Math.floor(Math.random() * 10000);
             case 'Edm.String':
+                if (property.maxLength) {
+                    const remainingLength = property.maxLength - lineIndex - 2;
+                    return `${propertyName.substring(0, remainingLength)}_${lineIndex}`;
+                }
                 return `${propertyName}_${lineIndex}`;
             case 'Edm.Boolean':
                 return Math.random() < 0.5;
@@ -389,7 +394,7 @@ export class FileBasedMockData {
                 outObj[property.name] = this.generateKey(property, iIndex, mockData);
             } else {
                 outObj[property.name] = this.getRandomValueFromType(
-                    property.type,
+                    property,
                     property.targetType,
                     property.name,
                     iIndex
@@ -787,7 +792,8 @@ export class FileBasedMockData {
                 return 1;
             });
 
-            const depth: number = parseInt(_parameters.Levels, 10);
+            // If no 'Levels' value is specified, then all levels are returned
+            const depth: number = _parameters.Levels ? parseInt(_parameters.Levels, 10) : Number.POSITIVE_INFINITY;
 
             const toExpand = _parameters.Expand?.map((expand) => expand.substring(1, expand.length - 1)) ?? [];
             const toShow = _parameters.Show?.map((collapse) => collapse.substring(1, collapse.length - 1)) ?? [];

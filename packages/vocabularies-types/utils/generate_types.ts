@@ -83,8 +83,51 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         }
     },
     Communication: {
+        AddressType: {
+            building: true,
+            street: true,
+            district: true,
+            locality: true,
+            region: true,
+            code: true,
+            country: true,
+            pobox: true,
+            ext: true,
+            careof: true,
+            label: true
+        },
         ContactType: {
-            fn: true
+            fn: true,
+            nickname: true,
+            photo: true,
+            bday: true,
+            anniversary: true,
+            gender: true,
+            title: true,
+            role: true,
+            org: true,
+            orgunit: true,
+            kind: true,
+            note: true
+        },
+        EmailAddressType: {
+            address: true
+        },
+        GeoDataType: {
+            uri: true
+        },
+        NameType: {
+            surname: true,
+            given: true,
+            additional: true,
+            prefix: true,
+            suffix: true
+        },
+        PhoneNumberType: {
+            uri: true
+        },
+        UrlType: {
+            uri: true
         }
     },
     Common: {
@@ -210,6 +253,7 @@ function isEnumType(schemaElement: SchemaElement): schemaElement is EnumType {
 
 /**
  * Returns true if the target expression should allow dynamic values.
+ *
  * @param vocabularyAlias the vocabulary name
  * @param termName the current term
  * @param propertyName the current property
@@ -579,7 +623,7 @@ async function generateTypes(targetFolder: string) {
                                         }
                                         vocabularyDef += `${parameterDetail.$Name}`;
                                         if (parameterDetail.$Type) {
-                                            vocabularyDef += `: ${parameterDetail.$Type}`;
+                                            vocabularyDef += `: ${formatType(parameterDetail.$Type, vocabularyAlias)}`;
                                         } else {
                                             vocabularyDef += `: any`;
                                         }

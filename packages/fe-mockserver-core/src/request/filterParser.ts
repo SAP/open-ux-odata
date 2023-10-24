@@ -10,6 +10,7 @@ import {
     COMPLEX_METHOD,
     LITERAL,
     LOGICAL_OPERATOR,
+    NOT_OPERATOR,
     OPEN,
     SIMPLEIDENTIFIER,
     SIMPLE_METHOD,
@@ -32,6 +33,7 @@ const filterTokens = [
     SIMPLE_METHOD,
     BOOL_METHOD,
     COMPLEX_METHOD,
+    NOT_OPERATOR,
     LOGICAL_OPERATOR,
     TYPEDEF,
     LITERAL,
@@ -60,6 +62,7 @@ export type FilterExpression = {
     expressions: FilterExpression[];
     operator?: string;
     isGroup?: boolean;
+    isReversed?: boolean;
     literal?: string;
     identifier?: string | FilterMethodCall | LambdaExpression;
 };
@@ -265,11 +268,17 @@ export class FilterParser extends EmbeddedActionsParser {
                 {
                     ALT: () => {
                         // boolParenExpr
+                        const notOperator = $.OPTION(() => {
+                            $.CONSUME(NOT_OPERATOR);
+                            $.CONSUME(WS);
+                            return true;
+                        });
                         $.CONSUME(OPEN);
                         const expression = $.SUBRULE($.boolCommonExpr);
                         $.CONSUME(CLOSE);
                         return {
                             isGroup: true,
+                            isReversed: !!notOperator,
                             operator: expression.operator,
                             expressions: expression.expressions
                         } as FilterExpression;
@@ -291,10 +300,10 @@ export class FilterParser extends EmbeddedActionsParser {
                                 ALT: () => $.SUBRULE($.methodCallExpr)
                             }
                         ]);
-                        $.OPTION(() => {
-                            $.CONSUME(WS);
-                            operator = $.CONSUME(LOGICAL_OPERATOR);
+                        $.OPTION2(() => {
                             $.CONSUME2(WS);
+                            operator = $.CONSUME(LOGICAL_OPERATOR);
+                            $.CONSUME3(WS);
                             literal = $.OR3([
                                 {
                                     ALT: () => $.CONSUME(LITERAL)
@@ -312,7 +321,7 @@ export class FilterParser extends EmbeddedActionsParser {
                     }
                 }
             ]);
-            $.OPTION2(() => {
+            $.OPTION3(() => {
                 operator = $.CONSUME(ANDOR);
                 const subsubExpr = $.SUBRULE2($.boolCommonExpr);
                 let expressions: FilterExpression[];

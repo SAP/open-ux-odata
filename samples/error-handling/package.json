@@ -9,7 +9,7 @@
     },
     "devDependencies": {
         "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
-        "@ui5/cli": "3.6.0",
+        "@ui5/cli": "3.7.1",
         "rimraf": "3.0.2"
     },
     "ui5": {

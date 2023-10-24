@@ -312,6 +312,9 @@ export class MockDataEntitySet implements EntitySetInterface {
                     return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             }
+            if (filterExpression.isReversed) {
+                isValid = !isValid;
+            }
         } else {
             isValid = this.checkSimpleExpression(filterExpression, mockData, tenantId, odataRequest);
         }

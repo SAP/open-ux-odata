@@ -1500,7 +1500,7 @@ describe('Hierarchy Access', () => {
         const odataRequest = new ODataRequest(
             {
                 method: 'GET',
-                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=999)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=47`
+                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID')&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=47`
             },
             dataAccess
         );
@@ -1511,7 +1511,6 @@ describe('Hierarchy Access', () => {
                 "parameters": {
                   "HierarchyNodes": "$root/SalesOrganizations",
                   "HierarchyQualifier": "'SalesOrgHierarchy'",
-                  "Levels": "999",
                   "NodeProperty": "'ID'",
                 },
                 "type": "customFunction",
@@ -1664,44 +1663,44 @@ describe('Hierarchy Access', () => {
         );
         const data2 = await dataAccess.getData(odataRequest2);
         expect(data2).toMatchInlineSnapshot(`
-          [
-            {
-              "DistanceFromRoot": 0,
-              "DrillState": "expanded",
-              "ID": "NZL",
-              "LimitedDescendantCount": 1,
-              "Name": "NZL",
-            },
-            {
-              "DistanceFromRoot": 1,
-              "DrillState": "leaf",
-              "ID": "NZL_C",
-              "LimitedDescendantCount": 0,
-              "Name": "NZL_C",
-            },
-            {
-              "DistanceFromRoot": 0,
-              "DrillState": "expanded",
-              "ID": "Sales",
-              "LimitedDescendantCount": 2,
-              "Name": "Corporate Sales",
-            },
-            {
-              "DistanceFromRoot": 1,
-              "DrillState": "collapsed",
-              "ID": "EMEA",
-              "LimitedDescendantCount": 0,
-              "Name": "EMEA",
-            },
-            {
-              "DistanceFromRoot": 1,
-              "DrillState": "collapsed",
-              "ID": "US",
-              "LimitedDescendantCount": 0,
-              "Name": "US",
-            },
-          ]
-      `);
+                      [
+                        {
+                          "DistanceFromRoot": 0,
+                          "DrillState": "expanded",
+                          "ID": "NZL",
+                          "LimitedDescendantCount": 1,
+                          "Name": "NZL",
+                        },
+                        {
+                          "DistanceFromRoot": 1,
+                          "DrillState": "leaf",
+                          "ID": "NZL_C",
+                          "LimitedDescendantCount": 0,
+                          "Name": "NZL_C",
+                        },
+                        {
+                          "DistanceFromRoot": 0,
+                          "DrillState": "expanded",
+                          "ID": "Sales",
+                          "LimitedDescendantCount": 2,
+                          "Name": "Corporate Sales",
+                        },
+                        {
+                          "DistanceFromRoot": 1,
+                          "DrillState": "collapsed",
+                          "ID": "EMEA",
+                          "LimitedDescendantCount": 0,
+                          "Name": "EMEA",
+                        },
+                        {
+                          "DistanceFromRoot": 1,
+                          "DrillState": "collapsed",
+                          "ID": "US",
+                          "LimitedDescendantCount": 0,
+                          "Name": "US",
+                        },
+                      ]
+              `);
     });
     test('10 - Create new child node of existing node', async () => {
         const createRequest = new ODataRequest(
@@ -1995,6 +1994,7 @@ describe('Hierarchy Access', () => {
                               },
                             ],
                             "isGroup": true,
+                            "isReversed": false,
                             "operator": undefined,
                           },
                           {

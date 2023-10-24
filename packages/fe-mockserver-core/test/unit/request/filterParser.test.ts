@@ -157,6 +157,17 @@ describe('Filter Parser', () => {
         expect(dualParenthesisGroup3?.expressions[1].identifier).toBe('PeopleCount');
     });
 
+    test('can deal with propertyName sharing operator definition', () => {
+        const geltTest = parseFilter('genAi gt 3 or ltStuff eq true');
+        expect(geltTest?.operator).toBe('OR');
+        expect(geltTest?.expressions.length).toBe(2);
+        expect(geltTest?.expressions[1].identifier).toBe('ltStuff');
+        expect(geltTest?.expressions[1].literal).toBe('true');
+        expect(geltTest?.expressions[0].identifier).toBe('genAi');
+        expect(geltTest?.expressions[0].operator).toBe('gt');
+        expect(geltTest?.expressions[0].literal).toBe('3');
+    });
+
     test('can deal with function calls', () => {
         // const toLowerCall = parseFilter("tolower(Country_Code) eq 'de'");
         // expect(toLowerCall.expressions[0].identifier.method).toBe('tolower');
@@ -321,5 +332,12 @@ describe('Filter Parser', () => {
             "(Product eq '1234' and SalesOrganization eq '0DE1') and (ValidFrom le datetime'2022-10-07T06:52:24.189' and ValidTo ge datetime'2022-10-07T06:52:24.189')"
         );
         expect(v2ComplexFilter).toMatchSnapshot();
+    });
+
+    test('guid filters', () => {
+        const guidFilters = parseFilter(
+            `not (id eq 631e9c9f-b3f7-47e2-aebb-ce76802f883a or id eq 6e67a558-5421-41da-8314-3636bfe9124b)`
+        );
+        expect(guidFilters).toMatchSnapshot();
     });
 });

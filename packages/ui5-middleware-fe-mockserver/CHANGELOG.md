@@ -1,5 +1,30 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.1.124
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.1.120
+
+## 2.1.123
+
+### Patch Changes
+
+-   Updated dependencies [ad8dc44]
+    -   @sap-ux/fe-mockserver-core@1.1.119
+
+## 2.1.122
+
+### Patch Changes
+
+-   d8456a7: Adding repo link to package.json
+
+## 2.1.121
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.1.118
+
 ## 2.1.120
 
 ### Patch Changes

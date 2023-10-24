@@ -35,7 +35,12 @@ export const LITERAL = createToken({
         /(:?null|true|false|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|guid(:?'|%27)[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:?'|%27)|datetime'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})*'|\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:.\d{3,7})*(?:Z|\+\d{2}:\d{2}))*|-?(:?0|[1-9]\d*)(\.\d+)?(:?[eE][+-]?\d+)?|'[^\\"\n\r\']*')/
 });
 //ee1a9172-f3c3-47ce-b0f7-dd28c740210c
-export const LOGICAL_OPERATOR = createToken({ name: 'Logical', pattern: /(:?eq|ne|lt|le|gt|ge)/ });
+export const LOGICAL_OPERATOR = createToken({
+    name: 'Logical',
+    longer_alt: SIMPLEIDENTIFIER,
+    pattern: /(:?eq|ne|lt|le|gt|ge)/
+});
+export const NOT_OPERATOR = createToken({ name: 'Not', longer_alt: SIMPLEIDENTIFIER, pattern: /(:?not)/ });
 export const ANDOR = createToken({ name: 'AndOr', pattern: /(\s|%20)(:?and|or)(\s|%20)/ });
 export const ASCDESC = createToken({ name: 'AscDesc', longer_alt: SIMPLEIDENTIFIER, pattern: /(:?asc|desc)/ });
 export const WS = createToken({ name: 'Whitespace', pattern: /(\s|%20)+/ });

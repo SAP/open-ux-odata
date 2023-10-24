@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/fe-mockserver-core",
-    "version": "1.1.117",
+    "version": "1.1.120",
     "description": "SAP Fiori OData - Fiori elements mock server core",
     "repository": {
         "type": "git",
@@ -44,12 +44,12 @@
     "devDependencies": {
         "@sap-ux/vocabularies-types": "workspace:*",
         "@sap-ux/fe-mockserver-plugin-cds": "workspace:*",
-        "@types/body-parser": "1.19.2",
+        "@types/body-parser": "1.19.3",
         "@types/graceful-fs": "^4.1.5",
         "@types/connect": "^3.4.35",
-        "@types/express": "4.17.17",
-        "@types/lodash.clonedeep": "4.5.7",
-        "@types/lodash.merge": "4.6.7",
+        "@types/express": "4.17.19",
+        "@types/lodash.clonedeep": "4.5.8",
+        "@types/lodash.merge": "4.6.8",
         "@types/etag": "1.8.1",
         "@types/balanced-match": "^1.0.2",
         "@types/finalhandler": "^1.1.1",
