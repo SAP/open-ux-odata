@@ -1,4 +1,3 @@
-import fetch, { Headers } from 'node-fetch';
 import type { BatchPart } from '../../../src/router/batchParser';
 import { BatchContent, parseBatch } from '../../../src/router/batchParser';
 import { isPartChangeSet } from '../../../src/router/batchRouter';

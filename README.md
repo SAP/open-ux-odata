@@ -28,7 +28,7 @@ You can also find some samples about the mockserver usage in the [samples folder
 
 
 ## Requirements
-Everything is released as node modules requiring node with a version matching `">= 14.16.0 < 15.0.0 || >=16.1.0 < 17.0.0 || >=18.0.0 < 19.0.0`.
+Everything is released as node modules requiring node with a version matching `">=18.0.0 < 19.0.0 || >=20.0.0 < 21.0.0`.
 
 ## Contributing
 Please check the [Development Conventions and Guidelines](./docs/Guidelines.md) document and the [Development Setup](#development-setup) section in this document.
