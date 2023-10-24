@@ -265,7 +265,7 @@ export class DataAccess implements DataAccessInterface {
     ): Promise<KeyDefinitions> {
         const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
         const referentialConstraints =
-            (await mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail)) ??
+            mockEntitySet.getMockData(tenantId).getReferentialConstraints(navPropDetail) ??
             navPropDetail.referentialConstraint;
 
         if (referentialConstraints.length > 0) {
@@ -683,7 +683,7 @@ export class DataAccess implements DataAccessInterface {
             }
             // Apply $search
             if (odataRequest.searchQuery && Array.isArray(data)) {
-                const mockEntitySet = await this.getMockEntitySet(currentEntityType.name);
+                const mockEntitySet = await this.getMockEntitySet((currentEntitySet ?? currentEntityType).name);
                 data = data.filter((dataLine) => {
                     return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
                 });

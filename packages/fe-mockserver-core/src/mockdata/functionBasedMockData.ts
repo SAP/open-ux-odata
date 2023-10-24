@@ -18,9 +18,7 @@ export type MockDataContributor<T extends object> = {
     getEmptyObject?: (odataRequest: ODataRequest) => T;
     getDefaultElement?: (odataRequest: ODataRequest) => T;
 
-    getReferentialConstraints?: (
-        _navigationProperty: NavigationProperty
-    ) => Promise<PartialReferentialConstraint[] | undefined>;
+    getReferentialConstraints?: (_navigationProperty: NavigationProperty) => PartialReferentialConstraint[] | undefined;
     generateKey?: (property: Property, lineIndex: number, odataRequest: ODataRequest) => any;
     checkSearchQuery?: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
     checkFilterValue?: (
@@ -355,9 +353,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
         }
     }
 
-    async getReferentialConstraints(
-        _navigationProperty: NavigationProperty
-    ): Promise<PartialReferentialConstraint[] | undefined> {
+    getReferentialConstraints(_navigationProperty: NavigationProperty): PartialReferentialConstraint[] | undefined {
         if (this._mockDataFn?.getReferentialConstraints) {
             return this._mockDataFn.getReferentialConstraints(_navigationProperty);
         } else {
