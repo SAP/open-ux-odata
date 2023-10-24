@@ -125,4 +125,4 @@ Everyone participating in this joint project is welcome as long as our [Code of 
 
 ## Licensing
 
-Copyright (2021) SAP SE and `open-ux-odata` contributors. Please see our [LICENSE](./LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available via the [REUSE tool](https://api.reuse.software/info/github.com/SAP/open-ux-odata).
+Copyright (2023) SAP SE and `open-ux-odata` contributors. Please see our [LICENSE](./LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available via the [REUSE tool](https://api.reuse.software/info/github.com/SAP/open-ux-odata).
