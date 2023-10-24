@@ -12,8 +12,8 @@ importers:
         specifier: 2.26.2
         version: 2.26.2
       '@types/jest':
-        specifier: 29.5.5
-        version: 29.5.5
+        specifier: 29.5.6
+        version: 29.5.6
       '@types/node':
         specifier: 20.8.8
         version: 20.8.8
@@ -164,9 +164,6 @@ importers:
       '@types/lodash.merge':
         specifier: 4.6.8
         version: 4.6.8
-      '@types/node':
-        specifier: ^20.8.8
-        version: 20.8.8
       finalhandler:
         specifier: 1.2.0
         version: 1.2.0
@@ -190,11 +187,7 @@ importers:
         specifier: 4.17.19
         version: 4.17.19
 
-  packages/vocabularies-types:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.8.8
-        version: 20.8.8
+  packages/vocabularies-types: {}
 
   samples/basic-usage:
     devDependencies:
@@ -1524,8 +1517,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest@29.5.5:
-    resolution: {integrity: sha512-ebylz2hnsWR9mYvmBFbXJXr+33UPc4+ZdxyDXh5w0FlPBTfCVN3wPL+kuOiQt3xvrK419v7XWeAs+AeOksafXg==}
+  /@types/jest@29.5.6:
+    resolution: {integrity: sha512-/t9NnzkOpXb4Nfvg17ieHE6EeSjDS2SGSpNYfoLbUAeL/EOueU/RSdOWFpfQTXBEM7BguYW1XQ0EbM+6RlIh6w==}
     dependencies:
       expect: 29.7.0
       pretty-format: 29.7.0

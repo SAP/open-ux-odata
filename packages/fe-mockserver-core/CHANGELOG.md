@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.1.121
+
+### Patch Changes
+
+-   ce953a3: fix: minor code improvement on the hierarchy flow
+
 ## 1.1.120
 
 ### Patch Changes

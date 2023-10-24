@@ -3,7 +3,12 @@ import { join } from 'path';
 import type { ServiceConfig } from '../../../src';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
-import { FileBasedMockData } from '../../../src/mockdata/fileBasedMockData';
+import {
+    FileBasedMockData,
+    getPathOrPropertyPath,
+    isPathExpression,
+    isPropertyPathExpression
+} from '../../../src/mockdata/fileBasedMockData';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 let metadata!: ODataMetadata;
 const baseUrl = '/sap/fe/mock';
@@ -29,5 +34,58 @@ describe('File Based Mock Data', () => {
         const allEntries = fileBasedData.getAllEntries({} as any);
         expect(allEntries[0].Value.length).toBeLessThan(5);
         expect(allEntries[0].complexComputedNotNullProperty.textDescription.length).toBeLessThan(6);
+    });
+    it('can recognize propertyPaths', () => {
+        expect(isPropertyPathExpression(undefined)).toBe(false);
+        expect(isPropertyPathExpression({})).toBe(false);
+        expect(isPropertyPathExpression({ type: 'PropertyPath' })).toBe(true);
+    });
+    it('can recognize paths', () => {
+        expect(isPathExpression(undefined)).toBe(false);
+        expect(isPathExpression({})).toBe(false);
+        expect(isPathExpression({ type: 'Path' })).toBe(true);
+    });
+
+    it('can get either path or propertyPath', () => {
+        expect(getPathOrPropertyPath(undefined)).toBe(undefined);
+        expect(getPathOrPropertyPath({ type: 'Path', path: 'myPath' })).toBe('myPath');
+        expect(getPathOrPropertyPath({ type: 'PropertyPath', value: 'myPropertyPath' })).toBe('myPropertyPath');
+    });
+
+    it('can find the source reference', () => {
+        const mockData: any = [];
+        mockData.__generateMockData = true;
+        const myEntityType = metadata.getEntityType('MyRootEntity')!;
+        const fileBasedData = new FileBasedMockData(mockData, myEntityType, {} as any, 'default');
+        expect(() => {
+            fileBasedData.getSourceReference({ ParentNavigationProperty: { value: 'myNavProp' } } as any);
+        }).toThrowError();
+
+        expect(
+            fileBasedData.getSourceReference({
+                ParentNavigationProperty: { value: 'myNavProp', $target: myEntityType.navigationProperties[0] }
+            } as any)
+        ).toBe('myNavProp_ID');
+    });
+    it('get hierarchy definition', () => {
+        const mockData: any = [];
+        mockData.__generateMockData = true;
+        const myEntityType = metadata.getEntityType('MyRootEntity')!;
+        myEntityType.annotations.Aggregation = {} as any;
+        myEntityType.annotations.Hierarchy = {} as any;
+        const fileBasedData = new FileBasedMockData(mockData, myEntityType, {} as any, 'default');
+        myEntityType.annotations.Aggregation!['RecursiveHierarchy#MyFunHierarchy'] = {
+            ParentNavigationProperty: { value: 'myNavProp', $target: myEntityType.navigationProperties[0] }
+        } as any;
+        myEntityType.annotations.Hierarchy!['RecursiveHierarchy#MyFunHierarchy'] = {} as any;
+        const myObj = fileBasedData.getHierarchyDefinition('MyFunHierarchy');
+        expect(myObj).toEqual({
+            distanceFromRootProperty: undefined,
+            drillStateProperty: undefined,
+            limitedDescendantCountProperty: undefined,
+            matchedDescendantCountProperty: undefined,
+            matchedProperty: undefined,
+            sourceReference: 'myNavProp_ID'
+        });
     });
 });
