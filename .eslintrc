@@ -111,6 +111,7 @@
             }
         ],
         "jsdoc/match-description": "error",
+        "jsdoc/tag-lines": ["warn", "any", { "startLines": 1 }],
         "promise/always-return": "off",
         "promise/no-return-wrap": "off",
         "promise/param-names": "error",

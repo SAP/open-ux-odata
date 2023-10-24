@@ -441,6 +441,7 @@ export class FileBasedMockData {
      * @param actionData
      * @param _keys
      * @param _odataRequest
+     * @returns the modified action data
      */
     async onBeforeAction(
         _actionDefinition: Action,
@@ -457,6 +458,7 @@ export class FileBasedMockData {
      * @param actionData
      * @param _keys
      * @param _odataRequest
+     * @returns the action's result
      */
     async executeAction(
         _actionDefinition: Action,
@@ -475,6 +477,7 @@ export class FileBasedMockData {
      * @param _keys
      * @param responseData
      * @param _odataRequest
+     * @returns the modified response
      */
     async onAfterAction(
         _actionDefinition: Action,
