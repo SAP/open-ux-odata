@@ -51,7 +51,7 @@
         "@types/express": "4.17.20",
         "@types/lodash.clonedeep": "4.5.8",
         "@types/lodash.merge": "4.6.8",
-        "@types/etag": "1.8.1",
+        "@types/etag": "1.8.2",
         "@types/balanced-match": "^1.0.2",
         "@types/finalhandler": "^1.1.1",
         "finalhandler": "1.2.0"
