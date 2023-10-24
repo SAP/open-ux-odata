@@ -16,9 +16,10 @@ import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 
 type VocabularyConfig = Record<string, string>;
-const vocabularyConfig: Promise<VocabularyConfig> = fs
-    .readFile(path.join(__dirname, './config.json'), 'utf-8')
-    .then(JSON.parse);
+const getVocabularyConfig = async () => {
+    const config = await fs.readFile(path.join(__dirname, './config.json'), 'utf-8');
+    return JSON.parse(config) as VocabularyConfig;
+};
 
 const DEFAULT_KEYS = ['$Version', '$Reference'];
 const ANNOTATION_TARGETS = [
@@ -769,8 +770,8 @@ export const VocabularyReferences : Reference[] = [
     await fs.writeFile(path.join(targetFolder, `VocabularyReferences.ts`), vocabularyReferences);
 }
 
-vocabularyConfig
-    .then((vocabularyConfig) => generateTypes(vocabularyConfig, path.join(__dirname, '../src/vocabularies')))
+getVocabularyConfig()
+    .then((config) => generateTypes(config, path.join(__dirname, '../src/vocabularies')))
     .then(() => {
         console.log('File generated successfully');
     })
