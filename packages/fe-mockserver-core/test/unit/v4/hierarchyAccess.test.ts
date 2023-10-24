@@ -1500,7 +1500,7 @@ describe('Hierarchy Access', () => {
         const odataRequest = new ODataRequest(
             {
                 method: 'GET',
-                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=999)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=47`
+                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID')&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=47`
             },
             dataAccess
         );
@@ -1511,7 +1511,6 @@ describe('Hierarchy Access', () => {
                 "parameters": {
                   "HierarchyNodes": "$root/SalesOrganizations",
                   "HierarchyQualifier": "'SalesOrgHierarchy'",
-                  "Levels": "999",
                   "NodeProperty": "'ID'",
                 },
                 "type": "customFunction",
