@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="csdl.d.ts"/>
-/// <reference lib="dom" /> TODO: Cheap workaround to make the native fetch() known to TS (https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch); remove when supported officially
 import type {
     Action,
     ComplexType,
@@ -13,13 +12,14 @@ import type {
     TypeDefinition
 } from '@sap-ux/vocabularies/CSDL';
 
-import * as fs from 'node:fs';
+import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import * as util from 'node:util';
 
-const writeFile = util.promisify(fs.writeFile);
+type VocabularyConfig = Record<string, string>;
+const vocabularyConfig: Promise<VocabularyConfig> = fs
+    .readFile(path.join(__dirname, './config.json'), 'utf-8')
+    .then(JSON.parse);
 
-const vocabularyConfig = JSON.parse(fs.readFileSync(path.join(__dirname, './config.json')).toString('utf-8')) || {};
 const DEFAULT_KEYS = ['$Version', '$Reference'];
 const ANNOTATION_TARGETS = [
     'EntityContainer',
@@ -320,10 +320,11 @@ function formatType(typeValue: string, currentAlias: string) {
 /**
  * Generates the TS types for the vocabularies into the given path.
  *
+ * @param vocabularyConfig the vocabulary config
  * @param targetFolder the target folder for the types
  */
-async function generateTypes(targetFolder: string) {
-    await fs.promises.mkdir(targetFolder, { recursive: true });
+async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: string) {
+    await fs.mkdir(targetFolder, { recursive: true });
 
     const vocabularyPromises = Object.keys(vocabularyConfig).map(async (vocabularyName) => {
         const vocabularyContent = await getVocabularyFile(vocabularyConfig[vocabularyName]);
@@ -713,8 +714,8 @@ async function generateTypes(targetFolder: string) {
             vocabularyEdmDef += compositeTarget;
         });
 
-        await writeFile(path.join(targetFolder, `${vocabularyAlias}.ts`), vocabularyDef);
-        await writeFile(path.join(targetFolder, `${vocabularyAlias}_Edm.ts`), vocabularyEdmDef);
+        await fs.writeFile(path.join(targetFolder, `${vocabularyAlias}.ts`), vocabularyDef);
+        await fs.writeFile(path.join(targetFolder, `${vocabularyAlias}_Edm.ts`), vocabularyEdmDef);
     }
 
     let edmTypesValue = ``;
@@ -762,13 +763,14 @@ export const VocabularyReferences : Reference[] = [
         .join(',\n');
     vocabularyReferences += '\n]';
 
-    await writeFile(path.join(targetFolder, `Edm_Types.ts`), edmTypesValue);
-    await writeFile(path.join(targetFolder, `TermToTypes.ts`), edmTermToTypes);
-    await writeFile(path.join(targetFolder, `EnumIsFlag.ts`), enumIsFlag);
-    await writeFile(path.join(targetFolder, `VocabularyReferences.ts`), vocabularyReferences);
+    await fs.writeFile(path.join(targetFolder, `Edm_Types.ts`), edmTypesValue);
+    await fs.writeFile(path.join(targetFolder, `TermToTypes.ts`), edmTermToTypes);
+    await fs.writeFile(path.join(targetFolder, `EnumIsFlag.ts`), enumIsFlag);
+    await fs.writeFile(path.join(targetFolder, `VocabularyReferences.ts`), vocabularyReferences);
 }
 
-generateTypes(path.join(__dirname, '../src/vocabularies'))
+vocabularyConfig
+    .then((vocabularyConfig) => generateTypes(vocabularyConfig, path.join(__dirname, '../src/vocabularies')))
     .then(() => {
         console.log('File generated successfully');
     })
