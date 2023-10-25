@@ -44,7 +44,7 @@
     "devDependencies": {
         "@sap-ux/vocabularies-types": "workspace:*",
         "@sap-ux/fe-mockserver-plugin-cds": "workspace:*",
-        "@types/body-parser": "1.19.3",
+        "@types/body-parser": "1.19.4",
         "@types/graceful-fs": "^4.1.5",
         "@types/connect": "^3.4.35",
         "@types/node-fetch": "2",
