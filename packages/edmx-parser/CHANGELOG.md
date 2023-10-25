@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.7.0
+
+### Minor Changes
+
+-   2821157: Bump version to account for new node version support
+
 ## 0.6.0
 
 ### Minor Changes

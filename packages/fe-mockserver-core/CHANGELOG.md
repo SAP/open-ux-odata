@@ -1,5 +1,17 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.0
+
+### Minor Changes
+
+-   2821157: Bump version to account for new node version support
+
+### Patch Changes
+
+-   Updated dependencies [2821157]
+    -   @sap-ux/annotation-converter@0.8.0
+    -   @sap-ux/edmx-parser@0.7.0
+
 ## 1.1.121
 
 ### Patch Changes

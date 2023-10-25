@@ -1,5 +1,16 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.0
+
+### Minor Changes
+
+-   2821157: Bump version to account for new node version support
+
+### Patch Changes
+
+-   Updated dependencies [2821157]
+    -   @sap-ux/fe-mockserver-core@1.2.0
+
 ## 2.1.125
 
 ### Patch Changes

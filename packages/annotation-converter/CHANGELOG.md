@@ -1,5 +1,16 @@
 # @sap-ux/annotation-converter
 
+## 0.8.0
+
+### Minor Changes
+
+-   2821157: Bump version to account for new node version support
+
+### Patch Changes
+
+-   Updated dependencies [2821157]
+    -   @sap-ux/vocabularies-types@0.10.0
+
 ## 0.7.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.0
+
+### Minor Changes
+
+-   2821157: Bump version to account for new node version support
+
 ## 0.9.4
 
 ### Patch Changes
