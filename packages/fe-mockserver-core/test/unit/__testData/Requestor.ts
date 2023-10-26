@@ -17,8 +17,9 @@ export abstract class ODataRequest<T> {
     /**
      * @param odataRootUri
      * @param targetPath
+     * @param method
      */
-    constructor(protected odataRootUri: string, protected targetPath: string) {}
+    constructor(protected odataRootUri: string, protected targetPath: string, protected method: string = 'GET') {}
 
     protected abstract buildUrl(relative?: boolean): string;
     protected abstract buildHeaders(): Headers;
@@ -31,21 +32,33 @@ export abstract class ODataRequest<T> {
     /**
      *
      */
-    public async execute(method: string = 'GET'): Promise<T> {
+    public async execute(): Promise<{ status: number; headers: Record<string, string>; body: T }> {
         const body = this.getBody();
         let response;
         if (body) {
-            response = await fetch(this.buildUrl(), { method: method, headers: this.buildHeaders(), body: body });
+            response = await fetch(this.buildUrl(), {
+                method: this.method,
+                headers: this.buildHeaders(),
+                body: body
+            });
         } else {
-            response = await fetch(this.buildUrl(), { method: method, headers: this.buildHeaders() });
+            response = await fetch(this.buildUrl(), { method: this.method, headers: this.buildHeaders() });
         }
 
         const responseData = await response.text();
         try {
             const json = JSON.parse(responseData);
-            return this.extractContent<T>(json);
+            return {
+                status: response.status,
+                headers: Object.fromEntries([...response.headers.entries()]),
+                body: this.extractContent<T>(json)
+            };
         } catch (e) {
-            return responseData as any;
+            return {
+                status: response.status,
+                headers: Object.fromEntries([...response.headers.entries()]),
+                body: responseData as any
+            };
         }
     }
     /**
@@ -263,10 +276,10 @@ export class ODataV4ObjectRequest<T> extends ODataRequest<T> {
         odataRootUri: string,
         targetPath: string,
         protected objectKey: ODataKey = {},
-        protected method: string = 'GET',
+        method: string = 'GET',
         public headers: Record<string, string> = {}
     ) {
-        super(odataRootUri, targetPath);
+        super(odataRootUri, targetPath, method);
 
         this.technicalKeyDefinition = [];
         objectKey &&
@@ -404,12 +417,13 @@ export class ODataV4Requestor extends ODataRequestor {
         return new ODataV4ObjectRequest(this.odataRootUri, sEntityPath + '/$count');
     }
     public reloadData<T>(): ODataV4ObjectRequest<T> {
-        return new ODataV4ObjectRequest(this.odataRootUri, '/$metadata/reload');
+        return new ODataV4ObjectRequest(this.odataRootUri, '/$metadata/reload', undefined, 'POST');
     }
 
-    public reloadStickyHeader<T>(sEntityPath: string, sStickyHeader: string): ODataV4ObjectRequest<T> {
-        return new ODataV4ObjectRequest(this.odataRootUri, sEntityPath, undefined, 'GET', {
-            'sap-contextid': sStickyHeader
+    public reloadStickyHeader<T>(contextId: string): ODataV4ObjectRequest<T> {
+        // FIXME: Sticky HEAD requests call the service root, nothing below (need to fix the router)
+        return new ODataV4ObjectRequest(this.odataRootUri, '/thisshouldnotbethere', undefined, 'HEAD', {
+            'sap-contextid': contextId
         });
     }
 
@@ -424,8 +438,17 @@ export class ODataV4Requestor extends ODataRequestor {
     public createData<T>(sEntityPath: string, objectData: any): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, 'POST').setBody(objectData);
     }
-    public updateData<T>(sEntityPath: string, objectData: any, noJSON: boolean = false): ODataV4ObjectRequest<T> {
-        return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, 'PATCH').setBody(objectData, noJSON);
+    public updateData<T>(
+        sEntityPath: string,
+        objectData: any,
+        noJSON: boolean = false,
+        method: 'PUT' | 'PATCH' = 'PATCH',
+        headers?: Record<string, string>
+    ): ODataV4ObjectRequest<T> {
+        return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, method, headers).setBody(
+            objectData,
+            noJSON
+        );
     }
     public callAction<T>(actionPath: string, actionParameters: any, noJSON: boolean = false): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest<T>(this.odataRootUri, actionPath, {}, 'POST').setBody(actionParameters, noJSON);

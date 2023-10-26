@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Create 1`] = `
+{
+  "body": {
+    "@odata.context": "../$metadata#Root()/$entity",
+    "@odata.metadataEtag": "W/"a20-O5lCLLWGDNbr2oZok3e/UzVbxgg"",
+    "ID": 0,
+    "__transient": true,
+    "data": "",
+  },
+  "headers": ObjectContaining {
+    "sap-contextid": Any<String>,
+  },
+  "status": 200,
+}
+`;
+
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Discard 1`] = `
+{
+  "body": "",
+  "headers": ObjectNotContaining {
+    "sap-contextid": Any<String>,
+  },
+  "status": 204,
+}
+`;
+
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Update discarded item 1`] = `
+{
+  "body": "Session gone",
+  "headers": ObjectNotContaining {
+    "sap-contextid": Any<String>,
+  },
+  "status": 400,
+}
+`;
+
 exports[`V4 Requestor can create data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
@@ -558,11 +594,9 @@ exports[`V4 Requestor can get the root 1`] = `
         </app:service>"
 `;
 
-exports[`V4 Requestor can get the serviceCatalog 1`] = `"{"d":{"results":[{"ID":"action"},{"ID":"debug"}]}}"`;
+exports[`V4 Requestor can get the serviceCatalog 1`] = `"{"d":{"results":[{"ID":"action"},{"ID":"debug"},{"ID":"sticky"}]}}"`;
 
-exports[`V4 Requestor can get the serviceCatalog 2`] = `"{"d":{"results":[{"TechnicalName":"action","Version":2},{"TechnicalName":"debug","Version":2}]}}"`;
-
-exports[`V4 Requestor can get updated the sticky header timeout 1`] = `""`;
+exports[`V4 Requestor can get the serviceCatalog 2`] = `"{"d":{"results":[{"TechnicalName":"action","Version":2},{"TechnicalName":"debug","Version":2},{"TechnicalName":"sticky","Version":2}]}}"`;
 
 exports[`V4 Requestor can reload the data 1`] = `
 {
@@ -604,9 +638,7 @@ exports[`V4 Requestor can update data through a call 2`] = `
 }
 `;
 
-exports[`V4 Requestor can update data through a call 3`] = `"Cannot convert undefined or null to object"`;
-
-exports[`V4 Requestor can update data through a call 4`] = `
+exports[`V4 Requestor can update data through a call 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
   "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",

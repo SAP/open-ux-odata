@@ -54,6 +54,7 @@ async function handlePart(
 export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
     return async (req: IncomingMessageWithTenant, res: ServerResponse, next: NextFunction) => {
         try {
+            dataAccess.checkSession(req.tenantId!, req.headers['sap-contextid'] as string | undefined);
             const boundary = getBoundary(req.headers['content-type'] as string);
             const body = (req as any).body;
             const batchData = parseBatch(new BatchContent(body), boundary);
