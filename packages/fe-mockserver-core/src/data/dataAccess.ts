@@ -1060,7 +1060,7 @@ export class DataAccess implements DataAccessInterface {
     }
 
     /**
-     * Check whether there is a valid sessio with the given context ID.
+     * Check whether there is a valid session with the given context ID.
      *
      * @param tenantId  Tenant
      * @param contextId Context ID

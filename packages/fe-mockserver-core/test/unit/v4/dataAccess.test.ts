@@ -891,6 +891,27 @@ describe('Data Access', () => {
         );
         expect(actionResult).toBeDefined;
     });
+
+    test('v4, Update non-existing', async () => {
+        expect.assertions(1);
+        try {
+            await dataAccess.updateData(
+                new ODataRequest(
+                    {
+                        method: 'POST',
+                        url: "/Countries('NA')",
+                        body: { Name: 'Utopia' }
+                    },
+                    dataAccess
+                ),
+
+                { Name: 'Utopia' }
+            );
+        } catch (e) {
+            expect(e).toMatchInlineSnapshot(`[Error: Not found]`);
+        }
+    });
+
     test('v4 metadata with sticky, POST', async () => {
         // Create Empty Element
         const sdObject = await stickyDataAccess.createData(
