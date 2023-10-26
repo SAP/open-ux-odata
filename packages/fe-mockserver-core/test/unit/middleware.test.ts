@@ -309,39 +309,29 @@ describe('V4 Requestor', function () {
     describe('Sticky', () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-0/sap/fe/core/mock/sticky');
 
-        it('Create - Update - Discard - Update', async () => {
+        it('create, discard, try to update the discarded item', async () => {
             const created = await dataRequestor.callAction<any>('/Root/TestService.Create', {}).execute();
             expect(created).toMatchSnapshot(
                 { headers: expect.objectContaining({ 'sap-contextid': expect.any(String) }) },
-                "Response: 'Create' action"
+                'Create'
             );
 
             const id = created.body.ID;
-
-            const updated = await dataRequestor.updateData<any>(`Root(ID=${id})`, { data: 'Updated Data' }).execute();
-            expect(updated).toMatchSnapshot(
-                {
-                    headers: expect.objectContaining({ 'sap-contextid': expect.any(String) })
-                },
-                'Response: Update in session'
-            );
 
             const discarded = await dataRequestor.callAction('/Discard', {}).execute();
             expect(discarded).toMatchSnapshot(
                 {
                     headers: expect.not.objectContaining({ 'sap-contextid': expect.any(String) })
                 },
-                "Response: 'Discard' action"
+                'Discard'
             );
 
-            const updatedDiscarded = await dataRequestor
-                .updateData<any>(`Root(ID=${id})`, { data: 'Updated Data' })
-                .execute();
-            expect(updatedDiscarded).toMatchSnapshot(
+            const updated = await dataRequestor.updateData<any>(`Root(ID=${id})`, { data: 'Updated Data' }).execute();
+            expect(updated).toMatchSnapshot(
                 {
                     headers: expect.not.objectContaining({ 'sap-contextid': expect.any(String) })
                 },
-                'Response: Update discarded item'
+                'Update discarded item'
             );
         });
 

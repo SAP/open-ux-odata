@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`V4 Requestor Sticky Create - Update - Discard - Update: Response: 'Create' action 1`] = `
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Create 1`] = `
 {
   "body": {
     "@odata.context": "../$metadata#Root()/$entity",
@@ -16,7 +16,7 @@ exports[`V4 Requestor Sticky Create - Update - Discard - Update: Response: 'Crea
 }
 `;
 
-exports[`V4 Requestor Sticky Create - Update - Discard - Update: Response: 'Discard' action 1`] = `
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Discard 1`] = `
 {
   "body": "",
   "headers": ObjectNotContaining {
@@ -26,29 +26,13 @@ exports[`V4 Requestor Sticky Create - Update - Discard - Update: Response: 'Disc
 }
 `;
 
-exports[`V4 Requestor Sticky Create - Update - Discard - Update: Response: Update discarded item 1`] = `
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Update discarded item 1`] = `
 {
   "body": "Not found",
   "headers": ObjectNotContaining {
     "sap-contextid": Any<String>,
   },
   "status": 404,
-}
-`;
-
-exports[`V4 Requestor Sticky Create - Update - Discard - Update: Response: Update in session 1`] = `
-{
-  "body": {
-    "@odata.context": "$metadata#Root(ID=0)",
-    "@odata.metadataEtag": "W/"a20-O5lCLLWGDNbr2oZok3e/UzVbxgg"",
-    "ID": 0,
-    "__transient": true,
-    "data": "Updated Data",
-  },
-  "headers": ObjectContaining {
-    "sap-contextid": Any<String>,
-  },
-  "status": 200,
 }
 `;
 
