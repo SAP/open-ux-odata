@@ -28,11 +28,11 @@ exports[`V4 Requestor Sticky create, discard, try to update the discarded item: 
 
 exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Update discarded item 1`] = `
 {
-  "body": "Not found",
+  "body": "Session gone",
   "headers": ObjectNotContaining {
     "sap-contextid": Any<String>,
   },
-  "status": 404,
+  "status": 400,
 }
 `;
 
