@@ -3,7 +3,7 @@ import cloneDeep from 'lodash.clonedeep';
 import type ODataRequest from '../../request/odataRequest';
 import type { KeyDefinitions } from '../../request/odataRequest';
 import type { DataAccessInterface } from '../common';
-import { generateId } from '../common';
+import { ExecutionError, generateId } from '../common';
 import { MockDataEntitySet } from './entitySet';
 
 /**
@@ -62,6 +62,19 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         return this.currentUUID;
     }
 
+    public hasSession(tenantId: string, contextId: string): boolean {
+        console.error(
+            'Checking session: ',
+            contextId,
+            tenantId,
+            'current:',
+            this.currentUUID,
+            this._currentSessionObject[tenantId] !== null
+        );
+
+        return this._currentSessionObject[tenantId] !== null && this.currentUUID === contextId;
+    }
+
     public async performPATCH(
         keyValues: KeyDefinitions,
         patchData: object,
@@ -70,6 +83,10 @@ export class StickyMockEntitySet extends MockDataEntitySet {
     ): Promise<any> {
         keyValues = this.prepareKeys(keyValues);
         const data = this.performGET(keyValues, false, tenantId, odataRequest);
+        if (!data) {
+            throw new ExecutionError('Not found', 404, undefined, false);
+        }
+
         const currentMockData = this.getMockData(tenantId);
         const updatedData = Object.assign(data, patchData);
         await currentMockData.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
@@ -155,9 +172,8 @@ export class StickyMockEntitySet extends MockDataEntitySet {
     }
 
     addSessionToken(odataRequest: ODataRequest) {
-        const uuid = generateId(16);
-        this.currentUUID = uuid;
-        odataRequest.addResponseHeader('sap-contextid', 'SID:ANON:' + uuid, true);
+        this.currentUUID = `SID:ANON:${generateId(16)}`;
+        odataRequest.addResponseHeader('sap-contextid', this.currentUUID, true);
         odataRequest.addResponseHeader('sap-http-session-timeout', this.sessionTimeoutTime.toString(), true);
     }
 
@@ -174,8 +190,8 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 (Object.prototype.hasOwnProperty.call(keyValues, '') && keyValues[''] === '') ||
                 this.checkKeys(this.prepareKeys(keyValues), currentSessionObject, this.entityTypeDefinition.keys)
             ) {
-                if (odataRequest) {
-                    odataRequest.addResponseHeader('sap-contextid', 'SID:ANON:' + this.currentUUID);
+                if (odataRequest && this.currentUUID) {
+                    odataRequest.addResponseHeader('sap-contextid', this.currentUUID);
                     odataRequest.addResponseHeader('sap-http-session-timeout', this.sessionTimeoutTime.toString());
                 }
                 this.resetSessionTimeout(tenantId);

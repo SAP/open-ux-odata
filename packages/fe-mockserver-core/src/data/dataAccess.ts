@@ -26,7 +26,7 @@ import type { FilterExpression } from '../request/filterParser';
 import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from './common';
-import { getData, _getDateTimeOffset } from './common';
+import { ExecutionError, getData, _getDateTimeOffset } from './common';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
 import { MockDataEntitySet } from './entitySets/entitySet';
@@ -231,7 +231,7 @@ export class DataAccess implements DataAccessInterface {
                             odataRequest.queryPath[0].keys
                         );
                     }
-                    return true;
+                    return undefined; // the sticky "discard" action does not return a value (HTTP 204 No Content)
                 } else {
                     // Treat this as a normal unbound action
                     // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
@@ -1057,6 +1057,22 @@ export class DataAccess implements DataAccessInterface {
         }
 
         return data;
+    }
+
+    /**
+     * Check whether there is a valid sessio with the given context ID.
+     *
+     * @param tenantId  Tenant
+     * @param contextId Context ID
+     * @throws ExecutionError if there is a context ID, but no corresponding session
+     */
+    public checkSession(tenantId: string, contextId: string | undefined) {
+        if (
+            contextId !== undefined &&
+            !this.stickyEntitySets.every((entitySet) => entitySet.hasSession(tenantId, contextId))
+        ) {
+            throw new ExecutionError('Session gone', 400, undefined, false);
+        }
     }
 
     public resetStickySessionTimeout(odataRequest: ODataRequest, tenantId: string) {

@@ -161,7 +161,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         if (res.headersSent) {
             return next(err);
         } else {
-            res.statusCode = 500;
+            res.statusCode = err.statusCode ?? 500;
             res.write(err.message);
             res.end();
         }

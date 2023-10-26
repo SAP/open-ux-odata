@@ -399,6 +399,7 @@ export default class ODataRequest {
                 case 'PATCH':
                 case 'MERGE':
                 case 'PUT': {
+                    this.dataAccess.checkSession(this.tenantId, contextId as string | undefined);
                     const updatedData = await this.dataAccess.updateData(this, this.requestContent.body);
                     this.setResponseData(updatedData);
 

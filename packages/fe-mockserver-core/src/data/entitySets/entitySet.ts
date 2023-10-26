@@ -9,7 +9,7 @@ import type { FilterMethodCall, LambdaExpression } from '../../request/filterPar
 import type { KeyDefinitions } from '../../request/odataRequest';
 import ODataRequest from '../../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from '../common';
-import { getData } from '../common';
+import { ExecutionError, getData } from '../common';
 import type { DataAccess } from '../dataAccess';
 
 type PreparedFunction = {
@@ -579,6 +579,10 @@ export class MockDataEntitySet implements EntitySetInterface {
     ): Promise<any> {
         keyValues = this.prepareKeys(keyValues);
         const data = this.performGET(keyValues, false, tenantId, odataRequest);
+        if (!data) {
+            throw new ExecutionError('Not found', 404, undefined, false);
+        }
+
         const currentMockData = this.getMockData(tenantId);
         const updatedData = Object.assign(data, patchData);
         for (const navigationProperty of this.entityTypeDefinition.navigationProperties) {
