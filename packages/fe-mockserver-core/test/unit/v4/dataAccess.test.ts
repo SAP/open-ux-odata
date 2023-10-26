@@ -937,6 +937,8 @@ describe('Data Access', () => {
         actionResult = await stickyDataAccess.performAction(
             new ODataRequest({ method: 'GET', url: '/DiscardChanges' }, dataAccess)
         );
+        expect(actionResult).toBeUndefined(); // sticky "discard" returns nothing
+
         sdData = await stickyDataAccess.getData(
             new ODataRequest({ method: 'GET', url: "/SalesOrderManage('')" }, dataAccess)
         );
