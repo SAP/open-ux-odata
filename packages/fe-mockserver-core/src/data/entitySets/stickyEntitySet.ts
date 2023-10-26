@@ -53,11 +53,15 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         this._currentSessionObject[tenantId] = objectData;
     }
 
+    private resetSession(tenantId: string) {
+        this.setSessionObject(tenantId, null);
+        this.currentUUID = undefined;
+    }
+
     public resetSessionTimeout(tenantId: string): any {
         clearTimeout(this.sessionTimeoutRef);
         this.sessionTimeoutRef = setTimeout(() => {
-            this.currentUUID = undefined;
-            this.setSessionObject(tenantId, null);
+            this.resetSession(tenantId);
         }, this.sessionTimeoutTime * 1000);
         return this.currentUUID;
     }
@@ -131,7 +135,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
 
             case this.discardAction?.fullyQualifiedName:
                 // Discard
-                this.setSessionObject(odataRequest.tenantId, null);
+                this.resetSession(odataRequest.tenantId);
                 responseObject = null;
                 break;
 
@@ -144,7 +148,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                     await this.performPOST({}, newData, odataRequest.tenantId, odataRequest);
                 }
 
-                this.setSessionObject(odataRequest.tenantId, null);
+                this.resetSession(odataRequest.tenantId);
 
                 responseObject = newData;
                 break;

@@ -142,10 +142,16 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
             const responseData = oDataRequest.getResponseData();
             res.statusCode = oDataRequest.statusCode;
             for (const responseHeader in oDataRequest.responseHeaders) {
-                res.setHeader(responseHeader, oDataRequest.responseHeaders[responseHeader]);
+                const value = oDataRequest.responseHeaders[responseHeader];
+                if (value) {
+                    res.setHeader(responseHeader, value);
+                }
             }
             for (const responseHeader in oDataRequest.globalResponseHeaders) {
-                res.setHeader(responseHeader, oDataRequest.globalResponseHeaders[responseHeader]);
+                const value = oDataRequest.globalResponseHeaders[responseHeader];
+                if (value) {
+                    res.setHeader(responseHeader, value);
+                }
             }
             if (responseData) {
                 res.write(responseData);

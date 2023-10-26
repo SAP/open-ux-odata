@@ -317,6 +317,7 @@ describe('V4 Requestor', function () {
             );
 
             const id = created.body.ID;
+            const contextId = created.headers['sap-contextid'];
 
             const discarded = await dataRequestor.callAction('/Discard', {}).execute();
             expect(discarded).toMatchSnapshot(
@@ -326,13 +327,42 @@ describe('V4 Requestor', function () {
                 'Discard'
             );
 
-            const updated = await dataRequestor.updateData<any>(`Root(ID=${id})`, { data: 'Updated Data' }).execute();
+            const updated = await dataRequestor
+                .updateData<any>(`Root(ID=${id})`, { data: 'Updated Data' }, false, 'PATCH', {
+                    'sap-contextid': contextId
+                })
+                .execute();
             expect(updated).toMatchSnapshot(
                 {
                     headers: expect.not.objectContaining({ 'sap-contextid': expect.any(String) })
                 },
                 'Update discarded item'
             );
+
+            // try with $batch
+            const response = await fetch('http://localhost:33331/tenant-0/sap/fe/core/mock/sticky/$batch', {
+                method: 'POST',
+                headers: new Headers({
+                    'content-type': 'multipart/mixed; boundary=batch_id-1698318562147-861',
+                    accept: 'multipart/mixed',
+                    'sap-contextid': contextId
+                }),
+                body: `
+--batch_id-1698318562147-861
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+
+PATCH Root(ID=${id}) HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+SAP-ContextId:${contextId}
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{"data": "Updated Data"}
+--batch_id-1698318562147-861--`
+            });
+
+            expect(response.status).toEqual(400);
         });
 
         it('can get updated the sticky header timeout', async () => {

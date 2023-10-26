@@ -442,9 +442,13 @@ export class ODataV4Requestor extends ODataRequestor {
         sEntityPath: string,
         objectData: any,
         noJSON: boolean = false,
-        method: 'PUT' | 'PATCH' = 'PATCH'
+        method: 'PUT' | 'PATCH' = 'PATCH',
+        headers?: Record<string, string>
     ): ODataV4ObjectRequest<T> {
-        return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, method).setBody(objectData, noJSON);
+        return new ODataV4ObjectRequest<T>(this.odataRootUri, sEntityPath, {}, method, headers).setBody(
+            objectData,
+            noJSON
+        );
     }
     public callAction<T>(actionPath: string, actionParameters: any, noJSON: boolean = false): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest<T>(this.odataRootUri, actionPath, {}, 'POST').setBody(actionParameters, noJSON);
