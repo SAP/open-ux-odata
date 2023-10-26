@@ -1,5 +1,12 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.1
+
+### Patch Changes
+
+-   cb0a6a0: fix: sticky 'discard' action has no return value
+    fix: sticky `$batch` requests are aborted completely if the session token (sap-contextid) is invalid or has expired
+
 ## 1.2.0
 
 ### Minor Changes
