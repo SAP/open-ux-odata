@@ -63,15 +63,6 @@ export class StickyMockEntitySet extends MockDataEntitySet {
     }
 
     public hasSession(tenantId: string, contextId: string): boolean {
-        console.error(
-            'Checking session: ',
-            contextId,
-            tenantId,
-            'current:',
-            this.currentUUID,
-            this._currentSessionObject[tenantId] !== null
-        );
-
         return this._currentSessionObject[tenantId] !== null && this.currentUUID === contextId;
     }
 
