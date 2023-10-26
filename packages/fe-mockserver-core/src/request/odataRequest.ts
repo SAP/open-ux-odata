@@ -391,9 +391,6 @@ export default class ODataRequest {
 
     public async handleRequest() {
         const contextId = this.requestContent.headers?.['sap-contextid'];
-        if (contextId) {
-            this.dataAccess.resetStickySessionTimeout(this, this.tenantId);
-        }
         try {
             switch (this.requestContent.method) {
                 case 'PATCH':
@@ -469,6 +466,9 @@ export default class ODataRequest {
                 this.addResponseHeader('content-type', 'text/plain');
                 this.setResponseData(errorInformation.message);
             }
+        }
+        if (contextId) {
+            this.dataAccess.resetStickySessionTimeout(this, this.tenantId);
         }
     }
 

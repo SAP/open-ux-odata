@@ -319,7 +319,11 @@ describe('V4 Requestor', function () {
             const id = created.body.ID;
             const contextId = created.headers['sap-contextid'];
 
-            const discarded = await dataRequestor.callAction('/Discard', {}).execute();
+            const discarded = await dataRequestor
+                .callAction('/Discard', {}, false, {
+                    'sap-contextid': contextId
+                })
+                .execute();
             expect(discarded).toMatchSnapshot(
                 {
                     headers: expect.not.objectContaining({ 'sap-contextid': expect.any(String) })
