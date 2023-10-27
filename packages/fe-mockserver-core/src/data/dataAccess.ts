@@ -1082,8 +1082,10 @@ export class DataAccess implements DataAccessInterface {
             UUID = entitySet.resetSessionTimeout(tenantId);
             timeoutTime = entitySet.sessionTimeoutTime;
         });
-        odataRequest.addResponseHeader('sap-contextid', UUID, true);
-        odataRequest.addResponseHeader('sap-http-session-timeout', timeoutTime.toString(), true);
+        if (UUID) {
+            odataRequest.addResponseHeader('sap-contextid', UUID, true);
+            odataRequest.addResponseHeader('sap-http-session-timeout', timeoutTime.toString(), true);
+        }
     }
 
     private _applyOrderBy(data: object[], orderByDefinition: OrderByProp[]): object[] {
