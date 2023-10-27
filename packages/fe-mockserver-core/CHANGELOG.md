@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.2
+
+### Patch Changes
+
+-   234c698: fix: the sticky 'discard' action must not return a sap-contextid header
+
 ## 1.2.1
 
 ### Patch Changes
