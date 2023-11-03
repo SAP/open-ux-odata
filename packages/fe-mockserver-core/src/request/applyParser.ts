@@ -568,21 +568,25 @@ export class ApplyParser extends FilterParser {
             this.CONSUME(COMMA);
             const recHierQualifier = this.CONSUME2(SIMPLEIDENTIFIER);
             this.CONSUME2(COMMA);
-            const recHierPropertyPath = this.CONSUME3(SIMPLEIDENTIFIER);
+            let recHierPropertyPath = this.CONSUME3(SIMPLEIDENTIFIER).image;
+            this.OPTION2(() => {
+                this.CONSUME(SLASH);
+                recHierPropertyPath += '/' + this.CONSUME4(SIMPLEIDENTIFIER).image;
+            });
             this.CONSUME3(COMMA);
             const subTransformations: TransformationDefinition[] = [];
             this.SUBRULE(this.preservingTrafo, { ARGS: [subTransformations] });
             // [ COMMA BWS 1*DIGIT BWS ]
             let maximumDistance = -1;
             // There can be more but we ignore them for now
-            this.OPTION2(() => {
+            this.OPTION3(() => {
                 this.CONSUME4(COMMA);
                 maximumDistance = parseInt(this.CONSUME2(LITERAL).image, 10);
             });
             //                  [ COMMA BWS %s"keep start" BWS ]
             let shouldKeepStart = false;
             //                  [ COMMA BWS %s"keep start" BWS ]
-            this.OPTION3(() => {
+            this.OPTION4(() => {
                 this.CONSUME5(COMMA);
                 shouldKeepStart = this.CONSUME(KEEP_START_TOKEN).image === 'keep start';
             });
@@ -591,7 +595,7 @@ export class ApplyParser extends FilterParser {
                 parameters: {
                     hierarchyRoot: rootExpr,
                     qualifier: recHierQualifier.image,
-                    propertyPath: recHierPropertyPath.image,
+                    propertyPath: recHierPropertyPath,
                     maximumDistance: maximumDistance,
                     keepStart: shouldKeepStart,
                     inputSetTransformations: subTransformations
