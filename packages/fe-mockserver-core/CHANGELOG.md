@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.3
+
+### Patch Changes
+
+-   955117a: Improve the hierarchy support when using complex type to hold the hierarchy data
+
 ## 1.2.2
 
 ### Patch Changes
