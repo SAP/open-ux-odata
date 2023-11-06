@@ -116,16 +116,16 @@ export class FunctionBasedMockData extends FileBasedMockData {
     ) {
         const noMock: any = [];
         noMock.__generateMockData = true;
+        const targetMock: any = {};
+        for (const targetMockKey in mockDataFn) {
+            targetMock[targetMockKey] = mockDataFn[targetMockKey as keyof typeof mockDataFn];
+        }
         super(
             (mockDataFn?.getInitialDataSet ? mockDataFn.getInitialDataSet(contextId) : noMock) || noMock,
             entityType,
             mockDataEntitySet,
             contextId
         );
-        const targetMock: any = {};
-        for (const targetMockKey in mockDataFn) {
-            targetMock[targetMockKey] = mockDataFn[targetMockKey as keyof typeof mockDataFn];
-        }
         this._mockDataFn = targetMock;
 
         this._mockDataFn.base = {
