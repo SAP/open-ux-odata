@@ -1069,22 +1069,17 @@ export class DataAccess implements DataAccessInterface {
     public checkSession(tenantId: string, contextId: string | undefined) {
         if (
             contextId !== undefined &&
-            !this.stickyEntitySets.every((entitySet) => entitySet.hasSession(tenantId, contextId))
+            !this.stickyEntitySets.every((entitySet) => entitySet.getSession(tenantId)?.isValidForContext(contextId))
         ) {
             throw new ExecutionError('Session gone', 400, undefined, false);
         }
     }
 
-    public resetStickySessionTimeout(odataRequest: ODataRequest, tenantId: string) {
-        let UUID = '';
-        let timeoutTime = 20;
-        this.stickyEntitySets.forEach((entitySet) => {
-            UUID = entitySet.resetSessionTimeout(tenantId);
-            timeoutTime = entitySet.sessionTimeoutTime;
-        });
-        if (UUID) {
-            odataRequest.addResponseHeader('sap-contextid', UUID, true);
-            odataRequest.addResponseHeader('sap-http-session-timeout', timeoutTime.toString(), true);
+    public resetStickySessionTimeout(odataRequest: ODataRequest) {
+        for (const entitySet of this.stickyEntitySets) {
+            const session = entitySet.getSession(odataRequest.tenantId);
+            session?.resetTimeout();
+            session?.addSessionToken(odataRequest);
         }
     }
 

@@ -390,13 +390,13 @@ export default class ODataRequest {
     // }
 
     public async handleRequest() {
-        const contextId = this.requestContent.headers?.['sap-contextid'];
+        const contextId = this.requestContent.headers?.['sap-contextid'] as string | undefined;
         try {
             switch (this.requestContent.method) {
                 case 'PATCH':
                 case 'MERGE':
                 case 'PUT': {
-                    this.dataAccess.checkSession(this.tenantId, contextId as string | undefined);
+                    this.dataAccess.checkSession(this.tenantId, contextId);
                     const updatedData = await this.dataAccess.updateData(this, this.requestContent.body);
                     this.setResponseData(updatedData);
 
@@ -468,7 +468,7 @@ export default class ODataRequest {
             }
         }
         if (contextId) {
-            this.dataAccess.resetStickySessionTimeout(this, this.tenantId);
+            this.dataAccess.resetStickySessionTimeout(this);
         }
     }
 

@@ -6,14 +6,52 @@ import type { DataAccessInterface } from '../common';
 import { ExecutionError, generateId } from '../common';
 import { MockDataEntitySet } from './entitySet';
 
+class Session {
+    private timeoutId: ReturnType<typeof setTimeout>;
+
+    constructor(
+        private readonly contextId: string,
+        private data: any,
+        private readonly sessionTimeout: number,
+        private readonly discardSession: () => void
+    ) {
+        this.resetTimeout();
+    }
+
+    public resetTimeout() {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(() => {
+            this.discardSession();
+        }, this.sessionTimeout * 1000);
+    }
+
+    public addSessionToken(odataRequest: ODataRequest) {
+        odataRequest.addResponseHeader('sap-contextid', this.contextId, true);
+        odataRequest.addResponseHeader('sap-http-session-timeout', this.sessionTimeout.toString(), true);
+    }
+    public setData(data: any) {
+        this.data = data;
+    }
+
+    public getData(): any {
+        return this.data;
+    }
+
+    public isValidForContext(contextId: string) {
+        return this.contextId === contextId;
+    }
+
+    public discard() {
+        clearTimeout(this.timeoutId);
+        this.discardSession();
+    }
+}
+
 /**
  *
  */
 export class StickyMockEntitySet extends MockDataEntitySet {
-    private _currentSessionObject: any = {};
-    private currentUUID?: string;
-    private sessionTimeoutRef: any;
-    public sessionTimeoutTime = 120;
+    private readonly sessions: Record<string, Session> = {};
     private readonly discardAction: Action | undefined;
 
     constructor(
@@ -45,29 +83,16 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         }
     }
 
-    private getSessionObject(tenantId: string) {
-        return this._currentSessionObject[tenantId];
+    createSession(tenant: string, sessionObject: any = {}, sessionTimeout: number = 120) {
+        const contextId = `SID:ANON:${generateId(16)}`;
+        this.sessions[tenant] = new Session(contextId, sessionObject, sessionTimeout, () => {
+            delete this.sessions[tenant];
+        });
+        return this.sessions[tenant];
     }
 
-    private setSessionObject(tenantId: string, objectData: any) {
-        this._currentSessionObject[tenantId] = objectData;
-    }
-
-    private resetSession(tenantId: string) {
-        this.setSessionObject(tenantId, null);
-        this.currentUUID = undefined;
-    }
-
-    public resetSessionTimeout(tenantId: string): any {
-        clearTimeout(this.sessionTimeoutRef);
-        this.sessionTimeoutRef = setTimeout(() => {
-            this.resetSession(tenantId);
-        }, this.sessionTimeoutTime * 1000);
-        return this.currentUUID;
-    }
-
-    public hasSession(tenantId: string, contextId: string): boolean {
-        return this._currentSessionObject[tenantId] !== null && this.currentUUID === contextId;
+    getSession(tenant: string): Session | undefined {
+        return this.sessions[tenant];
     }
 
     public async performPATCH(
@@ -86,7 +111,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         const updatedData = Object.assign(data, patchData);
         await currentMockData.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
         if (updatedData.__transient) {
-            this.setSessionObject(tenantId, updatedData);
+            this.getSession(odataRequest.tenantId)?.setData(updatedData);
         } else {
             await currentMockData.updateEntry(keyValues, updatedData, patchData, odataRequest);
         }
@@ -111,8 +136,8 @@ export class StickyMockEntitySet extends MockDataEntitySet {
             case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.EditAction}(${actionDefinition.sourceType})`: {
                 const data = this.performGET(keys, false, odataRequest.tenantId, odataRequest);
                 const duplicate = Object.assign({}, data);
-                this.setSessionObject(odataRequest.tenantId, duplicate);
-                this.addSessionToken(odataRequest);
+
+                this.createSession(odataRequest.tenantId, duplicate).addSessionToken(odataRequest);
                 duplicate.__transient = true;
                 duplicate.__keys = keys;
                 responseObject = duplicate;
@@ -124,23 +149,22 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 let newObject = currentMockData.getEmptyObject(odataRequest) as any;
                 newObject = Object.assign(newObject, actionData);
 
-                this.setSessionObject(odataRequest.tenantId, newObject);
+                this.createSession(odataRequest.tenantId, newObject).addSessionToken(odataRequest);
                 newObject.__transient = true;
                 odataRequest.setContext(`../$metadata#${this.entitySetDefinition?.name}()/$entity`);
-                this.addSessionToken(odataRequest);
-                this.resetSessionTimeout(odataRequest.tenantId);
                 responseObject = newObject;
                 break;
             }
 
             case this.discardAction?.fullyQualifiedName:
                 // Discard
-                this.resetSession(odataRequest.tenantId);
+                this.getSession(odataRequest.tenantId)?.discard();
                 responseObject = null;
                 break;
 
             case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.SaveAction}(${actionDefinition.sourceType})`: {
-                const newData = this.getSessionObject(odataRequest.tenantId);
+                const session = this.getSession(odataRequest.tenantId);
+                const newData = session?.getData();
                 if (newData.__keys) {
                     // Key needs to be filled now
                     await currentMockData.updateEntry(newData.__keys, newData, newData, odataRequest);
@@ -148,7 +172,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                     await this.performPOST({}, newData, odataRequest.tenantId, odataRequest);
                 }
 
-                this.resetSession(odataRequest.tenantId);
+                session?.discard();
 
                 responseObject = newData;
                 break;
@@ -166,12 +190,6 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         return responseObject;
     }
 
-    addSessionToken(odataRequest: ODataRequest) {
-        this.currentUUID = `SID:ANON:${generateId(16)}`;
-        odataRequest.addResponseHeader('sap-contextid', this.currentUUID, true);
-        odataRequest.addResponseHeader('sap-http-session-timeout', this.sessionTimeoutTime.toString(), true);
-    }
-
     public performGET(
         keyValues: KeyDefinitions,
         asArray: boolean,
@@ -179,18 +197,13 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         odataRequest: ODataRequest,
         dontClone = false
     ): any {
-        const currentSessionObject = this.getSessionObject(tenantId);
-        if (currentSessionObject && keyValues && Object.keys(keyValues).length) {
+        const session = this.getSession(tenantId);
+        if (session && keyValues && Object.keys(keyValues).length) {
             if (
                 (Object.prototype.hasOwnProperty.call(keyValues, '') && keyValues[''] === '') ||
-                this.checkKeys(this.prepareKeys(keyValues), currentSessionObject, this.entityTypeDefinition.keys)
+                this.checkKeys(this.prepareKeys(keyValues), session, this.entityTypeDefinition.keys)
             ) {
-                if (odataRequest && this.currentUUID) {
-                    odataRequest.addResponseHeader('sap-contextid', this.currentUUID);
-                    odataRequest.addResponseHeader('sap-http-session-timeout', this.sessionTimeoutTime.toString());
-                }
-                this.resetSessionTimeout(tenantId);
-                return cloneDeep(currentSessionObject);
+                return cloneDeep(session.getData());
             }
         }
         return super.performGET(keyValues, asArray, tenantId, odataRequest, dontClone);
