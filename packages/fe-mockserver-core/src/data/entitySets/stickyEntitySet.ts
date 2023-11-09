@@ -2,6 +2,7 @@ import type { Action, EntitySet, EntityType } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
 import type ODataRequest from '../../request/odataRequest';
 import type { KeyDefinitions } from '../../request/odataRequest';
+import type { IncomingMessageWithTenant } from '../../router/serviceRouter';
 import type { DataAccessInterface } from '../common';
 import { ExecutionError, generateId } from '../common';
 import { MockDataEntitySet } from './entitySet';
@@ -35,10 +36,6 @@ class Session {
 
     public getData(): any {
         return this.data;
-    }
-
-    public isValidForContext(contextId: string) {
-        return this.contextId === contextId;
     }
 
     public discard() {
@@ -83,16 +80,17 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         }
     }
 
-    createSession(tenant: string, sessionObject: any = {}, sessionTimeout: number = 120) {
+    createSession(data: any = {}, sessionTimeout: number = 120) {
         const contextId = `SID:ANON:${generateId(16)}`;
-        this.sessions[tenant] = new Session(contextId, sessionObject, sessionTimeout, () => {
-            delete this.sessions[tenant];
+        this.sessions[contextId] = new Session(contextId, data, sessionTimeout, () => {
+            delete this.sessions[contextId];
         });
-        return this.sessions[tenant];
+        return this.sessions[contextId];
     }
 
-    getSession(tenant: string): Session | undefined {
-        return this.sessions[tenant];
+    getSession(request: ODataRequest | IncomingMessageWithTenant) {
+        const contextId = request.headers['sap-contextid'] as string | undefined;
+        return contextId ? this.sessions[contextId] : undefined;
     }
 
     public async performPATCH(
@@ -111,7 +109,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         const updatedData = Object.assign(data, patchData);
         await currentMockData.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
         if (updatedData.__transient) {
-            this.getSession(odataRequest.tenantId)?.setData(updatedData);
+            this.getSession(odataRequest)?.setData(updatedData);
         } else {
             await currentMockData.updateEntry(keyValues, updatedData, patchData, odataRequest);
         }
@@ -137,7 +135,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 const data = this.performGET(keys, false, odataRequest.tenantId, odataRequest);
                 const duplicate = Object.assign({}, data);
 
-                this.createSession(odataRequest.tenantId, duplicate).addSessionToken(odataRequest);
+                this.createSession(duplicate).addSessionToken(odataRequest);
                 duplicate.__transient = true;
                 duplicate.__keys = keys;
                 responseObject = duplicate;
@@ -149,7 +147,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                 let newObject = currentMockData.getEmptyObject(odataRequest) as any;
                 newObject = Object.assign(newObject, actionData);
 
-                this.createSession(odataRequest.tenantId, newObject).addSessionToken(odataRequest);
+                this.createSession(newObject).addSessionToken(odataRequest);
                 newObject.__transient = true;
                 odataRequest.setContext(`../$metadata#${this.entitySetDefinition?.name}()/$entity`);
                 responseObject = newObject;
@@ -158,13 +156,16 @@ export class StickyMockEntitySet extends MockDataEntitySet {
 
             case this.discardAction?.fullyQualifiedName:
                 // Discard
-                this.getSession(odataRequest.tenantId)?.discard();
+                this.getSession(odataRequest)?.discard();
                 responseObject = null;
                 break;
 
             case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.SaveAction}(${actionDefinition.sourceType})`: {
-                const session = this.getSession(odataRequest.tenantId);
-                const newData = session?.getData();
+                const session = this.getSession(odataRequest);
+                if (!session) {
+                    throw new ExecutionError('Session gone', 400, undefined, false);
+                }
+                const newData = session.getData();
                 if (newData.__keys) {
                     // Key needs to be filled now
                     await currentMockData.updateEntry(newData.__keys, newData, newData, odataRequest);
@@ -172,7 +173,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                     await this.performPOST({}, newData, odataRequest.tenantId, odataRequest);
                 }
 
-                session?.discard();
+                session.discard();
 
                 responseObject = newData;
                 break;
@@ -197,12 +198,13 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         odataRequest: ODataRequest,
         dontClone = false
     ): any {
-        const session = this.getSession(tenantId);
+        const session = this.getSession(odataRequest);
         if (session && keyValues && Object.keys(keyValues).length) {
             if (
                 (Object.prototype.hasOwnProperty.call(keyValues, '') && keyValues[''] === '') ||
                 this.checkKeys(this.prepareKeys(keyValues), session, this.entityTypeDefinition.keys)
             ) {
+                session.addSessionToken(odataRequest);
                 return cloneDeep(session.getData());
             }
         }

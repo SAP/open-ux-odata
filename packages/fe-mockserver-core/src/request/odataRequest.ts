@@ -133,6 +133,10 @@ export default class ODataRequest {
         }
     }
 
+    public get headers(): IncomingHttpHeaders {
+        return this.requestContent.headers ?? {};
+    }
+
     private _addSelectedPropertiesForApplyExpression(
         applyTransformation: TransformationDefinition,
         additionalSelectProperty: Record<string, boolean>
@@ -390,13 +394,12 @@ export default class ODataRequest {
     // }
 
     public async handleRequest() {
-        const contextId = this.requestContent.headers?.['sap-contextid'] as string | undefined;
         try {
             switch (this.requestContent.method) {
                 case 'PATCH':
                 case 'MERGE':
                 case 'PUT': {
-                    this.dataAccess.checkSession(this.tenantId, contextId);
+                    this.dataAccess.checkSession(this);
                     const updatedData = await this.dataAccess.updateData(this, this.requestContent.body);
                     this.setResponseData(updatedData);
 
@@ -467,9 +470,7 @@ export default class ODataRequest {
                 this.setResponseData(errorInformation.message);
             }
         }
-        if (contextId) {
-            this.dataAccess.resetStickySessionTimeout(this);
-        }
+        this.dataAccess.resetStickySessionTimeout(this);
     }
 
     public setResponseData(data: any) {
