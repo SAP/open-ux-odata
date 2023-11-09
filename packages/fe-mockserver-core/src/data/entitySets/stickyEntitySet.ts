@@ -202,7 +202,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         if (session && keyValues && Object.keys(keyValues).length) {
             if (
                 (Object.prototype.hasOwnProperty.call(keyValues, '') && keyValues[''] === '') ||
-                this.checkKeys(this.prepareKeys(keyValues), session, this.entityTypeDefinition.keys)
+                this.checkKeys(this.prepareKeys(keyValues), session.getData(), this.entityTypeDefinition.keys)
             ) {
                 session.addSessionToken(odataRequest);
                 return cloneDeep(session.getData());

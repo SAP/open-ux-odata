@@ -914,39 +914,37 @@ describe('Data Access', () => {
 
     test('v4 metadata with sticky, POST', async () => {
         // Create Empty Element
-        const sdObject = await stickyDataAccess.createData(
-            new ODataRequest(
-                { method: '/POST', url: '/SalesOrderManage', body: { SalesOrder: 'Bob' } },
-                stickyDataAccess
-            ),
-            { SalesOrder: 'Bob' }
+        let request = new ODataRequest(
+            { method: 'POST', url: '/SalesOrderManage', body: { SalesOrder: 'Bob' } },
+            stickyDataAccess
         );
+        const sdObject = await stickyDataAccess.createData(request, { SalesOrder: 'Bob' });
         expect(sdObject).toBeDefined;
         expect(sdObject.SalesOrder).toEqual('Bob');
 
-        let sdData = await stickyDataAccess.getData(
-            new ODataRequest({ method: 'GET', url: '/SalesOrderManage' }, dataAccess)
-        );
-        expect(sdData.length).toEqual(1);
+        request = new ODataRequest({ method: 'GET', url: '/SalesOrderManage' }, dataAccess);
+        let result = await stickyDataAccess.getData(request);
+        expect(result.length).toEqual(1);
+
         // Create It - Test with an alias, even though it's not the recommendation :)
-        let request = new ODataRequest(
+        request = new ODataRequest(
             {
-                method: '/POST',
+                method: 'POST',
                 url: '/SalesOrderManage/SAP__self.CreateWithSalesOrderType'
             },
             stickyDataAccess
         );
-        let actionResult = await stickyDataAccess.performAction(request, {
+        result = await stickyDataAccess.performAction(request, {
             SalesOrderType: 'OR'
         });
-        expect(actionResult.SalesOrderType).toEqual('OR');
+        expect(result.SalesOrderType).toEqual('OR');
         expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
 
         // On normal request new data should not be there
-        sdData = await stickyDataAccess.getData(
+        result = await stickyDataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/SalesOrderManage' }, dataAccess)
         );
-        expect(sdData.length).toEqual(1);
+        expect(result.length).toEqual(1);
 
         request = new ODataRequest(
             {
@@ -956,8 +954,8 @@ describe('Data Access', () => {
             },
             dataAccess
         );
-        sdData = await stickyDataAccess.getData(request);
-        expect(sdData.SalesOrderType).toEqual('OR');
+        result = await stickyDataAccess.getData(request);
+        expect(result.SalesOrderType).toEqual('OR');
         expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
 
         // Discard it
@@ -969,61 +967,74 @@ describe('Data Access', () => {
             },
             dataAccess
         );
-        actionResult = await stickyDataAccess.performAction(request);
-        expect(actionResult).toBeUndefined(); // sticky "discard" returns nothing
+        result = await stickyDataAccess.performAction(request);
+        expect(result).toBeUndefined(); // sticky "discard" returns nothing
         expect(request.globalResponseHeaders['sap-contextid']).toBeUndefined();
 
-        sdData = await stickyDataAccess.getData(
+        result = await stickyDataAccess.getData(
             new ODataRequest({ method: 'GET', url: "/SalesOrderManage('')" }, dataAccess)
         );
-        expect(sdData).toBe(null);
+        expect(result).toBe(null);
 
         // Create it again
         request = new ODataRequest(
             {
                 url: '/SalesOrderManage/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.CreateWithSalesOrderType',
-                method: '/POST'
+                method: 'POST'
             },
             stickyDataAccess
         );
-        actionResult = await stickyDataAccess.performAction(request, { SalesOrderType: 'OR' });
-        expect(actionResult.SalesOrderType).toEqual('OR');
+        result = await stickyDataAccess.performAction(request, { SalesOrderType: 'OR' });
+        expect(result.SalesOrderType).toEqual('OR');
+        expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
+
+        // update some property
+        request = new ODataRequest(
+            {
+                url: "/SalesOrderManage('')",
+                method: 'POST',
+                headers: { 'sap-contextid': request.globalResponseHeaders['sap-contextid'] }
+            },
+            stickyDataAccess
+        );
+        result = await stickyDataAccess.updateData(request, { PurchaseOrderByCustomer: 'My Information' });
+        expect(result.PurchaseOrderByCustomer).toEqual('My Information');
         expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
 
         // Activate it
         request = new ODataRequest(
             {
                 url: '/SalesOrderManage/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SaveChanges',
-                method: '/POST',
+                method: 'POST',
                 headers: { 'sap-contextid': request.globalResponseHeaders['sap-contextid'] }
             },
             stickyDataAccess
         );
-        actionResult = await stickyDataAccess.performAction(request);
+        result = await stickyDataAccess.performAction(request);
         expect(request.globalResponseHeaders['sap-contextid']).toBeUndefined();
 
-        sdData = await stickyDataAccess.getData(
+        result = await stickyDataAccess.getData(
             new ODataRequest({ method: 'GET', url: "/SalesOrderManage('')" }, dataAccess)
         );
-        expect(sdData).toBe(null);
+        expect(result).toBe(null);
 
-        sdData = await stickyDataAccess.getData(
+        result = await stickyDataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/SalesOrderManage' }, dataAccess)
         );
-        expect(sdData.length).toEqual(2);
+        expect(result.length).toEqual(2);
 
         // Edit it now
-        const id = sdData[1].SalesOrder;
+        const id = result[1].SalesOrder;
         request = new ODataRequest(
             {
                 url: `/SalesOrderManage('${id}')/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.PrepareForEdit`,
-                method: '/POST'
+                method: 'POST'
             },
             stickyDataAccess
         );
-        actionResult = await stickyDataAccess.performAction(request);
+        result = await stickyDataAccess.performAction(request);
 
-        sdData = await stickyDataAccess.getData(
+        result = await stickyDataAccess.getData(
             new ODataRequest(
                 {
                     method: 'GET',
@@ -1033,7 +1044,7 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(sdData.SalesOrder).toBe(id);
+        expect(result.SalesOrder).toBe(id);
     });
 
     test('Can be reloaded', async () => {
