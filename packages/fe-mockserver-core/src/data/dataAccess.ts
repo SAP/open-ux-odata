@@ -25,6 +25,7 @@ import type {
 import type { FilterExpression } from '../request/filterParser';
 import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
+import type { IncomingMessageWithTenant } from '../router/serviceRouter';
 import type { DataAccessInterface, EntitySetInterface } from './common';
 import { ExecutionError, getData, _getDateTimeOffset } from './common';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
@@ -1062,29 +1063,23 @@ export class DataAccess implements DataAccessInterface {
     /**
      * Check whether there is a valid session with the given context ID.
      *
-     * @param tenantId  Tenant
-     * @param contextId Context ID
-     * @throws ExecutionError if there is a context ID, but no corresponding session
+     * @param request The incoming request
+     * @throws ExecutionError if there is a context ID, but there is no corresponding session
      */
-    public checkSession(tenantId: string, contextId: string | undefined) {
+    public checkSession(request: ODataRequest | IncomingMessageWithTenant) {
         if (
-            contextId !== undefined &&
-            !this.stickyEntitySets.every((entitySet) => entitySet.hasSession(tenantId, contextId))
+            request.headers['sap-contextid'] &&
+            !this.stickyEntitySets.some((entitySet) => entitySet.getSession(request))
         ) {
             throw new ExecutionError('Session gone', 400, undefined, false);
         }
     }
 
-    public resetStickySessionTimeout(odataRequest: ODataRequest, tenantId: string) {
-        let UUID = '';
-        let timeoutTime = 20;
-        this.stickyEntitySets.forEach((entitySet) => {
-            UUID = entitySet.resetSessionTimeout(tenantId);
-            timeoutTime = entitySet.sessionTimeoutTime;
-        });
-        if (UUID) {
-            odataRequest.addResponseHeader('sap-contextid', UUID, true);
-            odataRequest.addResponseHeader('sap-http-session-timeout', timeoutTime.toString(), true);
+    public resetStickySessionTimeout(odataRequest: ODataRequest) {
+        for (const entitySet of this.stickyEntitySets) {
+            const session = entitySet.getSession(odataRequest);
+            session?.resetTimeout();
+            session?.addSessionToken(odataRequest);
         }
     }
 
