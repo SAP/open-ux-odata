@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.4
+
+### Patch Changes
+
+-   7bd3e7f: fix: isolate sticky sessions
+
 ## 1.2.3
 
 ### Patch Changes
