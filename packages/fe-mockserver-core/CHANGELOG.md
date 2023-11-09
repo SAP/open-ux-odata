@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.5
+
+### Patch Changes
+
+-   79d5e17: fix: data is now fetched from the session if one exists
+
 ## 1.2.4
 
 ### Patch Changes
