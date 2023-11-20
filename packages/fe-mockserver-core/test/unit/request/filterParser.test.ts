@@ -340,4 +340,32 @@ describe('Filter Parser', () => {
         );
         expect(guidFilters).toMatchSnapshot();
     });
+
+    test('filter', () => {
+        const guidFilters = parseFilter(
+            `ChangeDocObjectClass eq 'MM_PUR_PROCPRJ' and ChangeDocObject eq '3D1780001396491CA80300803B70E300' and CreatedOn ge datetimeoffset'2021-06-12T07:30:34Z'`
+        );
+        expect(guidFilters).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": "ChangeDocObjectClass",
+                  "literal": "'MM_PUR_PROCPRJ'",
+                  "operator": "eq",
+                },
+                {
+                  "identifier": "ChangeDocObject",
+                  "literal": "'3D1780001396491CA80300803B70E300'",
+                  "operator": "eq",
+                },
+                {
+                  "identifier": "CreatedOn",
+                  "literal": "datetimeoffset'2021-06-12T07:30:34Z'",
+                  "operator": "ge",
+                },
+              ],
+              "operator": "AND",
+            }
+        `);
+    });
 });
