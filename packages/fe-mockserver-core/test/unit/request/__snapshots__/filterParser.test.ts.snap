@@ -158,18 +158,6 @@ exports[`Filter Parser can deal with nested function calls 3`] = `
 }
 `;
 
-exports[`Filter Parser filter 1`] = `
-{
-  "expressions": [
-    {
-      "identifier": "ChangeDocObject",
-      "literal": "'3D1780001396491CA80300803B70E300'",
-      "operator": "eq",
-    },
-  ],
-}
-`;
-
 exports[`Filter Parser guid filters 1`] = `
 {
   "expressions": [
