@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.6
+
+### Patch Changes
+
+-   ddecc42: Date Time offset are now parsed properly
+
 ## 1.2.5
 
 ### Patch Changes
