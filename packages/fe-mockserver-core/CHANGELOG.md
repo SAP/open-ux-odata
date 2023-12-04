@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.10
+
+### Patch Changes
+
+-   74f6b41: Analytical queries are now properly handled
+
 ## 1.2.9
 
 ### Patch Changes
