@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Aggregation.V1.xml">
+        <edmx:Include Alias="Aggregation" Namespace="Org.OData.Aggregation.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Analytics.xml">
+        <edmx:Include Alias="Analytics" Namespace="com.sap.vocabularies.Analytics.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="DisplayLineItemsService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Ledger" EntityType="DisplayLineItemsService.Ledger"/>
+                <EntitySet Name="CompanyCode" EntityType="DisplayLineItemsService.CompanyCode"/>
+                <EntitySet Name="Account" EntityType="DisplayLineItemsService.Account"/>
+                <EntitySet Name="LineItems" EntityType="DisplayLineItemsService.LineItems"/>
+            </EntityContainer>
+            <EntityType Name="Ledger">
+                <Key>
+                    <PropertyRef Name="Ledger"/>
+                </Key>
+                <Property Name="Ledger" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="LedgerName" Type="Edm.String" MaxLength="30"/>
+                <Property Name="IsLeadingLedger" Type="Edm.Boolean"/>
+            </EntityType>
+            <EntityType Name="CompanyCode">
+                <Key>
+                    <PropertyRef Name="Ledger"/>
+                    <PropertyRef Name="CompanyCode"/>
+                </Key>
+                <Property Name="Ledger" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="CompanyCode" Type="Edm.String" MaxLength="4" Nullable="false"/>
+                <Property Name="CompanyCodeName" Type="Edm.String" MaxLength="25"/>
+                <Property Name="ControllingArea" Type="Edm.String" MaxLength="4"/>
+                <Property Name="ChartOfAccounts" Type="Edm.String" MaxLength="4"/>
+                <Property Name="CityName" Type="Edm.String" MaxLength="25"/>
+                <Property Name="FiscalYearVariant" Type="Edm.String" MaxLength="2"/>
+            </EntityType>
+            <EntityType Name="Account">
+                <Key>
+                    <PropertyRef Name="Account"/>
+                    <PropertyRef Name="CompanyCode"/>
+                </Key>
+                <Property Name="Account" Type="Edm.String" Nullable="false"/>
+                <Property Name="CompanyCode" Type="Edm.String" Nullable="false"/>
+                <Property Name="Account_Text" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="LineItems">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Account" Type="Edm.String"/>
+                <Property Name="GHGCategory" Type="Edm.String"/>
+                <Property Name="Debit" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="Credit" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="EmissionTotalUnit" Type="Edm.String"/>
+                <Property Name="Segment" Type="Edm.String"/>
+                <Property Name="ProfitCenter" Type="Edm.String"/>
+                <Property Name="CostCenter" Type="Edm.String"/>
+                <Property Name="Plant" Type="Edm.String"/>
+                <Property Name="Material" Type="Edm.String"/>
+                <Property Name="JournalEntryID" Type="Edm.String" MaxLength="15"/>
+                <Property Name="CompanyCode" Type="Edm.String"/>
+                <Property Name="JournalEntryDate" Type="Edm.Date"/>
+                <Property Name="JournalEntryCreatedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="PostingDate" Type="Edm.Date"/>
+                <Property Name="FiscalYear" Type="Edm.String" MaxLength="4"/>
+                <Property Name="FiscalPeriod" Type="Edm.String" MaxLength="3"/>
+                <Property Name="Ledger" Type="Edm.String"/>
+            </EntityType>
+            <Annotations Target="DisplayLineItemsService.EntityContainer/Ledger">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.EntityContainer/CompanyCode">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.EntityContainer/Account">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems">
+                <Annotation Term="UI.PresentationVariant">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="GroupBy">
+                            <Collection>
+                                <PropertyPath>Account</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Total">
+                            <Collection>
+                                <PropertyPath>Debit</PropertyPath>
+                                <PropertyPath>Credit</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.Chart</AnnotationPath>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>Ledger</PropertyPath>
+                        <PropertyPath>Account</PropertyPath>
+                        <PropertyPath>CompanyCode</PropertyPath>
+                        <PropertyPath>PostingDate</PropertyPath>
+                        <PropertyPath>FiscalPeriod</PropertyPath>
+                        <PropertyPath>FiscalYear</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataFieldWithIntentBasedNavigation">
+                            <PropertyValue Property="Value" Path="JournalEntryID"/>
+                            <PropertyValue Property="SemanticObject" String="postings"/>
+                            <PropertyValue Property="Action" String="display"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Account"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="GHGCategory"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CompanyCode"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Debit"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Credit"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="EmissionTotalUnit"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ProfitCenter"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CostCenter"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Segment"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="Aggregation.CustomAggregate" Qualifier="Debit" String="Edm.Decimal"/>
+                <Annotation Term="Aggregation.CustomAggregate" Qualifier="Credit" String="Edm.Decimal"/>
+                <Annotation Term="Aggregation.ApplySupported">
+                    <Record Type="Aggregation.ApplySupportedType">
+                        <PropertyValue Property="GroupableProperties">
+                            <Collection>
+                                <PropertyPath>Account</PropertyPath>
+                                <PropertyPath>GHGCategory</PropertyPath>
+                                <PropertyPath>Debit</PropertyPath>
+                                <PropertyPath>Credit</PropertyPath>
+                                <PropertyPath>EmissionTotalUnit</PropertyPath>
+                                <PropertyPath>Segment</PropertyPath>
+                                <PropertyPath>ProfitCenter</PropertyPath>
+                                <PropertyPath>CostCenter</PropertyPath>
+                                <PropertyPath>Plant</PropertyPath>
+                                <PropertyPath>Material</PropertyPath>
+                                <PropertyPath>JournalEntryID</PropertyPath>
+                                <PropertyPath>CompanyCode</PropertyPath>
+                                <PropertyPath>JournalEntryDate</PropertyPath>
+                                <PropertyPath>JournalEntryCreatedBy</PropertyPath>
+                                <PropertyPath>PostingDate</PropertyPath>
+                                <PropertyPath>FiscalYear</PropertyPath>
+                                <PropertyPath>FiscalPeriod</PropertyPath>
+                                <PropertyPath>Ledger</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="AggregatableProperties">
+                            <Collection>
+                                <Record Type="Aggregation.AggregatablePropertyType">
+                                    <PropertyValue Property="Property" PropertyPath="Debit"/>
+                                </Record>
+                                <Record Type="Aggregation.AggregatablePropertyType">
+                                    <PropertyValue Property="Property" PropertyPath="Credit"/>
+                                </Record>
+                                <Record Type="Aggregation.AggregatablePropertyType">
+                                    <PropertyValue Property="Property" PropertyPath="ID"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>topcount</String>
+                                <String>bottomcount</String>
+                                <String>identity</String>
+                                <String>concat</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                                <String>expand</String>
+                                <String>top</String>
+                                <String>skip</String>
+                                <String>orderby</String>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.SemanticKey">
+                    <Collection>
+                        <PropertyPath>ID</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.EntityContainer/LineItems">
+                <Annotation Term="UI.PresentationVariant">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="GroupBy">
+                            <Collection>
+                                <PropertyPath>Account</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Total">
+                            <Collection>
+                                <PropertyPath>Debit</PropertyPath>
+                                <PropertyPath>Credit</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.Chart</AnnotationPath>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Aggregation.CustomAggregate" Qualifier="Debit" String="Edm.Decimal"/>
+                <Annotation Term="Aggregation.CustomAggregate" Qualifier="Credit" String="Edm.Decimal"/>
+                <Annotation Term="Aggregation.ApplySupported">
+                    <Record Type="Aggregation.ApplySupportedType">
+                        <PropertyValue Property="GroupableProperties">
+                            <Collection>
+                                <PropertyPath>Account</PropertyPath>
+                                <PropertyPath>GHGCategory</PropertyPath>
+                                <PropertyPath>Debit</PropertyPath>
+                                <PropertyPath>Credit</PropertyPath>
+                                <PropertyPath>EmissionTotalUnit</PropertyPath>
+                                <PropertyPath>Segment</PropertyPath>
+                                <PropertyPath>ProfitCenter</PropertyPath>
+                                <PropertyPath>CostCenter</PropertyPath>
+                                <PropertyPath>Plant</PropertyPath>
+                                <PropertyPath>Material</PropertyPath>
+                                <PropertyPath>JournalEntryID</PropertyPath>
+                                <PropertyPath>CompanyCode</PropertyPath>
+                                <PropertyPath>JournalEntryDate</PropertyPath>
+                                <PropertyPath>JournalEntryCreatedBy</PropertyPath>
+                                <PropertyPath>PostingDate</PropertyPath>
+                                <PropertyPath>FiscalYear</PropertyPath>
+                                <PropertyPath>FiscalPeriod</PropertyPath>
+                                <PropertyPath>Ledger</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="AggregatableProperties">
+                            <Collection>
+                                <Record Type="Aggregation.AggregatablePropertyType">
+                                    <PropertyValue Property="Property" PropertyPath="Debit"/>
+                                </Record>
+                                <Record Type="Aggregation.AggregatablePropertyType">
+                                    <PropertyValue Property="Property" PropertyPath="Credit"/>
+                                </Record>
+                                <Record Type="Aggregation.AggregatablePropertyType">
+                                    <PropertyValue Property="Property" PropertyPath="ID"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>topcount</String>
+                                <String>bottomcount</String>
+                                <String>identity</String>
+                                <String>concat</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                                <String>expand</String>
+                                <String>top</String>
+                                <String>skip</String>
+                                <String>orderby</String>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/ID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/Account">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="Account"/>
+                        <PropertyValue Property="Label" String="Account"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Account"/>
+                                    <PropertyValue Property="ValueListProperty" String="Account"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="CompanyCode"/>
+                                    <PropertyValue Property="ValueListProperty" String="CompanyCode"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Account_Text"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.Label" String="Account"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/GHGCategory">
+                <Annotation Term="Common.Label" String="GHG Emission Scope"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/Debit">
+                <Annotation Term="Analytics.Measure" Bool="true"/>
+                <Annotation Term="Common.Label" String="Debit"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/Credit">
+                <Annotation Term="Analytics.Measure" Bool="true"/>
+                <Annotation Term="Common.Label" String="Credit"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/EmissionTotalUnit">
+                <Annotation Term="Common.Label" String="Emission Total Unit"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/Segment">
+                <Annotation Term="Common.Label" String="Segment"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/ProfitCenter">
+                <Annotation Term="Common.Label" String="Profit Center"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/CostCenter">
+                <Annotation Term="Common.Label" String="Cost Center"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/JournalEntryID">
+                <Annotation Term="Common.Label" String="GrL Journal Entry ID"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/CompanyCode">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="CompanyCode"/>
+                        <PropertyValue Property="Label" String="Company Code"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Ledger"/>
+                                    <PropertyValue Property="ValueListProperty" String="Ledger"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="CompanyCode"/>
+                                    <PropertyValue Property="ValueListProperty" String="CompanyCode"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="CompanyCodeName"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="ChartOfAccounts"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="CityName"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="FiscalYearVariant"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.Label" String="Company Code"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/JournalEntryDate">
+                <Annotation Term="Common.Label" String="GrL Journal Entry Date"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/JournalEntryCreatedBy">
+                <Annotation Term="Common.Label" String="GrL Journal Entry Created By"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/PostingDate">
+                <Annotation Term="Common.Label" String="Posting Date"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/FiscalYear">
+                <Annotation Term="Common.Label" String="Fiscal Year"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/FiscalPeriod">
+                <Annotation Term="Common.Label" String="Fiscal Period"/>
+            </Annotations>
+            <Annotations Target="DisplayLineItemsService.LineItems/Ledger">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="Ledger"/>
+                        <PropertyValue Property="Label" String="Ledger"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Ledger"/>
+                                    <PropertyValue Property="ValueListProperty" String="Ledger"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="IsLeadingLedger"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="LedgerName"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.Label" String="Ledger"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

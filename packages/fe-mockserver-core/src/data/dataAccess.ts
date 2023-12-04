@@ -1223,17 +1223,18 @@ export class DataAccess implements DataAccessInterface {
                 const concatData: object[] = [];
                 const startingData = cloneDeep(data);
                 for (const concatExpressions of transformationDef.concatExpr) {
+                    let transformedData = startingData;
                     for (const concatExpression of concatExpressions) {
-                        const transformedData = await this.applyTransformation(
+                        transformedData = await this.applyTransformation(
                             concatExpression,
-                            startingData,
+                            transformedData,
                             odataRequest,
                             mockEntitySet,
                             mockData,
                             currentEntityType
                         );
-                        concatData.push(...transformedData);
                     }
+                    concatData.push(...transformedData);
                 }
                 data = concatData;
                 break;
@@ -1278,7 +1279,7 @@ export class DataAccess implements DataAccessInterface {
                 data = [];
                 break;
             case 'top':
-                data = [];
+                data = data.slice(0, transformationDef.topCount);
                 break;
             case 'search':
                 data = data.filter((dataLine) => {
