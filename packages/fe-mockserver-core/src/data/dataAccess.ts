@@ -1015,7 +1015,7 @@ export class DataAccess implements DataAccessInterface {
                         case 'Edm.Guid':
                             return `${key}=guid'${currentKeys[key]}'`;
                         default: {
-                            return `${key}='${currentKeys[key]}'`;
+                            return `${key}='${encodeURIComponent(currentKeys[key])}'`;
                         }
                     }
                 })
