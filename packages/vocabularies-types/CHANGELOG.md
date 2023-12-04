@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.1
+
+### Patch Changes
+
+-   2cffd38: IsNaturalPerson can be a dynamic expression
+
 ## 0.10.0
 
 ### Minor Changes
