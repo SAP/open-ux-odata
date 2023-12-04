@@ -223,6 +223,18 @@ export class FilterParser extends EmbeddedActionsParser {
                             target: ''
                         };
                     }
+                },
+                {
+                    ALT: () => {
+                        $.CONSUME3(CLOSE);
+                        return {
+                            type: 'lambda',
+                            operator: anyAll.image.toUpperCase().slice(0, anyAll.image.toUpperCase().length - 1),
+                            key: '',
+                            expression: undefined,
+                            target: ''
+                        };
+                    }
                 }
             ]);
 
@@ -268,17 +280,31 @@ export class FilterParser extends EmbeddedActionsParser {
                 {
                     ALT: () => {
                         // boolParenExpr
-                        const notOperator = $.OPTION(() => {
-                            $.CONSUME(NOT_OPERATOR);
-                            $.CONSUME(WS);
+                        $.CONSUME(NOT_OPERATOR);
+                        $.CONSUME(WS);
+                        const hasOpen = $.OPTION(() => {
+                            $.CONSUME(OPEN);
                             return true;
                         });
-                        $.CONSUME(OPEN);
                         const expression = $.SUBRULE($.boolCommonExpr);
-                        $.CONSUME(CLOSE);
+                        $.OPTION2(() => $.CONSUME(CLOSE));
+                        return {
+                            isGroup: !!hasOpen,
+                            isReversed: true,
+                            operator: expression.operator,
+                            expressions: expression.expressions
+                        } as FilterExpression;
+                    }
+                },
+                {
+                    ALT: () => {
+                        // boolParenExpr
+                        $.CONSUME2(OPEN);
+                        const expression = $.SUBRULE2($.boolCommonExpr);
+                        $.CONSUME3(CLOSE);
                         return {
                             isGroup: true,
-                            isReversed: !!notOperator,
+                            isReversed: false,
                             operator: expression.operator,
                             expressions: expression.expressions
                         } as FilterExpression;
@@ -300,7 +326,7 @@ export class FilterParser extends EmbeddedActionsParser {
                                 ALT: () => $.SUBRULE($.methodCallExpr)
                             }
                         ]);
-                        $.OPTION2(() => {
+                        $.OPTION3(() => {
                             $.CONSUME2(WS);
                             operator = $.CONSUME(LOGICAL_OPERATOR);
                             $.CONSUME3(WS);
@@ -321,9 +347,9 @@ export class FilterParser extends EmbeddedActionsParser {
                     }
                 }
             ]);
-            $.OPTION3(() => {
+            $.OPTION4(() => {
                 operator = $.CONSUME(ANDOR);
-                const subsubExpr = $.SUBRULE2($.boolCommonExpr);
+                const subsubExpr = $.SUBRULE3($.boolCommonExpr);
                 let expressions: FilterExpression[];
                 let currentOperator = operator.image.trim().toUpperCase();
                 if (!subsubExpr.expressions && subExpr.expressions) {
@@ -333,7 +359,11 @@ export class FilterParser extends EmbeddedActionsParser {
                     subsubExpr.operator === '' ||
                     subsubExpr.operator === undefined
                 ) {
-                    expressions = [subExpr].concat(subsubExpr.expressions);
+                    if (subsubExpr.isReversed !== true) {
+                        expressions = [subExpr].concat(subsubExpr.expressions);
+                    } else {
+                        expressions = [subExpr].concat([subsubExpr]);
+                    }
                 } else if (currentOperator === 'AND' && !subsubExpr.isGroup) {
                     //AND has priority
                     expressions = [subExpr].concat(subsubExpr.expressions.shift());
