@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.8
+
+### Patch Changes
+
+-   0a1f7c1: encodeURI is called even when multiple keys are used
+
 ## 1.2.7
 
 ### Patch Changes
