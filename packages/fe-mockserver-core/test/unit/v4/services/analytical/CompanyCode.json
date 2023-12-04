@@ -1,0 +1,20 @@
+[
+    {
+        "Ledger": "L0",
+        "CompanyCode": "ORA",
+        "CompanyCodeName": "ORACLE LTD",
+        "ControllingArea": "A000",
+        "ChartOfAccounts": "INT",
+        "CityName": "New York",
+        "FiscalYearVariant": "K4"
+    },
+    {
+        "Ledger": "L0",
+        "CompanyCode": "SAP",
+        "CompanyCodeName": "SAP AG",
+        "ControllingArea": "A000",
+        "ChartOfAccounts": "INT",
+        "CityName": "Paris",
+        "FiscalYearVariant": "K4"
+    }
+]
