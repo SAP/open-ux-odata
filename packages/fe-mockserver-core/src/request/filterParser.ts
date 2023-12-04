@@ -359,7 +359,7 @@ export class FilterParser extends EmbeddedActionsParser {
                     subsubExpr.operator === '' ||
                     subsubExpr.operator === undefined
                 ) {
-                    if (subsubExpr.isReversed === false) {
+                    if (subsubExpr.isReversed !== true) {
                         expressions = [subExpr].concat(subsubExpr.expressions);
                     } else {
                         expressions = [subExpr].concat([subsubExpr]);
