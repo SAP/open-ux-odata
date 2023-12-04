@@ -368,4 +368,47 @@ describe('Filter Parser', () => {
             }
         `);
     });
+    test('complex lambda', () => {
+        const complexLambda = parseFilter(`formats/any(f:f/FORMAT_ID eq 1) and not items/any()`);
+        expect(complexLambda).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": {
+                    "expression": {
+                      "expressions": [
+                        {
+                          "identifier": "f/FORMAT_ID",
+                          "literal": "1",
+                          "operator": "eq",
+                        },
+                      ],
+                    },
+                    "key": "f",
+                    "operator": "ANY",
+                    "target": "formats",
+                    "type": "lambda",
+                  },
+                },
+                {
+                  "expressions": [
+                    {
+                      "identifier": {
+                        "expression": undefined,
+                        "key": "",
+                        "operator": "ANY",
+                        "target": "items",
+                        "type": "lambda",
+                      },
+                    },
+                  ],
+                  "isGroup": false,
+                  "isReversed": true,
+                  "operator": undefined,
+                },
+              ],
+              "operator": "AND",
+            }
+        `);
+    });
 });
