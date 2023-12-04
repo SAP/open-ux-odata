@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.9
+
+### Patch Changes
+
+-   9570cd8: Filter using not in front of lambda operator are now working fine
+
 ## 1.2.8
 
 ### Patch Changes
