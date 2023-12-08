@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.12
+
+### Patch Changes
+
+-   14094c5: Fix an issue with not lambda parsing
+
 ## 1.2.11
 
 ### Patch Changes
