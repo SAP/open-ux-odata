@@ -56,5 +56,40 @@ describe('EntitySet', () => {
             filteredData = myEntitySet.checkFilter(mockData[3], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(false);
         });
+        it('works on deep lambda expression with methods', async () => {
+            const myEntitySet = new MockDataEntitySet(
+                baseDir,
+                {
+                    name: 'MyEntityData',
+                    entityType: {
+                        entityProperties: []
+                    },
+                    _type: 'EntitySet'
+                } as any,
+                dataAccess,
+                false,
+                true
+            );
+            await myEntitySet.readyPromise;
+            const v4ComplexLambda = parseFilter(
+                "((ArrayData/any(t:t/SubArray/any(a0:contains(a0/Name,'Something') and a0/SubSubArray/any(a1:a1/Value ge '20220600') and a0/SubSubArray/any(a1:a1/Value le '20220603'))))) and (BaseData eq 'FirstCheck')"
+            );
+            const fakeRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'MyEntityData'
+                },
+                dataAccess
+            );
+            const mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
+            let filteredData = myEntitySet.checkFilter(mockData[0], v4ComplexLambda, 'default', fakeRequest);
+            expect(filteredData).toBe(true);
+            filteredData = myEntitySet.checkFilter(mockData[1], v4ComplexLambda, 'default', fakeRequest);
+            expect(filteredData).toBe(true);
+            filteredData = myEntitySet.checkFilter(mockData[2], v4ComplexLambda, 'default', fakeRequest);
+            expect(filteredData).toBe(true);
+            filteredData = myEntitySet.checkFilter(mockData[3], v4ComplexLambda, 'default', fakeRequest);
+            expect(filteredData).toBe(false);
+        });
     });
 });

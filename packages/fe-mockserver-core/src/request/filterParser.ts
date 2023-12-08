@@ -49,6 +49,7 @@ export type FilterMethodCall = {
     type: 'method';
     method: string;
     methodArgs: string[];
+    propertyPaths?: string[];
 };
 export type LambdaExpression = {
     type: 'lambda';
