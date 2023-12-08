@@ -282,13 +282,13 @@ export class FilterParser extends EmbeddedActionsParser {
                     ALT: () => {
                         // boolParenExpr
                         $.CONSUME(NOT_OPERATOR);
-                        $.CONSUME(WS);
-                        const hasOpen = $.OPTION(() => {
+                        $.OPTION(() => $.CONSUME(WS));
+                        const hasOpen = $.OPTION2(() => {
                             $.CONSUME(OPEN);
                             return true;
                         });
                         const expression = $.SUBRULE($.boolCommonExpr);
-                        $.OPTION2(() => $.CONSUME(CLOSE));
+                        $.OPTION3(() => $.CONSUME(CLOSE));
                         return {
                             isGroup: !!hasOpen,
                             isReversed: true,
@@ -327,7 +327,7 @@ export class FilterParser extends EmbeddedActionsParser {
                                 ALT: () => $.SUBRULE($.methodCallExpr)
                             }
                         ]);
-                        $.OPTION3(() => {
+                        $.OPTION4(() => {
                             $.CONSUME2(WS);
                             operator = $.CONSUME(LOGICAL_OPERATOR);
                             $.CONSUME3(WS);
@@ -348,7 +348,7 @@ export class FilterParser extends EmbeddedActionsParser {
                     }
                 }
             ]);
-            $.OPTION4(() => {
+            $.OPTION5(() => {
                 operator = $.CONSUME(ANDOR);
                 const subsubExpr = $.SUBRULE3($.boolCommonExpr);
                 let expressions: FilterExpression[];

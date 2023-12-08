@@ -368,6 +368,41 @@ describe('Filter Parser', () => {
             }
         `);
     });
+    test('reverse lambda', () => {
+        const complexLambda = parseFilter(`not(_extension/any(ent:contains(ent/name, 'HCP_SUBACCOUNT_ID')))`);
+        expect(complexLambda).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": {
+                    "expression": {
+                      "expressions": [
+                        {
+                          "identifier": {
+                            "method": "contains",
+                            "methodArgs": [
+                              "ent/name",
+                              "'HCP_SUBACCOUNT_ID'",
+                            ],
+                            "type": "method",
+                          },
+                        },
+                      ],
+                    },
+                    "key": "ent",
+                    "operator": "ANY",
+                    "target": "_extension",
+                    "type": "lambda",
+                  },
+                },
+              ],
+              "isGroup": true,
+              "isReversed": true,
+              "operator": undefined,
+            }
+        `);
+    });
+
     test('complex lambda', () => {
         const complexLambda = parseFilter(`formats/any(f:f/FORMAT_ID eq 1) and not items/any()`);
         expect(complexLambda).toMatchInlineSnapshot(`
