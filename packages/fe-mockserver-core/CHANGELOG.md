@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.11
+
+### Patch Changes
+
+-   ececa87: Lambda expression containing methods a properly evaluated
+
 ## 1.2.10
 
 ### Patch Changes
