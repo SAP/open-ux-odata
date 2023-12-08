@@ -321,15 +321,22 @@ export class MockDataEntitySet implements EntitySetInterface {
         return isValid;
     }
 
-    createTransformation(identifier: string | FilterMethodCall): PreparedFunction {
+    createTransformation(identifier: string | FilterMethodCall, isProperty: boolean = false): PreparedFunction {
         if (typeof identifier === 'string') {
             const property = this.getProperty(identifier);
             if (property) {
                 return { fn: transformationFn('getData', identifier), type: property.type };
+            } else if (isProperty) {
+                return { fn: transformationFn('getData', identifier), type: 'Edm.String' };
             }
             return { fn: () => identifier, type: 'Edm.String' };
         } else {
-            const methodArgTransformed = identifier.methodArgs.map((methodArg) => this.createTransformation(methodArg));
+            const methodArgTransformed = identifier.methodArgs.map((methodArg, idx) =>
+                this.createTransformation(
+                    methodArg,
+                    identifier.propertyPaths && identifier.propertyPaths[idx] !== methodArg
+                )
+            );
             const comparisonType =
                 identifier.method === 'length' || identifier.method === 'indexof' ? 'Edm.Int16' : 'Edm.String';
             return { fn: makeTransformationFn(identifier.method, methodArgTransformed), type: comparisonType };
@@ -390,8 +397,12 @@ export class MockDataEntitySet implements EntitySetInterface {
                 const replaceValue = expression.propertyPath || expression.target;
                 if (typeof entry.identifier === 'string') {
                     entry.propertyPath = entry.identifier.replace(expression.key, replaceValue);
-                } else {
+                } else if (entry.identifier.target) {
                     entry.identifier.propertyPath = entry.identifier.target.replace(expression.key, replaceValue);
+                } else if (entry.identifier.method) {
+                    entry.identifier.propertyPaths = entry.identifier.methodArgs.map((methodArg: string) =>
+                        methodArg.replace(expression.key, replaceValue)
+                    );
                 }
             });
         }
