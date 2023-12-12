@@ -147,8 +147,8 @@ importers:
         specifier: ^3.4.35
         version: 3.4.35
       '@types/etag':
-        specifier: 1.8.2
-        version: 1.8.2
+        specifier: 1.8.3
+        version: 1.8.3
       '@types/express':
         specifier: 4.17.20
         version: 4.17.20
@@ -1458,8 +1458,8 @@ packages:
       '@types/node': 20.8.8
     dev: true
 
-  /@types/etag@1.8.2:
-    resolution: {integrity: sha512-z8Pbo2e+EZWMpuRPYSjhSivp2OEkqrMZBUfEAWlJC31WUCKveZ8ioWXHAC5BXRZfwxCBfYRhPij1YJHK1W6oDA==}
+  /@types/etag@1.8.3:
+    resolution: {integrity: sha512-QYHv9Yeh1ZYSMPQOoxY4XC4F1r+xRUiAriB303F4G6uBsT3KKX60DjiogvVv+2VISVDuJhcIzMdbjT+Bm938QQ==}
     dependencies:
       '@types/node': 20.8.8
     dev: true
