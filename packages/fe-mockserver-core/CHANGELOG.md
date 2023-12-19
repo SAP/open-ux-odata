@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.13
+
+### Patch Changes
+
+-   e632150: getReferentialConstraint was not working when there was an implementation file associated with a hierarchic entity
+
 ## 1.2.12
 
 ### Patch Changes
