@@ -1,0 +1,2529 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+<edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PDF',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="com.sap.vocabularies.PDF.v1" Alias="SAP__PDF"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+</edmx:Reference>
+<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+<edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+</edmx:Reference>
+<edmx:DataServices m:DataServiceVersion="2.0">
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="cds_ui_customer_contact_manage" xml:lang="en" sap:schema-version="1">
+<EntityType Name="BusinessPartnerQuickViewType" sap:label="Business Partner Quick View" sap:content-version="1">
+<Key>
+<PropertyRef Name="BusinessPartner"/>
+<PropertyRef Name="CollectionSegment"/>
+</Key>
+<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Business Partner" sap:quickinfo="Business Partner Number"/>
+<Property Name="CollectionSegment" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Segment" sap:quickinfo="Collection Segment"/>
+<Property Name="BusinessPartnerCategory" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="BP Category" sap:quickinfo="Business Partner Category"/>
+<Property Name="BusinessPartnerPerson" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Main Contact Person"/>
+<Property Name="CompleteAddress" Type="Edm.String" MaxLength="100" sap:label="Text" sap:quickinfo="Text (100 characters)" sap:sortable="false" sap:filterable="false"/>
+<Property Name="WebsiteURL" Type="Edm.String" MaxLength="1000" sap:label="Text of length 1000" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<Property Name="ContactCardPictureURL" Type="Edm.String" MaxLength="60" sap:label="Text" sap:quickinfo="Text Field of Length 60" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UICT_MainContact" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UICT_WebsiteURL" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<NavigationProperty Name="to_CollectionsMainContact" Relationship="cds_ui_customer_contact_manage.assoc_DCB20CEE25F2E89F9629A67618798C41" FromRole="FromRole_assoc_DCB20CEE25F2E89F9629A67618798C41" ToRole="ToRole_assoc_DCB20CEE25F2E89F9629A67618798C41"/>
+</EntityType>
+<EntityType Name="MainContactType" sap:label="Main Contact" sap:content-version="1">
+<Key>
+<PropertyRef Name="CollectionSegment"/>
+<PropertyRef Name="BusinessPartner"/>
+</Key>
+<Property Name="CollectionSegment" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Collection Segment"/>
+<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Business Partner" sap:quickinfo="Business Partner Number"/>
+<Property Name="BusinessPartnerPerson" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Main Contact Person"/>
+<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name" sap:quickinfo="First Name of Business Partner (Person)"/>
+<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name" sap:quickinfo="Last Name of Business Partner (Person)"/>
+<Property Name="BusinessPartnerName" Type="Edm.String" MaxLength="81" sap:label="Business Partner Name" sap:quickinfo="Name of Business Partner"/>
+<Property Name="PhoneNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Telephone" sap:quickinfo="Telephone No.: Dialing Code and Number" sap:semantics="tel"/>
+<Property Name="MobileNumber" Type="Edm.String" MaxLength="30" sap:label="Mobile" sap:quickinfo="Contact Card Mobile Phone Number" sap:semantics="tel"/>
+<Property Name="FaxNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Fax" sap:quickinfo="Fax Number: Dialing Code and Number" sap:semantics="tel"/>
+<Property Name="FaxCountry" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country/Region" sap:quickinfo="Country/Region for Telephone/Fax Number"/>
+<Property Name="EmailAddress" Type="Edm.String" MaxLength="241" sap:label="Email Address" sap:semantics="email"/>
+<Property Name="ContactPersonDepartment" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:text="ContactPersonDepartmentName" sap:label="Department"/>
+<Property Name="ContactPersonFunction" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:text="ContactPersonFunctionName" sap:label="Function" sap:quickinfo="Function of partner"/>
+<Property Name="ContactPersonDepartmentName" Type="Edm.String" MaxLength="20" sap:label="Description"/>
+<Property Name="ContactPersonFunctionName" Type="Edm.String" MaxLength="30" sap:label="Description"/>
+<Property Name="ContactPerson" Type="Edm.String" MaxLength="10" sap:display-format="NonNegative" sap:label="Contact Person" sap:quickinfo="Number of Contact Person"/>
+<Property Name="ContactCardPictureURL" Type="Edm.String" MaxLength="24"/>
+</EntityType>
+<EntityType Name="CustomerContactAttributeType" sap:label="Customer Contact" sap:content-version="1">
+<Key>
+<PropertyRef Name="CustomerContactUUID"/>
+<PropertyRef Name="DraftUUID"/>
+<PropertyRef Name="IsActiveEntity"/>
+</Key>
+<Property Name="CreateCollectionsEmail_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Edit_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="RenderEmailPreview_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="SendEmail_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="BusinessPartner_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="CollectionSegment_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="ContactPersonEmailAddress_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="ContactPersonFaxCountry_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="ContactPersonFaxNumber_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="ContactPersonName_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="ContactPersonPhoneNumber_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Update_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="to_CustomerContactRelation_oc" Type="Edm.Boolean" sap:label="Dynamic CbA-Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="CustomerContactUUID" Type="Edm.Guid" Nullable="false" sap:display-format="UpperCase" sap:label="Customer Contact Key" sap:heading="" sap:updatable="false"/>
+<Property Name="BusinessPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:field-control="BusinessPartner_fc" sap:text="BusinessPartnerName" sap:label="Business Partner" sap:quickinfo="Business Partner Number" sap:value-list="standard"/>
+<Property Name="CollectionSegment" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:field-control="CollectionSegment_fc" sap:text="CollectionSegmentName" sap:label="Collection Segment" sap:value-list="fixed-values"/>
+<Property Name="CollectionCustomerContact" Type="Edm.String" MaxLength="6" sap:display-format="NonNegative" sap:label="Contact ID"/>
+<Property Name="CollectionSpecialist" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="CollectionSpecialistUserName" sap:label="Collection Specialist" sap:creatable="false" sap:updatable="false" sap:value-list="standard"/>
+<Property Name="ContactPerson" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Contact Person ID" sap:quickinfo="Contact Person ID for Customer Contact" sap:value-list="standard"/>
+<Property Name="ContactPersonName" Type="Edm.String" MaxLength="40" sap:field-control="ContactPersonName_fc" sap:label="Contact Person Name" sap:quickinfo="Name of Contact Person for Customer Contact"/>
+<Property Name="ContactPersonEmailAddress" Type="Edm.String" MaxLength="128" sap:field-control="ContactPersonEmailAddress_fc" sap:label="Email" sap:quickinfo="Email Address of Contact Person at Business Partner" sap:semantics="email"/>
+<Property Name="ContactPersonPhoneNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:field-control="ContactPersonPhoneNumber_fc" sap:label="Telephone No." sap:quickinfo="Telephone Number of Contact Person at Business Partner" sap:semantics="tel"/>
+<Property Name="ContactPersonFaxNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:field-control="ContactPersonFaxNumber_fc" sap:label="Fax Number" sap:quickinfo="Fax Number of Contact Person at Business Partner" sap:semantics="tel"/>
+<Property Name="ContactPersonFaxCountry" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:field-control="ContactPersonFaxCountry_fc" sap:text="CountryName" sap:label="Ctry/Reg. of Fax No." sap:quickinfo="Country/Region of Fax Number" sap:value-list="standard"/>
+<Property Name="CustomerContactDirection" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:text="CustomerContactDirectionName" sap:label="Contact Direction" sap:value-list="fixed-values"/>
+<Property Name="CustomerContactType" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:text="CustomerContactTypeName" sap:label="Contact Type" sap:value-list="fixed-values"/>
+<Property Name="CustomerContactResult" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:text="CustomerContactResultText" sap:label="Result of Contact" sap:value-list="fixed-values"/>
+<Property Name="CustomerIsReached" Type="Edm.Boolean" sap:label="Customer was reached" sap:quickinfo="Customer Reached"/>
+<Property Name="CustomerContactDateTime" Type="Edm.DateTimeOffset" Precision="0" sap:label="Customer Contact Time"/>
+<Property Name="CustContactDurationInMinutes" Type="Edm.String" MaxLength="3" sap:display-format="NonNegative" sap:label="Duration" sap:quickinfo="Duration of Customer Contact"/>
+<Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="CreatedByUserName" sap:label="Created By" sap:creatable="false" sap:updatable="false" sap:value-list="standard"/>
+<Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="0" sap:filter-restriction="interval" sap:label="Created At" sap:creatable="false" sap:updatable="false"/>
+<Property Name="ChangedBy" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="ChangedByUserName" sap:label="Last Changed By" sap:creatable="false" sap:updatable="false" sap:value-list="standard"/>
+<Property Name="ChangedOnDateTime" Type="Edm.DateTimeOffset" Precision="0" sap:filter-restriction="interval" sap:label="Last Changed At" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CollectionWorklistItemUUID" Type="Edm.Guid" sap:label="Technical Key" sap:quickinfo="Key of Worklist Item"/>
+<Property Name="OrganizationBPName1" Type="Edm.String" MaxLength="40" sap:label="Organization Name 1" sap:quickinfo="Name 1 of organization" sap:creatable="false" sap:updatable="false"/>
+<Property Name="OrganizationBPName2" Type="Edm.String" MaxLength="40" sap:label="Organization Name 2" sap:quickinfo="Name 2 of organization" sap:creatable="false" sap:updatable="false"/>
+<Property Name="UICT_SpecialistFirstName" Type="Edm.String" MaxLength="40" sap:label="First Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="UICT_SpecialistLastName" Type="Edm.String" MaxLength="40" sap:label="Last Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="UICT_CreatedByFirstName" Type="Edm.String" MaxLength="40" sap:label="First Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="UICT_CreatedByLastName" Type="Edm.String" MaxLength="40" sap:label="Last Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="UICT_ChangedByFirstName" Type="Edm.String" MaxLength="40" sap:label="First Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="UICT_ChangedByLastName" Type="Edm.String" MaxLength="40" sap:label="Last Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="BusinessPartnerName" Type="Edm.String" MaxLength="81" sap:label="Business Partner Name" sap:quickinfo="Name of Business Partner" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CollectionSegmentName" Type="Edm.String" MaxLength="50" sap:label="Name of Segment" sap:quickinfo="Name of Collection Segment" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CreatedByUserName" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="Full Name of Person" sap:creatable="false" sap:updatable="false"/>
+<Property Name="ChangedByUserName" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="Full Name of Person" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CollectionSpecialistUserName" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="Full Name of Person" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CustomerContactDirectionName" Type="Edm.String" MaxLength="60" sap:label="Short Description" sap:quickinfo="Short Text for Fixed Values" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CustomerContactTypeName" Type="Edm.String" MaxLength="50" sap:label="Contact Type" sap:quickinfo="Name of Contact Type" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CustomerContactResultText" Type="Edm.String" MaxLength="50" sap:label="Result" sap:quickinfo="Name: Result of Customer Contact" sap:creatable="false" sap:updatable="false"/>
+<Property Name="CountryName" Type="Edm.String" MaxLength="50" sap:label="Country/Region Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="Customer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer" sap:quickinfo="Customer Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="HasDraftEntity" Type="Edm.Boolean" sap:label="Has Draft" sap:creatable="false" sap:updatable="false"/>
+<Property Name="DraftUUID" Type="Edm.Guid" Nullable="false" sap:label="Key" sap:creatable="false" sap:updatable="false"/>
+<Property Name="DraftEntityCreationDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Created On" sap:creatable="false" sap:updatable="false"/>
+<Property Name="DraftEntityLastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Last Changed On" sap:creatable="false" sap:updatable="false"/>
+<Property Name="HasActiveEntity" Type="Edm.Boolean" sap:label="Has active" sap:creatable="false" sap:updatable="false"/>
+<Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" sap:label="Is active" sap:creatable="false" sap:updatable="false"/>
+<NavigationProperty Name="DraftAdministrativeData" Relationship="cds_ui_customer_contact_manage.assoc_854C578BB06769DF6EEC7655B8ACF26D" FromRole="FromRole_assoc_854C578BB06769DF6EEC7655B8ACF26D" ToRole="ToRole_assoc_854C578BB06769DF6EEC7655B8ACF26D"/>
+<NavigationProperty Name="SiblingEntity" Relationship="cds_ui_customer_contact_manage.assoc_E471D743D1D99E2C8BBF09F12B99F587" FromRole="FromRole_assoc_E471D743D1D99E2C8BBF09F12B99F587" ToRole="ToRole_assoc_E471D743D1D99E2C8BBF09F12B99F587"/>
+<NavigationProperty Name="to_ChangedByCard" Relationship="cds_ui_customer_contact_manage.assoc_72645C648A291FB117493F6D398CBD30" FromRole="FromRole_assoc_72645C648A291FB117493F6D398CBD30" ToRole="ToRole_assoc_72645C648A291FB117493F6D398CBD30"/>
+<NavigationProperty Name="to_CollectionsBPQuickView" Relationship="cds_ui_customer_contact_manage.assoc_88474FCBA29B49080844F515B8BD8963" FromRole="FromRole_assoc_88474FCBA29B49080844F515B8BD8963" ToRole="ToRole_assoc_88474FCBA29B49080844F515B8BD8963"/>
+<NavigationProperty Name="to_CollectionSpecialistCard" Relationship="cds_ui_customer_contact_manage.assoc_4CAE12B51A413044989D0D5E2C44E692" FromRole="FromRole_assoc_4CAE12B51A413044989D0D5E2C44E692" ToRole="ToRole_assoc_4CAE12B51A413044989D0D5E2C44E692"/>
+<NavigationProperty Name="to_CreatedByCard" Relationship="cds_ui_customer_contact_manage.assoc_2B0DE538645C2D72C386976CD09D764B" FromRole="FromRole_assoc_2B0DE538645C2D72C386976CD09D764B" ToRole="ToRole_assoc_2B0DE538645C2D72C386976CD09D764B"/>
+<NavigationProperty Name="to_CustomerContactRelation" Relationship="cds_ui_customer_contact_manage.assoc_78482103CD9658EB88D70A44498E1B04" FromRole="FromRole_assoc_78482103CD9658EB88D70A44498E1B04" ToRole="ToRole_assoc_78482103CD9658EB88D70A44498E1B04"/>
+</EntityType>
+<EntityType Name="CustomerContactRelationType" sap:label="Customer Contact Relation" sap:content-version="1">
+<Key>
+<PropertyRef Name="CustomerContactUUID"/>
+<PropertyRef Name="CaseUUID"/>
+<PropertyRef Name="DraftUUID"/>
+<PropertyRef Name="IsActiveEntity"/>
+</Key>
+<Property Name="CustomerCntctFollowUpObjType_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="CustomerCntctFollowUpObjStatus_fc" Type="Edm.Byte" sap:label="Dyn. Field Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Delete_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Update_mc" Type="Edm.Boolean" sap:label="Dyn. Method Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="CustomerContactUUID" Type="Edm.Guid" Nullable="false" sap:display-format="UpperCase" sap:label="Customer Contact Key" sap:heading="" sap:updatable="false"/>
+<Property Name="CaseUUID" Type="Edm.Guid" Nullable="false" sap:display-format="UpperCase" sap:label="UUID" sap:quickinfo="UUID in Character Format" sap:updatable="false"/>
+<Property Name="CustomerCntctFollowUpObjType" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:field-control="CustomerCntctFollowUpObjType_fc" sap:label="Object Type" sap:quickinfo="Type of Object Arising from Customer Contact"/>
+<Property Name="CustomerCntctFollowUpObjStatus" Type="Edm.String" MaxLength="1" sap:display-format="NonNegative" sap:field-control="CustomerCntctFollowUpObjStatus_fc" sap:label="Validity" sap:quickinfo="Validity of Dispute Case or Promise to Pay"/>
+<Property Name="CaseID" Type="Edm.String" MaxLength="32" sap:display-format="UpperCase" sap:label="Character field, length 32" sap:heading="" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="BusinessObjectTypeName" Type="Edm.String" MaxLength="40" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="SemanticObject" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Char" sap:quickinfo="Character field of length 40" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="HasDraftEntity" Type="Edm.Boolean" sap:label="Has Draft" sap:creatable="false" sap:updatable="false"/>
+<Property Name="DraftUUID" Type="Edm.Guid" Nullable="false" sap:label="Key" sap:creatable="false" sap:updatable="false"/>
+<Property Name="ParentDraftUUID" Type="Edm.Guid" sap:label="Key" sap:creatable="false" sap:updatable="false"/>
+<Property Name="DraftEntityCreationDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Created On" sap:creatable="false" sap:updatable="false"/>
+<Property Name="DraftEntityLastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Last Changed On" sap:creatable="false" sap:updatable="false"/>
+<Property Name="HasActiveEntity" Type="Edm.Boolean" sap:label="Has active" sap:creatable="false" sap:updatable="false"/>
+<Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" sap:label="Is active" sap:creatable="false" sap:updatable="false"/>
+<NavigationProperty Name="to_Parent" Relationship="cds_ui_customer_contact_manage.assoc_78482103CD9658EB88D70A44498E1B04" FromRole="ToRole_assoc_78482103CD9658EB88D70A44498E1B04" ToRole="FromRole_assoc_78482103CD9658EB88D70A44498E1B04"/>
+<NavigationProperty Name="DraftAdministrativeData" Relationship="cds_ui_customer_contact_manage.assoc_42A99A1C6E75CD959862F577AC15E547" FromRole="FromRole_assoc_42A99A1C6E75CD959862F577AC15E547" ToRole="ToRole_assoc_42A99A1C6E75CD959862F577AC15E547"/>
+<NavigationProperty Name="SiblingEntity" Relationship="cds_ui_customer_contact_manage.assoc_DB59476DA7BD38E327D5831335151C29" FromRole="FromRole_assoc_DB59476DA7BD38E327D5831335151C29" ToRole="ToRole_assoc_DB59476DA7BD38E327D5831335151C29"/>
+</EntityType>
+<EntityType Name="ContactCardType" sap:label="User Contact Card" sap:content-version="1">
+<Key>
+<PropertyRef Name="ContactCardID"/>
+</Key>
+<Property Name="ContactCardID" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase" sap:text="UserDescription" sap:label="User" sap:quickinfo="User Name in User Master Record"/>
+<Property Name="PhoneNumber" Type="Edm.String" MaxLength="30" sap:label="Phone" sap:quickinfo="Contact Card Phone Number" sap:semantics="tel"/>
+<Property Name="MobilePhoneNumber" Type="Edm.String" MaxLength="30" sap:label="Mobile" sap:quickinfo="Contact Card Mobile Phone Number" sap:semantics="tel"/>
+<Property Name="FaxNumber" Type="Edm.String" MaxLength="30" sap:label="Fax" sap:quickinfo="Contact Card Fax Number" sap:semantics="tel"/>
+<Property Name="EmailAddress" Type="Edm.String" MaxLength="241" sap:label="E-Mail" sap:quickinfo="Contact Card E-Mail Address" sap:semantics="email"/>
+<Property Name="Department" Type="Edm.String" MaxLength="40" sap:label="Department"/>
+<Property Name="FunctionalTitleName" Type="Edm.String" MaxLength="40" sap:label="Function"/>
+<Property Name="UserDescription" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="Full Name of Person"/>
+<Property Name="UICT_PhoneNumber" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UICT_MobilePhoneNumber" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UICT_FaxNumber" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UICT_EmailAddress" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UICT_FunctionalTitleName" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UICT_Department" Type="Edm.Boolean" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:heading="" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="I_BusinessUserVHType" sap:label="Business User - Value Help" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="BusinessPartner"/>
+</Key>
+<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:text="PersonFullName" sap:label="Person ID" sap:quickinfo="Business Partner Number"/>
+<Property Name="BPIdentificationNumber" Type="Edm.String" MaxLength="60" sap:display-format="UpperCase" sap:label="Person External ID" sap:quickinfo="Identification Number"/>
+<Property Name="UserID" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="PersonFullName" sap:label="User ID"/>
+<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name" sap:quickinfo="First Name of Business Partner (Person)"/>
+<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name" sap:quickinfo="Last Name of Business Partner (Person)"/>
+<Property Name="DefaultEmailAddress" Type="Edm.String" MaxLength="241" sap:label="Email Address"/>
+<Property Name="PersonFullName" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="User Description"/>
+<Property Name="Building" Type="Edm.String" MaxLength="10" sap:label="Building" sap:quickinfo="Building (number or code)"/>
+<Property Name="RoomNumber" Type="Edm.String" MaxLength="10" sap:label="Room Number" sap:quickinfo="Room or Apartment Number"/>
+<Property Name="Department" Type="Edm.String" MaxLength="40" sap:label="Department"/>
+<Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Purpose Completed" sap:quickinfo="Business Purpose Completed Flag"/>
+<Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Authorization Group"/>
+</EntityType>
+<EntityType Name="CollectionContactType" sap:label="Collections Contact Value Help" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="RelationshipNumber"/>
+<PropertyRef Name="BusinessPartnerCompany"/>
+<PropertyRef Name="BusinessPartnerPerson"/>
+<PropertyRef Name="CollectionSegment"/>
+</Key>
+<Property Name="RelationshipNumber" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase" sap:label="BP Relationship No." sap:quickinfo="BP Relationship Number"/>
+<Property Name="BusinessPartnerCompany" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Business Partner" sap:quickinfo="Business Partner Number"/>
+<Property Name="BusinessPartnerPerson" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Business Partner" sap:quickinfo="Business Partner Number"/>
+<Property Name="CollectionSegment" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Collection Segment"/>
+<Property Name="ContactPerson" Type="Edm.String" MaxLength="10" sap:display-format="NonNegative" sap:label="Contact Person" sap:quickinfo="Number of Contact Person"/>
+<Property Name="ContactPersonName" Type="Edm.String" MaxLength="40" sap:label="Contact Person" sap:quickinfo="Contact Person Name"/>
+<Property Name="PhoneNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Telephone" sap:quickinfo="Telephone No.: Dialing Code and Number" sap:semantics="tel"/>
+<Property Name="MobileNumber" Type="Edm.String" MaxLength="30" sap:label="Mobile" sap:quickinfo="Contact Card Mobile Phone Number" sap:semantics="tel"/>
+<Property Name="FaxNumber" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Fax" sap:quickinfo="Fax Number: Dialing Code and Number" sap:semantics="tel"/>
+<Property Name="EmailAddress" Type="Edm.String" MaxLength="241" sap:label="Email Address" sap:semantics="email"/>
+<Property Name="ContactPersonDepartmentName" Type="Edm.String" MaxLength="20" sap:label="Department" sap:quickinfo="Description"/>
+<Property Name="ContactPersonFunctionName" Type="Edm.String" MaxLength="30" sap:label="Function" sap:quickinfo="Description"/>
+<Property Name="ContactPersonFunction" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:text="ContactPersonFunctionName" sap:label="Function" sap:quickinfo="Function of partner" sap:value-list="standard"/>
+<Property Name="ContactPersonDepartment" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:text="ContactPersonDepartmentName" sap:label="Department" sap:value-list="standard"/>
+<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name" sap:quickinfo="First Name of Business Partner (Person)"/>
+<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name" sap:quickinfo="Last Name of Business Partner (Person)"/>
+</EntityType>
+<EntityType Name="I_CollectionSegmentVHType" sap:label="Collection Segment Value Help" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="CollectionSegment"/>
+</Key>
+<Property Name="CollectionSegment" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:text="CollectionSegment_Text" sap:label="Collection Segment"/>
+<Property Name="CollectionSegment_Text" Type="Edm.String" MaxLength="50" sap:label="Name of Segment" sap:quickinfo="Name of Collection Segment" sap:creatable="false" sap:updatable="false"/>
+</EntityType>
+<EntityType Name="I_CollsBusinessPartnerVHType" sap:label="Business Partner VH" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="BusinessPartner"/>
+</Key>
+<Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:text="BusinessPartnerName" sap:label="Business Partner" sap:quickinfo="Business Partner Number"/>
+<Property Name="BusinessPartnerName" Type="Edm.String" MaxLength="81" sap:label="Business Partner Name"/>
+<Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country/Region Key" sap:value-list="standard"/>
+<Property Name="CityName" Type="Edm.String" MaxLength="40" sap:label="City"/>
+<Property Name="StreetName" Type="Edm.String" MaxLength="60" sap:label="Street"/>
+<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name" sap:quickinfo="First Name of Business Partner (Person)"/>
+<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name" sap:quickinfo="Last Name of Business Partner (Person)"/>
+<Property Name="GroupBusinessPartnerName1" Type="Edm.String" MaxLength="40" sap:label="Name 1" sap:quickinfo="Name 1 (group)"/>
+<Property Name="GroupBusinessPartnerName2" Type="Edm.String" MaxLength="40" sap:label="Name 2" sap:quickinfo="Name 2 (group)"/>
+<Property Name="OrganizationBPName1" Type="Edm.String" MaxLength="40" sap:label="Name 1" sap:quickinfo="Name 1 of organization"/>
+<Property Name="OrganizationBPName2" Type="Edm.String" MaxLength="40" sap:label="Name 2" sap:quickinfo="Name 2 of organization"/>
+</EntityType>
+<EntityType Name="I_ContactPersondepartmentType" sap:label="Value Help for Dept of Contact Person" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="ContactPersonDepartment"/>
+</Key>
+<Property Name="ContactPersonDepartment" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="ContactPersonDepartment_Text" sap:label="Department"/>
+<Property Name="ContactPersonDepartment_Text" Type="Edm.String" MaxLength="20" sap:label="Description" sap:creatable="false" sap:updatable="false"/>
+</EntityType>
+<EntityType Name="I_ContactPersonFunctionType" sap:label="Value Help for Func of Contact Person" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="ContactPersonFunction"/>
+</Key>
+<Property Name="ContactPersonFunction" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="ContactPersonFunction_Text" sap:label="Function" sap:quickinfo="Function of partner"/>
+<Property Name="ContactPersonFunction_Text" Type="Edm.String" MaxLength="30" sap:label="Description" sap:creatable="false" sap:updatable="false"/>
+</EntityType>
+<EntityType Name="I_CountryVHType" sap:label="Country/Region" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="Country"/>
+</Key>
+<Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:text="Country_Text" sap:label="Country/Region Key"/>
+<Property Name="Country_Text" Type="Edm.String" MaxLength="50" sap:label="Country/Region Name" sap:creatable="false" sap:updatable="false"/>
+<Property Name="Description" Type="Edm.String" MaxLength="50" sap:label="Country/Region Name"/>
+<Property Name="CountryThreeLetterISOCode" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ISO Code 3 Char" sap:quickinfo="ISO Country/Region Code 3 Characters"/>
+<Property Name="CountryThreeDigitISOCode" Type="Edm.String" MaxLength="3" sap:display-format="NonNegative" sap:label="ISO Code Num. 3" sap:quickinfo="ISO Country/Region Code Numeric 3-Characters"/>
+</EntityType>
+<EntityType Name="I_CustomerContactDirectionVHType" sap:label="Customer Contact Direction Value Help" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="CustomerContactDirection"/>
+</Key>
+<Property Name="CustomerContactDirection" Type="Edm.String" Nullable="false" MaxLength="1" sap:display-format="UpperCase" sap:text="CustomerContactDirection_Text" sap:label="Contact Directn" sap:quickinfo="Contact Direction"/>
+<Property Name="CustomerContactDirection_Text" Type="Edm.String" MaxLength="60" sap:label="Short Description" sap:quickinfo="Short Text for Fixed Values" sap:creatable="false" sap:updatable="false"/>
+</EntityType>
+<EntityType Name="I_CustomerContactResultVHType" sap:label="Customer Contact Result Value Help" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="CustomerContactResult"/>
+</Key>
+<Property Name="CustomerContactResult" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:text="CustomerContactResult_Text" sap:label="Result" sap:quickinfo="Result of Customer Contact"/>
+<Property Name="CustomerContactResult_Text" Type="Edm.String" MaxLength="50" sap:label="Result" sap:quickinfo="Name: Result of Customer Contact" sap:creatable="false" sap:updatable="false"/>
+</EntityType>
+<EntityType Name="I_CustomerContactTypeVHType" sap:label="Customer Contact Type Value Help" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="CustomerContactType"/>
+</Key>
+<Property Name="CustomerContactType" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:text="CustomerContactType_Text" sap:label="Contact Type"/>
+<Property Name="CustomerContactType_Text" Type="Edm.String" MaxLength="50" sap:label="Contact Type" sap:quickinfo="Name of Contact Type" sap:creatable="false" sap:updatable="false"/>
+</EntityType>
+<EntityType Name="I_DraftAdministrativeDataType" sap:label="Draft Administration Data" sap:content-version="1">
+<Key>
+<PropertyRef Name="DraftUUID"/>
+<PropertyRef Name="DraftEntityType"/>
+</Key>
+<Property Name="DraftUUID" Type="Edm.Guid" Nullable="false" sap:label="Draft (Technical ID)"/>
+<Property Name="DraftEntityType" Type="Edm.String" Nullable="false" MaxLength="30" sap:display-format="UpperCase" sap:label="Draft Entity ID"/>
+<Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:filter-restriction="interval" sap:label="Draft Created On"/>
+<Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="CreatedByUserDescription" sap:label="Draft Created By" sap:value-list="standard"/>
+<Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:filter-restriction="interval" sap:label="Draft Last Changed On"/>
+<Property Name="LastChangedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="LastChangedByUserDescription" sap:label="Draft Last Changed By" sap:value-list="standard"/>
+<Property Name="DraftAccessType" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Draft Access Type"/>
+<Property Name="ProcessingStartDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft In Process Since"/>
+<Property Name="InProcessByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="InProcessByUserDescription" sap:label="Draft In Process By"/>
+<Property Name="DraftIsKeptByUser" Type="Edm.Boolean" sap:label="Draft Is Kept By User"/>
+<Property Name="EnqueueStartDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Locked Since"/>
+<Property Name="DraftIsCreatedByMe" Type="Edm.Boolean" sap:label="Draft Created By Me"/>
+<Property Name="DraftIsLastChangedByMe" Type="Edm.Boolean" sap:label="Draft Last Changed By Me"/>
+<Property Name="DraftIsProcessedByMe" Type="Edm.Boolean" sap:label="Draft In Process By Me"/>
+<Property Name="CreatedByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Draft Created By (Description)"/>
+<Property Name="LastChangedByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Draft Last Changed By (Description)"/>
+<Property Name="InProcessByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Draft In Process By (Description)"/>
+</EntityType>
+<EntityType Name="I_DraftAdministrativeUserVHType" sap:label="Draft User" sap:value-list="true" sap:content-version="1">
+<Key>
+<PropertyRef Name="UserID"/>
+</Key>
+<Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase" sap:text="UserDescription" sap:label="User" sap:quickinfo="User Name in User Master Record"/>
+<Property Name="UserDescription" Type="Edm.String" MaxLength="80" sap:label="Description" sap:quickinfo="User Description"/>
+</EntityType>
+<EntityType Name="ContactCardUserType" sap:label="User Contact Card" sap:content-version="1">
+<Key>
+<PropertyRef Name="ContactCardID"/>
+</Key>
+<Property Name="ContactCardID" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase" sap:text="UserDescription" sap:label="User" sap:quickinfo="User Name in User Master Record"/>
+<Property Name="Person" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Person Number"/>
+<Property Name="BusinessPartnerUUID" Type="Edm.Guid" sap:label="BP GUID" sap:quickinfo="Business Partner GUID"/>
+<Property Name="FirstName" Type="Edm.String" MaxLength="40" sap:label="First Name"/>
+<Property Name="LastName" Type="Edm.String" MaxLength="40" sap:label="Last Name"/>
+<Property Name="FullName" Type="Edm.String" MaxLength="80" sap:label="Full Name" sap:quickinfo="Full Name of Person"/>
+<Property Name="UserDescription" Type="Edm.String" MaxLength="80" sap:label="Description" sap:quickinfo="User Description"/>
+<Property Name="AddressID" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Address Number"/>
+<Property Name="PhoneNumber" Type="Edm.String" MaxLength="30" sap:label="Phone" sap:quickinfo="Contact Card Phone Number" sap:semantics="tel"/>
+<Property Name="MobilePhoneNumber" Type="Edm.String" MaxLength="30" sap:label="Mobile" sap:quickinfo="Contact Card Mobile Phone Number" sap:semantics="tel"/>
+<Property Name="FaxNumber" Type="Edm.String" MaxLength="30" sap:label="Fax" sap:quickinfo="Contact Card Fax Number" sap:semantics="tel"/>
+<Property Name="EmailAddress" Type="Edm.String" MaxLength="241" sap:label="E-Mail" sap:quickinfo="Contact Card E-Mail Address" sap:semantics="email"/>
+<Property Name="Department" Type="Edm.String" MaxLength="40" sap:label="Department"/>
+<Property Name="FunctionalTitleName" Type="Edm.String" MaxLength="40" sap:label="Function"/>
+<Property Name="ContactCardRole" Type="Edm.String" MaxLength="7"/>
+<Property Name="ContactCardType" Type="Edm.String" MaxLength="4"/>
+<Property Name="ContactCardNavLinkSemanticObj" Type="Edm.String" MaxLength="4"/>
+<Property Name="ContactCardNavLinkQueryPart" Type="Edm.String" MaxLength="17"/>
+</EntityType>
+<EntityType Name="SAP__Currency" sap:content-version="1">
+<Key>
+<PropertyRef Name="CurrencyCode"/>
+</Key>
+<Property Name="CurrencyCode" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="Currency" sap:semantics="currency-code"/>
+<Property Name="ISOCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="ISO Code"/>
+<Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="15" sap:label="Short Text"/>
+<Property Name="DecimalPlaces" Type="Edm.Byte" Nullable="false" sap:label="Decimals"/>
+</EntityType>
+<EntityType Name="SAP__UnitOfMeasure" sap:content-version="1">
+<Key>
+<PropertyRef Name="UnitCode"/>
+</Key>
+<Property Name="UnitCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Internal UoM" sap:semantics="unit-of-measure"/>
+<Property Name="ISOCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="ISO Code"/>
+<Property Name="ExternalCode" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Commercial"/>
+<Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="Meas. Unit Text"/>
+<Property Name="DecimalPlaces" Type="Edm.Int16" sap:label="Decimal Places"/>
+</EntityType>
+<EntityType Name="SAP__DocumentDescription" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+</Key>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID"/>
+<Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
+<Property Name="CreatedAt" Type="Edm.DateTime" Nullable="false" Precision="0" sap:label="Time Stamp"/>
+<Property Name="FileName" Type="Edm.String" Nullable="false" MaxLength="256"/>
+<Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="256"/>
+<NavigationProperty Name="Format" Relationship="cds_ui_customer_contact_manage.to_format" FromRole="FromRole_to_format" ToRole="ToRole_to_format"/>
+<NavigationProperty Name="TableColumns" Relationship="cds_ui_customer_contact_manage.to_tablecolumns" FromRole="FromRole_to_tablecolumns" ToRole="ToRole_to_tablecolumns"/>
+<NavigationProperty Name="CoverPage" Relationship="cds_ui_customer_contact_manage.to_coverpage" FromRole="FromRole_to_coverpage" ToRole="ToRole_to_coverpage"/>
+<NavigationProperty Name="Signature" Relationship="cds_ui_customer_contact_manage.to_signature" FromRole="FromRole_to_signature" ToRole="ToRole_to_signature"/>
+<NavigationProperty Name="PDFStandard" Relationship="cds_ui_customer_contact_manage.to_pdfstandard" FromRole="FromRole_to_pdfstandard" ToRole="ToRole_to_pdfstandard"/>
+<NavigationProperty Name="Hierarchy" Relationship="cds_ui_customer_contact_manage.to_Hierarchy" FromRole="FromRole_to_Hierarchy" ToRole="ToRole_to_Hierarchy"/>
+<NavigationProperty Name="Header" Relationship="cds_ui_customer_contact_manage.to_header" FromRole="FromRole_to_header" ToRole="ToRole_to_header"/>
+<NavigationProperty Name="Footer" Relationship="cds_ui_customer_contact_manage.to_Footer" FromRole="FromRole_to_Footer" ToRole="ToRole_to_Footer"/>
+</EntityType>
+<EntityType Name="SAP__Format" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+</Key>
+<Property Name="FitToPage" Type="cds_ui_customer_contact_manage.SAP__FitToPage" Nullable="false"/>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="FontSize" Type="Edm.Int32" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Orientation" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="PaperSize" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="BorderSize" Type="Edm.Int32" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="MarginSize" Type="Edm.Int32" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="FontName" Type="Edm.String" Nullable="false" MaxLength="255" sap:label="Font Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Padding" Type="Edm.Int32" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__PDFStandard" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+</Key>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="UsePDFAConformance" Type="Edm.Boolean" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="DoEnableAccessibility" Type="Edm.Boolean" Nullable="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__TableColumns" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+<PropertyRef Name="Name"/>
+<PropertyRef Name="Header"/>
+</Key>
+<Property Name="Format" Type="cds_ui_customer_contact_manage.SAP__TableColumnFormat" Nullable="false"/>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Header" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="HorizontalAlignment" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__CoverPage" sap:content-version="1">
+<Key>
+<PropertyRef Name="Title"/>
+<PropertyRef Name="Id"/>
+<PropertyRef Name="Name"/>
+</Key>
+<Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__Signature" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+</Key>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="DoSign" Type="Edm.Boolean" Nullable="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Reason" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__Hierarchy" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+</Key>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="DistanceFromRootElement" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="DrillStateElement" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__PDFHeader" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+</Key>
+<Property Name="Right" Type="cds_ui_customer_contact_manage.SAP__HeaderFooterField" Nullable="false"/>
+<Property Name="Left" Type="cds_ui_customer_contact_manage.SAP__HeaderFooterField" Nullable="false"/>
+<Property Name="Center" Type="cds_ui_customer_contact_manage.SAP__HeaderFooterField" Nullable="false"/>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__PDFFooter" sap:content-version="1">
+<Key>
+<PropertyRef Name="Id"/>
+</Key>
+<Property Name="Right" Type="cds_ui_customer_contact_manage.SAP__HeaderFooterField" Nullable="false"/>
+<Property Name="Left" Type="cds_ui_customer_contact_manage.SAP__HeaderFooterField" Nullable="false"/>
+<Property Name="Center" Type="cds_ui_customer_contact_manage.SAP__HeaderFooterField" Nullable="false"/>
+<Property Name="Id" Type="Edm.Guid" Nullable="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityType Name="SAP__ValueHelp" sap:content-version="1">
+<Key>
+<PropertyRef Name="VALUEHELP"/>
+</Key>
+<Property Name="VALUEHELP" Type="Edm.String" Nullable="false"/>
+<Property Name="FIELD_VALUE" Type="Edm.String" Nullable="false" MaxLength="10"/>
+<Property Name="DESCRIPTION" Type="Edm.String"/>
+</EntityType>
+<ComplexType Name="D_CustCntctAttribCrteCollsEmlR">
+<Property Name="EmailUUID" Type="Edm.Guid" sap:label="UUID" sap:quickinfo="16 Byte UUID in 16 Bytes (Raw Format)"/>
+</ComplexType>
+<ComplexType Name="DummyFunctionImportResult">
+<Property Name="IsInvalid" Type="Edm.Boolean" sap:label="TRUE"/>
+</ComplexType>
+<ComplexType Name="DisputeEmailRenderOut">
+<Property Name="Subject" Type="Edm.String" MaxLength="255" sap:label="Email Subject"/>
+<Property Name="BodyHtml" Type="Edm.String" sap:label="Body HTML"/>
+</ComplexType>
+<ComplexType Name="SAP__FitToPage">
+<Property Name="ErrorRecoveryBehavior" Type="Edm.String" Nullable="false" MaxLength="8" sap:label="Error behavior" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="IsEnabled" Type="Edm.Boolean" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="MinimumFontSize" Type="Edm.Int32" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</ComplexType>
+<ComplexType Name="SAP__TableColumnFormat">
+<Property Name="DisplayFormat" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="IANATimezone" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="IANATimezoneProperty" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</ComplexType>
+<ComplexType Name="SAP__HeaderFooterField">
+<Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</ComplexType>
+<Association Name="assoc_42A99A1C6E75CD959862F577AC15E547" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactRelationType" Multiplicity="1" Role="FromRole_assoc_42A99A1C6E75CD959862F577AC15E547"/>
+<End Type="cds_ui_customer_contact_manage.I_DraftAdministrativeDataType" Multiplicity="0..1" Role="ToRole_assoc_42A99A1C6E75CD959862F577AC15E547"/>
+</Association>
+<Association Name="assoc_DB59476DA7BD38E327D5831335151C29" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactRelationType" Multiplicity="1" Role="FromRole_assoc_DB59476DA7BD38E327D5831335151C29"/>
+<End Type="cds_ui_customer_contact_manage.CustomerContactRelationType" Multiplicity="0..1" Role="ToRole_assoc_DB59476DA7BD38E327D5831335151C29"/>
+</Association>
+<Association Name="to_format" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_format"/>
+<End Type="cds_ui_customer_contact_manage.SAP__Format" Multiplicity="1" Role="ToRole_to_format"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_format">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_format">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="to_tablecolumns" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_tablecolumns"/>
+<End Type="cds_ui_customer_contact_manage.SAP__TableColumns" Multiplicity="*" Role="ToRole_to_tablecolumns"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_tablecolumns">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_tablecolumns">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="to_coverpage" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_coverpage"/>
+<End Type="cds_ui_customer_contact_manage.SAP__CoverPage" Multiplicity="*" Role="ToRole_to_coverpage"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_coverpage">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_coverpage">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="to_signature" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_signature"/>
+<End Type="cds_ui_customer_contact_manage.SAP__Signature" Multiplicity="1" Role="ToRole_to_signature"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_signature">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_signature">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="to_pdfstandard" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_pdfstandard"/>
+<End Type="cds_ui_customer_contact_manage.SAP__PDFStandard" Multiplicity="1" Role="ToRole_to_pdfstandard"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_pdfstandard">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_pdfstandard">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="to_Hierarchy" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_Hierarchy"/>
+<End Type="cds_ui_customer_contact_manage.SAP__Hierarchy" Multiplicity="1" Role="ToRole_to_Hierarchy"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_Hierarchy">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_Hierarchy">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="to_header" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_header"/>
+<End Type="cds_ui_customer_contact_manage.SAP__PDFHeader" Multiplicity="1" Role="ToRole_to_header"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_header">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_header">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="to_Footer" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_Footer"/>
+<End Type="cds_ui_customer_contact_manage.SAP__PDFFooter" Multiplicity="1" Role="ToRole_to_Footer"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_to_Footer">
+<PropertyRef Name="Id"/>
+</Principal>
+<Dependent Role="ToRole_to_Footer">
+<PropertyRef Name="Id"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="assoc_854C578BB06769DF6EEC7655B8ACF26D" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="1" Role="FromRole_assoc_854C578BB06769DF6EEC7655B8ACF26D"/>
+<End Type="cds_ui_customer_contact_manage.I_DraftAdministrativeDataType" Multiplicity="0..1" Role="ToRole_assoc_854C578BB06769DF6EEC7655B8ACF26D"/>
+</Association>
+<Association Name="assoc_E471D743D1D99E2C8BBF09F12B99F587" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="1" Role="FromRole_assoc_E471D743D1D99E2C8BBF09F12B99F587"/>
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="0..1" Role="ToRole_assoc_E471D743D1D99E2C8BBF09F12B99F587"/>
+</Association>
+<Association Name="assoc_72645C648A291FB117493F6D398CBD30" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="1" Role="FromRole_assoc_72645C648A291FB117493F6D398CBD30"/>
+<End Type="cds_ui_customer_contact_manage.ContactCardType" Multiplicity="0..1" Role="ToRole_assoc_72645C648A291FB117493F6D398CBD30"/>
+<ReferentialConstraint>
+<Principal Role="ToRole_assoc_72645C648A291FB117493F6D398CBD30">
+<PropertyRef Name="ContactCardID"/>
+</Principal>
+<Dependent Role="FromRole_assoc_72645C648A291FB117493F6D398CBD30">
+<PropertyRef Name="ChangedBy"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="assoc_88474FCBA29B49080844F515B8BD8963" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="1" Role="FromRole_assoc_88474FCBA29B49080844F515B8BD8963"/>
+<End Type="cds_ui_customer_contact_manage.BusinessPartnerQuickViewType" Multiplicity="0..1" Role="ToRole_assoc_88474FCBA29B49080844F515B8BD8963"/>
+<ReferentialConstraint>
+<Principal Role="ToRole_assoc_88474FCBA29B49080844F515B8BD8963">
+<PropertyRef Name="CollectionSegment"/>
+<PropertyRef Name="BusinessPartner"/>
+</Principal>
+<Dependent Role="FromRole_assoc_88474FCBA29B49080844F515B8BD8963">
+<PropertyRef Name="CollectionSegment"/>
+<PropertyRef Name="BusinessPartner"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="assoc_4CAE12B51A413044989D0D5E2C44E692" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="1" Role="FromRole_assoc_4CAE12B51A413044989D0D5E2C44E692"/>
+<End Type="cds_ui_customer_contact_manage.ContactCardType" Multiplicity="0..1" Role="ToRole_assoc_4CAE12B51A413044989D0D5E2C44E692"/>
+<ReferentialConstraint>
+<Principal Role="ToRole_assoc_4CAE12B51A413044989D0D5E2C44E692">
+<PropertyRef Name="ContactCardID"/>
+</Principal>
+<Dependent Role="FromRole_assoc_4CAE12B51A413044989D0D5E2C44E692">
+<PropertyRef Name="CollectionSpecialist"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="assoc_2B0DE538645C2D72C386976CD09D764B" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="1" Role="FromRole_assoc_2B0DE538645C2D72C386976CD09D764B"/>
+<End Type="cds_ui_customer_contact_manage.ContactCardType" Multiplicity="0..1" Role="ToRole_assoc_2B0DE538645C2D72C386976CD09D764B"/>
+<ReferentialConstraint>
+<Principal Role="ToRole_assoc_2B0DE538645C2D72C386976CD09D764B">
+<PropertyRef Name="ContactCardID"/>
+</Principal>
+<Dependent Role="FromRole_assoc_2B0DE538645C2D72C386976CD09D764B">
+<PropertyRef Name="CreatedByUser"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="assoc_78482103CD9658EB88D70A44498E1B04" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.CustomerContactAttributeType" Multiplicity="1" Role="FromRole_assoc_78482103CD9658EB88D70A44498E1B04">
+<OnDelete Action="Cascade"/>
+</End>
+<End Type="cds_ui_customer_contact_manage.CustomerContactRelationType" Multiplicity="*" Role="ToRole_assoc_78482103CD9658EB88D70A44498E1B04"/>
+<ReferentialConstraint>
+<Principal Role="FromRole_assoc_78482103CD9658EB88D70A44498E1B04">
+<PropertyRef Name="CustomerContactUUID"/>
+</Principal>
+<Dependent Role="ToRole_assoc_78482103CD9658EB88D70A44498E1B04">
+<PropertyRef Name="CustomerContactUUID"/>
+</Dependent>
+</ReferentialConstraint>
+</Association>
+<Association Name="assoc_DCB20CEE25F2E89F9629A67618798C41" sap:content-version="1">
+<End Type="cds_ui_customer_contact_manage.BusinessPartnerQuickViewType" Multiplicity="1" Role="FromRole_assoc_DCB20CEE25F2E89F9629A67618798C41"/>
+<End Type="cds_ui_customer_contact_manage.MainContactType" Multiplicity="0..1" Role="ToRole_assoc_DCB20CEE25F2E89F9629A67618798C41"/>
+</Association>
+<EntityContainer Name="cds_ui_customer_contact_manage_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx pdf">
+<EntitySet Name="SAP__Currencies" EntityType="cds_ui_customer_contact_manage.SAP__Currency" sap:content-version="1"/>
+<EntitySet Name="SAP__UnitsOfMeasure" EntityType="cds_ui_customer_contact_manage.SAP__UnitOfMeasure" sap:content-version="1"/>
+<EntitySet Name="SAP__MyDocumentDescriptions" EntityType="cds_ui_customer_contact_manage.SAP__DocumentDescription" sap:content-version="1"/>
+<EntitySet Name="SAP__FormatSet" EntityType="cds_ui_customer_contact_manage.SAP__Format" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__PDFStandardSet" EntityType="cds_ui_customer_contact_manage.SAP__PDFStandard" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__TableColumnsSet" EntityType="cds_ui_customer_contact_manage.SAP__TableColumns" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__CoverPageSet" EntityType="cds_ui_customer_contact_manage.SAP__CoverPage" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__SignatureSet" EntityType="cds_ui_customer_contact_manage.SAP__Signature" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__HierarchySet" EntityType="cds_ui_customer_contact_manage.SAP__Hierarchy" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__PDFHeaderSet" EntityType="cds_ui_customer_contact_manage.SAP__PDFHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__PDFFooterSet" EntityType="cds_ui_customer_contact_manage.SAP__PDFFooter" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="SAP__ValueHelpSet" EntityType="cds_ui_customer_contact_manage.SAP__ValueHelp" sap:content-version="1"/>
+<EntitySet Name="BusinessPartnerQuickView" EntityType="cds_ui_customer_contact_manage.BusinessPartnerQuickViewType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+<EntitySet Name="MainContact" EntityType="cds_ui_customer_contact_manage.MainContactType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+<EntitySet Name="CustomerContactAttribute" EntityType="cds_ui_customer_contact_manage.CustomerContactAttributeType" sap:searchable="true" sap:content-version="1" sap:deletable-path="Delete_mc" sap:updatable-path="Update_mc"/>
+<EntitySet Name="CustomerContactRelation" EntityType="cds_ui_customer_contact_manage.CustomerContactRelationType" sap:content-version="1" sap:deletable-path="Delete_mc" sap:updatable-path="Update_mc"/>
+<EntitySet Name="ContactCard" EntityType="cds_ui_customer_contact_manage.ContactCardType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="I_BusinessUserVH" EntityType="cds_ui_customer_contact_manage.I_BusinessUserVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="CollectionContact" EntityType="cds_ui_customer_contact_manage.CollectionContactType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_CollectionSegmentVH" EntityType="cds_ui_customer_contact_manage.I_CollectionSegmentVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_CollsBusinessPartnerVH" EntityType="cds_ui_customer_contact_manage.I_CollsBusinessPartnerVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_ContactPersondepartment" EntityType="cds_ui_customer_contact_manage.I_ContactPersondepartmentType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_ContactPersonFunction" EntityType="cds_ui_customer_contact_manage.I_ContactPersonFunctionType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_CountryVH" EntityType="cds_ui_customer_contact_manage.I_CountryVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_CustomerContactDirectionVH" EntityType="cds_ui_customer_contact_manage.I_CustomerContactDirectionVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_CustomerContactResultVH" EntityType="cds_ui_customer_contact_manage.I_CustomerContactResultVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_CustomerContactTypeVH" EntityType="cds_ui_customer_contact_manage.I_CustomerContactTypeVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="I_DraftAdministrativeData" EntityType="cds_ui_customer_contact_manage.I_DraftAdministrativeDataType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:addressable="false" sap:content-version="1"/>
+<EntitySet Name="I_DraftAdministrativeUserVH" EntityType="cds_ui_customer_contact_manage.I_DraftAdministrativeUserVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+<EntitySet Name="ContactCardUser" EntityType="cds_ui_customer_contact_manage.ContactCardUserType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:addressable="false" sap:content-version="1"/>
+<AssociationSet Name="to_FooterSet" Association="cds_ui_customer_contact_manage.to_Footer" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_Footer"/>
+<End EntitySet="SAP__PDFFooterSet" Role="ToRole_to_Footer"/>
+</AssociationSet>
+<AssociationSet Name="to_headerSet" Association="cds_ui_customer_contact_manage.to_header" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_header"/>
+<End EntitySet="SAP__PDFHeaderSet" Role="ToRole_to_header"/>
+</AssociationSet>
+<AssociationSet Name="to_formatSet" Association="cds_ui_customer_contact_manage.to_format" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_format"/>
+<End EntitySet="SAP__FormatSet" Role="ToRole_to_format"/>
+</AssociationSet>
+<AssociationSet Name="to_pdfstandardSet" Association="cds_ui_customer_contact_manage.to_pdfstandard" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_pdfstandard"/>
+<End EntitySet="SAP__PDFStandardSet" Role="ToRole_to_pdfstandard"/>
+</AssociationSet>
+<AssociationSet Name="assoc_2B0DE538645C2D72C386976CD09D764B" Association="cds_ui_customer_contact_manage.assoc_2B0DE538645C2D72C386976CD09D764B" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactAttribute" Role="FromRole_assoc_2B0DE538645C2D72C386976CD09D764B"/>
+<End EntitySet="ContactCard" Role="ToRole_assoc_2B0DE538645C2D72C386976CD09D764B"/>
+</AssociationSet>
+<AssociationSet Name="assoc_DCB20CEE25F2E89F9629A67618798C41" Association="cds_ui_customer_contact_manage.assoc_DCB20CEE25F2E89F9629A67618798C41" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="BusinessPartnerQuickView" Role="FromRole_assoc_DCB20CEE25F2E89F9629A67618798C41"/>
+<End EntitySet="MainContact" Role="ToRole_assoc_DCB20CEE25F2E89F9629A67618798C41"/>
+</AssociationSet>
+<AssociationSet Name="assoc_E471D743D1D99E2C8BBF09F12B99F587" Association="cds_ui_customer_contact_manage.assoc_E471D743D1D99E2C8BBF09F12B99F587" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactAttribute" Role="FromRole_assoc_E471D743D1D99E2C8BBF09F12B99F587"/>
+<End EntitySet="CustomerContactAttribute" Role="ToRole_assoc_E471D743D1D99E2C8BBF09F12B99F587"/>
+</AssociationSet>
+<AssociationSet Name="to_tablecolumnsSet" Association="cds_ui_customer_contact_manage.to_tablecolumns" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_tablecolumns"/>
+<End EntitySet="SAP__TableColumnsSet" Role="ToRole_to_tablecolumns"/>
+</AssociationSet>
+<AssociationSet Name="assoc_78482103CD9658EB88D70A44498E1B04" Association="cds_ui_customer_contact_manage.assoc_78482103CD9658EB88D70A44498E1B04" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactAttribute" Role="FromRole_assoc_78482103CD9658EB88D70A44498E1B04"/>
+<End EntitySet="CustomerContactRelation" Role="ToRole_assoc_78482103CD9658EB88D70A44498E1B04"/>
+</AssociationSet>
+<AssociationSet Name="to_signatureSet" Association="cds_ui_customer_contact_manage.to_signature" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_signature"/>
+<End EntitySet="SAP__SignatureSet" Role="ToRole_to_signature"/>
+</AssociationSet>
+<AssociationSet Name="assoc_72645C648A291FB117493F6D398CBD30" Association="cds_ui_customer_contact_manage.assoc_72645C648A291FB117493F6D398CBD30" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactAttribute" Role="FromRole_assoc_72645C648A291FB117493F6D398CBD30"/>
+<End EntitySet="ContactCard" Role="ToRole_assoc_72645C648A291FB117493F6D398CBD30"/>
+</AssociationSet>
+<AssociationSet Name="assoc_854C578BB06769DF6EEC7655B8ACF26D" Association="cds_ui_customer_contact_manage.assoc_854C578BB06769DF6EEC7655B8ACF26D" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactAttribute" Role="FromRole_assoc_854C578BB06769DF6EEC7655B8ACF26D"/>
+<End EntitySet="I_DraftAdministrativeData" Role="ToRole_assoc_854C578BB06769DF6EEC7655B8ACF26D"/>
+</AssociationSet>
+<AssociationSet Name="assoc_42A99A1C6E75CD959862F577AC15E547" Association="cds_ui_customer_contact_manage.assoc_42A99A1C6E75CD959862F577AC15E547" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactRelation" Role="FromRole_assoc_42A99A1C6E75CD959862F577AC15E547"/>
+<End EntitySet="I_DraftAdministrativeData" Role="ToRole_assoc_42A99A1C6E75CD959862F577AC15E547"/>
+</AssociationSet>
+<AssociationSet Name="assoc_4CAE12B51A413044989D0D5E2C44E692" Association="cds_ui_customer_contact_manage.assoc_4CAE12B51A413044989D0D5E2C44E692" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactAttribute" Role="FromRole_assoc_4CAE12B51A413044989D0D5E2C44E692"/>
+<End EntitySet="ContactCard" Role="ToRole_assoc_4CAE12B51A413044989D0D5E2C44E692"/>
+</AssociationSet>
+<AssociationSet Name="to_coverpageSet" Association="cds_ui_customer_contact_manage.to_coverpage" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_coverpage"/>
+<End EntitySet="SAP__CoverPageSet" Role="ToRole_to_coverpage"/>
+</AssociationSet>
+<AssociationSet Name="assoc_DB59476DA7BD38E327D5831335151C29" Association="cds_ui_customer_contact_manage.assoc_DB59476DA7BD38E327D5831335151C29" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactRelation" Role="FromRole_assoc_DB59476DA7BD38E327D5831335151C29"/>
+<End EntitySet="CustomerContactRelation" Role="ToRole_assoc_DB59476DA7BD38E327D5831335151C29"/>
+</AssociationSet>
+<AssociationSet Name="assoc_88474FCBA29B49080844F515B8BD8963" Association="cds_ui_customer_contact_manage.assoc_88474FCBA29B49080844F515B8BD8963" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="CustomerContactAttribute" Role="FromRole_assoc_88474FCBA29B49080844F515B8BD8963"/>
+<End EntitySet="BusinessPartnerQuickView" Role="ToRole_assoc_88474FCBA29B49080844F515B8BD8963"/>
+</AssociationSet>
+<AssociationSet Name="to_HierarchySet" Association="cds_ui_customer_contact_manage.to_Hierarchy" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+<End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_Hierarchy"/>
+<End EntitySet="SAP__HierarchySet" Role="ToRole_to_Hierarchy"/>
+</AssociationSet>
+<FunctionImport Name="CustomerContactAttributeActivate" ReturnType="cds_ui_customer_contact_manage.CustomerContactAttributeType" EntitySet="CustomerContactAttribute" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+</FunctionImport>
+<FunctionImport Name="CreateCollectionsEmail" ReturnType="cds_ui_customer_contact_manage.D_CustCntctAttribCrteCollsEmlR" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType" sap:applicable-path="CreateCollectionsEmail_ac">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+</FunctionImport>
+<FunctionImport Name="CustomerContactAttributeDiscard" ReturnType="cds_ui_customer_contact_manage.DummyFunctionImportResult" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+</FunctionImport>
+<FunctionImport Name="CustomerContactAttributeEdit" ReturnType="cds_ui_customer_contact_manage.CustomerContactAttributeType" EntitySet="CustomerContactAttribute" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType" sap:applicable-path="Edit_ac">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+<Parameter Name="PreserveChanges" Type="Edm.Boolean" Mode="In" Nullable="true" sap:label="TRUE"/>
+</FunctionImport>
+<FunctionImport Name="CustomerContactAttributePrepare" ReturnType="cds_ui_customer_contact_manage.DummyFunctionImportResult" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+</FunctionImport>
+<FunctionImport Name="RenderEmailPreview" ReturnType="cds_ui_customer_contact_manage.DisputeEmailRenderOut" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType" sap:applicable-path="RenderEmailPreview_ac">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+<Parameter Name="TemplateId" Type="Edm.String" Mode="In" MaxLength="30" sap:label="Email Template"/>
+<Parameter Name="TmplLanguage" Type="Edm.String" Mode="In" MaxLength="2" sap:label="Language Key"/>
+<Parameter Name="FreeText" Type="Edm.String" Mode="In" sap:label="User-Defined Text"/>
+</FunctionImport>
+<FunctionImport Name="CustomerContactAttributeResume" ReturnType="cds_ui_customer_contact_manage.DummyFunctionImportResult" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+</FunctionImport>
+<FunctionImport Name="SendEmail" ReturnType="cds_ui_customer_contact_manage.DummyFunctionImportResult" m:HttpMethod="POST" sap:action-for="cds_ui_customer_contact_manage.CustomerContactAttributeType" sap:applicable-path="SendEmail_ac">
+<Parameter Name="CustomerContactUUID" Type="Edm.Guid" Mode="In" sap:label="Customer Contact Key"/>
+<Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In" sap:label="Key"/>
+<Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" sap:label="Is active"/>
+<Parameter Name="Subject" Type="Edm.String" Mode="In" MaxLength="255" sap:label="Email Subject"/>
+<Parameter Name="BodyHtml" Type="Edm.String" Mode="In" sap:label="Body HTML"/>
+<Parameter Name="Recipients" Type="Edm.String" Mode="In" sap:label="E-Mail Recipients"/>
+<Parameter Name="CcRecipients" Type="Edm.String" Mode="In" sap:label="E-Mail Recipients"/>
+</FunctionImport>
+</EntityContainer>
+<Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.SchemaVersion" String="1.0.0"/>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CustomerContactAttribute">
+<Annotation Term="Common.DraftRoot">
+<Record>
+<PropertyValue Property="ActivationAction" String="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CustomerContactAttributeActivate"/>
+<PropertyValue Property="DiscardAction" String="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CustomerContactAttributeDiscard"/>
+<PropertyValue Property="EditAction" String="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CustomerContactAttributeEdit"/>
+<PropertyValue Property="PreparationAction" String="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CustomerContactAttributePrepare"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Path="Delete_mc"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.FilterRestrictions">
+<Record>
+<PropertyValue Property="NonFilterableProperties">
+<Collection>
+<PropertyPath>CreateCollectionsEmail_ac</PropertyPath>
+<PropertyPath>Edit_ac</PropertyPath>
+<PropertyPath>RenderEmailPreview_ac</PropertyPath>
+<PropertyPath>SendEmail_ac</PropertyPath>
+<PropertyPath>BusinessPartner_fc</PropertyPath>
+<PropertyPath>CollectionSegment_fc</PropertyPath>
+<PropertyPath>ContactPersonEmailAddress_fc</PropertyPath>
+<PropertyPath>ContactPersonFaxCountry_fc</PropertyPath>
+<PropertyPath>ContactPersonFaxNumber_fc</PropertyPath>
+<PropertyPath>ContactPersonName_fc</PropertyPath>
+<PropertyPath>ContactPersonPhoneNumber_fc</PropertyPath>
+<PropertyPath>Delete_mc</PropertyPath>
+<PropertyPath>Update_mc</PropertyPath>
+<PropertyPath>to_CustomerContactRelation_oc</PropertyPath>
+<PropertyPath>Customer</PropertyPath>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="FilterExpressionRestrictions">
+<Collection>
+<Record>
+<PropertyValue Property="Property" PropertyPath="CreationDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+<Record>
+<PropertyValue Property="Property" PropertyPath="ChangedOnDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+<Record>
+<PropertyValue Property="Property" PropertyPath="DraftEntityCreationDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+<Record>
+<PropertyValue Property="Property" PropertyPath="DraftEntityLastChangeDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="true"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.NavigationRestrictions">
+<Record>
+<PropertyValue Property="RestrictedProperties">
+<Collection>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="DraftAdministrativeData"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="SiblingEntity"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_ChangedByCard"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_CollectionSpecialistCard"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_CollectionsBPQuickView"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_CreatedByCard"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_CustomerContactRelation"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Path="to_CustomerContactRelation_oc"/>
+</Record>
+</PropertyValue>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="SAP__core.OptimisticConcurrency">
+<Collection/>
+</Annotation>
+<Annotation Term="Capabilities.SortRestrictions">
+<Record>
+<PropertyValue Property="NonSortableProperties">
+<Collection>
+<PropertyPath>CreateCollectionsEmail_ac</PropertyPath>
+<PropertyPath>Edit_ac</PropertyPath>
+<PropertyPath>RenderEmailPreview_ac</PropertyPath>
+<PropertyPath>SendEmail_ac</PropertyPath>
+<PropertyPath>BusinessPartner_fc</PropertyPath>
+<PropertyPath>CollectionSegment_fc</PropertyPath>
+<PropertyPath>ContactPersonEmailAddress_fc</PropertyPath>
+<PropertyPath>ContactPersonFaxCountry_fc</PropertyPath>
+<PropertyPath>ContactPersonFaxNumber_fc</PropertyPath>
+<PropertyPath>ContactPersonName_fc</PropertyPath>
+<PropertyPath>ContactPersonPhoneNumber_fc</PropertyPath>
+<PropertyPath>Delete_mc</PropertyPath>
+<PropertyPath>Update_mc</PropertyPath>
+<PropertyPath>to_CustomerContactRelation_oc</PropertyPath>
+<PropertyPath>Customer</PropertyPath>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="NonUpdatableNavigationProperties">
+<Collection>
+<PropertyPath>to_CustomerContactRelation</PropertyPath>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="Updatable" Path="Update_mc"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CustomerContactRelation">
+<Annotation Term="Common.DraftNode"/>
+<Annotation Term="Common.DraftActivationVia">
+<Collection>
+<String>cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CustomerContactAttribute</String>
+</Collection>
+</Annotation>
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Path="Delete_mc"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.FilterRestrictions">
+<Record>
+<PropertyValue Property="NonFilterableProperties">
+<Collection>
+<PropertyPath>CustomerCntctFollowUpObjType_fc</PropertyPath>
+<PropertyPath>CustomerCntctFollowUpObjStatus_fc</PropertyPath>
+<PropertyPath>Delete_mc</PropertyPath>
+<PropertyPath>Update_mc</PropertyPath>
+<PropertyPath>CaseID</PropertyPath>
+<PropertyPath>BusinessObjectTypeName</PropertyPath>
+<PropertyPath>SemanticObject</PropertyPath>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="FilterExpressionRestrictions">
+<Collection>
+<Record>
+<PropertyValue Property="Property" PropertyPath="DraftEntityCreationDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+<Record>
+<PropertyValue Property="Property" PropertyPath="DraftEntityLastChangeDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.NavigationRestrictions">
+<Record>
+<PropertyValue Property="RestrictedProperties">
+<Collection>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="DraftAdministrativeData"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="SiblingEntity"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_Parent"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="SAP__core.OptimisticConcurrency">
+<Collection/>
+</Annotation>
+<Annotation Term="Capabilities.SortRestrictions">
+<Record>
+<PropertyValue Property="NonSortableProperties">
+<Collection>
+<PropertyPath>CustomerCntctFollowUpObjType_fc</PropertyPath>
+<PropertyPath>CustomerCntctFollowUpObjStatus_fc</PropertyPath>
+<PropertyPath>Delete_mc</PropertyPath>
+<PropertyPath>Update_mc</PropertyPath>
+<PropertyPath>CaseID</PropertyPath>
+<PropertyPath>BusinessObjectTypeName</PropertyPath>
+<PropertyPath>SemanticObject</PropertyPath>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="NonUpdatableNavigationProperties">
+<Collection>
+<PropertyPath>to_Parent</PropertyPath>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="Updatable" Path="Update_mc"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/BusinessPartner">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Business Partner"/>
+<PropertyValue Property="CollectionPath" String="I_CollsBusinessPartnerVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="BusinessPartner"/>
+<PropertyValue Property="ValueListProperty" String="BusinessPartner"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="BusinessPartnerName"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Country"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CityName"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="StreetName"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.SemanticObject" String="BusinessPartner"/>
+<Annotation Term="Common.SemanticObjectMapping">
+<Collection>
+<Record>
+<PropertyValue Property="LocalProperty" PropertyPath="BusinessPartner"/>
+<PropertyValue Property="SemanticObjectProperty" String="BusinessPartner"/>
+</Record>
+<Record>
+<PropertyValue Property="LocalProperty" PropertyPath="CollectionSegment"/>
+<PropertyValue Property="SemanticObjectProperty" String="CollectionSegment"/>
+</Record>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CollectionSegment">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Collection Segment"/>
+<PropertyValue Property="CollectionPath" String="I_CollectionSegmentVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CollectionSegment"/>
+<PropertyValue Property="ValueListProperty" String="CollectionSegment"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CollectionSegment_Text"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CollectionSpecialist">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Collection Specialist"/>
+<PropertyValue Property="CollectionPath" String="I_BusinessUserVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CollectionSpecialist"/>
+<PropertyValue Property="ValueListProperty" String="UserID"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="BusinessPartner"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="BPIdentificationNumber"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="FirstName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="LastName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="DefaultEmailAddress"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="PersonFullName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Building"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="RoomNumber"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Department"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.SemanticObject" String="BusinessUser"/>
+<Annotation Term="Common.SemanticObjectMapping">
+<Collection>
+<Record>
+<PropertyValue Property="LocalProperty" PropertyPath="CollectionSpecialist"/>
+<PropertyValue Property="SemanticObjectProperty" String="ContactCardID"/>
+</Record>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/ContactPerson">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Contact Person"/>
+<PropertyValue Property="CollectionPath" String="CollectionContact"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPerson"/>
+<PropertyValue Property="ValueListProperty" String="ContactPerson"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPersonName"/>
+<PropertyValue Property="ValueListProperty" String="ContactPersonName"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPersonPhoneNumber"/>
+<PropertyValue Property="ValueListProperty" String="PhoneNumber"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="MobileNumber"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPersonFaxNumber"/>
+<PropertyValue Property="ValueListProperty" String="FaxNumber"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPersonEmailAddress"/>
+<PropertyValue Property="ValueListProperty" String="EmailAddress"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="ContactPersonDepartmentName"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="ContactPersonFunctionName"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+</Record>
+<Record Type="Common.ValueListParameterIn">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CollectionSegment"/>
+<PropertyValue Property="ValueListProperty" String="CollectionSegment"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+</Record>
+<Record Type="Common.ValueListParameterIn">
+<PropertyValue Property="LocalDataProperty" PropertyPath="BusinessPartner"/>
+<PropertyValue Property="ValueListProperty" String="BusinessPartnerCompany"/>
+<Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/ContactPersonFaxCountry">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Ctry/Reg. of Fax No."/>
+<PropertyValue Property="CollectionPath" String="I_CountryVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPersonFaxCountry"/>
+<PropertyValue Property="ValueListProperty" String="Country"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Country_Text"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CountryThreeLetterISOCode"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CountryThreeDigitISOCode"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CustomerContactDirection">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Contact Direction"/>
+<PropertyValue Property="CollectionPath" String="I_CustomerContactDirectionVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CustomerContactDirection"/>
+<PropertyValue Property="ValueListProperty" String="CustomerContactDirection"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CustomerContactDirection_Text"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.ValueListWithFixedValues"/>
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CustomerContactType">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Contact Type"/>
+<PropertyValue Property="CollectionPath" String="I_CustomerContactTypeVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CustomerContactType"/>
+<PropertyValue Property="ValueListProperty" String="CustomerContactType"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CustomerContactType_Text"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.ValueListWithFixedValues"/>
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CustomerContactResult">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Result of Contact"/>
+<PropertyValue Property="CollectionPath" String="I_CustomerContactResultVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CustomerContactResult"/>
+<PropertyValue Property="ValueListProperty" String="CustomerContactResult"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CustomerContactResult_Text"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.ValueListWithFixedValues"/>
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CreatedByUser">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Created By"/>
+<PropertyValue Property="CollectionPath" String="I_BusinessUserVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CreatedByUser"/>
+<PropertyValue Property="ValueListProperty" String="UserID"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="BusinessPartner"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="BPIdentificationNumber"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="FirstName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="LastName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="DefaultEmailAddress"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="PersonFullName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Building"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="RoomNumber"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Department"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.SemanticObject" String="BusinessUser"/>
+<Annotation Term="Common.SemanticObjectMapping">
+<Collection>
+<Record>
+<PropertyValue Property="LocalProperty" PropertyPath="CreatedByUser"/>
+<PropertyValue Property="SemanticObjectProperty" String="ContactCardID"/>
+</Record>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/ChangedBy">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Last Changed By"/>
+<PropertyValue Property="CollectionPath" String="I_BusinessUserVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ChangedBy"/>
+<PropertyValue Property="ValueListProperty" String="UserID"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="BusinessPartner"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="BPIdentificationNumber"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="FirstName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="LastName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="DefaultEmailAddress"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="PersonFullName"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Building"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="RoomNumber"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Department"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Common.SemanticObject" String="BusinessUser"/>
+<Annotation Term="Common.SemanticObjectMapping">
+<Collection>
+<Record>
+<PropertyValue Property="LocalProperty" PropertyPath="ChangedBy"/>
+<PropertyValue Property="SemanticObjectProperty" String="ContactCardID"/>
+</Record>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CollectionContactType/ContactPersonFunction">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Function"/>
+<PropertyValue Property="CollectionPath" String="I_ContactPersonFunction"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPersonFunction"/>
+<PropertyValue Property="ValueListProperty" String="ContactPersonFunction"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="ContactPersonFunction_Text"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CollectionContactType/ContactPersonDepartment">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Department"/>
+<PropertyValue Property="CollectionPath" String="I_ContactPersondepartment"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="ContactPersonDepartment"/>
+<PropertyValue Property="ValueListProperty" String="ContactPersonDepartment"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="ContactPersonDepartment_Text"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_CollsBusinessPartnerVHType/Country">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Country/Region Key"/>
+<PropertyValue Property="CollectionPath" String="I_CountryVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="Country"/>
+<PropertyValue Property="ValueListProperty" String="Country"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="Country_Text"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CountryThreeLetterISOCode"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="CountryThreeDigitISOCode"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_DraftAdministrativeDataType/CreatedByUser">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Draft Created By"/>
+<PropertyValue Property="CollectionPath" String="I_DraftAdministrativeUserVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="CreatedByUser"/>
+<PropertyValue Property="ValueListProperty" String="UserID"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="UserDescription"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_DraftAdministrativeDataType/LastChangedByUser">
+<Annotation Term="Common.ValueList">
+<Record>
+<PropertyValue Property="Label" String="Draft Last Changed By"/>
+<PropertyValue Property="CollectionPath" String="I_DraftAdministrativeUserVH"/>
+<PropertyValue Property="SearchSupported" Bool="true"/>
+<PropertyValue Property="Parameters">
+<Collection>
+<Record Type="Common.ValueListParameterInOut">
+<PropertyValue Property="LocalDataProperty" PropertyPath="LastChangedByUser"/>
+<PropertyValue Property="ValueListProperty" String="UserID"/>
+</Record>
+<Record Type="Common.ValueListParameterDisplayOnly">
+<PropertyValue Property="ValueListProperty" String="UserDescription"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities">
+<Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType">
+<Annotation Term="Common.ChangedAt" Path="ChangedOnDateTime"/>
+<Annotation Term="Common.ChangedBy" Path="ChangedBy"/>
+<Annotation Term="Common.CreatedAt" Path="CreationDateTime"/>
+<Annotation Term="Common.CreatedBy" Path="CreatedByUser"/>
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>CollectionSegment</PropertyPath>
+<PropertyPath>CustomerContactUUID</PropertyPath>
+<PropertyPath>BusinessPartner</PropertyPath>
+</Collection>
+</Annotation>
+<Annotation Term="Communication.Contact">
+<Record>
+<PropertyValue Property="fn" Path="CreatedByUserName"/>
+<PropertyValue Property="n">
+<Record>
+<PropertyValue Property="given" Path="UICT_SpecialistFirstName"/>
+<PropertyValue Property="given" Path="UICT_CreatedByFirstName"/>
+<PropertyValue Property="given" Path="UICT_ChangedByFirstName"/>
+<PropertyValue Property="surname" Path="UICT_SpecialistLastName"/>
+<PropertyValue Property="surname" Path="UICT_CreatedByLastName"/>
+<PropertyValue Property="surname" Path="UICT_ChangedByLastName"/>
+</Record>
+</PropertyValue>
+<PropertyValue Property="tel">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/fax"/>
+<PropertyValue Property="uri" Path="ContactPersonFaxNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/preferred"/>
+<PropertyValue Property="uri" Path="ContactPersonPhoneNumber"/>
+</Record>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="email">
+<Collection>
+<Record>
+<PropertyValue Property="address" Path="ContactPersonEmailAddress"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/to_CustomerContactRelation">
+<Annotation Term="Common.Composition"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/BusinessPartnerQuickView">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.FilterRestrictions">
+<Record>
+<PropertyValue Property="NonFilterableProperties">
+<Collection>
+<PropertyPath>CompleteAddress</PropertyPath>
+<PropertyPath>WebsiteURL</PropertyPath>
+<PropertyPath>ContactCardPictureURL</PropertyPath>
+<PropertyPath>UICT_MainContact</PropertyPath>
+<PropertyPath>UICT_WebsiteURL</PropertyPath>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.NavigationRestrictions">
+<Record>
+<PropertyValue Property="RestrictedProperties">
+<Collection>
+<Record>
+<PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_CollectionsMainContact"/>
+<PropertyValue Property="InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</PropertyValue>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.SortRestrictions">
+<Record>
+<PropertyValue Property="NonSortableProperties">
+<Collection>
+<PropertyPath>CompleteAddress</PropertyPath>
+<PropertyPath>WebsiteURL</PropertyPath>
+<PropertyPath>ContactCardPictureURL</PropertyPath>
+<PropertyPath>UICT_MainContact</PropertyPath>
+<PropertyPath>UICT_WebsiteURL</PropertyPath>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/CollectionContact">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/ContactCard">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.FilterRestrictions">
+<Record>
+<PropertyValue Property="NonFilterableProperties">
+<Collection>
+<PropertyPath>UICT_PhoneNumber</PropertyPath>
+<PropertyPath>UICT_MobilePhoneNumber</PropertyPath>
+<PropertyPath>UICT_FaxNumber</PropertyPath>
+<PropertyPath>UICT_EmailAddress</PropertyPath>
+<PropertyPath>UICT_FunctionalTitleName</PropertyPath>
+<PropertyPath>UICT_Department</PropertyPath>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.SortRestrictions">
+<Record>
+<PropertyValue Property="NonSortableProperties">
+<Collection>
+<PropertyPath>UICT_PhoneNumber</PropertyPath>
+<PropertyPath>UICT_MobilePhoneNumber</PropertyPath>
+<PropertyPath>UICT_FaxNumber</PropertyPath>
+<PropertyPath>UICT_EmailAddress</PropertyPath>
+<PropertyPath>UICT_FunctionalTitleName</PropertyPath>
+<PropertyPath>UICT_Department</PropertyPath>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/ContactCardUser">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_BusinessUserVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_CollectionSegmentVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_CollsBusinessPartnerVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_ContactPersonFunction">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_ContactPersondepartment">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_CountryVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_CustomerContactDirectionVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_CustomerContactResultVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_CustomerContactTypeVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_DraftAdministrativeData">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.FilterRestrictions">
+<Record>
+<PropertyValue Property="FilterExpressionRestrictions">
+<Collection>
+<Record>
+<PropertyValue Property="Property" PropertyPath="CreationDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+<Record>
+<PropertyValue Property="Property" PropertyPath="LastChangeDateTime"/>
+<PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/I_DraftAdministrativeUserVH">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities/MainContact">
+<Annotation Term="Capabilities.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="Capabilities.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CollectionCustomerContact">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CollectionWorklistItemUUID">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CustContactDurationInMinutes">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CustomerContactDateTime">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CustomerContactUUID">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+<Annotation Term="SAP__core.Immutable"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/CustomerIsReached">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactRelationType/CaseUUID">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+<Annotation Term="SAP__core.Immutable"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactRelationType/CustomerContactUUID">
+<Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Optional"/>
+<Annotation Term="SAP__core.Immutable"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_ContactPersonFunctionType">
+<Annotation Term="Common.SAPObjectNodeType">
+<Record>
+<PropertyValue Property="Name" String="BPContactPersonFunction"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_ContactPersondepartmentType">
+<Annotation Term="Common.SAPObjectNodeType">
+<Record>
+<PropertyValue Property="Name" String="BPContactPersonDepartment"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.BusinessPartnerQuickViewType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>CollectionSegment</PropertyPath>
+<PropertyPath>BusinessPartner</PropertyPath>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactRelationType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>BusinessObjectTypeName</PropertyPath>
+<PropertyPath>CustomerContactUUID</PropertyPath>
+<PropertyPath>CaseUUID</PropertyPath>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_CollectionSegmentVHType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>CollectionSegment</PropertyPath>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_CollsBusinessPartnerVHType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>BusinessPartner</PropertyPath>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_CustomerContactDirectionVHType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>CustomerContactDirection</PropertyPath>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_CustomerContactResultVHType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>CustomerContactResult</PropertyPath>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.I_CustomerContactTypeVHType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>CustomerContactType</PropertyPath>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.MainContactType">
+<Annotation Term="Common.SemanticKey">
+<Collection>
+<PropertyPath>BusinessPartner</PropertyPath>
+<PropertyPath>CollectionSegment</PropertyPath>
+</Collection>
+</Annotation>
+<Annotation Term="Communication.Contact">
+<Record>
+<PropertyValue Property="fn" Path="BusinessPartnerName"/>
+<PropertyValue Property="org" Path="ContactPersonFunctionName"/>
+<PropertyValue Property="role" Path="ContactPersonDepartmentName"/>
+<PropertyValue Property="n">
+<Record>
+<PropertyValue Property="given" Path="FirstName"/>
+<PropertyValue Property="surname" Path="LastName"/>
+</Record>
+</PropertyValue>
+<PropertyValue Property="photo" Path="ContactCardPictureURL"/>
+<PropertyValue Property="tel">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/fax"/>
+<PropertyValue Property="uri" Path="FaxNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/cell"/>
+<PropertyValue Property="uri" Path="MobileNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/work"/>
+<PropertyValue Property="uri" Path="PhoneNumber"/>
+</Record>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="email">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.ContactInformationType/work"/>
+<PropertyValue Property="address" Path="EmailAddress"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardType">
+<Annotation Term="Communication.Contact">
+<Record>
+<PropertyValue Property="fn" Path="UserDescription"/>
+<PropertyValue Property="org" Path="Department"/>
+<PropertyValue Property="role" Path="FunctionalTitleName"/>
+<PropertyValue Property="tel">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/fax"/>
+<PropertyValue Property="uri" Path="FaxNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/cell"/>
+<PropertyValue Property="uri" Path="MobilePhoneNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/work"/>
+<PropertyValue Property="uri" Path="PhoneNumber"/>
+</Record>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="email">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.ContactInformationType/work"/>
+<PropertyValue Property="address" Path="EmailAddress"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CollectionContactType">
+<Annotation Term="Communication.Contact">
+<Record>
+<PropertyValue Property="tel">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/fax"/>
+<PropertyValue Property="uri" Path="FaxNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/cell"/>
+<PropertyValue Property="uri" Path="MobileNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/preferred"/>
+<PropertyValue Property="uri" Path="PhoneNumber"/>
+</Record>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="email">
+<Collection>
+<Record>
+<PropertyValue Property="address" Path="EmailAddress"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardUserType">
+<Annotation Term="Communication.Contact">
+<Record>
+<PropertyValue Property="fn" Path="FullName"/>
+<PropertyValue Property="org" Path="Department"/>
+<PropertyValue Property="role" Path="FunctionalTitleName"/>
+<PropertyValue Property="n">
+<Record>
+<PropertyValue Property="given" Path="FirstName"/>
+<PropertyValue Property="surname" Path="LastName"/>
+</Record>
+</PropertyValue>
+<PropertyValue Property="tel">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/fax"/>
+<PropertyValue Property="uri" Path="FaxNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/cell"/>
+<PropertyValue Property="uri" Path="MobilePhoneNumber"/>
+</Record>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.PhoneType/work"/>
+<PropertyValue Property="uri" Path="PhoneNumber"/>
+</Record>
+</Collection>
+</PropertyValue>
+<PropertyValue Property="email">
+<Collection>
+<Record>
+<PropertyValue Property="type" EnumMember="Communication.ContactInformationType/work"/>
+<PropertyValue Property="address" Path="EmailAddress"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.MainContactType/EmailAddress">
+<Annotation Term="Communication.IsEmailAddress"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.MainContactType/PhoneNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.MainContactType/MobileNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.MainContactType/FaxNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/ContactPersonEmailAddress">
+<Annotation Term="Communication.IsEmailAddress"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/ContactPersonPhoneNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CustomerContactAttributeType/ContactPersonFaxNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardType/EmailAddress">
+<Annotation Term="Communication.IsEmailAddress"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardType/PhoneNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardType/MobilePhoneNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardType/FaxNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CollectionContactType/EmailAddress">
+<Annotation Term="Communication.IsEmailAddress"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CollectionContactType/PhoneNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CollectionContactType/MobileNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.CollectionContactType/FaxNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardUserType/EmailAddress">
+<Annotation Term="Communication.IsEmailAddress"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardUserType/PhoneNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardUserType/MobilePhoneNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.ContactCardUserType/FaxNumber">
+<Annotation Term="Communication.IsPhoneNumber"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.cds_ui_customer_contact_manage_Entities">
+<Annotation Term="Org.OData.Capabilities.V1.BatchSupport">
+<Record Type="Org.OData.Capabilities.V1.BatchSupportType">
+<PropertyValue Property="ReferencesAcrossChangeSetsSupported" Bool="true"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__CodeList.CurrencyCodes">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__Currencies"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__CodeList.UnitsOfMeasure">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__UnitsOfMeasure"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__PDF.Features">
+<Record>
+<PropertyValue Property="DocumentDescriptionReference" String="./$metadata"/>
+<PropertyValue Property="DocumentDescriptionCollection" String="SAP__MyDocumentDescriptions"/>
+<PropertyValue Property="ArchiveFormat" Bool="true"/>
+<PropertyValue Property="CoverPage" Bool="true"/>
+<PropertyValue Property="Signature" Bool="true"/>
+<PropertyValue Property="FitToPage" Bool="true"/>
+<PropertyValue Property="FontName" Bool="true"/>
+<PropertyValue Property="FontSize" Bool="true"/>
+<PropertyValue Property="Margin" Bool="true"/>
+<PropertyValue Property="Border" Bool="true"/>
+<PropertyValue Property="Padding" Bool="true"/>
+<PropertyValue Property="HeaderFooter" Bool="true"/>
+<PropertyValue Property="IANATimezoneFormat" Bool="true"/>
+<PropertyValue Property="ResultSizeDefault" Int="20000"/>
+<PropertyValue Property="ResultSizeMaximum" Int="20000"/>
+<PropertyValue Property="Treeview" Bool="true"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__CodeList.SAP__DocumentDescription">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__MyDocumentDescriptions"/>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__Currency/CurrencyCode">
+<Annotation Term="SAP__common.Text" Path="Text"/>
+<Annotation Term="SAP__common.UnitSpecificScale" Path="DecimalPlaces"/>
+<Annotation Term="SAP__CodeList.StandardCode" Path="ISOCode"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__UnitOfMeasure/UnitCode">
+<Annotation Term="SAP__common.Text" Path="Text"/>
+<Annotation Term="SAP__common.UnitSpecificScale" Path="DecimalPlaces"/>
+<Annotation Term="SAP__CodeList.StandardCode" Path="ISOCode"/>
+<Annotation Term="SAP__CodeList.ExternalCode" Path="ExternalCode"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__UnitOfMeasure">
+<Annotation Term="SAP__core.AlternateKeys">
+<Collection>
+<Record>
+<PropertyValue Property="Key">
+<Collection>
+<Record>
+<PropertyValue Property="Name" Path="ExternalCode"/>
+<PropertyValue Property="Alias" String="ExternalCode"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__DocumentDescription/CreatedBy">
+<Annotation Term="SAP__core.Computed"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__DocumentDescription/CreatedAt">
+<Annotation Term="SAP__core.Computed"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__DocumentDescription">
+<Annotation Term="SAP__capabilties.InsertRestrictions">
+<Record>
+<PropertyValue Property="Insertable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__capabilties.UpdateRestrictions">
+<Record>
+<PropertyValue Property="Updatable" Bool="false"/>
+<PropertyValue Property="QueryOptions">
+<Record>
+<PropertyValue Property="SelectSupported" Bool="true"/>
+</Record>
+</PropertyValue>
+</Record>
+</Annotation>
+<Annotation Term="SAP__capabilties.DeleteRestrictions">
+<Record>
+<PropertyValue Property="Deletable" Bool="false"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__capabilties.FilterRestrictions">
+<Record>
+<PropertyValue Property="FilterExpressionRestrictions">
+<Collection>
+<Record>
+<PropertyValue Property="Property" PropertyPath="Format/Orientation"/>
+<PropertyValue Property="AllowedExpressions" String="Multivalue"/>
+</Record>
+<Record>
+<PropertyValue Property="Property" PropertyPath="Format/PaperSize"/>
+<PropertyValue Property="AllowedExpressions" String="Multivalue"/>
+</Record>
+</Collection>
+</PropertyValue>
+</Record>
+</Annotation>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__Format/FitToPage/ErrorRecoveryBehavior">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="../../../../SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27ErrorRecoveryBehaviour%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__Format/FontName">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27FontName%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__Format/PaperSize">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27PaperSize%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__PDFHeader/Left">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27HeaderFooter%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__PDFHeader/Right">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27HeaderFooter%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__PDFHeader/Center">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27HeaderFooter%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__PDFFooter/Left">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27HeaderFooter%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__PDFFooter/Right">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27HeaderFooter%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__PDFFooter/Center">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27HeaderFooter%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__TableColumns/Format/Display_Format">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27TableColumnFormat%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__Format/Orientation">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27FontName%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="cds_ui_customer_contact_manage.SAP__TableColumns/HorizontalAlignment">
+<Annotation Term="SAP__common.ValueListReferences">
+<Record>
+<PropertyValue Property="Url" String="./$metadata"/>
+<PropertyValue Property="CollectionPath" String="SAP__ValueHelpSet?$filter=VALUEHELP%20eq%20%27HorizontalAlignment%27"/>
+</Record>
+</Annotation>
+<Annotation Term="SAP__common.ValueListWithFixedValues"/>
+</Annotations>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/sap/UI_CUSTOMER_CONTACT_MANAGE/$metadata"/>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="https://ccw-720.wdf.sap.corp:443/sap/opu/odata/sap/UI_CUSTOMER_CONTACT_MANAGE/$metadata"/>
+</Schema>
+</edmx:DataServices>
+</edmx:Edmx>

@@ -1086,6 +1086,17 @@ describe('Annotation Converter', () => {
         expect(hasCollision).toBeFalsy();
     });
 
+    it('Annotations v2 with isEmailAdress', async () => {
+        const parsedEDMX = parse(await loadFixture('v2/UI_CUSTOMER_CONTACT_MANAGE.xml'));
+        const parsedEDMX2 = parse(await loadFixture('v2/annotations.xml'));
+        const merged = merge(parsedEDMX, parsedEDMX2);
+        const convertedTypes = convert(merged);
+        expect(convertedTypes.entityTypes[1].entityProperties[10].annotations).not.toBeNull();
+        expect(
+            convertedTypes.entityTypes[1].entityProperties[10].annotations?.Communication?.IsEmailAddress?.valueOf()
+        ).toEqual(true);
+    });
+
     describe('Annotations on Action Parameters', () => {
         let convertedTypes: ConvertedMetadata;
 

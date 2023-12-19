@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+	<edmx:Reference Uri="/sap/opu/odata/sap/UI_CUSTOMER_CONTACT_MANAGE/$metadata">
+		<edmx:Include Alias="Metadata" Namespace="cds_ui_customer_contact_manage"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470974/Common.xml?api=v2">
+		<edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470968/UI.xml?api=v2">
+		<edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="CCT.UI_CUSTOMER_CONTACT_MANAGE">
+			<!--===============================================================================
+                Entity Type from chosen collection 
+                ================================================================================-->
+			<Annotations Target="Metadata.CustomerContactAttributeType">
+				<Annotation Term="UI.SelectionVariant" Qualifier="FinishedCustomerContacts">
+					<Record Type="UI.SelectionVariantType">
+						<PropertyValue Property="Text" String="Finished Customer Contacts"/>
+						<PropertyValue Property="ID" String="FinishedCustomerContacts"/>
+						<PropertyValue Property="SelectOptions">
+							<Collection>
+								<Record Type="UI.SelectOptionType">
+									<PropertyValue Property="PropertyName" PropertyPath="CustomerContactResult"/>
+									<PropertyValue Property="Ranges">
+										<Collection>
+											<Record Type="UI.SelectionRangeType">
+												<PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I"/>
+												<PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/NE"/>
+												<PropertyValue Property="Low" String=" "/>
+											</Record>
+										</Collection>
+									</PropertyValue>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.SideEffects" Qualifier="ContactPerson">
+					<Record Type="Common.SideEffectsType">
+						<PropertyValue Property="SourceProperties">
+							<Collection>
+								<PropertyPath>ContactPerson</PropertyPath>
+							</Collection>
+						</PropertyValue>
+						<PropertyValue Property="TargetProperties">
+							<Collection>
+								<PropertyPath>ContactPersonEmailAddress_fc</PropertyPath>
+								<PropertyPath>ContactPersonFaxCountry_fc</PropertyPath>
+								<PropertyPath>ContactPersonFaxNumber_fc</PropertyPath>
+								<PropertyPath>ContactPersonName_fc</PropertyPath>
+								<PropertyPath>ContactPersonPhoneNumber_fc</PropertyPath>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="Metadata.CustomerContactRelationType/CaseID">
+				<Annotation Term="Common.SemanticObject" Path="SemanticObject"/>
+			</Annotations>
+			<Annotations Target="Metadata.CustomerContactAttributeType/BusinessPartner">
+				<Annotation Term="Common.SemanticObject" Qualifier="Customer" String="Customer"/>
+				<Annotation Term="Common.SemanticObjectMapping" Qualifier="Customer">
+					<Collection>
+						<Record Type="Common.SemanticObjectMappingType">
+							<PropertyValue Property="LocalProperty" PropertyPath="Customer"/>
+							<PropertyValue Property="SemanticObjectProperty" String="Customer"/>
+						</Record>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="Metadata.CustomerContactAttributeType/CollectionSpecialist">
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="Metadata.CustomerContactAttributeType/CreatedByUser">
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="Metadata.CustomerContactAttributeType/ChangedBy">
+				<Annotation Term="Common.SemanticObjectMapping">
+					<Collection/>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="Metadata.CustomerContactAttributeType/CustomerIsReached">
+				<Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>
