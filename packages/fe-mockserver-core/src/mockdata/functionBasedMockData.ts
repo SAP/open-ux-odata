@@ -357,7 +357,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
         if (this._mockDataFn?.getReferentialConstraints) {
             return this._mockDataFn.getReferentialConstraints(_navigationProperty);
         } else {
-            return undefined;
+            return super.getReferentialConstraints(_navigationProperty);
         }
     }
 
