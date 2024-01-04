@@ -44,7 +44,7 @@ function addPathToExpandParameters(
     expandParameter: Record<string, ExpandDefinition>,
     lambdaVariable?: string,
     skipLast?: boolean,
-    removeFromResult = true
+    removeFromResult?: boolean
 ): Record<string, ExpandDefinition> {
     const segments = path.split('/');
     if (segments[0] === lambdaVariable) {
@@ -157,7 +157,7 @@ export default class ODataRequest {
                 this._addSelectedPropertiesForApplyExpression(apply, additionalSelectProperty);
             });
             for (const additionalSelectKey of Object.keys(additionalSelectProperty)) {
-                addPathToExpandParameters(additionalSelectKey, this.expandProperties, undefined, true, false);
+                addPathToExpandParameters(additionalSelectKey, this.expandProperties, undefined, true);
             }
 
             this.selectedProperties = Object.assign(this.selectedProperties, additionalSelectProperty);
@@ -576,7 +576,7 @@ export default class ODataRequest {
             lambdaVariable?: string
         ) {
             if (typeof expression.identifier === 'string') {
-                addPathToExpandParameters(expression.identifier, expandDefinitions, lambdaVariable, true);
+                addPathToExpandParameters(expression.identifier, expandDefinitions, lambdaVariable, true, true);
             } else if (expression.identifier?.type === 'lambda') {
                 const target = addPathToExpandParameters(
                     expression.identifier.target,

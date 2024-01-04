@@ -1,0 +1,38 @@
+[
+    {
+        "ID": "91452cbd-0c01-4c73-a4d3-a62c8d600101",
+        "code": "1.01",
+        "scope": "1",
+        "description": "Stationary combustion"
+    },
+    {
+        "ID": "91452cbd-0c01-4c73-a4d3-a62c8d600102",
+        "code": "1.02",
+        "scope": "1",
+        "description": "Mobile combustion"
+    },
+    {
+        "ID": "91452cbd-0c01-4c73-a4d3-a62c8d600201",
+        "code": "2.01",
+        "scope": "2",
+        "description": "Purchased electricity"
+    },
+    {
+        "ID": "91452cbd-0c01-4c73-a4d3-a62c8d600202",
+        "code": "2.02",
+        "scope": "2",
+        "description": "Purchased steam"
+    },
+    {
+        "ID": "91452cbd-0c01-4c73-a4d3-a62c8d600301",
+        "code": "3.01",
+        "scope": "3",
+        "description": "Purchased Goods and Services"
+    },
+    {
+        "ID": "91452cbd-0c01-4c73-a4d3-a62c8d600302",
+        "code": "3.02",
+        "scope": "3",
+        "description": "Capital Goods"
+    }
+]

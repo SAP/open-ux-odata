@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Credit",
+        "descr": "Credit",
+        "ID": "H"
+    },
+    {
+        "name": "Debit",
+        "descr": "Debit",
+        "ID": "S"
+    }
+]
