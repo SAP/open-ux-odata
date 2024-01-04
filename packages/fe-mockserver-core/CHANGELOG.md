@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.14
+
+### Patch Changes
+
+-   a2ecbcd: Fix an issue with applyDefinition not resolving navProperty values
+
 ## 1.2.13
 
 ### Patch Changes
