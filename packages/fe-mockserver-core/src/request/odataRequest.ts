@@ -581,7 +581,9 @@ export default class ODataRequest {
                 const target = addPathToExpandParameters(
                     expression.identifier.target,
                     expandDefinitions,
-                    lambdaVariable
+                    lambdaVariable,
+                    false,
+                    true
                 );
 
                 for (const subExpression of expression.identifier.expression.expressions) {

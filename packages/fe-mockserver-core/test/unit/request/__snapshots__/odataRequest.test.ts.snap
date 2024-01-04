@@ -8,7 +8,7 @@ exports[`OData Request It can parse $filter $filter=collection/any(d:d gt 0) 1`]
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
@@ -45,13 +45,13 @@ exports[`OData Request It can parse $filter $filter=collection/any(d:d/collectio
           "properties": {
             "*": true,
           },
-          "removeFromResult": undefined,
+          "removeFromResult": true,
         },
       },
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
@@ -114,7 +114,7 @@ exports[`OData Request It can parse $filter $filter=collection/any(d:d/single1/s
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
@@ -151,13 +151,13 @@ exports[`OData Request It can parse $filter $filter=collection/any(d:d/value gt 
           "properties": {
             "*": true,
           },
-          "removeFromResult": undefined,
+          "removeFromResult": true,
         },
       },
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
@@ -218,7 +218,7 @@ exports[`OData Request It can parse $filter $filter=collection/any(d:d/value gt 
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
@@ -259,7 +259,7 @@ exports[`OData Request It can parse $filter $filter=collection/any(d:d/value gt 
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
@@ -328,14 +328,14 @@ exports[`OData Request It can parse $filter $filter=collection1/any(d:d/value gt
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
     "collection2": {
       "expand": {},
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
@@ -388,7 +388,7 @@ exports[`OData Request It can parse $filter $filter=collection1/any(d:d/value1 g
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
     "collection2": {
       "expand": {},
@@ -478,19 +478,19 @@ exports[`OData Request It can parse $filter $filter=single1/single2/collection/a
               "properties": {
                 "*": true,
               },
-              "removeFromResult": undefined,
+              "removeFromResult": true,
             },
           },
           "properties": {
             "*": true,
           },
-          "removeFromResult": undefined,
+          "removeFromResult": true,
         },
       },
       "properties": {
         "*": true,
       },
-      "removeFromResult": undefined,
+      "removeFromResult": true,
     },
   },
   "filterDefinition": {
