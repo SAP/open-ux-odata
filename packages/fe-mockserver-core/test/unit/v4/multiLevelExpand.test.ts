@@ -1,5 +1,4 @@
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
-import { readFileSync } from 'fs';
 import { join } from 'path';
 import type { ServiceConfig } from '../../../src';
 import { DataAccess } from '../../../src/data/dataAccess';
@@ -17,7 +16,6 @@ describe('Data Access with $expand spanning multiple levels', () => {
     beforeAll(async () => {
         const baseDir = join(__dirname, 'services', 'multiLevelExpand');
 
-        const cdsContent = readFileSync(join(baseDir, 'service.cds'), 'utf8');
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
 
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
@@ -38,8 +36,34 @@ describe('Data Access with $expand spanning multiple levels', () => {
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchSnapshot();
     });
+    test('List: 1 level, 1:1 (with $select)', async () => {
+        const odataRequest = new ODataRequest({ method: 'GET', url: '/A?$expand=_toOne($select=value)' }, dataAccess);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchSnapshot();
+    });
     test('List: 1 level, 1:n', async () => {
         const odataRequest = new ODataRequest({ method: 'GET', url: '/A?$expand=_toMany' }, dataAccess);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchSnapshot();
+    });
+    test('List: 1 level, 1:n (with $select)', async () => {
+        const odataRequest = new ODataRequest({ method: 'GET', url: '/A?$expand=_toMany($select=value)' }, dataAccess);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchSnapshot();
+    });
+    test('List: 1 level, 1:n (with $filter)', async () => {
+        const odataRequest = new ODataRequest(
+            { method: 'GET', url: "/A?$expand=_toMany($filter=value eq 'B2')" },
+            dataAccess
+        );
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchSnapshot();
+    });
+    test('List: 1 level, 1:n (with $orderby)', async () => {
+        const odataRequest = new ODataRequest(
+            { method: 'GET', url: '/A?$expand=_toMany($orderby=value desc)' },
+            dataAccess
+        );
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchSnapshot();
     });
@@ -48,6 +72,15 @@ describe('Data Access with $expand spanning multiple levels', () => {
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchSnapshot();
     });
+    test('List: 1 level, 1:n with no ref constraints (with $select)', async () => {
+        const odataRequest = new ODataRequest(
+            { method: 'GET', url: '/A?$expand=_toComposition($select=value)' },
+            dataAccess
+        );
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchSnapshot();
+    });
+
     test('List: 2 levels, 1:1 --> 1:1', async () => {
         const odataRequest = new ODataRequest({ method: 'GET', url: '/A?$expand=_toOne($expand=_toOne)' }, dataAccess);
         const data = await dataAccess.getData(odataRequest);

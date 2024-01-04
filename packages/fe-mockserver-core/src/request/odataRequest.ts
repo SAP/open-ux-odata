@@ -1,22 +1,19 @@
-import balanced from 'balanced-match';
 import type { IncomingHttpHeaders } from 'http';
-import merge from 'lodash.merge';
-import { parse } from 'query-string';
 import type { URLSearchParams } from 'url';
 import { URL } from 'url';
-import { ExecutionError } from '../data/common';
+import type { ExecutionError } from '../data/common';
 import type { DataAccess } from '../data/dataAccess';
 import type { TransformationDefinition } from './applyParser';
 import { parseApply } from './applyParser';
 import type { FilterExpression } from './filterParser';
 import { parseFilter } from './filterParser';
+import type { ExpandDefinition } from './parser/$expand';
+import { addExpandForFilters, addExpandForOrderby, addPathToExpandParameters, parse$expand } from './parser/$expand';
+import type { OrderByDefinition } from './parser/$orderby';
+import { parse$orderby } from './parser/$orderby';
+import type { SelectDefinition } from './parser/$select';
+import { parse$select } from './parser/$select';
 import { parseSearch } from './searchParser';
-
-export type ExpandDefinition = {
-    expand: Record<string, ExpandDefinition>;
-    properties: Record<string, boolean>;
-    removeFromResult?: boolean;
-};
 
 type ODataRequestContent = {
     body?: any;
@@ -27,11 +24,6 @@ type ODataRequestContent = {
     contentId?: string;
 };
 
-type OrderByDefinition = {
-    name: string;
-    direction: 'asc' | 'desc';
-};
-
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
 export type QueryPath = {
@@ -39,33 +31,12 @@ export type QueryPath = {
     keys: KeyDefinitions;
 };
 
-function addPathToExpandParameters(
-    path: string,
-    expandParameter: Record<string, ExpandDefinition>,
-    lambdaVariable?: string,
-    skipLast?: boolean,
-    removeFromResult?: boolean
-): Record<string, ExpandDefinition> {
-    const segments = path.split('/');
-    if (segments[0] === lambdaVariable) {
-        segments.shift();
-    }
-
-    if (skipLast) {
-        segments.pop();
-    }
-
-    let target = expandParameter;
-    for (const segment of segments) {
-        target[segment] = target[segment] ?? {
-            expand: {},
-            properties: { '*': true },
-            removeFromResult: removeFromResult
-        };
-        target = target[segment].expand;
-    }
-    return target;
-}
+type SystemQueryOptions = {
+    $expand: Record<string, ExpandDefinition>;
+    $select: SelectDefinition;
+    $filter: FilterExpression | undefined;
+    $orderby: OrderByDefinition[];
+};
 
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
@@ -80,7 +51,7 @@ export default class ODataRequest {
     public maxElements: number;
     public applyDefinition?: TransformationDefinition[];
     public filterDefinition?: FilterExpression;
-    public selectedProperties: Record<string, boolean>;
+    public selectedProperties: SelectDefinition;
     public expandProperties: Record<string, ExpandDefinition> = {};
     public responseHeaders: Record<string, string> = {};
     public globalResponseHeaders: Record<string, string> = {};
@@ -94,6 +65,15 @@ export default class ODataRequest {
     private allParams: URLSearchParams;
     private context: string;
     private messages: any[] = [];
+
+    public get systemQueryOptions(): SystemQueryOptions {
+        return {
+            $expand: this.expandProperties,
+            $select: this.selectedProperties,
+            $filter: this.filterDefinition,
+            $orderby: this.orderBy
+        };
+    }
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
@@ -112,7 +92,7 @@ export default class ODataRequest {
     private parseParameters(searchParams: URLSearchParams) {
         this.allParams = searchParams;
         this.searchQuery = parseSearch(searchParams.get('$search'));
-        this.orderBy = this.parseOrderBy(searchParams.get('$orderby'));
+        this.orderBy = parse$orderby(searchParams.get('$orderby'));
         this.startIndex = parseInt(searchParams.get('$skip') || '', 10);
         this.skipLocation = searchParams.get('sap-skiplocation');
         this.skipContext = parseInt(searchParams.get('sap-skipcontext') || '', 10);
@@ -127,29 +107,15 @@ export default class ODataRequest {
         this.filterDefinition = parseFilter(searchParams.get('$filter'));
         this.countRequested = searchParams.has('$count');
         this.isCountQuery = this.context.endsWith('$count');
-        const selectParams = searchParams.get('$select');
-        if (selectParams) {
-            this.selectedProperties = {};
-            const props = selectParams.split(',');
-            props.forEach((property: string) => {
-                if (property.length > 0) {
-                    this.selectedProperties[property.split('/')[0]] = true;
-                }
-            });
-        } else {
-            this.selectedProperties = { '*': true };
-        }
+        this.selectedProperties = parse$select(searchParams.get('$select'));
 
-        const expandParams = searchParams.get('$expand');
-        if (expandParams) {
-            const expandParameters = this.parseExpand(expandParams);
-            this.expandProperties = expandParameters.expand;
-            this.selectedProperties = Object.assign(this.selectedProperties, expandParameters.properties || {});
-        }
+        const expandParameters = parse$expand(this.dataAccess.getMetadata().getVersion(), searchParams.get('$expand'));
+        this.expandProperties = expandParameters.expand;
 
-        if (this.filterDefinition) {
-            this.addExpandForFilters(this.filterDefinition); // implicitly expand the properties used in filters
-        }
+        addExpandForFilters(this.expandProperties, this.filterDefinition); // implicitly expand the properties used in filters
+        addExpandForOrderby(this.expandProperties, this.orderBy); // implicitly expand the properties used in orderby clauses
+
+        this.selectedProperties = Object.assign(this.selectedProperties, expandParameters.properties);
 
         if (this.applyDefinition) {
             const additionalSelectProperty: Record<string, boolean> = {};
@@ -182,7 +148,7 @@ export default class ODataRequest {
                 });
                 break;
             case 'filter':
-                this.addExpandForFilters(applyTransformation.filterExpr);
+                addExpandForFilters(this.expandProperties, applyTransformation.filterExpr);
                 break;
             case 'orderBy':
                 applyTransformation.orderBy.forEach((orderByProperty) => {
@@ -208,123 +174,6 @@ export default class ODataRequest {
                 });
                 break;
         }
-    }
-
-    /**
-     * Split a list of properties that can contain sub-requests into an array.
-     *
-     * @param propertiesQuery OData properties request
-     * @param delimiter Property delimiter
-     * @returns an array of string with the properties
-     */
-    private splitProperties(propertiesQuery: string, delimiter = ','): string[] {
-        const properties = [];
-        let nestingDepth = 0,
-            startIndex = 0,
-            index = 0;
-
-        for (; index < propertiesQuery.length; index++) {
-            const char = propertiesQuery[index];
-            if (char === delimiter && nestingDepth === 0) {
-                // top-level delimiter — end of property
-                if (index - startIndex > 0) {
-                    properties.push(propertiesQuery.substring(startIndex, index));
-                }
-                startIndex = index + 1;
-            } else if (char === '(') {
-                nestingDepth++;
-            } else if (char === ')') {
-                nestingDepth--;
-            }
-        }
-
-        if (index - startIndex > 0) {
-            properties.push(propertiesQuery.substring(startIndex));
-        }
-
-        if (nestingDepth !== 0) {
-            throw new ExecutionError(
-                `Too many ${nestingDepth > 0 ? 'opening' : 'closing'} parentheses: ${propertiesQuery}`,
-                400,
-                undefined,
-                false
-            );
-        }
-
-        return properties;
-    }
-
-    private parseExpand(expandParameters: string): ExpandDefinition {
-        const props = this.splitProperties(expandParameters);
-        return props.reduce(
-            (reducer: ExpandDefinition, property) => {
-                if (this.dataAccess.getMetadata().getVersion() === '4.0') {
-                    const { pre: name, body: parameters } = balanced('(', ')', property) ?? { pre: property, body: '' };
-                    const parameterSplit = this.splitProperties(parameters, ';');
-                    const queryPart = parameterSplit.reduce((acc: {}, split) => Object.assign(acc, parse(split)), {});
-                    const expand = queryPart['$expand']
-                        ? this.parseExpand(queryPart['$expand'] as string)
-                        : { expand: {}, properties: {} };
-
-                    const selectProperties: any = {};
-                    if (queryPart['$select']) {
-                        // explicit $select
-                        (queryPart['$select'] as string)
-                            .split(',')
-                            .forEach((propertyName) => (selectProperties[propertyName] = true));
-                    } else {
-                        selectProperties['*'] = true;
-                    }
-
-                    Object.keys(expand.properties).forEach((expandName) => {
-                        selectProperties[expandName] = true;
-                    });
-
-                    reducer.expand[name] = {
-                        expand: expand.expand,
-                        properties: selectProperties
-                    };
-                    reducer.properties[name] = true;
-                    return reducer;
-                } else {
-                    const propertySplit = property.split('/');
-                    const name = propertySplit[0];
-                    const expand = propertySplit[1]
-                        ? this.parseExpand(propertySplit.slice(1).join('/'))
-                        : { expand: {}, properties: {} };
-                    if (!reducer.expand[name]) {
-                        reducer.expand[name] = {
-                            expand: expand.expand,
-                            properties: {
-                                '*': true
-                            }
-                        };
-                    } else {
-                        reducer.expand[name].expand = merge({}, reducer.expand[name].expand, expand.expand);
-                    }
-
-                    reducer.properties[name] = true;
-                    return reducer;
-                }
-            },
-            { expand: {}, properties: {} }
-        );
-    }
-
-    private parseOrderBy(orderByParameters: string | null): OrderByDefinition[] {
-        if (!orderByParameters) {
-            return [];
-        }
-        const orderByParams = orderByParameters.split(',');
-        const orderByDefinition: OrderByDefinition[] = [];
-        orderByParams.forEach((param) => {
-            const [paramName, direction] = param.split(' ');
-            const realDirection: 'asc' | 'desc' = ['asc', 'desc'].includes(direction)
-                ? (direction as 'asc' | 'desc')
-                : 'asc';
-            orderByDefinition.push({ name: paramName, direction: realDirection });
-        });
-        return orderByDefinition;
     }
 
     private parsePath(path: string): QueryPath[] {
@@ -567,33 +416,5 @@ export default class ODataRequest {
 
     public setDataCount(dataCount: number) {
         this.dataCount = dataCount;
-    }
-
-    private addExpandForFilters(filterDefinition: FilterExpression) {
-        function expand(
-            expression: FilterExpression,
-            expandDefinitions: Record<string, ExpandDefinition>,
-            lambdaVariable?: string
-        ) {
-            if (typeof expression.identifier === 'string') {
-                addPathToExpandParameters(expression.identifier, expandDefinitions, lambdaVariable, true, true);
-            } else if (expression.identifier?.type === 'lambda') {
-                const target = addPathToExpandParameters(
-                    expression.identifier.target,
-                    expandDefinitions,
-                    lambdaVariable,
-                    false,
-                    true
-                );
-
-                for (const subExpression of expression.identifier.expression.expressions) {
-                    expand(subExpression, target, expression.identifier.key);
-                }
-            }
-        }
-
-        for (const expression of filterDefinition.expressions) {
-            expand(expression, this.expandProperties);
-        }
     }
 }

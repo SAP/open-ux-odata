@@ -55,7 +55,7 @@ export class ODataMetadata {
         this.ETag = ETag;
     }
 
-    public getVersion(): string {
+    public getVersion(): '2.0' | '4.0' {
         return this.metadata.version === '1.0' ? '2.0' : '4.0';
     }
 
