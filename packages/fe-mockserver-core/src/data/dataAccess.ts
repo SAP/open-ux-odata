@@ -26,14 +26,8 @@ import type { FilterExpression } from '../request/filterParser';
 import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
 import type { IncomingMessageWithTenant } from '../router/serviceRouter';
-import {
-    DataAccessInterface,
-    EntitySetInterface,
-    ExecutionError,
-    getData,
-    setData,
-    _getDateTimeOffset
-} from './common';
+import type { DataAccessInterface, EntitySetInterface } from './common';
+import { ExecutionError, getData, setData, _getDateTimeOffset } from './common';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
 import { MockDataEntitySet } from './entitySets/entitySet';

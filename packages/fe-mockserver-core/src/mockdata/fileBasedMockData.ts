@@ -11,7 +11,8 @@ import type {
 import type { PathAnnotationExpression } from '@sap-ux/vocabularies-types/Edm';
 import type { RecursiveHierarchy } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 import cloneDeep from 'lodash.clonedeep';
-import { EntitySetInterface, generateId, getData, PartialReferentialConstraint, setData, uuidv4 } from '../data/common';
+import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
+import { generateId, getData, setData, uuidv4 } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
