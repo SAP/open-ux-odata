@@ -149,3 +149,12 @@ export function getData(fullData: any, objectPath: string): any {
         return getData(fullData[subObjectPath[0]], subObjectPath.slice(1).join('/'));
     }
 }
+
+export function setData(currentNode: any, deepProperty: string, value: any) {
+    const deepPropertyPath = deepProperty.split('/');
+    for (const deepPropertyPart of deepPropertyPath.slice(0, deepPropertyPath.length - 1)) {
+        currentNode[deepPropertyPart] ??= {};
+        currentNode = currentNode[deepPropertyPart];
+    }
+    currentNode[deepPropertyPath[deepPropertyPath.length - 1]] = value;
+}

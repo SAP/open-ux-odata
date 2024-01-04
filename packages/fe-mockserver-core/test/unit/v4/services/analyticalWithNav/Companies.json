@@ -1,0 +1,62 @@
+[
+    {
+        "ID": "0300549a-f0ad-45f8-acc2-83dcffbf8ca1",
+        "code": "sap02",
+        "name": "SAP Paris",
+        "city": "Paris",
+        "country": "France",
+        "currency": "EUR",
+        "fiscalYearVariant": "K4",
+        "ledger": "0L"
+    },
+    {
+        "ID": "078e6cc0-fd75-479f-bfaa-a8f95fc8c364",
+        "code": "sap06",
+        "name": "SAP US",
+        "city": "Palo Alto",
+        "country": "US",
+        "currency": "USD",
+        "fiscalYearVariant": "K4",
+        "ledger": "0L"
+    },
+    {
+        "ID": "3fb2a3f5-a945-4148-bb8c-5b486da697bc",
+        "code": "sap04",
+        "name": "SAP Concur",
+        "city": "Walldorf",
+        "country": "Germany",
+        "currency": "EUR",
+        "fiscalYearVariant": "K4",
+        "ledger": "0L"
+    },
+    {
+        "ID": "41751178-90fd-4956-830b-d5426489132c",
+        "code": "sap03",
+        "name": "SAP Frankfurt",
+        "city": "Frankfurt",
+        "country": "Germany",
+        "currency": "EUR",
+        "fiscalYearVariant": "K4",
+        "ledger": "0L"
+    },
+    {
+        "ID": "d3c7aaec-734d-489c-b7d8-662325c289c1",
+        "code": "sap01",
+        "name": "SAP Germany",
+        "city": "Walldorf",
+        "country": "Germany",
+        "currency": "EUR",
+        "fiscalYearVariant": "K4",
+        "ledger": "0L"
+    },
+    {
+        "ID": "f66ca4eb-a34f-46de-b4ff-bb5e6e57197c",
+        "code": "sap05",
+        "name": "SAP Labs",
+        "city": "Walldorf",
+        "country": "Germany",
+        "currency": "EUR",
+        "fiscalYearVariant": "K4",
+        "ledger": "0L"
+    }
+]

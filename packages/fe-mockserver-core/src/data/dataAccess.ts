@@ -27,7 +27,7 @@ import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/oda
 import ODataRequest from '../request/odataRequest';
 import type { IncomingMessageWithTenant } from '../router/serviceRouter';
 import type { DataAccessInterface, EntitySetInterface } from './common';
-import { ExecutionError, getData, _getDateTimeOffset } from './common';
+import { ExecutionError, getData, setData, _getDateTimeOffset } from './common';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
 import { MockDataEntitySet } from './entitySets/entitySet';
@@ -1146,7 +1146,7 @@ export class DataAccess implements DataAccessInterface {
                 const dataToAggregate = dataByGroup[groupName];
                 const outData: any = {};
                 applyDefinition.groupBy.forEach((propName) => {
-                    outData[propName] = dataToAggregate[0][propName];
+                    setData(outData, propName, getData(dataToAggregate[0], propName));
                 });
                 if (applyDefinition.subTransformations.length > 0) {
                     const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;

@@ -39,6 +39,34 @@ export type QueryPath = {
     keys: KeyDefinitions;
 };
 
+function addPathToExpandParameters(
+    path: string,
+    expandParameter: Record<string, ExpandDefinition>,
+    lambdaVariable?: string,
+    skipLast?: boolean,
+    removeFromResult?: boolean
+): Record<string, ExpandDefinition> {
+    const segments = path.split('/');
+    if (segments[0] === lambdaVariable) {
+        segments.shift();
+    }
+
+    if (skipLast) {
+        segments.pop();
+    }
+
+    let target = expandParameter;
+    for (const segment of segments) {
+        target[segment] = target[segment] ?? {
+            expand: {},
+            properties: { '*': true },
+            removeFromResult: removeFromResult
+        };
+        target = target[segment].expand;
+    }
+    return target;
+}
+
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
     public isStrictMode: boolean;
@@ -128,6 +156,9 @@ export default class ODataRequest {
             this.applyDefinition.forEach((apply) => {
                 this._addSelectedPropertiesForApplyExpression(apply, additionalSelectProperty);
             });
+            for (const additionalSelectKey of Object.keys(additionalSelectProperty)) {
+                addPathToExpandParameters(additionalSelectKey, this.expandProperties, undefined, true);
+            }
 
             this.selectedProperties = Object.assign(this.selectedProperties, additionalSelectProperty);
         }
@@ -162,6 +193,13 @@ export default class ODataRequest {
                 applyTransformation.aggregateDef.forEach((aggregateSourceProp) => {
                     additionalSelectProperty[aggregateSourceProp.sourceProperty] = true;
                 });
+                break;
+            case 'concat':
+                for (const concatExpressions of applyTransformation.concatExpr) {
+                    for (const concatExpression of concatExpressions) {
+                        this._addSelectedPropertiesForApplyExpression(concatExpression, additionalSelectProperty);
+                    }
+                }
                 break;
             case 'ancestors':
             case 'descendants':
@@ -348,51 +386,6 @@ export default class ODataRequest {
         return value;
     }
 
-    //
-    // private parseApply(applyParameters: string | null): AggregateDefinition | undefined {
-    //     if (!applyParameters) {
-    //         return undefined;
-    //     }
-    //     const filterRegEx = /^filter\(([^)]+)\)\/(.*)$/;
-    //     const filterMatches = applyParameters.match(filterRegEx);
-    //     let groupByText = applyParameters;
-    //     let filterParams;
-    //     if (filterMatches) {
-    //         const filterExpr = filterMatches[1];
-    //         filterParams = parseFilter(filterExpr);
-    //         groupByText = filterMatches[2];
-    //     }
-    //     const groupByRegEx = /^groupby\(\(([^)]+)\),([^)]+\))\)$/;
-    //     const groupByMatches = groupByText.match(groupByRegEx);
-    //     if (groupByMatches) {
-    //         return {
-    //             filter: filterParams,
-    //             groupBy: groupByMatches[1].split(','),
-    //             aggregates: this.parseAggregateDefinition(groupByMatches[2])
-    //         };
-    //     }
-    // }
-
-    // private parseAggregateDefinition(aggregationDefinition: string): AggregateProperty[] {
-    //     const aggregateRegEx = /^aggregate\(([^)]+)\)$/;
-    //     const aggregateMatches = aggregationDefinition.match(aggregateRegEx);
-    //     if (aggregateMatches) {
-    //         return aggregateMatches[1].split(',').map((aggregateMatch) => {
-    //             const aggregateSplit = aggregateMatch.split(' ');
-    //             const property = aggregateSplit[0];
-    //             const operator = aggregateSplit[2];
-    //             const targetName = aggregateSplit[4];
-    //             return {
-    //                 name: targetName || property,
-    //                 operator,
-    //                 sourceProperty: property
-    //             };
-    //         });
-    //     } else {
-    //         return [];
-    //     }
-    // }
-
     public async handleRequest() {
         try {
             switch (this.requestContent.method) {
@@ -577,42 +570,21 @@ export default class ODataRequest {
     }
 
     private addExpandForFilters(filterDefinition: FilterExpression) {
-        function expandPath(
-            path: string,
-            expands: Record<string, ExpandDefinition>,
-            lambdaVariable?: string,
-            skipLast?: boolean
-        ) {
-            const segments = path.split('/');
-            if (segments[0] === lambdaVariable) {
-                segments.shift();
-            }
-
-            if (skipLast) {
-                segments.pop();
-            }
-
-            let target = expands;
-            for (const segment of segments) {
-                target[segment] = target[segment] ?? {
-                    expand: {},
-                    properties: { '*': true },
-                    removeFromResult: true
-                };
-                target = target[segment].expand;
-            }
-            return target;
-        }
-
         function expand(
             expression: FilterExpression,
             expandDefinitions: Record<string, ExpandDefinition>,
             lambdaVariable?: string
         ) {
             if (typeof expression.identifier === 'string') {
-                expandPath(expression.identifier, expandDefinitions, lambdaVariable, true);
+                addPathToExpandParameters(expression.identifier, expandDefinitions, lambdaVariable, true, true);
             } else if (expression.identifier?.type === 'lambda') {
-                const target = expandPath(expression.identifier.target, expandDefinitions, lambdaVariable);
+                const target = addPathToExpandParameters(
+                    expression.identifier.target,
+                    expandDefinitions,
+                    lambdaVariable,
+                    false,
+                    true
+                );
 
                 for (const subExpression of expression.identifier.expression.expressions) {
                     expand(subExpression, target, expression.identifier.key);
@@ -620,6 +592,8 @@ export default class ODataRequest {
             }
         }
 
-        filterDefinition.expressions.forEach((expression) => expand(expression, this.expandProperties));
+        for (const expression of filterDefinition.expressions) {
+            expand(expression, this.expandProperties);
+        }
     }
 }
