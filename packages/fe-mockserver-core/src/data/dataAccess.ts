@@ -439,7 +439,7 @@ export class DataAccess implements DataAccessInterface {
     async applyDeep(
         currentEntitySet: EntitySet | Singleton | undefined,
         entityType: EntityType,
-        navPropName: string,
+        expandNavProp: string,
         data: Record<string, any> | null,
         expands: Record<string, ExpandDefinition>,
         previousEntitySet: EntitySet | Singleton | undefined,
@@ -450,18 +450,17 @@ export class DataAccess implements DataAccessInterface {
         if (data === null) {
             return;
         }
-        const navProp = entityType.navigationProperties.by_name(navPropName);
+        const navProp = entityType.navigationProperties.by_name(expandNavProp);
         visitedPaths = visitedPaths.concat();
-        visitedPaths.push(navPropName);
-        let entitySet: EntitySet | Singleton | undefined;
+        visitedPaths.push(expandNavProp);
+        let targetEntitySet: EntitySet | Singleton | undefined;
         if (navProp && currentEntitySet?.navigationPropertyBinding[navProp.name]) {
-            entitySet = currentEntitySet.navigationPropertyBinding[navPropName];
+            targetEntitySet = currentEntitySet.navigationPropertyBinding[expandNavProp];
         } else if (navProp && previousEntitySet?.navigationPropertyBinding[visitedPaths.join('/')]) {
-            entitySet = previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')];
+            targetEntitySet = previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')];
         }
-
-        if (navProp && entitySet) {
-            const entitySetInterface = await this.getMockEntitySet(entitySet.name);
+        if (navProp && targetEntitySet) {
+            const targetEntitySetInterface = await this.getMockEntitySet(targetEntitySet.name);
             const expandDefinition = expands[navProp.name];
 
             const dataArray = Array.isArray(data) ? data : [data];
@@ -471,8 +470,8 @@ export class DataAccess implements DataAccessInterface {
                     expandDefinition,
                     navProp,
                     entityType,
-                    entitySet,
-                    entitySetInterface,
+                    targetEntitySet,
+                    targetEntitySetInterface,
                     odataRequest
                 ]);
 
@@ -480,12 +479,12 @@ export class DataAccess implements DataAccessInterface {
                     await Promise.all(
                         Object.keys(expandDefinition.expand).map(async (subExpandNavProp) => {
                             return this.applyDeep(
-                                entitySet,
+                                targetEntitySet,
                                 navProp.targetType,
                                 subExpandNavProp,
-                                dataLine[navPropName],
+                                dataLine[expandNavProp],
                                 expandDefinition.expand,
-                                entitySet,
+                                targetEntitySet,
                                 [],
                                 odataRequest,
                                 fnApply
