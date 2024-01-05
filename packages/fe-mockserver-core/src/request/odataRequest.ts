@@ -31,13 +31,6 @@ export type QueryPath = {
     keys: KeyDefinitions;
 };
 
-type SystemQueryOptions = {
-    $expand: Record<string, ExpandDefinition>;
-    $select: SelectDefinition;
-    $filter: FilterExpression | undefined;
-    $orderby: OrderByDefinition[];
-};
-
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
     public isStrictMode: boolean;
@@ -65,15 +58,6 @@ export default class ODataRequest {
     private allParams: URLSearchParams;
     private context: string;
     private messages: any[] = [];
-
-    public get systemQueryOptions(): SystemQueryOptions {
-        return {
-            $expand: this.expandProperties,
-            $select: this.selectedProperties,
-            $filter: this.filterDefinition,
-            $orderby: this.orderBy
-        };
-    }
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
