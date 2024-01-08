@@ -95,6 +95,17 @@ describe('Data Access', () => {
         expect(productData[1].Name).toEqual('Acme Trap v2');
         expect(productData[2].Name).toEqual('Acme Boomerang');
         expect(productData[3].Name).toEqual('Acme Extra Comfy Safe');
+
+        odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SEPMRA_C_PD_Product?search=Trap&$skip=0&$top=20&$orderby=to_ProductTextInOriginalLang/Name%20asc&$filter=IsActiveEntity%20eq%20false%20or%20SiblingEntity/IsActiveEntity%20eq%20null&$select=ProductCategory%2cProductPictureURL%2cProductForEdit%2cto_ProductTextInOriginalLang%2fName%2cProduct%2cDraftUUID%2cIsActiveEntity%2cHasDraftEntity%2cHasActiveEntity%2cCopy_ac%2cDraftAdministrativeData&$expand=to_ProductTextInOriginalLang%2cDraftAdministrativeData&$inlinecount=allpages'
+            },
+            dataAccess
+        );
+        productData = await dataAccess.getData(odataRequest);
+        expect(productData.length).toEqual(1);
+        expect(odataRequest.dataCount).toEqual(1);
     });
     test('v2metadata - it can GET data for an entity with keys that needs encoding', async () => {
         const odataRequest = new ODataRequest(
