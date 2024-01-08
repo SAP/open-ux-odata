@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.15
+
+### Patch Changes
+
+-   e33af15: feat: support the "unofficial" search for v2
+
 ## 1.2.14
 
 ### Patch Changes
