@@ -173,9 +173,6 @@ importers:
 
   packages/fe-mockserver-plugin-cds:
     devDependencies:
-      '@sap-ux/fe-mockserver-core':
-        specifier: workspace:*
-        version: link:../fe-mockserver-core
       '@sap/cds-compiler':
         specifier: ^4
         version: 4.0.0

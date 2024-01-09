@@ -1,4 +1,12 @@
-import type { IFileLoader, IMetadataProcessor } from '@sap-ux/fe-mockserver-core';
+export interface IFileLoader {
+    loadFile(filePath: string): Promise<string>;
+    exists(filePath: string): Promise<boolean>;
+    loadJS(filePath: string): Promise<any>;
+}
+export interface IMetadataProcessor {
+    loadMetadata(filePath: string): Promise<string>;
+}
+
 import { compileSources, to } from '@sap/cds-compiler';
 import path from 'path';
 import { commonCDS } from './common.cds';

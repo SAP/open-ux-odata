@@ -1,6 +1,6 @@
-import type { IFileLoader } from '@sap-ux/fe-mockserver-core';
 import * as fs from 'fs';
 import * as path from 'path';
+import type { IFileLoader } from '../src';
 import CDSMetadataProvider from '../src';
 
 describe('FE Mockserver CDS Plugin', () => {
