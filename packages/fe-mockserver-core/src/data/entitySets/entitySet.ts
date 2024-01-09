@@ -5,7 +5,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
 import type { MockDataContributor } from '../../mockdata/functionBasedMockData';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
-import type { FilterMethodCall, LambdaExpression } from '../../request/filterParser';
+import type { FilterExpression, FilterMethodCall, LambdaExpression } from '../../request/filterParser';
 import type { KeyDefinitions } from '../../request/odataRequest';
 import ODataRequest from '../../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from '../common';
@@ -300,15 +300,20 @@ export class MockDataEntitySet implements EntitySetInterface {
         return resolvedPath.target;
     }
 
-    public checkFilter(mockData: object, filterExpression: any, tenantId: string, odataRequest: ODataRequest): boolean {
+    public checkFilter(
+        mockData: object,
+        filterExpression: FilterExpression,
+        tenantId: string,
+        odataRequest: ODataRequest
+    ): boolean {
         let isValid = true;
         if (filterExpression.hasOwnProperty('expressions')) {
             if (filterExpression.operator === 'AND') {
-                isValid = filterExpression.expressions.every((filterValue: any) => {
+                isValid = filterExpression.expressions.every((filterValue) => {
                     return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             } else {
-                isValid = filterExpression.expressions.some((filterValue: any) => {
+                isValid = filterExpression.expressions.some((filterValue) => {
                     return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             }

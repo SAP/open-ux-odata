@@ -23,9 +23,8 @@ import type {
     TransformationDefinition
 } from '../request/applyParser';
 import type { FilterExpression } from '../request/filterParser';
-import type { KeyDefinitions, QueryPath } from '../request/odataRequest';
+import type { ExpandDefinition, KeyDefinitions, QueryPath, SelectDefinition } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
-import type { ExpandDefinition } from '../request/parser/$expand';
 import type { IncomingMessageWithTenant } from '../router/serviceRouter';
 import type { DataAccessInterface, EntitySetInterface } from './common';
 import { ExecutionError, getData, setData, _getDateTimeOffset } from './common';
@@ -35,91 +34,17 @@ import { MockDataEntitySet } from './entitySets/entitySet';
 import { StickyMockEntitySet } from './entitySets/stickyEntitySet';
 import type { ODataMetadata } from './metadata';
 
-type ApplyDeepFunction = (
+type ApplyToExpandTreeFunction = (
     this: DataAccess,
     data: Record<string, any>,
-    expandDefinition: ExpandDefinition,
-    navigationProperty: NavigationProperty,
     entityType: EntityType,
-    targetEntitySet: EntitySet | Singleton,
-    targetEntitySetInterface: EntitySetInterface,
+    navigationProperty: NavigationProperty,
+    targetEntitySet: EntitySet | Singleton | undefined,
+    expandDefinition: ExpandDefinition,
     odataRequest: ODataRequest
 ) => Promise<void>;
 
-const filter: ApplyDeepFunction = async function (
-    this,
-    data,
-    expandDefinition,
-    navigationProperty,
-    _entityType,
-    _targetEntitySet,
-    targetEntitySetInterface,
-    odataRequest
-) {
-    if (expandDefinition.$filter) {
-        data[navigationProperty.name] = data[navigationProperty.name].filter((row: any) =>
-            targetEntitySetInterface.checkFilter(row, expandDefinition.$filter, odataRequest.tenantId, odataRequest)
-        );
-    }
-};
-
-const orderby: ApplyDeepFunction = async function (this, data, expandDefinition, navigationProperty) {
-    if (expandDefinition.$orderby) {
-        data[navigationProperty.name] = _applyOrderBy(data[navigationProperty.name], expandDefinition.$orderby);
-    }
-};
-
-const expand: ApplyDeepFunction = async function (
-    this,
-    data,
-    expandDefinition,
-    navigationProperty,
-    entityType,
-    targetEntitySet,
-    targetEntitySetInterface,
-    odataRequest
-) {
-    if (!data[navigationProperty.name] && !navigationProperty.containsTarget) {
-        const currentKeys = await this.getNavigationPropertyKeys(
-            data,
-            navigationProperty,
-            entityType,
-            targetEntitySet,
-            {},
-            odataRequest.tenantId
-        );
-
-        data[navigationProperty.name] = await targetEntitySetInterface.performGET(
-            currentKeys,
-            navigationProperty.isCollection,
-            odataRequest.tenantId,
-            odataRequest
-        );
-    }
-};
-
-function _applyOrderBy(data: object[], orderByDefinition: OrderByProp[]): object[] {
-    data.sort(function (firstElement: any, secondElement: any) {
-        let isDecisive = false;
-        let outValue = 0;
-        orderByDefinition.forEach((orderByDef) => {
-            if (isDecisive) {
-                return;
-            }
-            const firstElementData = getData(firstElement, orderByDef.name);
-            const secondElementData = getData(secondElement, orderByDef.name);
-            if (firstElementData > secondElementData) {
-                outValue = orderByDef.direction === 'asc' ? 1 : -1;
-                isDecisive = true;
-            } else if (firstElementData < secondElementData) {
-                outValue = orderByDef.direction === 'asc' ? -1 : 1;
-                isDecisive = true;
-            }
-        });
-        return outValue;
-    });
-    return data;
-}
+type Data = Record<string, any> | undefined | null;
 
 /**
  *
@@ -436,17 +361,18 @@ export class DataAccess implements DataAccessInterface {
         }
         return currentKeys;
     }
-    async applyDeep(
+
+    async applyToExpandTree(
         currentEntitySet: EntitySet | Singleton | undefined,
         entityType: EntityType,
         expandNavProp: string,
-        data: Record<string, any> | null,
-        expands: Record<string, ExpandDefinition>,
+        data: Data | Data[],
+        requestExpandObject: Record<string, ExpandDefinition>,
         previousEntitySet: EntitySet | Singleton | undefined,
         visitedPaths: string[],
         odataRequest: ODataRequest,
-        fnApply: ApplyDeepFunction
-    ): Promise<any> {
+        functionToApply: ApplyToExpandTreeFunction
+    ): Promise<Data> {
         if (data === null) {
             return;
         }
@@ -456,38 +382,39 @@ export class DataAccess implements DataAccessInterface {
         let targetEntitySet: EntitySet | Singleton | undefined;
         if (navProp && currentEntitySet?.navigationPropertyBinding[navProp.name]) {
             targetEntitySet = currentEntitySet.navigationPropertyBinding[expandNavProp];
-        } else if (navProp && previousEntitySet?.navigationPropertyBinding[visitedPaths.join('/')]) {
+        } else if (previousEntitySet?.navigationPropertyBinding[visitedPaths.join('/')]) {
             targetEntitySet = previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')];
         }
-        if (navProp && targetEntitySet) {
-            const targetEntitySetInterface = await this.getMockEntitySet(targetEntitySet.name);
-            const expandDefinition = expands[navProp.name];
-
+        if (navProp) {
+            const expandDetail = requestExpandObject[navProp.name];
             const dataArray = Array.isArray(data) ? data : [data];
             for (const dataLine of dataArray) {
-                await fnApply.apply(this, [
+                if (!dataLine) {
+                    continue;
+                }
+
+                await functionToApply.apply(this, [
                     dataLine,
-                    expandDefinition,
-                    navProp,
                     entityType,
+                    navProp,
                     targetEntitySet,
-                    targetEntitySetInterface,
+                    expandDetail,
                     odataRequest
                 ]);
 
-                if (expandDefinition.expand && Object.keys(expandDefinition.expand).length > 0) {
+                if (Object.keys(expandDetail.expand).length > 0) {
                     await Promise.all(
-                        Object.keys(expandDefinition.expand).map(async (subExpandNavProp) => {
-                            return this.applyDeep(
+                        Object.keys(expandDetail.expand).map(async (subExpandNavProp) => {
+                            return this.applyToExpandTree(
                                 targetEntitySet,
                                 navProp.targetType,
                                 subExpandNavProp,
                                 dataLine[expandNavProp],
-                                expandDefinition.expand,
+                                expandDetail.expand,
                                 targetEntitySet,
                                 [],
                                 odataRequest,
-                                fnApply
+                                functionToApply
                             );
                         })
                     );
@@ -496,82 +423,145 @@ export class DataAccess implements DataAccessInterface {
         }
     }
 
-    public getMetadata(): ODataMetadata {
-        return this.metadata;
+    /**
+     * Applies $expand.
+     *
+     * @param data               The data to expand
+     * @param entityType         Entity type of the data
+     * @param navigationProperty The navigation property to expand
+     * @param targetEntitySet    The expanded entity set
+     * @param _expandDefinition
+     * @param odataRequest
+     */
+    private async applyExpand(
+        data: Record<string, any>,
+        entityType: EntityType,
+        navigationProperty: NavigationProperty,
+        targetEntitySet: EntitySet | Singleton | undefined,
+        _expandDefinition: ExpandDefinition,
+        odataRequest: ODataRequest
+    ): Promise<void> {
+        if (targetEntitySet && !navigationProperty.containsTarget && !data[navigationProperty.name]) {
+            const currentKeys = await this.getNavigationPropertyKeys(
+                data,
+                navigationProperty,
+                entityType,
+                targetEntitySet,
+                {},
+                odataRequest.tenantId
+            );
+
+            const targetEntitySetInterface = await this.getMockEntitySet(targetEntitySet.name);
+
+            data[navigationProperty.name] = await targetEntitySetInterface.performGET(
+                currentKeys,
+                navigationProperty.isCollection,
+                odataRequest.tenantId,
+                odataRequest
+            );
+        }
     }
 
-    private apply$Select(expandDefinition: ExpandDefinition, expandData: any[], entityType: EntityType) {
-        // preprocess the selected property names
-        let selectedPropertyNames = Object.keys(expandDefinition.properties);
-        if (selectedPropertyNames.includes('*') || selectedPropertyNames.length === 0) {
-            // select all
-            selectedPropertyNames = ['*'];
+    /**
+     * Applies $select.
+     *
+     * @param data              Data to process
+     * @param selectDefinition  Selected properties
+     * @param expandDefinitions Expanded properties
+     * @param entityType        Entity type of the data
+     */
+    private applySelect(
+        data: Data | Data[],
+        selectDefinition: SelectDefinition,
+        expandDefinitions: Record<string, ExpandDefinition>,
+        entityType: EntityType
+    ): void {
+        const dataArray: Record<string, any>[] = Array.isArray(data) ? data : [data].filter((record) => !!record);
+
+        if (selectDefinition['*']) {
+            // $select=*: all properties + expanded navigation properties
+            const selectedNavigationProperties = new Set<string>(
+                entityType.navigationProperties
+                    .map((property) => property.name)
+                    .filter(
+                        (name) =>
+                            (expandDefinitions[name] && !expandDefinitions[name].removeFromResult) ||
+                            name === 'DraftAdministrativeData'
+                    )
+            );
+
+            for (const record of dataArray) {
+                // navigation properties not part of $expand --> delete
+                Object.keys(record)
+                    .filter(
+                        (property) =>
+                            entityType.navigationProperties.by_name(property) &&
+                            !selectedNavigationProperties.has(property)
+                    )
+                    .forEach((property) => delete record[property]);
+            }
         } else {
-            // select the specified properties plus all key properties
-            selectedPropertyNames = selectedPropertyNames
-                .map((property) => property.split('/', 1)[0]) // reduce paths to their first segment ($select=foo/bar ~> $select=foo), accepting too much data in the response for simplicity
-                .concat(...entityType.keys.map((key) => key.name)); // always include key properties
-        }
-
-        const expandedNavProps = Object.keys(expandDefinition.expand).reduce((navigationProperties, navPropName) => {
-            const navigationProperty = entityType.navigationProperties.find((navProp) => navProp.name === navPropName);
-            if (navigationProperty) {
-                navigationProperties.push(navigationProperty);
-            }
-            return navigationProperties;
-        }, [] as NavigationProperty[]);
-
-        const processedNavProps: NavigationProperty[] = [];
-
-        for (const element of expandData) {
-            // the element might be null (if it is a 1:1 navigation property)
-            if (element === null || element === undefined) {
-                continue;
-            }
-
-            // if all properties are requested ("*") keep everything else delete unwanted properties
-            if (!selectedPropertyNames.includes('*')) {
-                Object.keys(element)
-                    .filter((propertyName) => !selectedPropertyNames.includes(propertyName))
-                    .forEach((propertyName) => {
-                        delete element[propertyName];
-                    });
-            }
-            // Delete internal tihngs just in case
-            const internalProperties = ['$parent', '$children', '$rootDistance'];
-            Object.keys(element)
-                .filter((propertyName) => internalProperties.includes(propertyName))
-                .forEach((propertyName) => {
-                    delete element[propertyName];
-                });
-
-            for (const navProp of expandedNavProps) {
-                processedNavProps.push(navProp);
-
-                if (expandDefinition.expand[navProp.name].removeFromResult) {
-                    // delete the navigation property, it was expanded for internal reasons only
-                    delete element[navProp.name];
-                } else {
-                    const subElement = element[navProp.name];
-                    const subExpand = expandDefinition.expand[navProp.name];
-                    if (Array.isArray(subElement)) {
-                        this.apply$Select(subExpand, subElement, navProp.targetType);
-                    } else {
-                        this.apply$Select(subExpand, [subElement], navProp.targetType);
-                    }
-                }
-            }
-
-            // we may still want to remove navProp that were inline and not requested
-            for (const navigationProperty of entityType.navigationProperties) {
-                if (
-                    !processedNavProps.includes(navigationProperty) &&
-                    navigationProperty.name !== 'DraftAdministrativeData'
-                ) {
-                    delete element[navigationProperty.name];
-                }
+            // explicit $select
+            for (const record of dataArray) {
+                // neither part of $select nor a key property --> delete
+                Object.keys(record)
+                    .filter((property) => !selectDefinition[property] && !entityType.keys.by_name(property))
+                    .forEach((property) => delete record[property]);
             }
         }
+    }
+
+    /**
+     * Applies post-processing of expand options, such as removing properties that were not selected.
+     *
+     * @param data  The data to process
+     * @param _entityType  Entity type of the data
+     * @param navigationProperty  The expanded navigation property to process
+     * @param targetEntitySet   The target entity set of the expanded navigation property
+     * @param expandDefinition  The expand definition with all parameters
+     * @param odataRequest
+     */
+    private async applyExpandOptions(
+        data: Record<string, any>,
+        _entityType: EntityType,
+        navigationProperty: NavigationProperty,
+        targetEntitySet: EntitySet | Singleton | undefined,
+        expandDefinition: ExpandDefinition,
+        odataRequest: ODataRequest
+    ): Promise<void> {
+        if (Array.isArray(data[navigationProperty.name])) {
+            // $filter
+            if (expandDefinition.filter && targetEntitySet) {
+                const mockEntitySet = await this.getMockEntitySet(
+                    (targetEntitySet ?? navigationProperty.targetType).name
+                );
+                const filterExpression = expandDefinition.filter;
+
+                data[navigationProperty.name] = data[navigationProperty.name].filter((row: any) =>
+                    mockEntitySet.checkFilter(row, filterExpression, odataRequest.tenantId, odataRequest)
+                );
+            }
+
+            // $orderby
+            if (expandDefinition.orderBy && expandDefinition.orderBy.length > 0) {
+                data[navigationProperty.name] = this._applyOrderBy(
+                    data[navigationProperty.name],
+                    expandDefinition.orderBy
+                );
+            }
+        }
+
+        // $select
+        this.applySelect(
+            data[navigationProperty.name],
+            expandDefinition.properties,
+            expandDefinition.expand,
+            navigationProperty.targetType
+        );
+    }
+
+    public getMetadata(): ODataMetadata {
+        return this.metadata;
     }
 
     public async getData(odataRequest: ODataRequest, dontClone: boolean = false): Promise<any> {
@@ -735,7 +725,7 @@ export class DataAccess implements DataAccessInterface {
             // Apply $expand
             await Promise.all(
                 Object.keys(odataRequest.expandProperties).map(async (expandNavProp) => {
-                    return this.applyDeep(
+                    return this.applyToExpandTree(
                         currentEntitySet,
                         currentEntityType,
                         expandNavProp,
@@ -744,46 +734,23 @@ export class DataAccess implements DataAccessInterface {
                         previousEntitySet,
                         visitedPaths,
                         odataRequest,
-                        expand
+                        this.applyExpand
                     );
                 })
             );
 
-            const mockEntitySet = await this.getMockEntitySet(
-                currentEntitySet ? currentEntitySet.name : currentEntityType.name
-            );
+            const mockEntitySet = await this.getMockEntitySet((currentEntitySet ?? currentEntityType).name);
 
             // Apply $filter
             if (odataRequest.filterDefinition && Array.isArray(data)) {
+                const filterDef = odataRequest.filterDefinition;
+
                 data = data.filter((dataLine) => {
-                    return mockEntitySet.checkFilter(
-                        dataLine,
-                        odataRequest.filterDefinition,
-                        odataRequest.tenantId,
-                        odataRequest
-                    );
+                    return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId, odataRequest);
                 });
             }
-
-            await Promise.all(
-                Object.keys(odataRequest.expandProperties).map(async (expandNavProp) => {
-                    return this.applyDeep(
-                        currentEntitySet,
-                        currentEntityType,
-                        expandNavProp,
-                        data,
-                        odataRequest.expandProperties,
-                        previousEntitySet,
-                        visitedPaths,
-                        odataRequest,
-                        filter
-                    );
-                })
-            );
-
             // Apply $search
             if (odataRequest.searchQuery && Array.isArray(data)) {
-                const mockEntitySet = await this.getMockEntitySet((currentEntitySet ?? currentEntityType).name);
                 data = data.filter((dataLine) => {
                     return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
                 });
@@ -807,12 +774,20 @@ export class DataAccess implements DataAccessInterface {
 
             // Apply $orderby
             if (odataRequest.orderBy && odataRequest.orderBy.length > 0) {
-                data = _applyOrderBy(data, odataRequest.orderBy);
+                data = this._applyOrderBy(data, odataRequest.orderBy);
+            }
+            // Apply $select
+            const originalData = data;
+            if (!dontClone) {
+                data = cloneDeep(data);
             }
 
+            this.applySelect(data, odataRequest.selectedProperties, odataRequest.expandProperties, currentEntityType);
+
+            // process $expand options (nested $select, $filter, $orderby, ...)
             await Promise.all(
                 Object.keys(odataRequest.expandProperties).map(async (expandNavProp) => {
-                    return this.applyDeep(
+                    return this.applyToExpandTree(
                         currentEntitySet,
                         currentEntityType,
                         expandNavProp,
@@ -821,29 +796,11 @@ export class DataAccess implements DataAccessInterface {
                         previousEntitySet,
                         visitedPaths,
                         odataRequest,
-                        orderby
+                        this.applyExpandOptions
                     );
                 })
             );
 
-            // Apply $select
-            const originalData = data;
-            if (!dontClone) {
-                data = cloneDeep(data);
-            }
-
-            if (odataRequest.selectedProperties && Object.keys(odataRequest.selectedProperties).length > 0) {
-                const expand: ExpandDefinition = {
-                    expand: odataRequest.expandProperties ?? {},
-                    properties: odataRequest.selectedProperties
-                };
-
-                if (Array.isArray(data)) {
-                    this.apply$Select(expand, data, currentEntityType);
-                } else if (data != null && data.constructor.name === 'Object') {
-                    this.apply$Select(expand, [data], currentEntityType);
-                }
-            }
             const dataLength = Array.isArray(data) ? data.length : 1;
             odataRequest.setDataCount(dataLength);
 
@@ -1182,6 +1139,29 @@ export class DataAccess implements DataAccessInterface {
         }
     }
 
+    private _applyOrderBy(data: object[], orderByDefinition: OrderByProp[]): object[] {
+        data.sort(function (firstElement: any, secondElement: any) {
+            let isDecisive = false;
+            let outValue = 0;
+            orderByDefinition.forEach((orderByDef) => {
+                if (isDecisive) {
+                    return;
+                }
+                const firstElementData = getData(firstElement, orderByDef.name);
+                const secondElementData = getData(secondElement, orderByDef.name);
+                if (firstElementData > secondElementData) {
+                    outValue = orderByDef.direction === 'asc' ? 1 : -1;
+                    isDecisive = true;
+                } else if (firstElementData < secondElementData) {
+                    outValue = orderByDef.direction === 'asc' ? -1 : 1;
+                    isDecisive = true;
+                }
+            });
+            return outValue;
+        });
+        return data;
+    }
+
     private async _applyGroupBy(
         data: object[],
         applyDefinition: GroupByTransformation,
@@ -1315,7 +1295,7 @@ export class DataAccess implements DataAccessInterface {
                 data = concatData;
                 break;
             case 'orderBy':
-                data = _applyOrderBy(data, transformationDef.orderBy);
+                data = this._applyOrderBy(data, transformationDef.orderBy);
                 break;
             case 'filter':
                 data = await this._applyFilter(data, transformationDef.filterExpr, odataRequest, mockEntitySet);

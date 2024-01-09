@@ -23,7 +23,7 @@ describe('OData Request', () => {
         getMetadata: () => {
             return {
                 getVersion: () => {
-                    return '2.0';
+                    return '3.0';
                 }
             };
         },
@@ -399,6 +399,7 @@ describe('OData Request', () => {
                             },
                             "properties": {
                               "*": true,
+                              "SubSubSubValue1": true,
                             },
                           },
                           "SubSubValue2": {
@@ -410,11 +411,14 @@ describe('OData Request', () => {
                         },
                         "properties": {
                           "*": true,
+                          "SubSubValue1": true,
+                          "SubSubValue2": true,
                         },
                       },
                     },
                     "properties": {
                       "*": true,
+                      "SubValue1": true,
                     },
                   },
                 }
@@ -432,21 +436,6 @@ describe('OData Request', () => {
             expect(myRequest.expandProperties).toMatchInlineSnapshot(`
                 {
                   "explicitExpand": {
-                    "$filter": {
-                      "expressions": [
-                        {
-                          "identifier": "implicitExpand1/FilterProperty",
-                          "literal": "1",
-                          "operator": "eq",
-                        },
-                      ],
-                    },
-                    "$orderby": [
-                      {
-                        "direction": "desc",
-                        "name": "implicitExpand2/implicitExpand3/OrderByProperty",
-                      },
-                    ],
                     "expand": {
                       "implicitExpand1": {
                         "expand": {},
@@ -471,6 +460,21 @@ describe('OData Request', () => {
                         "removeFromResult": true,
                       },
                     },
+                    "filter": {
+                      "expressions": [
+                        {
+                          "identifier": "implicitExpand1/FilterProperty",
+                          "literal": "1",
+                          "operator": "eq",
+                        },
+                      ],
+                    },
+                    "orderBy": [
+                      {
+                        "direction": "desc",
+                        "name": "implicitExpand2/implicitExpand3/OrderByProperty",
+                      },
+                    ],
                     "properties": {
                       "*": true,
                     },
@@ -490,32 +494,8 @@ describe('OData Request', () => {
             expect(myRequest.expandProperties).toMatchInlineSnapshot(`
                 {
                   "explicitExpand": {
-                    "$filter": {
-                      "expressions": [
-                        {
-                          "identifier": "implicitExpand1/FilterProperty",
-                          "literal": "1",
-                          "operator": "eq",
-                        },
-                      ],
-                    },
-                    "$orderby": [
-                      {
-                        "direction": "desc",
-                        "name": "implicitExpand2/OrderByProperty",
-                      },
-                    ],
                     "expand": {
                       "explicitSubExpand": {
-                        "$filter": {
-                          "expressions": [
-                            {
-                              "identifier": "implicitSubExpand1/filterProperty1",
-                              "literal": "2",
-                              "operator": "eq",
-                            },
-                          ],
-                        },
                         "expand": {
                           "implicitSubExpand1": {
                             "expand": {},
@@ -524,6 +504,15 @@ describe('OData Request', () => {
                             },
                             "removeFromResult": true,
                           },
+                        },
+                        "filter": {
+                          "expressions": [
+                            {
+                              "identifier": "implicitSubExpand1/filterProperty1",
+                              "literal": "2",
+                              "operator": "eq",
+                            },
+                          ],
                         },
                         "properties": {
                           "selectProperty": true,
@@ -544,8 +533,24 @@ describe('OData Request', () => {
                         "removeFromResult": true,
                       },
                     },
+                    "filter": {
+                      "expressions": [
+                        {
+                          "identifier": "implicitExpand1/FilterProperty",
+                          "literal": "1",
+                          "operator": "eq",
+                        },
+                      ],
+                    },
+                    "orderBy": [
+                      {
+                        "direction": "desc",
+                        "name": "implicitExpand2/OrderByProperty",
+                      },
+                    ],
                     "properties": {
                       "*": true,
+                      "explicitSubExpand": true,
                     },
                   },
                 }
