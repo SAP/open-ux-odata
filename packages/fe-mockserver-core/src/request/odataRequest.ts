@@ -116,6 +116,10 @@ export default class ODataRequest {
     private parseParameters(searchParams: URLSearchParams) {
         this.allParams = searchParams;
         this.searchQuery = parseSearch(searchParams.get('$search'));
+        if (this.dataAccess.getMetadata().getVersion() === '2.0' && this.searchQuery.length === 0) {
+            // In v2, there is no official $search support but sometimes `search` without dollar is used
+            this.searchQuery = parseSearch(searchParams.get('search'));
+        }
         this.orderBy = this.parseOrderBy(searchParams.get('$orderby'));
         this.startIndex = parseInt(searchParams.get('$skip') || '', 10);
         this.skipLocation = searchParams.get('sap-skiplocation');
