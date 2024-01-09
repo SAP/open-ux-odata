@@ -29,7 +29,6 @@
         "@sap/cds-compiler": "^4"
     },
     "devDependencies": {
-        "@sap/cds-compiler": "^4",
-        "@sap-ux/fe-mockserver-core": "workspace:*"
+        "@sap/cds-compiler": "^4"
     }
 }
