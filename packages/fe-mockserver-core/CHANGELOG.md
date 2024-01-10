@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.16
+
+### Patch Changes
+
+-   4588dc4: The mockserver now handles $filter and $orderby in $expand clauses
+
 ## 1.2.15
 
 ### Patch Changes
