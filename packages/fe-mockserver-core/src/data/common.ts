@@ -9,6 +9,7 @@ import type {
 import type { ILogger } from '@ui5/logger';
 import type { IFileLoader } from '../index';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
+import type { FilterExpression } from '../request/filterParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
 import type { ODataMetadata } from './metadata';
@@ -19,7 +20,12 @@ export type PartialReferentialConstraint = {
 };
 export interface EntitySetInterface {
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
-    checkFilter(mockData: object, filterExpression: any, tenantId: string, odataRequest: ODataRequest): boolean;
+    checkFilter(
+        mockData: object,
+        filterExpression: FilterExpression,
+        tenantId: string,
+        odataRequest: ODataRequest
+    ): boolean;
     checkSearch(mockData: object, searchQueries: string[], odataRequest: ODataRequest): boolean;
     executeAction(
         actionDefinition: Action,
