@@ -38,7 +38,7 @@ describe('EntitySet', () => {
             await myEntitySet.readyPromise;
             const v4ComplexLambda = parseFilter(
                 "((ArrayData/any(t:t/SubArray/any(a0:a0/Name eq 'Something' and a0/SubSubArray/any(a1:a1/Value ge '20220600') and a0/SubSubArray/any(a1:a1/Value le '20220603'))))) and (BaseData eq 'FirstCheck')"
-            );
+            )!;
             const fakeRequest = new ODataRequest(
                 {
                     method: 'GET',
@@ -73,7 +73,7 @@ describe('EntitySet', () => {
             await myEntitySet.readyPromise;
             const v4ComplexLambda = parseFilter(
                 "((ArrayData/any(t:t/SubArray/any(a0:contains(a0/Name,'Something') and a0/SubSubArray/any(a1:a1/Value ge '20220600') and a0/SubSubArray/any(a1:a1/Value le '20220603'))))) and (BaseData eq 'FirstCheck')"
-            );
+            )!;
             const fakeRequest = new ODataRequest(
                 {
                     method: 'GET',

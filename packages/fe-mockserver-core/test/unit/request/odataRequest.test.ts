@@ -157,6 +157,33 @@ describe('OData Request', () => {
               },
             ]
         `);
+
+        myRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/Countries?$orderby=implicitExpand/Prop1 desc'
+            },
+            fakeDataAccess
+        );
+        expect(myRequest.orderBy).toMatchInlineSnapshot(`
+            [
+              {
+                "direction": "desc",
+                "name": "implicitExpand/Prop1",
+              },
+            ]
+        `);
+        expect(myRequest.expandProperties).toMatchInlineSnapshot(`
+            {
+              "implicitExpand": {
+                "expand": {},
+                "properties": {
+                  "*": true,
+                },
+                "removeFromResult": true,
+              },
+            }
+        `);
     });
 
     test('It can parse $skip and $top', () => {
@@ -221,146 +248,61 @@ describe('OData Request', () => {
         `);
     });
 
-    test('It can parse $expand', () => {
-        // V2 Style
-        let myRequest = new ODataRequest(
-            {
-                method: 'GET',
-                url: '/Countries?$expand=Value1,Value2,,Value3,Value4/Value5,Value4/Value6,Value4/Value7,Value4/Value6/Value8,Value4/Value6/Value9'
-            },
-            fakeDataAccessV2
-        );
-        expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            {
-              "*": true,
-              "Value1": true,
-              "Value2": true,
-              "Value3": true,
-              "Value4": true,
-            }
-        `);
-        expect(myRequest.expandProperties).toMatchInlineSnapshot(`
-            {
-              "Value1": {
-                "expand": {},
-                "properties": {
-                  "*": true,
+    describe('It can parse $expand', () => {
+        test('V2 style', () => {
+            const myRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/Countries?$expand=Value1,Value2,,Value3,Value4/Value5,Value4/Value6,Value4/Value7,Value4/Value6/Value8,Value4/Value6/Value9'
                 },
-              },
-              "Value2": {
-                "expand": {},
-                "properties": {
-                  "*": true,
-                },
-              },
-              "Value3": {
-                "expand": {},
-                "properties": {
-                  "*": true,
-                },
-              },
-              "Value4": {
-                "expand": {
-                  "Value5": {
+                fakeDataAccessV2
+            );
+            expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
+                            {
+                              "*": true,
+                              "Value1": true,
+                              "Value2": true,
+                              "Value3": true,
+                              "Value4": true,
+                            }
+                    `);
+            expect(myRequest.expandProperties).toMatchInlineSnapshot(`
+                {
+                  "Value1": {
                     "expand": {},
                     "properties": {
                       "*": true,
                     },
                   },
-                  "Value6": {
-                    "expand": {
-                      "Value8": {
-                        "expand": {},
-                        "properties": {
-                          "*": true,
-                        },
-                      },
-                      "Value9": {
-                        "expand": {},
-                        "properties": {
-                          "*": true,
-                        },
-                      },
-                    },
-                    "properties": {
-                      "*": true,
-                    },
-                  },
-                  "Value7": {
+                  "Value2": {
                     "expand": {},
                     "properties": {
                       "*": true,
                     },
                   },
-                },
-                "properties": {
-                  "*": true,
-                },
-              },
-            }
-        `);
-        // V4 Style
-        myRequest = new ODataRequest(
-            {
-                method: 'GET',
-                url: '/Countries?$expand=Value1,Value2($select=SubValue1,SubValue2)'
-            },
-            fakeDataAccess
-        );
-        expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            {
-              "*": true,
-              "Value1": true,
-              "Value2": true,
-            }
-        `);
-        expect(myRequest.expandProperties).toMatchInlineSnapshot(`
-            {
-              "Value1": {
-                "expand": {},
-                "properties": {
-                  "*": true,
-                },
-              },
-              "Value2": {
-                "expand": {},
-                "properties": {
-                  "SubValue1": true,
-                  "SubValue2": true,
-                },
-              },
-            }
-        `);
-        // Complex nested style
-        myRequest = new ODataRequest(
-            {
-                method: 'GET',
-                url: 'Countries?$select=Value3&$expand=Value1,Value2($expand=SubValue1($expand=SubSubValue1($expand=SubSubSubValue1),SubSubValue2($select=SubValue2)))'
-            },
-            fakeDataAccess
-        );
-        expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
-            {
-              "Value1": true,
-              "Value2": true,
-              "Value3": true,
-            }
-        `);
-        expect(myRequest.expandProperties).toMatchInlineSnapshot(`
-            {
-              "Value1": {
-                "expand": {},
-                "properties": {
-                  "*": true,
-                },
-              },
-              "Value2": {
-                "expand": {
-                  "SubValue1": {
+                  "Value3": {
+                    "expand": {},
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                  "Value4": {
                     "expand": {
-                      "SubSubValue1": {
+                      "Value5": {
+                        "expand": {},
+                        "properties": {
+                          "*": true,
+                        },
+                      },
+                      "Value6": {
                         "expand": {
-                          "SubSubSubValue1": {
+                          "Value8": {
+                            "expand": {},
+                            "properties": {
+                              "*": true,
+                            },
+                          },
+                          "Value9": {
                             "expand": {},
                             "properties": {
                               "*": true,
@@ -369,30 +311,251 @@ describe('OData Request', () => {
                         },
                         "properties": {
                           "*": true,
-                          "SubSubSubValue1": true,
                         },
                       },
-                      "SubSubValue2": {
+                      "Value7": {
                         "expand": {},
                         "properties": {
-                          "SubValue2": true,
+                          "*": true,
                         },
                       },
                     },
                     "properties": {
                       "*": true,
-                      "SubSubValue1": true,
-                      "SubSubValue2": true,
                     },
                   },
+                }
+            `);
+        });
+
+        test('V4, no additional expand options', () => {
+            // V4 Style
+            let myRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/Countries?$expand=Value1,Value2($select=SubValue1,SubValue2)'
                 },
-                "properties": {
-                  "*": true,
-                  "SubValue1": true,
+                fakeDataAccess
+            );
+            expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
+                            {
+                              "*": true,
+                              "Value1": true,
+                              "Value2": true,
+                            }
+                    `);
+            expect(myRequest.expandProperties).toMatchInlineSnapshot(`
+                {
+                  "Value1": {
+                    "expand": {},
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                  "Value2": {
+                    "expand": {},
+                    "properties": {
+                      "SubValue1": true,
+                      "SubValue2": true,
+                    },
+                  },
+                }
+            `);
+            // Complex nested style
+            myRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'Countries?$select=Value3&$expand=Value1,Value2($expand=SubValue1($expand=SubSubValue1($expand=SubSubSubValue1),SubSubValue2($select=SubValue2)))'
                 },
-              },
-            }
-        `);
+                fakeDataAccess
+            );
+            expect(myRequest.selectedProperties).toMatchInlineSnapshot(`
+                            {
+                              "Value1": true,
+                              "Value2": true,
+                              "Value3": true,
+                            }
+                    `);
+            expect(myRequest.expandProperties).toMatchInlineSnapshot(`
+                {
+                  "Value1": {
+                    "expand": {},
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                  "Value2": {
+                    "expand": {
+                      "SubValue1": {
+                        "expand": {
+                          "SubSubValue1": {
+                            "expand": {
+                              "SubSubSubValue1": {
+                                "expand": {},
+                                "properties": {
+                                  "*": true,
+                                },
+                              },
+                            },
+                            "properties": {
+                              "*": true,
+                              "SubSubSubValue1": true,
+                            },
+                          },
+                          "SubSubValue2": {
+                            "expand": {},
+                            "properties": {
+                              "SubValue2": true,
+                            },
+                          },
+                        },
+                        "properties": {
+                          "*": true,
+                          "SubSubValue1": true,
+                          "SubSubValue2": true,
+                        },
+                      },
+                    },
+                    "properties": {
+                      "*": true,
+                      "SubValue1": true,
+                    },
+                  },
+                }
+            `);
+        });
+
+        test('V4, additional expand options (1 level)', () => {
+            const myRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'Set?$expand=explicitExpand($filter=implicitExpand1/FilterProperty eq 1;$orderby=implicitExpand2/implicitExpand3/OrderByProperty desc)'
+                },
+                fakeDataAccess
+            );
+            expect(myRequest.expandProperties).toMatchInlineSnapshot(`
+                {
+                  "explicitExpand": {
+                    "expand": {
+                      "implicitExpand1": {
+                        "expand": {},
+                        "properties": {
+                          "*": true,
+                        },
+                        "removeFromResult": true,
+                      },
+                      "implicitExpand2": {
+                        "expand": {
+                          "implicitExpand3": {
+                            "expand": {},
+                            "properties": {
+                              "*": true,
+                            },
+                            "removeFromResult": true,
+                          },
+                        },
+                        "properties": {
+                          "*": true,
+                        },
+                        "removeFromResult": true,
+                      },
+                    },
+                    "filter": {
+                      "expressions": [
+                        {
+                          "identifier": "implicitExpand1/FilterProperty",
+                          "literal": "1",
+                          "operator": "eq",
+                        },
+                      ],
+                    },
+                    "orderBy": [
+                      {
+                        "direction": "desc",
+                        "name": "implicitExpand2/implicitExpand3/OrderByProperty",
+                      },
+                    ],
+                    "properties": {
+                      "*": true,
+                    },
+                  },
+                }
+            `);
+        });
+
+        test('V4, additional expand options (2 levels)', () => {
+            const myRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'Set?$expand=explicitExpand($filter=implicitExpand1/FilterProperty eq 1;$orderby=implicitExpand2/OrderByProperty desc;$expand=explicitSubExpand($select=selectProperty;$filter=implicitSubExpand1/filterProperty1 eq 2))'
+                },
+                fakeDataAccess
+            );
+            expect(myRequest.expandProperties).toMatchInlineSnapshot(`
+                {
+                  "explicitExpand": {
+                    "expand": {
+                      "explicitSubExpand": {
+                        "expand": {
+                          "implicitSubExpand1": {
+                            "expand": {},
+                            "properties": {
+                              "*": true,
+                            },
+                            "removeFromResult": true,
+                          },
+                        },
+                        "filter": {
+                          "expressions": [
+                            {
+                              "identifier": "implicitSubExpand1/filterProperty1",
+                              "literal": "2",
+                              "operator": "eq",
+                            },
+                          ],
+                        },
+                        "properties": {
+                          "selectProperty": true,
+                        },
+                      },
+                      "implicitExpand1": {
+                        "expand": {},
+                        "properties": {
+                          "*": true,
+                        },
+                        "removeFromResult": true,
+                      },
+                      "implicitExpand2": {
+                        "expand": {},
+                        "properties": {
+                          "*": true,
+                        },
+                        "removeFromResult": true,
+                      },
+                    },
+                    "filter": {
+                      "expressions": [
+                        {
+                          "identifier": "implicitExpand1/FilterProperty",
+                          "literal": "1",
+                          "operator": "eq",
+                        },
+                      ],
+                    },
+                    "orderBy": [
+                      {
+                        "direction": "desc",
+                        "name": "implicitExpand2/OrderByProperty",
+                      },
+                    ],
+                    "properties": {
+                      "*": true,
+                      "explicitSubExpand": true,
+                    },
+                  },
+                }
+            `);
+        });
     });
 
     //$apply
