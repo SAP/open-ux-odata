@@ -1964,6 +1964,32 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('Query with multiple keys', () => {
+        const q =
+            "NumberSchemeVersion(NumberingSchemeVersionUUID=877969d8-1456-5cfb-ad4b-ff094b96fa3a,IsActiveEntity=false)/_Result?sap-client=601&$select=HasActiveEntity,IsActiveEntity,NumberingSchemeVersionUUID,TradeClassificationNumber,TrdClassfctnNmbrOfclDesc,TrdClassfctnNumberIsEndline,TrdClassfctnNumberType,TrdClassfctnNumberUUID,TrdClfnNumberValidityEndDate,TrdClfnNumberValidtyStartDate,__EntityControl/Deletable,__EntityControl/Updatable,__FieldControl/TrdClfnNumberValidtyStartDate,__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/DrillState,__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/NodeId,__OperationControl/ReplaceContent,__OperationControl/UpdateContent&$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/NumberSchemeVersion(NumberingSchemeVersionUUID=877969d8-1456-5cfb-ad4b-ff094b96fa3a,IsActiveEntity=false)/_Result,HierarchyQualifier='I_ITMTrdClfnNumberHierarchy',NodeProperty='__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/NodeId',Levels=1)&$count=true&$skip=0&$top=55";
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: q
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "HierarchyNodes": "$root/NumberSchemeVersion(NumberingSchemeVersionUUID=877969d8-1456-5cfb-ad4b-ff094b96fa3a,IsActiveEntity=false)/_Result",
+                  "HierarchyQualifier": "'I_ITMTrdClfnNumberHierarchy'",
+                  "Levels": "1",
+                  "NodeProperty": "'__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/NodeId'",
+                },
+                "type": "customFunction",
+              },
+            ]
+        `);
+    });
     test('apply queries', () => {
         const odataRequest = new ODataRequest(
             {

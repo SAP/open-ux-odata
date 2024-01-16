@@ -538,18 +538,38 @@ export class ApplyParser extends FilterParser {
         this.rootExpr = this.RULE('rootExpr', () => {
             let rootExpr = '$root/';
             this.CONSUME(ROOT_TOKEN);
-            rootExpr += this.CONSUME(SIMPLEIDENTIFIER).image;
-            this.OPTION(() => {
-                // entitySetName + keyPredicate (simpleKey)
-                this.CONSUME(OPEN);
-                rootExpr += `(${this.CONSUME(LITERAL).image})`;
-                this.CONSUME(CLOSE);
-            });
             // singleNavigationExpr
-            this.OPTION2(() => {
-                this.CONSUME(SLASH);
-                rootExpr += '/' + this.CONSUME2(SIMPLEIDENTIFIER).image;
+            const subExprs: string[] = [];
+            this.MANY_SEP({
+                SEP: SLASH,
+                DEF: () => {
+                    let subExpr = this.CONSUME2(SIMPLEIDENTIFIER).image;
+                    this.OPTION2(() => {
+                        // entitySetName + keyPredicate (simpleKey)
+                        this.CONSUME(OPEN);
+                        subExpr += `(${this.CONSUME(LITERAL).image})`;
+                        this.CONSUME(CLOSE);
+                    });
+                    this.OPTION3(() => {
+                        // entitySetName + keyPredicate (complexKey)
+                        this.CONSUME2(OPEN);
+                        const manySep: string[] = [];
+                        this.MANY_SEP2({
+                            SEP: COMMA,
+                            DEF: () => {
+                                const namespacePart = this.CONSUME3(SIMPLEIDENTIFIER).image;
+                                this.CONSUME(EQ);
+                                const value = this.CONSUME2(LITERAL).image;
+                                manySep.push(`${namespacePart}=${value}`);
+                            }
+                        });
+                        subExpr += `(${manySep.join(',')})`;
+                        this.CONSUME2(CLOSE);
+                    });
+                    subExprs.push(subExpr);
+                }
             });
+            rootExpr += subExprs.join('/');
             return rootExpr;
         });
 
