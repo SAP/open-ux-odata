@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.17
+
+### Patch Changes
+
+-   08baacc: Allow to define hierarchies with complex keys
+
 ## 1.2.16
 
 ### Patch Changes
