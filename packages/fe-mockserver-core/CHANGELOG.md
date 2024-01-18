@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.19
+
+### Patch Changes
+
+-   cc89632: MaxLength is now considered for string key properties
+
 ## 1.2.18
 
 ### Patch Changes
