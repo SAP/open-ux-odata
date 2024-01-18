@@ -34,6 +34,17 @@ describe('File Based Mock Data', () => {
         const allEntries = fileBasedData.getAllEntries({} as any);
         expect(allEntries[0].Value.length).toBeLessThan(5);
         expect(allEntries[0].complexComputedNotNullProperty.textDescription.length).toBeLessThan(6);
+        const fileBasedData2 = new FileBasedMockData(
+            mockData,
+            metadata.getEntityType('MyMultiKeyEntity')!,
+            {} as any,
+            'default'
+        );
+        const allEntries2 = fileBasedData2.getAllEntries({} as any);
+        expect(allEntries2[0].Value.length).toBeLessThan(5);
+        expect(allEntries2[0].StrKey.length).toBeLessThan(4);
+        expect(allEntries2[1].StrKey.length).toBeLessThan(4);
+        expect(allEntries2[2].StrKey.length).toBeLessThan(4);
     });
     it('can recognize propertyPaths', () => {
         expect(isPropertyPathExpression(undefined)).toBe(false);

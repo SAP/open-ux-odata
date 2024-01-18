@@ -22,4 +22,8 @@ service MultiLevelExpand {
     entity MySecondEntity : AbstractEntity {
 
     }
+
+    entity MyMultiKeyEntity : AbstractEntity {
+        key StrKey: String(3);
+    }
 }
