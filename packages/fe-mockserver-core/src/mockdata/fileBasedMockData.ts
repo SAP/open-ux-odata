@@ -25,6 +25,10 @@ type HierarchyDefinition = {
     limitedDescendantCountProperty: string | undefined;
     sourceReference: string;
 };
+
+function getNumberLength(number: number): number {
+    return number.toString().length;
+}
 export function isPropertyPathExpression(expression: unknown): expression is PropertyPath {
     return (expression as PropertyPath)?.type === 'PropertyPath';
 }
@@ -307,7 +311,7 @@ export class FileBasedMockData {
                 return Math.floor(Math.random() * 10000);
             case 'Edm.String':
                 if (property.maxLength) {
-                    const remainingLength = property.maxLength - lineIndex - 2;
+                    const remainingLength = property.maxLength - getNumberLength(lineIndex) - 2;
                     return `${propertyName.substring(0, remainingLength)}_${lineIndex}`;
                 }
                 return `${propertyName}_${lineIndex}`;
@@ -383,12 +387,13 @@ export class FileBasedMockData {
 
     generateKey(property: Property, lineIndex?: number, mockData: any = []) {
         const currentMockData = this._mockData || mockData;
+        const propertyName = property.name;
         let highestIndex: number;
         switch (property.type) {
             case 'Edm.Int32':
                 highestIndex = 0;
                 currentMockData.forEach((mockLine: any) => {
-                    const mockLineIndex = parseInt(mockLine[property.name], 10);
+                    const mockLineIndex = parseInt(mockLine[propertyName], 10);
                     highestIndex = Math.max(highestIndex, mockLineIndex);
                 });
                 return highestIndex + 1;
@@ -400,7 +405,11 @@ export class FileBasedMockData {
                 if (lineIndex === undefined) {
                     lineIndex = currentMockData.length + 1;
                 }
-                return `${property.name}_${lineIndex}`;
+                if (property.maxLength) {
+                    const remainingLength = property.maxLength - getNumberLength(lineIndex);
+                    return `${propertyName.substring(0, remainingLength)}${lineIndex}`;
+                }
+                return `${propertyName}_${lineIndex}`;
             default:
                 return generateId(12);
         }
