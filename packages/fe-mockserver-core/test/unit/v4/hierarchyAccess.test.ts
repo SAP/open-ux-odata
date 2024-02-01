@@ -2054,4 +2054,51 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('more apply queries', () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/RiskSettingsService/LevelCorrelation?entitySet=LevelCorrelation&$apply=filter(IsActiveEntity%20eq%20true)/groupby((impactLevelUpperValue,impactLevel_ID,probabilityLevelUpperValue,probabilityLevel_ID),aggregate(nullProperty%20with%20min%20as%20nullMeasure))'
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "filterExpr": {
+                  "expressions": [
+                    {
+                      "identifier": "IsActiveEntity",
+                      "literal": "true",
+                      "operator": "eq",
+                    },
+                  ],
+                },
+                "type": "filter",
+              },
+              {
+                "groupBy": [
+                  "impactLevelUpperValue",
+                  "impactLevel_ID",
+                  "probabilityLevelUpperValue",
+                  "probabilityLevel_ID",
+                ],
+                "subTransformations": [
+                  {
+                    "aggregateDef": [
+                      {
+                        "name": "nullMeasure",
+                        "operator": "min",
+                        "sourceProperty": "nullProperty",
+                      },
+                    ],
+                    "type": "aggregates",
+                  },
+                ],
+                "type": "groupBy",
+              },
+            ]
+        `);
+    });
 });
