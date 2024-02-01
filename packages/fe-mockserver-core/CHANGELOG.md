@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.20
+
+### Patch Changes
+
+-   1b29820: Fix an issue with null in property names
+
 ## 1.2.19
 
 ### Patch Changes
