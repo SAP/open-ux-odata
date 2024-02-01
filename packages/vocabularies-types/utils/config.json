@@ -1,5 +1,5 @@
 {
-    "Auth": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Authorization.V1.json",
+    "Authorization": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Authorization.V1.json",
     "Core": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.json",
     "Capabilities": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.json",
     "Aggregation": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Aggregation.V1.json",
