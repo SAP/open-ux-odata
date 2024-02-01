@@ -194,6 +194,9 @@ importers:
       '@sap-ux/ui5-middleware-fe-mockserver':
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
+      '@sap/open.fe':
+        specifier: 1.120.0
+        version: 1.120.0
       '@ui5/cli':
         specifier: 3.7.3
         version: 3.7.3
@@ -1312,6 +1315,10 @@ packages:
     hasBin: true
     dependencies:
       antlr4: 4.9.3
+    dev: true
+
+  /@sap/open.fe@1.120.0:
+    resolution: {integrity: sha512-U/EtyBqU+VPwbmvwXbnLxx33aaqPl9VphyhJZMEXO7A+osEDW5N7ZVjkcBPIkg63I7FF6PSJMHx7ZkVddJw9MA==}
     dev: true
 
   /@sigstore/bundle@2.1.0:
