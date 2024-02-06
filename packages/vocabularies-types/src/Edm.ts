@@ -359,7 +359,7 @@ export type ReferentialConstraint = {
 export type BaseNavigationProperty = {
     _type: 'NavigationProperty';
     name: SimpleIdentifier;
-    partner: string;
+    partner?: string;
     fullyQualifiedName: FullyQualifiedName;
     targetTypeName: FullyQualifiedName;
     targetType: EntityType;
