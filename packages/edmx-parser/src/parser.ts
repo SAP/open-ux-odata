@@ -34,6 +34,7 @@ import type {
     ReferentialConstraint,
     SimpleIdentifier
 } from '@sap-ux/vocabularies-types';
+import type { StringExpression } from '@sap-ux/vocabularies-types/src';
 import { xml2js } from 'xml-js';
 import { ensureArray, RawMetadataInstance } from './utils';
 import type { V2annotationsSupport } from './v2annotationsSupport';
@@ -676,7 +677,7 @@ function parseCollection(
     annotationsLists: AnnotationList[]
 ):
     | AnnotationRecord[]
-    | string[]
+    | StringExpression[]
     | PropertyPathExpression[]
     | PathExpression[]
     | AnnotationPathExpression[]
@@ -703,7 +704,7 @@ function parseCollection(
     } else if (isExpressionOfType<EDMX.StringCollectionWrapper>(collection, 'String')) {
         const stringArray = ensureArray(collection.String).map((stringValue) => stringValue._text);
         (stringArray as any).type = 'String';
-        return stringArray;
+        return stringArray as unknown as StringExpression[];
     } else if (isExpressionOfType<EDMX.AnnotationPathCollectionWrapper>(collection, 'AnnotationPath')) {
         const annotationPathArray = ensureArray(collection.AnnotationPath).map(
             (annotationPath) => parseModelPath(annotationPath, 'AnnotationPath') as AnnotationPathExpression
