@@ -26,6 +26,11 @@ type HierarchyDefinition = {
     sourceReference: string;
 };
 
+type ToExpand = {
+    name: string;
+    depth: number;
+};
+
 function getNumberLength(number: number): number {
     return number.toString().length;
 }
@@ -652,7 +657,7 @@ export class FileBasedMockData {
         nodeProperty: string,
         hierarchyDefinition: HierarchyDefinition,
         depth: number,
-        toExpand: string[] = [],
+        toExpand: ToExpand[] = [],
         toCollapse: string[] = [],
         toShow: string[] = [],
         toShowAncestors: string[] = [],
@@ -662,9 +667,9 @@ export class FileBasedMockData {
         const currentNodeProperty = getData(currentNode, nodeProperty);
         const shouldShowAncestor = toShowAncestors.includes(currentNodeProperty);
         if (currentNode && (depth < 0 || depth > 0 || forceExpand || shouldShowAncestor)) {
-            const shouldExpand = toExpand.includes(currentNodeProperty);
+            const shouldExpand = toExpand.find((toExpand) => toExpand.name === currentNodeProperty);
             if (shouldExpand) {
-                depth++;
+                depth += shouldExpand.depth;
             }
 
             const shouldShow = toShow.includes(currentNodeProperty);
@@ -862,8 +867,19 @@ export class FileBasedMockData {
             // If no 'Levels' value is specified, then all levels are returned
             const depth: number = _parameters.Levels ? parseInt(_parameters.Levels, 10) : Number.POSITIVE_INFINITY;
 
-            const toExpand = _parameters.Expand?.map((expand) => expand.substring(1, expand.length - 1)) ?? [];
+            const toExpand: ToExpand[] =
+                _parameters.Expand?.map((expand) => {
+                    return { name: expand.substring(1, expand.length - 1), depth: 1 };
+                }) ?? [];
             const toShow = _parameters.Show?.map((collapse) => collapse.substring(1, collapse.length - 1)) ?? [];
+            if (_parameters.ExpandLevels) {
+                for (const expandLevels of _parameters.ExpandLevels) {
+                    toExpand.push({
+                        name: expandLevels["'NodeID'"].substring(1, expandLevels["'NodeID'"].length - 1),
+                        depth: parseInt(expandLevels["'Levels'"], 10)
+                    });
+                }
+            }
             const toShowAncestors: string[] = [];
             for (const nodeId of toShow) {
                 const node = this._mockData.find((node: any) => getData(node, nodeProperty) === nodeId);

@@ -2,11 +2,13 @@ import { createToken } from 'chevrotain';
 
 export const OPEN = createToken({ name: 'OPEN', pattern: /(:?\(|%28)/ });
 export const OPEN_BRACKET = createToken({ name: 'OPEN_BRACKET', pattern: /(:?\[)/ });
+export const OPEN_CURLY_BRACKET = createToken({ name: 'OPEN_CURLY_BRACKET', pattern: /(:?\{)/ });
 export const DOT = createToken({ name: 'DOT', pattern: /\./ });
 export const QUOTE = createToken({ name: 'QUOTE', pattern: /(:?"|%22)/ });
 export const EQ = createToken({ name: 'EQ', pattern: /\=/ });
 export const CLOSE = createToken({ name: 'CLOSE', pattern: /(:?\)|%29)/ });
 export const CLOSE_BRACKET = createToken({ name: 'CLOSE_BRACKET', pattern: /(:?\])/ });
+export const CLOSE_CURLY_BRACKET = createToken({ name: 'CLOSE_CURLY_BRACKET', pattern: /(:?\})/ });
 export const COMMA = createToken({ name: 'COMMA', pattern: /(:?,|%2C)/ });
 export const SLASH = createToken({ name: 'SLASH', pattern: /\// });
 export const ANYALL = createToken({ name: 'COMMA', pattern: /(:?any|all)\(/ });
