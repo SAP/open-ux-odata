@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.3
+
+### Patch Changes
+
+-   85a06d9: Slight change for the partner navigation on type or the raw v4 navigation
+
 ## 0.10.2
 
 ### Patch Changes
