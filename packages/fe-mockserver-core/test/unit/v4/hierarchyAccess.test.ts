@@ -1579,6 +1579,89 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('8.5 - Expand on sub-nodes', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2,ExpandLevels=[{'NodeID':'US','Levels':1},{'NodeID':'US East','Levels':2}])&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=50"
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+          [
+            {
+              "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+              "parameters": {
+                "HierarchyNodes": "$root/SalesOrganizations",
+                "HierarchyQualifier": "'SalesOrgHierarchy'",
+                "Levels": "2",
+                "NodeProperty": "'ID'",
+                "ExpandLevels": [
+                  {'NodeID':'US','Levels':1},
+                  {'NodeID':'US East','Levels':2}
+                ]
+              },
+              "type": "customFunction",
+            },
+          ]
+        `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 7,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "US",
+                "LimitedDescendantCount": 4,
+                "Name": "US",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "US West",
+                "LimitedDescendantCount": 0,
+                "Name": "US West",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "expanded",
+                "ID": "US East",
+                "LimitedDescendantCount": 2,
+                "Name": "US East",
+              },
+              {
+                "DistanceFromRoot": 3,
+                "DrillState": "expanded",
+                "ID": "NY",
+                "LimitedDescendantCount": 1,
+                "Name": "New York State",
+              },
+              {
+                "DistanceFromRoot": 4,
+                "DrillState": "leaf",
+                "ID": "NYC",
+                "LimitedDescendantCount": 0,
+                "Name": "New York City",
+              },
+            ]
+        `);
+    });
+
     test('9 - Create new root and a child', async () => {
         const createRequest = new ODataRequest(
             {
