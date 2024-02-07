@@ -10,6 +10,7 @@ import {
     BOOL_METHOD,
     CLOSE,
     CLOSE_BRACKET,
+    CLOSE_CURLY_BRACKET,
     COLON,
     COMMA,
     COMPLEX_METHOD,
@@ -25,6 +26,7 @@ import {
     LOGICAL_OPERATOR,
     OPEN,
     OPEN_BRACKET,
+    OPEN_CURLY_BRACKET,
     ORDERBY_TOKEN,
     QUOTE,
     ROOT_TOKEN,
@@ -50,7 +52,9 @@ const applyTokens = [
     CLOSE,
     QUOTE,
     OPEN_BRACKET,
+    OPEN_CURLY_BRACKET,
     CLOSE_BRACKET,
+    CLOSE_CURLY_BRACKET,
     COMMA,
     ANCESTORS_TOKEN,
     CONCAT_TOKEN,
@@ -96,8 +100,13 @@ export type AncestorDescendantsParameters = {
     keepStart: boolean;
     inputSetTransformations: TransformationDefinition[];
 };
+export type ExpandLevel = {
+    "'Levels'": string;
+    "'NodeID'": string;
+};
 export type TopLevelParameters = {
     HierarchyNodes: string;
+    ExpandLevels?: ExpandLevel[];
     Levels: string;
     NodeProperty: string;
     HierarchyQualifier: string;
@@ -150,7 +159,7 @@ export type DescendantsTransformation = {
 export type CustomFunctionTransformation = {
     type: 'customFunction';
     name: string;
-    parameters: Record<string, string | number | boolean | string[]>;
+    parameters: Record<string, string | number | boolean | string[] | object[]>;
 };
 export type TransformationDefinition =
     | FilterTransformation
@@ -665,9 +674,34 @@ export class ApplyParser extends FilterParser {
                                 this.MANY_SEP3({
                                     SEP: COMMA,
                                     DEF: () => {
-                                        parameterArray.push(this.CONSUME2(LITERAL).image);
+                                        this.OR2([
+                                            {
+                                                ALT: () => {
+                                                    parameterArray.push(this.CONSUME2(LITERAL).image);
+                                                }
+                                            },
+                                            {
+                                                ALT: () => {
+                                                    this.CONSUME(OPEN_CURLY_BRACKET);
+                                                    const parameterValue: Record<string, unknown> = {};
+                                                    // More complex parameters  {'NodeID':'US','Levels':1}
+                                                    this.MANY_SEP4({
+                                                        SEP: COMMA,
+                                                        DEF: () => {
+                                                            const key = this.CONSUME6(LITERAL).image;
+                                                            this.CONSUME4(COLON);
+                                                            const value = this.CONSUME7(LITERAL).image;
+                                                            parameterValue[key] = value;
+                                                        }
+                                                    });
+                                                    parameterArray.push(parameterValue);
+                                                    this.CONSUME(CLOSE_CURLY_BRACKET);
+                                                }
+                                            }
+                                        ]);
                                     }
                                 });
+
                                 this.CONSUME(CLOSE_BRACKET);
                                 parameters[identifier.image] = parameterArray;
                             }
