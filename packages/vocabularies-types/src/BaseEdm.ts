@@ -79,7 +79,7 @@ export type Expression =
 
 export type Collection =
     | AnnotationRecord[]
-    | string[]
+    | StringExpression[]
     | PropertyPathExpression[]
     | PathExpression[]
     | NavigationPropertyPathExpression[]
