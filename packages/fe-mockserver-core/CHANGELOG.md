@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.23
+
+### Patch Changes
+
+-   5707fd4: fix subExpand in topLevels
+
 ## 1.2.22
 
 ### Patch Changes
