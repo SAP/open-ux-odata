@@ -1584,7 +1584,7 @@ describe('Hierarchy Access', () => {
         const odataRequest = new ODataRequest(
             {
                 method: 'GET',
-                url: "/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2,ExpandLevels=[{'NodeID':'US','Levels':1},{'NodeID':'US East','Levels':2}])&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=50"
+                url: '/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=\'SalesOrgHierarchy\',NodeProperty=\'ID\',Levels=2,ExpandLevels=[{"NodeID":"US","Levels":1},{"NodeID":"US East","Levels":2}])&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=50'
             },
             dataAccess
         );
@@ -1595,12 +1595,12 @@ describe('Hierarchy Access', () => {
                 "parameters": {
                   "ExpandLevels": [
                     {
-                      "'Levels'": "1",
-                      "'NodeID'": "'US'",
+                      "Levels": "1",
+                      "NodeID": "US",
                     },
                     {
-                      "'Levels'": "2",
-                      "'NodeID'": "'US East'",
+                      "Levels": "2",
+                      "NodeID": "US East",
                     },
                   ],
                   "HierarchyNodes": "$root/SalesOrganizations",
