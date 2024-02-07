@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.4
+
+### Patch Changes
+
+-   609a24a: Slight type improvement
+
 ## 0.10.3
 
 ### Patch Changes
