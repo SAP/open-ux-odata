@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.24
+
+### Patch Changes
+
+-   160e4ec: fix: proper query for expand levels
+
 ## 1.2.23
 
 ### Patch Changes
