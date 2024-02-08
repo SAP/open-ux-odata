@@ -122,7 +122,8 @@ function resolveTarget<T>(
             startElement =
                 converter.getConvertedEntityType(pathSegments[0]) ??
                 converter.getConvertedComplexType(pathSegments[0]) ??
-                converter.getConvertedAction(pathSegments[0]);
+                converter.getConvertedAction(pathSegments[0]) ??
+                converter.getConvertedAction(`${pathSegments[0]}()`); // unbound action
             pathSegments.shift(); // Let's remove the first path element
         } else {
             startElement = converter.getConvertedEntityContainer();

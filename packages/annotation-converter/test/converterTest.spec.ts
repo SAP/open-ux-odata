@@ -417,6 +417,18 @@ describe('Annotation Converter', () => {
             expect(target.target.name).toEqual('isVerified');
         });
 
+        it('can resolve a path starting at an unbound action', () => {
+            const target: ResolutionTarget<any> = convertedTypes.resolvePath(
+                '/com.c_salesordermanage_sd.UnboundAction/0'
+            );
+
+            expect(target.target).not.toBeNull();
+            expect(target.target).not.toBeUndefined();
+            expect(target.objectPath.length).toEqual(1); // Action
+            expect(target.target._type).toEqual('Action');
+            expect(target.target.name).toEqual('UnboundAction');
+        });
+
         it('can resolve /$Type starting at an entity type', () => {
             const entityType = convertedTypes.entityTypes[0];
             expect(entityType).not.toBeNull();
