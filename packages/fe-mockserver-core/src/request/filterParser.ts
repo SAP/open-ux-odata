@@ -13,6 +13,7 @@ import {
     NOT_OPERATOR,
     OPEN,
     SIMPLEIDENTIFIER,
+    SIMPLEIDENTIFIERWITHWS,
     SIMPLE_METHOD,
     SLASH,
     TYPEDEF,
@@ -37,7 +38,8 @@ const filterTokens = [
     LOGICAL_OPERATOR,
     TYPEDEF,
     LITERAL,
-    SIMPLEIDENTIFIER
+    SIMPLEIDENTIFIER,
+    SIMPLEIDENTIFIERWITHWS
 ];
 
 export const FilterLexer = new Lexer(filterTokens, {
@@ -332,6 +334,12 @@ export class FilterParser extends EmbeddedActionsParser {
                             operator = $.CONSUME(LOGICAL_OPERATOR);
                             $.CONSUME3(WS);
                             literal = $.OR3([
+                                {
+                                    ALT: () => {
+                                        const simpleId = $.CONSUME(SIMPLEIDENTIFIERWITHWS);
+                                        return simpleId.image.substring(1, simpleId.image.length - 1);
+                                    }
+                                },
                                 {
                                     ALT: () => $.CONSUME(LITERAL)
                                 },
