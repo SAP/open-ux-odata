@@ -1595,12 +1595,12 @@ describe('Hierarchy Access', () => {
                 "parameters": {
                   "ExpandLevels": [
                     {
-                      "Levels": "1",
-                      "NodeID": "US",
+                      ""Levels"": "1",
+                      ""NodeID"": ""US"",
                     },
                     {
-                      "Levels": "2",
-                      "NodeID": "US East",
+                      ""Levels"": "2",
+                      ""NodeID"": ""US East"",
                     },
                   ],
                   "HierarchyNodes": "$root/SalesOrganizations",

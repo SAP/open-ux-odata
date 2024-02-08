@@ -32,6 +32,7 @@ import {
     ROOT_TOKEN,
     SEARCH_TOKEN,
     SIMPLEIDENTIFIER,
+    SIMPLEIDENTIFIERWITHWS,
     SIMPLE_METHOD,
     SKIP_TOKEN,
     SLASH,
@@ -84,7 +85,8 @@ const applyTokens = [
     LOGICAL_OPERATOR,
     TYPEDEF,
     LITERAL,
-    SIMPLEIDENTIFIER
+    SIMPLEIDENTIFIER,
+    SIMPLEIDENTIFIERWITHWS
 ];
 
 export const SearchLexer = new Lexer(applyTokens, {
@@ -101,8 +103,8 @@ export type AncestorDescendantsParameters = {
     inputSetTransformations: TransformationDefinition[];
 };
 export type ExpandLevel = {
-    "'Levels'": string;
-    "'NodeID'": string;
+    '"Levels"': string;
+    '"NodeID"': string;
 };
 export type TopLevelParameters = {
     HierarchyNodes: string;
@@ -339,21 +341,8 @@ export class ApplyParser extends FilterParser {
             this.MANY_SEP({
                 SEP: WS,
                 DEF: () => {
-                    this.CONSUME(QUOTE);
-                    const stringToken = this.OR([
-                        {
-                            ALT: () => {
-                                return this.CONSUME(SIMPLEIDENTIFIER);
-                            }
-                        },
-                        {
-                            ALT: () => {
-                                return this.CONSUME(LITERAL);
-                            }
-                        }
-                    ]);
-                    this.CONSUME2(QUOTE);
-                    searchExpr.push(stringToken.image);
+                    const stringToken = this.CONSUME(SIMPLEIDENTIFIERWITHWS);
+                    searchExpr.push(stringToken.image.substring(1, stringToken.image.length - 1));
                 }
             });
             transformations.push({ type: 'search', searchExpr: searchExpr });
@@ -688,10 +677,21 @@ export class ApplyParser extends FilterParser {
                                                     this.MANY_SEP4({
                                                         SEP: COMMA,
                                                         DEF: () => {
-                                                            const key = this.CONSUME6(LITERAL).image;
-                                                            this.CONSUME4(COLON);
-                                                            const value = this.CONSUME7(LITERAL).image;
-                                                            parameterValue[key] = value;
+                                                            const key = this.CONSUME6(SIMPLEIDENTIFIERWITHWS).image;
+                                                            this.CONSUME(COLON);
+                                                            const value = this.OR3([
+                                                                {
+                                                                    ALT: () => {
+                                                                        return this.CONSUME7(SIMPLEIDENTIFIERWITHWS);
+                                                                    }
+                                                                },
+                                                                {
+                                                                    ALT: () => {
+                                                                        return this.CONSUME3(LITERAL);
+                                                                    }
+                                                                }
+                                                            ]);
+                                                            parameterValue[key] = value.image;
                                                         }
                                                     });
                                                     parameterArray.push(parameterValue);

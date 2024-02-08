@@ -1,58 +1,66 @@
 import { createToken } from 'chevrotain';
 
-export const OPEN = createToken({ name: 'OPEN', pattern: /(:?\(|%28)/ });
-export const OPEN_BRACKET = createToken({ name: 'OPEN_BRACKET', pattern: /(:?\[)/ });
-export const OPEN_CURLY_BRACKET = createToken({ name: 'OPEN_CURLY_BRACKET', pattern: /(:?\{)/ });
+export const OPEN = createToken({ name: 'OPEN', pattern: /(?:\(|%28)/ });
+export const OPEN_BRACKET = createToken({ name: 'OPEN_BRACKET', pattern: /(?:\[)/ });
+export const OPEN_CURLY_BRACKET = createToken({ name: 'OPEN_CURLY_BRACKET', pattern: /(?:\{)/ });
 export const DOT = createToken({ name: 'DOT', pattern: /\./ });
-export const QUOTE = createToken({ name: 'QUOTE', pattern: /(:?"|%22)/ });
+
 export const EQ = createToken({ name: 'EQ', pattern: /\=/ });
-export const CLOSE = createToken({ name: 'CLOSE', pattern: /(:?\)|%29)/ });
-export const CLOSE_BRACKET = createToken({ name: 'CLOSE_BRACKET', pattern: /(:?\])/ });
-export const CLOSE_CURLY_BRACKET = createToken({ name: 'CLOSE_CURLY_BRACKET', pattern: /(:?\})/ });
-export const COMMA = createToken({ name: 'COMMA', pattern: /(:?,|%2C)/ });
+export const CLOSE = createToken({ name: 'CLOSE', pattern: /(?:\)|%29)/ });
+export const CLOSE_BRACKET = createToken({ name: 'CLOSE_BRACKET', pattern: /(?:\])/ });
+export const CLOSE_CURLY_BRACKET = createToken({ name: 'CLOSE_CURLY_BRACKET', pattern: /(?:\})/ });
+export const COMMA = createToken({ name: 'COMMA', pattern: /(?:,|%2C)/ });
 export const SLASH = createToken({ name: 'SLASH', pattern: /\// });
-export const ANYALL = createToken({ name: 'COMMA', pattern: /(:?any|all)\(/ });
-export const COLON = createToken({ name: 'COLON', pattern: /(:?:|%3A)/ });
-export const SIMPLEIDENTIFIER = createToken({ name: 'SimpleIdentifier', pattern: /\w{1,128}/ });
+export const ANYALL = createToken({ name: 'COMMA', pattern: /(?:any|all)\(/ });
+export const COLON = createToken({ name: 'COLON', pattern: /(?::|%3A)/ });
+export const SIMPLEIDENTIFIERWITHWS = createToken({ name: 'SimpleIdentifierWithWS', pattern: /"\w+[\w\s]+"/ });
+export const QUOTE = createToken({ name: 'QUOTE', longer_alt: SIMPLEIDENTIFIERWITHWS, pattern: /(?:"|%22)/ });
+export const SIMPLEIDENTIFIER = createToken({
+    name: 'SimpleIdentifier',
+    longer_alt: SIMPLEIDENTIFIERWITHWS,
+    pattern: /\w{1,128}/
+});
 export const SIMPLE_METHOD = createToken({
     name: 'SIMPLE_METHOD',
     longer_alt: SIMPLEIDENTIFIER,
-    pattern: /(:?length|tolower|toupper|trim|round|floor|ceiling)/
+    pattern: /(?:length|tolower|toupper|trim|round|floor|ceiling)/
 });
 export const COMPLEX_METHOD = createToken({
     name: 'COMPLEX_METHOD',
     longer_alt: SIMPLEIDENTIFIER,
-    pattern: /(:?concat|contains|endswith|indexof|matchesPattern|startswith|substringof|substring|cast)/
+    pattern: /(?:concat|contains|endswith|indexof|matchesPattern|startswith|substringof|substring|cast)/
 });
 export const BOOL_METHOD = createToken({
     name: 'BOOL_METHOD',
     longer_alt: SIMPLEIDENTIFIER,
-    pattern: /(:?contains|endswith|startswith)/
+    pattern: /(?:contains|endswith|startswith)/
 });
 export const TYPEDEF = createToken({ name: 'Typedef', pattern: /Edm\.[a-zA-Z]+/ });
+
 // null, boolean, guid, dateTimeInOffset / dateValue / timeOfDay / decimalValue / doubleValue / singleValue / string / duration / enum / binary
 export const LITERAL = createToken({
     name: 'Literal',
     longer_alt: SIMPLEIDENTIFIER,
     pattern:
-        /(:?null|true|false|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|guid(:?'|%27)[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:?'|%27)|(?:datetime|datetimeoffset)'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})*(?:Z)*'|\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:.\d{3,7})*(?:Z|\+\d{2}:\d{2}))*|-?(:?0|[1-9]\d*)(\.\d+)?(:?[eE][+-]?\d+)?|'[^\\"\n\r\']*')/
+        /(?:null|true|false|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|guid(?:'|%27)[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:'|%27)|(?:datetime|datetimeoffset)'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})*(?:Z)*'|\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:.\d{3,7})*(?:Z|\+\d{2}:\d{2}))*|-?(?:0|[1-9]\d*)(\.\d+)?(?:[eE][+-]?\d+)?|'[^\\"\n\r\']*')/
 });
+
 //ee1a9172-f3c3-47ce-b0f7-dd28c740210c
 export const LOGICAL_OPERATOR = createToken({
     name: 'Logical',
     longer_alt: SIMPLEIDENTIFIER,
-    pattern: /(:?eq|ne|lt|le|gt|ge)/
+    pattern: /(?:eq|ne|lt|le|gt|ge)/
 });
-export const NOT_OPERATOR = createToken({ name: 'Not', longer_alt: SIMPLEIDENTIFIER, pattern: /(:?not)/ });
-export const ANDOR = createToken({ name: 'AndOr', pattern: /(\s|%20)(:?and|or)(\s|%20)/ });
-export const ASCDESC = createToken({ name: 'AscDesc', longer_alt: SIMPLEIDENTIFIER, pattern: /(:?asc|desc)/ });
+export const NOT_OPERATOR = createToken({ name: 'Not', longer_alt: SIMPLEIDENTIFIER, pattern: /(?:not)/ });
+export const ANDOR = createToken({ name: 'AndOr', pattern: /(\s|%20)(?:and|or)(\s|%20)/ });
+export const ASCDESC = createToken({ name: 'AscDesc', longer_alt: SIMPLEIDENTIFIER, pattern: /(?:asc|desc)/ });
 export const WS = createToken({ name: 'Whitespace', pattern: /(\s|%20)+/ });
 // const STRINGLITERAL = createToken({
 //     name: 'SimpleIdentifier',
-//     pattern: /(:?[^\\"\s]+|\\(:?[bfnrtv"\\/]|u[0-9a-fA-F]{4}))+/
+//     pattern: /(?:[^\\"\s]+|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))+/
 // });
-//const COMPLEXEXPRESSION = createToken({ name: 'ComplexExpression', pattern: /(:?[^\)]+)/ });
-export const NUMBER = createToken({ name: 'Number', pattern: /(:?\d+)/ });
+//const COMPLEXEXPRESSION = createToken({ name: 'ComplexExpression', pattern: /(?:[^\)]+)/ });
+export const NUMBER = createToken({ name: 'Number', pattern: /(?:\d+)/ });
 export const DIGIT = createToken({ name: 'Digit', pattern: /\d/ });
 // null, boolean, guid, dateTimeInOffset / dateValue / timeOfDay / decimalValue / doubleValue / singleValue / string / duration / enum / binary
 export const FILTER_TOKEN = createToken({ name: 'Filter', longer_alt: SIMPLEIDENTIFIER, pattern: /filter/ });

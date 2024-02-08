@@ -875,8 +875,8 @@ export class FileBasedMockData {
             if (_parameters.ExpandLevels) {
                 for (const expandLevels of _parameters.ExpandLevels) {
                     toExpand.push({
-                        name: expandLevels["'NodeID'"].substring(1, expandLevels["'NodeID'"].length - 1),
-                        depth: parseInt(expandLevels["'Levels'"], 10)
+                        name: expandLevels['"NodeID"'].substring(1, expandLevels['"NodeID"'].length - 1),
+                        depth: parseInt(expandLevels['"Levels"'], 10)
                     });
                 }
             }
