@@ -335,6 +335,12 @@ export class FilterParser extends EmbeddedActionsParser {
                             $.CONSUME3(WS);
                             literal = $.OR3([
                                 {
+                                    ALT: () => {
+                                        const simpleId = $.CONSUME(SIMPLEIDENTIFIERWITHWS);
+                                        return simpleId.image.substring(1, simpleId.image.length - 1);
+                                    }
+                                },
+                                {
                                     ALT: () => $.CONSUME(LITERAL)
                                 },
                                 {
