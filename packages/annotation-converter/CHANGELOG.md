@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.8.5
+
+### Patch Changes
+
+-   260e502: fix: The annotation converter now resolves unbound actions both with a trailing `()` and without
+
 ## 0.8.4
 
 ### Patch Changes
