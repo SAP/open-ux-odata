@@ -6,6 +6,7 @@ type GenericExpression<K extends keyof any, T> = {
 } & {
     type: K;
 };
+type ArrayWithType<T, K> = T[] & { type?: K };
 
 export type Apply = any;
 export type If = any;
@@ -78,12 +79,30 @@ export type Expression =
     | LeExpression;
 
 export type Collection =
-    | AnnotationRecord[]
-    | StringExpression[]
-    | PropertyPathExpression[]
-    | PathExpression[]
-    | NavigationPropertyPathExpression[]
-    | AnnotationPathExpression[];
+    | ArrayWithType<AnnotationRecord, 'Record'>
+    | ArrayWithType<StringExpression, 'String'>
+    | ArrayWithType<PropertyPathExpression, 'PropertyPath'>
+    | ArrayWithType<PathExpression, 'Path'>
+    | ArrayWithType<NavigationPropertyPathExpression, 'NavigationPropertyPath'>
+    | ArrayWithType<AnnotationPathExpression, 'AnnotationPath'>
+    | ArrayWithType<EnumMemberExpression, 'EnumMember'>
+    | ArrayWithType<BoolExpression, 'Bool'>
+    | ArrayWithType<DecimalExpression, 'Decimal'>
+    | ArrayWithType<DateExpression, 'Date'>
+    | ArrayWithType<IntExpression, 'Int'>
+    | ArrayWithType<FloatExpression, 'Float'>
+    | ArrayWithType<ApplyExpression, 'Apply'>
+    | ArrayWithType<NullExpression, 'Null'>
+    | ArrayWithType<IfExpression, 'If'>
+    | ArrayWithType<AndExpression, 'And'>
+    | ArrayWithType<OrExpression, 'Or'>
+    | ArrayWithType<EqExpression, 'Eq'>
+    | ArrayWithType<NotExpression, 'Not'>
+    | ArrayWithType<NeExpression, 'Ne'>
+    | ArrayWithType<GtExpression, 'Gt'>
+    | ArrayWithType<GeExpression, 'Ge'>
+    | ArrayWithType<LtExpression, 'Lt'>
+    | ArrayWithType<LeExpression, 'Le'>;
 
 export type AnnotationList = {
     target: FullyQualifiedName;
