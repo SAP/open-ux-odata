@@ -1,5 +1,12 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.26
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.6
+-   @sap-ux/edmx-parser@0.7.0
+
 ## 1.2.25
 
 ### Patch Changes

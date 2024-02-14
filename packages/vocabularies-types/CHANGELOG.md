@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.5
+
+### Patch Changes
+
+-   bad1db5: Some additional fixes to the type
+
 ## 0.10.4
 
 ### Patch Changes
