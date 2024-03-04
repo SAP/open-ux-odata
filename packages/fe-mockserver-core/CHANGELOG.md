@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.27
+
+### Patch Changes
+
+-   79314d3: Add support for in operator (odata v4.01)
+
 ## 1.2.26
 
 ### Patch Changes
