@@ -8,6 +8,7 @@ import {
     COLON,
     COMMA,
     COMPLEX_METHOD,
+    IN_OPERATOR,
     LITERAL,
     LOGICAL_OPERATOR,
     NOT_OPERATOR,
@@ -35,6 +36,7 @@ const filterTokens = [
     BOOL_METHOD,
     COMPLEX_METHOD,
     NOT_OPERATOR,
+    IN_OPERATOR,
     LOGICAL_OPERATOR,
     TYPEDEF,
     LITERAL,
@@ -66,7 +68,7 @@ export type FilterExpression = {
     operator?: string;
     isGroup?: boolean;
     isReversed?: boolean;
-    literal?: string;
+    literal?: string | string[];
     identifier?: string | FilterMethodCall | LambdaExpression;
 };
 // Parser
@@ -318,6 +320,7 @@ export class FilterParser extends EmbeddedActionsParser {
                         return { identifier: $.SUBRULE($.boolMethodCallExpr) };
                     }
                 },
+
                 {
                     ALT: () => {
                         const expression: FilterExpression = {} as FilterExpression;
@@ -331,32 +334,57 @@ export class FilterParser extends EmbeddedActionsParser {
                         ]);
                         $.OPTION4(() => {
                             $.CONSUME2(WS);
-                            operator = $.CONSUME(LOGICAL_OPERATOR);
-                            $.CONSUME3(WS);
-                            literal = $.OR3([
+                            $.OR3([
                                 {
                                     ALT: () => {
-                                        const simpleId = $.CONSUME(SIMPLEIDENTIFIERWITHWS);
-                                        return simpleId.image.substring(1, simpleId.image.length - 1);
+                                        operator = $.CONSUME(LOGICAL_OPERATOR);
+                                        $.CONSUME3(WS);
+                                        literal = $.OR4([
+                                            {
+                                                ALT: () => {
+                                                    const simpleId = $.CONSUME(SIMPLEIDENTIFIERWITHWS);
+                                                    return simpleId.image.substring(1, simpleId.image.length - 1);
+                                                }
+                                            },
+                                            {
+                                                ALT: () => $.CONSUME(LITERAL)
+                                            },
+                                            {
+                                                ALT: () => $.SUBRULE2($.methodCallExpr)
+                                            }
+                                        ]);
+                                        expression.operator = operator.image;
+                                        expression.literal = literal.image ? literal.image : literal;
                                     }
                                 },
                                 {
-                                    ALT: () => $.CONSUME(LITERAL)
-                                },
-                                {
-                                    ALT: () => $.SUBRULE2($.methodCallExpr)
+                                    ALT: () => {
+                                        operator = $.CONSUME(IN_OPERATOR);
+                                        $.OPTION5(() => $.CONSUME4(WS));
+                                        $.CONSUME3(OPEN);
+                                        const identifiers: string[] = [];
+                                        $.MANY_SEP({
+                                            SEP: COMMA,
+                                            DEF: () => {
+                                                const expression = $.SUBRULE($.literalOrIdentifier);
+                                                identifiers.push(expression);
+                                            }
+                                        });
+                                        $.CONSUME4(CLOSE);
+                                        expression.operator = operator.image;
+                                        expression.literal = identifiers;
+                                    }
                                 }
                             ]);
-                            expression.operator = operator.image;
-                            expression.literal = literal.image ? literal.image : literal;
                         });
+
                         expression.identifier = identifier;
 
                         return expression;
                     }
                 }
             ]);
-            $.OPTION5(() => {
+            $.OPTION8(() => {
                 operator = $.CONSUME(ANDOR);
                 const subsubExpr = $.SUBRULE3($.boolCommonExpr);
                 let expressions: FilterExpression[];

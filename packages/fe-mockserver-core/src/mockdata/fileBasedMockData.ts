@@ -67,6 +67,9 @@ function performSimpleComparison(operator: string, mockValue: any, targetLiteral
         case 'ne':
             isValid = mockValue !== targetLiteral;
             break;
+        case 'in':
+            isValid = targetLiteral.includes(mockValue);
+            break;
         case 'eq':
         default:
             isValid = mockValue === targetLiteral;
@@ -573,9 +576,21 @@ export class FileBasedMockData {
             case 'Edm.DateTime':
             case 'Edm.DateTimeOffset':
                 let targetDateLiteral = literal;
-                if (literal && literal.startsWith("datetime'")) {
-                    targetDateLiteral = literal.substring(9, literal.length - 1);
+                if (literal) {
+                    if (Array.isArray(literal)) {
+                        targetDateLiteral = literal.map((literalValue) => {
+                            if (literalValue.startsWith("datetime'")) {
+                                return literalValue.substring(9, literalValue.length - 1);
+                            }
+                            return literalValue;
+                        });
+                    } else {
+                        if (literal.startsWith("datetime'")) {
+                            targetDateLiteral = literal.substring(9, literal.length - 1);
+                        }
+                    }
                 }
+
                 const testValue = new Date(targetDateLiteral).getTime();
                 const mockValueDate = new Date(mockValue).getTime();
                 isValid = performSimpleComparison(operator, mockValueDate, testValue);
@@ -584,10 +599,24 @@ export class FileBasedMockData {
             case 'Edm.Guid':
             default:
                 let targetLiteral = literal;
-                if (literal && literal.startsWith("guid'")) {
-                    targetLiteral = literal.substring(5, literal.length - 1);
-                } else if (literal && literal.startsWith("'")) {
-                    targetLiteral = literal.substring(1, literal.length - 1);
+                if (literal) {
+                    if (Array.isArray(literal)) {
+                        targetLiteral = literal.map((literalValue) => {
+                            if (literalValue.startsWith("guid'")) {
+                                return literalValue.substring(5, literalValue.length - 1);
+                            } else if (literalValue.startsWith("'")) {
+                                return literalValue.substring(1, literalValue.length - 1);
+                            } else {
+                                return literalValue;
+                            }
+                        });
+                    } else {
+                        if (literal.startsWith("guid'")) {
+                            targetLiteral = literal.substring(5, literal.length - 1);
+                        } else if (literal.startsWith("'")) {
+                            targetLiteral = literal.substring(1, literal.length - 1);
+                        }
+                    }
                 }
 
                 isValid = performSimpleComparison(operator, mockValue?.toString(), targetLiteral);
