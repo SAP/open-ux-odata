@@ -91,5 +91,38 @@ describe('EntitySet', () => {
             filteredData = myEntitySet.checkFilter(mockData[3], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(false);
         });
+        it('works on `in` operator', async () => {
+            const myEntitySet = new MockDataEntitySet(
+                baseDir,
+                {
+                    name: 'MyEntityData',
+                    entityType: {
+                        entityProperties: []
+                    },
+                    _type: 'EntitySet'
+                } as any,
+                dataAccess,
+                false,
+                true
+            );
+            await myEntitySet.readyPromise;
+            const v4InFilter = parseFilter("Value in ('20220601','20220608')")!;
+            const fakeRequest = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'MyEntityData'
+                },
+                dataAccess
+            );
+            const mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
+            let filteredData = myEntitySet.checkFilter(mockData[0], v4InFilter, 'default', fakeRequest);
+            expect(filteredData).toBe(true);
+            filteredData = myEntitySet.checkFilter(mockData[1], v4InFilter, 'default', fakeRequest);
+            expect(filteredData).toBe(false);
+            filteredData = myEntitySet.checkFilter(mockData[2], v4InFilter, 'default', fakeRequest);
+            expect(filteredData).toBe(true);
+            filteredData = myEntitySet.checkFilter(mockData[3], v4InFilter, 'default', fakeRequest);
+            expect(filteredData).toBe(false);
+        });
     });
 });

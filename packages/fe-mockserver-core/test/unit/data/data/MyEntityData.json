@@ -1,6 +1,7 @@
 [
     {
         "BaseData": "FirstCheck",
+        "Value": "20220601",
         "ArrayData": [
             {
                 "SubArray": [
@@ -21,6 +22,7 @@
     },
     {
         "BaseData": "FirstCheck",
+        "Value": "20220602",
         "ArrayData": [
             {
                 "SubArray": [
@@ -110,6 +112,7 @@
     },
     {
         "BaseData": "FirstCheck",
+        "Value": "20220608",
         "ArrayData": [
             {
                 "SubArray": [
@@ -138,6 +141,7 @@
     },
     {
         "BaseData": "FirstCheck",
+        "Value": "20220609",
         "ArrayData": [
             {
                 "SubArray": [

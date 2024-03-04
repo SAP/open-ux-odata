@@ -335,6 +335,8 @@ export class MockDataEntitySet implements EntitySetInterface {
                 return { fn: transformationFn('getData', identifier), type: 'Edm.String' };
             }
             return { fn: () => identifier, type: 'Edm.String' };
+        } else if (Array.isArray(identifier)) {
+            return { fn: () => identifier, type: 'Edm.String' };
         } else {
             const methodArgTransformed = identifier.methodArgs.map((methodArg, idx) =>
                 this.createTransformation(
