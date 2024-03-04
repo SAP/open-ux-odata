@@ -16,3 +16,5 @@ Unbound actions are by definition specific to your application so the mockserver
 In order to define your own unbound actions you can create an `EntityContainer.js` file that will implement the function defined in the [API](./EntityContainerAPI.md).
 
 By doing this you can add your custom logic for your unbound actions and mock what you need.
+
+When using v2 service if you declare a `FunctionImport` defining an `EntitySet` then the method needs to be implemented as an `executeAction` on the propert entitySet file as they are treated like bound actions / functions.
