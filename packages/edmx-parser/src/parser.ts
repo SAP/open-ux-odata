@@ -107,9 +107,7 @@ function parseProperties(
             if (entityProperty._attributes.Scale) {
                 edmProperty.scale = parseInt(entityProperty._attributes.Scale, 10);
             }
-            if (entityProperty._attributes.Nullable) {
-                edmProperty.nullable = entityProperty._attributes.Nullable !== 'false';
-            }
+            edmProperty.nullable = entityProperty._attributes.Nullable !== 'false';
             if (entityProperty._attributes.DefaultValue) {
                 switch (edmProperty.type) {
                     case 'Edm.Int16':
@@ -531,9 +529,7 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
                 if (param._attributes.Scale) {
                     edmActionParameter.scale = parseInt(param._attributes.Scale, 10);
                 }
-                if (param._attributes.Nullable) {
-                    edmActionParameter.nullable = param._attributes.Nullable !== 'false';
-                }
+                edmActionParameter.nullable = param._attributes.Nullable !== 'false';
                 return edmActionParameter;
             }),
             returnType: action.ReturnType ? unaliasType(action.ReturnType._attributes.Type).type : ''

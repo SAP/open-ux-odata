@@ -31,9 +31,10 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         rootFolder: string,
         entitySetDefinition: EntitySet | EntityType,
         dataAccess: DataAccessInterface,
-        generateMockData: boolean
+        generateMockData: boolean,
+        forceNullableValuesToNull: boolean
     ) {
-        super(rootFolder, entitySetDefinition, dataAccess, generateMockData, true, true);
+        super(rootFolder, entitySetDefinition, dataAccess, generateMockData, forceNullableValuesToNull, true, true);
     }
 
     protected checkSpecificProperties(

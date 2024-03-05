@@ -79,6 +79,7 @@ export interface DataAccessInterface {
     getMockEntitySet(
         entityTypeName: string,
         generateMockData?: boolean,
+        forceNullableValuesToNull?: boolean,
         containedEntityType?: EntityType,
         containedData?: any
     ): Promise<EntitySetInterface>;

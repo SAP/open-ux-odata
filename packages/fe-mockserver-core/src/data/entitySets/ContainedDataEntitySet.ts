@@ -4,7 +4,7 @@ import { MockDataEntitySet } from './entitySet';
 
 export class ContainedDataEntitySet extends MockDataEntitySet {
     constructor(entitySetDefinition: EntitySet | EntityType, containedData: any, dataAccess: DataAccessInterface) {
-        super('', entitySetDefinition, dataAccess, false, false);
+        super('', entitySetDefinition, dataAccess, false, false, false);
         this._rootMockData = containedData;
         this.readyPromise = Promise.resolve(this);
     }

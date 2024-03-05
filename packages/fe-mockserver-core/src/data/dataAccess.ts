@@ -58,6 +58,7 @@ export class DataAccess implements DataAccessInterface {
     protected entitySets: Record<string, MockDataEntitySet> = {};
     protected stickyEntitySets: StickyMockEntitySet[] = [];
     protected generateMockData: boolean;
+    protected forceNullableValuesToNull: boolean;
 
     public constructor(
         private service: ServiceConfig,
@@ -71,6 +72,7 @@ export class DataAccess implements DataAccessInterface {
 
         this.strictKeyMode = !!service.strictKeyMode;
         this.generateMockData = !!service.generateMockData;
+        this.forceNullableValuesToNull = !!service.forceNullableValuesToNull;
         this.contextBasedIsolation = !!service.contextBasedIsolation;
         this.fileLoader = fileLoader;
         if (this.generateMockData) {
@@ -86,14 +88,18 @@ export class DataAccess implements DataAccessInterface {
     private initializeMockData() {
         // Preload the mock entityset asynchronously
         this.metadata.getEntitySets().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData).catch((error) => {
-                this.log.info(`Error while loading mockdata for entityset ${entitySet.name}: ${error}`);
-            });
+            this.getMockEntitySet(entitySet.name, this.generateMockData, this.forceNullableValuesToNull).catch(
+                (error) => {
+                    this.log.info(`Error while loading mockdata for entityset ${entitySet.name}: ${error}`);
+                }
+            );
         });
         this.metadata.getSingletons().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData).catch((error) => {
-                this.log.info(`Error while loading mockdata for singleton ${entitySet.name}: ${error}`);
-            });
+            this.getMockEntitySet(entitySet.name, this.generateMockData, this.forceNullableValuesToNull).catch(
+                (error) => {
+                    this.log.info(`Error while loading mockdata for singleton ${entitySet.name}: ${error}`);
+                }
+            );
         });
     }
 
@@ -108,6 +114,7 @@ export class DataAccess implements DataAccessInterface {
     public async getMockEntitySet(
         entityTypeName?: string,
         generateMockData: boolean = false,
+        forceNullableValuesToNull: boolean = false,
         containedEntityType?: EntityType,
         containedData?: any
     ): Promise<EntitySetInterface> {
@@ -121,10 +128,22 @@ export class DataAccess implements DataAccessInterface {
             let mockEntitySet: MockDataEntitySet;
             if (entitySet && this.metadata.isDraftEntity(entitySet)) {
                 this.log.info(`Creating draft entity for ${entitySet?.name}`);
-                mockEntitySet = new DraftMockEntitySet(this.mockDataRootFolder, entitySet, this, generateMockData);
+                mockEntitySet = new DraftMockEntitySet(
+                    this.mockDataRootFolder,
+                    entitySet,
+                    this,
+                    generateMockData,
+                    forceNullableValuesToNull
+                );
             } else if (entitySet && this.metadata.isStickyEntity(entitySet)) {
                 this.log.info(`Creating sticky entity for ${entitySet?.name}`);
-                mockEntitySet = new StickyMockEntitySet(this.mockDataRootFolder, entitySet, this, generateMockData);
+                mockEntitySet = new StickyMockEntitySet(
+                    this.mockDataRootFolder,
+                    entitySet,
+                    this,
+                    generateMockData,
+                    forceNullableValuesToNull
+                );
                 this.stickyEntitySets.push(mockEntitySet as StickyMockEntitySet);
             } else {
                 this.log.info(`Creating entity for ${(entitySet || entityType)?.name}`);
@@ -132,7 +151,8 @@ export class DataAccess implements DataAccessInterface {
                     this.mockDataRootFolder,
                     entitySet || singleton || entityType,
                     this,
-                    generateMockData
+                    generateMockData,
+                    forceNullableValuesToNull
                 );
             }
             this.entitySets[entityTypeName] = mockEntitySet;
@@ -683,6 +703,7 @@ export class DataAccess implements DataAccessInterface {
                 return (
                     await this.getMockEntitySet(
                         currentEntitySet?.name,
+                        undefined,
                         undefined,
                         targetContainedEntityType,
                         targetContainedData
