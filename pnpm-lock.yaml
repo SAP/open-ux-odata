@@ -139,7 +139,7 @@ importers:
         version: link:../vocabularies-types
       '@types/balanced-match':
         specifier: ^1.0.2
-        version: 1.0.2
+        version: 1.0.4
       '@types/body-parser':
         specifier: 1.19.5
         version: 1.19.5
@@ -1438,8 +1438,8 @@ packages:
       '@babel/types': 7.18.10
     dev: true
 
-  /@types/balanced-match@1.0.2:
-    resolution: {integrity: sha512-KgomuqUNYgN+Sibk22j7HB6vo8gziGz/k3Y8RkauF2duMZfMeIkyUKARef2eIIQuXGrkbIvcOfY5DNF/nQrDZQ==}
+  /@types/balanced-match@1.0.4:
+    resolution: {integrity: sha512-sLf9sSU59HlbUuaHGkWRp7T9fEoVQALBeu5gtXTU6NhSAIazEsPTJmnYuqo+0ZsgWw7e63r478wo8ba5r5dL5A==}
     dev: true
 
   /@types/body-parser@1.19.5:
