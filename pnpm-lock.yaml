@@ -195,8 +195,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.7.3
-        version: 3.7.3
+        specifier: 3.9.1
+        version: 3.9.1
 
   samples/error-handling:
     devDependencies:
@@ -204,8 +204,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.7.3
-        version: 3.7.3
+        specifier: 3.9.1
+        version: 3.9.1
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -216,8 +216,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.7.3
-        version: 3.7.3
+        specifier: 3.9.1
+        version: 3.9.1
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -1208,7 +1208,7 @@ packages:
       nopt: 7.2.0
       proc-log: 3.0.0
       read-package-json-fast: 3.0.2
-      semver: 7.5.4
+      semver: 7.6.0
       walk-up-path: 3.0.1
     dev: true
 
@@ -1216,7 +1216,7 @@ packages:
     resolution: {integrity: sha512-7kZUAaLscfgbwBQRbvdMYaZOWyMEcPTH/tJjnyAWJ/dvvs9Ef+CERx/qJb9GExJpl1qipaDGn7KqHnFGGixd0w==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /@npmcli/git@5.0.3:
@@ -1229,7 +1229,7 @@ packages:
       proc-log: 3.0.0
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
-      semver: 7.5.4
+      semver: 7.6.0
       which: 4.0.0
     transitivePeerDependencies:
       - bluebird
@@ -1314,37 +1314,52 @@ packages:
       antlr4: 4.9.3
     dev: true
 
-  /@sigstore/bundle@2.1.0:
-    resolution: {integrity: sha512-89uOo6yh/oxaU8AeOUnVrTdVMcGk9Q1hJa7Hkvalc6G3Z3CupWk4Xe9djSgJm9fMkH69s0P0cVHUoKSOemLdng==}
+  /@sigstore/bundle@2.2.0:
+    resolution: {integrity: sha512-5VI58qgNs76RDrwXNhpmyN/jKpq9evV/7f1XrcqcAfvxDl5SeVY/I5Rmfe96ULAV7/FK5dge9RBKGBJPhL1WsQ==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
-      '@sigstore/protobuf-specs': 0.2.1
+      '@sigstore/protobuf-specs': 0.3.0
     dev: true
 
-  /@sigstore/protobuf-specs@0.2.1:
-    resolution: {integrity: sha512-XTWVxnWJu+c1oCshMLwnKvz8ZQJJDVOlciMfgpJBQbThVjKTCG8dwyhgLngBD2KN0ap9F/gOV8rFDEx8uh7R2A==}
+  /@sigstore/core@1.0.0:
+    resolution: {integrity: sha512-dW2qjbWLRKGu6MIDUTBuJwXCnR8zivcSpf5inUzk7y84zqy/dji0/uahppoIgMoKeR+6pUZucrwHfkQQtiG9Rw==}
+    engines: {node: ^16.14.0 || >=18.0.0}
+    dev: true
+
+  /@sigstore/protobuf-specs@0.3.0:
+    resolution: {integrity: sha512-zxiQ66JFOjVvP9hbhGj/F/qNdsZfkGb/dVXSanNRNuAzMlr4MC95voPUBX8//ZNnmv3uSYzdfR/JSkrgvZTGxA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: true
 
-  /@sigstore/sign@2.2.0:
-    resolution: {integrity: sha512-AAbmnEHDQv6CSfrWA5wXslGtzLPtAtHZleKOgxdQYvx/s76Fk6T6ZVt7w2IGV9j1UrFeBocTTQxaXG2oRrDhYA==}
+  /@sigstore/sign@2.2.3:
+    resolution: {integrity: sha512-LqlA+ffyN02yC7RKszCdMTS6bldZnIodiox+IkT8B2f8oRYXCB3LQ9roXeiEL21m64CVH1wyveYAORfD65WoSw==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
-      '@sigstore/bundle': 2.1.0
-      '@sigstore/protobuf-specs': 0.2.1
+      '@sigstore/bundle': 2.2.0
+      '@sigstore/core': 1.0.0
+      '@sigstore/protobuf-specs': 0.3.0
       make-fetch-happen: 13.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@sigstore/tuf@2.2.0:
-    resolution: {integrity: sha512-KKATZ5orWfqd9ZG6MN8PtCIx4eevWSuGRKQvofnWXRpyMyUEpmrzg5M5BrCpjM+NfZ0RbNGOh5tCz/P2uoRqOA==}
+  /@sigstore/tuf@2.3.1:
+    resolution: {integrity: sha512-9Iv40z652td/QbV0o5n/x25H9w6IYRt2pIGbTX55yFDYlApDQn/6YZomjz6+KBx69rXHLzHcbtTS586mDdFD+Q==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
-      '@sigstore/protobuf-specs': 0.2.1
-      tuf-js: 2.1.0
+      '@sigstore/protobuf-specs': 0.3.0
+      tuf-js: 2.2.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@sigstore/verify@1.1.0:
+    resolution: {integrity: sha512-1fTqnqyTBWvV7cftUUFtDcHPdSox0N3Ub7C0lRyReYx4zZUlNTZjCV+HPy4Lre+r45dV7Qx5JLKvqqsgxuyYfg==}
+    engines: {node: ^16.14.0 || >=18.0.0}
+    dependencies:
+      '@sigstore/bundle': 2.2.0
+      '@sigstore/core': 1.0.0
+      '@sigstore/protobuf-specs': 0.3.0
     dev: true
 
   /@sinclair/typebox@0.27.8:
@@ -1754,8 +1769,8 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: true
 
-  /@ui5/builder@3.1.1:
-    resolution: {integrity: sha512-FVALny9FKWzkDkoGZk9PO0XhL1jTS5FVX/5AhM6zvfBsCu0QPMCQrxkkvmWvv5ryJpjF0PCNBMhxejUBoPF+Yg==}
+  /@ui5/builder@3.3.0:
+    resolution: {integrity: sha512-gQ28Bj4WqF3b+8Mp4luxe2pGb+Adq2qpy1H9JZ8DTpIGcCEcJgJVCTRv6KdWZja6y5ZD89NWQAv0k0N50MV6Sw==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -1770,29 +1785,29 @@ packages:
       less-openui5: 0.11.6
       pretty-data: 0.40.0
       rimraf: 5.0.5
-      semver: 7.5.4
-      terser: 5.26.0
+      semver: 7.6.0
+      terser: 5.28.1
       workerpool: 6.5.1
       xml2js: 0.6.2
     dev: true
 
-  /@ui5/cli@3.7.3:
-    resolution: {integrity: sha512-EsuXQLmpV+g9aU88TqUtzhuJSG9QuICGDNpnOfn9+60B7t8Kf+F5VdLNEzeb04/d8MBtiDxRD8bnYyz5LKm3Vw==}
+  /@ui5/cli@3.9.1:
+    resolution: {integrity: sha512-Z+kyYjm9xOmUPAtBDkDUeV6Ys+uD56JvXgPo4TDE1n4yFrFomagXWmnlmSul8+fgNO9EQ6p6+aj9JjctIQx+VA==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     hasBin: true
     dependencies:
-      '@ui5/builder': 3.1.1
+      '@ui5/builder': 3.3.0
       '@ui5/fs': 3.0.5
       '@ui5/logger': 3.0.0
-      '@ui5/project': 3.8.0
-      '@ui5/server': 3.1.4
+      '@ui5/project': 3.9.0
+      '@ui5/server': 3.1.5
       chalk: 5.3.0
       data-with-position: 0.5.0
       import-local: 3.1.0
       js-yaml: 4.1.0
       open: 9.1.0
       pretty-hrtime: 1.0.3
-      semver: 7.5.4
+      semver: 7.6.0
       update-notifier: 6.0.2
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -1832,12 +1847,12 @@ packages:
       figures: 5.0.0
     dev: true
 
-  /@ui5/project@3.8.0:
-    resolution: {integrity: sha512-SLooYGkEsoGjehz6eWYg0wzipCPRiuALKYBvrTUqW8vnU0uV8b13AEdAEGvmevPxBAYZ3gWKnO3Z8soR39/T1g==}
+  /@ui5/project@3.9.0:
+    resolution: {integrity: sha512-pm7FzV8oCaZtLBuoH9bVVpAtRz0pwpAJhJKg731lUHGsMkGG5zaWkmUjajBlQR/+dZtWmTlkwxjpJttjUVi43A==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     dependencies:
       '@npmcli/config': 8.0.3
-      '@ui5/builder': 3.1.1
+      '@ui5/builder': 3.3.0
       '@ui5/fs': 3.0.5
       '@ui5/logger': 3.0.0
       ajv: 6.12.6
@@ -1850,13 +1865,13 @@ packages:
       lockfile: 1.0.4
       make-fetch-happen: 13.0.0
       node-stream-zip: 1.15.0
-      pacote: 17.0.4
+      pacote: 17.0.6
       pretty-hrtime: 1.0.3
       read-pkg: 8.1.0
       read-pkg-up: 10.1.0
       resolve: 1.22.8
       rimraf: 5.0.5
-      semver: 7.5.4
+      semver: 7.6.0
       xml2js: 0.6.2
       yesno: 0.4.0
     transitivePeerDependencies:
@@ -1864,11 +1879,11 @@ packages:
       - supports-color
     dev: true
 
-  /@ui5/server@3.1.4:
-    resolution: {integrity: sha512-Do0DodNlq5E46t66rIEpPG0OD1JX4c8Jbt20cDLhQkpES2D0ECQzrDu5sHwzhu0GznlB+asJEQYYgUtTJFo7fg==}
+  /@ui5/server@3.1.5:
+    resolution: {integrity: sha512-inVv6DNihzqEZ5MwOIjLJ39eLCgU/msQOjyPt64Fk7BG88MIG4+HiwbPW/07glJ4VQgCrlppZ6+N4ToEc4JFKA==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     dependencies:
-      '@ui5/builder': 3.1.1
+      '@ui5/builder': 3.3.0
       '@ui5/fs': 3.0.5
       '@ui5/logger': 3.0.0
       body-parser: 1.20.2
@@ -2363,7 +2378,7 @@ packages:
   /builtins@5.0.1:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /bundle-name@3.0.0:
@@ -5630,7 +5645,7 @@ packages:
       nopt: 6.0.0
       npmlog: 6.0.2
       rimraf: 3.0.2
-      semver: 7.5.4
+      semver: 7.6.0
       tar: 6.1.15
       which: 2.0.2
     transitivePeerDependencies:
@@ -5681,7 +5696,7 @@ packages:
     dependencies:
       hosted-git-info: 7.0.0
       is-core-module: 2.13.0
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -5705,7 +5720,7 @@ packages:
     resolution: {integrity: sha512-dH3GmQL4vsPtld59cOn8uY0iOqRmqKvV+DLGwNXV/Q7MDgD2QfOADWd/mFXcIE5LVhYYGjA3baz6W9JneqnuCw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /npm-normalize-package-bin@3.0.1:
@@ -5719,7 +5734,7 @@ packages:
     dependencies:
       hosted-git-info: 7.0.0
       proc-log: 3.0.0
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-name: 5.0.0
     dev: true
 
@@ -5737,7 +5752,7 @@ packages:
       npm-install-checks: 6.1.1
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 11.0.1
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /npm-registry-fetch@16.1.0:
@@ -5965,11 +5980,11 @@ packages:
       got: 12.5.3
       registry-auth-token: 5.0.1
       registry-url: 6.0.1
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
-  /pacote@17.0.4:
-    resolution: {integrity: sha512-eGdLHrV/g5b5MtD5cTPyss+JxOlaOloSMG3UwPMAvL8ywaLJ6beONPF40K4KKl/UI6q5hTKCJq5rCu8tkF+7Dg==}
+  /pacote@17.0.6:
+    resolution: {integrity: sha512-cJKrW21VRE8vVTRskJo78c/RCvwJCn1f4qgfxL4w77SOWrTCRcmfkYHlHtS0gqpgjv3zhXflRtgsrUCX5xwNnQ==}
     engines: {node: ^16.14.0 || >=18.0.0}
     hasBin: true
     dependencies:
@@ -5988,7 +6003,7 @@ packages:
       promise-retry: 2.0.1
       read-package-json: 7.0.0
       read-package-json-fast: 3.0.2
-      sigstore: 2.1.0
+      sigstore: 2.2.2
       ssri: 10.0.4
       tar: 6.1.15
     transitivePeerDependencies:
@@ -6628,7 +6643,7 @@ packages:
     resolution: {integrity: sha512-0Ju4+6A8iOnpL/Thra7dZsSlOHYAHIeMxfhWQRI1/VLcT3WDBZKKtQt/QkBOsiIN9ZpuvHE6cGZ0x4glCMmfiA==}
     engines: {node: '>=12'}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /semver@5.7.1:
@@ -6643,6 +6658,14 @@ packages:
 
   /semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+    dev: true
+
+  /semver@7.6.0:
+    resolution: {integrity: sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -6727,14 +6750,16 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /sigstore@2.1.0:
-    resolution: {integrity: sha512-kPIj+ZLkyI3QaM0qX8V/nSsweYND3W448pwkDgS6CQ74MfhEkIR8ToK5Iyx46KJYRjseVcD3Rp9zAmUAj6ZjPw==}
+  /sigstore@2.2.2:
+    resolution: {integrity: sha512-2A3WvXkQurhuMgORgT60r6pOWiCOO5LlEqY2ADxGBDGVYLSo5HN0uLtb68YpVpuL/Vi8mLTe7+0Dx2Fq8lLqEg==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
-      '@sigstore/bundle': 2.1.0
-      '@sigstore/protobuf-specs': 0.2.1
-      '@sigstore/sign': 2.2.0
-      '@sigstore/tuf': 2.2.0
+      '@sigstore/bundle': 2.2.0
+      '@sigstore/core': 1.0.0
+      '@sigstore/protobuf-specs': 0.3.0
+      '@sigstore/sign': 2.2.3
+      '@sigstore/tuf': 2.3.1
+      '@sigstore/verify': 1.1.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7068,8 +7093,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /terser@5.26.0:
-    resolution: {integrity: sha512-dytTGoE2oHgbNV9nTzgBEPaqAWvcJNl66VZ0BkJqlvp71IjO8CxdBx/ykCNb47cLnCmCvRZ6ZR0tLkqvZCdVBQ==}
+  /terser@5.28.1:
+    resolution: {integrity: sha512-wM+bZp54v/E9eRRGXb5ZFDvinrJIOaTapx3WUokyVGZu5ucVCK55zEgGd5Dl2fSr3jUo5sDiERErUWLY6QPFyA==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -7221,8 +7246,8 @@ packages:
       yargs: 17.7.2
     dev: true
 
-  /tuf-js@2.1.0:
-    resolution: {integrity: sha512-eD7YPPjVlMzdggrOeE8zwoegUaG/rt6Bt3jwoQPunRiNVzgcCE009UDFJKJjG+Gk9wFu6W/Vi+P5d/5QpdD9jA==}
+  /tuf-js@2.2.0:
+    resolution: {integrity: sha512-ZSDngmP1z6zw+FIkIBjvOp/II/mIub/O7Pp12j1WNsiCpg5R5wAc//i555bBQsE44O94btLt0xM/Zr2LQjwdCg==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       '@tufjs/models': 2.0.0
@@ -7402,7 +7427,7 @@ packages:
       is-yarn-global: 0.4.1
       latest-version: 7.0.0
       pupa: 3.1.0
-      semver: 7.5.4
+      semver: 7.6.0
       semver-diff: 4.0.0
       xdg-basedir: 5.1.0
     dev: true
