@@ -294,6 +294,13 @@ export class MockDataEntitySet implements EntitySetInterface {
         return this.dataAccess.isV4();
     }
 
+    public isDraft(): boolean {
+        return !!(
+            this.entitySetDefinition?.annotations.Common?.DraftRoot ||
+            this.entitySetDefinition?.annotations.Common?.DraftNode
+        );
+    }
+
     public getProperty(identifier: string) {
         let resolvedPath;
         if (this.entitySetDefinition) {
