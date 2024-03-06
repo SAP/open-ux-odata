@@ -712,10 +712,7 @@ export class FileBasedMockData {
         const itemPerParents: Record<string, any[]> = {};
 
         inputSet.forEach((item: any) => {
-            if (
-                !this._mockDataEntitySet.isDraft() ||
-                (item.IsActiveEntity !== false && item.HasActiveEntity === true)
-            ) {
+            if (!this._mockDataEntitySet.isDraft() || item.IsActiveEntity !== false) {
                 const parentItemValue = getData(item, hierarchyDefinition.sourceReference) ?? '';
                 if (!itemPerParents[parentItemValue]) {
                     itemPerParents[parentItemValue] = [];
