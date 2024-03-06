@@ -78,6 +78,7 @@ On top of that you can specify one of the following option
 
 - mockdataPath : the path to the folder containing the mockdata files
 - generateMockData : whether or not you want to use automatically generated mockdata
+- forceNullableValuesToNull: determine if nullable properties should be generated as null or with a default value (defaults to false)
 
 Additional option are available either per service of for all services if defined globally
 

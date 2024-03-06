@@ -100,12 +100,18 @@ export class FileBasedMockData {
     protected _entityType: EntityType;
     protected _mockDataEntitySet: EntitySetInterface;
     protected _contextId: string;
+    protected __generateMockData: boolean;
+    protected __forceNullableValuesToNull: boolean;
     constructor(mockData: any[], entityType: EntityType, mockDataEntitySet: EntitySetInterface, contextId: string) {
         this._entityType = entityType;
         this._contextId = contextId;
 
         this._mockDataEntitySet = mockDataEntitySet;
+        if ((mockData as any)?.__forceNullableValuesToNull) {
+            this.__forceNullableValuesToNull = true;
+        }
         if (mockData.length === 0 && (mockData as any).__generateMockData) {
+            this.__generateMockData = true;
             this._mockData = this.generateMockData();
         } else {
             this._mockData = cloneDeep(mockData);
@@ -121,8 +127,13 @@ export class FileBasedMockData {
 
     private validateProperties(mockEntry: any, properties: Property[]) {
         properties.forEach((prop) => {
-            if (!prop.nullable && !mockEntry.hasOwnProperty(prop.name)) {
-                mockEntry[prop.name] = this.getDefaultValueFromType(prop.type, prop.targetType, prop.defaultValue);
+            if (prop.nullable === false && !mockEntry.hasOwnProperty(prop.name)) {
+                mockEntry[prop.name] = this.getDefaultValueFromType(
+                    prop,
+                    prop.type,
+                    prop.targetType,
+                    prop.defaultValue
+                );
             } else if (mockEntry.hasOwnProperty(prop.name) && isComplexTypeDefinition(prop.targetType)) {
                 // If the property is defined from a complex type we should validate the property of the complex type
                 this.validateProperties(mockEntry[prop.name], prop.targetType.properties);
@@ -232,10 +243,14 @@ export class FileBasedMockData {
     }
 
     protected getDefaultValueFromType(
+        property: Property,
         type: string,
         complexType: ComplexType | TypeDefinition | undefined,
         defaultValue?: any
     ): any {
+        if (this.__forceNullableValuesToNull && property.nullable) {
+            return null;
+        }
         if (complexType) {
             if (complexType._type === 'ComplexType') {
                 const outData: any = {};
@@ -295,6 +310,9 @@ export class FileBasedMockData {
         propertyName: string,
         lineIndex: number
     ): any {
+        if (this.__forceNullableValuesToNull && property.nullable) {
+            return null;
+        }
         let type = property.type;
         if (complexType) {
             const outData: any = {};
@@ -374,6 +392,7 @@ export class FileBasedMockData {
         const outObj: any = {};
         this._entityType.entityProperties.forEach((property: Property) => {
             outObj[property.name] = this.getDefaultValueFromType(
+                property,
                 property.type,
                 property.targetType,
                 property.defaultValue
@@ -1025,7 +1044,7 @@ export class FileBasedMockData {
 
             const subTrees: object[] = [];
             hierarchyFilter.forEach((item: any) => {
-                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference)];
+                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
                 if (parentNodeChildren) {
                     const currentNode = parentNodeChildren.find((node: any) => {
                         const mainItem = getData(node, nodeProperty);
@@ -1148,7 +1167,7 @@ export class FileBasedMockData {
             });
             const ancestors: any[] = [];
             limitedHierarchy.forEach((item: any) => {
-                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference)];
+                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
                 const currentNode = parentNodeChildren.find((node: any) => {
                     const mainItem = getData(node, nodeProperty);
                     const adjustedItem = getData(item, nodeProperty);

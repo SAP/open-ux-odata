@@ -43,8 +43,26 @@ describe('File Based Mock Data', () => {
         const allEntries2 = fileBasedData2.getAllEntries({} as any);
         expect(allEntries2[0].Value.length).toBeLessThan(5);
         expect(allEntries2[0].StrKey.length).toBeLessThan(4);
+        expect(allEntries2[0].MyValue).not.toBe(null);
+        expect(allEntries2[0].MyValueNotNull.length).toBe(16);
         expect(allEntries2[1].StrKey.length).toBeLessThan(4);
         expect(allEntries2[2].StrKey.length).toBeLessThan(4);
+        const mockData2: any = [];
+        mockData2.__generateMockData = true;
+        mockData2.__forceNullableValuesToNull = true;
+        const fileBasedData3 = new FileBasedMockData(
+            mockData2,
+            metadata.getEntityType('MyMultiKeyEntity')!,
+            {} as any,
+            'default'
+        );
+        const allEntries3 = fileBasedData3.getAllEntries({} as any);
+        expect(allEntries3[0].Value).toBe(null);
+        expect(allEntries3[0].StrKey.length).toBeLessThan(4);
+        expect(allEntries3[0].MyValue).toBe(null);
+        expect(allEntries3[0].MyValueNotNull.length).toBe(16);
+        expect(allEntries3[1].StrKey.length).toBeLessThan(4);
+        expect(allEntries3[2].StrKey.length).toBeLessThan(4);
     });
     it('can recognize propertyPaths', () => {
         expect(isPropertyPathExpression(undefined)).toBe(false);

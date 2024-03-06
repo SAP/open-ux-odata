@@ -139,6 +139,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         mockDataRootFolder: string,
         entity: string,
         generateMockData: boolean,
+        forceNullableValuesToNull: boolean,
         isDraft: boolean,
         dataAccess: DataAccessInterface
     ): Promise<object[]> {
@@ -198,6 +199,9 @@ export class MockDataEntitySet implements EntitySetInterface {
             if (generateMockData) {
                 (outData as any).__generateMockData = generateMockData;
             }
+            if (forceNullableValuesToNull) {
+                (outData as any).__forceNullableValuesToNull = forceNullableValuesToNull;
+            }
         }
         return outData as any;
     }
@@ -214,6 +218,7 @@ export class MockDataEntitySet implements EntitySetInterface {
      * @param entitySetDefinition
      * @param dataAccess
      * @param generateMockData
+     * @param forceNullableValuesToNull
      * @param initializeMockData
      * @param isDraft
      */
@@ -222,6 +227,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         entitySetDefinition: EntitySet | EntityType,
         dataAccess: DataAccessInterface,
         generateMockData: boolean,
+        forceNullableValuesToNull: boolean,
         initializeMockData = true,
         isDraft = false
     ) {
@@ -239,6 +245,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 rootFolder,
                 entitySetDefinition.name,
                 generateMockData,
+                forceNullableValuesToNull,
                 isDraft,
                 dataAccess
             ).then((mockData) => {

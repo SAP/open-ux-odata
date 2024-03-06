@@ -55,9 +55,10 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         rootFolder: string,
         entitySetDefinition: EntitySet | EntityType,
         dataAccess: DataAccessInterface,
-        generateMockData: boolean
+        generateMockData: boolean,
+        forceNullableValuesToNull: boolean
     ) {
-        super(rootFolder, entitySetDefinition, dataAccess, generateMockData);
+        super(rootFolder, entitySetDefinition, dataAccess, generateMockData, forceNullableValuesToNull);
 
         const discardAction = (entitySetDefinition as EntitySet).annotations.Session?.StickySessionSupported
             ?.DiscardAction;

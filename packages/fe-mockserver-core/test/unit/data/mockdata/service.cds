@@ -25,5 +25,7 @@ service MultiLevelExpand {
 
     entity MyMultiKeyEntity : AbstractEntity {
         key StrKey: String(3);
+        MyValue: String(17);
+        MyValueNotNull: String(17) not null;
     }
 }

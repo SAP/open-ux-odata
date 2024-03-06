@@ -51,6 +51,7 @@ export interface BaseServerConfig {
     noETag?: boolean;
     contextBasedIsolation?: boolean;
     generateMockData?: boolean;
+    forceNullableValuesToNull?: boolean;
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
     metadataProcessor?: {
@@ -77,6 +78,7 @@ export type ServiceConfig = {
     metadataPath: string;
     mockdataPath: string;
     generateMockData?: boolean;
+    forceNullableValuesToNull?: boolean;
     debug?: boolean;
     strictKeyMode?: boolean;
     watch?: boolean; // should be forced to false in browser
