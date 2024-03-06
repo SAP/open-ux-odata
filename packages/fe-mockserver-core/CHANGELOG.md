@@ -1,5 +1,14 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.28
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+-   Updated dependencies [1b25c13]
+    -   @sap-ux/annotation-converter@0.8.7
+    -   @sap-ux/edmx-parser@0.7.1
+
 ## 1.2.27
 
 ### Patch Changes

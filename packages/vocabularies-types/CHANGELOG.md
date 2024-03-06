@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.6
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+
 ## 0.10.5
 
 ### Patch Changes
