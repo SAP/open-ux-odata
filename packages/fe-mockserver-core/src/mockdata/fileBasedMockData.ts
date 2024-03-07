@@ -1070,22 +1070,24 @@ export class FileBasedMockData {
                     const currentNode = parentNodeChildren.find((node: any) =>
                         compareRowData(node, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
                     );
-                    if (_parameters.keepStart) {
-                        if (hierarchyDefinition.matchedProperty) {
-                            // TODO compare with lastFilterTransformationResult
-                            setData(currentNode, hierarchyDefinition.matchedProperty, true);
+                    if (currentNode) {
+                        if (_parameters.keepStart) {
+                            if (hierarchyDefinition.matchedProperty) {
+                                // TODO compare with lastFilterTransformationResult
+                                setData(currentNode, hierarchyDefinition.matchedProperty, true);
+                            }
+                            subTrees.push(currentNode);
                         }
-                        subTrees.push(currentNode);
+                        currentNode.$children?.forEach((child: any) => {
+                            this.flattenTree(
+                                child,
+                                subTrees,
+                                nodeProperty,
+                                hierarchyDefinition,
+                                _parameters.maximumDistance
+                            );
+                        });
                     }
-                    currentNode.$children?.forEach((child: any) => {
-                        this.flattenTree(
-                            child,
-                            subTrees,
-                            nodeProperty,
-                            hierarchyDefinition,
-                            _parameters.maximumDistance
-                        );
-                    });
                 }
             });
             const outData: object[] = [];
