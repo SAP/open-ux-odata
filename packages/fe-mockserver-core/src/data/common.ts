@@ -64,6 +64,7 @@ export interface EntitySetInterface {
     getEntityInterface(entitySetName: string, tenantId: string): Promise<FileBasedMockData | undefined>;
     getMockData(tenantId: string): FileBasedMockData;
     isV4(): boolean;
+    isDraft(): boolean;
 }
 export interface DataAccessInterface {
     isV4(): boolean;
