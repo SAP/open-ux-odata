@@ -296,7 +296,7 @@ export class MockDataEntitySet implements EntitySetInterface {
 
     public isDraft(): boolean {
         return !!(
-            this.entitySetDefinition?.annotations.Common?.DraftRoot ||
+            this.entitySetDefinition?.annotations.Common?.DraftRoot ??
             this.entitySetDefinition?.annotations.Common?.DraftNode
         );
     }
