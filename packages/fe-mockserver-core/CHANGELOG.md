@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.30
+
+### Patch Changes
+
+-   6b21589: Fix recursive delete
+
 ## 1.2.29
 
 ### Patch Changes
