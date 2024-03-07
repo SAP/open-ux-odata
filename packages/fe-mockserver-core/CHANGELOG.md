@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.29
+
+### Patch Changes
+
+-   ae19e5a: Fix draft hierarchy queries
+
 ## 1.2.28
 
 ### Patch Changes
