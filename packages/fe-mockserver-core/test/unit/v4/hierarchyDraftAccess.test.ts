@@ -111,5 +111,46 @@ describe('Hierarchy with draft', () => {
               },
             ]
         `);
+
+        // Delete the draft instance
+        const draftDeleteRequest = new ODataRequest(
+            {
+                method: 'DELETE',
+                url: "/SalesOrganizations(ID='EMEA',IsActiveEntity=false)"
+            },
+            dataAccess
+        );
+        await dataAccess.deleteData(draftDeleteRequest);
+
+        // Reload the hierarchy
+        const dataAfterDelete = await dataAccess.getData(odataRequest);
+        expect(dataAfterDelete).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 2,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "US",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "Name": "US",
+              },
+            ]
+        `);
     });
 });
