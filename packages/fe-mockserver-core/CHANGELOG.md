@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.31
+
+### Patch Changes
+
+-   692d2b5: Revert back to previous behavior for nullable properties (always generate if they are missing)
+
 ## 1.2.30
 
 ### Patch Changes
