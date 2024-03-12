@@ -10,31 +10,40 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:1 (w
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -53,34 +62,44 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:1 1`
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toOne_ID": "C-0",
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_back_ID": "A-3",
+      "_toOne_ID": "",
       "othervalue": "A-0",
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -93,27 +112,36 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
     "_toComposition_ID": "A-0",
     "_toMany": [],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2",
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -134,10 +162,12 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2",
@@ -148,10 +178,13 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
         "value": "B1",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-2",
@@ -164,19 +197,24 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
         "value": "B21",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
         "_back_ID": "A-3",
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "B3",
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -194,10 +232,12 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -208,10 +248,13 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -222,10 +265,13 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -233,6 +279,7 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n (w
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -253,10 +300,12 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n 1`
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -267,10 +316,13 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n 1`
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -283,19 +335,24 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n 1`
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
         "_back_ID": "A-3",
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "B3",
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -317,22 +374,31 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n wi
     ],
     "_toComposition_ID": "A-0",
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
     "_toComposition": [],
+    "_toComposition_ID": "",
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
     "_toComposition": [],
+    "_toComposition_ID": "",
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
     "_toComposition": [],
+    "_toComposition_ID": "",
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -346,33 +412,45 @@ exports[`Data Access with $expand spanning multiple levels List: 1 level, 1:n wi
       {
         "ID": "B-3",
         "_back_ID": "A-3",
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "B3",
       },
       {
         "ID": "B-4",
+        "_back_ID": "",
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "A-0-B-4",
       },
     ],
     "_toComposition_ID": "A-0",
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
     "_toComposition": [],
+    "_toComposition_ID": "",
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
     "_toComposition": [],
+    "_toComposition_ID": "",
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
     "_toComposition": [],
+    "_toComposition_ID": "",
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -392,10 +470,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toOne": {
@@ -404,10 +484,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       },
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toOne": {
@@ -416,10 +499,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       },
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_toOne": {
@@ -429,6 +515,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -444,15 +531,18 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       "_toOne": {
         "ID": "C-0",
         "_back_ID": "B-0",
+        "othervalue": "",
         "value": "C",
       },
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toOne": {
@@ -461,23 +551,30 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       },
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toOne": {
         "ID": "C-0",
         "_back_ID": "B-0",
+        "othervalue": "",
         "value": "C",
       },
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_toOne": {
@@ -487,6 +584,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -508,19 +606,24 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toMany": [],
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toMany": [
@@ -535,10 +638,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       ],
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_toMany": [
@@ -554,6 +660,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -570,25 +677,31 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
         {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
       ],
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toMany": [],
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toMany": [
@@ -603,10 +716,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       ],
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_toMany": [
@@ -622,6 +738,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 (
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -644,10 +761,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toOne": {
@@ -656,10 +775,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       },
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toOne": {
@@ -669,10 +791,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "_toOne_ID": "C-0",
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_back_ID": "A-3",
@@ -680,10 +805,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
         "ID": "C-2",
         "value": "C2",
       },
+      "_toOne_ID": "",
       "othervalue": "A-0",
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -700,6 +827,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "_toOne": {
         "ID": "C-0",
         "_back_ID": "B-0",
+        "othervalue": "",
         "value": "C",
       },
       "_toOne_ID": "C-0",
@@ -707,10 +835,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toOne": {
@@ -719,24 +849,31 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       },
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toOne": {
         "ID": "C-0",
         "_back_ID": "B-0",
+        "othervalue": "",
         "value": "C",
       },
       "_toOne_ID": "C-0",
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_back_ID": "A-3",
@@ -744,10 +881,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
         "ID": "C-2",
         "value": "C2",
       },
+      "_toOne_ID": "",
       "othervalue": "A-0",
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -772,19 +911,24 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toMany": [],
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toMany": [
@@ -800,10 +944,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "_toOne_ID": "C-0",
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_back_ID": "A-3",
@@ -817,10 +964,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
           "value": "C3",
         },
       ],
+      "_toOne_ID": "",
       "othervalue": "A-0",
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -838,6 +987,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
         {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
       ],
@@ -846,19 +996,24 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "value": "B",
     },
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-1",
       "_toMany": [],
       "value": "B1",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-2-1",
       "_toMany": [
@@ -874,10 +1029,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
       "_toOne_ID": "C-0",
       "value": "B21",
     },
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne": {
       "ID": "B-3",
       "_back_ID": "A-3",
@@ -891,10 +1049,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:1 -
           "value": "C3",
         },
       ],
+      "_toOne_ID": "",
       "othervalue": "A-0",
       "value": "B3",
     },
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -916,10 +1076,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -938,10 +1100,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -960,10 +1125,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -975,6 +1143,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -991,16 +1160,19 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "_toOne": {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
         "value": "B",
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -1019,16 +1191,20 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
         "_toOne": {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
         "value": "B21",
@@ -1038,15 +1214,19 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "_toOne": {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -1058,6 +1238,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -1081,10 +1262,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -1106,10 +1289,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -1122,10 +1308,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -1143,6 +1332,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -1160,6 +1350,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
           {
             "ID": "C-0",
             "_back_ID": "B-0",
+            "othervalue": "",
             "value": "C",
           },
         ],
@@ -1167,10 +1358,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -1192,10 +1385,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -1208,10 +1404,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -1229,6 +1428,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n (
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -1253,10 +1453,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -1275,10 +1477,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -1299,10 +1504,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -1311,11 +1519,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
           "ID": "C-2",
           "value": "C2",
         },
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "B3",
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -1333,6 +1543,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "_toOne": {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
         "_toOne_ID": "C-0",
@@ -1341,10 +1552,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -1363,16 +1576,20 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
         "_toOne": {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
         "_toOne_ID": "C-0",
@@ -1383,16 +1600,20 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "_toOne": {
           "ID": "C-0",
           "_back_ID": "B-0",
+          "othervalue": "",
           "value": "C",
         },
         "_toOne_ID": "C-0",
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -1401,11 +1622,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
           "ID": "C-2",
           "value": "C2",
         },
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "B3",
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -1432,10 +1655,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -1457,10 +1682,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -1475,10 +1703,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -1493,11 +1724,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
             "value": "C3",
           },
         ],
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "B3",
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -1516,6 +1749,7 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
           {
             "ID": "C-0",
             "_back_ID": "B-0",
+            "othervalue": "",
             "value": "C",
           },
         ],
@@ -1525,10 +1759,12 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
       },
     ],
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-1",
@@ -1550,10 +1786,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "value": "B2",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-2-1",
@@ -1568,10 +1807,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
         "value": "B22",
       },
     ],
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toMany": [
       {
         "ID": "B-3",
@@ -1586,11 +1828,13 @@ exports[`Data Access with $expand spanning multiple levels List: 2 levels, 1:n -
             "value": "C3",
           },
         ],
+        "_toOne_ID": "",
         "othervalue": "A-0",
         "value": "B3",
       },
     ],
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]
@@ -1623,19 +1867,28 @@ exports[`Data Access with $expand spanning multiple levels List: root level only
     "ID": "A-0",
     "_toComposition_ID": "A-0",
     "_toOne_ID": "B-0",
+    "othervalue": "",
     "value": "A",
   },
   {
     "ID": "A-1",
+    "_toComposition_ID": "",
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A1",
   },
   {
     "ID": "A-2",
+    "_toComposition_ID": "",
+    "_toOne_ID": "",
+    "othervalue": "",
     "value": "A2",
   },
   {
     "ID": "A-3",
+    "_toComposition_ID": "",
     "_toOne_ID": "B-3",
+    "othervalue": "",
     "value": "A3",
   },
 ]

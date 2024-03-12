@@ -23,10 +23,16 @@ exports[`Unbound Action can call the base interface 1`] = `
 exports[`Unbound Action can call the base interface 2`] = `
 [
   {
+    "BooleanProperty": false,
+    "Currency": "",
+    "DescriptionProperty": "",
     "HasActiveEntity": true,
     "HasDraftEntity": false,
     "ID": 2,
     "IsActiveEntity": true,
+    "NameProperty": "",
+    "NumberProperty": 0,
+    "Progress": 0,
     "TitleProperty": "This is my Title",
   },
 ]

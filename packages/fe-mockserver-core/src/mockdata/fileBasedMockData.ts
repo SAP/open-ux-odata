@@ -150,7 +150,10 @@ export class FileBasedMockData {
 
     private validateProperties(mockEntry: any, properties: Property[]) {
         properties.forEach((prop) => {
-            if (prop.nullable === false && !mockEntry.hasOwnProperty(prop.name)) {
+            if (
+                (!this.__forceNullableValuesToNull || prop.nullable === false) &&
+                !mockEntry.hasOwnProperty(prop.name)
+            ) {
                 mockEntry[prop.name] = this.getDefaultValueFromType(
                     prop,
                     prop.type,
