@@ -705,7 +705,7 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
             compositeTarget += `\n\nexport type ${annotationMap} = ${baseAnnotationMap} & {\n`;
             compositeTarget += `    [key in \`\${string & keyof ${baseAnnotationMap}}#\${string}\`]: ${baseAnnotationMap}[${extractTypeName}<key>]`;
             compositeTarget += `\n} & {`;
-            compositeTarget += `\n    [key: string]: {\n        term?: ${vocabularyNamespaceTrans}.${vocabularyAlias}AnnotationTerms\n    };`;
+            compositeTarget += `\n    [key: string]: {\n        term?: ${vocabularyNamespaceTrans}.${vocabularyAlias}AnnotationTerms\n; qualifier?:string;    };`;
             compositeTarget += `\n};`;
             compositeTarget += '\n';
 
