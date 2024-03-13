@@ -693,7 +693,7 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
             }
         });
         vocabularyEdmDef = `import * as ${vocabularyNamespaceTrans} from "./${vocabularyAlias}";\n\n`;
-
+        vocabularyEdmDef += `import {PropertyAnnotationValue} from "../Edm";\n\n`;
         Object.keys(compositesAnnotations).forEach((targetKey) => {
             const baseAnnotationMap = `${targetKey}AnnotationsBase_${vocabularyAlias}`;
             const extractTypeName = `Extract${targetKey}AnnotationsType`;
@@ -704,8 +704,9 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
             compositeTarget += `\n\ntype ${extractTypeName}<T> = T extends \`\${infer U extends keyof ${baseAnnotationMap}}#\${string}\` ? U : never;`;
             compositeTarget += `\n\nexport type ${annotationMap} = ${baseAnnotationMap} & {\n`;
             compositeTarget += `    [key in \`\${string & keyof ${baseAnnotationMap}}#\${string}\`]: ${baseAnnotationMap}[${extractTypeName}<key>]`;
+            compositeTarget += `\n} & {`;
+            compositeTarget += `\n    [key: string]: {\n        term?: ${vocabularyNamespaceTrans}.${vocabularyAlias}AnnotationTerms\n; qualifier?:string;    } | PropertyAnnotationValue<unknown>;`;
             compositeTarget += `\n};`;
-
             compositeTarget += '\n';
 
             // compositeTarget += `\n// Type containing all possible annotations to use for ${targetKey}\n    export interface ${targetKey}Annotations {`;
