@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.7.1
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+
 ## 0.7.0
 
 ### Minor Changes

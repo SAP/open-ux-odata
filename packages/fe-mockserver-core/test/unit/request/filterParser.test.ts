@@ -446,4 +446,23 @@ describe('Filter Parser', () => {
             }
         `);
     });
+    test('filter with in', () => {
+        const filterIn = parseFilter(
+            `specificationVersion_id%20in%20(23190bf4-d283-49c4-95c9-36eb4ca091e4,6c209cfe-d04a-4eda-ab84-0ce245f403af)`
+        );
+        expect(filterIn).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": "specificationVersion_id",
+                  "literal": [
+                    "23190bf4-d283-49c4-95c9-36eb4ca091e4",
+                    "6c209cfe-d04a-4eda-ab84-0ce245f403af",
+                  ],
+                  "operator": "in",
+                },
+              ],
+            }
+        `);
+    });
 });

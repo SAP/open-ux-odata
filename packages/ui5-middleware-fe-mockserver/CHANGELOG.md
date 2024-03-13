@@ -1,5 +1,41 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.31
+
+### Patch Changes
+
+-   Updated dependencies [692d2b5]
+    -   @sap-ux/fe-mockserver-core@1.2.31
+
+## 2.2.30
+
+### Patch Changes
+
+-   Updated dependencies [6b21589]
+    -   @sap-ux/fe-mockserver-core@1.2.30
+
+## 2.2.29
+
+### Patch Changes
+
+-   Updated dependencies [ae19e5a]
+    -   @sap-ux/fe-mockserver-core@1.2.29
+
+## 2.2.28
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+-   Updated dependencies [1b25c13]
+    -   @sap-ux/fe-mockserver-core@1.2.28
+
+## 2.2.27
+
+### Patch Changes
+
+-   Updated dependencies [79314d3]
+    -   @sap-ux/fe-mockserver-core@1.2.27
+
 ## 2.2.26
 
 ### Patch Changes

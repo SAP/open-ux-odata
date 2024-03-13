@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.8.7
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+-   Updated dependencies [1b25c13]
+    -   @sap-ux/vocabularies-types@0.10.6
+
 ## 0.8.6
 
 ### Patch Changes

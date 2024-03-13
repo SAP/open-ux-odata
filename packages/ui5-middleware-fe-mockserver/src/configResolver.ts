@@ -116,6 +116,9 @@ function processServicesConfig(
         if (inConfig.generateMockData && !inService.hasOwnProperty('generateMockData')) {
             myServiceConfig.generateMockData = inConfig.generateMockData;
         }
+        if (inConfig.forceNullableValuesToNull && !inService.hasOwnProperty('forceNullableValuesToNull')) {
+            myServiceConfig.forceNullableValuesToNull = inConfig.forceNullableValuesToNull;
+        }
 
         return myServiceConfig;
     });

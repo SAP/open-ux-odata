@@ -51,6 +51,11 @@ export const LOGICAL_OPERATOR = createToken({
     longer_alt: SIMPLEIDENTIFIER,
     pattern: /(?:eq|ne|lt|le|gt|ge)/
 });
+export const IN_OPERATOR = createToken({
+    name: 'In',
+    longer_alt: SIMPLEIDENTIFIER,
+    pattern: /(?:in)/
+});
 export const NOT_OPERATOR = createToken({ name: 'Not', longer_alt: SIMPLEIDENTIFIER, pattern: /(?:not)/ });
 export const ANDOR = createToken({ name: 'AndOr', pattern: /(\s|%20)(?:and|or)(\s|%20)/ });
 export const ASCDESC = createToken({ name: 'AscDesc', longer_alt: SIMPLEIDENTIFIER, pattern: /(?:asc|desc)/ });

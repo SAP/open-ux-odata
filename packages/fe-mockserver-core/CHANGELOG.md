@@ -1,5 +1,38 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.31
+
+### Patch Changes
+
+-   692d2b5: Revert back to previous behavior for nullable properties (always generate if they are missing)
+
+## 1.2.30
+
+### Patch Changes
+
+-   6b21589: Fix recursive delete
+
+## 1.2.29
+
+### Patch Changes
+
+-   ae19e5a: Fix draft hierarchy queries
+
+## 1.2.28
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+-   Updated dependencies [1b25c13]
+    -   @sap-ux/annotation-converter@0.8.7
+    -   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.27
+
+### Patch Changes
+
+-   79314d3: Add support for in operator (odata v4.01)
+
 ## 1.2.26
 
 ### Patch Changes

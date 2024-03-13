@@ -139,6 +139,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         mockDataRootFolder: string,
         entity: string,
         generateMockData: boolean,
+        forceNullableValuesToNull: boolean,
         isDraft: boolean,
         dataAccess: DataAccessInterface
     ): Promise<object[]> {
@@ -198,6 +199,9 @@ export class MockDataEntitySet implements EntitySetInterface {
             if (generateMockData) {
                 (outData as any).__generateMockData = generateMockData;
             }
+            if (forceNullableValuesToNull) {
+                (outData as any).__forceNullableValuesToNull = forceNullableValuesToNull;
+            }
         }
         return outData as any;
     }
@@ -214,6 +218,7 @@ export class MockDataEntitySet implements EntitySetInterface {
      * @param entitySetDefinition
      * @param dataAccess
      * @param generateMockData
+     * @param forceNullableValuesToNull
      * @param initializeMockData
      * @param isDraft
      */
@@ -222,6 +227,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         entitySetDefinition: EntitySet | EntityType,
         dataAccess: DataAccessInterface,
         generateMockData: boolean,
+        forceNullableValuesToNull: boolean,
         initializeMockData = true,
         isDraft = false
     ) {
@@ -239,6 +245,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 rootFolder,
                 entitySetDefinition.name,
                 generateMockData,
+                forceNullableValuesToNull,
                 isDraft,
                 dataAccess
             ).then((mockData) => {
@@ -285,6 +292,13 @@ export class MockDataEntitySet implements EntitySetInterface {
 
     public isV4(): boolean {
         return this.dataAccess.isV4();
+    }
+
+    public isDraft(): boolean {
+        return !!(
+            this.entitySetDefinition?.annotations.Common?.DraftRoot ??
+            this.entitySetDefinition?.annotations.Common?.DraftNode
+        );
     }
 
     public getProperty(identifier: string) {
@@ -334,6 +348,8 @@ export class MockDataEntitySet implements EntitySetInterface {
             } else if (isProperty) {
                 return { fn: transformationFn('getData', identifier), type: 'Edm.String' };
             }
+            return { fn: () => identifier, type: 'Edm.String' };
+        } else if (Array.isArray(identifier)) {
             return { fn: () => identifier, type: 'Edm.String' };
         } else {
             const methodArgTransformed = identifier.methodArgs.map((methodArg, idx) =>
