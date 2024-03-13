@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.7
+
+### Patch Changes
+
+-   b776b71: Another type update
+
 ## 0.10.6
 
 ### Patch Changes
