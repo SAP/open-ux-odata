@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.8
+
+### Patch Changes
+
+-   f19e9b4: Revert previous change
+
 ## 0.10.7
 
 ### Patch Changes
