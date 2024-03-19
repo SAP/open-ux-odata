@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.34
+
+### Patch Changes
+
+-   270106c: feat: Support the new version of the com.sap.vocabularies.Hierarchy
+
 ## 1.2.33
 
 ### Patch Changes
