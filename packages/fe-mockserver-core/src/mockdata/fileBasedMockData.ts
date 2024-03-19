@@ -1134,25 +1134,40 @@ export class FileBasedMockData {
             sourceReference = this.getSourceReference(aggregationAnnotation!);
             return {
                 distanceFromRootProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.DistanceFromRootProperty) ?? '$$distanceFromRootProperty',
+                    getPathOrPropertyPath(
+                        hierarchyAnnotation.DistanceFromRoot ?? hierarchyAnnotation.DistanceFromRootProperty
+                    ) ?? '$$distanceFromRootProperty',
                 drillStateProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.DrillStateProperty) ?? '$$drillStateProperty',
+                    getPathOrPropertyPath(hierarchyAnnotation.DrillState ?? hierarchyAnnotation.DrillStateProperty) ??
+                    '$$drillStateProperty',
                 limitedDescendantCountProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.LimitedDescendantCountProperty) ??
-                    '$$limitedDescendantCountProperty',
+                    getPathOrPropertyPath(
+                        hierarchyAnnotation.LimitedDescendantCount ?? hierarchyAnnotation.LimitedDescendantCountProperty
+                    ) ?? '$$limitedDescendantCountProperty',
                 matchedDescendantCountProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.MatchedDescendantCountProperty) ??
-                    '$$matchedDescendantCountProperty',
-                matchedProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedProperty) ?? '$$matchedProperty',
+                    getPathOrPropertyPath(
+                        hierarchyAnnotation.MatchedDescendantCount ?? hierarchyAnnotation.MatchedDescendantCountProperty
+                    ) ?? '$$matchedDescendantCountProperty',
+                matchedProperty:
+                    getPathOrPropertyPath(hierarchyAnnotation.Matched ?? hierarchyAnnotation.MatchedProperty) ??
+                    '$$matchedProperty',
                 sourceReference
             } as HierarchyDefinition;
         }
         return {
-            distanceFromRootProperty: getPathOrPropertyPath(hierarchyAnnotation.DistanceFromRootProperty),
-            drillStateProperty: getPathOrPropertyPath(hierarchyAnnotation.DrillStateProperty),
-            limitedDescendantCountProperty: getPathOrPropertyPath(hierarchyAnnotation.LimitedDescendantCountProperty),
-            matchedDescendantCountProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedDescendantCountProperty),
-            matchedProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedProperty)
+            distanceFromRootProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.DistanceFromRoot ?? hierarchyAnnotation.DistanceFromRootProperty
+            ),
+            drillStateProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.DrillState ?? hierarchyAnnotation.DrillStateProperty
+            ),
+            limitedDescendantCountProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.LimitedDescendantCount ?? hierarchyAnnotation.LimitedDescendantCountProperty
+            ),
+            matchedDescendantCountProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.MatchedDescendantCount ?? hierarchyAnnotation.MatchedDescendantCountProperty
+            ),
+            matchedProperty: getPathOrPropertyPath(hierarchyAnnotation.Matched ?? hierarchyAnnotation.MatchedProperty)
         };
     }
 

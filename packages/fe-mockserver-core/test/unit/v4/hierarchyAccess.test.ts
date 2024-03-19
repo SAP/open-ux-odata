@@ -43,6 +43,7 @@ describe('Hierarchy Access', () => {
               },
             ]
         `);
+        debugger;
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
             [
