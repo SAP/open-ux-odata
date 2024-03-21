@@ -153,4 +153,63 @@ describe('Hierarchy with draft', () => {
             ]
         `);
     });
+
+    test('Expand on sub-nodes', async () => {
+        // Create a draft for Sales
+        const draftCreateRequest = new ODataRequest(
+            {
+                method: 'POST',
+                url: "/SalesOrganizations(ID='Sales',IsActiveEntity=true)/v4treedraft.draftEdit?$select=HasActiveEntity,HasDraftEntity,ID,IsActiveEntity&$expand=DraftAdministrativeData($select=DraftIsCreatedByMe,DraftUUID,InProcessByUser)'"
+            },
+            dataAccess
+        );
+        await dataAccess.performAction(draftCreateRequest);
+
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SalesOrganizations?$select=ID,DistanceFromRoot,DrillState,Name,IsActiveEntity,LimitedDescendantCount&$apply=ancestors($root/SalesOrganizations,SalesOrgHierarchy,ID,filter(IsActiveEntity eq true),keep start)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=\'SalesOrgHierarchy\',NodeProperty=\'ID\',Levels=2,ExpandLevels=[{"NodeID":"EMEA","Levels":1}])&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=10'
+            },
+            dataAccess
+        );
+
+        // Load hierarchy with subnodes expanded
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 3,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "EMEA",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 1,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "EMEA Central",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA Central",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "US",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "Name": "US",
+              },
+            ]
+        `);
+    });
 });
