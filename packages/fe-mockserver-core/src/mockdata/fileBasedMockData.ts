@@ -915,6 +915,9 @@ export class FileBasedMockData {
             });
             const restOfData = this._mockData
                 .filter((item: any) => {
+                    if (this._mockDataEntitySet.isDraft() && item.IsActiveEntity === false) {
+                        return false;
+                    }
                     return !data.find((dataItem: any) =>
                         compareRowData(dataItem, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
                     );
