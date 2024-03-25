@@ -175,7 +175,7 @@ importers:
     devDependencies:
       '@sap/cds-compiler':
         specifier: ^4
-        version: 4.0.0
+        version: 4.7.6
 
   packages/ui5-middleware-fe-mockserver:
     dependencies:
@@ -1306,8 +1306,8 @@ packages:
       config-chain: 1.1.13
     dev: true
 
-  /@sap/cds-compiler@4.0.0:
-    resolution: {integrity: sha512-sTOOI8vlBzPFXnXgs+Dy74sm2D6GycR9LS9O7lTjxE8SXWAbecmUAWMN2WJsb/IiwwJGJonHGwDG4shz+1sZYQ==}
+  /@sap/cds-compiler@4.7.6:
+    resolution: {integrity: sha512-UtededuyfOz0Fw2o+Wt94SFcLpocX7EleuWCV7Kn4HVQ9sZ8PirMc1Wi5T6lI7mIDOB/WFAUAhaRC8FeosTN7A==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
