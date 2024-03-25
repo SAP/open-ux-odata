@@ -16,13 +16,20 @@ type DraftElement = {
 
 type DraftAdministrativeData = {
     DraftUUID: string;
+    DraftEntityType: string;
     CreationDateTime: string;
-    CreatedByUser: string;
-    DraftIsCreatedByMe: boolean;
     LastChangeDateTime: string;
+    CreatedByUser: string;
     LastChangedByUser: string;
+    DraftAccessType: string;
     InProcessByUser: string;
+    DraftIsKeptByUser: boolean;
+    DraftIsCreatedByMe: boolean;
+    DraftIsLastChangedByMe: boolean;
     DraftIsProcessedByMe: boolean;
+    CreatedByUserDescription: string;
+    LastChangedByUserDescription: string;
+    InProcessByUserDescription: string;
 };
 
 export class DraftMockEntitySet extends MockDataEntitySet {
@@ -198,13 +205,20 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 const currentDate = _getDateTimeOffset(this.isV4());
                 duplicate.DraftAdministrativeData = {
                     DraftUUID: uuidv4(),
+                    DraftEntityType: this.entityTypeDefinition.fullyQualifiedName,
                     CreationDateTime: currentDate,
                     CreatedByUser: 'nobody',
-                    DraftIsCreatedByMe: true,
                     LastChangeDateTime: currentDate,
                     LastChangedByUser: 'nobody',
+                    DraftAccessType: '',
                     InProcessByUser: 'nobody',
-                    DraftIsProcessedByMe: true
+                    DraftIsKeptByUser: false,
+                    DraftIsCreatedByMe: true,
+                    DraftIsLastChangedByMe: true,
+                    DraftIsProcessedByMe: true,
+                    CreatedByUserDescription: 'nobody',
+                    LastChangedByUserDescription: 'nobody',
+                    InProcessByUserDescription: 'nobody'
                 };
                 await currentMockData.addEntry(duplicate, odataRequest);
                 await this.createInactiveVersionForNavigations(data, tenantId, odataRequest);
@@ -359,13 +373,20 @@ export class DraftMockEntitySet extends MockDataEntitySet {
         const currentDate = _getDateTimeOffset(this.isV4());
         postData.DraftAdministrativeData = {
             DraftUUID: postData.DraftUUID ?? uuidv4(),
+            DraftEntityType: this.entityTypeDefinition.fullyQualifiedName,
             CreationDateTime: currentDate,
             CreatedByUser: 'nobody',
-            DraftIsCreatedByMe: true,
             LastChangeDateTime: currentDate,
             LastChangedByUser: 'nobody',
+            DraftAccessType: '',
             InProcessByUser: 'nobody',
-            DraftIsProcessedByMe: true
+            DraftIsKeptByUser: false,
+            DraftIsCreatedByMe: true,
+            DraftIsLastChangedByMe: true,
+            DraftIsProcessedByMe: true,
+            CreatedByUserDescription: 'nobody',
+            LastChangedByUserDescription: 'nobody',
+            InProcessByUserDescription: 'nobody'
         };
         return super.performPOST(keyValues, postData, tenantId, odataRequest);
     }
