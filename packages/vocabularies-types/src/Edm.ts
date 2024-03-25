@@ -84,6 +84,11 @@ export type PathAnnotationExpression<P> = {
     getValue(): P;
 };
 
+export type ConstantExpression<T> = {
+    type: 'Constant';
+    value: T;
+};
+
 export type ApplyAnnotationExpression<P> = {
     type: 'Apply';
     Apply: PropertyAnnotationValue<P>[];
@@ -219,7 +224,8 @@ export type DynamicAnnotationExpression<P> =
     | GeAnnotationExpression<P>
     | LtAnnotationExpression<P>
     | LeAnnotationExpression<P>
-    | IfAnnotationExpression<P>;
+    | IfAnnotationExpression<P>
+    | ConstantExpression<P>;
 
 export type IDecimal = {
     isDecimal(): boolean;
