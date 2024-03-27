@@ -195,8 +195,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.9.1
-        version: 3.9.1
+        specifier: 3.9.2
+        version: 3.9.2
 
   samples/error-handling:
     devDependencies:
@@ -204,8 +204,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.9.1
-        version: 3.9.1
+        specifier: 3.9.2
+        version: 3.9.2
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -216,8 +216,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.9.1
-        version: 3.9.1
+        specifier: 3.9.2
+        version: 3.9.2
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -809,7 +809,7 @@ packages:
       debug: 4.3.4
       espree: 9.6.1
       globals: 13.19.0
-      ignore: 5.2.4
+      ignore: 5.3.1
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       minimatch: 3.1.2
@@ -1771,8 +1771,8 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: true
 
-  /@ui5/builder@3.3.0:
-    resolution: {integrity: sha512-gQ28Bj4WqF3b+8Mp4luxe2pGb+Adq2qpy1H9JZ8DTpIGcCEcJgJVCTRv6KdWZja6y5ZD89NWQAv0k0N50MV6Sw==}
+  /@ui5/builder@3.3.1:
+    resolution: {integrity: sha512-YHhCN8pF7eRHKWq4l8j3MYSabpGPe4ByoPLhW8NCz37HjlKPKa50ySUpTSHN9CGopMRzWxVMw6Zjul4SAwULWg==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -1788,17 +1788,17 @@ packages:
       pretty-data: 0.40.0
       rimraf: 5.0.5
       semver: 7.6.0
-      terser: 5.28.1
+      terser: 5.30.0
       workerpool: 6.5.1
       xml2js: 0.6.2
     dev: true
 
-  /@ui5/cli@3.9.1:
-    resolution: {integrity: sha512-Z+kyYjm9xOmUPAtBDkDUeV6Ys+uD56JvXgPo4TDE1n4yFrFomagXWmnlmSul8+fgNO9EQ6p6+aj9JjctIQx+VA==}
+  /@ui5/cli@3.9.2:
+    resolution: {integrity: sha512-od2yjR3RPo9HAKnkNEH3uy5r7QFVLd6fOwlmSZIDA1UYAJxCs5ezgekiV4t3ufWOut2o13avpibzZlX2vqagSA==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     hasBin: true
     dependencies:
-      '@ui5/builder': 3.3.0
+      '@ui5/builder': 3.3.1
       '@ui5/fs': 3.0.5
       '@ui5/logger': 3.0.0
       '@ui5/project': 3.9.0
@@ -1854,7 +1854,7 @@ packages:
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     dependencies:
       '@npmcli/config': 8.0.3
-      '@ui5/builder': 3.3.0
+      '@ui5/builder': 3.3.1
       '@ui5/fs': 3.0.5
       '@ui5/logger': 3.0.0
       ajv: 6.12.6
@@ -1885,7 +1885,7 @@ packages:
     resolution: {integrity: sha512-inVv6DNihzqEZ5MwOIjLJ39eLCgU/msQOjyPt64Fk7BG88MIG4+HiwbPW/07glJ4VQgCrlppZ6+N4ToEc4JFKA==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     dependencies:
-      '@ui5/builder': 3.3.0
+      '@ui5/builder': 3.3.1
       '@ui5/fs': 3.0.5
       '@ui5/logger': 3.0.0
       body-parser: 1.20.2
@@ -3918,7 +3918,7 @@ packages:
       array-union: 2.1.0
       dir-glob: 3.0.1
       fast-glob: 3.3.1
-      ignore: 5.2.4
+      ignore: 5.3.1
       merge2: 1.4.1
       slash: 3.0.0
     dev: true
@@ -3929,7 +3929,7 @@ packages:
     dependencies:
       dir-glob: 3.0.1
       fast-glob: 3.3.1
-      ignore: 5.2.4
+      ignore: 5.3.1
       merge2: 1.4.1
       slash: 4.0.0
     dev: true
@@ -7084,8 +7084,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /terser@5.28.1:
-    resolution: {integrity: sha512-wM+bZp54v/E9eRRGXb5ZFDvinrJIOaTapx3WUokyVGZu5ucVCK55zEgGd5Dl2fSr3jUo5sDiERErUWLY6QPFyA==}
+  /terser@5.30.0:
+    resolution: {integrity: sha512-Y/SblUl5kEyEFzhMAQdsxVHh+utAxd4IuRNJzKywY/4uzSogh3G219jqbDDxYu4MXO9CzY3tSEqmZvW6AoEDJw==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
