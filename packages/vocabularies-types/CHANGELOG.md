@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.9
+
+### Patch Changes
+
+-   1030a62: DataPoint criticality can be dynamic
+
 ## 0.10.8
 
 ### Patch Changes
