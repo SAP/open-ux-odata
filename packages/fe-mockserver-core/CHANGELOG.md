@@ -1,5 +1,17 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.36
+
+### Patch Changes
+
+-   536e307: Adjust the draft administrative data
+
+## 1.2.35
+
+### Patch Changes
+
+-   afc6049: fix: Correct hierarchy with expanded sub-nodes after draft creation
+
 ## 1.2.34
 
 ### Patch Changes
