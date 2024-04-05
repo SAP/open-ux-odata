@@ -66,6 +66,9 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         DataFieldAbstract: {
             Criticality: true
         },
+        DataPointType: {
+            Criticality: true
+        },
         Facet: {
             Label: true
         },
