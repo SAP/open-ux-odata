@@ -40,7 +40,7 @@ async function handlePart(
     batchResponse += NL; // End of part header
     if (responseData) {
         batchResponse += responseData;
-        batchResponse += NL; // End of body content
+        //batchResponse += NL; // End of body content
     }
     batchResponse += NL;
     return batchResponse;
