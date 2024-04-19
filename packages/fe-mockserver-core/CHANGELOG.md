@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.38
+
+### Patch Changes
+
+-   bdc82bf: Remove an extra CRLF in batch response
+
 ## 1.2.37
 
 ### Patch Changes
