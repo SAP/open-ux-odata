@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.39
+
+### Patch Changes
+
+-   a103f9d: feat: support the LimitedRank property in a hierarchy
+
 ## 1.2.38
 
 ### Patch Changes
