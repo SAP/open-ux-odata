@@ -23,6 +23,7 @@ type HierarchyDefinition = {
     matchedDescendantCountProperty: string | undefined;
     matchedProperty: string | undefined;
     limitedDescendantCountProperty: string | undefined;
+    limitedRankProperty: string | undefined;
     sourceReference: string;
 };
 
@@ -203,6 +204,10 @@ export class FileBasedMockData {
         if (hierarchyDefinition.distanceFromRootProperty) {
             deleteData(mockEntry, hierarchyDefinition.distanceFromRootProperty);
             delete mockEntry[hierarchyDefinition.distanceFromRootProperty];
+        }
+        if (hierarchyDefinition.limitedRankProperty) {
+            deleteData(mockEntry, hierarchyDefinition.limitedRankProperty);
+            delete mockEntry[hierarchyDefinition.limitedRankProperty];
         }
     }
 
@@ -1017,6 +1022,11 @@ export class FileBasedMockData {
                     outData.push(item);
                 }
             });
+            if (hierarchyDefinition.limitedRankProperty) {
+                outData.forEach((item, dataIdx) => {
+                    setData(item, hierarchyDefinition.limitedRankProperty!, dataIdx);
+                });
+            }
             // restrict tree data with skiplocation && skipcontext
             if (_odataRequest.skipLocation) {
                 let skipLocation = _odataRequest.skipLocation.split('(')[1].split(')')[0];
@@ -1147,6 +1157,7 @@ export class FileBasedMockData {
                     getPathOrPropertyPath(
                         hierarchyAnnotation.LimitedDescendantCount ?? hierarchyAnnotation.LimitedDescendantCountProperty
                     ) ?? '$$limitedDescendantCountProperty',
+                limitedRankProperty: getPathOrPropertyPath(hierarchyAnnotation.LimitedRank),
                 matchedDescendantCountProperty:
                     getPathOrPropertyPath(
                         hierarchyAnnotation.MatchedDescendantCount ?? hierarchyAnnotation.MatchedDescendantCountProperty
@@ -1167,6 +1178,7 @@ export class FileBasedMockData {
             limitedDescendantCountProperty: getPathOrPropertyPath(
                 hierarchyAnnotation.LimitedDescendantCount ?? hierarchyAnnotation.LimitedDescendantCountProperty
             ),
+            limitedRankProperty: getPathOrPropertyPath(hierarchyAnnotation.LimitedRank),
             matchedDescendantCountProperty: getPathOrPropertyPath(
                 hierarchyAnnotation.MatchedDescendantCount ?? hierarchyAnnotation.MatchedDescendantCountProperty
             ),
