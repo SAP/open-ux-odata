@@ -1668,6 +1668,106 @@ describe('Hierarchy Access', () => {
         `);
     });
 
+    test('Limited rank - no filter', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=\'SalesOrgHierarchy\',NodeProperty=\'ID\',Levels=2,ExpandLevels=[{"NodeID":"US","Levels":1}])&$count=true&$select=Name,LimitedRank'
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+                    [
+                      {
+                        "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                        "parameters": {
+                          "ExpandLevels": [
+                            {
+                              ""Levels"": "1",
+                              ""NodeID"": ""US"",
+                            },
+                          ],
+                          "HierarchyNodes": "$root/SalesOrganizations",
+                          "HierarchyQualifier": "'SalesOrgHierarchy'",
+                          "Levels": "2",
+                          "NodeProperty": "'ID'",
+                        },
+                        "type": "customFunction",
+                      },
+                    ]
+            `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+          [
+            {
+              "ID": "Sales",
+              "LimitedRank": 0,
+              "Name": "Corporate Sales",
+            },
+            {
+              "ID": "EMEA",
+              "LimitedRank": 1,
+              "Name": "EMEA",
+            },
+            {
+              "ID": "US",
+              "LimitedRank": 2,
+              "Name": "US",
+            },
+            {
+              "ID": "US West",
+              "LimitedRank": 3,
+              "Name": "US West",
+            },
+            {
+              "ID": "US East",
+              "LimitedRank": 4,
+              "Name": "US East",
+            },
+          ]
+      `);
+    });
+
+    test('Limited rank - with filter', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=\'SalesOrgHierarchy\',NodeProperty=\'ID\',Levels=2,ExpandLevels=[{"NodeID":"US","Levels":1}])&$count=true&$filter=ID%20eq%20\'US West\'&$select=Name,LimitedRank'
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+                  [
+                    {
+                      "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                      "parameters": {
+                        "ExpandLevels": [
+                          {
+                            ""Levels"": "1",
+                            ""NodeID"": ""US"",
+                          },
+                        ],
+                        "HierarchyNodes": "$root/SalesOrganizations",
+                        "HierarchyQualifier": "'SalesOrgHierarchy'",
+                        "Levels": "2",
+                        "NodeProperty": "'ID'",
+                      },
+                      "type": "customFunction",
+                    },
+                  ]
+          `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+          [
+            {
+              "ID": "US West",
+              "LimitedRank": 3,
+              "Name": "US West",
+            },
+          ]
+      `);
+    });
+
     test('9 - Create new root and a child', async () => {
         const createRequest = new ODataRequest(
             {

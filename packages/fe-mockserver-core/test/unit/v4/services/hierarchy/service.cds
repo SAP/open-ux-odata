@@ -9,7 +9,8 @@ service v4tree {
     DistanceFromRoot: DistanceFromRoot,
     DrillState: DrillState,
     Matched: Matched,
-    MatchedDescendantCount: MatchedDescendantCount
+    MatchedDescendantCount: MatchedDescendantCount,
+    LimitedRank : LimitedRank,
   }
   @Capabilities.FilterRestrictions: {
     NonFilterableProperties: [LimitedDescendantCount,DistanceFromRoot,DrillState,Matched,MatchedDescendantCount]
@@ -33,6 +34,8 @@ service v4tree {
     Matched : Boolean;
     @Core.Computed: true
     MatchedDescendantCount : Integer64;
+    @Core.Computed: true
+    LimitedRank : Integer64;
   };
 
   @Aggregation.RecursiveHierarchy#ProductsHierarchy: {
