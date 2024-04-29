@@ -1698,34 +1698,34 @@ describe('Hierarchy Access', () => {
             `);
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
-          [
-            {
-              "ID": "Sales",
-              "LimitedRank": 0,
-              "Name": "Corporate Sales",
-            },
-            {
-              "ID": "EMEA",
-              "LimitedRank": 1,
-              "Name": "EMEA",
-            },
-            {
-              "ID": "US",
-              "LimitedRank": 2,
-              "Name": "US",
-            },
-            {
-              "ID": "US West",
-              "LimitedRank": 3,
-              "Name": "US West",
-            },
-            {
-              "ID": "US East",
-              "LimitedRank": 4,
-              "Name": "US East",
-            },
-          ]
-      `);
+                      [
+                        {
+                          "ID": "Sales",
+                          "LimitedRank": 0,
+                          "Name": "Corporate Sales",
+                        },
+                        {
+                          "ID": "EMEA",
+                          "LimitedRank": 1,
+                          "Name": "EMEA",
+                        },
+                        {
+                          "ID": "US",
+                          "LimitedRank": 2,
+                          "Name": "US",
+                        },
+                        {
+                          "ID": "US West",
+                          "LimitedRank": 3,
+                          "Name": "US West",
+                        },
+                        {
+                          "ID": "US East",
+                          "LimitedRank": 4,
+                          "Name": "US East",
+                        },
+                      ]
+              `);
     });
 
     test('Limited rank - with filter', async () => {
@@ -1758,14 +1758,14 @@ describe('Hierarchy Access', () => {
           `);
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
-          [
-            {
-              "ID": "US West",
-              "LimitedRank": 3,
-              "Name": "US West",
-            },
-          ]
-      `);
+            [
+              {
+                "ID": "US West",
+                "LimitedRank": 3,
+                "Name": "US West",
+              },
+            ]
+        `);
     });
 
     test('9 - Create new root and a child', async () => {
@@ -1910,6 +1910,7 @@ describe('Hierarchy Access', () => {
               "DrillState": "",
               "ID": "APJ",
               "LimitedDescendantCount": 0,
+              "LimitedRank": 0,
               "Matched": false,
               "MatchedDescendantCount": 0,
               "Name": "APJ",

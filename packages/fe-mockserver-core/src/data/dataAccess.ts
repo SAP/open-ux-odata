@@ -761,22 +761,6 @@ export class DataAccess implements DataAccessInterface {
             );
 
             const mockEntitySet = await this.getMockEntitySet((currentEntitySet ?? currentEntityType).name);
-
-            // Apply $filter
-            if (odataRequest.filterDefinition && Array.isArray(data)) {
-                const filterDef = odataRequest.filterDefinition;
-
-                data = data.filter((dataLine) => {
-                    return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId, odataRequest);
-                });
-            }
-            // Apply $search
-            if (odataRequest.searchQuery && Array.isArray(data)) {
-                data = data.filter((dataLine) => {
-                    return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
-                });
-            }
-
             // Apply $apply for aggregates
             const applyDefinition = odataRequest.applyDefinition;
             if (applyDefinition) {
@@ -791,6 +775,20 @@ export class DataAccess implements DataAccessInterface {
                         currentEntityType
                     );
                 }
+            }
+            // Apply $filter
+            if (odataRequest.filterDefinition && Array.isArray(data)) {
+                const filterDef = odataRequest.filterDefinition;
+
+                data = data.filter((dataLine) => {
+                    return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId, odataRequest);
+                });
+            }
+            // Apply $search
+            if (odataRequest.searchQuery && Array.isArray(data)) {
+                data = data.filter((dataLine) => {
+                    return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
+                });
             }
 
             // Apply $orderby
