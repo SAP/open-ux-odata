@@ -145,10 +145,10 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         ValueListRelevantQualifiers: true
     },
     Capabilities: {
-        DeleteRestrictionsType: {
+        DeleteRestrictionsBase: {
             Deletable: true
         },
-        UpdateRestrictionsType: {
+        UpdateRestrictionsBase: {
             Updatable: true
         }
     },
