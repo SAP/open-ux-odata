@@ -532,7 +532,10 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
                 edmActionParameter.nullable = param._attributes.Nullable !== 'false';
                 return edmActionParameter;
             }),
-            returnType: action.ReturnType ? unaliasType(action.ReturnType._attributes.Type).type : ''
+            returnType: action.ReturnType ? unaliasType(action.ReturnType._attributes.Type).type : '',
+            returnCollection: action.ReturnType
+                ? action.ReturnType._attributes.Type.match(collectionRegexp) !== null
+                : false
         };
     });
 }
@@ -561,7 +564,10 @@ function parseV2FunctionImport(
                     isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
                 };
             }),
-            returnType: action._attributes.ReturnType ? action._attributes.ReturnType : ''
+            returnType: action._attributes.ReturnType ? action._attributes.ReturnType : '',
+            returnCollection: action._attributes.ReturnType
+                ? action._attributes.ReturnType.match(collectionRegexp) !== null
+                : false
         };
     });
 }
