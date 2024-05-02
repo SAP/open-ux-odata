@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.8.11
+
+### Patch Changes
+
+-   3c0d8bd: fix: We now keep track of the fact that the return type for a function is a collection
+-   Updated dependencies [3c0d8bd]
+    -   @sap-ux/vocabularies-types@0.10.10
+
 ## 0.8.10
 
 ### Patch Changes
