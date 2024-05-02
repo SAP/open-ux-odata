@@ -441,6 +441,7 @@ export type Action = {
     isBound: boolean;
     sourceType: string;
     returnType: string;
+    returnCollection: boolean;
     isFunction: boolean;
     sourceEntityType?: EntityType;
     returnEntityType?: EntityType;
