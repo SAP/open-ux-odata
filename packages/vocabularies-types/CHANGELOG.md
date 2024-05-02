@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.11
+
+### Patch Changes
+
+-   af38185: Adjust to vocabulary changes
+
 ## 0.10.10
 
 ### Patch Changes
