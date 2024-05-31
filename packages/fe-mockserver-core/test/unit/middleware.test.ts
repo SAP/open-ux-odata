@@ -181,6 +181,10 @@ describe('V4 Requestor', function () {
         const output = await fetch('http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2?$format=json');
         const textResponse = await output.text();
         expect(textResponse).toMatchSnapshot();
+
+        const serviceCatalogAtom = await fetch('http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2');
+        const textResponseAtom = await serviceCatalogAtom.text();
+        expect(textResponseAtom).toMatchSnapshot();
     });
     it('can get the serviceCatalog', async () => {
         const output = await fetch('http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/ServiceCollection');
