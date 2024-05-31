@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Create 1`] = `
+{
+  "body": {
+    "@odata.context": "../$metadata#Root()/$entity",
+    "@odata.metadataEtag": "W/"a20-O5lCLLWGDNbr2oZok3e/UzVbxgg"",
+    "ID": 0,
+    "__transient": true,
+    "data": "",
+  },
+  "headers": ObjectContaining {
+    "sap-contextid": Any<String>,
+  },
+  "status": 200,
+}
+`;
+
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Discard 1`] = `
+{
+  "body": "",
+  "headers": ObjectNotContaining {
+    "sap-contextid": Any<String>,
+  },
+  "status": 204,
+}
+`;
+
+exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Update discarded item 1`] = `
+{
+  "body": "Session gone",
+  "headers": ObjectNotContaining {
+    "sap-contextid": Any<String>,
+  },
+  "status": 400,
+}
+`;
+
 exports[`V4 Requestor can create data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
