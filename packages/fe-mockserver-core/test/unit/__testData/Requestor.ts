@@ -409,8 +409,8 @@ export class ODataV4Requestor extends ODataRequestor {
     public getMetadata<T>(): ODataV4ObjectRequest<T> {
         return new ODataV4ObjectRequest(this.odataRootUri, '/$metadata');
     }
-    public getRoot<T>(): ODataV4ObjectRequest<T> {
-        return new ODataV4ObjectRequest(this.odataRootUri, '/');
+    public getRoot<T>(format: string = ''): ODataV4ObjectRequest<T> {
+        return new ODataV4ObjectRequest(this.odataRootUri, '/' + format ? `?${format}` : '');
     }
 
     public getCount<T>(sEntityPath: string): ODataV4ObjectRequest<T> {
