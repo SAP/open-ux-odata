@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.43
+
+### Patch Changes
+
+-   a8506c5: We now properly fill the service document
+
 ## 1.2.42
 
 ### Patch Changes
