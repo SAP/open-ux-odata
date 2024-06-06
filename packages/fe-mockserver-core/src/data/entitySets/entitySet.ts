@@ -413,7 +413,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         if (!Array.isArray(mockDataToCheckValue)) {
             mockDataToCheckValue = [mockDataToCheckValue];
         }
-        if (expression.expression.expressions) {
+        if (expression.expression?.expressions) {
             expression.expression.expressions.forEach((entry: any) => {
                 const replaceValue = expression.propertyPath || expression.target;
                 if (typeof entry.identifier === 'string') {
@@ -426,6 +426,9 @@ export class MockDataEntitySet implements EntitySetInterface {
                     );
                 }
             });
+        } else {
+            // no expressions, so empty lambda
+            return true;
         }
 
         const check = (subMockData: any) => {
