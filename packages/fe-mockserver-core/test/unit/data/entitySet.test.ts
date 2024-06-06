@@ -55,6 +55,9 @@ describe('EntitySet', () => {
             expect(filteredData).toBe(false);
             filteredData = myEntitySet.checkFilter(mockData[3], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(false);
+            const v4SimpleLambda = parseFilter('ArrayData/any()')!;
+            filteredData = myEntitySet.checkFilter(mockData[0], v4SimpleLambda, 'default', fakeRequest);
+            expect(filteredData).toBe(true);
         });
         it('works on deep lambda expression with methods', async () => {
             const myEntitySet = new MockDataEntitySet(
