@@ -582,16 +582,53 @@ exports[`V4 Requestor can get the other annotation file with a more complex rege
 
 exports[`V4 Requestor can get the root 1`] = `
 "<?xml version="1.0" encoding="utf-8"?>
-        <app:service xml:lang="en" xml:base="/sap/fe/core/mock/action/"
-            xmlns:app="http://www.w3.org/2007/app"
-            xmlns:atom="http://www.w3.org/2005/Atom"
-            xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
-            xmlns:sap="http://www.sap.com/Protocols/SAPData">
-            <app:workspace>
-            </app:workspace>
-            <atom:link rel="self" href="/sap/fe/core/mock/action/"/>
-            <atom:link rel="latest-version" href="/sap/fe/core/mock/action/"/>
-        </app:service>"
+            <app:service xml:lang="en" xml:base="/sap/fe/core/mock/action/"
+                xmlns:app="http://www.w3.org/2007/app"
+                xmlns:atom="http://www.w3.org/2005/Atom"
+                xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+                xmlns:sap="http://www.sap.com/Protocols/SAPData">
+                <app:workspace>
+                <atom:collection href="RootElement"><atom:title type="text">RootElement</atom:title><sap:member-title>sap.fe.core.ActionVisibility.RootElement</sap:member-title></atom:collection><atom:collection href="SubElement"><atom:title type="text">SubElement</atom:title><sap:member-title>sap.fe.core.ActionVisibility.SubElement</sap:member-title></atom:collection>
+                </app:workspace>
+                <atom:link rel="self" href="/sap/fe/core/mock/action/"/>
+                <atom:link rel="latest-version" href="/sap/fe/core/mock/action/"/>
+            </app:service>"
+`;
+
+exports[`V4 Requestor can get the root 2`] = `
+{
+  "@odata.context": "$metadata",
+  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "value": [
+    {
+      "kind": "EntitySet",
+      "name": "RootElement",
+      "url": "RootElement",
+    },
+    {
+      "kind": "EntitySet",
+      "name": "SubElement",
+      "url": "SubElement",
+    },
+  ],
+}
+`;
+
+exports[`V4 Requestor can get the root 3`] = `"{"d":{"EntitySets":["Annotations","Vocabularies","ServiceCollection","ServiceNames","TagCollection","EntitySetCollection","CatalogCollection","RecommendedServiceCollection","ScopedServiceCollection"]}}"`;
+
+exports[`V4 Requestor can get the root 4`] = `
+"<?xml version="1.0" encoding="utf-8"?>
+            <app:service xml:lang="en" xml:base="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/"
+                xmlns:app="http://www.w3.org/2007/app"
+                xmlns:atom="http://www.w3.org/2005/Atom"
+                xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+                xmlns:sap="http://www.sap.com/Protocols/SAPData">
+                <app:workspace>
+                <atom:collection href="Annotations"><atom:title type="text">Annotations</atom:title></atom:collection><atom:collection href="Vocabularies"><atom:title type="text">Vocabularies</atom:title></atom:collection><atom:collection href="ServiceCollection"><atom:title type="text">ServiceCollection</atom:title></atom:collection><atom:collection href="ServiceNames"><atom:title type="text">ServiceNames</atom:title></atom:collection><atom:collection href="TagCollection"><atom:title type="text">TagCollection</atom:title></atom:collection><atom:collection href="EntitySetCollection"><atom:title type="text">EntitySetCollection</atom:title></atom:collection><atom:collection href="CatalogCollection"><atom:title type="text">CatalogCollection</atom:title></atom:collection><atom:collection href="RecommendedServiceCollection"><atom:title type="text">RecommendedServiceCollection</atom:title></atom:collection><atom:collection href="ScopedServiceCollection"><atom:title type="text">ScopedServiceCollection</atom:title></atom:collection>
+                </app:workspace>
+                <atom:link rel="self" href="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/"/>
+                <atom:link rel="latest-version" href="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/"/>
+            </app:service>"
 `;
 
 exports[`V4 Requestor can get the serviceCatalog 1`] = `"{"d":{"results":[{"ID":"action"},{"ID":"debug"},{"ID":"sticky"}]}}"`;

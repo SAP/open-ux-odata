@@ -173,6 +173,18 @@ describe('V4 Requestor', function () {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.getRoot().execute();
         expect(dataRes.body).toMatchSnapshot();
+
+        const dataRequestor2 = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataRes2 = await dataRequestor2.getRoot('$format=json').execute();
+        expect(dataRes2.body).toMatchSnapshot();
+
+        const output = await fetch('http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2?$format=json');
+        const textResponse = await output.text();
+        expect(textResponse).toMatchSnapshot();
+
+        const serviceCatalogAtom = await fetch('http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2');
+        const textResponseAtom = await serviceCatalogAtom.text();
+        expect(textResponseAtom).toMatchSnapshot();
     });
     it('can get the serviceCatalog', async () => {
         const output = await fetch('http://localhost:33331/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/ServiceCollection');
