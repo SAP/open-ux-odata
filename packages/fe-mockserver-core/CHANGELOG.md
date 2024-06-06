@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.44
+
+### Patch Changes
+
+-   35c9236: fix: allow empty lambda operations
+
 ## 1.2.43
 
 ### Patch Changes
