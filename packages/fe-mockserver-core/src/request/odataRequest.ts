@@ -600,13 +600,15 @@ export default class ODataRequest {
                     true
                 );
 
-                for (const subExpression of expression.identifier.expression.expressions) {
-                    expand(subExpression, target, expression.identifier.key);
+                if (expression.identifier.expression) {
+                    for (const subExpression of expression.identifier.expression.expressions) {
+                        expand(subExpression, target, expression.identifier.key);
+                    }
                 }
             }
         }
 
-        if (filterDefinition) {
+        if (filterDefinition?.expressions) {
             for (const expression of filterDefinition.expressions) {
                 expand(expression, expandOptions);
             }

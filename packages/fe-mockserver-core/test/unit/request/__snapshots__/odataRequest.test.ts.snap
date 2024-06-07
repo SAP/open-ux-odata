@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`OData Request It can parse $filter $filter=collection/any() 1`] = `
+{
+  "expandProperties": {
+    "collection": {
+      "expand": {},
+      "properties": {
+        "*": true,
+      },
+      "removeFromResult": true,
+    },
+  },
+  "filterDefinition": {
+    "expressions": [
+      {
+        "identifier": {
+          "expression": undefined,
+          "key": "",
+          "operator": "ANY",
+          "target": "collection",
+          "type": "lambda",
+        },
+      },
+    ],
+  },
+}
+`;
+
 exports[`OData Request It can parse $filter $filter=collection/any(d:d gt 0) 1`] = `
 {
   "expandProperties": {
