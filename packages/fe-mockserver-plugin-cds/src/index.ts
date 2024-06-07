@@ -7,7 +7,7 @@ export interface IMetadataProcessor {
     loadMetadata(filePath: string): Promise<string>;
 }
 
-import { compileSources, to } from '@sap/cds-compiler';
+import { compileSync, to } from '@sap/cds-compiler';
 import path from 'path';
 import { commonCDS } from './common.cds';
 
@@ -34,22 +34,26 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
      * @returns a promise with the EDMX content
      */
     async loadMetadata(filePath: string): Promise<string> {
-        let cdsContent = await this.fileLoader.loadFile(filePath);
+        const cdsContent = await this.fileLoader.loadFile(filePath);
         if (filePath.endsWith('.xml')) {
             return cdsContent;
         }
         const usingReg = new RegExp(/from '([^']+)/g);
         const matches = cdsContent.match(usingReg);
+        const fileCache: Record<string, string> = {};
+        fileCache[filePath] = cdsContent;
+        fileCache['/dummyHomme/common.cds'] = commonCDS;
         if (matches) {
             let additionalFiles: string[] = matches.map((match) => /from '([^']+)/.exec(match)![1]);
             additionalFiles = additionalFiles.filter((fileName) => fileName !== '@sap/cds/common');
 
             for (const additionalFilesKey of additionalFiles) {
-                cdsContent += await this.fileLoader.loadFile(path.resolve(path.dirname(filePath), additionalFilesKey));
+                const additionalFilePath = path.resolve(path.dirname(filePath), additionalFilesKey);
+                fileCache[additionalFilePath] = await this.fileLoader.loadFile(additionalFilePath);
             }
         }
 
-        const csn = compileSources({ 'string.cds': cdsContent, 'common.cds': commonCDS }, {});
+        const csn = compileSync([filePath], path.dirname(filePath), { cdsHome: '/dummyHomme' }, fileCache);
         const edmx = to.edmx.all(csn, {
             odataVersion: this.options?.odataVersion || 'v4',
             odataForeignKeys: true,
