@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.45
+
+### Patch Changes
+
+-   586bcc9: fix: empty lambda are now properly parsed
+
 ## 1.2.44
 
 ### Patch Changes
