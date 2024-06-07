@@ -120,6 +120,7 @@ function compareRowData(
 }
 export class FileBasedMockData {
     protected _mockData: object[];
+    protected _keyIndex: Record<string, number>;
     protected _hierarchyTree: Record<string, Record<string, any>> = {};
     protected _entityType: EntityType;
     protected _mockDataEntitySet: EntitySetInterface;
@@ -164,6 +165,11 @@ export class FileBasedMockData {
             } else if (mockEntry.hasOwnProperty(prop.name) && isComplexTypeDefinition(prop.targetType)) {
                 // If the property is defined from a complex type we should validate the property of the complex type
                 this.validateProperties(mockEntry[prop.name], prop.targetType.properties);
+            } else if (
+                mockEntry.hasOwnProperty(prop.name) &&
+                ['Edm.Int16', 'Edm.Int32', 'Edm.Int64'].includes(prop.type)
+            ) {
+                mockEntry[prop.name] = parseInt(mockEntry[prop.name], 10);
             }
         });
     }
@@ -213,6 +219,7 @@ export class FileBasedMockData {
 
     async addEntry(mockEntry: any, _odataRequest: ODataRequest): Promise<void> {
         this._mockData.push(mockEntry);
+        this.createKeyIndex();
     }
 
     async updateEntry(
@@ -227,6 +234,20 @@ export class FileBasedMockData {
 
     fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
         const keys = this._entityType.keys;
+        if (Object.keys(keyValues).length === keys.length) {
+            if (!this._keyIndex) {
+                this.createKeyIndex();
+            } else {
+                const key = keys
+                    .map((keyProp) => {
+                        return keyValues[keyProp.name];
+                    })
+                    .join('-');
+                const value = this._mockData[this._keyIndex[key]];
+                return value ? [value] : [];
+            }
+        }
+
         return this._mockData.filter((mockData) => {
             return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
         });
@@ -247,11 +268,32 @@ export class FileBasedMockData {
         return cloneDeep(this._mockData);
     }
 
+    protected createKeyIndex() {
+        const keys = this._entityType.keys;
+        this._keyIndex = {};
+        this._mockData.forEach((mockData: any, index: number) => {
+            const key = keys
+                .map((keyProp) => {
+                    return mockData[keyProp.name];
+                })
+                .join('-');
+            this._keyIndex[key] = index;
+        });
+    }
     protected getDataIndex(keyValues: KeyDefinitions, _odataRequest: ODataRequest): number {
         const keys = this._entityType.keys;
-        return this._mockData.findIndex((mockData) => {
-            return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
-        });
+        if (!this._keyIndex) {
+            this.createKeyIndex();
+        }
+        const key = keys
+            .map((keyProp) => {
+                return keyValues[keyProp.name];
+            })
+            .join('-');
+        return this._keyIndex[key] ?? -1;
+        // return this._mockData.findIndex((mockData) => {
+        //     return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
+        // });
     }
 
     private checkKeyValues(mockData: object, keyValues: KeyDefinitions, keys: Property[], _odataRequest: ODataRequest) {
@@ -271,6 +313,7 @@ export class FileBasedMockData {
         if (dataIndex !== -1) {
             this._mockData.splice(dataIndex, 1);
         }
+        this.createKeyIndex();
     }
 
     protected getDefaultValueFromType(
