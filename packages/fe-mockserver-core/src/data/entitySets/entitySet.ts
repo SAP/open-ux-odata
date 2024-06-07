@@ -313,7 +313,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 resolvedPath = this.entityTypeDefinition.resolvePath(identifier, true);
             }
 
-            this._resolvedProperties[identifier] = resolvedPath;
+            this._resolvedProperties[identifier] = resolvedPath.target;
         }
 
         return this._resolvedProperties[identifier];
