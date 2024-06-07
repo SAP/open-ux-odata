@@ -608,7 +608,7 @@ export default class ODataRequest {
             }
         }
 
-        if (filterDefinition && filterDefinition.expressions) {
+        if (filterDefinition?.expressions) {
             for (const expression of filterDefinition.expressions) {
                 expand(expression, expandOptions);
             }
