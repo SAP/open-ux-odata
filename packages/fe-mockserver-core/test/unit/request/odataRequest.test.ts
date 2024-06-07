@@ -990,6 +990,7 @@ describe('OData Request', () => {
             { query: '$filter=single/value eq 0&$expand=single($select=other)' },
 
             // lambda
+            { query: '$filter=collection/any()' },
             { query: '$filter=collection/any(d:d gt 0)' },
             { query: '$filter=collection/any(d:d/value gt 0)' },
             { query: '$filter=collection/any(d:d/value gt 0 and d/single/value eq 1)' },
