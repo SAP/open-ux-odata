@@ -236,7 +236,7 @@ export class FileBasedMockData {
         const keys = this._entityType.keys;
         const fetchedKeys = Object.keys(keyValues);
         const areAllKeysMatched = keys.every((key) => {
-            fetchedKeys.includes(key.name);
+            return fetchedKeys.includes(key.name);
         });
         if (areAllKeysMatched) {
             if (!this._keyIndex) {
@@ -244,6 +244,10 @@ export class FileBasedMockData {
             }
             const key = keys
                 .map((keyProp) => {
+                    const keyValue = keyValues[keyProp.name];
+                    if (keyValue && typeof keyValue === 'string' && keyValue.startsWith("guid'")) {
+                        return keyValue.substring(5, keyValue.length - 1);
+                    }
                     return keyValues[keyProp.name];
                 })
                 .join('-');
@@ -287,7 +291,7 @@ export class FileBasedMockData {
         const keys = this._entityType.keys;
         const fetchedKeys = Object.keys(keyValues);
         const areAllKeysMatched = keys.every((key) => {
-            fetchedKeys.includes(key.name);
+            return fetchedKeys.includes(key.name);
         });
         if (areAllKeysMatched) {
             if (!this._keyIndex) {
@@ -295,6 +299,10 @@ export class FileBasedMockData {
             }
             const key = keys
                 .map((keyProp) => {
+                    const keyValue = keyValues[keyProp.name];
+                    if (keyValue && typeof keyValue === 'string' && keyValue.startsWith("guid'")) {
+                        return keyValue.substring(5, keyValue.length - 1);
+                    }
                     return keyValues[keyProp.name];
                 })
                 .join('-');
