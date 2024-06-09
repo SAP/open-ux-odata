@@ -1307,7 +1307,7 @@ packages:
     dev: true
 
   /@sap/cds-compiler@4.9.4:
-    resolution: {integrity: sha512-V8vh1oeNbjdeVLSnrcVHcgrkF9QGQVi0Y2gHfETqWPFMFr66S3Qzevk8VuhX351TxTbBBv5HXeL3ovQxIhCHqg==, tarball: https://int.repositories.cloud.sap/artifactory/api/npm/build-milestones-npm/@sap/cds-compiler/-/@sap/cds-compiler-4.9.4.tgz}
+    resolution: {integrity: sha512-V8vh1oeNbjdeVLSnrcVHcgrkF9QGQVi0Y2gHfETqWPFMFr66S3Qzevk8VuhX351TxTbBBv5HXeL3ovQxIhCHqg==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
