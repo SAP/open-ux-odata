@@ -6,8 +6,8 @@ export interface IFileLoader {
 export interface IMetadataProcessor {
     loadMetadata(filePath: string): Promise<string>;
 }
-
 import { compileSync, to } from '@sap/cds-compiler';
+import * as os from 'node:os';
 import path from 'path';
 import { commonCDS } from './common.cds';
 
@@ -42,7 +42,14 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
         const matches = cdsContent.match(usingReg);
         const fileCache: Record<string, string> = {};
         fileCache[filePath] = cdsContent;
-        fileCache['/dummyHomme/common.cds'] = commonCDS;
+
+        if (os.platform() === 'win32') {
+            fileCache['C:\\dummyHomme\\common.cds'] = commonCDS;
+        } else {
+            fileCache['/dummyHomme/common.cds'] = commonCDS;
+        }
+
+        fileCache['@sap/cds/common'] = commonCDS;
         if (matches) {
             let additionalFiles: string[] = matches.map((match) => /from '([^']+)/.exec(match)![1]);
             additionalFiles = additionalFiles.filter((fileName) => fileName !== '@sap/cds/common');
