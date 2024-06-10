@@ -7,7 +7,6 @@ export interface IMetadataProcessor {
     loadMetadata(filePath: string): Promise<string>;
 }
 import { compileSync, to } from '@sap/cds-compiler';
-import * as os from 'node:os';
 import path from 'path';
 import { commonCDS } from './common.cds';
 
@@ -43,11 +42,7 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
         const fileCache: Record<string, string> = {};
         fileCache[filePath] = cdsContent;
 
-        if (os.platform() === 'win32') {
-            fileCache['C:\\dummyHomme\\common.cds'] = commonCDS;
-        } else {
-            fileCache['/dummyHomme/common.cds'] = commonCDS;
-        }
+        fileCache[path.resolve('./dummyHomme/common.cds')] = commonCDS;
 
         fileCache['@sap/cds/common'] = commonCDS;
         if (matches) {
@@ -60,7 +55,12 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
             }
         }
 
-        const csn = compileSync([filePath], path.dirname(filePath), { cdsHome: '/dummyHomme' }, fileCache);
+        const csn = compileSync(
+            [filePath],
+            path.dirname(filePath),
+            { cdsHome: path.resolve('./dummyHomme') },
+            fileCache
+        );
         const edmx = to.edmx.all(csn, {
             odataVersion: this.options?.odataVersion || 'v4',
             odataForeignKeys: true,
