@@ -238,6 +238,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
         <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
         <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
       </EntityType>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop1">
         <Annotation Term="Common.Label" String="First Prop"/>
       </Annotations>
@@ -405,6 +408,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
         <End Role="Currencies" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies" Multiplicity="*"/>
         <End Role="Currencies_texts" Type="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts" Multiplicity="0..1"/>
       </Association>
+      <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/ID" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Prop1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
         <Annotation Term="Common.Label" String="First Prop"/>
       </Annotations>
@@ -518,7 +524,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more common s
         <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
         <Property Name="StringProperty" Type="Edm.String"/>
         <Property Name="IntegerProperty" Type="Edm.Int32"/>
-        <Property Name="NumberProperty" Type="Edm.Decimal" Scale="2" Precision="4"/>
+        <Property Name="NumberProperty" Type="Edm.Decimal" Precision="4" Scale="2"/>
         <Property Name="BooleanProperty" Type="Edm.Boolean"/>
         <Property Name="DateProperty" Type="Edm.Date"/>
         <Property Name="TimeProperty" Type="Edm.TimeOfDay"/>
@@ -769,6 +775,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more common s
       <Annotations Target="Service.DraftAdministrativeData/DraftUUID">
         <Annotation Term="UI.Hidden" Bool="true"/>
         <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/CreationDateTime">
         <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>

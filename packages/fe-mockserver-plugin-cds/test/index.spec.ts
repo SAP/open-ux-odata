@@ -37,7 +37,7 @@ describe('FE Mockserver CDS Plugin', () => {
         await expect(myCDSProvider.loadMetadata(path.join(cdsDataPath, 'invalid-syntaxError.cds'))).rejects
             .toMatchInlineSnapshot(`
             [Error: CDS compilation failed
-            string.cds:5:15-17: Error: Extraneous ‹Identifier›, expecting ‘:’, ‘;’, ‘{’, ‘@’, ‘=’]
+            invalid-syntaxError.cds:5:15-17: Error: Extraneous ‹Identifier›, expecting ‘:’, ‘;’, ‘{’, ‘@’, ‘=’]
         `);
     });
     it('will throw while processing invalid CDS - multiple Services', async () => {

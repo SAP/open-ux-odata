@@ -26,9 +26,9 @@
         "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u"
     },
     "peerDependencies": {
-        "@sap/cds-compiler": "^4"
+        "@sap/cds-compiler": "^4.8"
     },
     "devDependencies": {
-        "@sap/cds-compiler": "^4"
+        "@sap/cds-compiler": "^4.8"
     }
 }
