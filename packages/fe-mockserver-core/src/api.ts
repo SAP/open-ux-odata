@@ -29,6 +29,7 @@ export interface ConfigService {
     debug: boolean;
     noETag: boolean;
     contextBasedIsolation: boolean;
+    forceNullableValuesToNull: boolean;
     strictKeyMode: boolean;
     watch: boolean;
 }

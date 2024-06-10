@@ -80,7 +80,8 @@ function processServicesConfig(
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
             generateMockData: inService.generateMockData,
-            contextBasedIsolation: inService.contextBasedIsolation
+            contextBasedIsolation: inService.contextBasedIsolation,
+            forceNullableValuesToNull: inService.forceNullableValuesToNull
         } as any;
         const metadataPath = inService.metadataPath || inService.metadataXmlPath || inService.metadataCdsPath;
         if (metadataPath) {

@@ -135,6 +135,7 @@ function prepareLiteral(literal: string, propertyType: string) {
  *
  */
 export class MockDataEntitySet implements EntitySetInterface {
+    private _resolvedProperties: Record<string, Property> = {};
     public static async read(
         mockDataRootFolder: string,
         entity: string,
@@ -302,16 +303,20 @@ export class MockDataEntitySet implements EntitySetInterface {
     }
 
     public getProperty(identifier: string) {
-        let resolvedPath;
-        if (this.entitySetDefinition) {
-            resolvedPath = this.dataAccess
-                .getMetadata()
-                .resolvePath('/' + this.entitySetDefinition.name + '/' + identifier);
-        } else {
-            resolvedPath = this.entityTypeDefinition.resolvePath(identifier, true);
+        if (!this._resolvedProperties[identifier]) {
+            let resolvedPath;
+            if (this.entitySetDefinition) {
+                resolvedPath = this.dataAccess
+                    .getMetadata()
+                    .resolvePath('/' + this.entitySetDefinition.name + '/' + identifier);
+            } else {
+                resolvedPath = this.entityTypeDefinition.resolvePath(identifier, true);
+            }
+
+            this._resolvedProperties[identifier] = resolvedPath.target;
         }
 
-        return resolvedPath.target;
+        return this._resolvedProperties[identifier];
     }
 
     public checkFilter(
