@@ -122,7 +122,7 @@ describe('V4 Requestor', function () {
             {
               "@odata.context": "$metadata#RootElement(ID=1,IsActiveEntity=true)/_Elements",
               "@odata.count": 3,
-              "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+              "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
               "value": [
                 {
                   "HasActiveEntity": true,
