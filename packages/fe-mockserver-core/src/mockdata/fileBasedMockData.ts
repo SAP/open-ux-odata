@@ -297,25 +297,6 @@ export class FileBasedMockData {
         const entryFromKeys = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
         if (entryFromKeys) {
             return entryFromKeys;
-        }
-        const fetchedKeys = Object.keys(keyValues);
-        const areAllKeysMatched = keys.every((key) => {
-            return fetchedKeys.includes(key.name);
-        });
-        if (areAllKeysMatched) {
-            if (!this._keyIndex) {
-                this.createKeyIndex();
-            }
-            const key = keys
-                .map((keyProp) => {
-                    const keyValue = keyValues[keyProp.name];
-                    if (keyValue && typeof keyValue === 'string' && keyValue.startsWith("guid'")) {
-                        return keyValue.substring(5, keyValue.length - 1);
-                    }
-                    return keyValues[keyProp.name];
-                })
-                .join('-');
-            return this._keyIndex[key] ?? -1;
         } else {
             return this._mockData.findIndex((mockData) => {
                 return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
