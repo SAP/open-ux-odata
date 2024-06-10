@@ -232,8 +232,7 @@ export class FileBasedMockData {
         this._mockData[dataIndex] = updatedData;
     }
 
-    fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
-        const keys = this._entityType.keys;
+    fetchIndexFromKey(keys: Property[], keyValues: KeyDefinitions, _odataRequest: ODataRequest): number | undefined {
         const fetchedKeys = Object.keys(keyValues);
         const areAllKeysMatched = keys.every((key) => {
             return fetchedKeys.includes(key.name);
@@ -251,10 +250,16 @@ export class FileBasedMockData {
                     return keyValues[keyProp.name];
                 })
                 .join('-');
-            const value = this._mockData[this._keyIndex[key]];
-            return value ? [value] : [];
+            return this._keyIndex[key];
         }
+    }
 
+    fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
+        const keys = this._entityType.keys;
+        const indexFromKey = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
+        if (indexFromKey && indexFromKey !== -1) {
+            return [this._mockData[indexFromKey]];
+        }
         return this._mockData.filter((mockData) => {
             return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
         });
@@ -289,6 +294,10 @@ export class FileBasedMockData {
     }
     protected getDataIndex(keyValues: KeyDefinitions, _odataRequest: ODataRequest): number {
         const keys = this._entityType.keys;
+        const entryFromKeys = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
+        if (entryFromKeys) {
+            return entryFromKeys;
+        }
         const fetchedKeys = Object.keys(keyValues);
         const areAllKeysMatched = keys.every((key) => {
             return fetchedKeys.includes(key.name);
