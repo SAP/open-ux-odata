@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.2.0
+
+### Minor Changes
+
+-   06d1cab: CDS Parsing now respects proper CDS syntax for multiple files
+
 ## 1.1.0
 
 ### Minor Changes
