@@ -472,13 +472,14 @@ export class DataAccess implements DataAccessInterface {
             );
 
             const targetEntitySetInterface = await this.getMockEntitySet(targetEntitySet.name);
-
             data[navigationProperty.name] = await targetEntitySetInterface.performGET(
                 currentKeys,
                 navigationProperty.isCollection,
                 odataRequest.tenantId,
                 odataRequest
             );
+        } else if (navigationProperty.containsTarget && !data[navigationProperty.name]) {
+            data[navigationProperty.name] = null; // Data is requested + contained, we need to set it to null
         }
     }
 
