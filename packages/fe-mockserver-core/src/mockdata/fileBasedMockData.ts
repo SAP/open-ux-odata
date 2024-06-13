@@ -288,6 +288,8 @@ export class FileBasedMockData {
         const indexName = keys.join('-');
         if (this._keyIndex[indexName] === false) {
             return false; // Cannot create an index for those keys
+        } else if (this._keyIndex[indexName] !== undefined) {
+            return this._keyIndex[indexName];
         }
         try {
             const keyIndex: Record<string, number> = {};
