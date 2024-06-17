@@ -120,7 +120,7 @@ function compareRowData(
 }
 export class FileBasedMockData {
     protected _mockData: object[];
-    protected _keyIndex: Record<string, number>;
+    protected _keyIndex: Record<string, Record<string, number> | false> = {};
     protected _hierarchyTree: Record<string, Record<string, any>> = {};
     protected _entityType: EntityType;
     protected _mockDataEntitySet: EntitySetInterface;
@@ -230,34 +230,34 @@ export class FileBasedMockData {
     ): Promise<void> {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
         this._mockData[dataIndex] = updatedData;
+        this.createKeyIndex();
     }
 
-    fetchIndexFromKey(keys: Property[], keyValues: KeyDefinitions, _odataRequest: ODataRequest): number | undefined {
+    fetchIndexFromKey(keys: Property[], keyValues: KeyDefinitions, _odataRequest: ODataRequest): number | false {
         const fetchedKeys = Object.keys(keyValues);
-        const areAllKeysMatched = keys.every((key) => {
-            return fetchedKeys.includes(key.name);
-        });
-        if (areAllKeysMatched) {
-            if (!this._keyIndex) {
-                this.createKeyIndex();
-            }
-            const key = keys
-                .map((keyProp) => {
-                    const keyValue = keyValues[keyProp.name];
-                    if (keyValue && typeof keyValue === 'string' && keyValue.startsWith("guid'")) {
-                        return keyValue.substring(5, keyValue.length - 1);
-                    }
-                    return keyValues[keyProp.name];
-                })
-                .join('-');
-            return this._keyIndex[key];
+        const keyIndex = this.createKeyIndex(fetchedKeys);
+        if (keyIndex === false) {
+            return false;
         }
+        const key = fetchedKeys
+            .map((keyProp) => {
+                const keyValue = keyValues[keyProp];
+                if (keyValue && typeof keyValue === 'string' && keyValue.startsWith("guid'")) {
+                    return keyValue.substring(5, keyValue.length - 1);
+                }
+                return keyValues[keyProp];
+            })
+            .join('-');
+        return keyIndex[key] ?? -1;
     }
 
     fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
         const keys = this._entityType.keys;
         const indexFromKey = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
-        if (indexFromKey && indexFromKey !== -1) {
+        if (indexFromKey !== false) {
+            if (indexFromKey === -1) {
+                return [];
+            }
             return [this._mockData[indexFromKey]];
         }
         return this._mockData.filter((mockData) => {
@@ -280,23 +280,41 @@ export class FileBasedMockData {
         return cloneDeep(this._mockData);
     }
 
-    protected createKeyIndex() {
-        const keys = this._entityType.keys;
-        this._keyIndex = {};
-        this._mockData.forEach((mockData: any, index: number) => {
-            const key = keys
-                .map((keyProp) => {
-                    return mockData[keyProp.name];
-                })
-                .join('-');
-            this._keyIndex[key] = index;
-        });
+    protected createKeyIndex(keys?: string[]): false | Record<string, number> {
+        if (!keys) {
+            this._keyIndex = {};
+            keys = this._entityType.keys.map((keyProp) => keyProp.name);
+        }
+        const indexName = keys.join('-');
+        if (this._keyIndex[indexName] === false) {
+            return false; // Cannot create an index for those keys
+        } else if (this._keyIndex[indexName] !== undefined) {
+            return this._keyIndex[indexName];
+        }
+        try {
+            const keyIndex: Record<string, number> = {};
+            this._mockData.forEach((mockData: any, index: number) => {
+                const key = keys!
+                    .map((keyProp) => {
+                        return mockData[keyProp];
+                    })
+                    .join('-');
+                if (keyIndex[key] !== undefined) {
+                    throw new Error(`Duplicate key found for key ${key}`);
+                }
+                keyIndex[key] = index;
+            });
+            this._keyIndex[indexName] = keyIndex;
+        } catch (e: unknown) {
+            this._keyIndex[indexName] = false;
+        }
+        return this._keyIndex[indexName];
     }
     protected getDataIndex(keyValues: KeyDefinitions, _odataRequest: ODataRequest): number {
         const keys = this._entityType.keys;
-        const entryFromKeys = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
-        if (entryFromKeys) {
-            return entryFromKeys;
+        const indexFromKey = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
+        if (indexFromKey !== false) {
+            return indexFromKey;
         } else {
             return this._mockData.findIndex((mockData) => {
                 return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
