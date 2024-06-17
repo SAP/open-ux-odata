@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.47
+
+### Patch Changes
+
+-   13abaa4: Slightly improved version of the index generation
+
 ## 1.2.46
 
 ### Patch Changes
