@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.49
+
+### Patch Changes
+
+-   8fb7212: Fix issue with the hierarchy due to integer based handling
+
 ## 1.2.48
 
 ### Patch Changes
