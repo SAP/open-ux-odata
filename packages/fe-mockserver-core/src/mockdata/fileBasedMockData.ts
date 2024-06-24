@@ -169,7 +169,11 @@ export class FileBasedMockData {
                 mockEntry.hasOwnProperty(prop.name) &&
                 ['Edm.Int16', 'Edm.Int32', 'Edm.Int64'].includes(prop.type)
             ) {
-                mockEntry[prop.name] = parseInt(mockEntry[prop.name], 10);
+                if (mockEntry[prop.name] === '') {
+                    mockEntry[prop.name] = ''; // hierarchy root node  case
+                } else {
+                    mockEntry[prop.name] = parseInt(mockEntry[prop.name], 10);
+                }
             }
         });
     }
