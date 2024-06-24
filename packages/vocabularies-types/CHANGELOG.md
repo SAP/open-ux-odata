@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.13
+
+### Patch Changes
+
+-   b1c3d54: Update vocabulary version
+
 ## 0.10.12
 
 ### Patch Changes
