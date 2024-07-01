@@ -182,7 +182,7 @@ export class FileBasedMockData {
         if (this._mockDataEntitySet?.shouldValidateETag?.()) {
             const currentDate = _getDateTimeOffset(true);
             if (topLevel) {
-                mockEntry['@odata.etag'] = `W/\"${currentDate}\"`;
+                mockEntry['@odata.etag'] = `W/\\"${currentDate}\\"`;
             }
         }
     }
@@ -255,7 +255,7 @@ export class FileBasedMockData {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
         const currentDate = _getDateTimeOffset(true);
         if (this._mockDataEntitySet?.shouldValidateETag?.()) {
-            updatedData['@odata.etag'] = `W/\"${currentDate}\"`;
+            updatedData['@odata.etag'] = `W/\\"${currentDate}\\"`;
         }
 
         this._mockData[dataIndex] = updatedData;
@@ -597,7 +597,7 @@ export class FileBasedMockData {
         });
         if (this._mockDataEntitySet?.shouldValidateETag?.()) {
             const currentDate = _getDateTimeOffset(true);
-            outObj['@odata.etag'] = `W/\"${currentDate}\"`;
+            outObj['@odata.etag'] = `W/\\"${currentDate}\\"`;
         }
         return outObj;
     }
