@@ -662,7 +662,6 @@ exports[`V4 Requestor can update data through a call 1`] = `
 exports[`V4 Requestor can update data through a call 2`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)",
-  "@odata.etag": "W/"2024-07-01T10:01:31.747Z"",
   "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
@@ -687,7 +686,6 @@ exports[`V4 Requestor can update data through a call 3`] = `
 exports[`V4 Requestor can update data through a call 4`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
-  "@odata.etag": "W/"2024-07-01T10:01:31.781Z"",
   "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
@@ -705,7 +703,6 @@ exports[`V4 Requestor can update data through a call 4`] = `
 exports[`V4 Requestor get one data 1`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.etag": "W/"2024-07-01T10:01:31.612Z"",
   "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
@@ -725,7 +722,6 @@ exports[`V4 Requestor get one data 2`] = `""`;
 exports[`V4 Requestor get one data 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.etag": "W/"2024-07-01T10:01:31.646Z"",
   "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,

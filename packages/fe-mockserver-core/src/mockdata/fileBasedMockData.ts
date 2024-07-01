@@ -179,9 +179,11 @@ export class FileBasedMockData {
                 }
             }
         });
-        const currentDate = _getDateTimeOffset(true);
-        if (topLevel) {
-            mockEntry['@odata.etag'] = `W/\"${currentDate}\"`;
+        if (this._mockDataEntitySet?.shouldValidateETag?.()) {
+            const currentDate = _getDateTimeOffset(true);
+            if (topLevel) {
+                mockEntry['@odata.etag'] = `W/\"${currentDate}\"`;
+            }
         }
     }
     public cleanupHierarchies() {
@@ -240,7 +242,7 @@ export class FileBasedMockData {
         _odataRequest: ODataRequest
     ): Promise<void> {
         if (
-            this._mockDataEntitySet.shouldValidateETag() &&
+            this._mockDataEntitySet.shouldValidateETag?.() &&
             _odataRequest.etagReference !== updatedData['@odata.etag']
         ) {
             throw new ExecutionError(
@@ -252,7 +254,10 @@ export class FileBasedMockData {
         }
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
         const currentDate = _getDateTimeOffset(true);
-        updatedData['@odata.etag'] = `W/\"${currentDate}\"`;
+        if (this._mockDataEntitySet?.shouldValidateETag?.()) {
+            updatedData['@odata.etag'] = `W/\"${currentDate}\"`;
+        }
+
         this._mockData[dataIndex] = updatedData;
         this.createKeyIndex();
     }
@@ -590,8 +595,10 @@ export class FileBasedMockData {
                 outObj[navigationProperty.name] = [];
             }
         });
-        const currentDate = _getDateTimeOffset(true);
-        outObj['@odata.etag'] = `W/\"${currentDate}\"`;
+        if (this._mockDataEntitySet?.shouldValidateETag?.()) {
+            const currentDate = _getDateTimeOffset(true);
+            outObj['@odata.etag'] = `W/\"${currentDate}\"`;
+        }
         return outObj;
     }
 
