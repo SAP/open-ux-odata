@@ -12,7 +12,7 @@ import type { PathAnnotationExpression } from '@sap-ux/vocabularies-types/Edm';
 import type { RecursiveHierarchy } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 import cloneDeep from 'lodash.clonedeep';
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
-import { generateId, getData, setData, uuidv4 } from '../data/common';
+import { ExecutionError, generateId, getData, setData, uuidv4, _getDateTimeOffset } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
@@ -118,6 +118,9 @@ function compareRowData(
     }
     return getData(row1, hierarchyNodeProperty) === getData(row2, hierarchySourceProperty);
 }
+/**
+ *
+ */
 export class FileBasedMockData {
     protected _mockData: object[];
     protected _keyIndex: Record<string, Record<string, number> | false> = {};
@@ -143,14 +146,14 @@ export class FileBasedMockData {
             if (this._mockData.forEach) {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
-                    this.validateProperties(mockLine, this._entityType.entityProperties);
+                    this.validateProperties(mockLine, this._entityType.entityProperties, true);
                 });
             }
             this.cleanupHierarchies();
         }
     }
 
-    private validateProperties(mockEntry: any, properties: Property[]) {
+    private validateProperties(mockEntry: any, properties: Property[], topLevel: boolean = false) {
         properties.forEach((prop) => {
             if (
                 (!this.__forceNullableValuesToNull || prop.nullable === false) &&
@@ -176,6 +179,10 @@ export class FileBasedMockData {
                 }
             }
         });
+        const currentDate = _getDateTimeOffset(true);
+        if (topLevel) {
+            mockEntry['@odata.etag'] = `W/\"${currentDate}\"`;
+        }
     }
     public cleanupHierarchies() {
         const allAggregations = this._entityType.annotations?.Aggregation ?? {};
@@ -228,11 +235,24 @@ export class FileBasedMockData {
 
     async updateEntry(
         keyValues: KeyDefinitions,
-        updatedData: object,
+        updatedData: any,
         _patchData: object,
         _odataRequest: ODataRequest
     ): Promise<void> {
+        if (
+            this._mockDataEntitySet.shouldValidateETag() &&
+            _odataRequest.etagReference !== updatedData['@odata.etag']
+        ) {
+            throw new ExecutionError(
+                'ETag condition not met',
+                412,
+                { code: 412001, message: 'ETag condition not met' },
+                false
+            );
+        }
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
+        const currentDate = _getDateTimeOffset(true);
+        updatedData['@odata.etag'] = `W/\"${currentDate}\"`;
         this._mockData[dataIndex] = updatedData;
         this.createKeyIndex();
     }
@@ -337,6 +357,11 @@ export class FileBasedMockData {
         };
     }
 
+    /**
+     *
+     * @param keyValues
+     * @param _odataRequest
+     */
     async removeEntry(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<void> {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
 
@@ -565,7 +590,8 @@ export class FileBasedMockData {
                 outObj[navigationProperty.name] = [];
             }
         });
-
+        const currentDate = _getDateTimeOffset(true);
+        outObj['@odata.etag'] = `W/\"${currentDate}\"`;
         return outObj;
     }
 
@@ -707,10 +733,8 @@ export class FileBasedMockData {
                             }
                             return literalValue;
                         });
-                    } else {
-                        if (literal.startsWith("datetime'")) {
-                            targetDateLiteral = literal.substring(9, literal.length - 1);
-                        }
+                    } else if (literal.startsWith("datetime'")) {
+                        targetDateLiteral = literal.substring(9, literal.length - 1);
                     }
                 }
 
@@ -733,12 +757,10 @@ export class FileBasedMockData {
                                 return literalValue;
                             }
                         });
-                    } else {
-                        if (literal.startsWith("guid'")) {
-                            targetLiteral = literal.substring(5, literal.length - 1);
-                        } else if (literal.startsWith("'")) {
-                            targetLiteral = literal.substring(1, literal.length - 1);
-                        }
+                    } else if (literal.startsWith("guid'")) {
+                        targetLiteral = literal.substring(5, literal.length - 1);
+                    } else if (literal.startsWith("'")) {
+                        targetLiteral = literal.substring(1, literal.length - 1);
                     }
                 }
 
@@ -1201,7 +1223,13 @@ export class FileBasedMockData {
         }
     }
 
+    /**
+     *
+     */
     getHierarchyDefinition(hierarchyQualifier: string): HierarchyDefinition;
+    /**
+     *
+     */
     getHierarchyDefinition(
         hierarchyQualifier: string,
         excludeSourceRef: true

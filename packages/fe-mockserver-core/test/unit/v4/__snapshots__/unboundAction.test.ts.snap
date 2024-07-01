@@ -23,6 +23,7 @@ exports[`Unbound Action can call the base interface 1`] = `
 exports[`Unbound Action can call the base interface 2`] = `
 [
   {
+    "@odata.etag": "W/"2024-07-01T10:01:46.914Z"",
     "BooleanProperty": false,
     "Currency": "",
     "DescriptionProperty": "",

@@ -55,6 +55,7 @@ export class DataAccess implements DataAccessInterface {
     public log: ILogger;
     protected readonly strictKeyMode: boolean;
     protected readonly contextBasedIsolation: boolean;
+    protected readonly validateETag: boolean;
     protected entitySets: Record<string, MockDataEntitySet> = {};
     protected stickyEntitySets: StickyMockEntitySet[] = [];
     protected generateMockData: boolean;
@@ -74,6 +75,7 @@ export class DataAccess implements DataAccessInterface {
         this.generateMockData = !!service.generateMockData;
         this.forceNullableValuesToNull = !!service.forceNullableValuesToNull;
         this.contextBasedIsolation = !!service.contextBasedIsolation;
+        this.validateETag = !!service.validateETag;
         this.fileLoader = fileLoader;
         if (this.generateMockData) {
             this.log.info('Missing mockdata will be generated');
@@ -83,6 +85,10 @@ export class DataAccess implements DataAccessInterface {
 
     public isV4(): boolean {
         return this.metadata.getVersion() !== '2.0';
+    }
+
+    public shouldValidateETag(): boolean {
+        return this.validateETag;
     }
 
     private initializeMockData() {
@@ -513,6 +519,9 @@ export class DataAccess implements DataAccessInterface {
 
             for (const record of dataArray) {
                 // navigation properties not part of $expand --> delete
+                if (!this.validateETag) {
+                    delete record['@odata.etag'];
+                }
                 Object.keys(record)
                     .filter(
                         (property) =>
@@ -523,6 +532,10 @@ export class DataAccess implements DataAccessInterface {
             }
         } else {
             // explicit $select
+            if (this.validateETag) {
+                selectDefinition['@odata.etag'] = this.validateETag;
+            }
+
             for (const record of dataArray) {
                 // neither part of $select nor a key property --> delete
                 Object.keys(record)
@@ -800,6 +813,9 @@ export class DataAccess implements DataAccessInterface {
             const originalData = data;
             if (!dontClone) {
                 data = cloneDeep(data);
+            }
+            if (this.validateETag && !Array.isArray(data) && mockEntitySet.isDraft()) {
+                odataRequest.setETag(data['@odata.etag']);
             }
 
             this.applySelect(data, odataRequest.selectedProperties, odataRequest.expandProperties, currentEntityType);

@@ -64,10 +64,12 @@ export interface EntitySetInterface {
     getEntityInterface(entitySetName: string, tenantId: string): Promise<FileBasedMockData | undefined>;
     getMockData(tenantId: string): FileBasedMockData;
     isV4(): boolean;
+    shouldValidateETag(): boolean;
     isDraft(): boolean;
 }
 export interface DataAccessInterface {
     isV4(): boolean;
+    shouldValidateETag(): boolean;
     getNavigationPropertyKeys(
         data: any,
         navPropDetail: NavigationProperty,

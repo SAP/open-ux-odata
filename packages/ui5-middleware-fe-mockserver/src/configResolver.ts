@@ -77,6 +77,7 @@ function processServicesConfig(
             watch: inService.watch,
             urlPath: inService.urlPath,
             noETag: inService.noETag,
+            validateETag: inService.validateETag,
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
             generateMockData: inService.generateMockData,
@@ -119,6 +120,9 @@ function processServicesConfig(
         }
         if (inConfig.forceNullableValuesToNull && !inService.hasOwnProperty('forceNullableValuesToNull')) {
             myServiceConfig.forceNullableValuesToNull = inConfig.forceNullableValuesToNull;
+        }
+        if (inConfig.validateETag && !inService.hasOwnProperty('forceNullableValuesToNull')) {
+            myServiceConfig.validateETag = inConfig.validateETag;
         }
 
         return myServiceConfig;

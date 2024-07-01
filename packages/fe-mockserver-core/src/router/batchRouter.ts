@@ -28,6 +28,9 @@ async function handlePart(
     if (partDefinition.contentId) {
         batchResponse += `Content-ID: ${partDefinition.contentId}${NL}`;
     }
+    if (partRequest.getETag()) {
+        batchResponse += `ETag: ${partRequest.getETag()}${NL}`;
+    }
     batchResponse += NL;
     const responseData = partRequest.getResponseData();
     batchResponse += `HTTP/1.1 ${partRequest.statusCode} ${http.STATUS_CODES[partRequest.statusCode]}${NL}`;
