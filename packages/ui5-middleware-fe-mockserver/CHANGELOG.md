@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.50
+
+### Patch Changes
+
+-   b215858: feat: introduce a basic support for entity ETags
+-   Updated dependencies [b215858]
+    -   @sap-ux/fe-mockserver-core@1.2.50
+
 ## 2.2.49
 
 ### Patch Changes
