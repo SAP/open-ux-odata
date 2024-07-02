@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.50
+
+### Patch Changes
+
+-   b215858: feat: introduce a basic support for entity ETags
+
 ## 1.2.49
 
 ### Patch Changes
