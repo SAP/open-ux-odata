@@ -243,11 +243,10 @@ describe('Writeback capabilities', () => {
     it('can deal with annotation on collection', async () => {
         const parsedEDMX = parse(await loadFixture('v4/sdMeta.xml'));
         const convertedTypes = convert(parsedEDMX);
+        const facets = (convertedTypes.entityTypes['6'].annotations?.UI?.Facets?.[0] as CollectionFacet)?.Facets;
+        facets[0].Label = { value: 'General Information o7', type: 'Constant' };
 
-        const transformedFilterDefaultValue = revertTermToGenericType(
-            defaultReferences,
-            (convertedTypes.entityTypes['6'].annotations?.UI?.Facets?.[0] as CollectionFacet)?.Facets
-        ) as any;
+        const transformedFilterDefaultValue = revertTermToGenericType(defaultReferences, facets) as any;
         const target = parsedEDMX.schema.annotations.serviceFile['30'].annotations['2'] as any;
         expect(transformedFilterDefaultValue).not.toBeUndefined();
         //expect(JSON.stringify(transformedFilterDefaultValue)).toStrictEqual(JSON.stringify(target));
