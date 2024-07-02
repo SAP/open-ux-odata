@@ -295,6 +295,10 @@ export class MockDataEntitySet implements EntitySetInterface {
         return this.dataAccess.isV4();
     }
 
+    public shouldValidateETag(): boolean {
+        return this.dataAccess.shouldValidateETag();
+    }
+
     public isDraft(): boolean {
         return !!(
             this.entitySetDefinition?.annotations.Common?.DraftRoot ??

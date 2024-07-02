@@ -28,6 +28,7 @@ export interface ConfigService {
     cdsServiceName?: string;
     debug: boolean;
     noETag: boolean;
+    validateETag: boolean;
     contextBasedIsolation: boolean;
     forceNullableValuesToNull: boolean;
     strictKeyMode: boolean;
@@ -50,6 +51,7 @@ export interface BaseServerConfig {
     debug?: boolean;
     watch?: boolean;
     noETag?: boolean;
+    validateETag?: boolean;
     contextBasedIsolation?: boolean;
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
@@ -85,6 +87,7 @@ export type ServiceConfig = {
     watch?: boolean; // should be forced to false in browser
     noETag?: boolean; // should be forced to true in browser
     contextBasedIsolation?: boolean;
+    validateETag?: boolean;
 };
 
 export type ServiceConfigEx = ServiceConfig & {
