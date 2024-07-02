@@ -18,7 +18,8 @@ describe('V4 Requestor', function () {
                     metadataPath: path.join(__dirname, '__testData', 'service.cds'),
                     mockdataPath: path.join(__dirname, '__testData'),
                     urlPath: '/sap/fe/core/mock/action',
-                    watch: true
+                    watch: true,
+                    validateETag: true
                 },
                 {
                     metadataPath: path.join(__dirname, '__testData', 'service2.cds'),
@@ -119,6 +120,9 @@ describe('V4 Requestor', function () {
         const dataRes2 = await dataRequestor
             .callGETAction('/RootElement(ID=1,IsActiveEntity=true)/_Elements')
             .execute();
+        for (const dataRes2Element of (dataRes2.body as any).value) {
+            delete dataRes2Element['@odata.etag'];
+        }
         expect(dataRes2.body).toMatchInlineSnapshot(`
             {
               "@odata.context": "$metadata#RootElement(ID=1,IsActiveEntity=true)/_Elements",
@@ -244,19 +248,23 @@ describe('V4 Requestor', function () {
         // expect(dataRes).toMatchSnapshot();
         let dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         let dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 2 }).executeAsBatch();
+        delete dataRes['@odata.etag'];
         expect(dataRes).toMatchSnapshot();
 
         dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 233 }).executeAsBatch();
+        delete dataRes['@odata.etag'];
         expect(dataRes).toMatchSnapshot();
 
         dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-003/sap/fe/core/mock/action');
         dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 2 }).executeAsBatch();
+        delete dataRes['@odata.etag'];
         expect(dataRes).toMatchSnapshot();
         dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataResClient = await dataRequestor
             .getObject<any>('RootElement', { ID: 2 })
             .executeAsBatch(false, '?sap-client=003');
+        delete dataResClient['@odata.etag'];
         expect(dataResClient).toEqual(dataRes);
     });
 
@@ -297,9 +305,11 @@ describe('V4 Requestor', function () {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-001/sap/fe/core/mock/action');
         let dataRes = await dataRequestor.createData<any>('RootElement', { ID: 556 }).execute();
         delete dataRes.body.DraftAdministrativeData;
+        delete dataRes.body['@odata.etag'];
         expect(dataRes.body).toMatchSnapshot();
         dataRes = await dataRequestor.updateData<any>('RootElement(ID=556)', { Prop1: 'MyNewProp1' }).execute();
         delete dataRes.body.DraftAdministrativeData;
+        delete dataRes.body['@odata.etag'];
         expect(dataRes.body).toMatchSnapshot();
         const dataRes2 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes2.length).toBe(5);
@@ -314,10 +324,18 @@ describe('V4 Requestor', function () {
         const res2 = await dataRequestor.updateData<any>('RootElement(ID=556)/Prop1', 'Lali-ho', true, 'PUT').execute();
         delete res2.body.DraftAdministrativeData;
         expect(res2.body).toMatchSnapshot();
+        const res3 = await dataRequestor
+            .updateData<any>('RootElement(ID=556)/Prop1', 'Lali-hoho', true, 'PUT', {
+                'If-Match': dataRes2[4]['@odata.etag']
+            })
+            .execute();
+        delete res3.body.DraftAdministrativeData;
+        delete res3.body['@odata.etag'];
+        expect(res3.body).toMatchSnapshot();
         const dataRes3 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes3.length).toBe(5);
         expect(dataRes3[4].ID).toBe(556);
-        expect(dataRes3[4].Prop1).toBe('Lali-ho');
+        expect(dataRes3[4].Prop1).toBe('Lali-hoho');
     });
     describe('Sticky', () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-0/sap/fe/core/mock/sticky');

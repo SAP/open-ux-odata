@@ -74,6 +74,7 @@ function addPathToExpandParameters(
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
     public isStrictMode: boolean;
+    public etagReference?: string;
     public tenantId: string;
     public queryPath: QueryPath[];
     public searchQuery: string[];
@@ -98,6 +99,7 @@ export default class ODataRequest {
     private allParams: URLSearchParams;
     private context: string;
     private messages: any[] = [];
+    private elementETag: string | undefined;
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
@@ -108,6 +110,7 @@ export default class ODataRequest {
             this.addResponseHeader('sap-tenantid', this.tenantId);
         }
         this.isMinimalRepresentation = requestContent.headers?.['prefer'] === 'return=minimal';
+        this.etagReference = requestContent.headers?.['if-match'];
         this.isStrictMode = requestContent.headers?.['prefer']?.includes('handling=strict') ?? false;
         this.queryPath = this.parsePath(parsedUrl.pathname.substring(1));
         this.parseParameters(parsedUrl.searchParams);
@@ -483,6 +486,16 @@ export default class ODataRequest {
 
     public setContext(context: string) {
         this.context = context;
+    }
+
+    public setETag(etagValue: string | undefined) {
+        this.elementETag = etagValue;
+    }
+
+    public getETag(): string | undefined {
+        if (this.dataAccess.shouldValidateETag()) {
+            return this.elementETag;
+        }
     }
 
     public getResponseData() {

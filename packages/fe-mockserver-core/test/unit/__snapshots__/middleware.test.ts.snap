@@ -687,13 +687,20 @@ exports[`V4 Requestor can update data through a call 2`] = `
 
 exports[`V4 Requestor can update data through a call 3`] = `
 {
+  "code": 412001,
+  "message": "ETag condition not met",
+}
+`;
+
+exports[`V4 Requestor can update data through a call 4`] = `
+{
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
   "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
   "IsActiveEntity": false,
-  "Prop1": "Lali-ho",
+  "Prop1": "Lali-hoho",
   "Prop2": "",
   "Sibling_ID": 0,
   "isBoundAction1Hidden": false,
