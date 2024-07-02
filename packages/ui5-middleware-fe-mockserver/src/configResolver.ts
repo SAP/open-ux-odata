@@ -121,7 +121,7 @@ function processServicesConfig(
         if (inConfig.forceNullableValuesToNull && !inService.hasOwnProperty('forceNullableValuesToNull')) {
             myServiceConfig.forceNullableValuesToNull = inConfig.forceNullableValuesToNull;
         }
-        if (inConfig.validateETag && !inService.hasOwnProperty('forceNullableValuesToNull')) {
+        if (inConfig.validateETag && !inService.hasOwnProperty('validateETag')) {
             myServiceConfig.validateETag = inConfig.validateETag;
         }
 
