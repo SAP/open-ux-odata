@@ -52,6 +52,7 @@ const NL = '\r\n';
  * @param boundary
  * @param tenantId
  * @param globalHeaders
+ * @param isChangeSetPart
  * @returns {string | undefined}
  */
 async function handlePart(
@@ -86,6 +87,7 @@ async function handlePart(
  * @param partDefinition
  * @param boundary
  * @param globalHeaders
+ * @param isResponse412ChangeSet
  * @returns a batch response object
  */
 function createBatchResponseObject(

@@ -134,12 +134,12 @@ export async function createMockMiddleware(
  */
 
 export function getJsonFromMultipartContent(batchResponse: string) {
-    const changesetBoundaryRegex = '--changeset';
-    let partResponses: unknown[] = [];
-    let responseLines = batchResponse.split(changesetBoundaryRegex);
-    responseLines.forEach(function (value, index) {
-        let startJson = value.indexOf('{');
-        let endJson = value.lastIndexOf('}');
+    const changeSetBoundaryprefix = '--changeset';
+    const partResponses: unknown[] = [];
+    const responseLines = batchResponse.split(changeSetBoundaryprefix);
+    responseLines.forEach(function (value) {
+        const startJson = value.indexOf('{');
+        const endJson = value.lastIndexOf('}');
         if (startJson < 0 || endJson < 0) {
             return;
         }
