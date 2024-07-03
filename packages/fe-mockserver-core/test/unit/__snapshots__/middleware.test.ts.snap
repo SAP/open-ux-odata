@@ -39,7 +39,7 @@ exports[`V4 Requestor Sticky create, discard, try to update the discarded item: 
 exports[`V4 Requestor can create data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 555,
@@ -56,7 +56,7 @@ exports[`V4 Requestor can create data through a call 1`] = `
 exports[`V4 Requestor can create data through a call 2`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 666,
@@ -182,6 +182,10 @@ exports[`V4 Requestor can get the metadata 1`] = `
         <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
         <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
       </EntityType>
+      <Action Name="bound412Action" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
+      </Action>
       <Action Name="boundAction1" IsBound="true" EntitySetPath="self">
         <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
         <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
@@ -270,6 +274,11 @@ exports[`V4 Requestor can get the metadata 1`] = `
               <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.boundAction2"/>
               <PropertyValue Property="Inline" Bool="true"/>
               <Annotation Term="UI.Hidden" Path="Sibling/isBoundAction2Hidden"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Message - 412 (Bound)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.bound412Action"/>
+              <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/ChangeSet"/>
             </Record>
           </Collection>
         </Annotation>
@@ -599,7 +608,7 @@ exports[`V4 Requestor can get the root 1`] = `
 exports[`V4 Requestor can get the root 2`] = `
 {
   "@odata.context": "$metadata",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "value": [
     {
       "kind": "EntitySet",
@@ -645,7 +654,7 @@ exports[`V4 Requestor can reload the data 1`] = `
 exports[`V4 Requestor can update data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -662,7 +671,7 @@ exports[`V4 Requestor can update data through a call 1`] = `
 exports[`V4 Requestor can update data through a call 2`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -679,7 +688,7 @@ exports[`V4 Requestor can update data through a call 2`] = `
 exports[`V4 Requestor can update data through a call 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -696,7 +705,7 @@ exports[`V4 Requestor can update data through a call 3`] = `
 exports[`V4 Requestor get one data 1`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,
@@ -715,7 +724,7 @@ exports[`V4 Requestor get one data 2`] = `""`;
 exports[`V4 Requestor get one data 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,

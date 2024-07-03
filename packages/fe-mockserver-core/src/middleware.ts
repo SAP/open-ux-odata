@@ -126,3 +126,26 @@ export async function createMockMiddleware(
 
     await Promise.all(oDataHandlerPromises);
 }
+
+/**
+ * Exracts JSON response from multipart content in case of changeset batch
+ *
+ * @param batchResponse
+ */
+
+export function getJsonFromMultipartContent(batchResponse: string) {
+    const changesetBoundaryRegex = '--changeset';
+    let partResponses: unknown[] = [];
+    let responseLines = batchResponse.split(changesetBoundaryRegex);
+    responseLines.forEach(function (value, index) {
+        let startJson = value.indexOf('{');
+        let endJson = value.lastIndexOf('}');
+        if (startJson < 0 || endJson < 0) {
+            return;
+        }
+        let responseJson = value.slice(startJson, endJson + 1);
+        responseJson = JSON.parse(responseJson);
+        partResponses.push(responseJson);
+    });
+    return partResponses;
+}
