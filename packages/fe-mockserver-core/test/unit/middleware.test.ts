@@ -4,7 +4,7 @@ import type { Server } from 'http';
 import * as http from 'http';
 import * as path from 'path';
 import FEMockserver from '../../src';
-import { getJsonFromMultipartContent } from '../../src/middleware';
+import { getJsonFromMultipartContent } from '../../test/unit/__testData/utils';
 import { ODataV4Requestor } from './__testData/Requestor';
 
 jest.setTimeout(60000);

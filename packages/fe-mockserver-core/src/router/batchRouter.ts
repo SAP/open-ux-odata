@@ -31,14 +31,6 @@ export function isPartChangeSet(part: BatchPart | Batch): part is Batch {
     return (part as Batch).isChangeSet;
 }
 
-/**
- * Returns whether the response returns a 412 or not.
- * @param partRequest
- * @returns {boolean}
- */
-function isResponse412(partRequest: ODataRequest) {
-    return partRequest?.statusCode === 412;
-}
 let aggregate412BatchResponseInstance: {
     add412Response: (batchPartRes: string, header: string, resContent: Error412, contentId: string | undefined) => void;
     getUnifiedResponse: () => string | undefined;
@@ -53,7 +45,7 @@ const NL = '\r\n';
  * @param tenantId
  * @param globalHeaders
  * @param isChangeSetPart
- * @returns {string | undefined}
+ * @returns {string | null}
  */
 async function handlePart(
     partDefinition: BatchPart,
@@ -62,10 +54,10 @@ async function handlePart(
     tenantId: string,
     globalHeaders: Record<string, string>,
     isChangeSetPart?: boolean
-): Promise<string | undefined> {
+): Promise<string | null> {
     const partRequest = new ODataRequest({ ...partDefinition, tenantId: tenantId }, dataAccess);
     await partRequest.handleRequest();
-    const isResponse412ChangeSet = isResponse412(partRequest) && !!isChangeSetPart;
+    const isResponse412ChangeSet = partRequest?.statusCode === 412 && !!isChangeSetPart;
     const { batchPartRes, header, resContent, contentId } = createBatchResponseObject(
         partRequest,
         partDefinition,
@@ -76,7 +68,7 @@ async function handlePart(
     // All 412 batch responses should be transformed and returned as single response
     if (isResponse412ChangeSet) {
         aggregate412BatchResponseInstance.add412Response(batchPartRes, header, resContent, contentId);
-        return;
+        return null;
     }
     return batchPartRes;
 }
@@ -206,8 +198,7 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
                             globalHeaders,
                             true
                         );
-                        if (batchPartRes !== undefined) {
-                            // may be make it null in case of 412
+                        if (batchPartRes !== null) {
                             batchResponse += batchPartRes;
                         }
                     }
