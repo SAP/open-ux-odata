@@ -20,7 +20,7 @@ jobs:
               with:
                   fetch-depth: 0
             - name: Setup pnpm
-              uses: pnpm/action-setup@v2.2.4
+              uses: pnpm/action-setup@v4
               with:
                   run_install: true
             - name: Cache pnpm modules
@@ -65,7 +65,7 @@ jobs:
                   fetch-depth: 0
                   token: ${{ secrets.ACCESS_PAT }}
             - name: Setup pnpm
-              uses: pnpm/action-setup@v2.2.4
+              uses: pnpm/action-setup@v4
               with:
                   run_install: true
             - name: Cache pnpm modules
@@ -110,7 +110,7 @@ jobs:
             - name: Checkout code repository
               uses: actions/checkout@v3
             - name: Setup pnpm
-              uses: pnpm/action-setup@v2.2.4
+              uses: pnpm/action-setup@v4
               with:
                   run_install: true
             - name: Cache pnpm modules
