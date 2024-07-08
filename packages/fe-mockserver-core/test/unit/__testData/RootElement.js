@@ -17,6 +17,45 @@ module.exports = {
                     return `STRICT :: ${actionData.data}`;
                 }
                 return actionData.data;
+            case 'bound412Action':
+                if (odataRequest.requestContent.headers.prefer) {
+                    if (keys['ID'] == '1' || keys['ID'] == '2') {
+                        odataRequest.addResponseHeader('Preference-Applied', 'handling=strict');
+                        this.throwError('Unable to execute the action due to a warning.', 412, {
+                            error: {
+                                code: 412,
+                                message: 'Unable to execute the action due to a warning.',
+                                details: [{ code: 'null', message: 'Unable to execute the action due to a warning.' }],
+                                '@Common.numericSeverity': 4
+                            }
+                        });
+                    } else if (keys['ID'] == '3' || keys['ID'] == '4') {
+                        this.throwError('unbound transition error', 500, {
+                            error: {
+                                code: 500,
+                                message: 'unbound transition error',
+                                transition: true,
+                                '@Common.numericSeverity': 4
+                            }
+                        });
+                    } else {
+                        this.throwError(
+                            '412 executed',
+                            000,
+                            [{ code: '412', message: '412 executed', numericSeverity: 1 }],
+                            true
+                        );
+                    }
+                } else {
+                    this.throwError(
+                        '412 executed',
+                        000,
+                        [{ code: '412', message: '412 executed', numericSeverity: 1 }],
+                        true
+                    );
+                }
+                break;
+
             default:
                 this.throwError('Not implemented', 501, {
                     error: {

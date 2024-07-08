@@ -4,6 +4,7 @@ import type { Server } from 'http';
 import * as http from 'http';
 import * as path from 'path';
 import FEMockserver from '../../src';
+import { getJsonFromMultipartContent } from '../../test/unit/__testData/utils';
 import { ODataV4Requestor } from './__testData/Requestor';
 
 jest.setTimeout(60000);
@@ -126,7 +127,7 @@ describe('V4 Requestor', function () {
             {
               "@odata.context": "$metadata#RootElement(ID=1,IsActiveEntity=true)/_Elements",
               "@odata.count": 3,
-              "@odata.metadataEtag": "W/"60af-tCc45VlNT7csKPRiK0amTPyY35E"",
+              "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
               "value": [
                 {
                   "HasActiveEntity": true,
@@ -442,6 +443,124 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
             resolveFn();
         }, 1000);
         return myPromise;
+    });
+
+    it('get a 412 warning for a single selected context', async () => {
+        const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataRes = await dataRequestor.callAction(
+            '/RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound412Action',
+            {}
+        );
+        dataRes.headers['Prefer'] = 'handling=strict';
+        const result: any = await dataRes.execute();
+        expect(result.status).toEqual(412);
+        expect(result.body.error.details.length).toBe(1);
+    });
+
+    it('get 412 warnings for multiple selected contexts', async () => {
+        const response = await fetch('http://localhost:33331/sap/fe/core/mock/action/$batch', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'multipart/mixed; boundary=batch_id-1719917686303-234',
+                accept: 'multipart/mixed'
+            }),
+            body: `--batch_id-1719917686303-234
+Content-Type: multipart/mixed;boundary=changeset_id-1719917686303-235
+
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:0.0
+
+POST RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound412Action?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:1.0
+
+POST RootElement(ID=2,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound412Action?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--changeset_id-1719917686303-235--
+--batch_id-1719917686303-234--
+Group ID: $auto`
+        });
+        const responseStr = await response.text();
+        const responseJson: any = getJsonFromMultipartContent(responseStr);
+        expect(responseJson[0].error.code).toEqual(412);
+        expect(responseJson[0].error.details.length).toBe(2);
+    });
+
+    it('get 412 warnings with unbound transition error with multiple contexts selected', async () => {
+        const response = await fetch('http://localhost:33331/sap/fe/core/mock/action/$batch', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'multipart/mixed; boundary=batch_id-1719917686303-234',
+                accept: 'multipart/mixed'
+            }),
+            body: `--batch_id-1719917686303-234
+Content-Type: multipart/mixed;boundary=changeset_id-1719917686303-235
+
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:0.0
+
+POST RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound412Action?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:1.0
+
+POST RootElement(ID=2,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound412Action?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:1.0
+
+POST RootElement(ID=3,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound412Action?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--changeset_id-1719917686303-235--
+--batch_id-1719917686303-234--
+Group ID: $auto`
+        });
+        const responseStr = await response.text();
+        const responseJson: any = getJsonFromMultipartContent(responseStr);
+        expect(responseJson[0].error.code).toEqual(500);
+        expect(responseJson[1].error.code).toEqual(412);
+        expect(responseJson[1].error.details.length).toBe(2);
     });
     beforeAll(() => {
         const myJSON = JSON.parse(
