@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.51
+
+### Patch Changes
+
+-   09d5a17: handle changeset scenarios for 412 warnings
+
 ## 1.2.50
 
 ### Patch Changes
