@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.10.14
+
+### Patch Changes
+
+-   a7c29f3: Update due to annotation changes
+
 ## 0.10.13
 
 ### Patch Changes

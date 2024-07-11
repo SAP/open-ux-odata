@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/fe-mockserver-core",
-    "version": "1.2.51",
+    "version": "1.2.52",
     "description": "SAP Fiori OData - Fiori elements mock server core",
     "repository": {
         "type": "git",
