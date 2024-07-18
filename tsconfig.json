@@ -8,7 +8,7 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "lib": ["ES2019"],
+        "lib": ["es2021"],
         "module": "commonjs",
         "moduleResolution": "node",
         "noEmit": false,

@@ -1,2 +1,2 @@
-using from './valid.cds';
-using from './valid-used.cds';
+using from './valid';
+using from './valid-used';

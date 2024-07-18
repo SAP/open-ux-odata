@@ -7,6 +7,9 @@ describe('FE Mockserver CDS Plugin', () => {
     const fakeFileLoader = {
         loadFile: async (filePath: string) => {
             return (await fs.promises.readFile(filePath)).toString('utf-8');
+        },
+        exists: async (filePath: string) => {
+            return (await fs.promises.lstat(filePath)) != undefined;
         }
     } as IFileLoader;
     const myCDSProvider = new CDSMetadataProvider(fakeFileLoader);
