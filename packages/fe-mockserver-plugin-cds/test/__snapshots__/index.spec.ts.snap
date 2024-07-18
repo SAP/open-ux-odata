@@ -77,6 +77,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
         <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
         <Property Name="Prop1" Type="Edm.String"/>
         <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="Prop3" Type="Edm.String"/>
         <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
@@ -93,6 +94,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop2">
         <Annotation Term="Common.Label" String="Second Propy"/>
+      </Annotations>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop3">
+        <Annotation Term="Common.Label" String="Starting Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
@@ -261,14 +265,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
         <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency">
-        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
-        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
+        <Annotation Term="Common.Label" String="Currency"/>
+        <Annotation Term="Core.Description" String="A currency code as specified in ISO 4217"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency_code">
-        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
+        <Annotation Term="Common.Label" String="Currency"/>
         <Annotation Term="Common.ValueList">
           <Record Type="Common.ValueListType">
-            <PropertyValue Property="Label" String="{i18n>Currency}"/>
+            <PropertyValue Property="Label" String="Currency"/>
             <PropertyValue Property="CollectionPath" String="Currencies"/>
             <PropertyValue Property="Parameters">
               <Collection>
@@ -283,7 +287,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
+        <Annotation Term="Core.Description" String="A currency code as specified in ISO 4217"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies">
         <Annotation Term="UI.Identification">
@@ -295,30 +299,30 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
         </Annotation>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/name">
-        <Annotation Term="Common.Label" String="{i18n>Name}"/>
+        <Annotation Term="Common.Label" String="Name"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/descr">
-        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+        <Annotation Term="Common.Label" String="Description"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/code">
         <Annotation Term="Common.Text" Path="name"/>
-        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
+        <Annotation Term="Common.Label" String="Currency Code"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol">
-        <Annotation Term="Common.Label" String="{i18n>CurrencySymbol}"/>
+        <Annotation Term="Common.Label" String="Currency Symbol"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale">
-        <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
+        <Annotation Term="Common.Label" String="Language Code"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name">
-        <Annotation Term="Common.Label" String="{i18n>Name}"/>
+        <Annotation Term="Common.Label" String="Name"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/descr">
-        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+        <Annotation Term="Common.Label" String="Description"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/code">
         <Annotation Term="Common.Text" Path="name"/>
-        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
+        <Annotation Term="Common.Label" String="Currency Code"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -431,14 +435,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
         <Annotation Term="Common.Label" String="Bound Action 3 Hidden"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
-        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
+        <Annotation Term="Common.Label" String="Currency"/>
+        <Annotation Term="Core.Description" String="A currency code as specified in ISO 4217"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.RootElement/Currency_code" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
+        <Annotation Term="Common.Label" String="Currency"/>
         <Annotation Term="Common.ValueList">
           <Record Type="Common.ValueListType">
-            <PropertyValue Property="Label" String="{i18n>Currency}"/>
+            <PropertyValue Property="Label" String="Currency"/>
             <PropertyValue Property="CollectionPath" String="Currencies"/>
             <PropertyValue Property="Parameters">
               <Collection>
@@ -453,7 +457,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
+        <Annotation Term="Core.Description" String="A currency code as specified in ISO 4217"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies" xmlns="http://docs.oasis-open.org/odata/ns/edm">
         <Annotation Term="UI.Identification">
@@ -465,30 +469,30 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
         </Annotation>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/name" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>Name}"/>
+        <Annotation Term="Common.Label" String="Name"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/descr" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+        <Annotation Term="Common.Label" String="Description"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/code" xmlns="http://docs.oasis-open.org/odata/ns/edm">
         <Annotation Term="Common.Text" Path="name"/>
-        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
+        <Annotation Term="Common.Label" String="Currency Code"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies/symbol" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>CurrencySymbol}"/>
+        <Annotation Term="Common.Label" String="Currency Symbol"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/locale" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
+        <Annotation Term="Common.Label" String="Language Code"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/name" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>Name}"/>
+        <Annotation Term="Common.Label" String="Name"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/descr" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+        <Annotation Term="Common.Label" String="Description"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDSWithCommon.Currencies_texts/code" xmlns="http://docs.oasis-open.org/odata/ns/edm">
         <Annotation Term="Common.Text" Path="name"/>
-        <Annotation Term="Common.Label" String="{i18n>CurrencyCode}"/>
+        <Annotation Term="Common.Label" String="Currency Code"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -774,35 +778,35 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more common s
         <Annotation Term="Common.Label" String="Currency Name"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData">
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+        <Annotation Term="Common.Label" String="Draft Administrative Data"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/DraftUUID">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
         <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/CreationDateTime">
-        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+        <Annotation Term="Common.Label" String="Draft Created On"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/CreatedByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+        <Annotation Term="Common.Label" String="Draft Created By"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/DraftIsCreatedByMe">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+        <Annotation Term="Common.Label" String="Draft Created By Me"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/LastChangeDateTime">
-        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+        <Annotation Term="Common.Label" String="Draft Last Changed On"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/LastChangedByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+        <Annotation Term="Common.Label" String="Draft Last Changed By"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/InProcessByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+        <Annotation Term="Common.Label" String="Draft In Process By"/>
       </Annotations>
       <Annotations Target="Service.DraftAdministrativeData/DraftIsProcessedByMe">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+        <Annotation Term="Common.Label" String="Draft In Process By Me"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -835,6 +839,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`
         <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
         <Property Name="Prop1" Type="Edm.String"/>
         <Property Name="Prop2" Type="Edm.String"/>
+        <Property Name="Prop3" Type="Edm.String"/>
         <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
@@ -872,6 +877,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop2">
         <Annotation Term="Common.Label" String="Second Propy"/>
+      </Annotations>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop3">
+        <Annotation Term="Common.Label" String="Starting Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
