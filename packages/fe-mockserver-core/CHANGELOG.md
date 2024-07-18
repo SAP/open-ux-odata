@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.53
+
+### Patch Changes
+
+-   39b6783: update to the batchResponse in case of 412 warnings for changeset
+
 ## 1.2.52
 
 ### Patch Changes
