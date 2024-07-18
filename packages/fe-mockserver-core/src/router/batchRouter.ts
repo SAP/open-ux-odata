@@ -32,8 +32,9 @@ export function isPartChangeSet(part: BatchPart | Batch): part is Batch {
 }
 
 let aggregate412BatchResponseInstance: {
-    add412Response: (batchPartRes: string, header: string, resContent: Error412, contentId: string | undefined) => void;
+    add412Response: (header: string, resContent: Error412, contentId: string | undefined) => void;
     getUnifiedResponse: () => string | undefined;
+    getLength: () => number;
 };
 const NL = '\r\n';
 
@@ -67,7 +68,7 @@ async function handlePart(
     );
     // All 412 batch responses should be transformed and returned as single response
     if (isResponse412ChangeSet) {
-        aggregate412BatchResponseInstance.add412Response(batchPartRes, header, resContent, contentId);
+        aggregate412BatchResponseInstance.add412Response(header, resContent, contentId);
         return null;
     }
     return batchPartRes;
@@ -90,12 +91,13 @@ function createBatchResponseObject(
     isResponse412ChangeSet: boolean
 ) {
     let batchResponse = '';
-    batchResponse += `--${boundary}${NL}`;
+    if (!isResponse412ChangeSet) {
+        batchResponse += `--${boundary}${NL}`;
+    }
     batchResponse += `Content-Type: application/http${NL}`;
     batchResponse += `Content-Transfer-Encoding: binary${NL}`;
-    let contentId;
-    if (partDefinition.contentId) {
-        contentId = partDefinition.contentId;
+    const contentId = partDefinition.contentId;
+    if (partDefinition.contentId && !isResponse412ChangeSet) {
         batchResponse += `Content-ID: ${contentId}${NL}`;
     }
     if (partRequest.getETag()) {
@@ -139,13 +141,9 @@ function aggregate412BatchResponse() {
         } as ErrorResponse
     };
     let firstPart = true;
+    let length = 0;
     return {
-        add412Response: function (
-            batchPartRes: string,
-            header: string,
-            resContent: Error412,
-            contentId: string | undefined
-        ) {
+        add412Response: function (header: string, resContent: Error412, contentId: string | undefined) {
             if (firstPart) {
                 batch412Response.header = header;
                 batch412Response.error = {
@@ -157,7 +155,8 @@ function aggregate412BatchResponse() {
                 firstPart = false;
             }
             batch412Response.error.details.push(resContent.error.details[0]);
-            batch412Response.error.details[batch412Response.error.details.length - 1]['Content-ID'] = contentId;
+            batch412Response.error.details[batch412Response.error.details.length - 1]['@Core.ContentID'] = contentId;
+            length++;
         },
         getUnifiedResponse: function (): string {
             let batchResponse = '';
@@ -167,6 +166,9 @@ function aggregate412BatchResponse() {
             batchResponse += JSON.stringify({ error: error });
             batchResponse += NL;
             return batchResponse;
+        },
+        getLength: function () {
+            return length;
         }
     };
 }
@@ -206,7 +208,9 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
                         }
                     }
                     // append the 412 batch response
-                    batchResponse += aggregate412BatchResponseInstance.getUnifiedResponse();
+                    if (aggregate412BatchResponseInstance.getLength() > 0) {
+                        batchResponse += aggregate412BatchResponseInstance.getUnifiedResponse();
+                    }
                     batchResponse += `--${part.boundary}--${NL}`;
                 } else {
                     batchResponse += await handlePart(
@@ -217,6 +221,11 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
                         globalHeaders
                     );
                 }
+            }
+            //If there are 412 responses, override and return a single 412 error response
+            if (aggregate412BatchResponseInstance.getLength()) {
+                batchResponse = `--${batchData.boundary}${NL}`;
+                batchResponse += aggregate412BatchResponseInstance.getUnifiedResponse();
             }
             batchResponse += `--${batchData.boundary}--${NL}`;
             res.statusCode = 200;

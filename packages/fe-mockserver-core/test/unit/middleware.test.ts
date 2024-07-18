@@ -497,8 +497,11 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
 --batch_id-1719917686303-234--
 Group ID: $auto`
         });
+        const expectedResponse =
+            '--batch_id-1719917686303-234\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 412 Precondition Failed\r\nsap-tenantid: tenant-default\r\nPreference-Applied: handling=strict\r\ncontent-type: application/json;odata.metadata=minimal;IEEE754Compatible=true\r\nodata-version: 4.0\r\n\r\n\r\n{"error":{"code":412,"message":"Unable to execute the action due to a warning.","details":[{"code":"null","message":"Unable to execute the action due to a warning.","@Core.ContentID":"0.0"},{"code":"null","message":"Unable to execute the action due to a warning.","@Core.ContentID":"1.0"}]}}\r\n--batch_id-1719917686303-234--\r\n';
         const responseStr = await response.text();
         const responseJson: any = getJsonFromMultipartContent(responseStr);
+        expect(responseStr).toEqual(expectedResponse);
         expect(responseJson[0].error.code).toEqual(412);
         expect(responseJson[0].error.details.length).toBe(2);
     });
@@ -558,9 +561,8 @@ Group ID: $auto`
         });
         const responseStr = await response.text();
         const responseJson: any = getJsonFromMultipartContent(responseStr);
-        expect(responseJson[0].error.code).toEqual(500);
-        expect(responseJson[1].error.code).toEqual(412);
-        expect(responseJson[1].error.details.length).toBe(2);
+        expect(responseJson[0].error.code).toEqual(412);
+        expect(responseJson[0].error.details.length).toBe(2);
     });
     beforeAll(() => {
         const myJSON = JSON.parse(
