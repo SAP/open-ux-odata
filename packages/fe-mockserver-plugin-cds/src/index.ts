@@ -41,9 +41,11 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
         const i18nMap = { ...commonI18n };
         if (await this.fileLoader.exists(dirName + '/i18n')) {
             await this.loadI18nMapFolder(dirName + '/i18n/', i18nMap);
-        } else if (await this.fileLoader.exists(dirName + '/_i18n')) {
+        }
+        if (await this.fileLoader.exists(dirName + '/_i18n')) {
             await this.loadI18nMapFolder(dirName + '/_i18n/', i18nMap);
-        } else if (await this.fileLoader.exists(path.resolve(dirName + '../_i18n'))) {
+        }
+        if (await this.fileLoader.exists(path.resolve(dirName + '../_i18n'))) {
             await this.loadI18nMapFolder(path.resolve(dirName + '../_i18n'), i18nMap);
         }
         return i18nMap;
@@ -59,7 +61,6 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
         if (filePath.endsWith('.xml')) {
             return cdsContent;
         }
-        //const dirname = path.dirname(filePath);
         const usingReg = new RegExp(/from '([^']+)/g);
         const matches = cdsContent.match(usingReg);
         const fileCache: Record<string, string> = {};
