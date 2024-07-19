@@ -39,7 +39,7 @@ exports[`V4 Requestor Sticky create, discard, try to update the discarded item: 
 exports[`V4 Requestor can create data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 555,
@@ -56,7 +56,7 @@ exports[`V4 Requestor can create data through a call 1`] = `
 exports[`V4 Requestor can create data through a call 2`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 666,
@@ -509,35 +509,35 @@ exports[`V4 Requestor can get the metadata 1`] = `
         <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData">
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+        <Annotation Term="Common.Label" String="Draft Administrative Data"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
         <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/CreationDateTime">
-        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+        <Annotation Term="Common.Label" String="Draft Created On"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/CreatedByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+        <Annotation Term="Common.Label" String="Draft Created By"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsCreatedByMe">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+        <Annotation Term="Common.Label" String="Draft Created By Me"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangeDateTime">
-        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+        <Annotation Term="Common.Label" String="Draft Last Changed On"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangedByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+        <Annotation Term="Common.Label" String="Draft Last Changed By"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/InProcessByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+        <Annotation Term="Common.Label" String="Draft In Process By"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsProcessedByMe">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+        <Annotation Term="Common.Label" String="Draft In Process By Me"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -608,7 +608,7 @@ exports[`V4 Requestor can get the root 1`] = `
 exports[`V4 Requestor can get the root 2`] = `
 {
   "@odata.context": "$metadata",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "value": [
     {
       "kind": "EntitySet",
@@ -654,7 +654,7 @@ exports[`V4 Requestor can reload the data 1`] = `
 exports[`V4 Requestor can update data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -671,7 +671,7 @@ exports[`V4 Requestor can update data through a call 1`] = `
 exports[`V4 Requestor can update data through a call 2`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -695,7 +695,7 @@ exports[`V4 Requestor can update data through a call 3`] = `
 exports[`V4 Requestor can update data through a call 4`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -712,7 +712,7 @@ exports[`V4 Requestor can update data through a call 4`] = `
 exports[`V4 Requestor get one data 1`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,
@@ -731,7 +731,7 @@ exports[`V4 Requestor get one data 2`] = `""`;
 exports[`V4 Requestor get one data 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"6309-CcQCLrzrpArd+m2Ag482j6C0HxA"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,

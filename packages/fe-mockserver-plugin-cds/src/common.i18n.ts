@@ -28,4 +28,4 @@ export const commonI18n = {
     Draft_LastChangedByUser: 'Draft Last Changed By',
     Draft_InProcessByUser: 'Draft In Process By',
     Draft_DraftIsProcessedByMe: 'Draft In Process By Me'
-};
+} as const;
