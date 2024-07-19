@@ -11,7 +11,7 @@ describe('FE Mockserver CDS Plugin', () => {
         exists: async (filePath: string) => {
             try {
                 return (await fs.promises.lstat(filePath)) != undefined;
-            } catch (e) {
+            } catch {
                 return false;
             }
         }
