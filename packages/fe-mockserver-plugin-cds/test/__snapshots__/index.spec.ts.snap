@@ -100,7 +100,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
         <Annotation Term="Common.Label" String="Starting Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop4">
-        <Annotation Term="Common.Label" String="EndDate"/>
+        <Annotation Term="Common.Label" String="End Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
@@ -174,7 +174,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file in V2 1`] = `
         <Annotation Term="Common.Label" String="Starting Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop4" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-        <Annotation Term="Common.Label" String="EndDate"/>
+        <Annotation Term="Common.Label" String="End Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
@@ -891,7 +891,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`
         <Annotation Term="Common.Label" String="Starting Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop4">
-        <Annotation Term="Common.Label" String="EndDate"/>
+        <Annotation Term="Common.Label" String="End Date"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
