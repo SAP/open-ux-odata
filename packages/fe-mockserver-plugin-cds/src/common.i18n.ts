@@ -1,6 +1,6 @@
 export const commonI18n = {
-    CreatedBy: 'Created By,',
-    CreatedAt: 'Created On,',
+    CreatedBy: 'Created By',
+    CreatedAt: 'Created On',
     ChangedBy: 'Changed By',
     ChangedAt: 'Changed On',
     Currency: 'Currency',
