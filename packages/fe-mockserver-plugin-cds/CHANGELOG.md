@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.2.2
+
+### Patch Changes
+
+-   e504183: Fix extra ,
+
 ## 1.2.1
 
 ### Patch Changes
