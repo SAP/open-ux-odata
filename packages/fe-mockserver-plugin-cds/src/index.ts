@@ -32,7 +32,7 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
             const i18nProp = await this.fileLoader.loadFile(targetFolder + 'i18n.properties');
             const i18nPropLines = i18nProp.split('\n');
             for (const line of i18nPropLines) {
-                const [key, value] = line.split('=');
+                const [key, value] = line.trim().split(/[=](.*)/s);
                 i18nMap[key] = value;
             }
         }
