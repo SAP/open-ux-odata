@@ -23,7 +23,7 @@ service v4treedraft {
     Parent : String;
     Name : String;
     Superordinate : Association to SalesOrganizations on Superordinate.ID = Parent;
-    _Products : Association to many Products on _Products.SalesOrg = $self;
+    _Products : Composition of many Products on _Products.SalesOrg = $self;
     @Core.Computed: true
     LimitedDescendantCount : Integer64;
     @Core.Computed: true
@@ -60,8 +60,8 @@ service v4treedraft {
     Parent: String;
     Name: String;
     SalesOrgID : String;
-    Superordinate : Association to Products on Superordinate.ID = Parent;
-    SalesOrg : Association to SalesOrganizations on SalesOrg.ID = SalesOrgID;
+    Superordinate : Association to Products on Superordinate.ID = Parent @odata.draft.enclosed;
+    SalesOrg : Association to SalesOrganizations on SalesOrg.ID = SalesOrgID @odata.draft.enclosed;
     @Core.Computed: true
     LimitedDescendantCount : Integer64;
     @Core.Computed: true
