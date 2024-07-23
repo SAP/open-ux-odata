@@ -8,6 +8,7 @@ import Router from 'router';
 import { DataAccess } from './data/dataAccess';
 import { ODataMetadata } from './data/metadata';
 import type { IFileLoader, IMetadataProcessor } from './index';
+import { getMetadataProcessor } from './pluginsManager';
 import { catalogServiceRouter } from './router/catalogServiceRouter';
 import { serviceRouter } from './router/serviceRouter';
 
@@ -81,7 +82,23 @@ export async function createMockMiddleware(
             log.info(`Service ${mockService.urlPath} is running in watch mode`);
         }
         try {
-            let metadata = await loadMetadata(mockService, metadataProcessor);
+            let processor: IMetadataProcessor = metadataProcessor;
+
+            // handle service-specific metadata processor override
+            if (mockService.metadataProcessor) {
+                log.info(
+                    `Loading service-specific metadata processor for ${mockService.urlPath}: ${JSON.stringify(
+                        mockService.metadataProcessor
+                    )}`
+                );
+                processor = await getMetadataProcessor(
+                    fileLoader,
+                    mockService.metadataProcessor.name,
+                    mockService.metadataProcessor.options
+                );
+            }
+
+            let metadata = await loadMetadata(mockService, processor);
             const dataAccess = new DataAccess(mockService, metadata, fileLoader);
 
             if (mockService.watch) {
@@ -99,7 +116,7 @@ export async function createMockMiddleware(
                         if (mockService.debug) {
                             log.info(`${event} on ${path}`);
                         }
-                        metadata = await loadMetadata(mockService, metadataProcessor);
+                        metadata = await loadMetadata(mockService, processor);
                         dataAccess.reloadData(metadata);
                         log.info(`Service ${mockService.urlPath} restarted`);
                     });

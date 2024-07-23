@@ -1,8 +1,8 @@
-import * as path from 'path';
 import type { IRouter } from 'router';
 import Router from 'router';
 import type { MockserverConfiguration } from './api';
 import { createMockMiddleware } from './middleware';
+import { getMetadataProcessor } from './pluginsManager';
 
 export interface IFileLoader {
     loadFile(filePath: string): Promise<string>;
@@ -31,15 +31,12 @@ export default class FEMockserver {
             (this.configuration.fileLoader as any) || (await import('./plugins/fileSystemLoader')).default;
         this.fileLoader = new FileLoaderClass() as IFileLoader;
 
-        const MetadataProviderClass = (
-            await this.fileLoader.loadJS(
-                this.configuration.metadataProcessor?.name || path.resolve(__dirname, './plugins/metadataProvider')
-            )
-        ).default;
-        this.metadataProvider = new MetadataProviderClass(
+        this.metadataProvider = await getMetadataProcessor(
             this.fileLoader,
+            this.configuration.metadataProcessor?.name,
             this.configuration.metadataProcessor?.options
-        ) as IMetadataProcessor;
+        );
+
         await createMockMiddleware(this.configuration, this.mainRouter, this.fileLoader, this.metadataProvider);
     }
 
