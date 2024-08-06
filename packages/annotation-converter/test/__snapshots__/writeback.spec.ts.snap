@@ -236,7 +236,7 @@ exports[`Writeback capabilities can deal with annotation on collection 1`] = `
         {
           "name": "Label",
           "value": {
-            "String": "General Information",
+            "String": "General Information o7",
             "type": "String",
           },
         },
