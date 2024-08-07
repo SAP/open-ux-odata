@@ -1,5 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`FE Mockserver CDS Plugin V4 only: can compile a CDS file without flattening complex types 1`] = `
+"<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Entity1" EntityType="TestService.Entity1">
+          <NavigationPropertyBinding Path="to_Entity2_unmanaged" Target="Entity2"/>
+          <NavigationPropertyBinding Path="to_Entity2_managed" Target="Entity2"/>
+        </EntitySet>
+        <EntitySet Name="Entity2" EntityType="TestService.Entity2"/>
+      </EntityContainer>
+      <EntityType Name="Entity1">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+        <Property Name="details" Type="TestService.Details"/>
+        <NavigationProperty Name="to_Entity2_unmanaged" Type="TestService.Entity2">
+          <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="to_Entity2_managed" Type="TestService.Entity2"/>
+        <Property Name="to_Entity2_managed_ID" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="Entity2">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+        <Property Name="details" Type="TestService.Details"/>
+      </EntityType>
+      <ComplexType Name="Details">
+        <Property Name="a" Type="Edm.String"/>
+        <Property Name="b" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>"
+`;
+
 exports[`FE Mockserver CDS Plugin can also load XML files 1`] = `
 "<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">

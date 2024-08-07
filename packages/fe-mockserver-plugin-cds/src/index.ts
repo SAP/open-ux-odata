@@ -13,6 +13,7 @@ import { commonI18n } from './common.i18n';
 
 export type CDSMetadataProviderOptions = {
     odataVersion?: 'v2' | 'v4';
+    odataFormat?: 'structured' | 'flat';
 };
 
 /**
@@ -84,8 +85,12 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
         const csn = compileSync([filePath], dirName, { cdsHome: path.resolve('./dummyHomme') }, fileCache);
         const i18nMap = await this.loadI18nMap(dirName);
 
+        const odataVersion = this.options?.odataVersion ?? 'v4';
+        const odataFormat = odataVersion === 'v4' && this.options?.odataFormat ? this.options.odataFormat : 'flat';
+
         const edmx = to.edmx.all(csn, {
-            odataVersion: this.options?.odataVersion || 'v4',
+            odataVersion,
+            odataFormat,
             odataForeignKeys: true,
             odataContainment: false
         });

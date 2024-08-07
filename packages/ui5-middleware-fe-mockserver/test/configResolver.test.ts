@@ -131,6 +131,12 @@ describe('The config resolver', () => {
     it('can also apply overrides per service', () => {
         const myBaseResolvedConfig = resolveConfig(
             {
+                metadataProcessor: {
+                    name: 'myMetadataProcessor',
+                    options: {
+                        myOption: 'myValue'
+                    }
+                },
                 annotations: {
                     localPath: 'myAnnotation.xml',
                     urlPath: '/my/Annotation.xml'
@@ -151,7 +157,13 @@ describe('The config resolver', () => {
                         strictKeyMode: false,
                         contextBasedIsolation: false,
                         noETag: false,
-                        generateMockData: false
+                        generateMockData: false,
+                        metadataProcessor: {
+                            name: 'myOverriddenMetadataProcessor',
+                            options: {
+                                myOverriddenOption: 'myOverriddenValue'
+                            }
+                        }
                     }
                 ],
                 watch: true,
@@ -176,5 +188,12 @@ describe('The config resolver', () => {
         expect(myBaseResolvedConfig.services[1].noETag).toBe(false);
         expect(myBaseResolvedConfig.services[0].generateMockData).toBe(true);
         expect(myBaseResolvedConfig.services[1].generateMockData).toBe(false);
+        expect(myBaseResolvedConfig.services[0].metadataProcessor).toBeUndefined(); // no override
+        expect(myBaseResolvedConfig.services[1].metadataProcessor).toEqual({
+            name: 'myOverriddenMetadataProcessor',
+            options: {
+                myOverriddenOption: 'myOverriddenValue'
+            }
+        });
     });
 });

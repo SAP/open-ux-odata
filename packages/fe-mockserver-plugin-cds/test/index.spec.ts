@@ -60,4 +60,9 @@ describe('FE Mockserver CDS Plugin', () => {
         const edmx = await myV2CDSProvider.loadMetadata(path.join(cdsDataPath, 'valid-withCommon.cds'));
         expect(edmx).toMatchSnapshot();
     });
+    it('V4 only: can compile a CDS file without flattening complex types', async () => {
+        const structuredFormatProvider = new CDSMetadataProvider(fakeFileLoader, { odataFormat: 'structured' });
+        const edmx = await structuredFormatProvider.loadMetadata(path.join(cdsDataPath, 'complex.cds'));
+        expect(edmx).toMatchSnapshot();
+    });
 });
