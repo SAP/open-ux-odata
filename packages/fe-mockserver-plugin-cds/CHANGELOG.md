@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.2.3
+
+### Patch Changes
+
+-   50bfb29: feat: Enhance mock server with service-level metadata processor override
+
 ## 1.2.2
 
 ### Patch Changes

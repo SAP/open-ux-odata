@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.54
+
+### Patch Changes
+
+-   50bfb29: feat: Enhance mock server with service-level metadata processor override
+-   Updated dependencies [50bfb29]
+    -   @sap-ux/fe-mockserver-core@1.2.54
+
 ## 2.2.53
 
 ### Patch Changes
