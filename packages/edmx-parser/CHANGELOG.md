@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.8.0
+
+### Minor Changes
+
+-   bf2b130: Proper parsing for complex expression and adjustment to the format for embedded expressions
+
 ## 0.7.1
 
 ### Patch Changes

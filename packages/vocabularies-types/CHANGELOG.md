@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.0
+
+### Minor Changes
+
+-   bf2b130: Proper parsing for complex expression and adjustment to the format for embedded expressions
+
 ## 0.10.14
 
 ### Patch Changes

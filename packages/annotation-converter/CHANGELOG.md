@@ -1,5 +1,16 @@
 # @sap-ux/annotation-converter
 
+## 0.9.0
+
+### Minor Changes
+
+-   bf2b130: Proper parsing for complex expression and adjustment to the format for embedded expressions
+
+### Patch Changes
+
+-   Updated dependencies [bf2b130]
+    -   @sap-ux/vocabularies-types@0.11.0
+
 ## 0.8.15
 
 ### Patch Changes
