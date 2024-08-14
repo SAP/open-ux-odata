@@ -283,7 +283,14 @@ MergedRawMetadata {
                     "qualifier": undefined,
                     "term": "com.sap.vocabularies.UI.v1.Hidden",
                     "value": {
-                      "type": "Unknown",
+                      "$Eq": [
+                        {
+                          "$Path": "isBoundAction1Hidden",
+                          "type": "Path",
+                        },
+                        true,
+                      ],
+                      "type": "Eq",
                     },
                   },
                 ],
@@ -318,7 +325,11 @@ MergedRawMetadata {
                     "qualifier": undefined,
                     "term": "com.sap.vocabularies.UI.v1.Hidden",
                     "value": {
-                      "type": "Unknown",
+                      "$Not": {
+                        "$Path": "isBoundAction2Hidden",
+                        "type": "Path",
+                      },
+                      "type": "Not",
                     },
                   },
                 ],
@@ -4393,7 +4404,14 @@ MergedRawMetadata {
                           "qualifier": undefined,
                           "term": "com.sap.vocabularies.UI.v1.Hidden",
                           "value": {
-                            "type": "Unknown",
+                            "$Eq": [
+                              {
+                                "$Path": "isBoundAction1Hidden",
+                                "type": "Path",
+                              },
+                              true,
+                            ],
+                            "type": "Eq",
                           },
                         },
                       ],
@@ -4428,7 +4446,11 @@ MergedRawMetadata {
                           "qualifier": undefined,
                           "term": "com.sap.vocabularies.UI.v1.Hidden",
                           "value": {
-                            "type": "Unknown",
+                            "$Not": {
+                              "$Path": "isBoundAction2Hidden",
+                              "type": "Path",
+                            },
+                            "type": "Not",
                           },
                         },
                       ],
