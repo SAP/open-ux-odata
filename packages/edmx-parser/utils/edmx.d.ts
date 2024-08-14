@@ -332,6 +332,7 @@ declare namespace EDMX {
     export type GuidWrapper = Record<'Guid', any>;
     export type IntWrapper = Record<'Int', string>;
     export type StringWrapper = Record<'String', string>;
+    export type LabeledElementWrapper = Record<'LabeledElement', string>;
     export type TimeOfDayWrapper = Record<'TimeOfDay', Time>;
     export type AnnotationPathWrapper = Record<'AnnotationPath', ModelPath>;
     export type AnnotationPathInlineWrapper = Record<'AnnotationPath', string>;
@@ -345,7 +346,20 @@ declare namespace EDMX {
     export type UrlRefWrapper = Record<'UrlRef', URL>;
     export type RecordWrapper = Record<'Record', RecordExpression>;
     export type CollectionWrapper = Record<'Collection', CollectionExpression>;
-    export type ApplyWrapper = Record<'Apply', ApplyExpression>;
+    export type ApplyWrapper = {
+        Apply: ApplyExpression;
+        Function: ApplyExpression;
+    };
+    export type AndWrapper = Record<'And', ApplyExpression>;
+    export type NotWrapper = Record<'Not', ApplyExpression>;
+    export type NeWrapper = Record<'Ne', ApplyExpression>;
+    export type EqWrapper = Record<'Eq', ApplyExpression>;
+    export type OrWrapper = Record<'Or', ApplyExpression>;
+    export type IfWrapper = Record<'If', IfExpression>;
+    export type LtWrapper = Record<'Lt', IfExpression>;
+    export type LeWrapper = Record<'Le', IfExpression>;
+    export type GeWrapper = Record<'Ge', IfExpression>;
+    export type GtWrapper = Record<'Gt', IfExpression>;
 
     // <Apply Function="odata.fillUriTemplate">
     // 	<String>#SupplierActivity-change?SupplierActivity={RSP}</String>
@@ -353,6 +367,7 @@ declare namespace EDMX {
     // </Apply>
 
     export type ApplyExpression = any;
+    export type IfExpression = [ConditionalCheck, OutType, OutType];
 
     export type InlineExpression = Partial<
         BinaryWrapper &
@@ -375,6 +390,16 @@ declare namespace EDMX {
             UrlRefWrapper &
             RecordWrapper &
             ApplyWrapper &
+            IfWrapper &
+            EqWrapper &
+            AndWrapper &
+            OrWrapper &
+            NotWrapper &
+            NeWrapper &
+            GeWrapper &
+            GtWrapper &
+            LeWrapper &
+            LtWrapper &
             CollectionWrapper
     >;
 
@@ -390,6 +415,7 @@ declare namespace EDMX {
             GuidWrapper &
             IntWrapper &
             StringWrapper &
+            LabeledElementWrapper &
             TimeOfDayWrapper &
             AnnotationPathWrapper &
             ModelElementPathWrapper &
@@ -399,6 +425,16 @@ declare namespace EDMX {
             UrlRefWrapper &
             RecordWrapper &
             ApplyWrapper &
+            IfWrapper &
+            OrWrapper &
+            AndWrapper &
+            EqWrapper &
+            NotWrapper &
+            NeWrapper &
+            GeWrapper &
+            GtWrapper &
+            LeWrapper &
+            LtWrapper &
             CollectionWrapper
     > &
         T;
