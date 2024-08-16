@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.1
+
+### Patch Changes
+
+-   ec29f84: Fix one typing issue
+
 ## 0.11.0
 
 ### Minor Changes
