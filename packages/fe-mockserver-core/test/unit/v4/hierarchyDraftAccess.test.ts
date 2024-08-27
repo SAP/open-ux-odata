@@ -212,4 +212,55 @@ describe('Hierarchy with draft', () => {
             ]
         `);
     });
+
+    test('Hierarchy of sub-objects', async () => {
+        // Create a draft for US
+        const draftCreateRequest = new ODataRequest(
+            {
+                method: 'POST',
+                url: "/SalesOrganizations(ID='US',IsActiveEntity=true)/v4treedraft.draftEdit?$select=HasActiveEntity,HasDraftEntity,ID,IsActiveEntity&$expand=DraftAdministrativeData($select=DraftIsCreatedByMe,DraftUUID,InProcessByUser)'"
+            },
+            dataAccess
+        );
+        await dataAccess.performAction(draftCreateRequest);
+
+        // Get the products hierarchy for 'US'
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations(ID='US',IsActiveEntity=false)/_Products?$select=ID,DistanceFromRoot,DrillState,Name,IsActiveEntity,LimitedDescendantCount&$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations(ID='US',IsActiveEntity=false)/_Products,HierarchyQualifier='ProductsHierarchy',NodeProperty='ID',Levels=2)&$skip=0&$top=10"
+            },
+            dataAccess
+        );
+
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "9",
+                "IsActiveEntity": false,
+                "LimitedDescendantCount": 2,
+                "Name": "Beverages",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "91",
+                "IsActiveEntity": false,
+                "LimitedDescendantCount": 0,
+                "Name": "Sodas",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "92",
+                "IsActiveEntity": false,
+                "LimitedDescendantCount": 0,
+                "Name": "Juices",
+              },
+            ]
+        `);
+    });
 });
