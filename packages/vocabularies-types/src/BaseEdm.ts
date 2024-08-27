@@ -21,6 +21,11 @@ export type Ne = any;
 export type Eq = any;
 
 export type StringExpression = GenericExpression<'String', string>;
+export type LabeledElementExpression = {
+    type: 'LabeledElement';
+    $Name: string;
+    $LabeledElement: any;
+};
 export type BoolExpression = GenericExpression<'Bool', boolean>;
 export type DecimalExpression = GenericExpression<'Decimal', number>;
 export type DateExpression = GenericExpression<'Date', string>;
@@ -33,17 +38,52 @@ export type NavigationPropertyPathExpression = GenericExpression<'NavigationProp
 export type EnumMemberExpression = GenericExpression<'EnumMember', string>;
 export type CollectionExpression = GenericExpression<'Collection', Collection>;
 export type RecordExpression = GenericExpression<'Record', AnnotationRecord>;
-export type ApplyExpression = GenericExpression<'Apply', Apply>;
-export type IfExpression = GenericExpression<'If', If>;
-export type AndExpression = GenericExpression<'And', And>;
-export type OrExpression = GenericExpression<'Or', Or>;
-export type LeExpression = GenericExpression<'Le', Le>;
-export type LtExpression = GenericExpression<'Lt', Lt>;
-export type GeExpression = GenericExpression<'Ge', Ge>;
-export type GtExpression = GenericExpression<'Gt', Gt>;
-export type EqExpression = GenericExpression<'Eq', Eq>;
-export type NeExpression = GenericExpression<'Ne', Ne>;
-export type NotExpression = GenericExpression<'Not', Not>;
+export type ApplyExpression = {
+    type: 'Apply';
+    $Apply: any;
+    $Function: any;
+};
+export type IfExpression = {
+    type: 'If';
+    $If: [Expression, Expression, Expression];
+};
+export type AndExpression = {
+    type: 'And';
+    $And: [Expression, Expression];
+};
+
+export type OrExpression = {
+    type: 'Or';
+    $Or: [Expression, Expression];
+};
+export type LeExpression = {
+    type: 'Le';
+    $Le: [Expression, Expression];
+};
+export type LtExpression = {
+    type: 'Lt';
+    $Lt: [Expression, Expression];
+};
+export type GeExpression = {
+    type: 'Ge';
+    $Ge: [Expression, Expression];
+};
+export type GtExpression = {
+    type: 'Gt';
+    $Gt: [Expression, Expression];
+};
+export type EqExpression = {
+    type: 'Eq';
+    $Eq: [Expression, Expression];
+};
+export type NeExpression = {
+    type: 'Ne';
+    $Ne: [Expression, Expression];
+};
+export type NotExpression = {
+    type: 'Not';
+    $Not: Expression;
+};
 export type UnknownExpression = {
     type: 'Unknown';
 };
@@ -54,6 +94,7 @@ export type Expression =
     | NullExpression
     | UnknownExpression
     | StringExpression
+    | LabeledElementExpression
     | BoolExpression
     | DecimalExpression
     | FloatExpression

@@ -124,4 +124,10 @@ describe('Parser', function () {
             ]
         `);
     });
+
+    it('can parse an EDMX file with if / eq / ...', async () => {
+        const xmlFile = await loadFixture('v4/edmJson.metadata.xml');
+        const schema: RawMetadata = parse(xmlFile);
+        expect(schema).toMatchSnapshot();
+    });
 });

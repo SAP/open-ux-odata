@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+        <edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="sap.fe.test.JestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Items" EntityType="sap.fe.test.JestService.Items">
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Items">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false" />
+                <Property Name="constantValue" Type="Edm.String" />
+                <Property Name="pathValue" Type="Edm.String" />
+                <Property Name="concatValue" Type="Edm.String" />
+                <Property Name="fillUriTemplate" Type="Edm.String" />
+                <Property Name="fillUriTemplate2" Type="Edm.String" />
+                <Property Name="fillUriTemplateComplex" Type="Edm.String" />
+                <Property Name="concatPathValue" Type="Edm.String" />
+                <Property Name="concatIfValue" Type="Edm.String" />
+                <Property Name="ifValue" Type="Edm.String" />
+                <Property Name="ifPathValue" Type="Edm.String" />
+                <Property Name="orValue" Type="Edm.String" />
+                <Property Name="andValue" Type="Edm.String" />
+                <Property Name="andNotValue" Type="Edm.String" />
+                <Property Name="neValue" Type="Edm.String" />
+                <Property Name="eqValue" Type="Edm.String" />
+                <Property Name="gtValue" Type="Edm.String" />
+                <Property Name="geValue" Type="Edm.String" />
+                <Property Name="ltValue" Type="Edm.String" />
+                <Property Name="leValue" Type="Edm.String" />
+                <Property Name="notValue" Type="Edm.String" />
+                <Property Name="complexEqValue" Type="Edm.String" />
+                <Property Name="booleanValue1" Type="Edm.Boolean" />
+                <Property Name="booleanValue2" Type="Edm.Boolean" />
+                <Property Name="intValue1" Type="Edm.Integer" />
+                <Property Name="intValue2" Type="Edm.Integer" />
+                <Property Name="ifConcatValue" Type="Edm.String" />
+                <Property Name="criticalityCriteria" Type="Edm.String" />
+                <Property Name="ifOrCriticality" Type="Edm.String" />
+                <Property Name="NeCriticality" Type="Edm.String" />
+                <Property Name="Progress" Type="Edm.String" />
+
+            </EntityType>
+            <Annotations Target="sap.fe.test.JestService.Items/Progress">
+                <Annotation Term="UI.DataPoint">
+                    <Record>
+                        <PropertyValue Property="Value" Path="_FlightCalculatedFields/SitnDemoSalesRatio" />
+                        <PropertyValue Property="TargetValue" Decimal="100" />
+                        <PropertyValue Property="Visualization" EnumMember="UI.VisualizationType/Progress" />
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/constantValue">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/pathValue">
+                <Annotation Term="UI.Hidden" Path="constantValue" />
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/andValue">
+                <Annotation Term="UI.Hidden">
+                    <And>
+                        <Path>booleanValue1</Path>
+                        <Path>booleanValue2</Path>
+                    </And>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/orValue">
+                <Annotation Term="UI.Hidden">
+                    <Or>
+                        <Path>booleanValue1</Path>
+                        <Path>booleanValue2</Path>
+                    </Or>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/orValue">
+                <Annotation Term="UI.Hidden">
+                    <Or>
+                        <Path>booleanValue1</Path>
+                        <Path>booleanValue2</Path>
+                    </Or>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/eqValue">
+                <Annotation Term="UI.Hidden">
+                    <Eq>
+                        <Path>intValue1</Path>
+                        <Path>intValue2</Path>
+                    </Eq>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/neValue">
+                <Annotation Term="UI.Hidden">
+                    <Ne>
+                        <Path>intValue1</Path>
+                        <Path>intValue2</Path>
+                    </Ne>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/notValue">
+                <Annotation Term="UI.Hidden">
+                    <Not>
+                        <Path>booleanValue1</Path>
+                    </Not>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/andNotValue">
+                <Annotation Term="UI.Hidden">
+                    <And>
+                        <Not>
+                            <Path>booleanValue1</Path>
+                        </Not>
+                        <Path>booleanValue2</Path>
+                    </And>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/gtValue">
+                <Annotation Term="UI.Hidden">
+                    <Gt>
+                        <Path>intValue1</Path>
+                        <Path>intValue2</Path>
+                    </Gt>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/geValue">
+                <Annotation Term="UI.Hidden">
+                    <Ge>
+                        <Path>intValue1</Path>
+                        <Path>intValue2</Path>
+                    </Ge>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/ltValue">
+                <Annotation Term="UI.Hidden">
+                    <Lt>
+                        <Path>intValue1</Path>
+                        <Path>intValue2</Path>
+                    </Lt>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/leValue">
+                <Annotation Term="UI.Hidden">
+                    <Le>
+                        <Path>intValue1</Path>
+                        <Path>intValue2</Path>
+                    </Le>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/concatValue">
+                <Annotation Term="Common.Text">
+                    <Apply Function="odata.concat">
+                        <String>Yo</String>
+                        <String>Lo</String>
+                    </Apply>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/concatPathValue">
+                <Annotation Term="Common.Text">
+                    <Apply Function="odata.concat">
+                        <String>Yo</String>
+                        <Path>constantValue</Path>
+                        <String>Lo</String>
+                    </Apply>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/concatIfValue">
+                <Annotation Term="Common.Text">
+                    <Apply Function="odata.concat">
+                        <String>Yo</String>
+                        <If>
+                            <Eq>
+                                <Path>constantValue</Path>
+                                <String>Yolo</String>
+                            </Eq>
+                            <String>Lo</String>
+                            <String>NotLo</String>
+                        </If>
+                    </Apply>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/fillUriTemplate">
+                <Annotation Term="Common.Text">
+                    <Apply Function="odata.fillUriTemplate">
+                        <String>https://something/search#/?query={emailAddress}</String>
+                        <LabeledElement Name="emailAddress">
+                            <Apply Function="odata.uriEncode">
+                                <Path>contactEmailAddress</Path>
+                            </Apply>
+                        </LabeledElement>
+                    </Apply>
+
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/fillUriTemplate2">
+                <Annotation Term="Common.Text">
+                    <Apply Function="odata.fillUriTemplate">
+                        <String>#PriceCalculation-manage-fieldCatalog&amp;/Fields('{code}')</String>
+                        <LabeledElement Name="code">
+                            <Path>field/code</Path>
+                        </LabeledElement>
+                    </Apply>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/fillUriTemplateComplex">
+                <Annotation Term="Common.Text">
+                    <Apply Function="odata.fillUriTemplate">
+                        <String>https://www.google.de/maps/place/{street},{city}</String>
+                        <LabeledElement Name="street">
+                            <Apply Function="odata.uriEncode">
+                                <Path>Address/Street</Path>
+                            </Apply>
+                        </LabeledElement>
+                        <LabeledElement Name="city">
+                            <Apply Function="odata.uriEncode">
+                                <Path>Address/City</Path>
+                            </Apply>
+                        </LabeledElement>
+                    </Apply>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/ifValue">
+                <Annotation Term="Common.Text">
+                    <If>
+                        <Eq>
+                            <Path>constantValue</Path>
+                            <String>Yolo</String>
+                        </Eq>
+                        <String>true</String>
+                        <String>false</String>
+                    </If>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/ifPathValue">
+                <Annotation Term="Common.Text">
+                    <If>
+                        <Eq>
+                            <Path>subPath/constantValue</Path>
+                            <String>Yolo</String>
+                        </Eq>
+                        <String>true</String>
+                        <String>false</String>
+                    </If>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/ifConcatValue">
+                <Annotation Term="Common.Text">
+                    <If>
+                        <Eq>
+                            <Path>constantValue</Path>
+                            <Apply Function="odata.concat">
+                                <String>Yo</String>
+                                <Path>pathValue</Path>
+                            </Apply>
+                        </Eq>
+                        <String>True</String>
+                        <String>False</String>
+                    </If>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/ifOrCriticality">
+                <Annotation Term="UI.Hidden">
+                    <If>
+                        <Or>
+                            <Eq>
+                                <Path>criticalityCriteria</Path>
+                                <String>B</String>
+                            </Eq>
+                            <Eq>
+                                <Path>criticalityCriteria</Path>
+                                <String>C</String>
+                            </Eq>
+                            <Eq>
+                                <Path>criticalityCriteria</Path>
+                                <String>D</String>
+                            </Eq>
+                        </Or>
+                        <String>1</String>
+                        <If>
+                            <Eq>
+                                <Path>criticalityCriteria</Path>
+                                <String>A</String>
+                            </Eq>
+                            <String>3</String>
+                            <String>5</String>
+                        </If>
+                    </If>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/NeCriticality">
+                <Annotation Term="UI.Hidden">
+                    <If>
+                        <Ne>
+                            <Null />
+                            <Path>criticalityCriteria</Path>
+                        </Ne>
+                        <String>1</String>
+                        <String>5</String>
+                    </If>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/complexEqValue">
+                <Annotation Term="UI.Hidden">
+                    <If>
+                        <Eq>
+                            <Int>111</Int>
+                            <Path>KeyProperty</Path>
+                        </Eq>
+                        <Bool>true</Bool>
+                        <Bool>false</Bool>
+                    </If>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

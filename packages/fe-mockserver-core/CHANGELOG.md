@@ -1,5 +1,26 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.2.56
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.1
+-   @sap-ux/edmx-parser@0.8.0
+
+## 1.2.55
+
+### Patch Changes
+
+-   Updated dependencies [bf2b130]
+    -   @sap-ux/annotation-converter@0.9.0
+    -   @sap-ux/edmx-parser@0.8.0
+
+## 1.2.54
+
+### Patch Changes
+
+-   50bfb29: feat: Enhance mock server with service-level metadata processor override
+
 ## 1.2.53
 
 ### Patch Changes

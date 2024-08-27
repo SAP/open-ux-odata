@@ -14,6 +14,7 @@ export interface Service {
     strictKeyMode?: boolean;
     watch?: boolean;
     noETag?: boolean;
+    metadataProcessor?: MetadataProcessorConfig;
 }
 export interface ConfigService {
     urlBasePath?: string;
@@ -33,6 +34,7 @@ export interface ConfigService {
     forceNullableValuesToNull: boolean;
     strictKeyMode: boolean;
     watch: boolean;
+    metadataProcessor?: MetadataProcessorConfig;
 }
 
 export interface ConfigAnnotation {
@@ -46,6 +48,11 @@ export interface StaticFiles {
     localPath: string;
 }
 
+type MetadataProcessorConfig = {
+    name: string;
+    options?: any;
+};
+
 export interface BaseServerConfig {
     strictKeyMode?: boolean;
     debug?: boolean;
@@ -57,10 +64,7 @@ export interface BaseServerConfig {
     forceNullableValuesToNull?: boolean;
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
-    metadataProcessor?: {
-        name: string;
-        options?: any;
-    };
+    metadataProcessor?: MetadataProcessorConfig;
 }
 export interface FolderBasedServerConfig extends BaseServerConfig {
     mockFolder: string;
@@ -88,6 +92,7 @@ export type ServiceConfig = {
     noETag?: boolean; // should be forced to true in browser
     contextBasedIsolation?: boolean;
     validateETag?: boolean;
+    metadataProcessor?: MetadataProcessorConfig;
 };
 
 export type ServiceConfigEx = ServiceConfig & {
@@ -106,10 +111,7 @@ export interface MockserverConfiguration {
     /** Name of the package to use for the file loader **/
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
-    metadataProcessor?: {
-        name: string;
-        options?: any;
-    };
+    metadataProcessor?: MetadataProcessorConfig;
 }
 
 export type MockServerMessage = IncomingMessage & {

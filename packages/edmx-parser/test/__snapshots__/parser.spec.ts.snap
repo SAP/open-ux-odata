@@ -296,7 +296,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.ISOCurrency",
               "value": {
-                "Path": "Currency",
+                "$Path": "Currency",
                 "type": "Path",
               },
             },
@@ -572,7 +572,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "Quantity_fc",
+                "$Path": "Quantity_fc",
                 "type": "Path",
               },
             },
@@ -580,7 +580,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.Unit",
               "value": {
-                "Path": "UnitOfMeasure",
+                "$Path": "UnitOfMeasure",
                 "type": "Path",
               },
             },
@@ -622,7 +622,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "Price_fc",
+                "$Path": "Price_fc",
                 "type": "Path",
               },
             },
@@ -664,7 +664,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "UnitOfMeasure_fc",
+                "$Path": "UnitOfMeasure_fc",
                 "type": "Path",
               },
             },
@@ -714,7 +714,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.ISOCurrency",
               "value": {
-                "Path": "Currency",
+                "$Path": "Currency",
                 "type": "Path",
               },
             },
@@ -735,7 +735,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "Currency_fc",
+                "$Path": "Currency_fc",
                 "type": "Path",
               },
             },
@@ -777,7 +777,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "ItemType_fc",
+                "$Path": "ItemType_fc",
                 "type": "Path",
               },
             },
@@ -811,7 +811,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "ItemCategory_fc",
+                "$Path": "ItemCategory_fc",
                 "type": "Path",
               },
             },
@@ -853,7 +853,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "AccountCategory_fc",
+                "$Path": "AccountCategory_fc",
                 "type": "Path",
               },
             },
@@ -900,7 +900,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "DeliveryDate_fc",
+                "$Path": "DeliveryDate_fc",
                 "type": "Path",
               },
             },
@@ -942,7 +942,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "Supplier_fc",
+                "$Path": "Supplier_fc",
                 "type": "Path",
               },
             },
@@ -984,7 +984,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "CompanyCode_fc",
+                "$Path": "CompanyCode_fc",
                 "type": "Path",
               },
             },
@@ -1026,7 +1026,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "PurchasingOrganization_fc",
+                "$Path": "PurchasingOrganization_fc",
                 "type": "Path",
               },
             },
@@ -1068,7 +1068,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "PurchasingGroup_fc",
+                "$Path": "PurchasingGroup_fc",
                 "type": "Path",
               },
             },
@@ -1110,7 +1110,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "MaterialGroup_fc",
+                "$Path": "MaterialGroup_fc",
                 "type": "Path",
               },
             },
@@ -1337,7 +1337,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "DistrQuantity_fc",
+                "$Path": "DistrQuantity_fc",
                 "type": "Path",
               },
             },
@@ -1345,7 +1345,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.Unit",
               "value": {
-                "Path": "BaseUnit",
+                "$Path": "BaseUnit",
                 "type": "Path",
               },
             },
@@ -1379,7 +1379,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "DistrPercent_fc",
+                "$Path": "DistrPercent_fc",
                 "type": "Path",
               },
             },
@@ -1418,7 +1418,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "CostCenter_fc",
+                "$Path": "CostCenter_fc",
                 "type": "Path",
               },
             },
@@ -1444,7 +1444,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "GLAccount_fc",
+                "$Path": "GLAccount_fc",
                 "type": "Path",
               },
             },
@@ -1470,7 +1470,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "OrderID_fc",
+                "$Path": "OrderID_fc",
                 "type": "Path",
               },
             },
@@ -1496,7 +1496,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "Path": "ControllingArea_fc",
+                "$Path": "ControllingArea_fc",
                 "type": "Path",
               },
             },
@@ -45076,6 +45076,976 @@ RawMetadataInstance {
         "underlyingType": "Edm.String",
       },
     ],
+  },
+  "version": "4.0",
+}
+`;
+
+exports[`Parser can parse an EDMX file with if / eq / ... 1`] = `
+RawMetadataInstance {
+  "identification": "serviceFile",
+  "references": [
+    {
+      "alias": "Common",
+      "namespace": "com.sap.vocabularies.Common.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/Common.xml",
+    },
+    {
+      "alias": "Core",
+      "namespace": "Org.OData.Core.V1",
+      "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml",
+    },
+    {
+      "alias": "Measures",
+      "namespace": "Org.OData.Measures.V1",
+      "uri": "https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml",
+    },
+    {
+      "alias": "UI",
+      "namespace": "com.sap.vocabularies.UI.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
+    },
+  ],
+  "schema": {
+    "actionImports": [],
+    "actions": [],
+    "annotations": {
+      "serviceFile": [
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "Value",
+                    "value": {
+                      "Path": "_FlightCalculatedFields/SitnDemoSalesRatio",
+                      "type": "Path",
+                    },
+                  },
+                  {
+                    "name": "TargetValue",
+                    "value": {
+                      "Decimal": 100,
+                      "type": "Decimal",
+                    },
+                  },
+                  {
+                    "name": "Visualization",
+                    "value": {
+                      "EnumMember": "UI.VisualizationType/Progress",
+                      "type": "EnumMember",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.UI.v1.DataPoint",
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/Progress",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/constantValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Path": "constantValue",
+                "type": "Path",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/pathValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$And": [
+                  {
+                    "$Path": "booleanValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "booleanValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "And",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/andValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Or": [
+                  {
+                    "$Path": "booleanValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "booleanValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Or",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/orValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Or": [
+                  {
+                    "$Path": "booleanValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "booleanValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Or",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/orValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Eq": [
+                  {
+                    "$Path": "intValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "intValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Eq",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/eqValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Ne": [
+                  {
+                    "$Path": "intValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "intValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Ne",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/neValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Not": {
+                  "$Path": "booleanValue1",
+                  "type": "Path",
+                },
+                "type": "Not",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/notValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$And": [
+                  {
+                    "$Not": {
+                      "$Path": "booleanValue1",
+                      "type": "Path",
+                    },
+                    "type": "Not",
+                  },
+                  {
+                    "$Path": "booleanValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "And",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/andNotValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Gt": [
+                  {
+                    "$Path": "intValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "intValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Gt",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/gtValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Ge": [
+                  {
+                    "$Path": "intValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "intValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Ge",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/geValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Lt": [
+                  {
+                    "$Path": "intValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "intValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Lt",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/ltValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$Le": [
+                  {
+                    "$Path": "intValue1",
+                    "type": "Path",
+                  },
+                  {
+                    "$Path": "intValue2",
+                    "type": "Path",
+                  },
+                ],
+                "type": "Le",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/leValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$Apply": [
+                  "Yo",
+                  "Lo",
+                ],
+                "$Function": "odata.concat",
+                "type": "Apply",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/concatValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$Apply": [
+                  "Yo",
+                  "Lo",
+                  {
+                    "$Path": "constantValue",
+                    "type": "Path",
+                  },
+                ],
+                "$Function": "odata.concat",
+                "type": "Apply",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/concatPathValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$Apply": [
+                  "Yo",
+                  {
+                    "$If": [
+                      {
+                        "$Eq": [
+                          {
+                            "$Path": "constantValue",
+                            "type": "Path",
+                          },
+                          "Yolo",
+                        ],
+                        "type": "Eq",
+                      },
+                      "Lo",
+                      "NotLo",
+                    ],
+                    "type": "If",
+                  },
+                ],
+                "$Function": "odata.concat",
+                "type": "Apply",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/concatIfValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$Apply": [
+                  "https://something/search#/?query={emailAddress}",
+                  {
+                    "$LabeledElement": {
+                      "$Apply": [
+                        {
+                          "$Path": "contactEmailAddress",
+                          "type": "Path",
+                        },
+                      ],
+                      "$Function": "odata.uriEncode",
+                      "type": "Apply",
+                    },
+                    "$Name": "emailAddress",
+                    "type": "LabeledElement",
+                  },
+                ],
+                "$Function": "odata.fillUriTemplate",
+                "type": "Apply",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/fillUriTemplate",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$Apply": [
+                  "#PriceCalculation-manage-fieldCatalog&/Fields('{code}')",
+                  {
+                    "$LabeledElement": {
+                      "$Path": "field/code",
+                      "type": "Path",
+                    },
+                    "$Name": "code",
+                    "type": "LabeledElement",
+                  },
+                ],
+                "$Function": "odata.fillUriTemplate",
+                "type": "Apply",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/fillUriTemplate2",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$Apply": [
+                  "https://www.google.de/maps/place/{street},{city}",
+                  {
+                    "$LabeledElement": {
+                      "$Apply": [
+                        {
+                          "$Path": "Address/Street",
+                          "type": "Path",
+                        },
+                      ],
+                      "$Function": "odata.uriEncode",
+                      "type": "Apply",
+                    },
+                    "$Name": "street",
+                    "type": "LabeledElement",
+                  },
+                  {
+                    "$LabeledElement": {
+                      "$Apply": [
+                        {
+                          "$Path": "Address/City",
+                          "type": "Path",
+                        },
+                      ],
+                      "$Function": "odata.uriEncode",
+                      "type": "Apply",
+                    },
+                    "$Name": "city",
+                    "type": "LabeledElement",
+                  },
+                ],
+                "$Function": "odata.fillUriTemplate",
+                "type": "Apply",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/fillUriTemplateComplex",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$If": [
+                  {
+                    "$Eq": [
+                      {
+                        "$Path": "constantValue",
+                        "type": "Path",
+                      },
+                      "Yolo",
+                    ],
+                    "type": "Eq",
+                  },
+                  "true",
+                  "false",
+                ],
+                "type": "If",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/ifValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$If": [
+                  {
+                    "$Eq": [
+                      {
+                        "$Path": "subPath/constantValue",
+                        "type": "Path",
+                      },
+                      "Yolo",
+                    ],
+                    "type": "Eq",
+                  },
+                  "true",
+                  "false",
+                ],
+                "type": "If",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/ifPathValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.Text",
+              "value": {
+                "$If": [
+                  {
+                    "$Eq": [
+                      {
+                        "$Path": "constantValue",
+                        "type": "Path",
+                      },
+                      {
+                        "$Apply": [
+                          "Yo",
+                          {
+                            "$Path": "pathValue",
+                            "type": "Path",
+                          },
+                        ],
+                        "$Function": "odata.concat",
+                        "type": "Apply",
+                      },
+                    ],
+                    "type": "Eq",
+                  },
+                  "True",
+                  "False",
+                ],
+                "type": "If",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/ifConcatValue",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$If": [
+                  {
+                    "$Or": [
+                      {
+                        "$Eq": [
+                          {
+                            "$Path": "criticalityCriteria",
+                            "type": "Path",
+                          },
+                          "B",
+                        ],
+                        "type": "Eq",
+                      },
+                      {
+                        "$Eq": [
+                          {
+                            "$Path": "criticalityCriteria",
+                            "type": "Path",
+                          },
+                          "C",
+                        ],
+                        "type": "Eq",
+                      },
+                      {
+                        "$Eq": [
+                          {
+                            "$Path": "criticalityCriteria",
+                            "type": "Path",
+                          },
+                          "D",
+                        ],
+                        "type": "Eq",
+                      },
+                    ],
+                    "type": "Or",
+                  },
+                  "1",
+                  {
+                    "$If": [
+                      {
+                        "$Eq": [
+                          {
+                            "$Path": "criticalityCriteria",
+                            "type": "Path",
+                          },
+                          "A",
+                        ],
+                        "type": "Eq",
+                      },
+                      "3",
+                      "5",
+                    ],
+                    "type": "If",
+                  },
+                ],
+                "type": "If",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/ifOrCriticality",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$If": [
+                  {
+                    "$Ne": [
+                      null,
+                      {
+                        "$Path": "criticalityCriteria",
+                        "type": "Path",
+                      },
+                    ],
+                    "type": "Ne",
+                  },
+                  "1",
+                  "5",
+                ],
+                "type": "If",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/NeCriticality",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$If": [
+                  {
+                    "$Eq": [
+                      111,
+                      {
+                        "$Path": "KeyProperty",
+                        "type": "Path",
+                      },
+                    ],
+                    "type": "Eq",
+                  },
+                  true,
+                  false,
+                ],
+                "type": "If",
+              },
+            },
+          ],
+          "target": "sap.fe.test.JestService.Items/complexEqValue",
+        },
+      ],
+    },
+    "associationSets": [],
+    "associations": [],
+    "complexTypes": [],
+    "entityContainer": {
+      "_type": "EntityContainer",
+      "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer",
+      "name": "EntityContainer",
+    },
+    "entitySets": [
+      {
+        "_type": "EntitySet",
+        "entityTypeName": "sap.fe.test.JestService.Items",
+        "fullyQualifiedName": "sap.fe.test.JestService.EntityContainer/Items",
+        "name": "Items",
+        "navigationPropertyBinding": {},
+      },
+    ],
+    "entityTypes": [
+      {
+        "_type": "EntityType",
+        "actions": {},
+        "entityProperties": [
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/ID",
+            "name": "ID",
+            "nullable": false,
+            "type": "Edm.Int32",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/constantValue",
+            "name": "constantValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/pathValue",
+            "name": "pathValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/concatValue",
+            "name": "concatValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/fillUriTemplate",
+            "name": "fillUriTemplate",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/fillUriTemplate2",
+            "name": "fillUriTemplate2",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/fillUriTemplateComplex",
+            "name": "fillUriTemplateComplex",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/concatPathValue",
+            "name": "concatPathValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/concatIfValue",
+            "name": "concatIfValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/ifValue",
+            "name": "ifValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/ifPathValue",
+            "name": "ifPathValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/orValue",
+            "name": "orValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/andValue",
+            "name": "andValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/andNotValue",
+            "name": "andNotValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/neValue",
+            "name": "neValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/eqValue",
+            "name": "eqValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/gtValue",
+            "name": "gtValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/geValue",
+            "name": "geValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/ltValue",
+            "name": "ltValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/leValue",
+            "name": "leValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/notValue",
+            "name": "notValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/complexEqValue",
+            "name": "complexEqValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/booleanValue1",
+            "name": "booleanValue1",
+            "nullable": true,
+            "type": "Edm.Boolean",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/booleanValue2",
+            "name": "booleanValue2",
+            "nullable": true,
+            "type": "Edm.Boolean",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/intValue1",
+            "name": "intValue1",
+            "nullable": true,
+            "type": "Edm.Integer",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/intValue2",
+            "name": "intValue2",
+            "nullable": true,
+            "type": "Edm.Integer",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/ifConcatValue",
+            "name": "ifConcatValue",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/criticalityCriteria",
+            "name": "criticalityCriteria",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/ifOrCriticality",
+            "name": "ifOrCriticality",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/NeCriticality",
+            "name": "NeCriticality",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/Progress",
+            "name": "Progress",
+            "nullable": true,
+            "type": "Edm.String",
+          },
+        ],
+        "fullyQualifiedName": "sap.fe.test.JestService.Items",
+        "keys": [
+          {
+            "_type": "Property",
+            "fullyQualifiedName": "sap.fe.test.JestService.Items/ID",
+            "name": "ID",
+            "nullable": false,
+            "type": "Edm.Int32",
+          },
+        ],
+        "name": "Items",
+        "navigationProperties": [],
+      },
+    ],
+    "namespace": "sap.fe.test.JestService",
+    "singletons": [],
+    "typeDefinitions": [],
   },
   "version": "4.0",
 }
