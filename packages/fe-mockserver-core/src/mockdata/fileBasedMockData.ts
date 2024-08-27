@@ -101,7 +101,8 @@ function compareRowData(
     row2: any,
     hierarchyNodeProperty: string,
     hierarchySourceProperty: string,
-    isDraft: boolean
+    isDraft: boolean,
+    applyToActiveEntity: boolean
 ): boolean {
     if (isDraft) {
         if (hierarchyNodeProperty === hierarchySourceProperty) {
@@ -112,7 +113,7 @@ function compareRowData(
         } else {
             return (
                 getData(row1, hierarchyNodeProperty) === getData(row2, hierarchySourceProperty) &&
-                getData(row1, 'IsActiveEntity') === true
+                getData(row1, 'IsActiveEntity') === applyToActiveEntity
             );
         }
     }
@@ -817,12 +818,17 @@ export class FileBasedMockData {
         hierarchyNode.$rootDistance = depth;
         return hierarchyNode;
     }
-    buildHierarchyTree(hierarchyQualifier: string, inputSet: any[], hierarchyDefinition: HierarchyDefinition) {
+    buildHierarchyTree(
+        hierarchyQualifier: string,
+        inputSet: any[],
+        hierarchyDefinition: HierarchyDefinition,
+        applyToActiveEntity: boolean = true
+    ) {
         //if (!this._hierarchyTree[hierarchyQualifier]) {
         const itemPerParents: Record<string, any[]> = {};
 
         inputSet.forEach((item: any) => {
-            if (!this._mockDataEntitySet.isDraft() || item.IsActiveEntity !== false) {
+            if (!this._mockDataEntitySet.isDraft() || item.IsActiveEntity !== !applyToActiveEntity) {
                 const parentItemValue = getData(item, hierarchyDefinition.sourceReference) ?? '';
                 if (!itemPerParents[parentItemValue]) {
                     itemPerParents[parentItemValue] = [];
@@ -929,7 +935,8 @@ export class FileBasedMockData {
         depth: number,
         matchedChildrenCount: number,
         matchedProperties: any[],
-        isDraft: boolean
+        isDraft: boolean,
+        applyToActiveEntity: boolean
     ) {
         let descendantCount = 0;
         if (currentNode && (depth < 0 || depth > 0)) {
@@ -954,7 +961,7 @@ export class FileBasedMockData {
                         currentNode,
                         hierarchyDefinition.matchedProperty,
                         !!matchedProperties.find((prop) =>
-                            compareRowData(prop, currentNode, nodeProperty, nodeProperty, isDraft)
+                            compareRowData(prop, currentNode, nodeProperty, nodeProperty, isDraft, applyToActiveEntity)
                         )
                     );
                     if (getData(currentNode, hierarchyDefinition.matchedProperty)) {
@@ -986,7 +993,8 @@ export class FileBasedMockData {
                     depth - 1,
                     matchedChildrenCount,
                     matchedProperties,
-                    isDraft
+                    isDraft,
+                    applyToActiveEntity
                 );
             }
 
@@ -1002,6 +1010,8 @@ export class FileBasedMockData {
             _parameters.HierarchyQualifier.length - 1
         );
 
+        const hierarchyNodes = _parameters.HierarchyNodes ?? '';
+        const applyToActiveEntity = !hierarchyNodes.includes('IsActiveEntity=false');
         const outItems: any[] = [];
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
@@ -1015,18 +1025,26 @@ export class FileBasedMockData {
                         adjustedRowData,
                         nodeProperty,
                         nodeProperty,
-                        this._mockDataEntitySet.isDraft()
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
                     )
                 );
                 return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
             });
             const restOfData = this._mockData
                 .filter((item: any) => {
-                    if (this._mockDataEntitySet.isDraft() && item.IsActiveEntity === false) {
+                    if (this._mockDataEntitySet.isDraft() && item.IsActiveEntity === !applyToActiveEntity) {
                         return false;
                     }
                     return !data.find((dataItem: any) =>
-                        compareRowData(dataItem, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                        compareRowData(
+                            dataItem,
+                            item,
+                            nodeProperty,
+                            nodeProperty,
+                            this._mockDataEntitySet.isDraft(),
+                            applyToActiveEntity
+                        )
                     );
                 })
                 .map((item: any) => {
@@ -1034,12 +1052,24 @@ export class FileBasedMockData {
                 });
             adjustedData = adjustedData.concat(restOfData);
             const hierarchyDefinition = this.getHierarchyDefinition(hierarchyQualifier);
-            const hierarchyNodes = this.buildHierarchyTree(hierarchyQualifier, adjustedData, hierarchyDefinition);
+            const hierarchyNodes = this.buildHierarchyTree(
+                hierarchyQualifier,
+                adjustedData,
+                hierarchyDefinition,
+                applyToActiveEntity
+            );
             const sourceReference = this.getSourceReference(aggregationAnnotation);
             // TODO Considering the input set the top level node is not necessarely the root node
             const allRootNodes = adjustedData.filter((node) => {
                 const parent = adjustedData.find((parent) =>
-                    compareRowData(parent, node, nodeProperty, sourceReference, this._mockDataEntitySet.isDraft())
+                    compareRowData(
+                        parent,
+                        node,
+                        nodeProperty,
+                        sourceReference,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
                 );
                 return !parent || !parent.$inResultSet;
             });
@@ -1108,7 +1138,14 @@ export class FileBasedMockData {
             let outData: object[] = [];
             outItems.forEach((item: any) => {
                 const subTreeData = data.find((dataItem: any) =>
-                    compareRowData(dataItem, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
                 );
                 const nodePropertyValue = getData(item, nodeProperty);
                 if (subTreeData) {
@@ -1161,12 +1198,20 @@ export class FileBasedMockData {
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${_parameters.qualifier}`];
         const hierarchyDefinition = this.getHierarchyDefinition(_parameters.qualifier);
-
+        const hierarchyNodes = _parameters.hierarchyRoot ?? '';
+        const applyToActiveEntity = !hierarchyNodes.includes('IsActiveEntity=false');
         if (aggregationAnnotation) {
             const nodeProperty = getNodeProperty(aggregationAnnotation)!;
             const adjustedData = this._mockData.map((item: any) => {
                 const adjustedRowData = hierarchyFilter.find((dataItem: any) =>
-                    compareRowData(dataItem, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
                 );
                 if (adjustedRowData) {
                     return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
@@ -1174,7 +1219,12 @@ export class FileBasedMockData {
                     return { ...item, ...{ $inResultSet: false } };
                 }
             });
-            const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData, hierarchyDefinition);
+            const hierarchyNodes = this.buildHierarchyTree(
+                _parameters.qualifier,
+                adjustedData,
+                hierarchyDefinition,
+                applyToActiveEntity
+            );
             const sourceReference = this.getSourceReference(aggregationAnnotation);
             const rootNodes = hierarchyNodes[''];
             rootNodes.forEach((rootNode: any) => {
@@ -1186,7 +1236,14 @@ export class FileBasedMockData {
                 const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
                 if (parentNodeChildren) {
                     const currentNode = parentNodeChildren.find((node: any) =>
-                        compareRowData(node, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                        compareRowData(
+                            node,
+                            item,
+                            nodeProperty,
+                            nodeProperty,
+                            this._mockDataEntitySet.isDraft(),
+                            applyToActiveEntity
+                        )
                     );
                     if (currentNode) {
                         if (_parameters.keepStart) {
@@ -1211,7 +1268,14 @@ export class FileBasedMockData {
             const outData: object[] = [];
             inputSet.forEach((item: any) => {
                 const subTreeData: any = subTrees.find((dataItem: any) =>
-                    compareRowData(dataItem, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
                 );
                 if (subTreeData) {
                     if (
@@ -1305,13 +1369,21 @@ export class FileBasedMockData {
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${_parameters.qualifier}`];
         const hierarchyDefinition = this.getHierarchyDefinition(_parameters.qualifier);
-
+        const hierarchyNodes = _parameters.hierarchyRoot ?? '';
+        const applyToActiveEntity = !hierarchyNodes.includes('IsActiveEntity=false');
         if (aggregationAnnotation) {
             const nodeProperty = getNodeProperty(aggregationAnnotation)!;
             const sourceReference = this.getSourceReference(aggregationAnnotation);
             const adjustedData = this._mockData.map((item: any) => {
                 const adjustedRowData = limitedHierarchy.find((dataItem: any) =>
-                    compareRowData(item, dataItem, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                    compareRowData(
+                        item,
+                        dataItem,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
                 );
                 if (adjustedRowData) {
                     return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
@@ -1319,7 +1391,12 @@ export class FileBasedMockData {
                     return { ...item, ...{ $inResultSet: false } };
                 }
             });
-            const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData, hierarchyDefinition);
+            const hierarchyNodes = this.buildHierarchyTree(
+                _parameters.qualifier,
+                adjustedData,
+                hierarchyDefinition,
+                applyToActiveEntity
+            );
             const rootNodes = hierarchyNodes[''];
             rootNodes.forEach((rootNode: any) => {
                 this.buildTree(rootNode, hierarchyNodes, nodeProperty, 0, undefined);
@@ -1328,7 +1405,14 @@ export class FileBasedMockData {
             limitedHierarchy.forEach((item: any) => {
                 const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
                 const currentNode = parentNodeChildren.find((node: any) =>
-                    compareRowData(node, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                    compareRowData(
+                        node,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
                 );
                 if (_parameters.keepStart) {
                     this.getAncestorsOfNode(
@@ -1339,7 +1423,8 @@ export class FileBasedMockData {
                         _parameters.maximumDistance - 1,
                         0,
                         lastFilterTransformationResult,
-                        this._mockDataEntitySet.isDraft()
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
                     );
                 } else if (currentNode && currentNode.$parent) {
                     this.getAncestorsOfNode(
@@ -1350,14 +1435,22 @@ export class FileBasedMockData {
                         _parameters.maximumDistance - 1,
                         1,
                         lastFilterTransformationResult,
-                        this._mockDataEntitySet.isDraft()
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
                     );
                 }
             });
             const outData: object[] = [];
             inputSet.forEach((item: any) => {
                 const subTreeData = ancestors.find((dataItem: any) =>
-                    compareRowData(dataItem, item, nodeProperty, nodeProperty, this._mockDataEntitySet.isDraft())
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
                 );
                 if (subTreeData) {
                     outData.push({ ...item, ...subTreeData });
