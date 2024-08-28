@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.9.2
+
+### Patch Changes
+
+-   b64aae6: Support case where the inputs parse are frozen
+
 ## 0.9.1
 
 ### Patch Changes
