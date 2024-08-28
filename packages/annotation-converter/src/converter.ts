@@ -1553,11 +1553,6 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         diagnostics: []
     } as any;
 
-    // fall back on the default references if the caller does not specify any
-    if (rawMetadata.references.length === 0) {
-        rawMetadata.references = VocabularyReferences;
-    }
-
     // Converter
     const converter = new Converter(rawMetadata, convertedOutput);
 

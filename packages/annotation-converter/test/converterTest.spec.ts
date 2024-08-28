@@ -43,6 +43,13 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
     });
 
+    it('can convert EDMX with multiple schemas', async () => {
+        const parsedEDMX = parse(await loadFixture('bugs/metadata.xml'));
+        Object.freeze(parsedEDMX);
+        const convertedTypes = convert(parsedEDMX);
+        expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
+    });
+
     it('can convert EDMX with action parameters schemas', async () => {
         const parsedEDMX = parse(await loadFixture('v4/otherSD.xml'));
         const parsedEDMX2 = parse(await loadFixture('v4/otherSDAnno.xml'));
