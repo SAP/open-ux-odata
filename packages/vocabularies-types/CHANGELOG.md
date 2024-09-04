@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.2
+
+### Patch Changes
+
+-   6f7141d: Bump vocabulary changes
+
 ## 0.11.1
 
 ### Patch Changes
