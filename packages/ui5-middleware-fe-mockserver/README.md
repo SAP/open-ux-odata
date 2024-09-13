@@ -16,7 +16,7 @@ pnpm
 
 ## Usage
 
-In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mockserver` needs to be added as devDependency and ui5.dependencies to `package.json`, and a valid `ui5.yaml` configuration needs to be provided.
+In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mockserver` needs to be added as devDependency to `package.json`, and a valid `ui5.yaml` configuration needs to be provided.
 **Entries in package.json**
 
 ```
@@ -24,11 +24,6 @@ In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mocks
 
 "devDependencies": {
     "@sap-ux/ui5-middleware-fe-mockserver": "^2"
-},
-"ui5": {
-    "dependencies": [
-        "@sap-ux/ui5-middleware-fe-mockserver"
-    ]
 }
 
 [..]
@@ -38,7 +33,7 @@ In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mocks
 
 ```
 
-specVersion: '2.0'
+specVersion: '3.0'
 metadata:
   name: <NAME>
 type: application
@@ -77,7 +72,7 @@ Each service must provide at least two things
 On top of that you can specify one of the following option
 
 - mockdataPath : the path to the folder containing the mockdata files
-- generateMockData : whether or not you want to use automatically generated mockdata
+- generateMockData : whether or not you want to use automatically generated mockdata <-- TODO: what happens if i set this to false and only define 1 of 2 entites in the service? error in the frontend?
 - forceNullableValuesToNull: determine if nullable properties should be generated as null or with a default value (defaults to false)
 
 Additional option are available either per service of for all services if defined globally
@@ -85,8 +80,8 @@ Additional option are available either per service of for all services if define
 - debug : toggle the debug mode
 - watch : toggle the watch mode, the mockserver will restart the service where data or metadata have changed
 - noETag : disable ETag support on metadata
-- strictKeyMode : disable the default "loose" mode for the key matching, you can try this if the mockserver returns too much data
-- contextBasedIsolation : enable the support of "tenants", by adding /tenant-xxx at the very start of your service call you will be able to work on tenant isolated data.
+- strictKeyMode : disable the default "loose" mode for the key matching, you can try this if the mockserver returns too much data <-- TODO: maybe a little bit more background info about what "loose" means here
+- contextBasedIsolation : enable the support of "tenants", by adding /tenant-xxx at the very start of your service call you will be able to work on tenant isolated data. <-- TODO: is was not clear to me what `by adding /tenant-xxx at the very start of your service call` means here, it was way more clearer with the usage of the url parameter `sap-client=xxx`
 
 You can also define static annotation file using the `annotations` entry, each annotation must provide
 

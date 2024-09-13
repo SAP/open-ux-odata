@@ -12,6 +12,7 @@ server:
                   name: ''
                   metadataXmlPath: ./webapp/localService/metadata.xml
                   mockdataRootPath: ./webapp/localService/mockdata
+        # TODO: Could not find custom middleware fiori-tools-appreload, referenced by project basic-usage
         - name: fiori-tools-appreload
           afterMiddleware: compression
           configuration:
