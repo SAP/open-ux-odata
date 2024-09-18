@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.3.0
+
+### Minor Changes
+
+-   fea7688: Make the fetchEntries / getAllEntries method async
+
 ## 1.2.59
 
 ### Patch Changes
