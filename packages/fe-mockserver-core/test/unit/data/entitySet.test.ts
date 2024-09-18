@@ -46,7 +46,7 @@ describe('EntitySet', () => {
                 },
                 dataAccess
             );
-            const mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
+            const mockData = (await myEntitySet.getMockData('default').getAllEntries(fakeRequest)) as any;
             let filteredData = myEntitySet.checkFilter(mockData[0], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(true);
             filteredData = myEntitySet.checkFilter(mockData[1], v4ComplexLambda, 'default', fakeRequest);
@@ -84,7 +84,7 @@ describe('EntitySet', () => {
                 },
                 dataAccess
             );
-            const mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
+            const mockData = (await myEntitySet.getMockData('default').getAllEntries(fakeRequest)) as any;
             let filteredData = myEntitySet.checkFilter(mockData[0], v4ComplexLambda, 'default', fakeRequest);
             expect(filteredData).toBe(true);
             filteredData = myEntitySet.checkFilter(mockData[1], v4ComplexLambda, 'default', fakeRequest);
@@ -117,7 +117,7 @@ describe('EntitySet', () => {
                 },
                 dataAccess
             );
-            const mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
+            const mockData = (await myEntitySet.getMockData('default').getAllEntries(fakeRequest)) as any;
             let filteredData = myEntitySet.checkFilter(mockData[0], v4InFilter, 'default', fakeRequest);
             expect(filteredData).toBe(true);
             filteredData = myEntitySet.checkFilter(mockData[1], v4InFilter, 'default', fakeRequest);

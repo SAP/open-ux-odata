@@ -921,6 +921,8 @@ export class DataAccess implements DataAccessInterface {
 
             if (isCount) {
                 data = dataLength;
+            } else {
+                data = await mockEntitySet.getMockData(odataRequest.tenantId).onAfterRead(data, odataRequest);
             }
         }
 
@@ -968,7 +970,9 @@ export class DataAccess implements DataAccessInterface {
             const navPropDetail = entityType.navigationProperties.find((navProp) => navProp.name === lastNavPropName);
             if (navPropDetail) {
                 const navPropEntityType = navPropDetail.targetType;
-                const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
+                const data: any = await (
+                    await this.getMockEntitySet(parentEntitySet.name)
+                ).performGET(
                     odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
                     false,
                     odataRequest.tenantId,
@@ -1352,7 +1356,7 @@ export class DataAccess implements DataAccessInterface {
             case 'ancestors':
                 const limitedHierarchyForAncestors = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
-                    mockData.getAllEntries(odataRequest),
+                    await mockData.getAllEntries(odataRequest),
                     odataRequest,
                     mockEntitySet,
                     mockData,
@@ -1382,7 +1386,7 @@ export class DataAccess implements DataAccessInterface {
             case 'descendants':
                 const limitedHierarchyData = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
-                    mockData.getAllEntries(odataRequest),
+                    await mockData.getAllEntries(odataRequest),
                     odataRequest,
                     mockEntitySet,
                     mockData,

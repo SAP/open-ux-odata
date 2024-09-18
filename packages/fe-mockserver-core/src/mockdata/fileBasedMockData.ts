@@ -281,7 +281,7 @@ export class FileBasedMockData {
         return keyIndex[key] ?? -1;
     }
 
-    fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
+    async fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<object[]> {
         const keys = this._entityType.keys;
         const indexFromKey = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
         if (indexFromKey !== false) {
@@ -303,7 +303,7 @@ export class FileBasedMockData {
         return this._mockData.length > 0;
     }
 
-    getAllEntries(_odataRequest: ODataRequest, dontClone: boolean = false): any[] {
+    async getAllEntries(_odataRequest: ODataRequest, dontClone: boolean = false): Promise<any[]> {
         if (dontClone) {
             return this._mockData;
         }
@@ -689,6 +689,10 @@ export class FileBasedMockData {
         _odataRequest: ODataRequest
     ): Promise<void> {
         // DO Nothing
+    }
+
+    async onAfterRead(data: object, _odataRequest: ODataRequest): Promise<object> {
+        return data;
     }
     //eslint-disable-next-line
     hasCustomAggregate(_customAggregateName: string, _odataRequest: ODataRequest): boolean {

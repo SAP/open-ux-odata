@@ -520,17 +520,17 @@ export class MockDataEntitySet implements EntitySetInterface {
         }
     }
 
-    public performGET(
+    public async performGET(
         keyValues: KeyDefinitions,
         asArray: boolean,
         tenantId: string,
         odataRequest: ODataRequest,
         dontClone = false
-    ): any {
+    ): Promise<any> {
         const currentMockData = this.getMockData(tenantId);
         if (keyValues && Object.keys(keyValues).length) {
             keyValues = this.prepareKeys(keyValues);
-            const data = currentMockData.fetchEntries(keyValues, odataRequest);
+            const data = await currentMockData.fetchEntries(keyValues, odataRequest);
             if (!data || (Array.isArray(data) && data.length === 0 && !asArray)) {
                 if (!currentMockData.hasEntries(odataRequest)) {
                     return currentMockData.getEmptyObject(odataRequest);
@@ -557,7 +557,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         if (!asArray) {
             return cloneDeep(currentMockData.getDefaultElement(odataRequest));
         }
-        return currentMockData.getAllEntries(odataRequest, dontClone);
+        return await currentMockData.getAllEntries(odataRequest, dontClone);
     }
 
     public async performPOST(
@@ -622,7 +622,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         _updateParent: boolean = false
     ): Promise<any> {
         keyValues = this.prepareKeys(keyValues);
-        const data = this.performGET(keyValues, false, tenantId, odataRequest);
+        const data = await this.performGET(keyValues, false, tenantId, odataRequest);
         if (!data) {
             throw new ExecutionError('Not found', 404, undefined, false);
         }
@@ -672,7 +672,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         const currentMockData = this.getMockData(tenantId);
         keyValues = this.prepareKeys(keyValues);
 
-        const entryToRemove = currentMockData.fetchEntries(keyValues, odataRequest);
+        const entryToRemove = await currentMockData.fetchEntries(keyValues, odataRequest);
         let additionalEntriesToRemove: any[] = [];
         for (const aggregationElementName in this.entityTypeDefinition.annotations.Aggregation) {
             if (aggregationElementName.startsWith('RecursiveHierarchy')) {
@@ -680,7 +680,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                     this.entityTypeDefinition.annotations.Aggregation[
                         aggregationElementName as `RecursiveHierarchy#xxx`
                     ]!;
-                const allData = currentMockData.getAllEntries(odataRequest, true);
+                const allData = await currentMockData.getAllEntries(odataRequest, true);
                 additionalEntriesToRemove = await currentMockData.getDescendants(
                     allData,
                     allData,
