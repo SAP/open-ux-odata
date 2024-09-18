@@ -31,7 +31,7 @@ describe('Function Based Mock Data', () => {
             },
             dataAccess
         );
-        let mockData = myEntitySet.getMockData('default').getAllEntries(fakeRequest) as any;
+        let mockData = (await myEntitySet.getMockData('default').getAllEntries(fakeRequest)) as any;
         expect(mockData.length).toBe(3);
         expect(mockData[0].complexComputedProperty).toBeDefined();
         expect(mockData[0].complexProperty).toBeDefined();
@@ -39,13 +39,13 @@ describe('Function Based Mock Data', () => {
         expect(mockData[0].complexNotNullProperty).toBeDefined();
         // Fake that in tenant 001 we only return one data
         fakeRequest.tenantId = 'tenant-001';
-        mockData = myEntitySet.getMockData('tenant-001').getAllEntries(fakeRequest) as any;
+        mockData = (await myEntitySet.getMockData('tenant-001').getAllEntries(fakeRequest)) as any;
         expect(mockData.length).toBe(1);
         // Fake that in tenant 002 we throw an error
         fakeRequest.tenantId = 'tenant-002';
         expect(() => {
-            mockData = myEntitySet.getMockData('tenant-002').getAllEntries(fakeRequest) as any;
-        }).toThrow('This tenant is not allowed for you');
+            return myEntitySet.getMockData('tenant-002').getAllEntries(fakeRequest) as any;
+        }).rejects.toThrow('This tenant is not allowed for you');
         await fakeRequest.handleRequest();
         let responseData = fakeRequest.getResponseData();
         expect(responseData).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe('Function Based Mock Data', () => {
             dataAccess
         );
         const mockData = myEntitySet.getMockData('default');
-        let allData = mockData.getAllEntries(fakeRequest) as any;
+        let allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
         await mockData.addEntry(
             {
@@ -84,15 +84,15 @@ describe('Function Based Mock Data', () => {
             },
             fakeRequest
         );
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(4);
         const mockData2 = myEntitySet.getMockData('notdefault');
-        const allData2 = mockData2.getAllEntries(fakeRequest) as any;
+        const allData2 = (await mockData2.getAllEntries(fakeRequest)) as any;
         expect(allData2.length).toBe(3);
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(4);
         await mockData.removeEntry({ ID: 4 }, fakeRequest);
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
     });
     it('can Update Entries', async () => {
@@ -104,9 +104,9 @@ describe('Function Based Mock Data', () => {
             dataAccess
         );
         let mockData = myEntitySet.getMockData('default');
-        let allData = mockData.getAllEntries(fakeRequest) as any;
+        let allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
-        mockData.updateEntry(
+        await mockData.updateEntry(
             { ID: 1 },
             {
                 ID: 1,
@@ -118,16 +118,16 @@ describe('Function Based Mock Data', () => {
             },
             fakeRequest
         );
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
         expect(allData[0].Name).toBe('My Updated Name');
 
         // Fake that in tenant 003 we change the value
         fakeRequest.tenantId = 'tenant-003';
         mockData = myEntitySet.getMockData('tenant-003');
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
-        const updatedData = mockData.updateEntry(
+        await mockData.updateEntry(
             { ID: 1 },
             {
                 ID: 1,
@@ -139,16 +139,16 @@ describe('Function Based Mock Data', () => {
             },
             fakeRequest
         );
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
         expect(allData[0].Name).toBe('My Updated Name');
         expect(allData[0].Value).toBe('My ValueFor Special Tenant');
         // Fake that in tenant 004 we add an extra value
         fakeRequest.tenantId = 'tenant-004';
         mockData = myEntitySet.getMockData('tenant-004');
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
-        mockData.updateEntry(
+        await mockData.updateEntry(
             { ID: 1 },
             {
                 ID: 1,
@@ -160,7 +160,7 @@ describe('Function Based Mock Data', () => {
             },
             fakeRequest
         );
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(4);
         expect(allData[0].Name).toBe('My Updated Name');
         expect(allData[0].Value).toBe('My Value');
@@ -171,9 +171,9 @@ describe('Function Based Mock Data', () => {
         // Fake that in tenant 005 we add a sap message to the output
         fakeRequest.tenantId = 'tenant-005';
         mockData = myEntitySet.getMockData('tenant-005');
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
-        mockData.updateEntry(
+        await mockData.updateEntry(
             { ID: 1 },
             {
                 ID: 1,
@@ -192,9 +192,9 @@ describe('Function Based Mock Data', () => {
         // Fake that in tenant 006 we can also update another entity
         fakeRequest.tenantId = 'tenant-006';
         mockData = myEntitySet.getMockData('tenant-006');
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         const secondMock = myOtherEntitySet.getMockData('tenant-006') as any;
-        let allSecondData = secondMock.getAllEntries(fakeRequest) as any;
+        let allSecondData = (await secondMock.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
         expect(allSecondData.length).toBe(1);
         await mockData.updateEntry(
@@ -210,12 +210,12 @@ describe('Function Based Mock Data', () => {
             fakeRequest
         );
         fakeRequest.getResponseData();
-        allSecondData = secondMock.getAllEntries(fakeRequest) as any;
+        allSecondData = (await secondMock.getAllEntries(fakeRequest)) as any;
         expect(allSecondData.length).toBe(2);
         expect(allSecondData[1]).toStrictEqual({ Name: 'MySecondEntityName' });
     });
 
-    it('can get entries based on filters', () => {
+    it('can get entries based on filters', async () => {
         // Fake that in tenant 007 we can influence filtering
         const fakeRequest = new ODataRequest(
             {
@@ -226,7 +226,7 @@ describe('Function Based Mock Data', () => {
         );
         fakeRequest.tenantId = 'tenant-006';
         const mockData = myEntitySet.getMockData('tenant-006');
-        const allData = mockData.getAllEntries(fakeRequest);
+        const allData = await mockData.getAllEntries(fakeRequest);
         let filterResult = mockData.checkFilterValue('Edm.String', allData[0]?.Name, 'Name', 'eq', fakeRequest);
         expect(filterResult).toBe(false);
         fakeRequest.tenantId = 'tenant-007';
@@ -243,11 +243,11 @@ describe('Function Based Mock Data', () => {
         );
         fakeRequest.tenantId = 'tenant-008';
         const mockData = myEntitySet.getMockData('tenant-008');
-        let allData = mockData.getAllEntries(fakeRequest) as any;
+        let allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(3);
         await fakeRequest.handleRequest();
         const responseData = fakeRequest.getResponseData();
-        allData = mockData.getAllEntries(fakeRequest) as any;
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
         expect(allData.length).toBe(2);
         expect(responseData).toMatchSnapshot();
     });
