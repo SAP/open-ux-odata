@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.3
+
+### Patch Changes
+
+-   74c2d22: Documntation ref annotation is available
+
 ## 0.11.2
 
 ### Patch Changes
