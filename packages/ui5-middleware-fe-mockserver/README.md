@@ -80,7 +80,8 @@ Additional option are available either per service of for all services if define
 - debug : toggle the debug mode
 - watch : toggle the watch mode, the mockserver will restart the service where data or metadata have changed
 - noETag : disable ETag support on metadata
-- strictKeyMode : disable the default "loose" mode for the key matching, you can try this if the mockserver returns too much data <-- TODO: maybe a little bit more background info about what "loose" means here
+- strictKeyMode : disable the default "loose" mode for the key matching.
+By default the mockserver will try many ways to match an entityset with its navigation property, which can result in some rather loose join of data. In case you have a very well defined mockdata and you feel the mockserver is returning too much data, you can enable this feature.
 - contextBasedIsolation : enable the support of "tenants", by adding /tenant-xxx at the very start of your service call you will be able to work on tenant isolated data. <-- TODO: is was not clear to me what `by adding /tenant-xxx at the very start of your service call` means here, it was way more clearer with the usage of the url parameter `sap-client=xxx`
 
 You can also define static annotation file using the `annotations` entry, each annotation must provide
