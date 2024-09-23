@@ -10,8 +10,6 @@ server:
               service:
                   urlBasePath: /here/goes/your/serviceurl
                   name: ''
-                  # TODO: old variable names, rename them to the new ones
-                  metadataXmlPath: ./webapp/localService/metadata.xml
-                  # TODO: is mockdataPath necessary when folder not defined?
+                  metadataPath: ./webapp/localService/metadata.xml
                   mockdataRootPath: ./webapp/localService/mockdata
-                  generateMockData: true
+                  mockdataPath: ./webapp/localService/mockdata
