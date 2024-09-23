@@ -72,7 +72,7 @@ Each service must provide at least two things
 On top of that you can specify one of the following option
 
 - mockdataPath : the path to the folder containing the mockdata files
-- generateMockData : whether or not you want to use automatically generated mockdata <-- TODO: what happens if i set this to false and only define 1 of 2 entites in the service? error in the frontend?
+- generateMockData : whether or not you want to use automatically generated mockdata
 - forceNullableValuesToNull: determine if nullable properties should be generated as null or with a default value (defaults to false)
 
 Additional option are available either per service of for all services if defined globally
