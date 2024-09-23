@@ -11,5 +11,5 @@ server:
                   urlBasePath: /here/goes/your/serviceurl
                   name: ''
                   metadataPath: ./webapp/localService/metadata.xml
-                  mockdataRootPath: ./webapp/localService/mockdata
+                  mockdataPath: ./webapp/localService/mockdata
                   mockdataPath: ./webapp/localService/mockdata
