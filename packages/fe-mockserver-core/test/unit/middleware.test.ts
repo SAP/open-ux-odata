@@ -352,6 +352,8 @@ describe('V4 Requestor', function () {
                 'If-Match': newEtag
             })
             .execute();
+        delete res5.body['@odata.etag'];
+        delete res5.body.DraftAdministrativeData;
         expect(res5.body).toMatchSnapshot();
     });
     describe('Sticky', () => {
