@@ -709,6 +709,48 @@ exports[`V4 Requestor can update data through a call 4`] = `
 }
 `;
 
+exports[`V4 Requestor can update data through a call 5`] = `
+{
+  "code": 412001,
+  "message": "ETag condition not met",
+}
+`;
+
+exports[`V4 Requestor can update data through a call 6`] = `
+{
+  "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
+  "@odata.etag": "W/\\"2024-09-25T08:00:10.541Z\\"",
+  "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
+  "DraftAdministrativeData": {
+    "CreatedByUser": "nobody",
+    "CreatedByUserDescription": "nobody",
+    "CreationDateTime": "2024-09-25T08:00:10.462Z",
+    "DraftAccessType": "",
+    "DraftEntityType": "sap.fe.core.ActionVisibility.RootElement",
+    "DraftIsCreatedByMe": true,
+    "DraftIsKeptByUser": false,
+    "DraftIsLastChangedByMe": true,
+    "DraftIsProcessedByMe": true,
+    "DraftUUID": "d217092b-9237-4e01-85ce-cd1fa687b50b",
+    "InProcessByUser": "nobody",
+    "InProcessByUserDescription": "nobody",
+    "LastChangeDateTime": "2024-09-25T08:00:10.541Z",
+    "LastChangedByUser": "nobody",
+    "LastChangedByUserDescription": "nobody",
+  },
+  "HasActiveEntity": false,
+  "HasDraftEntity": false,
+  "ID": 556,
+  "IsActiveEntity": false,
+  "Prop1": "Lali",
+  "Prop2": "",
+  "Sibling_ID": 0,
+  "isBoundAction1Hidden": false,
+  "isBoundAction2Hidden": false,
+  "isBoundAction3Hidden": false,
+}
+`;
+
 exports[`V4 Requestor get one data 1`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",

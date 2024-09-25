@@ -330,12 +330,29 @@ describe('V4 Requestor', function () {
             })
             .execute();
         delete res3.body.DraftAdministrativeData;
+        const newEtag = res3.body['@odata.etag'];
         delete res3.body['@odata.etag'];
         expect(res3.body).toMatchSnapshot();
         const dataRes3 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
         expect(dataRes3.length).toBe(5);
         expect(dataRes3[4].ID).toBe(556);
         expect(dataRes3[4].Prop1).toBe('Lali-hoho');
+        const res4 = await dataRequestor
+            .updateData<any>('RootElement(ID=556)/Prop1', 'Lali', true, 'PUT', {
+                'If-Match': dataRes2[4]['@odata.etag']
+            })
+            .execute();
+        expect(res4.body).toMatchSnapshot();
+        const dataRes4 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
+        expect(dataRes4.length).toBe(5);
+        expect(dataRes4[4].ID).toBe(556);
+        expect(dataRes4[4].Prop1).toBe('Lali-hoho');
+        const res5 = await dataRequestor
+            .updateData<any>('RootElement(ID=556)/Prop1', 'Lali', true, 'PUT', {
+                'If-Match': newEtag
+            })
+            .execute();
+        expect(res5.body).toMatchSnapshot();
     });
     describe('Sticky', () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-0/sap/fe/core/mock/sticky');
