@@ -18,7 +18,9 @@
 				<Annotation Term="UI.Hidden" Path="_it/Delivered" />
 			</Annotations>
 			<Annotations Target="com.c_salesordermanage_sd.DummyBoundAction(com.c_salesordermanage_sd.SalesOrderItem)">
-				<Annotation Term="Core.OperationAvailable" Path="_it/owner/_ShipToParty/isVerified" />
+				<Annotation Term="Core.OperationAvailable">
+					<Path>_it/owner/_ShipToParty/isVerified</Path>
+				</Annotation>
 			</Annotations>
 			<Annotations Target="com.c_salesordermanage_sd.DummyBoundAction">
 				<Annotation Term="Core.OperationAvailable" Path="Yolo" />
