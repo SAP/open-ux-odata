@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.8.1
+
+### Patch Changes
+
+-   7899cab: Fix $Path
+
 ## 0.8.0
 
 ### Minor Changes
