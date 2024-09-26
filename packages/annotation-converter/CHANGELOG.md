@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.9.5
+
+### Patch Changes
+
+-   514896d: Fix the $Path handling
+
 ## 0.9.4
 
 ### Patch Changes
