@@ -31,7 +31,7 @@
         "@sap-ux/edmx-parser": "workspace:*",
         "@ui5/logger": "2.0.1",
         "balanced-match": "1.0.2",
-        "body-parser": "1.20.2",
+        "body-parser": "1.20.3",
         "chevrotain": "9.1.0",
         "braces": "3.0.3",
         "chokidar": "3.6.0",
