@@ -296,7 +296,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.ISOCurrency",
               "value": {
-                "$Path": "Currency",
+                "Path": "Currency",
                 "type": "Path",
               },
             },
@@ -572,7 +572,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "Quantity_fc",
+                "Path": "Quantity_fc",
                 "type": "Path",
               },
             },
@@ -580,7 +580,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.Unit",
               "value": {
-                "$Path": "UnitOfMeasure",
+                "Path": "UnitOfMeasure",
                 "type": "Path",
               },
             },
@@ -622,7 +622,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "Price_fc",
+                "Path": "Price_fc",
                 "type": "Path",
               },
             },
@@ -664,7 +664,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "UnitOfMeasure_fc",
+                "Path": "UnitOfMeasure_fc",
                 "type": "Path",
               },
             },
@@ -714,7 +714,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.ISOCurrency",
               "value": {
-                "$Path": "Currency",
+                "Path": "Currency",
                 "type": "Path",
               },
             },
@@ -735,7 +735,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "Currency_fc",
+                "Path": "Currency_fc",
                 "type": "Path",
               },
             },
@@ -777,7 +777,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "ItemType_fc",
+                "Path": "ItemType_fc",
                 "type": "Path",
               },
             },
@@ -811,7 +811,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "ItemCategory_fc",
+                "Path": "ItemCategory_fc",
                 "type": "Path",
               },
             },
@@ -853,7 +853,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "AccountCategory_fc",
+                "Path": "AccountCategory_fc",
                 "type": "Path",
               },
             },
@@ -900,7 +900,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "DeliveryDate_fc",
+                "Path": "DeliveryDate_fc",
                 "type": "Path",
               },
             },
@@ -942,7 +942,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "Supplier_fc",
+                "Path": "Supplier_fc",
                 "type": "Path",
               },
             },
@@ -984,7 +984,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "CompanyCode_fc",
+                "Path": "CompanyCode_fc",
                 "type": "Path",
               },
             },
@@ -1026,7 +1026,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "PurchasingOrganization_fc",
+                "Path": "PurchasingOrganization_fc",
                 "type": "Path",
               },
             },
@@ -1068,7 +1068,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "PurchasingGroup_fc",
+                "Path": "PurchasingGroup_fc",
                 "type": "Path",
               },
             },
@@ -1110,7 +1110,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "MaterialGroup_fc",
+                "Path": "MaterialGroup_fc",
                 "type": "Path",
               },
             },
@@ -1337,7 +1337,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "DistrQuantity_fc",
+                "Path": "DistrQuantity_fc",
                 "type": "Path",
               },
             },
@@ -1345,7 +1345,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "Org.OData.Measures.V1.Unit",
               "value": {
-                "$Path": "BaseUnit",
+                "Path": "BaseUnit",
                 "type": "Path",
               },
             },
@@ -1379,7 +1379,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "DistrPercent_fc",
+                "Path": "DistrPercent_fc",
                 "type": "Path",
               },
             },
@@ -1418,7 +1418,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "CostCenter_fc",
+                "Path": "CostCenter_fc",
                 "type": "Path",
               },
             },
@@ -1444,7 +1444,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "GLAccount_fc",
+                "Path": "GLAccount_fc",
                 "type": "Path",
               },
             },
@@ -1470,7 +1470,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "OrderID_fc",
+                "Path": "OrderID_fc",
                 "type": "Path",
               },
             },
@@ -1496,7 +1496,7 @@ RawMetadataInstance {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {
-                "$Path": "ControllingArea_fc",
+                "Path": "ControllingArea_fc",
                 "type": "Path",
               },
             },
@@ -45180,11 +45180,11 @@ RawMetadataInstance {
               "value": {
                 "$And": [
                   {
-                    "$Path": "booleanValue1",
+                    "Path": "booleanValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "booleanValue2",
+                    "Path": "booleanValue2",
                     "type": "Path",
                   },
                 ],
@@ -45202,11 +45202,11 @@ RawMetadataInstance {
               "value": {
                 "$Or": [
                   {
-                    "$Path": "booleanValue1",
+                    "Path": "booleanValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "booleanValue2",
+                    "Path": "booleanValue2",
                     "type": "Path",
                   },
                 ],
@@ -45224,11 +45224,11 @@ RawMetadataInstance {
               "value": {
                 "$Or": [
                   {
-                    "$Path": "booleanValue1",
+                    "Path": "booleanValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "booleanValue2",
+                    "Path": "booleanValue2",
                     "type": "Path",
                   },
                 ],
@@ -45246,11 +45246,11 @@ RawMetadataInstance {
               "value": {
                 "$Eq": [
                   {
-                    "$Path": "intValue1",
+                    "Path": "intValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "intValue2",
+                    "Path": "intValue2",
                     "type": "Path",
                   },
                 ],
@@ -45268,11 +45268,11 @@ RawMetadataInstance {
               "value": {
                 "$Ne": [
                   {
-                    "$Path": "intValue1",
+                    "Path": "intValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "intValue2",
+                    "Path": "intValue2",
                     "type": "Path",
                   },
                 ],
@@ -45289,7 +45289,7 @@ RawMetadataInstance {
               "term": "com.sap.vocabularies.UI.v1.Hidden",
               "value": {
                 "$Not": {
-                  "$Path": "booleanValue1",
+                  "Path": "booleanValue1",
                   "type": "Path",
                 },
                 "type": "Not",
@@ -45307,13 +45307,13 @@ RawMetadataInstance {
                 "$And": [
                   {
                     "$Not": {
-                      "$Path": "booleanValue1",
+                      "Path": "booleanValue1",
                       "type": "Path",
                     },
                     "type": "Not",
                   },
                   {
-                    "$Path": "booleanValue2",
+                    "Path": "booleanValue2",
                     "type": "Path",
                   },
                 ],
@@ -45331,11 +45331,11 @@ RawMetadataInstance {
               "value": {
                 "$Gt": [
                   {
-                    "$Path": "intValue1",
+                    "Path": "intValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "intValue2",
+                    "Path": "intValue2",
                     "type": "Path",
                   },
                 ],
@@ -45353,11 +45353,11 @@ RawMetadataInstance {
               "value": {
                 "$Ge": [
                   {
-                    "$Path": "intValue1",
+                    "Path": "intValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "intValue2",
+                    "Path": "intValue2",
                     "type": "Path",
                   },
                 ],
@@ -45375,11 +45375,11 @@ RawMetadataInstance {
               "value": {
                 "$Lt": [
                   {
-                    "$Path": "intValue1",
+                    "Path": "intValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "intValue2",
+                    "Path": "intValue2",
                     "type": "Path",
                   },
                 ],
@@ -45397,11 +45397,11 @@ RawMetadataInstance {
               "value": {
                 "$Le": [
                   {
-                    "$Path": "intValue1",
+                    "Path": "intValue1",
                     "type": "Path",
                   },
                   {
-                    "$Path": "intValue2",
+                    "Path": "intValue2",
                     "type": "Path",
                   },
                 ],
@@ -45438,7 +45438,7 @@ RawMetadataInstance {
                   "Yo",
                   "Lo",
                   {
-                    "$Path": "constantValue",
+                    "Path": "constantValue",
                     "type": "Path",
                   },
                 ],
@@ -45462,7 +45462,7 @@ RawMetadataInstance {
                       {
                         "$Eq": [
                           {
-                            "$Path": "constantValue",
+                            "Path": "constantValue",
                             "type": "Path",
                           },
                           "Yolo",
@@ -45494,7 +45494,7 @@ RawMetadataInstance {
                     "$LabeledElement": {
                       "$Apply": [
                         {
-                          "$Path": "contactEmailAddress",
+                          "Path": "contactEmailAddress",
                           "type": "Path",
                         },
                       ],
@@ -45522,7 +45522,7 @@ RawMetadataInstance {
                   "#PriceCalculation-manage-fieldCatalog&/Fields('{code}')",
                   {
                     "$LabeledElement": {
-                      "$Path": "field/code",
+                      "Path": "field/code",
                       "type": "Path",
                     },
                     "$Name": "code",
@@ -45548,7 +45548,7 @@ RawMetadataInstance {
                     "$LabeledElement": {
                       "$Apply": [
                         {
-                          "$Path": "Address/Street",
+                          "Path": "Address/Street",
                           "type": "Path",
                         },
                       ],
@@ -45562,7 +45562,7 @@ RawMetadataInstance {
                     "$LabeledElement": {
                       "$Apply": [
                         {
-                          "$Path": "Address/City",
+                          "Path": "Address/City",
                           "type": "Path",
                         },
                       ],
@@ -45590,7 +45590,7 @@ RawMetadataInstance {
                   {
                     "$Eq": [
                       {
-                        "$Path": "constantValue",
+                        "Path": "constantValue",
                         "type": "Path",
                       },
                       "Yolo",
@@ -45616,7 +45616,7 @@ RawMetadataInstance {
                   {
                     "$Eq": [
                       {
-                        "$Path": "subPath/constantValue",
+                        "Path": "subPath/constantValue",
                         "type": "Path",
                       },
                       "Yolo",
@@ -45642,14 +45642,14 @@ RawMetadataInstance {
                   {
                     "$Eq": [
                       {
-                        "$Path": "constantValue",
+                        "Path": "constantValue",
                         "type": "Path",
                       },
                       {
                         "$Apply": [
                           "Yo",
                           {
-                            "$Path": "pathValue",
+                            "Path": "pathValue",
                             "type": "Path",
                           },
                         ],
@@ -45680,7 +45680,7 @@ RawMetadataInstance {
                       {
                         "$Eq": [
                           {
-                            "$Path": "criticalityCriteria",
+                            "Path": "criticalityCriteria",
                             "type": "Path",
                           },
                           "B",
@@ -45690,7 +45690,7 @@ RawMetadataInstance {
                       {
                         "$Eq": [
                           {
-                            "$Path": "criticalityCriteria",
+                            "Path": "criticalityCriteria",
                             "type": "Path",
                           },
                           "C",
@@ -45700,7 +45700,7 @@ RawMetadataInstance {
                       {
                         "$Eq": [
                           {
-                            "$Path": "criticalityCriteria",
+                            "Path": "criticalityCriteria",
                             "type": "Path",
                           },
                           "D",
@@ -45716,7 +45716,7 @@ RawMetadataInstance {
                       {
                         "$Eq": [
                           {
-                            "$Path": "criticalityCriteria",
+                            "Path": "criticalityCriteria",
                             "type": "Path",
                           },
                           "A",
@@ -45746,7 +45746,7 @@ RawMetadataInstance {
                     "$Ne": [
                       null,
                       {
-                        "$Path": "criticalityCriteria",
+                        "Path": "criticalityCriteria",
                         "type": "Path",
                       },
                     ],
@@ -45772,7 +45772,7 @@ RawMetadataInstance {
                     "$Eq": [
                       111,
                       {
-                        "$Path": "KeyProperty",
+                        "Path": "KeyProperty",
                         "type": "Path",
                       },
                     ],

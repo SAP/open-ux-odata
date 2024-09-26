@@ -952,7 +952,7 @@ function parseExpression(
         case 'Path':
             return {
                 type: 'Path',
-                $Path: (expression.Path as EDMX.InstancePath)._text
+                Path: (expression.Path as EDMX.InstancePath)._text
             };
         case 'PropertyPath':
             return {
