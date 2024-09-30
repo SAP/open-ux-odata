@@ -76,7 +76,8 @@ export type MockDataContributor<T extends object> = {
         statusCode?: number,
         messageData?: object,
         isSAPMessage?: boolean,
-        headers?: Record<string, string>
+        headers?: Record<string, string>,
+        isGlobalRequestError?: boolean
     ): any;
     base?: {
         generateMockData: () => void;
@@ -169,9 +170,10 @@ export class FunctionBasedMockData extends FileBasedMockData {
             statusCode = 500,
             messageData?: object,
             isSAPMessage = false,
-            headers: Record<string, string> = {}
+            headers: Record<string, string> = {},
+            isGlobalRequestError?: boolean
         ) {
-            throw new ExecutionError(message, statusCode, messageData, isSAPMessage, headers);
+            throw new ExecutionError(message, statusCode, messageData, isSAPMessage, headers, isGlobalRequestError);
         };
     }
 

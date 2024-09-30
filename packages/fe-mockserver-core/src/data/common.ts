@@ -103,19 +103,22 @@ export class ExecutionError extends Error {
     isSAPMessage: boolean;
     isCustomError = true;
     headers: Record<string, string>;
+    isGlobalRequestError: boolean;
 
     constructor(
         message: string,
         statusCode: number,
         messageData: any,
         isSAPMessage: boolean,
-        headers: Record<string, string> = {}
+        headers: Record<string, string> = {},
+        isGlobalRequestError = false
     ) {
         super(message);
         this.statusCode = statusCode;
         this.messageData = messageData;
         this.isSAPMessage = isSAPMessage;
         this.headers = headers;
+        this.isGlobalRequestError = isGlobalRequestError;
     }
 }
 

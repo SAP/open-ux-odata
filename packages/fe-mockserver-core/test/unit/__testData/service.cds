@@ -243,5 +243,7 @@ service ActionVisibility {
       action   boundActionReturnsVoid();
       @cds.odata.bindingparameter.name: 'self'
       function baseFunction(data : String) returns String;
+      @cds.odata.bindingparameter.name: 'self'
+      function bound503Action(globalError : Boolean) returns RootElement;
     };
 }
