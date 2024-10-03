@@ -57,7 +57,6 @@ module.exports = {
                 break;
 
             case 'bound503Action':
-                debugger;
                 this.throwError(
                     'Server not available',
                     503,
