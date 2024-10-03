@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.3.6
+
+### Patch Changes
+
+-   ed78e39: add ability to throw a global error that makes a whole batch fail
+
 ## 1.3.5
 
 ### Patch Changes
