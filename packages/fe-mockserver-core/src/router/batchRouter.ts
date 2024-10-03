@@ -1,6 +1,7 @@
 import type { NextFunction, NextHandleFunction } from 'connect';
 import type { ServerResponse } from 'http';
 import * as http from 'http';
+import type { ExecutionError } from '../data/common';
 import type { DataAccess } from '../data/dataAccess';
 import ODataRequest from '../request/odataRequest';
 import type { Batch, BatchPart } from './batchParser';
@@ -236,6 +237,16 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
             res.write(batchResponse);
             res.end();
         } catch (e) {
+            // Check if the error makes the whole request fail
+            const customError = e as ExecutionError;
+            if (customError.isGlobalRequestError) {
+                res.statusCode = customError.statusCode;
+                for (const headerName in customError.headers) {
+                    res.setHeader(headerName, customError.headers[headerName]);
+                }
+                res.end();
+                return;
+            }
             next(e);
         }
     };

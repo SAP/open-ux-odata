@@ -56,6 +56,17 @@ module.exports = {
                 }
                 break;
 
+            case 'bound503Action':
+                this.throwError(
+                    'Server not available',
+                    503,
+                    {},
+                    false,
+                    { 'Retry-After': 'some date' },
+                    actionData.globalError
+                );
+                break;
+
             default:
                 this.throwError('Not implemented', 501, {
                     error: {

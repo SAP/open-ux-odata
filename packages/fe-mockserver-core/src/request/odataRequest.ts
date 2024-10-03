@@ -451,6 +451,10 @@ export default class ODataRequest {
         } catch (errorInfo: any) {
             const errorInformation: ExecutionError = errorInfo as ExecutionError;
             if (errorInformation.isCustomError) {
+                if (errorInformation.isGlobalRequestError) {
+                    // The whole request will fail
+                    throw errorInformation;
+                }
                 if (errorInformation.messageData) {
                     if (errorInformation.isSAPMessage) {
                         this.addResponseHeader('sap-messages', JSON.stringify(errorInformation.messageData));

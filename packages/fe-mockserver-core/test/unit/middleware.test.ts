@@ -4,7 +4,7 @@ import type { Server } from 'http';
 import * as http from 'http';
 import * as path from 'path';
 import FEMockserver from '../../src';
-import { getJsonFromMultipartContent } from '../../test/unit/__testData/utils';
+import { getJsonFromMultipartContent, getStatusAndHeadersFromMultipartContent } from '../../test/unit/__testData/utils';
 import { ODataV4Requestor } from './__testData/Requestor';
 
 jest.setTimeout(60000);
@@ -127,7 +127,7 @@ describe('V4 Requestor', function () {
             {
               "@odata.context": "$metadata#RootElement(ID=1,IsActiveEntity=true)/_Elements",
               "@odata.count": 3,
-              "@odata.metadataEtag": "W/"62b2-j3ePZjiQElXD9LZZ+gEAOLMD5nc"",
+              "@odata.metadataEtag": "W/"63f6-6P/9UFLMfn2HIrza0TGMUWtfMPQ"",
               "value": [
                 {
                   "HasActiveEntity": true,
@@ -583,6 +583,71 @@ Group ID: $auto`
         expect(responseJson[0].error.code).toEqual(412);
         expect(responseJson[0].error.details.length).toBe(2);
     });
+
+    it('get a 503 error for a selected context for a request', async () => {
+        const response = await fetch('http://localhost:33331/sap/fe/core/mock/action/$batch', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'multipart/mixed; boundary=batch_id-1719917686303-234',
+                accept: 'multipart/mixed'
+            }),
+            body: `--batch_id-1719917686303-234
+Content-Type: multipart/mixed;boundary=changeset_id-1719917686303-235
+
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:0.0
+
+POST RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound503Action?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{"globalError": false}
+--changeset_id-1719917686303-235--
+--batch_id-1719917686303-234--
+Group ID: $auto`
+        });
+        expect(response.status).toEqual(200);
+        const responseStr = await response.text();
+        const responseInfos: any = getStatusAndHeadersFromMultipartContent(responseStr);
+        expect(responseInfos[0].status).toEqual(503);
+        expect(responseInfos[0].headers['Retry-After']).toEqual('some date');
+    });
+
+    it('get a 503 error for a selected context for the batch', async () => {
+        const response = await fetch('http://localhost:33331/sap/fe/core/mock/action/$batch', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'multipart/mixed; boundary=batch_id-1719917686303-234',
+                accept: 'multipart/mixed'
+            }),
+            body: `--batch_id-1719917686303-234
+Content-Type: multipart/mixed;boundary=changeset_id-1719917686303-235
+
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:0.0
+
+POST RootElement(ID=1,IsActiveEntity=true)/sap.fe.core.ActionVisibility.bound503Action?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{"globalError": true}
+--changeset_id-1719917686303-235--
+--batch_id-1719917686303-234--
+Group ID: $auto`
+        });
+        expect(response.status).toEqual(503);
+    });
+
     beforeAll(() => {
         const myJSON = JSON.parse(
             fs.readFileSync(path.join(__dirname, '__testData', 'RootElement.json')).toString('utf-8')
