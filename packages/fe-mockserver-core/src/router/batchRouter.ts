@@ -8,8 +8,6 @@ import type { Batch, BatchPart } from './batchParser';
 import { BatchContent, getBoundary, parseBatch } from './batchParser';
 import type { IncomingMessageWithTenant } from './serviceRouter';
 
-type Error412 = Record<string, ErrorResponse>;
-
 type ErrorResponse = {
     code: string;
     message: string;
@@ -23,6 +21,12 @@ type ErrorDetails = {
     severity?: string;
 } & Record<string, unknown>;
 
+type ErrorInfo = {
+    header: string;
+    error: ErrorResponse;
+    contentId?: string;
+};
+
 /**
  * Returns the result whether isRequest part of changeset or not.
  * @param part
@@ -32,59 +36,35 @@ export function isPartChangeSet(part: BatchPart | Batch): part is Batch {
     return (part as Batch).isChangeSet;
 }
 
-let aggregate412BatchResponseInstance: {
-    add412Response: (header: string, resContent: Error412, contentId: string | undefined) => void;
-    getUnifiedResponse: () => string | undefined;
-    getLength: () => number;
-};
 const NL = '\r\n';
 
 /**
- * Handles the part request.
+ * Get the part request.
  * @param partDefinition
  * @param dataAccess
- * @param boundary
  * @param tenantId
- * @param globalHeaders
- * @param isChangeSetPart
- * @returns {string | null}
+ * @returns {ODataRequest}
  */
-async function handlePart(
+async function getPartRequest(
     partDefinition: BatchPart,
     dataAccess: DataAccess,
-    boundary: string,
-    tenantId: string,
-    globalHeaders: Record<string, string>,
-    isChangeSetPart?: boolean
-): Promise<string | null> {
+    tenantId: string
+): Promise<ODataRequest> {
     const partRequest = new ODataRequest({ ...partDefinition, tenantId: tenantId }, dataAccess);
     await partRequest.handleRequest();
-    const isResponse412ChangeSet = partRequest?.statusCode === 412 && !!isChangeSetPart;
-    const { batchPartRes, header, resContent, contentId } = createBatchResponseObject(
-        partRequest,
-        partDefinition,
-        boundary,
-        globalHeaders,
-        isResponse412ChangeSet
-    );
-    // All 412 batch responses should be transformed and returned as single response
-    if (isResponse412ChangeSet) {
-        aggregate412BatchResponseInstance.add412Response(header, resContent, contentId);
-        return null;
-    }
-    return batchPartRes;
+    return partRequest;
 }
 
 /**
- * Creates a batch response object.
+ * Get the header of the part response.
  * @param partRequest
  * @param partDefinition
  * @param boundary
  * @param globalHeaders
  * @param isResponse412ChangeSet
- * @returns a batch response object
+ * @returns {string} Response string corresponding to the part request.
  */
-function createBatchResponseObject(
+function getPartResponseHeader(
     partRequest: ODataRequest,
     partDefinition: BatchPart,
     boundary: string,
@@ -114,22 +94,50 @@ function createBatchResponseObject(
         globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
     }
     batchResponse += NL; // End of part header
-    const header = batchResponse;
+    return batchResponse;
+}
+
+/**
+ * Get the part response.
+ * @param partRequest
+ * @param partDefinition
+ * @param boundary
+ * @param globalHeaders
+ * @param isResponse412ChangeSet
+ * @returns {string} Response string corresponding to the part request.
+ */
+function getPartResponse(
+    partRequest: ODataRequest,
+    partDefinition: BatchPart,
+    boundary: string,
+    globalHeaders: Record<string, string>,
+    isResponse412ChangeSet: boolean
+) {
+    let batchResponse = getPartResponseHeader(
+        partRequest,
+        partDefinition,
+        boundary,
+        globalHeaders,
+        isResponse412ChangeSet
+    );
+
+    const responseData = partRequest.getResponseData();
     if (responseData) {
         batchResponse += responseData;
         //batchResponse += NL; // End of body content
     }
     batchResponse += NL;
-    const resContent = isResponse412ChangeSet ? JSON.parse(responseData as string) : null;
-    return { batchPartRes: batchResponse, header, resContent, contentId };
+
+    return batchResponse;
 }
 
 /**
- * Creates instance of 412 responses aggregated from batch changeset request.
- * @returns void
+ * Get the single error containing all 412 responses.
+ * @param errors412
+ * @returns {string} Response string containing single error holding all 412 responses.
  */
-function aggregate412BatchResponse() {
-    const batch412Response = {
+function getCombined412ErrorResponse(errors412: ErrorInfo[]) {
+    const errorInfo = {
         header: '',
         error: {
             code: '',
@@ -137,38 +145,137 @@ function aggregate412BatchResponse() {
             severity: '',
             details: [] as ErrorDetails[]
         } as ErrorResponse
-    };
-    let firstPart = true;
-    let length = 0;
-    return {
-        add412Response: function (header: string, resContent: Error412, contentId: string | undefined) {
-            if (firstPart) {
-                batch412Response.header = header;
-                batch412Response.error = {
-                    code: resContent.error.code,
-                    message: resContent.error.message,
-                    severity: resContent.error['@Common.Severity'] as string | undefined,
-                    details: []
-                };
-                firstPart = false;
-            }
-            batch412Response.error.details.push(resContent.error.details[0]);
-            batch412Response.error.details[batch412Response.error.details.length - 1]['@Core.ContentID'] = contentId;
-            length++;
-        },
-        getUnifiedResponse: function (): string {
-            let batchResponse = '';
-            batchResponse += batch412Response.header;
-            batchResponse += NL;
-            const { error } = batch412Response;
-            batchResponse += JSON.stringify({ error: error });
-            batchResponse += NL;
-            return batchResponse;
-        },
-        getLength: function () {
-            return length;
+    } as ErrorInfo;
+
+    // Create single error combining all the 412 responses.
+    const overall412ErrorInfo = errors412.reduce((accumErrorInfo: ErrorInfo, { header, error, contentId }, idx) => {
+        if (idx === 0) {
+            // Add header of only the first 412 error.
+            accumErrorInfo.header += header;
+            // Setting the first 412 error at the top.
+            accumErrorInfo.error = {
+                code: error.code,
+                message: error.message,
+                severity: error['@Common.Severity'] as string | undefined,
+                details: []
+            };
         }
-    };
+
+        // Accumulate all remaining errors in error details.
+        const details = [...error.details].map((errDetail) => {
+            errDetail['@Core.ContentID'] = contentId;
+            return errDetail;
+        });
+        accumErrorInfo.error.details = accumErrorInfo.error.details.concat(details);
+
+        return accumErrorInfo;
+    }, errorInfo);
+
+    // Convert the single error into response string.
+    let response = '';
+    response += overall412ErrorInfo.header;
+    response += NL;
+    const { error } = overall412ErrorInfo;
+    response += JSON.stringify({ error: error });
+    response += NL;
+
+    return response;
+}
+
+/**
+ * Get 412 error information from the request's response.
+ * @param errors412
+ * @returns 412 Error information containing header, error object and content-Id.
+ */
+function get412ErrorInfo(
+    partResponseIs412: boolean,
+    partRequest: ODataRequest,
+    changeSetPart: BatchPart,
+    boundary: string,
+    globalHeaders: Record<string, string>
+) {
+    if (partResponseIs412) {
+        const error412Object = partRequest.getResponseData();
+        if (typeof error412Object === 'string') {
+            return {
+                header: getPartResponseHeader(partRequest, changeSetPart, boundary, globalHeaders, true),
+                error: JSON.parse(error412Object).error as ErrorResponse,
+                contentId: changeSetPart.contentId
+            };
+        }
+    }
+}
+
+/**
+ * Get the change set response.
+ * @param changeSet
+ * @param dataAccess
+ * @param tenantId
+ * @param globalHeaders
+ * @returns Response string corresponding to the change set request.
+ */
+async function getChangeSetResponse(
+    changeSet: Batch,
+    dataAccess: DataAccess,
+    tenantId: string,
+    globalHeaders: Record<string, string>
+) {
+    const errors412 = [];
+    let changeSetFailed = false;
+
+    let batchResponse = `Content-Type: multipart/mixed; boundary=${changeSet.boundary}${NL}`;
+    batchResponse += NL;
+
+    for (const changeSetPart of changeSet.parts) {
+        const partRequest = await getPartRequest(changeSetPart as BatchPart, dataAccess, tenantId);
+        const statusCode = (partRequest?.statusCode ?? '').toString();
+
+        const partResponseIs412 = statusCode === '412';
+        const overallErrorStateIs412 = errors412.length > 0 || partResponseIs412;
+        if (overallErrorStateIs412) {
+            // 412 encountered.
+            const errorInfo412 = get412ErrorInfo(
+                partResponseIs412,
+                partRequest,
+                changeSetPart as BatchPart,
+                changeSet.boundary,
+                globalHeaders
+            );
+            if (errorInfo412) {
+                errors412.push(errorInfo412);
+            }
+            // NOTE: If earlier part had a 412 response, so we only accumulate 412 responses from remaining parts.
+        } else {
+            const batchPartRes = getPartResponse(
+                partRequest,
+                changeSetPart as BatchPart,
+                changeSet.boundary,
+                globalHeaders,
+                false
+            );
+            if (statusCode.startsWith('4') || statusCode.startsWith('5')) {
+                // Other error responses of 4XX and 5XX (ChangeSet failed).
+                // We presently override the response and exit in these scenarios.
+                // NOTE: This might change on implementation of continue-on-error.
+                batchResponse = batchPartRes;
+                changeSetFailed = true;
+                break;
+            } else if (batchPartRes !== null) {
+                // No error
+                batchResponse += batchPartRes;
+            }
+        }
+    }
+
+    if (errors412.length > 0) {
+        // Reset response with combine of 412 errors.
+        batchResponse = getCombined412ErrorResponse(errors412);
+    } else if (!changeSetFailed) {
+        // No error, we close the changeset boundary
+        batchResponse += `--${changeSet.boundary}--${NL}`;
+    }
+
+    return batchResponse;
 }
 
 /**
@@ -185,45 +292,15 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
             const batchData = parseBatch(new BatchContent(body), boundary);
             const globalHeaders: Record<string, string> = {};
             let batchResponse = '';
-            //initialize the instance of aggregator of batch 412 responses
-            aggregate412BatchResponseInstance = aggregate412BatchResponse();
+
             for (const part of batchData.parts) {
                 if (isPartChangeSet(part)) {
                     batchResponse += `--${batchData.boundary}${NL}`;
-                    batchResponse += `Content-Type: multipart/mixed; boundary=${part.boundary}${NL}`;
-                    batchResponse += NL;
-                    for (const changeSetPart of part.parts) {
-                        const batchPartRes = await handlePart(
-                            changeSetPart as BatchPart,
-                            dataAccess,
-                            part.boundary,
-                            req.tenantId!,
-                            globalHeaders,
-                            true
-                        );
-                        if (batchPartRes !== null) {
-                            batchResponse += batchPartRes;
-                        }
-                    }
-                    // append the 412 batch response
-                    if (aggregate412BatchResponseInstance.getLength() > 0) {
-                        batchResponse += aggregate412BatchResponseInstance.getUnifiedResponse();
-                    }
-                    batchResponse += `--${part.boundary}--${NL}`;
+                    batchResponse += await getChangeSetResponse(part, dataAccess, req.tenantId!, globalHeaders);
                 } else {
-                    batchResponse += await handlePart(
-                        part,
-                        dataAccess,
-                        batchData.boundary,
-                        req.tenantId!,
-                        globalHeaders
-                    );
+                    const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
+                    batchResponse += getPartResponse(partRequest, part, boundary, globalHeaders, false);
                 }
-            }
-            //If there are 412 responses, override and return a single 412 error response
-            if (aggregate412BatchResponseInstance.getLength()) {
-                batchResponse = `--${batchData.boundary}${NL}`;
-                batchResponse += aggregate412BatchResponseInstance.getUnifiedResponse();
             }
             batchResponse += `--${batchData.boundary}--${NL}`;
             res.statusCode = 200;

@@ -464,6 +464,67 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
         return myPromise;
     });
 
+    it('ChangeSet failure with single error', async () => {
+        const response = await fetch('http://localhost:33331/sap/fe/core/mock/action/$batch', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'multipart/mixed; boundary=batch_id-1719917686303-234',
+                accept: 'multipart/mixed'
+            }),
+            body: `--batch_id-1719917686303-234
+Content-Type: multipart/mixed;boundary=changeset_id-1719917686303-235
+
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:0.0
+
+POST RootElement(ID=2,IsActiveEntity=true)/sap.fe.core.ActionVisibility.boundActionChangeSet?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--changeset_id-1719917686303-235
+Content-Type:application/http
+Content-Transfer-Encoding:binary
+Content-ID:1.0
+
+POST RootElement(ID=3,IsActiveEntity=true)/sap.fe.core.ActionVisibility.boundActionChangeSet?$select=HasActiveEntity HTTP/1.1
+Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
+Accept-Language:en
+X-CSRF-Token:0504-71383
+Prefer:handling=strict
+Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
+
+{}
+--changeset_id-1719917686303-235--
+--batch_id-1719917686303-234--
+Group ID: $auto`
+        });
+        const responseStr = await response.text();
+        expect(responseStr).toMatchInlineSnapshot(`
+            "--batch_id-1719917686303-234
+            --changeset_id-1719917686303-235
+            Content-Type: application/http
+            Content-Transfer-Encoding: binary
+            Content-ID: 1.0
+
+            HTTP/1.1 500 Internal Server Error
+            sap-tenantid: tenant-default
+            content-type: application/json;odata.metadata=minimal;IEEE754Compatible=true
+            odata-version: 4.0
+
+            {"error":{"code":500,"message":"unbound transition error","transition":true,"@Common.numericSeverity":4}}
+            --batch_id-1719917686303-234--
+            "
+        `);
+        const responseJson: any = getJsonFromMultipartContent(responseStr);
+        expect(responseJson[0].error.code).toEqual(500);
+    });
+
     it('get a 412 warning for a single selected context', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.callAction(
