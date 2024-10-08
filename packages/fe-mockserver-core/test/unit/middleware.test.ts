@@ -127,7 +127,7 @@ describe('V4 Requestor', function () {
             {
               "@odata.context": "$metadata#RootElement(ID=1,IsActiveEntity=true)/_Elements",
               "@odata.count": 3,
-              "@odata.metadataEtag": "W/"63f6-6P/9UFLMfn2HIrza0TGMUWtfMPQ"",
+              "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
               "value": [
                 {
                   "HasActiveEntity": true,
@@ -507,7 +507,6 @@ Group ID: $auto`
         const responseStr = await response.text();
         expect(responseStr).toMatchInlineSnapshot(`
             "--batch_id-1719917686303-234
-            --changeset_id-1719917686303-235
             Content-Type: application/http
             Content-Transfer-Encoding: binary
             Content-ID: 1.0
@@ -515,9 +514,8 @@ Group ID: $auto`
             HTTP/1.1 500 Internal Server Error
             sap-tenantid: tenant-default
             content-type: application/json;odata.metadata=minimal;IEEE754Compatible=true
-            odata-version: 4.0
 
-            {"error":{"code":500,"message":"unbound transition error","transition":true,"@Common.numericSeverity":4}}
+            {"error":{"code":500,"message":"unbound transition error","transition":true,"@Common.numericSeverity":4,"@Core.ContentID":"1.0"}}
             --batch_id-1719917686303-234--
             "
         `);

@@ -39,6 +39,16 @@ export function isPartChangeSet(part: BatchPart | Batch): part is Batch {
 const NL = '\r\n';
 
 /**
+ * Returns if the request status code is error (4xx or 5xx).
+ * @param partRequest
+ * @returns {boolean}
+ */
+function hasErrorStatusCode(partRequest: ODataRequest) {
+    const statusCode = (partRequest?.statusCode ?? '').toString();
+    return statusCode.startsWith('4') || statusCode.startsWith('5');
+}
+
+/**
  * Get the part request.
  * @param partDefinition
  * @param dataAccess
@@ -60,32 +70,30 @@ async function getPartRequest(
  * @param partRequest
  * @param partDefinition
  * @param boundary
- * @param globalHeaders
- * @param isResponse412ChangeSet
+ * @param isChangeSet
+ * @param isResponse412
  * @returns {string} Response string corresponding to the part request.
  */
 function getPartResponseHeader(
     partRequest: ODataRequest,
     partDefinition: BatchPart,
-    boundary: string,
     globalHeaders: Record<string, string>,
-    isResponse412ChangeSet: boolean
+    isChangeSet: boolean = false,
+    isResponse412: boolean = false
 ) {
     let batchResponse = '';
-    if (!isResponse412ChangeSet) {
-        batchResponse += `--${boundary}${NL}`;
-    }
     batchResponse += `Content-Type: application/http${NL}`;
     batchResponse += `Content-Transfer-Encoding: binary${NL}`;
     const contentId = partDefinition.contentId;
-    if (partDefinition.contentId && !isResponse412ChangeSet) {
+    if (!isResponse412 && isChangeSet && contentId) {
+        // 1. Final 412 response is a combined one, so it doesn't need explicit content-id in response header.
+        // 2. This content-id is presently valid only for change set senarios.
         batchResponse += `Content-ID: ${contentId}${NL}`;
     }
     if (partRequest.getETag()) {
         batchResponse += `ETag: ${partRequest.getETag()}${NL}`;
     }
     batchResponse += NL;
-    const responseData = partRequest.getResponseData();
     batchResponse += `HTTP/1.1 ${partRequest.statusCode} ${http.STATUS_CODES[partRequest.statusCode]}${NL}`;
     for (const headerName in partRequest.responseHeaders) {
         batchResponse += `${headerName}: ${partRequest.responseHeaders[headerName]}${NL}`;
@@ -95,6 +103,35 @@ function getPartResponseHeader(
     }
     batchResponse += NL; // End of part header
     return batchResponse;
+}
+
+/**
+ * Get the content of the part response.
+ * @param partRequest
+ * @param partDefinition
+ * @param isChangeSet
+ * @returns {string} Response string corresponding to the part request.
+ */
+function getPartResponseContent(partRequest: ODataRequest, partDefinition: BatchPart, isChangeSet: boolean = false) {
+    let responseData = partRequest.getResponseData() ?? '';
+
+    if (responseData) {
+        if (isChangeSet && hasErrorStatusCode(partRequest)) {
+            // We update content-id in the error response in case of change set failure.
+            const contentId = partDefinition.contentId;
+            try {
+                const responseObj = JSON.parse(responseData);
+                (responseObj.error as ErrorResponse)['@Core.ContentID'] = contentId;
+                responseData = JSON.stringify(responseObj);
+            } catch (e: any) {
+                console.log("Couldn't update change set error response with content-id", e);
+            }
+        }
+        //batchResponse += NL; // End of body content
+    }
+    responseData += NL;
+
+    return responseData;
 }
 
 /**
@@ -109,24 +146,12 @@ function getPartResponseHeader(
 function getPartResponse(
     partRequest: ODataRequest,
     partDefinition: BatchPart,
-    boundary: string,
     globalHeaders: Record<string, string>,
-    isResponse412ChangeSet: boolean
+    isChangeSet: boolean = false
 ) {
-    let batchResponse = getPartResponseHeader(
-        partRequest,
-        partDefinition,
-        boundary,
-        globalHeaders,
-        isResponse412ChangeSet
-    );
+    let batchResponse = getPartResponseHeader(partRequest, partDefinition, globalHeaders, isChangeSet);
 
-    const responseData = partRequest.getResponseData();
-    if (responseData) {
-        batchResponse += responseData;
-        //batchResponse += NL; // End of body content
-    }
-    batchResponse += NL;
+    batchResponse += getPartResponseContent(partRequest, partDefinition, isChangeSet);
 
     return batchResponse;
 }
@@ -184,21 +209,23 @@ function getCombined412ErrorResponse(errors412: ErrorInfo[]) {
 
 /**
  * Get 412 error information from the request's response.
- * @param errors412
+ * @param partResponseIs412
+ * @param partRequest
+ * @param changeSetPart
+ * @param globalHeaders
  * @returns 412 Error information containing header, error object and content-Id.
  */
 function get412ErrorInfo(
     partResponseIs412: boolean,
     partRequest: ODataRequest,
     changeSetPart: BatchPart,
-    boundary: string,
     globalHeaders: Record<string, string>
 ) {
     if (partResponseIs412) {
         const error412Object = partRequest.getResponseData();
         if (typeof error412Object === 'string') {
             return {
-                header: getPartResponseHeader(partRequest, changeSetPart, boundary, globalHeaders, true),
+                header: getPartResponseHeader(partRequest, changeSetPart, globalHeaders, true, true),
                 error: JSON.parse(error412Object).error as ErrorResponse,
                 contentId: changeSetPart.contentId
             };
@@ -238,7 +265,6 @@ async function getChangeSetResponse(
                 partResponseIs412,
                 partRequest,
                 changeSetPart as BatchPart,
-                changeSet.boundary,
                 globalHeaders
             );
             if (errorInfo412) {
@@ -246,22 +272,18 @@ async function getChangeSetResponse(
             }
             // NOTE: If earlier part had a 412 response, so we only accumulate 412 responses from remaining parts.
         } else {
-            const batchPartRes = getPartResponse(
-                partRequest,
-                changeSetPart as BatchPart,
-                changeSet.boundary,
-                globalHeaders,
-                false
-            );
-            if (statusCode.startsWith('4') || statusCode.startsWith('5')) {
+            const batchPartRes = getPartResponse(partRequest, changeSetPart as BatchPart, globalHeaders, true);
+            if (hasErrorStatusCode(partRequest)) {
                 // Other error responses of 4XX and 5XX (ChangeSet failed).
                 // We presently override the response and exit in these scenarios.
+                // We don't need changeSet boundary in this case as we break out of the loop.
                 // NOTE: This might change on implementation of continue-on-error.
                 batchResponse = batchPartRes;
                 changeSetFailed = true;
                 break;
             } else if (batchPartRes !== null) {
                 // No error
+                batchResponse += `--${changeSet.boundary}${NL}`;
                 batchResponse += batchPartRes;
             }
         }
@@ -294,12 +316,12 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
             let batchResponse = '';
 
             for (const part of batchData.parts) {
+                batchResponse += `--${batchData.boundary}${NL}`;
                 if (isPartChangeSet(part)) {
-                    batchResponse += `--${batchData.boundary}${NL}`;
                     batchResponse += await getChangeSetResponse(part, dataAccess, req.tenantId!, globalHeaders);
                 } else {
                     const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
-                    batchResponse += getPartResponse(partRequest, part, boundary, globalHeaders, false);
+                    batchResponse += getPartResponse(partRequest, part, globalHeaders);
                 }
             }
             batchResponse += `--${batchData.boundary}--${NL}`;

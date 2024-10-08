@@ -29,7 +29,7 @@ module.exports = {
                                 '@Common.numericSeverity': 4
                             }
                         });
-                    } else if (keys['ID'] == '3' || keys['ID'] == '4' || keys['ID'] == '6') {
+                    } else if (keys['ID'] == '3' || keys['ID'] == '4') {
                         this.throwError('unbound transition error', 500, {
                             error: {
                                 code: 500,
