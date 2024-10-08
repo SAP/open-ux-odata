@@ -69,7 +69,7 @@ async function getPartRequest(
  * Get the header of the part response.
  * @param partRequest
  * @param partDefinition
- * @param boundary
+ * @param globalHeaders
  * @param isChangeSet
  * @param isResponse412
  * @returns {string} Response string corresponding to the part request.
@@ -138,9 +138,8 @@ function getPartResponseContent(partRequest: ODataRequest, partDefinition: Batch
  * Get the part response.
  * @param partRequest
  * @param partDefinition
- * @param boundary
  * @param globalHeaders
- * @param isResponse412ChangeSet
+ * @param isChangeSet
  * @returns {string} Response string corresponding to the part request.
  */
 function getPartResponse(
