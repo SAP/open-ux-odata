@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.4
+
+### Patch Changes
+
+-   e1ddd79: security patch
+
 ## 0.11.3
 
 ### Patch Changes

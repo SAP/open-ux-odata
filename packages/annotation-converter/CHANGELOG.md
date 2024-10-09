@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.9.6
+
+### Patch Changes
+
+-   e1ddd79: security patch
+-   Updated dependencies [e1ddd79]
+    -   @sap-ux/vocabularies-types@0.11.4
+
 ## 0.9.5
 
 ### Patch Changes

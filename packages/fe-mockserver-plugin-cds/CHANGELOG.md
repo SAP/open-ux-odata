@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.2.4
+
+### Patch Changes
+
+-   e1ddd79: security patch
+
 ## 1.2.3
 
 ### Patch Changes
