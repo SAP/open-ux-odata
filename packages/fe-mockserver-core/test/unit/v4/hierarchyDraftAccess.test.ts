@@ -9,7 +9,9 @@ import ODataRequest from '../../../src/request/odataRequest';
 jest.setTimeout(3600000);
 describe('Hierarchy with draft', () => {
     let dataAccess!: DataAccess;
+    let dataAccess2!: DataAccess;
     let metadata!: ODataMetadata;
+    let metadata2!: ODataMetadata;
     const baseUrl = '/Hierarchy';
     const fileLoader = new FileSystemLoader();
     const metadataProvider = new CDSMetadataProvider(fileLoader);
@@ -18,9 +20,12 @@ describe('Hierarchy with draft', () => {
         const baseDir = join(__dirname, 'services', 'hierarchy');
 
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'draftService.cds'));
+        const edmx2 = await metadataProvider.loadMetadata(join(baseDir, 'otherDraftService.cds'));
 
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
+        metadata2 = await ODataMetadata.parse(edmx2, baseUrl + '/$metadata');
         dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        dataAccess2 = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata2, fileLoader);
     });
 
     test('Request active instances only', async () => {
@@ -259,6 +264,88 @@ describe('Hierarchy with draft', () => {
                 "IsActiveEntity": false,
                 "LimitedDescendantCount": 0,
                 "Name": "Juices",
+              },
+            ]
+        `);
+    });
+
+    test('16 - Expand a node completely (OP)', async () => {
+        const expandRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/Organizations(ID='FUNC',IsActiveEntity=true)/_Nodes?$select=DistanceFromRoot,DrillState,HasActiveEntity,ID,IsActiveEntity,LimitedDescendantCount,employeeCount,name,nodeType&$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/Organizations(ID=%27FUNC%27,IsActiveEntity=true)/_Nodes,HierarchyQualifier=%27NodesHierarchy%27,NodeProperty=%27ID%27,Levels=1,ExpandLevels=%5B%7B"NodeID":"FUNC2","Levels":null%7D%5D)&$count=true&$skip=0&$top=206`
+            },
+            dataAccess2
+        );
+        const data = await dataAccess2.getData(expandRequest);
+        // Expanding Sales
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "HasActiveEntity": true,
+                "ID": "FUNC2",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 4,
+                "employeeCount": 88,
+                "name": "Sales",
+                "nodeType": "Zone",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "HasActiveEntity": true,
+                "ID": "FUNC21",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "employeeCount": 61,
+                "name": "Consumer goods",
+                "nodeType": "Intermediary",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "HasActiveEntity": true,
+                "ID": "FUNC22",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 2,
+                "employeeCount": 27,
+                "name": "Financial services",
+                "nodeType": "Intermediary",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "HasActiveEntity": true,
+                "ID": "FUNC221",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "employeeCount": 19,
+                "name": "Bank",
+                "nodeType": "Line",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "HasActiveEntity": true,
+                "ID": "FUNC222",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "employeeCount": 8,
+                "name": "Insurance",
+                "nodeType": "Line",
+              },
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "collapsed",
+                "HasActiveEntity": true,
+                "ID": "FUNC1",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "employeeCount": 274,
+                "name": "Operations",
+                "nodeType": "Zone",
               },
             ]
         `);

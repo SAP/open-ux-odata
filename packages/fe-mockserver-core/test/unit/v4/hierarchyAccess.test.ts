@@ -2291,4 +2291,76 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('17 - Expand a node completely (LR)', async () => {
+        const expandRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=%27SalesOrgHierarchy%27,NodeProperty=%27ID%27,Levels=2,ExpandLevels=%5B%7B"NodeID":"US","Levels":null%7D%5D)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=251`
+            },
+            dataAccess
+        );
+        // Expand US
+        const data = await dataAccess.getData(expandRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 7,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "US",
+                "LimitedDescendantCount": 4,
+                "Name": "US",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "US West",
+                "LimitedDescendantCount": 0,
+                "Name": "US West",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "expanded",
+                "ID": "US East",
+                "LimitedDescendantCount": 2,
+                "Name": "US East",
+              },
+              {
+                "DistanceFromRoot": 3,
+                "DrillState": "expanded",
+                "ID": "NY",
+                "LimitedDescendantCount": 1,
+                "Name": "New York State",
+              },
+              {
+                "DistanceFromRoot": 4,
+                "DrillState": "leaf",
+                "ID": "NYC",
+                "LimitedDescendantCount": 0,
+                "Name": "New York City",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "APJ",
+                "LimitedDescendantCount": 0,
+                "Name": "APJ",
+              },
+            ]
+        `);
+    });
 });
