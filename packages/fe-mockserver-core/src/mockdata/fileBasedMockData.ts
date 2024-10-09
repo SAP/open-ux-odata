@@ -1096,7 +1096,10 @@ export class FileBasedMockData {
                 for (const expandLevels of _parameters.ExpandLevels) {
                     toExpand.push({
                         name: expandLevels['"NodeID"'].substring(1, expandLevels['"NodeID"'].length - 1),
-                        depth: parseInt(expandLevels['"Levels"'], 10)
+                        depth:
+                            expandLevels['"Levels"'] && expandLevels['"Levels"'] !== 'null'
+                                ? parseInt(expandLevels['"Levels"'], 10)
+                                : Number.POSITIVE_INFINITY
                     });
                 }
             }
