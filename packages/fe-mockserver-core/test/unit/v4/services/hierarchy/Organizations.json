@@ -1,0 +1,10 @@
+[
+    {
+        "ID": "GEO",
+        "description": "Geographical organization"
+    },
+    {
+        "ID": "FUNC",
+        "description": "Functional organization"
+    }
+]
