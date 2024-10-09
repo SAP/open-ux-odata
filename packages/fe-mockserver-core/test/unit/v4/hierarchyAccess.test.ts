@@ -2291,4 +2291,151 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('16 - Expand a node completely (OP)', async () => {
+        const expandRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/Organizations(ID='FUNC',IsActiveEntity=true)/_Nodes?$select=DistanceFromRoot,DrillState,HasActiveEntity,ID,IsActiveEntity,LimitedDescendantCount,employeeCount,name,nodeType&$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/Organizations(ID=%27FUNC%27,IsActiveEntity=true)/_Nodes,HierarchyQualifier=%27NodesHierarchy%27,NodeProperty=%27ID%27,Levels=1,ExpandLevels=%5B%7B"NodeID":"FUNC2","Levels":null%7D%5D)&$count=true&$skip=0&$top=206`
+            },
+            dataAccess
+        );
+        const data = await dataAccess.getData(expandRequest);
+        // Expanding Sales
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "ID": "FUNC2",
+                "name": "Sales",
+                "employeeCount": 88,
+                "nodeType": "Zone",
+                "IsActiveEntity": false,
+                "HasActiveEntity": true,
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "LimitedDescendantCount": 4
+              },
+              {
+                "ID": "FUNC21",
+                "name": "Consumer goods",
+                "employeeCount": 61,
+                "nodeType": "Intermediary",
+                "IsActiveEntity": true,
+                "HasActiveEntity": true,
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "LimitedDescendantCount": 0
+              },
+              {
+                "ID": "FUNC22",
+                "name": "Financial services",
+                "employeeCount": 27,
+                "nodeType": "Intermediary",
+                "IsActiveEntity": true,
+                "HasActiveEntity": true,
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "LimitedDescendantCount": 2
+              },
+              {
+                "ID": "FUNC221",
+                "name": "Bank",
+                "employeeCount": 19,
+                "nodeType": "Line",
+                "IsActiveEntity": true,
+                "HasActiveEntity": true,
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "LimitedDescendantCount": 0
+              },
+              {
+                "ID": "FUNC222",
+                "name": "Insurance",
+                "employeeCount": 8,
+                "nodeType": "Line",
+                "IsActiveEntity": true,
+                "HasActiveEntity": true,
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "LimitedDescendantCount": 0
+              },
+              {
+                "ID": "FUNC1",
+                "name": "Operations",
+                "employeeCount": 274,
+                "nodeType": "Zone",
+                "IsActiveEntity": false,
+                "HasActiveEntity": true,
+                "DistanceFromRoot": 0,
+                "DrillState": "collapsed",
+                "LimitedDescendantCount": 0
+              }
+            ]
+        `);
+    });
+
+    test('17 - Expand a node completely (LR)', async () => {
+        const expandRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=%27SalesOrgHierarchy%27,NodeProperty=%27ID%27,Levels=2,ExpandLevels=%5B%7B"NodeID":"US","Levels":null%7D%5D)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=251`
+            },
+            dataAccess
+        );
+        // Expand US
+        const data = await dataAccess.getData(expandRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 2,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "US",
+                "LimitedDescendantCount": 4,
+                "Name": "US",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "US West",
+                "LimitedDescendantCount": 0,
+                "Name": "US West"
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "expanded",
+                "ID": "US East",
+                "LimitedDescendantCount": 2,
+                "Name": "US East"
+              },
+              {
+                "DistanceFromRoot": 3,
+                "DrillState": "expanded",
+                "ID": "NY",
+                "LimitedDescendantCount": 1,
+                "Name": "New York State"
+              },
+              {
+                "DistanceFromRoot": 4,
+                "DrillState": "leaf",
+                "ID": "NYC",
+                "LimitedDescendantCount": 0,
+                "Name": "New York City"
+              },
+            ]
+        `);
+    });
 });
