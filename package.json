@@ -49,6 +49,9 @@
     },
     "packageManager": "pnpm@9.7.0",
     "pnpm": {
-        "overrides": {}
+        "overrides": {
+            "body-parser": "1.20.3",
+            "path-to-regexp": "0.1.10"
+        }
     }
 }
