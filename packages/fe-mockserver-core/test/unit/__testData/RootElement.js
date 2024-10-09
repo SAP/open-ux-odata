@@ -55,7 +55,6 @@ module.exports = {
                     );
                 }
                 break;
-
             case 'bound503Action':
                 this.throwError(
                     'Server not available',
@@ -65,6 +64,25 @@ module.exports = {
                     { 'Retry-After': 'some date' },
                     actionData.globalError
                 );
+                break;
+            case 'boundActionChangeSet':
+                if (keys['ID'] == '3') {
+                    this.throwError('unbound transition error', 500, {
+                        error: {
+                            code: 500,
+                            message: 'unbound transition error',
+                            transition: true,
+                            '@Common.numericSeverity': 4
+                        }
+                    });
+                } else {
+                    this.throwError(
+                        'Bound action executed',
+                        200,
+                        [{ code: '200', message: 'Bound action executed', numericSeverity: 1 }],
+                        true
+                    );
+                }
                 break;
 
             default:
