@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.3.9
+
+### Patch Changes
+
+-   04bcbb5: fix: provide right response when there are failures in multi select changeset mode
+
 ## 1.3.8
 
 ### Patch Changes
