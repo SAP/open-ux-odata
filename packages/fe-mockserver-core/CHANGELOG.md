@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.3.7
+
+### Patch Changes
+
+-   83adadc: Adding tests to support Expand all children of a node
+
 ## 1.3.6
 
 ### Patch Changes
