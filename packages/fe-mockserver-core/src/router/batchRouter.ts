@@ -106,35 +106,6 @@ function getPartResponseHeader(
 }
 
 /**
- * Get the content of the part response.
- * @param partRequest
- * @param partDefinition
- * @param isChangeSet
- * @returns {string} Response string corresponding to the part request.
- */
-function getPartResponseContent(partRequest: ODataRequest, partDefinition: BatchPart, isChangeSet: boolean = false) {
-    let responseData = partRequest.getResponseData() ?? '';
-
-    if (responseData) {
-        if (isChangeSet && hasErrorStatusCode(partRequest)) {
-            // We update content-id in the error response in case of change set failure.
-            const contentId = partDefinition.contentId;
-            try {
-                const responseObj = JSON.parse(responseData);
-                (responseObj.error as ErrorResponse)['@Core.ContentID'] = contentId;
-                responseData = JSON.stringify(responseObj);
-            } catch (e: any) {
-                console.log("Couldn't update change set error response with content-id", e);
-            }
-        }
-        //batchResponse += NL; // End of body content
-    }
-    responseData += NL;
-
-    return responseData;
-}
-
-/**
  * Get the part response.
  * @param partRequest
  * @param partDefinition
@@ -150,7 +121,12 @@ function getPartResponse(
 ) {
     let batchResponse = getPartResponseHeader(partRequest, partDefinition, globalHeaders, isChangeSet);
 
-    batchResponse += getPartResponseContent(partRequest, partDefinition, isChangeSet);
+    const responseData = partRequest.getResponseData();
+    if (responseData) {
+        batchResponse += responseData;
+        //batchResponse += NL; // End of body content
+    }
+    batchResponse += NL;
 
     return batchResponse;
 }
