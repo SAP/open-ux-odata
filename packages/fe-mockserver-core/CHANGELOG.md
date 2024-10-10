@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.3.10
+
+### Patch Changes
+
+-   81920f4: fix: add v2 batch response headers correctly
+
 ## 1.3.9
 
 ### Patch Changes
