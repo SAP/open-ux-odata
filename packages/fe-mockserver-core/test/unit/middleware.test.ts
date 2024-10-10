@@ -9,7 +9,7 @@ import { ODataV4Requestor } from './__testData/Requestor';
 
 jest.setTimeout(60000);
 
-describe('V4 Requestor', function () {
+describe('Requestor', function () {
     let server: Server;
     beforeAll(async function () {
         const mockServer = new FEMockserver({
@@ -25,6 +25,13 @@ describe('V4 Requestor', function () {
                     metadataPath: path.join(__dirname, '__testData', 'service2.cds'),
                     mockdataPath: path.join(__dirname, '__testData'),
                     urlPath: '/sap/fe/core/mock/action/debug',
+                    debug: true,
+                    watch: true
+                },
+                {
+                    metadataPath: path.join(__dirname, '__testData/v2', 'metadata.xml'),
+                    mockdataPath: path.join(__dirname, '__testData/v2'),
+                    urlPath: '/test/v2',
                     debug: true,
                     watch: true
                 },
@@ -705,6 +712,48 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
 Group ID: $auto`
         });
         expect(response.status).toEqual(503);
+    });
+
+    describe('V2 Requestor', function () {
+        it('Test V2 query', async () => {
+            const response = await fetch('http://localhost:33331/test/v2/$batch', {
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'multipart/mixed; boundary=batch_id-1719917686303-234',
+                    accept: 'multipart/mixed'
+                }),
+                body: `--batch_id-1719917686303-234
+Content-Type: application/http
+Content-Transfer-Encoding: binary
+
+GET SEPMRA_C_PD_Product?$skip=0&$top=3 HTTP/1.1
+sap-cancel-on-close: true
+sap-contextid-accept: header
+Accept: application/json
+Accept-Language: de
+DataServiceVersion: 2.0
+MaxDataServiceVersion: 2.0
+X-Requested-With: XMLHttpRequest
+
+--batch_id-1719917686303-234--`
+            });
+            const responseStr = await response.text();
+            expect(responseStr.replace(/\/Date\([^)]+\)/g, '/Date()')).toMatchInlineSnapshot(`
+                "--batch_id-1719917686303-234
+                Content-Type: application/http
+                Content-Transfer-Encoding: binary
+
+                HTTP/1.1 200 OK
+                sap-tenantid: tenant-default
+                dataserviceversion: 2.0
+                cache-control: no-store, no-cache
+                content-type: application/json
+
+                {"d":{"__count":4,"results":[{"ProductID":1,"Product":"Acme_Boomerang","DraftUUID":"","Price":3,"Name":"Acme Boomerang","Supplier":"Acme DE","StartingSaleDate":"2018-01-01T00:00:00","IsActiveEntity":true,"HasActiveEntity":true,"HasDraftEntity":false,"Activation_ac":false,"Copy_ac":false,"Copy_new_supplier_ac":false,"Create_review_post_ac":false,"Delete_ext_ac":false,"Edit_ac":false,"Favorites_add_ac":false,"Favorites_remove_ac":false,"Favorites_toggle_ac":false,"Mycart_add_ac":false,"Preparation_ac":false,"Shortage_list_ac":false,"Validation_ac":false,"Description_fc":0,"ProductForEdit_fc":0,"ProductForEdit":"","ProductCategory":"","Currency":"","Height":0,"Width":0,"Depth":0,"DimensionUnit":"","ProductPictureURL":"","ProductBaseUnit":"","Weight":0,"WeightUnit":"","OriginalLanguage":"","Description":"","DraftEntityCreationDateTime":"/Date()/","DraftEntityLastChangeDateTime":"/Date()/","__metadata":{"id":"/test/v2/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID=guid'',IsActiveEntity=true)","uri":"/test/v2/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID=guid'',IsActiveEntity=true)","type":"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType"}},{"ProductID":2,"Product":"Acme_TNT","DraftUUID":"","Price":1,"Name":"Acme TNT","Supplier":"Acme DE","StartingSaleDate":"2022-12-12T00:00:00","IsActiveEntity":true,"HasActiveEntity":true,"HasDraftEntity":false,"Activation_ac":false,"Copy_ac":false,"Copy_new_supplier_ac":false,"Create_review_post_ac":false,"Delete_ext_ac":false,"Edit_ac":false,"Favorites_add_ac":false,"Favorites_remove_ac":false,"Favorites_toggle_ac":false,"Mycart_add_ac":false,"Preparation_ac":false,"Shortage_list_ac":false,"Validation_ac":false,"Description_fc":0,"ProductForEdit_fc":0,"ProductForEdit":"","ProductCategory":"","Currency":"","Height":0,"Width":0,"Depth":0,"DimensionUnit":"","ProductPictureURL":"","ProductBaseUnit":"","Weight":0,"WeightUnit":"","OriginalLanguage":"","Description":"","DraftEntityCreationDateTime":"/Date()/","DraftEntityLastChangeDateTime":"/Date()/","__metadata":{"id":"/test/v2/SEPMRA_C_PD_Product(Product='Acme_TNT',DraftUUID=guid'',IsActiveEntity=true)","uri":"/test/v2/SEPMRA_C_PD_Product(Product='Acme_TNT',DraftUUID=guid'',IsActiveEntity=true)","type":"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType"}},{"ProductID":3,"Product":"Acme_Trap","DraftUUID":"","Price":2,"Name":"Acme Trap v2","Supplier":"Acme FR","StartingSaleDate":"2018-01-01T00:00:00","IsActiveEntity":true,"HasActiveEntity":true,"HasDraftEntity":false,"Activation_ac":false,"Copy_ac":false,"Copy_new_supplier_ac":false,"Create_review_post_ac":false,"Delete_ext_ac":false,"Edit_ac":false,"Favorites_add_ac":false,"Favorites_remove_ac":false,"Favorites_toggle_ac":false,"Mycart_add_ac":false,"Preparation_ac":false,"Shortage_list_ac":false,"Validation_ac":false,"Description_fc":0,"ProductForEdit_fc":0,"ProductForEdit":"","ProductCategory":"","Currency":"","Height":0,"Width":0,"Depth":0,"DimensionUnit":"","ProductPictureURL":"","ProductBaseUnit":"","Weight":0,"WeightUnit":"","OriginalLanguage":"","Description":"","DraftEntityCreationDateTime":"/Date()/","DraftEntityLastChangeDateTime":"/Date()/","__metadata":{"id":"/test/v2/SEPMRA_C_PD_Product(Product='Acme_Trap',DraftUUID=guid'',IsActiveEntity=true)","uri":"/test/v2/SEPMRA_C_PD_Product(Product='Acme_Trap',DraftUUID=guid'',IsActiveEntity=true)","type":"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType"}}]}}
+                --batch_id-1719917686303-234--
+                "
+            `);
+        });
     });
 
     beforeAll(() => {
