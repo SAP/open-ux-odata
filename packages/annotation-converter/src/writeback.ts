@@ -111,6 +111,9 @@ function revertObjectToRawType(references: Reference[], value: any) {
  */
 function revertValueToRawType(references: Reference[], value: any): Expression | undefined {
     let result: Expression | undefined;
+    if (value.type === 'Constant') {
+        value = value.value;
+    }
     const valueConstructor = value?.constructor.name;
     switch (valueConstructor) {
         case 'String':
@@ -249,6 +252,8 @@ function revertCollectionItemToRawType(
                 type: 'NavigationPropertyPath',
                 NavigationPropertyPath: collectionItem.value
             };
+        } else if (collectionItem.type === 'Constant') {
+            return collectionItem.value;
         }
     }
     return undefined;
