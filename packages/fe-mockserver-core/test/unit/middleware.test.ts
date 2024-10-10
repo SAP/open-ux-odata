@@ -514,6 +514,7 @@ Group ID: $auto`
             HTTP/1.1 500 Internal Server Error
             sap-tenantid: tenant-default
             content-type: application/json;odata.metadata=minimal;IEEE754Compatible=true
+            odata-version: 4.0
 
             {"error":{"code":500,"message":"unbound transition error","transition":true,"@Common.numericSeverity":4,"@Core.ContentID":"1.0"}}
             --batch_id-1719917686303-234--
@@ -720,5 +721,63 @@ Group ID: $auto`
         );
         myJSON[0].Prop1 = 'First Prop';
         fs.writeFileSync(path.join(__dirname, '__testData', 'RootElement.json'), JSON.stringify(myJSON, null, 4));
+    });
+});
+
+describe('V2', function () {
+    let server: Server;
+    beforeAll(async function () {
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData/v2/dummy_product', 'metadata.xml'),
+                    mockdataPath: path.join(__dirname, '__testData/v2/dummy_product'),
+                    urlPath: '/test/v2/dummy_product',
+                    debug: true,
+                    watch: true
+                }
+            ],
+            annotations: [],
+            contextBasedIsolation: true,
+            metadataProcessor: {
+                name: '@sap-ux/fe-mockserver-plugin-cds',
+                options: {}
+            }
+        });
+        await mockServer.isReady;
+        server = http.createServer(function onRequest(req, res) {
+            mockServer.getRouter()(req, res, finalHandler(req, res));
+        });
+        server.listen(33331);
+    });
+
+    afterAll((done) => {
+        server.close(done);
+    });
+
+    it('Test Batch query with headers', async () => {
+        const response = await fetch('http://localhost:33331/test/v2/dummy_product/$batch', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'multipart/mixed; boundary=batch_id-1719917686303-234',
+                accept: 'multipart/mixed'
+            }),
+            body: `--batch_id-1719917686303-234
+Content-Type: application/http
+Content-Transfer-Encoding: binary
+
+GET SEPMRA_C_PD_Product?$skip=0&$top=3 HTTP/1.1
+sap-cancel-on-close: true
+sap-contextid-accept: header
+Accept: application/json
+Accept-Language: de
+DataServiceVersion: 2.0
+MaxDataServiceVersion: 2.0
+X-Requested-With: XMLHttpRequest
+
+--batch_id-1719917686303-234--`
+        });
+        const responseStr = await response.text();
+        expect(responseStr.replace(/\/Date\([^)]+\)/g, '/Date()')).toMatchSnapshot();
     });
 });

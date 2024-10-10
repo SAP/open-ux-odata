@@ -94,6 +94,8 @@ function getPartResponseHeader(
         batchResponse += `ETag: ${partRequest.getETag()}${NL}`;
     }
     batchResponse += NL;
+    // NOTE: This function internally adds the response header to 'responseHeaders' of partRequest.
+    partRequest.getResponseData();
     batchResponse += `HTTP/1.1 ${partRequest.statusCode} ${http.STATUS_CODES[partRequest.statusCode]}${NL}`;
     for (const headerName in partRequest.responseHeaders) {
         batchResponse += `${headerName}: ${partRequest.responseHeaders[headerName]}${NL}`;

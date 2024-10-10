@@ -1,0 +1,38 @@
+[
+    {
+        "ProductID": 1,
+        "Product": "Acme_Boomerang",
+        "DraftUUID": "",
+        "Price": 3,
+        "Name": "Acme Boomerang",
+        "Supplier": "Acme DE",
+        "StartingSaleDate": "2018-01-01T00:00:00"
+    },
+    {
+        "ProductID": 2,
+        "Product": "Acme_TNT",
+        "DraftUUID": "",
+        "Price": 1,
+        "Name": "Acme TNT",
+        "Supplier": "Acme DE",
+        "StartingSaleDate": "2022-12-12T00:00:00"
+    },
+    {
+        "ProductID": 3,
+        "Product": "Acme_Trap",
+        "DraftUUID": "",
+        "Price": 2,
+        "Name": "Acme Trap v2",
+        "Supplier": "Acme FR",
+        "StartingSaleDate": "2018-01-01T00:00:00"
+    },
+    {
+        "ProductID": 4,
+        "Product": "Acme_Safe",
+        "DraftUUID": "",
+        "Price": 3,
+        "Name": "Acme Extra Comfy Safe",
+        "Supplier": "Acme FR",
+        "StartingSaleDate": "2022-12-12T00:00:00"
+    }
+]
