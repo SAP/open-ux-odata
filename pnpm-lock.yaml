@@ -182,7 +182,7 @@ importers:
     devDependencies:
       '@sap/cds-compiler':
         specifier: ^4.8
-        version: 4.9.4
+        version: 4.9.8
 
   packages/ui5-middleware-fe-mockserver:
     dependencies:
@@ -678,8 +678,8 @@ packages:
     resolution: {integrity: sha512-hD8ml183638O3R6/Txrh0L8VzGOrFXgRtRDG4qQC4tONdZ5Z1M+tlUUDUvrjYdmK6G+JTBTeaCLMna11cXzi8A==}
     engines: {node: '>=12'}
 
-  '@sap/cds-compiler@4.9.4':
-    resolution: {integrity: sha512-V8vh1oeNbjdeVLSnrcVHcgrkF9QGQVi0Y2gHfETqWPFMFr66S3Qzevk8VuhX351TxTbBBv5HXeL3ovQxIhCHqg==}
+  '@sap/cds-compiler@4.9.8':
+    resolution: {integrity: sha512-DaodIJoYPpVygVf+9JU6XNW+WLDqX1sHklpj8qkrONLxM6G1TFBm5yrAT0P2YCibgNsGVhizA4eydgoHnVxUVQ==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -1762,6 +1762,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -4872,7 +4873,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@sap/cds-compiler@4.9.4':
+  '@sap/cds-compiler@4.9.8':
     dependencies:
       antlr4: 4.9.3
 
