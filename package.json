@@ -47,7 +47,7 @@
         "pnpm": "9",
         "node": ">=18.0.0 < 19.0.0 || >=20.0.0 < 21.0.0"
     },
-    "packageManager": "pnpm@9.7.0",
+    "packageManager": "pnpm@9.12.2",
     "pnpm": {
         "overrides": {
             "body-parser": "1.20.3",
