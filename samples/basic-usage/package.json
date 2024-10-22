@@ -15,7 +15,7 @@
     },
     "devDependencies": {
         "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
-        "@ui5/cli": "3.11.1"
+        "@ui5/cli": "3.11.4"
     },
     "ui5": {
         "dependencies": [
