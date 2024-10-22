@@ -67,12 +67,22 @@ module.exports = {
                 break;
             case 'boundActionChangeSet':
                 if (keys['ID'] == '3') {
-                    this.throwError('unbound transition error', 500, {
+                    this.throwError('Bound transition error', 500, {
                         error: {
                             code: 500,
-                            message: 'unbound transition error',
+                            message: 'Bound transition error',
                             transition: true,
-                            '@Common.numericSeverity': 4
+                            '@Common.numericSeverity': 4,
+                            target: 'self',
+                            details: [
+                                {
+                                    code: '500',
+                                    message: `Unable to execute the action due to a error. ID: ${keys['ID']}`,
+                                    '@Common.numericSeverity': 4,
+                                    transition: true,
+                                    target: 'self/Prop1'
+                                }
+                            ]
                         }
                     });
                 } else {

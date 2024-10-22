@@ -3,23 +3,11 @@ import type { ServerResponse } from 'http';
 import * as http from 'http';
 import type { ExecutionError } from '../data/common';
 import type { DataAccess } from '../data/dataAccess';
+import type { ErrorDetails, ErrorResponse } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
 import type { Batch, BatchPart } from './batchParser';
 import { BatchContent, getBoundary, parseBatch } from './batchParser';
 import type { IncomingMessageWithTenant } from './serviceRouter';
-
-type ErrorResponse = {
-    code: string;
-    message: string;
-    severity?: string;
-    details: ErrorDetails[];
-} & Record<string, unknown>;
-
-type ErrorDetails = {
-    code: string;
-    message: string;
-    severity?: string;
-} & Record<string, unknown>;
 
 type ErrorInfo = {
     header: string;

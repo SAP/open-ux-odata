@@ -516,7 +516,7 @@ Group ID: $auto`
             content-type: application/json;odata.metadata=minimal;IEEE754Compatible=true
             odata-version: 4.0
 
-            {"error":{"code":500,"message":"unbound transition error","transition":true,"@Common.numericSeverity":4,"@Core.ContentID":"1.0"}}
+            {"error":{"code":500,"message":"Bound transition error","transition":true,"@Common.numericSeverity":4,"target":"self","details":[{"code":"500","message":"Unable to execute the action due to a error. ID: 3","@Common.numericSeverity":4,"transition":true,"target":"self/Prop1","@Core.ContentID":"1.0"}],"@Core.ContentID":"1.0"}}
             --batch_id-1719917686303-234--
             "
         `);
