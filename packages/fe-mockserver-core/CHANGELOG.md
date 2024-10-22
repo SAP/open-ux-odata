@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.3.11
+
+### Patch Changes
+
+-   e8c8e17: fix: We add ContentID to error details on changeset failure
+
 ## 1.3.10
 
 ### Patch Changes
