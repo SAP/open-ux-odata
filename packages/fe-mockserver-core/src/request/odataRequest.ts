@@ -12,6 +12,21 @@ import type { FilterExpression } from './filterParser';
 import { parseFilter } from './filterParser';
 import { parseSearch } from './searchParser';
 
+export type ErrorResponse = {
+    code: string;
+    message: string;
+    severity?: string;
+    details: ErrorDetails[];
+    '@Core.ContentID'?: string;
+} & Record<string, unknown>;
+
+export type ErrorDetails = {
+    code: string;
+    message: string;
+    severity?: string;
+    '@Core.ContentID'?: string;
+} & Record<string, unknown>;
+
 export type ExpandDefinition = {
     expand: Record<string, ExpandDefinition>;
     properties: SelectDefinition;
@@ -642,9 +657,13 @@ export default class ODataRequest {
      * @param errorObj Object containing error
      * @param errorObj.error Error object
      */
-    private addContentIdToErrorMessage(errorObj: { error?: { '@Core.ContentID'?: string } }) {
+    private addContentIdToErrorMessage(errorObj: { error?: ErrorResponse }) {
         if (this.contentId && errorObj?.error) {
             errorObj.error['@Core.ContentID'] = this.contentId;
+            const details = errorObj.error?.details ?? [];
+            details.forEach((errorDetail) => {
+                errorDetail['@Core.ContentID'] = this.contentId;
+            });
         }
     }
 
