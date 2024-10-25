@@ -61,7 +61,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
     });
 
     // Deal with the $metadata support
-    router.get('/\\$metadata', (_req: IncomingMessage, res: ServerResponse) => {
+    router.get('/$metadata', (_req: IncomingMessage, res: ServerResponse) => {
         res.setHeader('Content-Type', 'application/xml');
         if (service.ETag) {
             res.setHeader('ETag', service.ETag);
@@ -70,7 +70,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         res.write(dataAccess.getMetadata().getEdmx());
         res.end();
     });
-    router.post('/\\$metadata/reload', (_req: IncomingMessage, res: ServerResponse) => {
+    router.post('/$metadata/reload', (_req: IncomingMessage, res: ServerResponse) => {
         dataAccess.reloadData();
         res.setHeader('Content-Type', 'application/json');
         res.write(JSON.stringify({ message: 'Reload success' }));
@@ -157,7 +157,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
 
     router.use('/\\$batch', batchRouter(dataAccess));
 
-    router.route('/*').all(async (req: IncomingMessageWithTenant, res: ServerResponse, next: NextFunction) => {
+    router.route('/*all').all(async (req: IncomingMessageWithTenant, res: ServerResponse, next: NextFunction) => {
         try {
             const oDataRequest = new ODataRequest(
                 {
@@ -193,7 +193,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         }
     });
 
-    router.use('*', (err: any, _req: IncomingMessage, res: ServerResponse, next: NextFunction) => {
+    router.use('*all', (err: any, _req: IncomingMessage, res: ServerResponse, next: NextFunction) => {
         log.error(err);
         if (res.headersSent) {
             return next(err);

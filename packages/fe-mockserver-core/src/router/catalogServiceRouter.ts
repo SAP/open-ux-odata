@@ -74,7 +74,7 @@ export function catalogServiceRouter(servicesConfig: ServiceConfigEx[], version 
         res.end();
     });
 
-    router.get('/ServiceCollection\\(*', (_req: IncomingMessage, res: ServerResponse) => {
+    router.get('/ServiceCollection\\(*rest', (_req: IncomingMessage, res: ServerResponse) => {
         res.setHeader('content-type', 'application/json');
         res.write(
             JSON.stringify({

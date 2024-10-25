@@ -44,7 +44,10 @@ function prepareCatalogAndAnnotation(app: IRouter, newConfig: MockserverConfigur
     app.use('/sap/opu/odata/IWFND/CATALOGSERVICE;v=2', catalogServiceRouter(newConfig.services as ServiceConfigEx[]));
     // Prepare the annotation files
     for (const mockAnnotation of newConfig.annotations || []) {
-        const escapedPath = escapeRegex(mockAnnotation.urlPath);
+        let escapedPath = escapeRegex(mockAnnotation.urlPath);
+        if (escapedPath.endsWith('*')) {
+            escapedPath += 'rest';
+        }
         app.get(escapedPath, async (_req: IncomingMessage, res: ServerResponse) => {
             try {
                 const data = await fileLoader.loadFile(mockAnnotation.localPath);
