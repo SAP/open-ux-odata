@@ -88,9 +88,9 @@ describe('V4 Requestor', function () {
 
     it('can get some data', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
-        const dataRes = await dataRequestor.getList<any>('RootElement').execute();
+        const dataRes = await dataRequestor.getList<any>('/RootElement').execute();
         expect(dataRes.body.length).toBe(4);
-        const dataRes2 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
+        const dataRes2 = await dataRequestor.getList<any>('/RootElement').executeAsBatch();
         expect(dataRes2.length).toBe(4);
     });
     it('can execute an action without return type', async () => {
@@ -303,29 +303,31 @@ describe('V4 Requestor', function () {
     });
     it('can update data through a call', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-001/sap/fe/core/mock/action');
-        let dataRes = await dataRequestor.createData<any>('RootElement', { ID: 556 }).execute();
+        let dataRes = await dataRequestor.createData<any>('/RootElement', { ID: 556 }).execute();
         delete dataRes.body.DraftAdministrativeData;
         delete dataRes.body['@odata.etag'];
         expect(dataRes.body).toMatchSnapshot();
-        dataRes = await dataRequestor.updateData<any>('RootElement(ID=556)', { Prop1: 'MyNewProp1' }).execute();
+        dataRes = await dataRequestor.updateData<any>('/RootElement(ID=556)', { Prop1: 'MyNewProp1' }).execute();
         delete dataRes.body.DraftAdministrativeData;
         delete dataRes.body['@odata.etag'];
         expect(dataRes.body).toMatchSnapshot();
-        const dataRes2 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
+        const dataRes2 = await dataRequestor.getList<any>('/RootElement').executeAsBatch();
         expect(dataRes2.length).toBe(5);
         expect(dataRes2[4].ID).toBe(556);
         expect(dataRes2[4].Prop1).toBe('MyNewProp1');
 
         // update something that does not exist
-        const res = await dataRequestor.updateData<any>('RootElement(ID=557)', { Prop1: 'MyNewProp1' }).execute();
+        const res = await dataRequestor.updateData<any>('/RootElement(ID=557)', { Prop1: 'MyNewProp1' }).execute();
         expect(res.status).toBe(404);
 
         // Deep update
-        const res2 = await dataRequestor.updateData<any>('RootElement(ID=556)/Prop1', 'Lali-ho', true, 'PUT').execute();
+        const res2 = await dataRequestor
+            .updateData<any>('/RootElement(ID=556)/Prop1', 'Lali-ho', true, 'PUT')
+            .execute();
         delete res2.body.DraftAdministrativeData;
         expect(res2.body).toMatchSnapshot();
         const res3 = await dataRequestor
-            .updateData<any>('RootElement(ID=556)/Prop1', 'Lali-hoho', true, 'PUT', {
+            .updateData<any>('/RootElement(ID=556)/Prop1', 'Lali-hoho', true, 'PUT', {
                 'If-Match': dataRes2[4]['@odata.etag']
             })
             .execute();
@@ -333,22 +335,22 @@ describe('V4 Requestor', function () {
         const newEtag = res3.body['@odata.etag'];
         delete res3.body['@odata.etag'];
         expect(res3.body).toMatchSnapshot();
-        const dataRes3 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
+        const dataRes3 = await dataRequestor.getList<any>('/RootElement').executeAsBatch();
         expect(dataRes3.length).toBe(5);
         expect(dataRes3[4].ID).toBe(556);
         expect(dataRes3[4].Prop1).toBe('Lali-hoho');
         const res4 = await dataRequestor
-            .updateData<any>('RootElement(ID=556)/Prop1', 'Lali', true, 'PUT', {
+            .updateData<any>('/RootElement(ID=556)/Prop1', 'Lali', true, 'PUT', {
                 'If-Match': dataRes2[4]['@odata.etag']
             })
             .execute();
         expect(res4.body).toMatchSnapshot();
-        const dataRes4 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
+        const dataRes4 = await dataRequestor.getList<any>('/RootElement').executeAsBatch();
         expect(dataRes4.length).toBe(5);
         expect(dataRes4[4].ID).toBe(556);
         expect(dataRes4[4].Prop1).toBe('Lali-hoho');
         const res5 = await dataRequestor
-            .updateData<any>('RootElement(ID=556)/Prop1', 'Lali', true, 'PUT', {
+            .updateData<any>('/RootElement(ID=556)/Prop1', 'Lali', true, 'PUT', {
                 'If-Match': newEtag
             })
             .execute();
@@ -382,7 +384,7 @@ describe('V4 Requestor', function () {
             );
 
             const updated = await dataRequestor
-                .updateData<any>(`Root(ID=${id})`, { data: 'Updated Data' }, false, 'PATCH', {
+                .updateData<any>(`/Root(ID=${id})`, { data: 'Updated Data' }, false, 'PATCH', {
                     'sap-contextid': contextId
                 })
                 .execute();
@@ -434,7 +436,7 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
 
         // /RootElement?$expand=_Elements($select=ID)) --> too many closing parentheses!
-        const dataReq = dataRequestor.getList<any>('RootElement');
+        const dataReq = dataRequestor.getList<any>('/RootElement');
         dataReq.expand({ _Elements: { select: ['ID)'] } });
 
         const response = await dataReq.execute();
@@ -442,7 +444,7 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
     });
     it('can get some data after changing the watch mode', async () => {
         let dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
-        let dataRes = await dataRequestor.getList<any>('RootElement').execute();
+        let dataRes = await dataRequestor.getList<any>('/RootElement').execute();
         expect(dataRes.body.length).toBe(4);
         expect(dataRes.body[0].Prop1).toBe('First Prop');
         const myJSON = JSON.parse(
@@ -456,7 +458,7 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
         });
         setTimeout(async function () {
             dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
-            dataRes = await dataRequestor.getList<any>('RootElement').execute();
+            dataRes = await dataRequestor.getList<any>('/RootElement').execute();
             expect(dataRes.body.length).toBe(4);
             expect(dataRes.body[0].Prop1).toBe('SomethingElse');
             resolveFn();

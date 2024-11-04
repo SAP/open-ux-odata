@@ -156,7 +156,11 @@ export class ODataV4ListRequest<T> extends ODataRequest<T> {
      * @param relative
      */
     protected buildUrl(relative: boolean): string {
-        const baseUrl = `${!relative ? this.odataRootUri + '/' : ''}${this.targetPath}`;
+        let targetPath = this.targetPath;
+        if (relative && targetPath.startsWith('/')) {
+            targetPath = targetPath.substring(1);
+        }
+        const baseUrl = `${!relative ? this.odataRootUri : ''}${targetPath}`;
         const urlParts = [];
         if (this.selectDefinition) {
             urlParts.push('$select=' + this.selectDefinition.join(','));
@@ -319,9 +323,9 @@ export class ODataV4ObjectRequest<T> extends ODataRequest<T> {
         });
         let url;
         if (keys.length) {
-            url = `${!relative ? this.odataRootUri + '/' : ''}${this.targetPath}(${keys.join(',')})`;
+            url = `${!relative ? this.odataRootUri : ''}${this.targetPath}(${keys.join(',')})`;
         } else {
-            url = `${!relative ? this.odataRootUri + '/' : ''}${this.targetPath}`;
+            url = `${!relative ? this.odataRootUri : ''}${this.targetPath}`;
         }
 
         return url;
