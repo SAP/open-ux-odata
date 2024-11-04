@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.0
+
+### Minor Changes
+
+-   1aa917d: Update to router 2.x
+
 ## 1.3.11
 
 ### Patch Changes
