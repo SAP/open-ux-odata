@@ -37,6 +37,38 @@ import { convert, defaultReferences, revertTermToGenericType } from '../src';
 import { loadFixture } from './fixturesHelper';
 
 describe('Annotation Converter', () => {
+    it('can convert EDMX with action annotations', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/actions/metadata.xml'));
+        const parsedAnnotation = parse(await loadFixture('v4/actions/annotations.xml'), 'annotations');
+        const result = merge(parsedEDMX, parsedAnnotation);
+        const convertedTypes = convert(result);
+        expect(
+            convertedTypes.actions.by_fullyQualifiedName(
+                'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+            )
+        ).not.toBeUndefined();
+        expect(
+            convertedTypes.actions.by_fullyQualifiedName(
+                'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+            )?.annotations
+        ).not.toBeUndefined();
+        expect(
+            convertedTypes.actions
+                .by_fullyQualifiedName(
+                    'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+                )
+                ?.parameters.by_name('_SerialList')
+        ).not.toBeUndefined();
+        expect(
+            convertedTypes.actions
+                .by_fullyQualifiedName(
+                    'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+                )
+                ?.parameters.by_name('_SerialList')
+                ?.annotations.UI?.Hidden?.valueOf()
+        ).not.toBeUndefined();
+    });
+
     it('can convert EDMX with multiple schemas', async () => {
         const parsedEDMX = parse(await loadFixture('northwind.metadata.xml'));
         const convertedTypes = convert(parsedEDMX);
