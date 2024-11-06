@@ -45,7 +45,7 @@
         "npm": "please-use-pnpm",
         "yarn": "please-use-pnpm",
         "pnpm": "9",
-        "node": ">=18.0.0 < 19.0.0 || >=20.0.0 < 21.0.0"
+        "node": ">=18.x"
     },
     "packageManager": "pnpm@9.7.0"
 }
