@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.5
+
+### Patch Changes
+
+-   1859284: Remove node requirement
+
 ## 0.11.4
 
 ### Patch Changes
