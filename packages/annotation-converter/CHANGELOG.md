@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.9.8
+
+### Patch Changes
+
+-   b4d0774: Action parameter on action with collection now properly consider the unspecific anntoations on top of the overloaded ones
+
 ## 0.9.7
 
 ### Patch Changes
