@@ -1097,6 +1097,7 @@ export class DataAccess implements DataAccessInterface {
                 case 'Edm.Byte':
                 case 'Edm.Int16':
                 case 'Edm.Int32':
+                case 'Edm.Double':
                 case 'Edm.Boolean':
                 case 'Edm.Int64': {
                     keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
@@ -1119,7 +1120,8 @@ export class DataAccess implements DataAccessInterface {
                         case 'Edm.Int16':
                         case 'Edm.Int32':
                         case 'Edm.Boolean':
-                        case 'Edm.Int64': {
+                        case 'Edm.Int64':
+                        case 'Edm.Double': {
                             return `${key}=${currentKeys[key]}`;
                         }
                         case 'Edm.Guid':

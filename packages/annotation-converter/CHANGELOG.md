@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.9.9
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+-   Updated dependencies [cdce1a0]
+    -   @sap-ux/vocabularies-types@0.11.6
+
 ## 0.9.8
 
 ### Patch Changes

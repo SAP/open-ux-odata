@@ -54,7 +54,8 @@ function transformationFn(type: string, check?: any) {
                     case 'Edm.Int64': {
                         return parseInt(data, 10);
                     }
-                    case 'Edm.Decimal': {
+                    case 'Edm.Decimal':
+                    case 'Edm.Double': {
                         return parseFloat(data);
                     }
                     default:
@@ -124,6 +125,7 @@ function prepareLiteral(literal: string, propertyType: string) {
         case 'Edm.Int64': {
             return parseInt(literal, 10);
         }
+        case 'Edm.Double':
         case 'Edm.Decimal': {
             return parseFloat(literal);
         }
@@ -196,6 +198,7 @@ export class MockDataEntitySet implements EntitySetInterface {
             }
         }
         if (isInitial) {
+            dataAccess.log.info(`No JS or Json file found for ${entity} at  ${path}`);
             outData = [];
             if (generateMockData) {
                 (outData as any).__generateMockData = generateMockData;
