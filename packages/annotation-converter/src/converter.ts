@@ -44,6 +44,7 @@ import {
     addGetByValue,
     alias,
     Decimal,
+    Double,
     EnumIsFlag,
     lazy,
     mergeAnnotations,
@@ -544,6 +545,8 @@ function parseValue(
             return propertyValue.Int;
         case 'Bool':
             return propertyValue.Bool;
+        case 'Double':
+            return Double(propertyValue.Double);
         case 'Decimal':
             return Decimal(propertyValue.Decimal);
         case 'Date':
