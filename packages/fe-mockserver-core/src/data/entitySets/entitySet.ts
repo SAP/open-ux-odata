@@ -198,6 +198,7 @@ export class MockDataEntitySet implements EntitySetInterface {
             }
         }
         if (isInitial) {
+            dataAccess.log.info(`No JS or Json file found for ${entity} at  ${path}`);
             outData = [];
             if (generateMockData) {
                 (outData as any).__generateMockData = generateMockData;
