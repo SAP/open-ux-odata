@@ -1205,7 +1205,13 @@ export class DataAccess implements DataAccessInterface {
                 }
                 const firstElementData = getData(firstElement, orderByDef.name);
                 const secondElementData = getData(secondElement, orderByDef.name);
-                if (firstElementData > secondElementData) {
+                if (firstElementData === null) {
+                    isDecisive = true;
+                    outValue = -1;
+                } else if (secondElementData === null) {
+                    isDecisive = true;
+                    outValue = 1;
+                } else if (firstElementData > secondElementData) {
                     outValue = orderByDef.direction === 'asc' ? 1 : -1;
                     isDecisive = true;
                 } else if (firstElementData < secondElementData) {
