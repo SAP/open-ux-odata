@@ -1,5 +1,457 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.74
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.4.2
+
+## 2.2.73
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.4.1
+
+## 2.2.72
+
+### Patch Changes
+
+-   Updated dependencies [1aa917d]
+    -   @sap-ux/fe-mockserver-core@1.4.0
+
+## 2.2.71
+
+### Patch Changes
+
+-   Updated dependencies [e8c8e17]
+    -   @sap-ux/fe-mockserver-core@1.3.11
+
+## 2.2.70
+
+### Patch Changes
+
+-   Updated dependencies [81920f4]
+    -   @sap-ux/fe-mockserver-core@1.3.10
+
+## 2.2.69
+
+### Patch Changes
+
+-   Updated dependencies [04bcbb5]
+    -   @sap-ux/fe-mockserver-core@1.3.9
+
+## 2.2.68
+
+### Patch Changes
+
+-   e1ddd79: security patch
+-   Updated dependencies [e1ddd79]
+    -   @sap-ux/fe-mockserver-core@1.3.8
+
+## 2.2.67
+
+### Patch Changes
+
+-   Updated dependencies [83adadc]
+    -   @sap-ux/fe-mockserver-core@1.3.7
+
+## 2.2.66
+
+### Patch Changes
+
+-   ed78e39: add ability to throw a global error that makes a whole batch fail
+-   Updated dependencies [ed78e39]
+    -   @sap-ux/fe-mockserver-core@1.3.6
+
+## 2.2.65
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.3.5
+
+## 2.2.64
+
+### Patch Changes
+
+-   Updated dependencies [738750d]
+    -   @sap-ux/fe-mockserver-core@1.3.4
+
+## 2.2.63
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.3.3
+
+## 2.2.62
+
+### Patch Changes
+
+-   Updated dependencies [d848d39]
+    -   @sap-ux/fe-mockserver-core@1.3.2
+
+## 2.2.61
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.3.1
+
+## 2.2.60
+
+### Patch Changes
+
+-   Updated dependencies [fea7688]
+    -   @sap-ux/fe-mockserver-core@1.3.0
+
+## 2.2.59
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.59
+
+## 2.2.58
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.58
+
+## 2.2.57
+
+### Patch Changes
+
+-   Updated dependencies [6aee095]
+    -   @sap-ux/fe-mockserver-core@1.2.57
+
+## 2.2.56
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.56
+
+## 2.2.55
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.55
+
+## 2.2.54
+
+### Patch Changes
+
+-   50bfb29: feat: Enhance mock server with service-level metadata processor override
+-   Updated dependencies [50bfb29]
+    -   @sap-ux/fe-mockserver-core@1.2.54
+
+## 2.2.53
+
+### Patch Changes
+
+-   Updated dependencies [39b6783]
+    -   @sap-ux/fe-mockserver-core@1.2.53
+
+## 2.2.52
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.52
+
+## 2.2.51
+
+### Patch Changes
+
+-   Updated dependencies [09d5a17]
+    -   @sap-ux/fe-mockserver-core@1.2.51
+
+## 2.2.50
+
+### Patch Changes
+
+-   b215858: feat: introduce a basic support for entity ETags
+-   Updated dependencies [b215858]
+    -   @sap-ux/fe-mockserver-core@1.2.50
+
+## 2.2.49
+
+### Patch Changes
+
+-   Updated dependencies [8fb7212]
+    -   @sap-ux/fe-mockserver-core@1.2.49
+
+## 2.2.48
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.48
+
+## 2.2.47
+
+### Patch Changes
+
+-   Updated dependencies [13abaa4]
+    -   @sap-ux/fe-mockserver-core@1.2.47
+
+## 2.2.46
+
+### Patch Changes
+
+-   Updated dependencies [0f34945]
+    -   @sap-ux/fe-mockserver-core@1.2.46
+
+## 2.2.45
+
+### Patch Changes
+
+-   Updated dependencies [586bcc9]
+    -   @sap-ux/fe-mockserver-core@1.2.45
+
+## 2.2.44
+
+### Patch Changes
+
+-   Updated dependencies [35c9236]
+    -   @sap-ux/fe-mockserver-core@1.2.44
+
+## 2.2.43
+
+### Patch Changes
+
+-   Updated dependencies [a8506c5]
+    -   @sap-ux/fe-mockserver-core@1.2.43
+
+## 2.2.42
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.42
+
+## 2.2.41
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.41
+
+## 2.2.40
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.40
+
+## 2.2.39
+
+### Patch Changes
+
+-   Updated dependencies [a103f9d]
+    -   @sap-ux/fe-mockserver-core@1.2.39
+
+## 2.2.38
+
+### Patch Changes
+
+-   Updated dependencies [bdc82bf]
+    -   @sap-ux/fe-mockserver-core@1.2.38
+
+## 2.2.37
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.37
+
+## 2.2.36
+
+### Patch Changes
+
+-   Updated dependencies [536e307]
+    -   @sap-ux/fe-mockserver-core@1.2.36
+
+## 2.2.35
+
+### Patch Changes
+
+-   Updated dependencies [afc6049]
+    -   @sap-ux/fe-mockserver-core@1.2.35
+
+## 2.2.34
+
+### Patch Changes
+
+-   Updated dependencies [270106c]
+    -   @sap-ux/fe-mockserver-core@1.2.34
+
+## 2.2.33
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.33
+
+## 2.2.32
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.32
+
+## 2.2.31
+
+### Patch Changes
+
+-   Updated dependencies [692d2b5]
+    -   @sap-ux/fe-mockserver-core@1.2.31
+
+## 2.2.30
+
+### Patch Changes
+
+-   Updated dependencies [6b21589]
+    -   @sap-ux/fe-mockserver-core@1.2.30
+
+## 2.2.29
+
+### Patch Changes
+
+-   Updated dependencies [ae19e5a]
+    -   @sap-ux/fe-mockserver-core@1.2.29
+
+## 2.2.28
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+-   Updated dependencies [1b25c13]
+    -   @sap-ux/fe-mockserver-core@1.2.28
+
+## 2.2.27
+
+### Patch Changes
+
+-   Updated dependencies [79314d3]
+    -   @sap-ux/fe-mockserver-core@1.2.27
+
+## 2.2.26
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.26
+
+## 2.2.25
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.25
+
+## 2.2.24
+
+### Patch Changes
+
+-   Updated dependencies [160e4ec]
+    -   @sap-ux/fe-mockserver-core@1.2.24
+
+## 2.2.23
+
+### Patch Changes
+
+-   Updated dependencies [5707fd4]
+    -   @sap-ux/fe-mockserver-core@1.2.23
+
+## 2.2.22
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.22
+
+## 2.2.21
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.21
+
+## 2.2.20
+
+### Patch Changes
+
+-   Updated dependencies [1b29820]
+    -   @sap-ux/fe-mockserver-core@1.2.20
+
+## 2.2.19
+
+### Patch Changes
+
+-   Updated dependencies [cc89632]
+    -   @sap-ux/fe-mockserver-core@1.2.19
+
+## 2.2.18
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.2.18
+
+## 2.2.17
+
+### Patch Changes
+
+-   Updated dependencies [08baacc]
+    -   @sap-ux/fe-mockserver-core@1.2.17
+
+## 2.2.16
+
+### Patch Changes
+
+-   Updated dependencies [4588dc4]
+    -   @sap-ux/fe-mockserver-core@1.2.16
+
+## 2.2.15
+
+### Patch Changes
+
+-   Updated dependencies [e33af15]
+    -   @sap-ux/fe-mockserver-core@1.2.15
+
+## 2.2.14
+
+### Patch Changes
+
+-   Updated dependencies [a2ecbcd]
+    -   @sap-ux/fe-mockserver-core@1.2.14
+
+## 2.2.13
+
+### Patch Changes
+
+-   Updated dependencies [e632150]
+    -   @sap-ux/fe-mockserver-core@1.2.13
+
+## 2.2.12
+
+### Patch Changes
+
+-   Updated dependencies [14094c5]
+    -   @sap-ux/fe-mockserver-core@1.2.12
+
+## 2.2.11
+
+### Patch Changes
+
+-   Updated dependencies [ececa87]
+    -   @sap-ux/fe-mockserver-core@1.2.11
+
+## 2.2.10
+
+### Patch Changes
+
+-   Updated dependencies [74f6b41]
+    -   @sap-ux/fe-mockserver-core@1.2.10
+
+## 2.2.9
+
+### Patch Changes
+
+-   Updated dependencies [9570cd8]
+    -   @sap-ux/fe-mockserver-core@1.2.9
+
+## 2.2.8
+
+### Patch Changes
+
+-   Updated dependencies [0a1f7c1]
+    -   @sap-ux/fe-mockserver-core@1.2.8
+
 ## 2.2.7
 
 ### Patch Changes

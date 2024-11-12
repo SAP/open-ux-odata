@@ -1,12 +1,19 @@
-import type { IFileLoader } from '@sap-ux/fe-mockserver-core';
 import * as fs from 'fs';
 import * as path from 'path';
+import type { IFileLoader } from '../src';
 import CDSMetadataProvider from '../src';
 
 describe('FE Mockserver CDS Plugin', () => {
     const fakeFileLoader = {
         loadFile: async (filePath: string) => {
             return (await fs.promises.readFile(filePath)).toString('utf-8');
+        },
+        exists: async (filePath: string) => {
+            try {
+                return (await fs.promises.lstat(filePath)) != undefined;
+            } catch {
+                return false;
+            }
         }
     } as IFileLoader;
     const myCDSProvider = new CDSMetadataProvider(fakeFileLoader);
@@ -37,7 +44,7 @@ describe('FE Mockserver CDS Plugin', () => {
         await expect(myCDSProvider.loadMetadata(path.join(cdsDataPath, 'invalid-syntaxError.cds'))).rejects
             .toMatchInlineSnapshot(`
             [Error: CDS compilation failed
-            string.cds:5:15-17: Error: Extraneous ‹Identifier›, expecting ‘:’, ‘;’, ‘{’, ‘@’, ‘=’]
+            invalid-syntaxError.cds:5:15-17: Error: Extraneous ‹Identifier›, expecting ‘:’, ‘;’, ‘{’, ‘@’, ‘=’]
         `);
     });
     it('will throw while processing invalid CDS - multiple Services', async () => {
@@ -51,6 +58,11 @@ describe('FE Mockserver CDS Plugin', () => {
     });
     it('can compile valid CDS file using common stuff in V2', async () => {
         const edmx = await myV2CDSProvider.loadMetadata(path.join(cdsDataPath, 'valid-withCommon.cds'));
+        expect(edmx).toMatchSnapshot();
+    });
+    it('V4 only: can compile a CDS file without flattening complex types', async () => {
+        const structuredFormatProvider = new CDSMetadataProvider(fakeFileLoader, { odataFormat: 'structured' });
+        const edmx = await structuredFormatProvider.loadMetadata(path.join(cdsDataPath, 'complex.cds'));
         expect(edmx).toMatchSnapshot();
     });
 });

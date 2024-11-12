@@ -8,11 +8,13 @@ import {
     COLON,
     COMMA,
     COMPLEX_METHOD,
+    IN_OPERATOR,
     LITERAL,
     LOGICAL_OPERATOR,
     NOT_OPERATOR,
     OPEN,
     SIMPLEIDENTIFIER,
+    SIMPLEIDENTIFIERWITHWS,
     SIMPLE_METHOD,
     SLASH,
     TYPEDEF,
@@ -34,10 +36,12 @@ const filterTokens = [
     BOOL_METHOD,
     COMPLEX_METHOD,
     NOT_OPERATOR,
+    IN_OPERATOR,
     LOGICAL_OPERATOR,
     TYPEDEF,
     LITERAL,
-    SIMPLEIDENTIFIER
+    SIMPLEIDENTIFIER,
+    SIMPLEIDENTIFIERWITHWS
 ];
 
 export const FilterLexer = new Lexer(filterTokens, {
@@ -49,6 +53,7 @@ export type FilterMethodCall = {
     type: 'method';
     method: string;
     methodArgs: string[];
+    propertyPaths?: string[];
 };
 export type LambdaExpression = {
     type: 'lambda';
@@ -63,7 +68,7 @@ export type FilterExpression = {
     operator?: string;
     isGroup?: boolean;
     isReversed?: boolean;
-    literal?: string;
+    literal?: string | string[];
     identifier?: string | FilterMethodCall | LambdaExpression;
 };
 // Parser
@@ -223,6 +228,18 @@ export class FilterParser extends EmbeddedActionsParser {
                             target: ''
                         };
                     }
+                },
+                {
+                    ALT: () => {
+                        $.CONSUME3(CLOSE);
+                        return {
+                            type: 'lambda',
+                            operator: anyAll.image.toUpperCase().slice(0, anyAll.image.toUpperCase().length - 1),
+                            key: '',
+                            expression: undefined,
+                            target: ''
+                        };
+                    }
                 }
             ]);
 
@@ -268,17 +285,31 @@ export class FilterParser extends EmbeddedActionsParser {
                 {
                     ALT: () => {
                         // boolParenExpr
-                        const notOperator = $.OPTION(() => {
-                            $.CONSUME(NOT_OPERATOR);
-                            $.CONSUME(WS);
+                        $.CONSUME(NOT_OPERATOR);
+                        $.OPTION(() => $.CONSUME(WS));
+                        const hasOpen = $.OPTION2(() => {
+                            $.CONSUME(OPEN);
                             return true;
                         });
-                        $.CONSUME(OPEN);
                         const expression = $.SUBRULE($.boolCommonExpr);
-                        $.CONSUME(CLOSE);
+                        $.OPTION3(() => $.CONSUME(CLOSE));
+                        return {
+                            isGroup: !!hasOpen,
+                            isReversed: true,
+                            operator: expression.operator,
+                            expressions: expression.expressions
+                        } as FilterExpression;
+                    }
+                },
+                {
+                    ALT: () => {
+                        // boolParenExpr
+                        $.CONSUME2(OPEN);
+                        const expression = $.SUBRULE2($.boolCommonExpr);
+                        $.CONSUME3(CLOSE);
                         return {
                             isGroup: true,
-                            isReversed: !!notOperator,
+                            isReversed: false,
                             operator: expression.operator,
                             expressions: expression.expressions
                         } as FilterExpression;
@@ -289,6 +320,7 @@ export class FilterParser extends EmbeddedActionsParser {
                         return { identifier: $.SUBRULE($.boolMethodCallExpr) };
                     }
                 },
+
                 {
                     ALT: () => {
                         const expression: FilterExpression = {} as FilterExpression;
@@ -300,30 +332,61 @@ export class FilterParser extends EmbeddedActionsParser {
                                 ALT: () => $.SUBRULE($.methodCallExpr)
                             }
                         ]);
-                        $.OPTION2(() => {
+                        $.OPTION4(() => {
                             $.CONSUME2(WS);
-                            operator = $.CONSUME(LOGICAL_OPERATOR);
-                            $.CONSUME3(WS);
-                            literal = $.OR3([
+                            $.OR3([
                                 {
-                                    ALT: () => $.CONSUME(LITERAL)
+                                    ALT: () => {
+                                        operator = $.CONSUME(LOGICAL_OPERATOR);
+                                        $.CONSUME3(WS);
+                                        literal = $.OR4([
+                                            {
+                                                ALT: () => {
+                                                    const simpleId = $.CONSUME(SIMPLEIDENTIFIERWITHWS);
+                                                    return simpleId.image.substring(1, simpleId.image.length - 1);
+                                                }
+                                            },
+                                            {
+                                                ALT: () => $.CONSUME(LITERAL)
+                                            },
+                                            {
+                                                ALT: () => $.SUBRULE2($.methodCallExpr)
+                                            }
+                                        ]);
+                                        expression.operator = operator.image;
+                                        expression.literal = literal.image ? literal.image : literal;
+                                    }
                                 },
                                 {
-                                    ALT: () => $.SUBRULE2($.methodCallExpr)
+                                    ALT: () => {
+                                        operator = $.CONSUME(IN_OPERATOR);
+                                        $.OPTION5(() => $.CONSUME4(WS));
+                                        $.CONSUME3(OPEN);
+                                        const identifiers: string[] = [];
+                                        $.MANY_SEP({
+                                            SEP: COMMA,
+                                            DEF: () => {
+                                                const expression = $.SUBRULE($.literalOrIdentifier);
+                                                identifiers.push(expression);
+                                            }
+                                        });
+                                        $.CONSUME4(CLOSE);
+                                        expression.operator = operator.image;
+                                        expression.literal = identifiers;
+                                    }
                                 }
                             ]);
-                            expression.operator = operator.image;
-                            expression.literal = literal.image ? literal.image : literal;
                         });
+
                         expression.identifier = identifier;
 
                         return expression;
                     }
                 }
             ]);
-            $.OPTION3(() => {
+            $.OPTION8(() => {
                 operator = $.CONSUME(ANDOR);
-                const subsubExpr = $.SUBRULE2($.boolCommonExpr);
+                const subsubExpr = $.SUBRULE3($.boolCommonExpr);
                 let expressions: FilterExpression[];
                 let currentOperator = operator.image.trim().toUpperCase();
                 if (!subsubExpr.expressions && subExpr.expressions) {
@@ -333,7 +396,11 @@ export class FilterParser extends EmbeddedActionsParser {
                     subsubExpr.operator === '' ||
                     subsubExpr.operator === undefined
                 ) {
-                    expressions = [subExpr].concat(subsubExpr.expressions);
+                    if (subsubExpr.isReversed !== true) {
+                        expressions = [subExpr].concat(subsubExpr.expressions);
+                    } else {
+                        expressions = [subExpr].concat([subsubExpr]);
+                    }
                 } else if (currentOperator === 'AND' && !subsubExpr.isGroup) {
                     //AND has priority
                     expressions = [subExpr].concat(subsubExpr.expressions.shift());

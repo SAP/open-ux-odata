@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`V2 Test Batch query with headers 1`] = `
+"--batch_id-1719917686303-234
+Content-Type: application/http
+Content-Transfer-Encoding: binary
+
+HTTP/1.1 200 OK
+sap-tenantid: tenant-default
+dataserviceversion: 2.0
+cache-control: no-store, no-cache
+content-type: application/json
+
+{"d":{"__count":4,"results":[{"ProductID":1,"Product":"Acme_Boomerang","DraftUUID":"","Price":3,"Name":"Acme Boomerang","Supplier":"Acme DE","StartingSaleDate":"2018-01-01T00:00:00","DraftEntityCreationDateTime":"/Date()/","DraftEntityLastChangeDateTime":"/Date()/","HasActiveEntity":false,"HasDraftEntity":false,"IsActiveEntity":false,"__metadata":{"id":"/test/v2/dummy_product/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID=guid'',IsActiveEntity=false)","uri":"/test/v2/dummy_product/SEPMRA_C_PD_Product(Product='Acme_Boomerang',DraftUUID=guid'',IsActiveEntity=false)","type":"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType"}},{"ProductID":2,"Product":"Acme_TNT","DraftUUID":"","Price":1,"Name":"Acme TNT","Supplier":"Acme DE","StartingSaleDate":"2022-12-12T00:00:00","DraftEntityCreationDateTime":"/Date()/","DraftEntityLastChangeDateTime":"/Date()/","HasActiveEntity":false,"HasDraftEntity":false,"IsActiveEntity":false,"__metadata":{"id":"/test/v2/dummy_product/SEPMRA_C_PD_Product(Product='Acme_TNT',DraftUUID=guid'',IsActiveEntity=false)","uri":"/test/v2/dummy_product/SEPMRA_C_PD_Product(Product='Acme_TNT',DraftUUID=guid'',IsActiveEntity=false)","type":"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType"}},{"ProductID":3,"Product":"Acme_Trap","DraftUUID":"","Price":2,"Name":"Acme Trap v2","Supplier":"Acme FR","StartingSaleDate":"2018-01-01T00:00:00","DraftEntityCreationDateTime":"/Date()/","DraftEntityLastChangeDateTime":"/Date()/","HasActiveEntity":false,"HasDraftEntity":false,"IsActiveEntity":false,"__metadata":{"id":"/test/v2/dummy_product/SEPMRA_C_PD_Product(Product='Acme_Trap',DraftUUID=guid'',IsActiveEntity=false)","uri":"/test/v2/dummy_product/SEPMRA_C_PD_Product(Product='Acme_Trap',DraftUUID=guid'',IsActiveEntity=false)","type":"SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType"}}]}}
+--batch_id-1719917686303-234--
+"
+`;
+
 exports[`V4 Requestor Sticky create, discard, try to update the discarded item: Create 1`] = `
 {
   "body": {
@@ -39,7 +55,7 @@ exports[`V4 Requestor Sticky create, discard, try to update the discarded item: 
 exports[`V4 Requestor can create data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 555,
@@ -56,7 +72,7 @@ exports[`V4 Requestor can create data through a call 1`] = `
 exports[`V4 Requestor can create data through a call 2`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 666,
@@ -182,6 +198,14 @@ exports[`V4 Requestor can get the metadata 1`] = `
         <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
         <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
       </EntityType>
+      <Action Name="bound412Action" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
+      </Action>
+      <Action Name="boundActionChangeSet" IsBound="true" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
+        <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
+      </Action>
       <Action Name="boundAction1" IsBound="true" EntitySetPath="self">
         <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
         <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
@@ -201,6 +225,11 @@ exports[`V4 Requestor can get the metadata 1`] = `
         <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
         <Parameter Name="data" Type="Edm.String"/>
         <ReturnType Type="Edm.String"/>
+      </Function>
+      <Function Name="bound503Action" IsBound="true" IsComposable="false" EntitySetPath="self">
+        <Parameter Name="self" Type="sap.fe.core.ActionVisibility.RootElement"/>
+        <Parameter Name="globalError" Type="Edm.Boolean"/>
+        <ReturnType Type="sap.fe.core.ActionVisibility.RootElement"/>
       </Function>
       <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="sap.fe.core.ActionVisibility.RootElement"/>
@@ -270,6 +299,16 @@ exports[`V4 Requestor can get the metadata 1`] = `
               <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.boundAction2"/>
               <PropertyValue Property="Inline" Bool="true"/>
               <Annotation Term="UI.Hidden" Path="Sibling/isBoundAction2Hidden"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Message - 412 (Bound)"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.bound412Action"/>
+              <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/ChangeSet"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="Bound Action ChangeSet"/>
+              <PropertyValue Property="Action" String="sap.fe.core.ActionVisibility.boundActionChangeSet"/>
+              <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/ChangeSet"/>
             </Record>
           </Collection>
         </Annotation>
@@ -500,34 +539,35 @@ exports[`V4 Requestor can get the metadata 1`] = `
         <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData">
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+        <Annotation Term="Common.Label" String="Draft Administrative Data"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftUUID">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/CreationDateTime">
-        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+        <Annotation Term="Common.Label" String="Draft Created On"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/CreatedByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+        <Annotation Term="Common.Label" String="Draft Created By"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsCreatedByMe">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+        <Annotation Term="Common.Label" String="Draft Created By Me"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangeDateTime">
-        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+        <Annotation Term="Common.Label" String="Draft Last Changed On"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/LastChangedByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+        <Annotation Term="Common.Label" String="Draft Last Changed By"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/InProcessByUser">
-        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+        <Annotation Term="Common.Label" String="Draft In Process By"/>
       </Annotations>
       <Annotations Target="sap.fe.core.ActionVisibility.DraftAdministrativeData/DraftIsProcessedByMe">
         <Annotation Term="UI.Hidden" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+        <Annotation Term="Common.Label" String="Draft In Process By Me"/>
       </Annotations>
     </Schema>
   </edmx:DataServices>
@@ -582,16 +622,53 @@ exports[`V4 Requestor can get the other annotation file with a more complex rege
 
 exports[`V4 Requestor can get the root 1`] = `
 "<?xml version="1.0" encoding="utf-8"?>
-        <app:service xml:lang="en" xml:base="/sap/fe/core/mock/action/"
-            xmlns:app="http://www.w3.org/2007/app"
-            xmlns:atom="http://www.w3.org/2005/Atom"
-            xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
-            xmlns:sap="http://www.sap.com/Protocols/SAPData">
-            <app:workspace>
-            </app:workspace>
-            <atom:link rel="self" href="/sap/fe/core/mock/action/"/>
-            <atom:link rel="latest-version" href="/sap/fe/core/mock/action/"/>
-        </app:service>"
+            <app:service xml:lang="en" xml:base="/sap/fe/core/mock/action/"
+                xmlns:app="http://www.w3.org/2007/app"
+                xmlns:atom="http://www.w3.org/2005/Atom"
+                xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+                xmlns:sap="http://www.sap.com/Protocols/SAPData">
+                <app:workspace>
+                <atom:collection href="RootElement"><atom:title type="text">RootElement</atom:title><sap:member-title>sap.fe.core.ActionVisibility.RootElement</sap:member-title></atom:collection><atom:collection href="SubElement"><atom:title type="text">SubElement</atom:title><sap:member-title>sap.fe.core.ActionVisibility.SubElement</sap:member-title></atom:collection>
+                </app:workspace>
+                <atom:link rel="self" href="/sap/fe/core/mock/action/"/>
+                <atom:link rel="latest-version" href="/sap/fe/core/mock/action/"/>
+            </app:service>"
+`;
+
+exports[`V4 Requestor can get the root 2`] = `
+{
+  "@odata.context": "$metadata",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "value": [
+    {
+      "kind": "EntitySet",
+      "name": "RootElement",
+      "url": "RootElement",
+    },
+    {
+      "kind": "EntitySet",
+      "name": "SubElement",
+      "url": "SubElement",
+    },
+  ],
+}
+`;
+
+exports[`V4 Requestor can get the root 3`] = `"{"d":{"EntitySets":["Annotations","Vocabularies","ServiceCollection","ServiceNames","TagCollection","EntitySetCollection","CatalogCollection","RecommendedServiceCollection","ScopedServiceCollection"]}}"`;
+
+exports[`V4 Requestor can get the root 4`] = `
+"<?xml version="1.0" encoding="utf-8"?>
+            <app:service xml:lang="en" xml:base="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/"
+                xmlns:app="http://www.w3.org/2007/app"
+                xmlns:atom="http://www.w3.org/2005/Atom"
+                xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+                xmlns:sap="http://www.sap.com/Protocols/SAPData">
+                <app:workspace>
+                <atom:collection href="Annotations"><atom:title type="text">Annotations</atom:title></atom:collection><atom:collection href="Vocabularies"><atom:title type="text">Vocabularies</atom:title></atom:collection><atom:collection href="ServiceCollection"><atom:title type="text">ServiceCollection</atom:title></atom:collection><atom:collection href="ServiceNames"><atom:title type="text">ServiceNames</atom:title></atom:collection><atom:collection href="TagCollection"><atom:title type="text">TagCollection</atom:title></atom:collection><atom:collection href="EntitySetCollection"><atom:title type="text">EntitySetCollection</atom:title></atom:collection><atom:collection href="CatalogCollection"><atom:title type="text">CatalogCollection</atom:title></atom:collection><atom:collection href="RecommendedServiceCollection"><atom:title type="text">RecommendedServiceCollection</atom:title></atom:collection><atom:collection href="ScopedServiceCollection"><atom:title type="text">ScopedServiceCollection</atom:title></atom:collection>
+                </app:workspace>
+                <atom:link rel="self" href="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/"/>
+                <atom:link rel="latest-version" href="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/"/>
+            </app:service>"
 `;
 
 exports[`V4 Requestor can get the serviceCatalog 1`] = `"{"d":{"results":[{"ID":"action"},{"ID":"debug"},{"ID":"sticky"}]}}"`;
@@ -607,7 +684,7 @@ exports[`V4 Requestor can reload the data 1`] = `
 exports[`V4 Requestor can update data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -624,7 +701,7 @@ exports[`V4 Requestor can update data through a call 1`] = `
 exports[`V4 Requestor can update data through a call 2`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)",
-  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -640,13 +717,44 @@ exports[`V4 Requestor can update data through a call 2`] = `
 
 exports[`V4 Requestor can update data through a call 3`] = `
 {
+  "code": 412001,
+  "message": "ETag condition not met",
+}
+`;
+
+exports[`V4 Requestor can update data through a call 4`] = `
+{
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
-  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
   "IsActiveEntity": false,
-  "Prop1": "Lali-ho",
+  "Prop1": "Lali-hoho",
+  "Prop2": "",
+  "Sibling_ID": 0,
+  "isBoundAction1Hidden": false,
+  "isBoundAction2Hidden": false,
+  "isBoundAction3Hidden": false,
+}
+`;
+
+exports[`V4 Requestor can update data through a call 5`] = `
+{
+  "code": 412001,
+  "message": "ETag condition not met",
+}
+`;
+
+exports[`V4 Requestor can update data through a call 6`] = `
+{
+  "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "HasActiveEntity": false,
+  "HasDraftEntity": false,
+  "ID": 556,
+  "IsActiveEntity": false,
+  "Prop1": "Lali",
   "Prop2": "",
   "Sibling_ID": 0,
   "isBoundAction1Hidden": false,
@@ -658,7 +766,7 @@ exports[`V4 Requestor can update data through a call 3`] = `
 exports[`V4 Requestor get one data 1`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,
@@ -677,7 +785,7 @@ exports[`V4 Requestor get one data 2`] = `""`;
 exports[`V4 Requestor get one data 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"606c-jGYf/2yxvlcG7Z+VRm6krl+f58U"",
+  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,

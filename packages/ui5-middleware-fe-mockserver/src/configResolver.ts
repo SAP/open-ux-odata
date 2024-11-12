@@ -77,10 +77,13 @@ function processServicesConfig(
             watch: inService.watch,
             urlPath: inService.urlPath,
             noETag: inService.noETag,
+            validateETag: inService.validateETag,
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
             generateMockData: inService.generateMockData,
-            contextBasedIsolation: inService.contextBasedIsolation
+            contextBasedIsolation: inService.contextBasedIsolation,
+            forceNullableValuesToNull: inService.forceNullableValuesToNull,
+            metadataProcessor: inService.metadataProcessor
         } as any;
         const metadataPath = inService.metadataPath || inService.metadataXmlPath || inService.metadataCdsPath;
         if (metadataPath) {
@@ -115,6 +118,12 @@ function processServicesConfig(
         }
         if (inConfig.generateMockData && !inService.hasOwnProperty('generateMockData')) {
             myServiceConfig.generateMockData = inConfig.generateMockData;
+        }
+        if (inConfig.forceNullableValuesToNull && !inService.hasOwnProperty('forceNullableValuesToNull')) {
+            myServiceConfig.forceNullableValuesToNull = inConfig.forceNullableValuesToNull;
+        }
+        if (inConfig.validateETag && !inService.hasOwnProperty('validateETag')) {
+            myServiceConfig.validateETag = inConfig.validateETag;
         }
 
         return myServiceConfig;

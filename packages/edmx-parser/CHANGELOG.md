@@ -1,5 +1,23 @@
 # @sap-ux/edmx-parser
 
+## 0.8.1
+
+### Patch Changes
+
+-   7899cab: Fix $Path
+
+## 0.8.0
+
+### Minor Changes
+
+-   bf2b130: Proper parsing for complex expression and adjustment to the format for embedded expressions
+
+## 0.7.1
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+
 ## 0.7.0
 
 ### Minor Changes

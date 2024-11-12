@@ -12,9 +12,26 @@ import type { FilterExpression } from './filterParser';
 import { parseFilter } from './filterParser';
 import { parseSearch } from './searchParser';
 
+export type ErrorResponse = {
+    code: string;
+    message: string;
+    severity?: string;
+    details: ErrorDetails[];
+    '@Core.ContentID'?: string;
+} & Record<string, unknown>;
+
+export type ErrorDetails = {
+    code: string;
+    message: string;
+    severity?: string;
+    '@Core.ContentID'?: string;
+} & Record<string, unknown>;
+
 export type ExpandDefinition = {
     expand: Record<string, ExpandDefinition>;
-    properties: Record<string, boolean>;
+    properties: SelectDefinition;
+    filter?: FilterExpression;
+    orderBy?: OrderByDefinition[];
     removeFromResult?: boolean;
 };
 
@@ -32,6 +49,8 @@ type OrderByDefinition = {
     direction: 'asc' | 'desc';
 };
 
+export type SelectDefinition = Record<string, boolean>;
+
 export type KeyDefinitions = Record<string, number | boolean | string>;
 
 export type QueryPath = {
@@ -39,9 +58,38 @@ export type QueryPath = {
     keys: KeyDefinitions;
 };
 
+function addPathToExpandParameters(
+    path: string,
+    expandParameter: Record<string, ExpandDefinition>,
+    lambdaVariable?: string,
+    skipLast?: boolean,
+    removeFromResult?: boolean
+): Record<string, ExpandDefinition> {
+    const segments = path.split('/');
+    if (segments[0] === lambdaVariable) {
+        segments.shift();
+    }
+
+    if (skipLast) {
+        segments.pop();
+    }
+
+    let target = expandParameter;
+    for (const segment of segments) {
+        target[segment] = target[segment] ?? {
+            expand: {},
+            properties: { '*': true },
+            removeFromResult: removeFromResult
+        };
+        target = target[segment].expand;
+    }
+    return target;
+}
+
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
     public isStrictMode: boolean;
+    public etagReference?: string;
     public tenantId: string;
     public queryPath: QueryPath[];
     public searchQuery: string[];
@@ -52,7 +100,7 @@ export default class ODataRequest {
     public maxElements: number;
     public applyDefinition?: TransformationDefinition[];
     public filterDefinition?: FilterExpression;
-    public selectedProperties: Record<string, boolean>;
+    public selectedProperties: SelectDefinition;
     public expandProperties: Record<string, ExpandDefinition> = {};
     public responseHeaders: Record<string, string> = {};
     public globalResponseHeaders: Record<string, string> = {};
@@ -66,6 +114,8 @@ export default class ODataRequest {
     private allParams: URLSearchParams;
     private context: string;
     private messages: any[] = [];
+    private elementETag: string | undefined;
+    private contentId?: string;
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
@@ -76,14 +126,20 @@ export default class ODataRequest {
             this.addResponseHeader('sap-tenantid', this.tenantId);
         }
         this.isMinimalRepresentation = requestContent.headers?.['prefer'] === 'return=minimal';
+        this.etagReference = requestContent.headers?.['if-match'];
         this.isStrictMode = requestContent.headers?.['prefer']?.includes('handling=strict') ?? false;
         this.queryPath = this.parsePath(parsedUrl.pathname.substring(1));
+        this.contentId = requestContent.contentId;
         this.parseParameters(parsedUrl.searchParams);
     }
 
     private parseParameters(searchParams: URLSearchParams) {
         this.allParams = searchParams;
         this.searchQuery = parseSearch(searchParams.get('$search'));
+        if (this.dataAccess.getMetadata().getVersion() === '2.0' && this.searchQuery.length === 0) {
+            // In v2, there is no official $search support but sometimes `search` without dollar is used
+            this.searchQuery = parseSearch(searchParams.get('search'));
+        }
         this.orderBy = this.parseOrderBy(searchParams.get('$orderby'));
         this.startIndex = parseInt(searchParams.get('$skip') || '', 10);
         this.skipLocation = searchParams.get('sap-skiplocation');
@@ -99,35 +155,25 @@ export default class ODataRequest {
         this.filterDefinition = parseFilter(searchParams.get('$filter'));
         this.countRequested = searchParams.has('$count');
         this.isCountQuery = this.context.endsWith('$count');
-        const selectParams = searchParams.get('$select');
-        if (selectParams) {
-            this.selectedProperties = {};
-            const props = selectParams.split(',');
-            props.forEach((property: string) => {
-                if (property.length > 0) {
-                    this.selectedProperties[property.split('/')[0]] = true;
-                }
-            });
-        } else {
-            this.selectedProperties = { '*': true };
-        }
+        this.selectedProperties = this.parseSelect(searchParams.get('$select'));
 
-        const expandParams = searchParams.get('$expand');
-        if (expandParams) {
-            const expandParameters = this.parseExpand(expandParams);
-            this.expandProperties = expandParameters.expand;
-            this.selectedProperties = Object.assign(this.selectedProperties, expandParameters.properties || {});
-        }
+        const expandParameters = this.parseExpand(searchParams.get('$expand'));
+        this.expandProperties = expandParameters.expand;
 
-        if (this.filterDefinition) {
-            this.addExpandForFilters(this.filterDefinition); // implicitly expand the properties used in filters
-        }
+        // make sure to expand properties used in $filter and $orderby
+        ODataRequest.addExpandForFilters(this.expandProperties, this.filterDefinition);
+        ODataRequest.addExpandForOrderBy(this.expandProperties, this.orderBy);
+
+        this.selectedProperties = Object.assign(this.selectedProperties, expandParameters.properties);
 
         if (this.applyDefinition) {
-            const additionalSelectProperty: Record<string, boolean> = {};
+            const additionalSelectProperty: SelectDefinition = {};
             this.applyDefinition.forEach((apply) => {
                 this._addSelectedPropertiesForApplyExpression(apply, additionalSelectProperty);
             });
+            for (const additionalSelectKey of Object.keys(additionalSelectProperty)) {
+                addPathToExpandParameters(additionalSelectKey, this.expandProperties, undefined, true);
+            }
 
             this.selectedProperties = Object.assign(this.selectedProperties, additionalSelectProperty);
         }
@@ -139,7 +185,7 @@ export default class ODataRequest {
 
     private _addSelectedPropertiesForApplyExpression(
         applyTransformation: TransformationDefinition,
-        additionalSelectProperty: Record<string, boolean>
+        additionalSelectProperty: SelectDefinition
     ) {
         switch (applyTransformation.type) {
             case 'groupBy':
@@ -151,7 +197,7 @@ export default class ODataRequest {
                 });
                 break;
             case 'filter':
-                this.addExpandForFilters(applyTransformation.filterExpr);
+                ODataRequest.addExpandForFilters(this.expandProperties, applyTransformation.filterExpr);
                 break;
             case 'orderBy':
                 applyTransformation.orderBy.forEach((orderByProperty) => {
@@ -162,6 +208,13 @@ export default class ODataRequest {
                 applyTransformation.aggregateDef.forEach((aggregateSourceProp) => {
                     additionalSelectProperty[aggregateSourceProp.sourceProperty] = true;
                 });
+                break;
+            case 'concat':
+                for (const concatExpressions of applyTransformation.concatExpr) {
+                    for (const concatExpression of concatExpressions) {
+                        this._addSelectedPropertiesForApplyExpression(concatExpression, additionalSelectProperty);
+                    }
+                }
                 break;
             case 'ancestors':
             case 'descendants':
@@ -216,36 +269,39 @@ export default class ODataRequest {
         return properties;
     }
 
-    private parseExpand(expandParameters: string): ExpandDefinition {
-        const props = this.splitProperties(expandParameters);
+    private parseExpand(expandParameters: string | null): ExpandDefinition {
+        const props = this.splitProperties(expandParameters ?? '');
         return props.reduce(
             (reducer: ExpandDefinition, property) => {
                 if (this.dataAccess.getMetadata().getVersion() === '4.0') {
                     const { pre: name, body: parameters } = balanced('(', ')', property) ?? { pre: property, body: '' };
                     const parameterSplit = this.splitProperties(parameters, ';');
                     const queryPart = parameterSplit.reduce((acc: {}, split) => Object.assign(acc, parse(split)), {});
-                    const expand = queryPart['$expand']
-                        ? this.parseExpand(queryPart['$expand'] as string)
-                        : { expand: {}, properties: {} };
 
-                    const selectProperties: any = {};
-                    if (queryPart['$select']) {
-                        // explicit $select
-                        (queryPart['$select'] as string)
-                            .split(',')
-                            .forEach((propertyName) => (selectProperties[propertyName] = true));
-                    } else {
-                        selectProperties['*'] = true;
+                    const expandOptions = this.parseExpand(queryPart['$expand'] as string | null);
+
+                    const options: ExpandDefinition = {
+                        expand: expandOptions.expand,
+                        properties: this.parseSelect(queryPart['$select'] as string | null)
+                    };
+
+                    for (const expandName of Object.keys(expandOptions.expand)) {
+                        options.properties[expandName] = true;
                     }
 
-                    Object.keys(expand.properties).forEach((expandName) => {
-                        selectProperties[expandName] = true;
-                    });
+                    // $filter
+                    if (queryPart.$filter) {
+                        options.filter = parseFilter(queryPart.$filter as string);
+                        ODataRequest.addExpandForFilters(options.expand, options.filter);
+                    }
 
-                    reducer.expand[name] = {
-                        expand: expand.expand,
-                        properties: selectProperties
-                    };
+                    // $orderby
+                    if (queryPart.$orderby) {
+                        options.orderBy = this.parseOrderBy(queryPart.$orderby as string);
+                        ODataRequest.addExpandForOrderBy(options.expand, options.orderBy);
+                    }
+
+                    reducer.expand[name] = options;
                     reducer.properties[name] = true;
                     return reducer;
                 } else {
@@ -287,6 +343,19 @@ export default class ODataRequest {
             orderByDefinition.push({ name: paramName, direction: realDirection });
         });
         return orderByDefinition;
+    }
+
+    private parseSelect(selectParameters: string | null): SelectDefinition {
+        if (selectParameters) {
+            return selectParameters.split(',').reduce((selectDefinition: SelectDefinition, property) => {
+                if (property.length > 0) {
+                    selectDefinition[property.split('/', 1)[0]] = true;
+                }
+                return selectDefinition;
+            }, {});
+        }
+
+        return { '*': true };
     }
 
     private parsePath(path: string): QueryPath[] {
@@ -348,51 +417,6 @@ export default class ODataRequest {
         return value;
     }
 
-    //
-    // private parseApply(applyParameters: string | null): AggregateDefinition | undefined {
-    //     if (!applyParameters) {
-    //         return undefined;
-    //     }
-    //     const filterRegEx = /^filter\(([^)]+)\)\/(.*)$/;
-    //     const filterMatches = applyParameters.match(filterRegEx);
-    //     let groupByText = applyParameters;
-    //     let filterParams;
-    //     if (filterMatches) {
-    //         const filterExpr = filterMatches[1];
-    //         filterParams = parseFilter(filterExpr);
-    //         groupByText = filterMatches[2];
-    //     }
-    //     const groupByRegEx = /^groupby\(\(([^)]+)\),([^)]+\))\)$/;
-    //     const groupByMatches = groupByText.match(groupByRegEx);
-    //     if (groupByMatches) {
-    //         return {
-    //             filter: filterParams,
-    //             groupBy: groupByMatches[1].split(','),
-    //             aggregates: this.parseAggregateDefinition(groupByMatches[2])
-    //         };
-    //     }
-    // }
-
-    // private parseAggregateDefinition(aggregationDefinition: string): AggregateProperty[] {
-    //     const aggregateRegEx = /^aggregate\(([^)]+)\)$/;
-    //     const aggregateMatches = aggregationDefinition.match(aggregateRegEx);
-    //     if (aggregateMatches) {
-    //         return aggregateMatches[1].split(',').map((aggregateMatch) => {
-    //             const aggregateSplit = aggregateMatch.split(' ');
-    //             const property = aggregateSplit[0];
-    //             const operator = aggregateSplit[2];
-    //             const targetName = aggregateSplit[4];
-    //             return {
-    //                 name: targetName || property,
-    //                 operator,
-    //                 sourceProperty: property
-    //             };
-    //         });
-    //     } else {
-    //         return [];
-    //     }
-    // }
-
     public async handleRequest() {
         try {
             switch (this.requestContent.method) {
@@ -444,7 +468,12 @@ export default class ODataRequest {
         } catch (errorInfo: any) {
             const errorInformation: ExecutionError = errorInfo as ExecutionError;
             if (errorInformation.isCustomError) {
+                if (errorInformation.isGlobalRequestError) {
+                    // The whole request will fail
+                    throw errorInformation;
+                }
                 if (errorInformation.messageData) {
+                    this.addContentIdToErrorMessage(errorInformation.messageData);
                     if (errorInformation.isSAPMessage) {
                         this.addResponseHeader('sap-messages', JSON.stringify(errorInformation.messageData));
                     } else {
@@ -479,6 +508,16 @@ export default class ODataRequest {
 
     public setContext(context: string) {
         this.context = context;
+    }
+
+    public setETag(etagValue: string | undefined) {
+        this.elementETag = etagValue;
+    }
+
+    public getETag(): string | undefined {
+        if (this.dataAccess.shouldValidateETag()) {
+            return this.elementETag;
+        }
     }
 
     public getResponseData() {
@@ -576,50 +615,64 @@ export default class ODataRequest {
         this.dataCount = dataCount;
     }
 
-    private addExpandForFilters(filterDefinition: FilterExpression) {
-        function expandPath(
-            path: string,
-            expands: Record<string, ExpandDefinition>,
-            lambdaVariable?: string,
-            skipLast?: boolean
-        ) {
-            const segments = path.split('/');
-            if (segments[0] === lambdaVariable) {
-                segments.shift();
-            }
-
-            if (skipLast) {
-                segments.pop();
-            }
-
-            let target = expands;
-            for (const segment of segments) {
-                target[segment] = target[segment] ?? {
-                    expand: {},
-                    properties: { '*': true },
-                    removeFromResult: true
-                };
-                target = target[segment].expand;
-            }
-            return target;
-        }
-
+    private static addExpandForFilters(
+        expandOptions: Record<string, ExpandDefinition>,
+        filterDefinition: FilterExpression | undefined
+    ) {
         function expand(
             expression: FilterExpression,
             expandDefinitions: Record<string, ExpandDefinition>,
             lambdaVariable?: string
         ) {
             if (typeof expression.identifier === 'string') {
-                expandPath(expression.identifier, expandDefinitions, lambdaVariable, true);
+                addPathToExpandParameters(expression.identifier, expandDefinitions, lambdaVariable, true, true);
             } else if (expression.identifier?.type === 'lambda') {
-                const target = expandPath(expression.identifier.target, expandDefinitions, lambdaVariable);
+                const target = addPathToExpandParameters(
+                    expression.identifier.target,
+                    expandDefinitions,
+                    lambdaVariable,
+                    false,
+                    true
+                );
 
-                for (const subExpression of expression.identifier.expression.expressions) {
-                    expand(subExpression, target, expression.identifier.key);
+                if (expression.identifier.expression) {
+                    for (const subExpression of expression.identifier.expression.expressions) {
+                        expand(subExpression, target, expression.identifier.key);
+                    }
                 }
             }
         }
 
-        filterDefinition.expressions.forEach((expression) => expand(expression, this.expandProperties));
+        if (filterDefinition?.expressions) {
+            for (const expression of filterDefinition.expressions) {
+                expand(expression, expandOptions);
+            }
+        }
+    }
+
+    /**
+     * Adding content-id to error message.
+     * This helps map the error to the right request in change set.
+     *
+     * @param errorObj Object containing error
+     * @param errorObj.error Error object
+     */
+    private addContentIdToErrorMessage(errorObj: { error?: ErrorResponse }) {
+        if (this.contentId && errorObj?.error) {
+            errorObj.error['@Core.ContentID'] = this.contentId;
+            const details = errorObj.error?.details ?? [];
+            details.forEach((errorDetail) => {
+                errorDetail['@Core.ContentID'] = this.contentId;
+            });
+        }
+    }
+
+    private static addExpandForOrderBy(
+        expandOptions: Record<string, ExpandDefinition>,
+        orderByDefinition: OrderByDefinition[]
+    ) {
+        for (const definition of orderByDefinition) {
+            addPathToExpandParameters(definition.name, expandOptions, undefined, true, true);
+        }
     }
 }

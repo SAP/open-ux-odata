@@ -66,6 +66,9 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         DataFieldAbstract: {
             Criticality: true
         },
+        DataPointType: {
+            Criticality: true
+        },
         Facet: {
             Label: true
         },
@@ -142,10 +145,10 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         ValueListRelevantQualifiers: true
     },
     Capabilities: {
-        DeleteRestrictionsType: {
+        DeleteRestrictionsBase: {
             Deletable: true
         },
-        UpdateRestrictionsType: {
+        UpdateRestrictionsBase: {
             Updatable: true
         }
     },
@@ -693,7 +696,7 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
             }
         });
         vocabularyEdmDef = `import * as ${vocabularyNamespaceTrans} from "./${vocabularyAlias}";\n\n`;
-
+        vocabularyEdmDef += `import {PropertyAnnotationValue} from "../Edm";\n\n`;
         Object.keys(compositesAnnotations).forEach((targetKey) => {
             const baseAnnotationMap = `${targetKey}AnnotationsBase_${vocabularyAlias}`;
             const extractTypeName = `Extract${targetKey}AnnotationsType`;
@@ -705,7 +708,6 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
             compositeTarget += `\n\nexport type ${annotationMap} = ${baseAnnotationMap} & {\n`;
             compositeTarget += `    [key in \`\${string & keyof ${baseAnnotationMap}}#\${string}\`]: ${baseAnnotationMap}[${extractTypeName}<key>]`;
             compositeTarget += `\n};`;
-
             compositeTarget += '\n';
 
             // compositeTarget += `\n// Type containing all possible annotations to use for ${targetKey}\n    export interface ${targetKey}Annotations {`;

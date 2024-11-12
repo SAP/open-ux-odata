@@ -368,4 +368,101 @@ describe('Filter Parser', () => {
             }
         `);
     });
+    test('reverse lambda', () => {
+        const complexLambda = parseFilter(`not(_extension/any(ent:contains(ent/name, 'HCP_SUBACCOUNT_ID')))`);
+        expect(complexLambda).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": {
+                    "expression": {
+                      "expressions": [
+                        {
+                          "identifier": {
+                            "method": "contains",
+                            "methodArgs": [
+                              "ent/name",
+                              "'HCP_SUBACCOUNT_ID'",
+                            ],
+                            "type": "method",
+                          },
+                        },
+                      ],
+                    },
+                    "key": "ent",
+                    "operator": "ANY",
+                    "target": "_extension",
+                    "type": "lambda",
+                  },
+                },
+              ],
+              "isGroup": true,
+              "isReversed": true,
+              "operator": undefined,
+            }
+        `);
+    });
+
+    test('complex lambda', () => {
+        const complexLambda = parseFilter(`formats/any(f:f/FORMAT_ID eq 1) and not items/any()`);
+        expect(complexLambda).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": {
+                    "expression": {
+                      "expressions": [
+                        {
+                          "identifier": "f/FORMAT_ID",
+                          "literal": "1",
+                          "operator": "eq",
+                        },
+                      ],
+                    },
+                    "key": "f",
+                    "operator": "ANY",
+                    "target": "formats",
+                    "type": "lambda",
+                  },
+                },
+                {
+                  "expressions": [
+                    {
+                      "identifier": {
+                        "expression": undefined,
+                        "key": "",
+                        "operator": "ANY",
+                        "target": "items",
+                        "type": "lambda",
+                      },
+                    },
+                  ],
+                  "isGroup": false,
+                  "isReversed": true,
+                  "operator": undefined,
+                },
+              ],
+              "operator": "AND",
+            }
+        `);
+    });
+    test('filter with in', () => {
+        const filterIn = parseFilter(
+            `specificationVersion_id%20in%20(23190bf4-d283-49c4-95c9-36eb4ca091e4,6c209cfe-d04a-4eda-ab84-0ce245f403af)`
+        );
+        expect(filterIn).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": "specificationVersion_id",
+                  "literal": [
+                    "23190bf4-d283-49c4-95c9-36eb4ca091e4",
+                    "6c209cfe-d04a-4eda-ab84-0ce245f403af",
+                  ],
+                  "operator": "in",
+                },
+              ],
+            }
+        `);
+    });
 });

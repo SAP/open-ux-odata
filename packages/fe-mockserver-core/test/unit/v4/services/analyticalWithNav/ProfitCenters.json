@@ -1,0 +1,27 @@
+[
+    {
+        "ID": "08a97745-96f8-4d82-a57c-e030e3158d73",
+        "name": "PC3",
+        "segment_ID": "08b9350a-d0f0-4175-adc1-913d85bd2e47"
+    },
+    {
+        "ID": "0a1342c9-910e-4dba-a5ef-abbbd17b5d37",
+        "name": "PC5",
+        "segment_ID": "91452cbd-0c01-4c73-a3d3-a62c8d61ad66"
+    },
+    {
+        "ID": "736d0b70-f5e4-4ba2-9b69-09f7a0b6d651",
+        "name": "PC1",
+        "segment_ID": "91452cbd-0c01-4c73-a3d3-a62c8d61ad66"
+    },
+    {
+        "ID": "a4f7a3b6-22be-4757-a7c2-55de95d47ff2",
+        "name": "PC4",
+        "segment_ID": "ef94e9b0-5960-4966-865f-7a11efa84a79"
+    },
+    {
+        "ID": "aeea0435-8100-4815-ab83-37620fdbc9fc",
+        "name": "PC2",
+        "segment_ID": "ef94e9b0-5960-4966-865f-7a11efa84a79"
+    }
+]

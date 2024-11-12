@@ -1,0 +1,17 @@
+[
+    {
+        "Account": "895000 (Fact.output pro.ord)",
+        "Account_Text": "Fact.output pro.ord",
+        "CompanyCode": "SAP"
+    },
+    {
+        "Account": "792000 (Finished Goods)",
+        "Account_Text": "Finished Goods",
+        "CompanyCode": "SAP"
+    },
+    {
+        "Account": "792000 (Fact.output pro.ord)",
+        "Account_Text": "Fact.output pro.ord",
+        "CompanyCode": "SAP"
+    }
+]

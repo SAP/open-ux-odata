@@ -5,7 +5,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
 import type { MockDataContributor } from '../../mockdata/functionBasedMockData';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
-import type { FilterMethodCall, LambdaExpression } from '../../request/filterParser';
+import type { FilterExpression, FilterMethodCall, LambdaExpression } from '../../request/filterParser';
 import type { KeyDefinitions } from '../../request/odataRequest';
 import ODataRequest from '../../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from '../common';
@@ -135,10 +135,12 @@ function prepareLiteral(literal: string, propertyType: string) {
  *
  */
 export class MockDataEntitySet implements EntitySetInterface {
+    private _resolvedProperties: Record<string, Property> = {};
     public static async read(
         mockDataRootFolder: string,
         entity: string,
         generateMockData: boolean,
+        forceNullableValuesToNull: boolean,
         isDraft: boolean,
         dataAccess: DataAccessInterface
     ): Promise<object[]> {
@@ -198,6 +200,9 @@ export class MockDataEntitySet implements EntitySetInterface {
             if (generateMockData) {
                 (outData as any).__generateMockData = generateMockData;
             }
+            if (forceNullableValuesToNull) {
+                (outData as any).__forceNullableValuesToNull = forceNullableValuesToNull;
+            }
         }
         return outData as any;
     }
@@ -214,6 +219,7 @@ export class MockDataEntitySet implements EntitySetInterface {
      * @param entitySetDefinition
      * @param dataAccess
      * @param generateMockData
+     * @param forceNullableValuesToNull
      * @param initializeMockData
      * @param isDraft
      */
@@ -222,6 +228,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         entitySetDefinition: EntitySet | EntityType,
         dataAccess: DataAccessInterface,
         generateMockData: boolean,
+        forceNullableValuesToNull: boolean,
         initializeMockData = true,
         isDraft = false
     ) {
@@ -239,6 +246,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 rootFolder,
                 entitySetDefinition.name,
                 generateMockData,
+                forceNullableValuesToNull,
                 isDraft,
                 dataAccess
             ).then((mockData) => {
@@ -287,28 +295,48 @@ export class MockDataEntitySet implements EntitySetInterface {
         return this.dataAccess.isV4();
     }
 
-    public getProperty(identifier: string) {
-        let resolvedPath;
-        if (this.entitySetDefinition) {
-            resolvedPath = this.dataAccess
-                .getMetadata()
-                .resolvePath('/' + this.entitySetDefinition.name + '/' + identifier);
-        } else {
-            resolvedPath = this.entityTypeDefinition.resolvePath(identifier, true);
-        }
-
-        return resolvedPath.target;
+    public shouldValidateETag(): boolean {
+        return this.dataAccess.shouldValidateETag();
     }
 
-    public checkFilter(mockData: object, filterExpression: any, tenantId: string, odataRequest: ODataRequest): boolean {
+    public isDraft(): boolean {
+        return !!(
+            this.entitySetDefinition?.annotations.Common?.DraftRoot ??
+            this.entitySetDefinition?.annotations.Common?.DraftNode
+        );
+    }
+
+    public getProperty(identifier: string) {
+        if (!this._resolvedProperties[identifier]) {
+            let resolvedPath;
+            if (this.entitySetDefinition) {
+                resolvedPath = this.dataAccess
+                    .getMetadata()
+                    .resolvePath('/' + this.entitySetDefinition.name + '/' + identifier);
+            } else {
+                resolvedPath = this.entityTypeDefinition.resolvePath(identifier, true);
+            }
+
+            this._resolvedProperties[identifier] = resolvedPath.target;
+        }
+
+        return this._resolvedProperties[identifier];
+    }
+
+    public checkFilter(
+        mockData: object,
+        filterExpression: FilterExpression,
+        tenantId: string,
+        odataRequest: ODataRequest
+    ): boolean {
         let isValid = true;
         if (filterExpression.hasOwnProperty('expressions')) {
             if (filterExpression.operator === 'AND') {
-                isValid = filterExpression.expressions.every((filterValue: any) => {
+                isValid = filterExpression.expressions.every((filterValue) => {
                     return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             } else {
-                isValid = filterExpression.expressions.some((filterValue: any) => {
+                isValid = filterExpression.expressions.some((filterValue) => {
                     return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             }
@@ -321,15 +349,24 @@ export class MockDataEntitySet implements EntitySetInterface {
         return isValid;
     }
 
-    createTransformation(identifier: string | FilterMethodCall): PreparedFunction {
+    createTransformation(identifier: string | FilterMethodCall, isProperty: boolean = false): PreparedFunction {
         if (typeof identifier === 'string') {
             const property = this.getProperty(identifier);
             if (property) {
                 return { fn: transformationFn('getData', identifier), type: property.type };
+            } else if (isProperty) {
+                return { fn: transformationFn('getData', identifier), type: 'Edm.String' };
             }
             return { fn: () => identifier, type: 'Edm.String' };
+        } else if (Array.isArray(identifier)) {
+            return { fn: () => identifier, type: 'Edm.String' };
         } else {
-            const methodArgTransformed = identifier.methodArgs.map((methodArg) => this.createTransformation(methodArg));
+            const methodArgTransformed = identifier.methodArgs.map((methodArg, idx) =>
+                this.createTransformation(
+                    methodArg,
+                    identifier.propertyPaths && identifier.propertyPaths[idx] !== methodArg
+                )
+            );
             const comparisonType =
                 identifier.method === 'length' || identifier.method === 'indexof' ? 'Edm.Int16' : 'Edm.String';
             return { fn: makeTransformationFn(identifier.method, methodArgTransformed), type: comparisonType };
@@ -385,15 +422,22 @@ export class MockDataEntitySet implements EntitySetInterface {
         if (!Array.isArray(mockDataToCheckValue)) {
             mockDataToCheckValue = [mockDataToCheckValue];
         }
-        if (expression.expression.expressions) {
+        if (expression.expression?.expressions) {
             expression.expression.expressions.forEach((entry: any) => {
                 const replaceValue = expression.propertyPath || expression.target;
                 if (typeof entry.identifier === 'string') {
                     entry.propertyPath = entry.identifier.replace(expression.key, replaceValue);
-                } else {
+                } else if (entry.identifier.target) {
                     entry.identifier.propertyPath = entry.identifier.target.replace(expression.key, replaceValue);
+                } else if (entry.identifier.method) {
+                    entry.identifier.propertyPaths = entry.identifier.methodArgs.map((methodArg: string) =>
+                        methodArg.replace(expression.key, replaceValue)
+                    );
                 }
             });
+        } else {
+            // no expressions, so empty lambda
+            return true;
         }
 
         const check = (subMockData: any) => {
@@ -476,17 +520,17 @@ export class MockDataEntitySet implements EntitySetInterface {
         }
     }
 
-    public performGET(
+    public async performGET(
         keyValues: KeyDefinitions,
         asArray: boolean,
         tenantId: string,
         odataRequest: ODataRequest,
         dontClone = false
-    ): any {
+    ): Promise<any> {
         const currentMockData = this.getMockData(tenantId);
         if (keyValues && Object.keys(keyValues).length) {
             keyValues = this.prepareKeys(keyValues);
-            const data = currentMockData.fetchEntries(keyValues, odataRequest);
+            const data = await currentMockData.fetchEntries(keyValues, odataRequest);
             if (!data || (Array.isArray(data) && data.length === 0 && !asArray)) {
                 if (!currentMockData.hasEntries(odataRequest)) {
                     return currentMockData.getEmptyObject(odataRequest);
@@ -513,7 +557,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         if (!asArray) {
             return cloneDeep(currentMockData.getDefaultElement(odataRequest));
         }
-        return currentMockData.getAllEntries(odataRequest, dontClone);
+        return await currentMockData.getAllEntries(odataRequest, dontClone);
     }
 
     public async performPOST(
@@ -578,7 +622,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         _updateParent: boolean = false
     ): Promise<any> {
         keyValues = this.prepareKeys(keyValues);
-        const data = this.performGET(keyValues, false, tenantId, odataRequest);
+        const data = await this.performGET(keyValues, false, tenantId, odataRequest);
         if (!data) {
             throw new ExecutionError('Not found', 404, undefined, false);
         }
@@ -628,7 +672,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         const currentMockData = this.getMockData(tenantId);
         keyValues = this.prepareKeys(keyValues);
 
-        const entryToRemove = currentMockData.fetchEntries(keyValues, odataRequest);
+        const entryToRemove = await currentMockData.fetchEntries(keyValues, odataRequest);
         let additionalEntriesToRemove: any[] = [];
         for (const aggregationElementName in this.entityTypeDefinition.annotations.Aggregation) {
             if (aggregationElementName.startsWith('RecursiveHierarchy')) {
@@ -636,7 +680,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                     this.entityTypeDefinition.annotations.Aggregation[
                         aggregationElementName as `RecursiveHierarchy#xxx`
                     ]!;
-                const allData = currentMockData.getAllEntries(odataRequest, true);
+                const allData = await currentMockData.getAllEntries(odataRequest, true);
                 additionalEntriesToRemove = await currentMockData.getDescendants(
                     allData,
                     allData,

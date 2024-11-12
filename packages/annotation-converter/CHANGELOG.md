@@ -1,5 +1,169 @@
 # @sap-ux/annotation-converter
 
+## 0.9.8
+
+### Patch Changes
+
+-   b4d0774: Action parameter on action with collection now properly consider the unspecific anntoations on top of the overloaded ones
+
+## 0.9.7
+
+### Patch Changes
+
+-   Updated dependencies [1859284]
+    -   @sap-ux/vocabularies-types@0.11.5
+
+## 0.9.6
+
+### Patch Changes
+
+-   e1ddd79: security patch
+-   Updated dependencies [e1ddd79]
+    -   @sap-ux/vocabularies-types@0.11.4
+
+## 0.9.5
+
+### Patch Changes
+
+-   514896d: Fix the $Path handling
+
+## 0.9.4
+
+### Patch Changes
+
+-   Updated dependencies [74c2d22]
+    -   @sap-ux/vocabularies-types@0.11.3
+
+## 0.9.3
+
+### Patch Changes
+
+-   Updated dependencies [6f7141d]
+    -   @sap-ux/vocabularies-types@0.11.2
+
+## 0.9.2
+
+### Patch Changes
+
+-   b64aae6: Support case where the inputs parse are frozen
+
+## 0.9.1
+
+### Patch Changes
+
+-   Updated dependencies [ec29f84]
+    -   @sap-ux/vocabularies-types@0.11.1
+
+## 0.9.0
+
+### Minor Changes
+
+-   bf2b130: Proper parsing for complex expression and adjustment to the format for embedded expressions
+
+### Patch Changes
+
+-   Updated dependencies [bf2b130]
+    -   @sap-ux/vocabularies-types@0.11.0
+
+## 0.8.15
+
+### Patch Changes
+
+-   Updated dependencies [a7c29f3]
+    -   @sap-ux/vocabularies-types@0.10.14
+
+## 0.8.14
+
+### Patch Changes
+
+-   Updated dependencies [b1c3d54]
+    -   @sap-ux/vocabularies-types@0.10.13
+
+## 0.8.13
+
+### Patch Changes
+
+-   Updated dependencies [d283913]
+    -   @sap-ux/vocabularies-types@0.10.12
+
+## 0.8.12
+
+### Patch Changes
+
+-   Updated dependencies [af38185]
+    -   @sap-ux/vocabularies-types@0.10.11
+
+## 0.8.11
+
+### Patch Changes
+
+-   3c0d8bd: fix: We now keep track of the fact that the return type for a function is a collection
+-   Updated dependencies [3c0d8bd]
+    -   @sap-ux/vocabularies-types@0.10.10
+
+## 0.8.10
+
+### Patch Changes
+
+-   Updated dependencies [1030a62]
+    -   @sap-ux/vocabularies-types@0.10.9
+
+## 0.8.9
+
+### Patch Changes
+
+-   Updated dependencies [f19e9b4]
+    -   @sap-ux/vocabularies-types@0.10.8
+
+## 0.8.8
+
+### Patch Changes
+
+-   Updated dependencies [b776b71]
+    -   @sap-ux/vocabularies-types@0.10.7
+
+## 0.8.7
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+-   Updated dependencies [1b25c13]
+    -   @sap-ux/vocabularies-types@0.10.6
+
+## 0.8.6
+
+### Patch Changes
+
+-   Updated dependencies [bad1db5]
+    -   @sap-ux/vocabularies-types@0.10.5
+
+## 0.8.5
+
+### Patch Changes
+
+-   260e502: fix: The annotation converter now resolves unbound actions both with a trailing `()` and without
+
+## 0.8.4
+
+### Patch Changes
+
+-   Updated dependencies [609a24a]
+    -   @sap-ux/vocabularies-types@0.10.4
+
+## 0.8.3
+
+### Patch Changes
+
+-   Updated dependencies [85a06d9]
+    -   @sap-ux/vocabularies-types@0.10.3
+
+## 0.8.2
+
+### Patch Changes
+
+-   Updated dependencies [0b08eb8]
+    -   @sap-ux/vocabularies-types@0.10.2
+
 ## 0.8.1
 
 ### Patch Changes

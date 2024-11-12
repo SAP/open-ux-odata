@@ -1,5 +1,35 @@
 # @sap-ux/edmx-parser
 
+## 1.2.4
+
+### Patch Changes
+
+-   e1ddd79: security patch
+
+## 1.2.3
+
+### Patch Changes
+
+-   50bfb29: feat: Enhance mock server with service-level metadata processor override
+
+## 1.2.2
+
+### Patch Changes
+
+-   e504183: Fix extra ,
+
+## 1.2.1
+
+### Patch Changes
+
+-   7e879e3: Using and i18n works better
+
+## 1.2.0
+
+### Minor Changes
+
+-   06d1cab: CDS Parsing now respects proper CDS syntax for multiple files
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,438 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.2
+
+### Patch Changes
+
+-   Updated dependencies [b4d0774]
+    -   @sap-ux/annotation-converter@0.9.8
+
+## 1.4.1
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.7
+-   @sap-ux/edmx-parser@0.8.1
+
+## 1.4.0
+
+### Minor Changes
+
+-   1aa917d: Update to router 2.x
+
+## 1.3.11
+
+### Patch Changes
+
+-   e8c8e17: fix: We add ContentID to error details on changeset failure
+
+## 1.3.10
+
+### Patch Changes
+
+-   81920f4: fix: add v2 batch response headers correctly
+
+## 1.3.9
+
+### Patch Changes
+
+-   04bcbb5: fix: provide right response when there are failures in multi select changeset mode
+
+## 1.3.8
+
+### Patch Changes
+
+-   e1ddd79: security patch
+-   Updated dependencies [e1ddd79]
+    -   @sap-ux/annotation-converter@0.9.6
+    -   @sap-ux/edmx-parser@0.8.1
+
+## 1.3.7
+
+### Patch Changes
+
+-   83adadc: Adding tests to support Expand all children of a node
+
+## 1.3.6
+
+### Patch Changes
+
+-   ed78e39: add ability to throw a global error that makes a whole batch fail
+
+## 1.3.5
+
+### Patch Changes
+
+-   Updated dependencies [7899cab]
+    -   @sap-ux/edmx-parser@0.8.1
+    -   @sap-ux/annotation-converter@0.9.5
+
+## 1.3.4
+
+### Patch Changes
+
+-   738750d: fix(deps): update dependency body-parser to v1.20.3 [security]
+
+## 1.3.3
+
+### Patch Changes
+
+-   Updated dependencies [514896d]
+    -   @sap-ux/annotation-converter@0.9.5
+
+## 1.3.2
+
+### Patch Changes
+
+-   d848d39: Etag on patch
+
+## 1.3.1
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.4
+-   @sap-ux/edmx-parser@0.8.0
+
+## 1.3.0
+
+### Minor Changes
+
+-   fea7688: Make the fetchEntries / getAllEntries method async
+
+## 1.2.59
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.3
+-   @sap-ux/edmx-parser@0.8.0
+
+## 1.2.58
+
+### Patch Changes
+
+-   Updated dependencies [b64aae6]
+    -   @sap-ux/annotation-converter@0.9.2
+
+## 1.2.57
+
+### Patch Changes
+
+-   6aee095: Improve the handling of hierarchy with drafts
+
+## 1.2.56
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.1
+-   @sap-ux/edmx-parser@0.8.0
+
+## 1.2.55
+
+### Patch Changes
+
+-   Updated dependencies [bf2b130]
+    -   @sap-ux/annotation-converter@0.9.0
+    -   @sap-ux/edmx-parser@0.8.0
+
+## 1.2.54
+
+### Patch Changes
+
+-   50bfb29: feat: Enhance mock server with service-level metadata processor override
+
+## 1.2.53
+
+### Patch Changes
+
+-   39b6783: update to the batchResponse in case of 412 warnings for changeset
+
+## 1.2.52
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.15
+-   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.51
+
+### Patch Changes
+
+-   09d5a17: handle changeset scenarios for 412 warnings
+
+## 1.2.50
+
+### Patch Changes
+
+-   b215858: feat: introduce a basic support for entity ETags
+
+## 1.2.49
+
+### Patch Changes
+
+-   8fb7212: Fix issue with the hierarchy due to integer based handling
+
+## 1.2.48
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.14
+-   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.47
+
+### Patch Changes
+
+-   13abaa4: Slightly improved version of the index generation
+
+## 1.2.46
+
+### Patch Changes
+
+-   0f34945: Add index to speed up the mockserver
+
+## 1.2.45
+
+### Patch Changes
+
+-   586bcc9: fix: empty lambda are now properly parsed
+
+## 1.2.44
+
+### Patch Changes
+
+-   35c9236: fix: allow empty lambda operations
+
+## 1.2.43
+
+### Patch Changes
+
+-   a8506c5: We now properly fill the service document
+
+## 1.2.42
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.13
+-   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.41
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.12
+-   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.40
+
+### Patch Changes
+
+-   Updated dependencies [3c0d8bd]
+    -   @sap-ux/annotation-converter@0.8.11
+    -   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.39
+
+### Patch Changes
+
+-   a103f9d: feat: support the LimitedRank property in a hierarchy
+
+## 1.2.38
+
+### Patch Changes
+
+-   bdc82bf: Remove an extra CRLF in batch response
+
+## 1.2.37
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.10
+-   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.36
+
+### Patch Changes
+
+-   536e307: Adjust the draft administrative data
+
+## 1.2.35
+
+### Patch Changes
+
+-   afc6049: fix: Correct hierarchy with expanded sub-nodes after draft creation
+
+## 1.2.34
+
+### Patch Changes
+
+-   270106c: feat: Support the new version of the com.sap.vocabularies.Hierarchy
+
+## 1.2.33
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.9
+-   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.32
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.8
+-   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.31
+
+### Patch Changes
+
+-   692d2b5: Revert back to previous behavior for nullable properties (always generate if they are missing)
+
+## 1.2.30
+
+### Patch Changes
+
+-   6b21589: Fix recursive delete
+
+## 1.2.29
+
+### Patch Changes
+
+-   ae19e5a: Fix draft hierarchy queries
+
+## 1.2.28
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+-   Updated dependencies [1b25c13]
+    -   @sap-ux/annotation-converter@0.8.7
+    -   @sap-ux/edmx-parser@0.7.1
+
+## 1.2.27
+
+### Patch Changes
+
+-   79314d3: Add support for in operator (odata v4.01)
+
+## 1.2.26
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.6
+-   @sap-ux/edmx-parser@0.7.0
+
+## 1.2.25
+
+### Patch Changes
+
+-   Updated dependencies [260e502]
+    -   @sap-ux/annotation-converter@0.8.5
+
+## 1.2.24
+
+### Patch Changes
+
+-   160e4ec: fix: proper query for expand levels
+
+## 1.2.23
+
+### Patch Changes
+
+-   5707fd4: fix subExpand in topLevels
+
+## 1.2.22
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.4
+-   @sap-ux/edmx-parser@0.7.0
+
+## 1.2.21
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.3
+-   @sap-ux/edmx-parser@0.7.0
+
+## 1.2.20
+
+### Patch Changes
+
+-   1b29820: Fix an issue with null in property names
+
+## 1.2.19
+
+### Patch Changes
+
+-   cc89632: MaxLength is now considered for string key properties
+
+## 1.2.18
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.8.2
+-   @sap-ux/edmx-parser@0.7.0
+
+## 1.2.17
+
+### Patch Changes
+
+-   08baacc: Allow to define hierarchies with complex keys
+
+## 1.2.16
+
+### Patch Changes
+
+-   4588dc4: The mockserver now handles $filter and $orderby in $expand clauses
+
+## 1.2.15
+
+### Patch Changes
+
+-   e33af15: feat: support the "unofficial" search for v2
+
+## 1.2.14
+
+### Patch Changes
+
+-   a2ecbcd: Fix an issue with applyDefinition not resolving navProperty values
+
+## 1.2.13
+
+### Patch Changes
+
+-   e632150: getReferentialConstraint was not working when there was an implementation file associated with a hierarchic entity
+
+## 1.2.12
+
+### Patch Changes
+
+-   14094c5: Fix an issue with not lambda parsing
+
+## 1.2.11
+
+### Patch Changes
+
+-   ececa87: Lambda expression containing methods a properly evaluated
+
+## 1.2.10
+
+### Patch Changes
+
+-   74f6b41: Analytical queries are now properly handled
+
+## 1.2.9
+
+### Patch Changes
+
+-   9570cd8: Filter using not in front of lambda operator are now working fine
+
+## 1.2.8
+
+### Patch Changes
+
+-   0a1f7c1: encodeURI is called even when multiple keys are used
+
 ## 1.2.7
 
 ### Patch Changes

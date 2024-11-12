@@ -1,0 +1,22 @@
+[
+    {
+        "ID": "08b9350a-d0f0-4175-adc1-913d85bd2e47",
+        "code": "1000_C",
+        "name": "Segment C"
+    },
+    {
+        "ID": "91452cbd-0c01-4c73-a3d3-a62c8d61ad66",
+        "code": "1000_A",
+        "name": "Segment A"
+    },
+    {
+        "ID": "e00a3d44-3cd2-41b2-88ce-c1c8e31ceeb7",
+        "code": "1000_D",
+        "name": "Segment D"
+    },
+    {
+        "ID": "ef94e9b0-5960-4966-865f-7a11efa84a79",
+        "code": "1000_B",
+        "name": "Segment B"
+    }
+]

@@ -22,7 +22,7 @@ describe('File Based Mock Data', () => {
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
         dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
     });
-    it('can generate data', () => {
+    it('can generate data', async () => {
         const mockData: any = [];
         mockData.__generateMockData = true;
         const fileBasedData = new FileBasedMockData(
@@ -31,9 +31,38 @@ describe('File Based Mock Data', () => {
             {} as any,
             'default'
         );
-        const allEntries = fileBasedData.getAllEntries({} as any);
+        const allEntries = await fileBasedData.getAllEntries({} as any);
         expect(allEntries[0].Value.length).toBeLessThan(5);
         expect(allEntries[0].complexComputedNotNullProperty.textDescription.length).toBeLessThan(6);
+        const fileBasedData2 = new FileBasedMockData(
+            mockData,
+            metadata.getEntityType('MyMultiKeyEntity')!,
+            {} as any,
+            'default'
+        );
+        const allEntries2 = await fileBasedData2.getAllEntries({} as any);
+        expect(allEntries2[0].Value.length).toBeLessThan(5);
+        expect(allEntries2[0].StrKey.length).toBeLessThan(4);
+        expect(allEntries2[0].MyValue).not.toBe(null);
+        expect(allEntries2[0].MyValueNotNull.length).toBe(16);
+        expect(allEntries2[1].StrKey.length).toBeLessThan(4);
+        expect(allEntries2[2].StrKey.length).toBeLessThan(4);
+        const mockData2: any = [];
+        mockData2.__generateMockData = true;
+        mockData2.__forceNullableValuesToNull = true;
+        const fileBasedData3 = new FileBasedMockData(
+            mockData2,
+            metadata.getEntityType('MyMultiKeyEntity')!,
+            {} as any,
+            'default'
+        );
+        const allEntries3 = await fileBasedData3.getAllEntries({} as any);
+        expect(allEntries3[0].Value).toBe(null);
+        expect(allEntries3[0].StrKey.length).toBeLessThan(4);
+        expect(allEntries3[0].MyValue).toBe(null);
+        expect(allEntries3[0].MyValueNotNull.length).toBe(16);
+        expect(allEntries3[1].StrKey.length).toBeLessThan(4);
+        expect(allEntries3[2].StrKey.length).toBeLessThan(4);
     });
     it('can recognize propertyPaths', () => {
         expect(isPropertyPathExpression(undefined)).toBe(false);

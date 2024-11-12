@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="SEPMRA_PROD_MAN" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="I_DraftAdministrativeDataType" sap:label="Draft Administration Data" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false" sap:label="Draft (Technical ID)"/>
+                <Property Name="DraftEntityType" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Draft Entity ID"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Created On"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="CreatedByUserDescription" sap:label="Draft Created By"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Last Changed On"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="LastChangedByUserDescription" sap:label="Draft Last Changed By"/>
+                <Property Name="DraftAccessType" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Draft Access Type"/>
+                <Property Name="ProcessingStartDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft In Process Since"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:text="InProcessByUserDescription" sap:label="Draft In Process By"/>
+                <Property Name="DraftIsKeptByUser" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Draft Is Kept By User"/>
+                <Property Name="EnqueueStartDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Locked Since"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Draft Created By Me"/>
+                <Property Name="DraftIsLastChangedByMe" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Draft Last Changed By Me"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Draft In Process By Me"/>
+                <Property Name="CreatedByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Draft Created By (Description)"/>
+                <Property Name="LastChangedByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Draft Last Changed By (Description)"/>
+                <Property Name="InProcessByUserDescription" Type="Edm.String" MaxLength="80" sap:label="Draft In Process By (Description)"/>
+            </EntityType>
+            <EntityType Name="SEPMRA_C_PD_ProductType" sap:label="Product" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Product"/>
+                    <PropertyRef Name="DraftUUID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="StartingSaleDate" Type="Edm.DateTimeOffset" Precision="7" sap:label="Starting Sale Date"/>
+                <Property Name="Product" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Product" sap:quickinfo="Product ID" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Price" Type="Edm.Decimal" Precision="16" Scale="3" sap:label="Price per Unit" sap:quickinfo="Fiori Reference Apps: Product Unit Price"/>
+                <Property Name="Supplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Supplier ID" sap:value-list="standard"/>
+                <Property Name="Name" Type="Edm.String" MaxLength="255" sap:label="Name" sap:quickinfo="Product Name" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false" sap:label="Key"/>
+                <Property Name="DraftEntityCreationDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Created On"/>
+                <Property Name="DraftEntityLastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Draft Last Changed On"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Has active" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Has Draft" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" sap:display-format="UpperCase" sap:label="Is active" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Relationship="SEPMRA_PROD_MAN.assoc_702DB7528B27A21521DA3341CAAE7C2B" FromRole="FromRole_assoc_702DB7528B27A21521DA3341CAAE7C2B" ToRole="ToRole_assoc_702DB7528B27A21521DA3341CAAE7C2B"/>
+                <NavigationProperty Name="SiblingEntity" Relationship="SEPMRA_PROD_MAN.assoc_0A4E50C949533A94AEC1923AC2CE207D" FromRole="FromRole_assoc_0A4E50C949533A94AEC1923AC2CE207D" ToRole="ToRole_assoc_0A4E50C949533A94AEC1923AC2CE207D"/>
+            </EntityType>
+            <Association Name="assoc_702DB7528B27A21521DA3341CAAE7C2B" sap:content-version="1">
+                <End Type="SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType" Multiplicity="1" Role="FromRole_assoc_702DB7528B27A21521DA3341CAAE7C2B"/>
+                <End Type="SEPMRA_PROD_MAN.I_DraftAdministrativeDataType" Multiplicity="0..1" Role="ToRole_assoc_702DB7528B27A21521DA3341CAAE7C2B"/>
+            </Association>
+            <Association Name="assoc_0A4E50C949533A94AEC1923AC2CE207D" sap:content-version="1">
+                <End Type="SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType" Multiplicity="1" Role="FromRole_assoc_0A4E50C949533A94AEC1923AC2CE207D"/>
+                <End Type="SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType" Multiplicity="0..1" Role="ToRole_assoc_0A4E50C949533A94AEC1923AC2CE207D"/>
+            </Association>
+            <EntityContainer Name="SEPMRA_PROD_MAN_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="I_DraftAdministrativeData" EntityType="SEPMRA_PROD_MAN.I_DraftAdministrativeDataType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="SEPMRA_C_PD_Product" EntityType="SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType" sap:searchable="true" sap:content-version="1"/>
+                <AssociationSet Name="assoc_702DB7528B27A21521DA3341CAAE7C2B" Association="SEPMRA_PROD_MAN.assoc_702DB7528B27A21521DA3341CAAE7C2B" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SEPMRA_C_PD_Product" Role="FromRole_assoc_702DB7528B27A21521DA3341CAAE7C2B"/>
+                    <End EntitySet="I_DraftAdministrativeData" Role="ToRole_assoc_702DB7528B27A21521DA3341CAAE7C2B"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_0A4E50C949533A94AEC1923AC2CE207D" Association="SEPMRA_PROD_MAN.assoc_0A4E50C949533A94AEC1923AC2CE207D" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SEPMRA_C_PD_Product" Role="FromRole_assoc_0A4E50C949533A94AEC1923AC2CE207D"/>
+                    <End EntitySet="SEPMRA_C_PD_Product" Role="ToRole_assoc_0A4E50C949533A94AEC1923AC2CE207D"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotations Target="SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            </Annotations>
+            <Annotations Target="SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            </Annotations>
+            <atom:link rel="self" href="http://ims.saplabs.com:50017/sap/opu/odata/sap/SEPMRA_PROD_MAN/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://ims.saplabs.com:50017/sap/opu/odata/sap/SEPMRA_PROD_MAN/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

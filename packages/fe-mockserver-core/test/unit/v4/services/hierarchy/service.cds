@@ -1,16 +1,16 @@
 service v4tree {
   @Aggregation.RecursiveHierarchy#SalesOrgHierarchy: {
     NodeProperty: ID,
-    ParentNavigationProperty: Superordinate,
-    DistanceFromRootProperty: DistanceFromRoot
+    ParentNavigationProperty: Superordinate
   }
   @Hierarchy.RecursiveHierarchy#SalesOrgHierarchy: {
-    ExternalKeyProperty: ID,
-    LimitedDescendantCountProperty: LimitedDescendantCount,
-    DistanceFromRootProperty: DistanceFromRoot,
-    DrillStateProperty: DrillState,
-    MatchedProperty: Matched,
-    MatchedDescendantCountProperty: MatchedDescendantCount
+    ExternalKey: ID,
+    LimitedDescendantCount: LimitedDescendantCount,
+    DistanceFromRoot: DistanceFromRoot,
+    DrillState: DrillState,
+    Matched: Matched,
+    MatchedDescendantCount: MatchedDescendantCount,
+    LimitedRank : LimitedRank,
   }
   @Capabilities.FilterRestrictions: {
     NonFilterableProperties: [LimitedDescendantCount,DistanceFromRoot,DrillState,Matched,MatchedDescendantCount]
@@ -34,6 +34,8 @@ service v4tree {
     Matched : Boolean;
     @Core.Computed: true
     MatchedDescendantCount : Integer64;
+    @Core.Computed: true
+    LimitedRank : Integer64;
   };
 
   @Aggregation.RecursiveHierarchy#ProductsHierarchy: {

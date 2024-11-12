@@ -4,11 +4,11 @@ import type {
     AnnotationList,
     AnnotationPathExpression,
     AnnotationRecord,
-    Apply,
     Expression,
     FullyQualifiedName,
     NavigationPropertyPathExpression,
     PathExpression,
+    PrimitiveType,
     PropertyPathExpression,
     PropertyValue,
     RawAction,
@@ -34,6 +34,7 @@ import type {
     ReferentialConstraint,
     SimpleIdentifier
 } from '@sap-ux/vocabularies-types';
+import type { StringExpression } from '@sap-ux/vocabularies-types/src';
 import { xml2js } from 'xml-js';
 import { ensureArray, RawMetadataInstance } from './utils';
 import type { V2annotationsSupport } from './v2annotationsSupport';
@@ -106,9 +107,7 @@ function parseProperties(
             if (entityProperty._attributes.Scale) {
                 edmProperty.scale = parseInt(entityProperty._attributes.Scale, 10);
             }
-            if (entityProperty._attributes.Nullable) {
-                edmProperty.nullable = entityProperty._attributes.Nullable !== 'false';
-            }
+            edmProperty.nullable = entityProperty._attributes.Nullable !== 'false';
             if (entityProperty._attributes.DefaultValue) {
                 switch (edmProperty.type) {
                     case 'Edm.Int16':
@@ -530,12 +529,13 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
                 if (param._attributes.Scale) {
                     edmActionParameter.scale = parseInt(param._attributes.Scale, 10);
                 }
-                if (param._attributes.Nullable) {
-                    edmActionParameter.nullable = param._attributes.Nullable !== 'false';
-                }
+                edmActionParameter.nullable = param._attributes.Nullable !== 'false';
                 return edmActionParameter;
             }),
-            returnType: action.ReturnType ? unaliasType(action.ReturnType._attributes.Type).type : ''
+            returnType: action.ReturnType ? unaliasType(action.ReturnType._attributes.Type).type : '',
+            returnCollection: action.ReturnType
+                ? action.ReturnType._attributes.Type.match(collectionRegexp) !== null
+                : false
         };
     });
 }
@@ -564,7 +564,10 @@ function parseV2FunctionImport(
                     isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
                 };
             }),
-            returnType: action._attributes.ReturnType ? action._attributes.ReturnType : ''
+            returnType: action._attributes.ReturnType ? action._attributes.ReturnType : '',
+            returnCollection: action._attributes.ReturnType
+                ? action._attributes.ReturnType.match(collectionRegexp) !== null
+                : false
         };
     });
 }
@@ -604,7 +607,7 @@ function parsePropertyValues(
             outPropertyValue.name = _attributes.Property;
             const currentPropertyTarget = `${currentTarget}/${outPropertyValue.name}`;
             if (properties && Object.keys(properties).length > 0) {
-                outPropertyValue.value = parseExpression(properties, currentPropertyTarget, annotationsLists);
+                outPropertyValue.value = parseExpression(properties, currentPropertyTarget, annotationsLists, false);
             } else if (attributeKey) {
                 outPropertyValue.value = parseInlineExpression(
                     { [attributeKey]: _attributes[attributeKey] },
@@ -676,7 +679,7 @@ function parseCollection(
     annotationsLists: AnnotationList[]
 ):
     | AnnotationRecord[]
-    | string[]
+    | StringExpression[]
     | PropertyPathExpression[]
     | PathExpression[]
     | AnnotationPathExpression[]
@@ -703,7 +706,7 @@ function parseCollection(
     } else if (isExpressionOfType<EDMX.StringCollectionWrapper>(collection, 'String')) {
         const stringArray = ensureArray(collection.String).map((stringValue) => stringValue._text);
         (stringArray as any).type = 'String';
-        return stringArray;
+        return stringArray as unknown as StringExpression[];
     } else if (isExpressionOfType<EDMX.AnnotationPathCollectionWrapper>(collection, 'AnnotationPath')) {
         const annotationPathArray = ensureArray(collection.AnnotationPath).map(
             (annotationPath) => parseModelPath(annotationPath, 'AnnotationPath') as AnnotationPathExpression
@@ -728,8 +731,23 @@ function parseCollection(
     return [];
 }
 
-function parseApply(applyExpression: EDMX.ApplyExpression): Apply {
-    return applyExpression;
+function parseChildren(expressionWithChild: any): any {
+    const keys = Object.keys(expressionWithChild).filter(
+        (keyValue) => keyValue !== '_attributes' && keyValue !== 'Annotation'
+    );
+    let outObj: any = [];
+    keys.forEach((key) => {
+        if (Array.isArray(expressionWithChild[key])) {
+            outObj = outObj.concat(
+                expressionWithChild[key].map((child: any) => {
+                    return parseExpression({ [key]: child }, '', [], true);
+                })
+            );
+        } else {
+            outObj.push(parseExpression({ [key]: expressionWithChild[key] }, '', [], true));
+        }
+    });
+    return outObj;
 }
 
 function parseInlineExpression(
@@ -815,7 +833,48 @@ function parseInlineExpression(
         case 'Apply':
             return {
                 type: 'Apply',
-                Apply: parseApply(expression.Apply)
+                $Apply: parseChildren(expression.Apply),
+                $Function: parseChildren(expression.Function)
+            };
+        case 'And':
+            return {
+                type: 'And',
+                $And: parseChildren(expression.And)
+            };
+        case 'Or':
+            return {
+                type: 'Or',
+                $Or: parseChildren(expression.Or)
+            };
+        case 'Eq':
+            return {
+                type: 'Eq',
+                $Eq: parseChildren(expression.Eq)
+            };
+        case 'Gt':
+            return {
+                type: 'Gt',
+                $Gt: parseChildren(expression.Gt)
+            };
+        case 'Ge':
+            return {
+                type: 'Ge',
+                $Ge: parseChildren(expression.Ge)
+            };
+        case 'Lt':
+            return {
+                type: 'Lt',
+                $Lt: parseChildren(expression.Lt)
+            };
+        case 'Le':
+            return {
+                type: 'Le',
+                $Le: parseChildren(expression.Le)
+            };
+        case 'If':
+            return {
+                type: 'If',
+                $If: parseChildren(expression.If)
             };
         case 'Null':
             return {
@@ -828,12 +887,24 @@ function parseInlineExpression(
             };
     }
 }
-
 function parseExpression(
     expression: EDMX.Expression<{}>,
     currentTarget: string,
-    annotationsLists: AnnotationList[]
-): Expression {
+    annotationsLists: AnnotationList[],
+    simplifyPrimitive: false
+): Expression;
+function parseExpression(
+    expression: EDMX.Expression<{}>,
+    currentTarget: string,
+    annotationsLists: AnnotationList[],
+    simplifyPrimitive: true
+): Expression | PrimitiveType;
+function parseExpression(
+    expression: EDMX.Expression<{}>,
+    currentTarget: string,
+    annotationsLists: AnnotationList[],
+    simplifyPrimitive: boolean
+): Expression | PrimitiveType {
     const expressionKeys = Object.keys(expression);
     if (expressionKeys.length > 1) {
         throw new Error(`Too many expressions defined on a single object ${JSON.stringify(expression)}`);
@@ -841,21 +912,39 @@ function parseExpression(
     const expressionKey = expressionKeys[0];
     switch (expressionKey) {
         case 'String':
+            if (simplifyPrimitive) {
+                return (expression[expressionKey] as any)._text as string;
+            }
             return {
                 type: 'String',
                 String: (expression[expressionKey] as any)._text as string
             };
+        case 'LabeledElement':
+            return {
+                type: 'LabeledElement',
+                $Name: (expression.LabeledElement as any)._attributes.Name,
+                $LabeledElement: parseChildren(expression.LabeledElement)[0]
+            };
         case 'Bool':
+            if (simplifyPrimitive) {
+                return (expression.Bool as any)._text === 'true';
+            }
             return {
                 type: 'Bool',
                 Bool: (expression.Bool as any)._text === 'true'
             };
         case 'Int':
+            if (simplifyPrimitive) {
+                return parseInt((expression.Int as any)._text as string, 10);
+            }
             return {
                 type: 'Int',
                 Int: parseInt((expression.Int as any)._text as string, 10)
             };
         case 'Decimal':
+            if (simplifyPrimitive) {
+                return parseFloat((expression.Decimal as any)._text as string);
+            }
             return {
                 type: 'Decimal',
                 Decimal: parseFloat((expression.Decimal as any)._text as string)
@@ -902,11 +991,65 @@ function parseExpression(
         case 'Apply':
             return {
                 type: 'Apply',
-                Apply: parseApply(expression.Apply)
+                $Apply: parseChildren(expression.Apply),
+                $Function: (expression.Apply as any)._attributes.Function
             };
         case 'Null':
+            if (simplifyPrimitive) {
+                return null;
+            }
             return {
                 type: 'Null'
+            };
+        case 'And':
+            return {
+                type: 'And',
+                $And: parseChildren(expression.And)
+            };
+        case 'Ne':
+            return {
+                type: 'Ne',
+                $Ne: parseChildren(expression.Ne)
+            };
+        case 'Not':
+            return {
+                type: 'Not',
+                $Not: parseChildren(expression.Not)[0]
+            };
+        case 'Or':
+            return {
+                type: 'Or',
+                $Or: parseChildren(expression.Or)
+            };
+        case 'Eq':
+            return {
+                type: 'Eq',
+                $Eq: parseChildren(expression.Eq)
+            };
+        case 'If':
+            return {
+                type: 'If',
+                $If: parseChildren(expression.If)
+            };
+        case 'Gt':
+            return {
+                type: 'Gt',
+                $Gt: parseChildren(expression.Gt)
+            };
+        case 'Ge':
+            return {
+                type: 'Ge',
+                $Ge: parseChildren(expression.Ge)
+            };
+        case 'Lt':
+            return {
+                type: 'Lt',
+                $Lt: parseChildren(expression.Lt)
+            };
+        case 'Le':
+            return {
+                type: 'Le',
+                $Le: parseChildren(expression.Le)
             };
         default:
             console.error('Unsupported expression type ' + expressionKey);
@@ -952,7 +1095,8 @@ function parseAnnotation(
         outAnnotation.value = parseExpression(
             { [keys[0]]: (annotation as any)[keys[0]] },
             currentAnnotationTarget,
-            annotationsLists
+            annotationsLists,
+            false
         );
     } else if (keys.length > 1) {
         console.error(`Cannot parse ${JSON.stringify(annotation)}, expression type is not supported`);

@@ -37,8 +37,47 @@ import { convert, defaultReferences, revertTermToGenericType } from '../src';
 import { loadFixture } from './fixturesHelper';
 
 describe('Annotation Converter', () => {
+    it('can convert EDMX with action annotations', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/actions/metadata.xml'));
+        const parsedAnnotation = parse(await loadFixture('v4/actions/annotations.xml'), 'annotations');
+        const result = merge(parsedEDMX, parsedAnnotation);
+        const convertedTypes = convert(result);
+        expect(
+            convertedTypes.actions.by_fullyQualifiedName(
+                'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+            )
+        ).not.toBeUndefined();
+        expect(
+            convertedTypes.actions.by_fullyQualifiedName(
+                'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+            )?.annotations
+        ).not.toBeUndefined();
+        expect(
+            convertedTypes.actions
+                .by_fullyQualifiedName(
+                    'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+                )
+                ?.parameters.by_name('_SerialList')
+        ).not.toBeUndefined();
+        expect(
+            convertedTypes.actions
+                .by_fullyQualifiedName(
+                    'com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))'
+                )
+                ?.parameters.by_name('_SerialList')
+                ?.annotations.UI?.Hidden?.valueOf()
+        ).not.toBeUndefined();
+    });
+
     it('can convert EDMX with multiple schemas', async () => {
         const parsedEDMX = parse(await loadFixture('northwind.metadata.xml'));
+        const convertedTypes = convert(parsedEDMX);
+        expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
+    });
+
+    it('can convert EDMX with multiple schemas', async () => {
+        const parsedEDMX = parse(await loadFixture('bugs/metadata.xml'));
+        Object.freeze(parsedEDMX);
         const convertedTypes = convert(parsedEDMX);
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
     });
@@ -415,6 +454,18 @@ describe('Annotation Converter', () => {
             expect(target.objectPath.length).toEqual(11); // EntityContainer / EntitySet / EntityType / Action / ActionParameter / EntityType / NavigationProperty / EntityType / NavigationProperty / EntityType / Property
             expect(target.target._type).toEqual('Property');
             expect(target.target.name).toEqual('isVerified');
+        });
+
+        it('can resolve a path starting at an unbound action', () => {
+            const target: ResolutionTarget<any> = convertedTypes.resolvePath(
+                '/com.c_salesordermanage_sd.UnboundAction/0'
+            );
+
+            expect(target.target).not.toBeNull();
+            expect(target.target).not.toBeUndefined();
+            expect(target.objectPath.length).toEqual(1); // Action
+            expect(target.target._type).toEqual('Action');
+            expect(target.target.name).toEqual('UnboundAction');
         });
 
         it('can resolve /$Type starting at an entity type', () => {

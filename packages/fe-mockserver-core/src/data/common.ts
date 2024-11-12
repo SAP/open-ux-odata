@@ -9,6 +9,7 @@ import type {
 import type { ILogger } from '@ui5/logger';
 import type { IFileLoader } from '../index';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
+import type { FilterExpression } from '../request/filterParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
 import type { ODataMetadata } from './metadata';
@@ -19,7 +20,12 @@ export type PartialReferentialConstraint = {
 };
 export interface EntitySetInterface {
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
-    checkFilter(mockData: object, filterExpression: any, tenantId: string, odataRequest: ODataRequest): boolean;
+    checkFilter(
+        mockData: object,
+        filterExpression: FilterExpression,
+        tenantId: string,
+        odataRequest: ODataRequest
+    ): boolean;
     checkSearch(mockData: object, searchQueries: string[], odataRequest: ODataRequest): boolean;
     executeAction(
         actionDefinition: Action,
@@ -58,9 +64,12 @@ export interface EntitySetInterface {
     getEntityInterface(entitySetName: string, tenantId: string): Promise<FileBasedMockData | undefined>;
     getMockData(tenantId: string): FileBasedMockData;
     isV4(): boolean;
+    shouldValidateETag(): boolean;
+    isDraft(): boolean;
 }
 export interface DataAccessInterface {
     isV4(): boolean;
+    shouldValidateETag(): boolean;
     getNavigationPropertyKeys(
         data: any,
         navPropDetail: NavigationProperty,
@@ -73,6 +82,7 @@ export interface DataAccessInterface {
     getMockEntitySet(
         entityTypeName: string,
         generateMockData?: boolean,
+        forceNullableValuesToNull?: boolean,
         containedEntityType?: EntityType,
         containedData?: any
     ): Promise<EntitySetInterface>;
@@ -93,19 +103,22 @@ export class ExecutionError extends Error {
     isSAPMessage: boolean;
     isCustomError = true;
     headers: Record<string, string>;
+    isGlobalRequestError: boolean;
 
     constructor(
         message: string,
         statusCode: number,
         messageData: any,
         isSAPMessage: boolean,
-        headers: Record<string, string> = {}
+        headers: Record<string, string> = {},
+        isGlobalRequestError = false
     ) {
         super(message);
         this.statusCode = statusCode;
         this.messageData = messageData;
         this.isSAPMessage = isSAPMessage;
         this.headers = headers;
+        this.isGlobalRequestError = isGlobalRequestError;
     }
 }
 
@@ -148,4 +161,13 @@ export function getData(fullData: any, objectPath: string): any {
         const subObjectPath = objectPath.split('/');
         return getData(fullData[subObjectPath[0]], subObjectPath.slice(1).join('/'));
     }
+}
+
+export function setData(currentNode: any, deepProperty: string, value: any) {
+    const deepPropertyPath = deepProperty.split('/');
+    for (const deepPropertyPart of deepPropertyPath.slice(0, deepPropertyPath.length - 1)) {
+        currentNode[deepPropertyPart] ??= {};
+        currentNode = currentNode[deepPropertyPart];
+    }
+    currentNode[deepPropertyPath[deepPropertyPath.length - 1]] = value;
 }

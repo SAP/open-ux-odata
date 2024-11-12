@@ -23,16 +23,28 @@ import type {
     TransformationDefinition
 } from '../request/applyParser';
 import type { FilterExpression } from '../request/filterParser';
-import type { ExpandDefinition, KeyDefinitions, QueryPath } from '../request/odataRequest';
+import type { ExpandDefinition, KeyDefinitions, QueryPath, SelectDefinition } from '../request/odataRequest';
 import ODataRequest from '../request/odataRequest';
 import type { IncomingMessageWithTenant } from '../router/serviceRouter';
 import type { DataAccessInterface, EntitySetInterface } from './common';
-import { ExecutionError, getData, _getDateTimeOffset } from './common';
+import { ExecutionError, getData, setData, _getDateTimeOffset } from './common';
 import { ContainedDataEntitySet } from './entitySets/ContainedDataEntitySet';
 import { DraftMockEntitySet } from './entitySets/draftEntitySet';
 import { MockDataEntitySet } from './entitySets/entitySet';
 import { StickyMockEntitySet } from './entitySets/stickyEntitySet';
 import type { ODataMetadata } from './metadata';
+
+type ApplyToExpandTreeFunction = (
+    this: DataAccess,
+    data: Record<string, any>,
+    entityType: EntityType,
+    navigationProperty: NavigationProperty,
+    targetEntitySet: EntitySet | Singleton | undefined,
+    expandDefinition: ExpandDefinition,
+    odataRequest: ODataRequest
+) => Promise<void>;
+
+type Data = Record<string, any> | undefined | null;
 
 /**
  *
@@ -43,9 +55,11 @@ export class DataAccess implements DataAccessInterface {
     public log: ILogger;
     protected readonly strictKeyMode: boolean;
     protected readonly contextBasedIsolation: boolean;
+    protected readonly validateETag: boolean;
     protected entitySets: Record<string, MockDataEntitySet> = {};
     protected stickyEntitySets: StickyMockEntitySet[] = [];
     protected generateMockData: boolean;
+    protected forceNullableValuesToNull: boolean;
 
     public constructor(
         private service: ServiceConfig,
@@ -59,7 +73,9 @@ export class DataAccess implements DataAccessInterface {
 
         this.strictKeyMode = !!service.strictKeyMode;
         this.generateMockData = !!service.generateMockData;
+        this.forceNullableValuesToNull = !!service.forceNullableValuesToNull;
         this.contextBasedIsolation = !!service.contextBasedIsolation;
+        this.validateETag = !!service.validateETag;
         this.fileLoader = fileLoader;
         if (this.generateMockData) {
             this.log.info('Missing mockdata will be generated');
@@ -71,17 +87,25 @@ export class DataAccess implements DataAccessInterface {
         return this.metadata.getVersion() !== '2.0';
     }
 
+    public shouldValidateETag(): boolean {
+        return this.validateETag;
+    }
+
     private initializeMockData() {
         // Preload the mock entityset asynchronously
         this.metadata.getEntitySets().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData).catch((error) => {
-                this.log.info(`Error while loading mockdata for entityset ${entitySet.name}: ${error}`);
-            });
+            this.getMockEntitySet(entitySet.name, this.generateMockData, this.forceNullableValuesToNull).catch(
+                (error) => {
+                    this.log.info(`Error while loading mockdata for entityset ${entitySet.name}: ${error}`);
+                }
+            );
         });
         this.metadata.getSingletons().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData).catch((error) => {
-                this.log.info(`Error while loading mockdata for singleton ${entitySet.name}: ${error}`);
-            });
+            this.getMockEntitySet(entitySet.name, this.generateMockData, this.forceNullableValuesToNull).catch(
+                (error) => {
+                    this.log.info(`Error while loading mockdata for singleton ${entitySet.name}: ${error}`);
+                }
+            );
         });
     }
 
@@ -96,6 +120,7 @@ export class DataAccess implements DataAccessInterface {
     public async getMockEntitySet(
         entityTypeName?: string,
         generateMockData: boolean = false,
+        forceNullableValuesToNull: boolean = false,
         containedEntityType?: EntityType,
         containedData?: any
     ): Promise<EntitySetInterface> {
@@ -109,10 +134,22 @@ export class DataAccess implements DataAccessInterface {
             let mockEntitySet: MockDataEntitySet;
             if (entitySet && this.metadata.isDraftEntity(entitySet)) {
                 this.log.info(`Creating draft entity for ${entitySet?.name}`);
-                mockEntitySet = new DraftMockEntitySet(this.mockDataRootFolder, entitySet, this, generateMockData);
+                mockEntitySet = new DraftMockEntitySet(
+                    this.mockDataRootFolder,
+                    entitySet,
+                    this,
+                    generateMockData,
+                    forceNullableValuesToNull
+                );
             } else if (entitySet && this.metadata.isStickyEntity(entitySet)) {
                 this.log.info(`Creating sticky entity for ${entitySet?.name}`);
-                mockEntitySet = new StickyMockEntitySet(this.mockDataRootFolder, entitySet, this, generateMockData);
+                mockEntitySet = new StickyMockEntitySet(
+                    this.mockDataRootFolder,
+                    entitySet,
+                    this,
+                    generateMockData,
+                    forceNullableValuesToNull
+                );
                 this.stickyEntitySets.push(mockEntitySet as StickyMockEntitySet);
             } else {
                 this.log.info(`Creating entity for ${(entitySet || entityType)?.name}`);
@@ -120,7 +157,8 @@ export class DataAccess implements DataAccessInterface {
                     this.mockDataRootFolder,
                     entitySet || singleton || entityType,
                     this,
-                    generateMockData
+                    generateMockData,
+                    forceNullableValuesToNull
                 );
             }
             this.entitySets[entityTypeName] = mockEntitySet;
@@ -350,148 +388,214 @@ export class DataAccess implements DataAccessInterface {
         return currentKeys;
     }
 
-    async getExpandData(
+    async applyToExpandTree(
         currentEntitySet: EntitySet | Singleton | undefined,
         entityType: EntityType,
         expandNavProp: string,
-        data: any,
+        data: Data | Data[],
         requestExpandObject: Record<string, ExpandDefinition>,
-        tenantId: string,
         previousEntitySet: EntitySet | Singleton | undefined,
         visitedPaths: string[],
-        odataRequest: ODataRequest
-    ) {
+        odataRequest: ODataRequest,
+        functionToApply: ApplyToExpandTreeFunction
+    ): Promise<Data> {
         if (data === null) {
             return;
         }
-        const navProp = entityType.navigationProperties.find((entityNavProp) => entityNavProp.name === expandNavProp);
+        const navProp = entityType.navigationProperties.by_name(expandNavProp);
         visitedPaths = visitedPaths.concat();
         visitedPaths.push(expandNavProp);
         let targetEntitySet: EntitySet | Singleton | undefined;
-        if (navProp && currentEntitySet && currentEntitySet.navigationPropertyBinding[expandNavProp]) {
+        if (navProp && currentEntitySet?.navigationPropertyBinding[navProp.name]) {
             targetEntitySet = currentEntitySet.navigationPropertyBinding[expandNavProp];
-        } else if (previousEntitySet && previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')]) {
+        } else if (previousEntitySet?.navigationPropertyBinding[visitedPaths.join('/')]) {
             targetEntitySet = previousEntitySet.navigationPropertyBinding[visitedPaths.join('/')];
         }
-        if (navProp && targetEntitySet) {
-            const navEntitySet = await this.getMockEntitySet(targetEntitySet.name);
+        if (navProp) {
+            const expandDetail = requestExpandObject[navProp.name];
             const dataArray = Array.isArray(data) ? data : [data];
             for (const dataLine of dataArray) {
-                const currentKeys = await this.getNavigationPropertyKeys(
+                if (!dataLine) {
+                    continue;
+                }
+
+                await functionToApply.apply(this, [
                     dataLine,
-                    navProp,
                     entityType,
+                    navProp,
                     targetEntitySet,
-                    {},
-                    odataRequest.tenantId
-                );
-                if (navProp && !navProp.containsTarget) {
-                    let expandData = dataLine[expandNavProp];
-                    if (!expandData) {
-                        expandData = navEntitySet.performGET(currentKeys, navProp.isCollection, tenantId, odataRequest);
-                        dataLine[expandNavProp] = expandData;
-                    }
-                    const expandDetail = requestExpandObject[expandNavProp];
-                    if (expandDetail.expand && Object.keys(expandDetail.expand).length > 0) {
-                        await Promise.all(
-                            Object.keys(expandDetail.expand).map(async (subExpandNavProp) => {
-                                return this.getExpandData(
-                                    targetEntitySet,
-                                    navProp.targetType,
-                                    subExpandNavProp,
-                                    expandData,
-                                    expandDetail.expand,
-                                    tenantId,
-                                    targetEntitySet,
-                                    [],
-                                    odataRequest
-                                );
-                            })
-                        );
-                    }
+                    expandDetail,
+                    odataRequest
+                ]);
+
+                if (Object.keys(expandDetail.expand).length > 0) {
+                    await Promise.all(
+                        Object.keys(expandDetail.expand).map(async (subExpandNavProp) => {
+                            return this.applyToExpandTree(
+                                targetEntitySet,
+                                navProp.targetType,
+                                subExpandNavProp,
+                                dataLine[expandNavProp],
+                                expandDetail.expand,
+                                targetEntitySet,
+                                [],
+                                odataRequest,
+                                functionToApply
+                            );
+                        })
+                    );
                 }
             }
-        } else {
-            return data[expandNavProp];
         }
+    }
+
+    /**
+     * Applies $expand.
+     *
+     * @param data               The data to expand
+     * @param entityType         Entity type of the data
+     * @param navigationProperty The navigation property to expand
+     * @param targetEntitySet    The expanded entity set
+     * @param _expandDefinition
+     * @param odataRequest
+     */
+    private async applyExpand(
+        data: Record<string, any>,
+        entityType: EntityType,
+        navigationProperty: NavigationProperty,
+        targetEntitySet: EntitySet | Singleton | undefined,
+        _expandDefinition: ExpandDefinition,
+        odataRequest: ODataRequest
+    ): Promise<void> {
+        if (targetEntitySet && !navigationProperty.containsTarget && !data[navigationProperty.name]) {
+            const currentKeys = await this.getNavigationPropertyKeys(
+                data,
+                navigationProperty,
+                entityType,
+                targetEntitySet,
+                {},
+                odataRequest.tenantId
+            );
+
+            const targetEntitySetInterface = await this.getMockEntitySet(targetEntitySet.name);
+            data[navigationProperty.name] = await targetEntitySetInterface.performGET(
+                currentKeys,
+                navigationProperty.isCollection,
+                odataRequest.tenantId,
+                odataRequest
+            );
+        } else if (navigationProperty.containsTarget && !data[navigationProperty.name]) {
+            data[navigationProperty.name] = null; // Data is requested + contained, we need to set it to null
+        }
+    }
+
+    /**
+     * Applies $select.
+     *
+     * @param data              Data to process
+     * @param selectDefinition  Selected properties
+     * @param expandDefinitions Expanded properties
+     * @param entityType        Entity type of the data
+     */
+    private applySelect(
+        data: Data | Data[],
+        selectDefinition: SelectDefinition,
+        expandDefinitions: Record<string, ExpandDefinition>,
+        entityType: EntityType
+    ): void {
+        const dataArray: Record<string, any>[] = Array.isArray(data) ? data : [data].filter((record) => !!record);
+
+        if (selectDefinition['*']) {
+            // $select=*: all properties + expanded navigation properties
+            const selectedNavigationProperties = new Set<string>(
+                entityType.navigationProperties
+                    .map((property) => property.name)
+                    .filter(
+                        (name) =>
+                            (expandDefinitions[name] && !expandDefinitions[name].removeFromResult) ||
+                            name === 'DraftAdministrativeData'
+                    )
+            );
+
+            for (const record of dataArray) {
+                // navigation properties not part of $expand --> delete
+                if (!this.validateETag) {
+                    delete record['@odata.etag'];
+                }
+                Object.keys(record)
+                    .filter(
+                        (property) =>
+                            entityType.navigationProperties.by_name(property) &&
+                            !selectedNavigationProperties.has(property)
+                    )
+                    .forEach((property) => delete record[property]);
+            }
+        } else {
+            // explicit $select
+            if (this.validateETag) {
+                selectDefinition['@odata.etag'] = this.validateETag;
+            }
+
+            for (const record of dataArray) {
+                // neither part of $select nor a key property --> delete
+                Object.keys(record)
+                    .filter((property) => !selectDefinition[property] && !entityType.keys.by_name(property))
+                    .forEach((property) => delete record[property]);
+            }
+        }
+    }
+
+    /**
+     * Applies post-processing of expand options, such as removing properties that were not selected.
+     *
+     * @param data  The data to process
+     * @param _entityType  Entity type of the data
+     * @param navigationProperty  The expanded navigation property to process
+     * @param targetEntitySet   The target entity set of the expanded navigation property
+     * @param expandDefinition  The expand definition with all parameters
+     * @param odataRequest
+     */
+    private async applyExpandOptions(
+        data: Record<string, any>,
+        _entityType: EntityType,
+        navigationProperty: NavigationProperty,
+        targetEntitySet: EntitySet | Singleton | undefined,
+        expandDefinition: ExpandDefinition,
+        odataRequest: ODataRequest
+    ): Promise<void> {
+        if (Array.isArray(data[navigationProperty.name])) {
+            // $filter
+            if (expandDefinition.filter && targetEntitySet) {
+                const mockEntitySet = await this.getMockEntitySet(
+                    (targetEntitySet ?? navigationProperty.targetType).name
+                );
+                const filterExpression = expandDefinition.filter;
+
+                data[navigationProperty.name] = data[navigationProperty.name].filter((row: any) =>
+                    mockEntitySet.checkFilter(row, filterExpression, odataRequest.tenantId, odataRequest)
+                );
+            }
+
+            // $orderby
+            if (expandDefinition.orderBy && expandDefinition.orderBy.length > 0) {
+                data[navigationProperty.name] = this._applyOrderBy(
+                    data[navigationProperty.name],
+                    expandDefinition.orderBy
+                );
+            }
+        }
+
+        // $select
+        this.applySelect(
+            data[navigationProperty.name],
+            expandDefinition.properties,
+            expandDefinition.expand,
+            navigationProperty.targetType
+        );
     }
 
     public getMetadata(): ODataMetadata {
         return this.metadata;
-    }
-
-    private apply$Select(expandDefinition: ExpandDefinition, expandData: any[], entityType: EntityType) {
-        // preprocess the selected property names
-        let selectedPropertyNames = Object.keys(expandDefinition.properties);
-        if (selectedPropertyNames.includes('*') || selectedPropertyNames.length === 0) {
-            // select all
-            selectedPropertyNames = ['*'];
-        } else {
-            // select the specified properties plus all key properties
-            selectedPropertyNames = selectedPropertyNames
-                .map((property) => property.split('/', 1)[0]) // reduce paths to their first segment ($select=foo/bar ~> $select=foo), accepting too much data in the response for simplicity
-                .concat(...entityType.keys.map((key) => key.name)); // always include key properties
-        }
-
-        const expandedNavProps = Object.keys(expandDefinition.expand).reduce((navigationProperties, navPropName) => {
-            const navigationProperty = entityType.navigationProperties.find((navProp) => navProp.name === navPropName);
-            if (navigationProperty) {
-                navigationProperties.push(navigationProperty);
-            }
-            return navigationProperties;
-        }, [] as NavigationProperty[]);
-
-        const processedNavProps: NavigationProperty[] = [];
-
-        for (const element of expandData) {
-            // the element might be null (if it is a 1:1 navigation property)
-            if (element === null || element === undefined) {
-                continue;
-            }
-
-            // if all properties are requested ("*") keep everything else delete unwanted properties
-            if (!selectedPropertyNames.includes('*')) {
-                Object.keys(element)
-                    .filter((propertyName) => !selectedPropertyNames.includes(propertyName))
-                    .forEach((propertyName) => {
-                        delete element[propertyName];
-                    });
-            }
-            // Delete internal tihngs just in case
-            const internalProperties = ['$parent', '$children', '$rootDistance'];
-            Object.keys(element)
-                .filter((propertyName) => internalProperties.includes(propertyName))
-                .forEach((propertyName) => {
-                    delete element[propertyName];
-                });
-
-            for (const navProp of expandedNavProps) {
-                processedNavProps.push(navProp);
-
-                if (expandDefinition.expand[navProp.name].removeFromResult) {
-                    // delete the navigation property, it was expanded for internal reasons only
-                    delete element[navProp.name];
-                } else {
-                    const subElement = element[navProp.name];
-                    const subExpand = expandDefinition.expand[navProp.name];
-                    if (Array.isArray(subElement)) {
-                        this.apply$Select(subExpand, subElement, navProp.targetType);
-                    } else {
-                        this.apply$Select(subExpand, [subElement], navProp.targetType);
-                    }
-                }
-            }
-
-            // we may still want to remove navProp that were inline and not requested
-            for (const navigationProperty of entityType.navigationProperties) {
-                if (
-                    !processedNavProps.includes(navigationProperty) &&
-                    navigationProperty.name !== 'DraftAdministrativeData'
-                ) {
-                    delete element[navigationProperty.name];
-                }
-            }
-        }
     }
 
     public async getData(odataRequest: ODataRequest, dontClone: boolean = false): Promise<any> {
@@ -614,6 +718,7 @@ export class DataAccess implements DataAccessInterface {
                     await this.getMockEntitySet(
                         currentEntitySet?.name,
                         undefined,
+                        undefined,
                         targetContainedEntityType,
                         targetContainedData
                     )
@@ -651,45 +756,25 @@ export class DataAccess implements DataAccessInterface {
             );
         }
 
-        if (data !== null || (Array.isArray(data) && data.length > 0)) {
+        if (data) {
             // Apply $expand
-            if (odataRequest.expandProperties) {
-                await Promise.all(
-                    Object.keys(odataRequest.expandProperties).map(async (expandNavProp) => {
-                        return this.getExpandData(
-                            currentEntitySet,
-                            currentEntityType,
-                            expandNavProp,
-                            data,
-                            odataRequest.expandProperties,
-                            odataRequest.tenantId,
-                            previousEntitySet,
-                            visitedPaths,
-                            odataRequest
-                        );
-                    })
-                );
-            }
-            const mockEntitySet = await this.getMockEntitySet(
-                currentEntitySet ? currentEntitySet.name : currentEntityType.name
+            await Promise.all(
+                Object.keys(odataRequest.expandProperties).map(async (expandNavProp) => {
+                    return this.applyToExpandTree(
+                        currentEntitySet,
+                        currentEntityType,
+                        expandNavProp,
+                        data,
+                        odataRequest.expandProperties,
+                        previousEntitySet,
+                        visitedPaths,
+                        odataRequest,
+                        this.applyExpand
+                    );
+                })
             );
 
-            // Apply $filter
-            if (odataRequest.filterDefinition && Array.isArray(data)) {
-                const filterDef = odataRequest.filterDefinition;
-
-                data = data.filter((dataLine) => {
-                    return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId, odataRequest);
-                });
-            }
-            // Apply $search
-            if (odataRequest.searchQuery && Array.isArray(data)) {
-                const mockEntitySet = await this.getMockEntitySet((currentEntitySet ?? currentEntityType).name);
-                data = data.filter((dataLine) => {
-                    return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
-                });
-            }
-
+            const mockEntitySet = await this.getMockEntitySet((currentEntitySet ?? currentEntityType).name);
             // Apply $apply for aggregates
             const applyDefinition = odataRequest.applyDefinition;
             if (applyDefinition) {
@@ -705,6 +790,20 @@ export class DataAccess implements DataAccessInterface {
                     );
                 }
             }
+            // Apply $filter
+            if (odataRequest.filterDefinition && Array.isArray(data)) {
+                const filterDef = odataRequest.filterDefinition;
+
+                data = data.filter((dataLine) => {
+                    return mockEntitySet.checkFilter(dataLine, filterDef, odataRequest.tenantId, odataRequest);
+                });
+            }
+            // Apply $search
+            if (odataRequest.searchQuery && Array.isArray(data)) {
+                data = data.filter((dataLine) => {
+                    return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
+                });
+            }
 
             // Apply $orderby
             if (odataRequest.orderBy && odataRequest.orderBy.length > 0) {
@@ -715,36 +814,29 @@ export class DataAccess implements DataAccessInterface {
             if (!dontClone) {
                 data = cloneDeep(data);
             }
-            if (odataRequest.selectedProperties) {
-                if (odataRequest.selectedProperties['DraftAdministrativeData']) {
-                    if (Array.isArray(data)) {
-                        data = data.map((element) => {
-                            if (!element.DraftAdministrativeData) {
-                                element.DraftAdministrativeData = null;
-                            }
-                            return element;
-                        });
-                    } else if (data != null && data.constructor.name === 'Object') {
-                        if (!data.DraftAdministrativeData) {
-                            data.DraftAdministrativeData = null;
-                        }
-                    }
-                }
+            if (this.validateETag && !Array.isArray(data) && mockEntitySet.isDraft()) {
+                odataRequest.setETag(data['@odata.etag']);
             }
-            if (odataRequest.selectedProperties && Object.keys(odataRequest.selectedProperties).length > 0) {
-                const select: Record<string, boolean> = {};
-                Object.keys(odataRequest.selectedProperties).forEach((prop) => (select[prop] = true));
-                const expand = {
-                    expand: odataRequest.expandProperties ?? {},
-                    properties: select
-                };
 
-                if (Array.isArray(data)) {
-                    this.apply$Select(expand, data, currentEntityType);
-                } else if (data != null && data.constructor.name === 'Object') {
-                    this.apply$Select(expand, [data], currentEntityType);
-                }
-            }
+            this.applySelect(data, odataRequest.selectedProperties, odataRequest.expandProperties, currentEntityType);
+
+            // process $expand options (nested $select, $filter, $orderby, ...)
+            await Promise.all(
+                Object.keys(odataRequest.expandProperties).map(async (expandNavProp) => {
+                    return this.applyToExpandTree(
+                        currentEntitySet,
+                        currentEntityType,
+                        expandNavProp,
+                        data,
+                        odataRequest.expandProperties,
+                        previousEntitySet,
+                        visitedPaths,
+                        odataRequest,
+                        this.applyExpandOptions
+                    );
+                })
+            );
+
             const dataLength = Array.isArray(data) ? data.length : 1;
             odataRequest.setDataCount(dataLength);
 
@@ -829,6 +921,8 @@ export class DataAccess implements DataAccessInterface {
 
             if (isCount) {
                 data = dataLength;
+            } else {
+                data = await mockEntitySet.getMockData(odataRequest.tenantId).onAfterRead(data, odataRequest);
             }
         }
 
@@ -850,13 +944,19 @@ export class DataAccess implements DataAccessInterface {
             }
             patchData = finalPatchObject;
         }
-        return (await this.getMockEntitySet(entitySetName)).performPATCH(
+        const mockEntitySet = await this.getMockEntitySet(entitySetName);
+
+        const resultData = await mockEntitySet.performPATCH(
             odataRequest.queryPath[0].keys,
             patchData,
             odataRequest.tenantId,
             odataRequest,
             true
         );
+        if (this.validateETag && !Array.isArray(resultData) && mockEntitySet.isDraft()) {
+            odataRequest.setETag(resultData['@odata.etag']);
+        }
+        return resultData;
     }
 
     public async createData(odataRequest: ODataRequest, postData: any) {
@@ -876,7 +976,9 @@ export class DataAccess implements DataAccessInterface {
             const navPropDetail = entityType.navigationProperties.find((navProp) => navProp.name === lastNavPropName);
             if (navPropDetail) {
                 const navPropEntityType = navPropDetail.targetType;
-                const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
+                const data: any = await (
+                    await this.getMockEntitySet(parentEntitySet.name)
+                ).performGET(
                     odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
                     false,
                     odataRequest.tenantId,
@@ -933,9 +1035,14 @@ export class DataAccess implements DataAccessInterface {
                     currentKeys[key.name] = postData[key.name];
                 }
             });
-            postData = await (
-                await this.getMockEntitySet(parentEntitySet.name)
-            ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+            const mockEntitySet = await this.getMockEntitySet(parentEntitySet.name);
+            postData = await mockEntitySet.performPOST(
+                currentKeys,
+                postData,
+                odataRequest.tenantId,
+                odataRequest,
+                true
+            );
             // Update keys from location
             parentEntitySet.entityType.keys.forEach((key) => {
                 if (postData[key.name] !== undefined) {
@@ -961,6 +1068,9 @@ export class DataAccess implements DataAccessInterface {
                 );
             }
             odataRequest.setResponseData(await postData);
+            if (this.validateETag && !Array.isArray(postData) && mockEntitySet.isDraft()) {
+                odataRequest.setETag(postData['@odata.etag']);
+            }
             return postData;
         } else {
             throw new Error('Unknown Entity Set' + entitySetName);
@@ -1015,7 +1125,7 @@ export class DataAccess implements DataAccessInterface {
                         case 'Edm.Guid':
                             return `${key}=guid'${currentKeys[key]}'`;
                         default: {
-                            return `${key}='${currentKeys[key]}'`;
+                            return `${key}='${encodeURIComponent(currentKeys[key])}'`;
                         }
                     }
                 })
@@ -1146,7 +1256,7 @@ export class DataAccess implements DataAccessInterface {
                 const dataToAggregate = dataByGroup[groupName];
                 const outData: any = {};
                 applyDefinition.groupBy.forEach((propName) => {
-                    outData[propName] = dataToAggregate[0][propName];
+                    setData(outData, propName, getData(dataToAggregate[0], propName));
                 });
                 if (applyDefinition.subTransformations.length > 0) {
                     const aggregateDefinition = applyDefinition.subTransformations[0] as AggregatesTransformation;
@@ -1223,17 +1333,18 @@ export class DataAccess implements DataAccessInterface {
                 const concatData: object[] = [];
                 const startingData = cloneDeep(data);
                 for (const concatExpressions of transformationDef.concatExpr) {
+                    let transformedData = startingData;
                     for (const concatExpression of concatExpressions) {
-                        const transformedData = await this.applyTransformation(
+                        transformedData = await this.applyTransformation(
                             concatExpression,
-                            startingData,
+                            transformedData,
                             odataRequest,
                             mockEntitySet,
                             mockData,
                             currentEntityType
                         );
-                        concatData.push(...transformedData);
                     }
+                    concatData.push(...transformedData);
                 }
                 data = concatData;
                 break;
@@ -1259,7 +1370,7 @@ export class DataAccess implements DataAccessInterface {
             case 'ancestors':
                 const limitedHierarchyForAncestors = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
-                    mockData.getAllEntries(odataRequest),
+                    await mockData.getAllEntries(odataRequest),
                     odataRequest,
                     mockEntitySet,
                     mockData,
@@ -1278,7 +1389,7 @@ export class DataAccess implements DataAccessInterface {
                 data = [];
                 break;
             case 'top':
-                data = [];
+                data = data.slice(0, transformationDef.topCount);
                 break;
             case 'search':
                 data = data.filter((dataLine) => {
@@ -1289,7 +1400,7 @@ export class DataAccess implements DataAccessInterface {
             case 'descendants':
                 const limitedHierarchyData = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
-                    mockData.getAllEntries(odataRequest),
+                    await mockData.getAllEntries(odataRequest),
                     odataRequest,
                     mockEntitySet,
                     mockData,

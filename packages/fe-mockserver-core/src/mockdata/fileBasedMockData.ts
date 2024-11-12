@@ -12,7 +12,7 @@ import type { PathAnnotationExpression } from '@sap-ux/vocabularies-types/Edm';
 import type { RecursiveHierarchy } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 import cloneDeep from 'lodash.clonedeep';
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
-import { generateId, getData, uuidv4 } from '../data/common';
+import { ExecutionError, generateId, getData, setData, uuidv4, _getDateTimeOffset } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
@@ -23,8 +23,18 @@ type HierarchyDefinition = {
     matchedDescendantCountProperty: string | undefined;
     matchedProperty: string | undefined;
     limitedDescendantCountProperty: string | undefined;
+    limitedRankProperty: string | undefined;
     sourceReference: string;
 };
+
+type ToExpand = {
+    name: string;
+    depth: number;
+};
+
+function getNumberLength(number: number): number {
+    return number.toString().length;
+}
 export function isPropertyPathExpression(expression: unknown): expression is PropertyPath {
     return (expression as PropertyPath)?.type === 'PropertyPath';
 }
@@ -58,6 +68,9 @@ function performSimpleComparison(operator: string, mockValue: any, targetLiteral
         case 'ne':
             isValid = mockValue !== targetLiteral;
             break;
+        case 'in':
+            isValid = targetLiteral.includes(mockValue);
+            break;
         case 'eq':
         default:
             isValid = mockValue === targetLiteral;
@@ -74,14 +87,6 @@ function getNodeProperty(aggregationAnnotation: RecursiveHierarchy) {
     return getPathOrPropertyPath(nodeProperty);
 }
 
-function setData(currentNode: any, deepProperty: string, value: any) {
-    const deepPropertyPath = deepProperty.split('/');
-    for (const deepPropertyPart of deepPropertyPath.slice(0, deepPropertyPath.length - 1)) {
-        currentNode[deepPropertyPart] ??= {};
-    }
-    currentNode[deepPropertyPath[deepPropertyPath.length - 1]] = value;
-}
-
 function deleteData(currentNode: any, deepProperty: string) {
     const deepPropertyPath = deepProperty.split('/');
     let subNode = currentNode;
@@ -90,40 +95,97 @@ function deleteData(currentNode: any, deepProperty: string) {
     }
     delete subNode[deepPropertyPath[deepPropertyPath.length - 1]];
 }
+
+function compareRowData(
+    row1: any,
+    row2: any,
+    hierarchyNodeProperty: string,
+    hierarchySourceProperty: string,
+    isDraft: boolean,
+    applyToActiveEntity: boolean
+): boolean {
+    if (isDraft) {
+        if (hierarchyNodeProperty === hierarchySourceProperty) {
+            return (
+                getData(row1, hierarchyNodeProperty) === getData(row2, hierarchySourceProperty) &&
+                getData(row1, 'IsActiveEntity') === getData(row2, 'IsActiveEntity')
+            );
+        } else {
+            return (
+                getData(row1, hierarchyNodeProperty) === getData(row2, hierarchySourceProperty) &&
+                getData(row1, 'IsActiveEntity') === applyToActiveEntity
+            );
+        }
+    }
+    return getData(row1, hierarchyNodeProperty) === getData(row2, hierarchySourceProperty);
+}
+/**
+ *
+ */
 export class FileBasedMockData {
     protected _mockData: object[];
+    protected _keyIndex: Record<string, Record<string, number> | false> = {};
     protected _hierarchyTree: Record<string, Record<string, any>> = {};
     protected _entityType: EntityType;
     protected _mockDataEntitySet: EntitySetInterface;
     protected _contextId: string;
+    protected __generateMockData: boolean;
+    protected __forceNullableValuesToNull: boolean;
     constructor(mockData: any[], entityType: EntityType, mockDataEntitySet: EntitySetInterface, contextId: string) {
         this._entityType = entityType;
         this._contextId = contextId;
 
         this._mockDataEntitySet = mockDataEntitySet;
+        if ((mockData as any)?.__forceNullableValuesToNull) {
+            this.__forceNullableValuesToNull = true;
+        }
         if (mockData.length === 0 && (mockData as any).__generateMockData) {
+            this.__generateMockData = true;
             this._mockData = this.generateMockData();
         } else {
             this._mockData = cloneDeep(mockData);
             if (this._mockData.forEach) {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
-                    this.validateProperties(mockLine, this._entityType.entityProperties);
+                    this.validateProperties(mockLine, this._entityType.entityProperties, true);
                 });
             }
             this.cleanupHierarchies();
         }
     }
 
-    private validateProperties(mockEntry: any, properties: Property[]) {
+    private validateProperties(mockEntry: any, properties: Property[], topLevel: boolean = false) {
         properties.forEach((prop) => {
-            if (!prop.nullable && !mockEntry.hasOwnProperty(prop.name)) {
-                mockEntry[prop.name] = this.getDefaultValueFromType(prop.type, prop.targetType, prop.defaultValue);
+            if (
+                (!this.__forceNullableValuesToNull || prop.nullable === false) &&
+                !mockEntry.hasOwnProperty(prop.name)
+            ) {
+                mockEntry[prop.name] = this.getDefaultValueFromType(
+                    prop,
+                    prop.type,
+                    prop.targetType,
+                    prop.defaultValue
+                );
             } else if (mockEntry.hasOwnProperty(prop.name) && isComplexTypeDefinition(prop.targetType)) {
                 // If the property is defined from a complex type we should validate the property of the complex type
                 this.validateProperties(mockEntry[prop.name], prop.targetType.properties);
+            } else if (
+                mockEntry.hasOwnProperty(prop.name) &&
+                ['Edm.Int16', 'Edm.Int32', 'Edm.Int64'].includes(prop.type)
+            ) {
+                if (mockEntry[prop.name] === '') {
+                    mockEntry[prop.name] = ''; // hierarchy root node  case
+                } else {
+                    mockEntry[prop.name] = parseInt(mockEntry[prop.name], 10);
+                }
             }
         });
+        if (this._mockDataEntitySet?.shouldValidateETag?.()) {
+            const currentDate = _getDateTimeOffset(true);
+            if (topLevel) {
+                mockEntry['@odata.etag'] = `W/\\"${currentDate}\\"`;
+            }
+        }
     }
     public cleanupHierarchies() {
         const allAggregations = this._entityType.annotations?.Aggregation ?? {};
@@ -163,24 +225,71 @@ export class FileBasedMockData {
             deleteData(mockEntry, hierarchyDefinition.distanceFromRootProperty);
             delete mockEntry[hierarchyDefinition.distanceFromRootProperty];
         }
+        if (hierarchyDefinition.limitedRankProperty) {
+            deleteData(mockEntry, hierarchyDefinition.limitedRankProperty);
+            delete mockEntry[hierarchyDefinition.limitedRankProperty];
+        }
     }
 
     async addEntry(mockEntry: any, _odataRequest: ODataRequest): Promise<void> {
         this._mockData.push(mockEntry);
+        this.createKeyIndex();
     }
 
     async updateEntry(
         keyValues: KeyDefinitions,
-        updatedData: object,
+        updatedData: any,
         _patchData: object,
         _odataRequest: ODataRequest
     ): Promise<void> {
+        if (
+            this._mockDataEntitySet.shouldValidateETag?.() &&
+            _odataRequest.etagReference !== updatedData['@odata.etag']
+        ) {
+            throw new ExecutionError(
+                'ETag condition not met',
+                412,
+                { code: 412001, message: 'ETag condition not met' },
+                false
+            );
+        }
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
+        const currentDate = _getDateTimeOffset(true);
+        if (this._mockDataEntitySet?.shouldValidateETag?.()) {
+            updatedData['@odata.etag'] = `W/\\"${currentDate}\\"`;
+        }
+
         this._mockData[dataIndex] = updatedData;
+        this.createKeyIndex();
     }
 
-    fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
+    fetchIndexFromKey(keys: Property[], keyValues: KeyDefinitions, _odataRequest: ODataRequest): number | false {
+        const fetchedKeys = Object.keys(keyValues);
+        const keyIndex = this.createKeyIndex(fetchedKeys);
+        if (keyIndex === false) {
+            return false;
+        }
+        const key = fetchedKeys
+            .map((keyProp) => {
+                const keyValue = keyValues[keyProp];
+                if (keyValue && typeof keyValue === 'string' && keyValue.startsWith("guid'")) {
+                    return keyValue.substring(5, keyValue.length - 1);
+                }
+                return keyValues[keyProp];
+            })
+            .join('-');
+        return keyIndex[key] ?? -1;
+    }
+
+    async fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<object[]> {
         const keys = this._entityType.keys;
+        const indexFromKey = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
+        if (indexFromKey !== false) {
+            if (indexFromKey === -1) {
+                return [];
+            }
+            return [this._mockData[indexFromKey]];
+        }
         return this._mockData.filter((mockData) => {
             return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
         });
@@ -194,18 +303,53 @@ export class FileBasedMockData {
         return this._mockData.length > 0;
     }
 
-    getAllEntries(_odataRequest: ODataRequest, dontClone: boolean = false): any[] {
+    async getAllEntries(_odataRequest: ODataRequest, dontClone: boolean = false): Promise<any[]> {
         if (dontClone) {
             return this._mockData;
         }
         return cloneDeep(this._mockData);
     }
 
+    protected createKeyIndex(keys?: string[]): false | Record<string, number> {
+        if (!keys) {
+            this._keyIndex = {};
+            keys = this._entityType.keys.map((keyProp) => keyProp.name);
+        }
+        const indexName = keys.join('-');
+        if (this._keyIndex[indexName] === false) {
+            return false; // Cannot create an index for those keys
+        } else if (this._keyIndex[indexName] !== undefined) {
+            return this._keyIndex[indexName];
+        }
+        try {
+            const keyIndex: Record<string, number> = {};
+            this._mockData.forEach((mockData: any, index: number) => {
+                const key = keys!
+                    .map((keyProp) => {
+                        return mockData[keyProp];
+                    })
+                    .join('-');
+                if (keyIndex[key] !== undefined) {
+                    throw new Error(`Duplicate key found for key ${key}`);
+                }
+                keyIndex[key] = index;
+            });
+            this._keyIndex[indexName] = keyIndex;
+        } catch (e: unknown) {
+            this._keyIndex[indexName] = false;
+        }
+        return this._keyIndex[indexName];
+    }
     protected getDataIndex(keyValues: KeyDefinitions, _odataRequest: ODataRequest): number {
         const keys = this._entityType.keys;
-        return this._mockData.findIndex((mockData) => {
-            return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
-        });
+        const indexFromKey = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
+        if (indexFromKey !== false) {
+            return indexFromKey;
+        } else {
+            return this._mockData.findIndex((mockData) => {
+                return Object.keys(keyValues).every(this.checkKeyValues(mockData, keyValues, keys, _odataRequest));
+            });
+        }
     }
 
     private checkKeyValues(mockData: object, keyValues: KeyDefinitions, keys: Property[], _odataRequest: ODataRequest) {
@@ -219,19 +363,29 @@ export class FileBasedMockData {
         };
     }
 
+    /**
+     *
+     * @param keyValues
+     * @param _odataRequest
+     */
     async removeEntry(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<void> {
         const dataIndex = this.getDataIndex(keyValues, _odataRequest);
 
         if (dataIndex !== -1) {
             this._mockData.splice(dataIndex, 1);
         }
+        this.createKeyIndex();
     }
 
     protected getDefaultValueFromType(
+        property: Property,
         type: string,
         complexType: ComplexType | TypeDefinition | undefined,
         defaultValue?: any
     ): any {
+        if (this.__forceNullableValuesToNull && property.nullable) {
+            return null;
+        }
         if (complexType) {
             if (complexType._type === 'ComplexType') {
                 const outData: any = {};
@@ -291,6 +445,9 @@ export class FileBasedMockData {
         propertyName: string,
         lineIndex: number
     ): any {
+        if (this.__forceNullableValuesToNull && property.nullable) {
+            return null;
+        }
         let type = property.type;
         if (complexType) {
             const outData: any = {};
@@ -315,7 +472,7 @@ export class FileBasedMockData {
                 return Math.floor(Math.random() * 10000);
             case 'Edm.String':
                 if (property.maxLength) {
-                    const remainingLength = property.maxLength - lineIndex - 2;
+                    const remainingLength = property.maxLength - getNumberLength(lineIndex) - 2;
                     return `${propertyName.substring(0, remainingLength)}_${lineIndex}`;
                 }
                 return `${propertyName}_${lineIndex}`;
@@ -370,6 +527,7 @@ export class FileBasedMockData {
         const outObj: any = {};
         this._entityType.entityProperties.forEach((property: Property) => {
             outObj[property.name] = this.getDefaultValueFromType(
+                property,
                 property.type,
                 property.targetType,
                 property.defaultValue
@@ -391,12 +549,13 @@ export class FileBasedMockData {
 
     generateKey(property: Property, lineIndex?: number, mockData: any = []) {
         const currentMockData = this._mockData || mockData;
+        const propertyName = property.name;
         let highestIndex: number;
         switch (property.type) {
             case 'Edm.Int32':
                 highestIndex = 0;
                 currentMockData.forEach((mockLine: any) => {
-                    const mockLineIndex = parseInt(mockLine[property.name], 10);
+                    const mockLineIndex = parseInt(mockLine[propertyName], 10);
                     highestIndex = Math.max(highestIndex, mockLineIndex);
                 });
                 return highestIndex + 1;
@@ -408,7 +567,11 @@ export class FileBasedMockData {
                 if (lineIndex === undefined) {
                     lineIndex = currentMockData.length + 1;
                 }
-                return `${property.name}_${lineIndex}`;
+                if (property.maxLength) {
+                    const remainingLength = property.maxLength - getNumberLength(lineIndex);
+                    return `${propertyName.substring(0, remainingLength)}${lineIndex}`;
+                }
+                return `${propertyName}_${lineIndex}`;
             default:
                 return generateId(12);
         }
@@ -433,7 +596,10 @@ export class FileBasedMockData {
                 outObj[navigationProperty.name] = [];
             }
         });
-
+        if (this._mockDataEntitySet?.shouldValidateETag?.()) {
+            const currentDate = _getDateTimeOffset(true);
+            outObj['@odata.etag'] = `W/\\"${currentDate}\\"`;
+        }
         return outObj;
     }
 
@@ -524,6 +690,10 @@ export class FileBasedMockData {
     ): Promise<void> {
         // DO Nothing
     }
+
+    async onAfterRead(data: object, _odataRequest: ODataRequest): Promise<object> {
+        return data;
+    }
     //eslint-disable-next-line
     hasCustomAggregate(_customAggregateName: string, _odataRequest: ODataRequest): boolean {
         return false;
@@ -567,9 +737,19 @@ export class FileBasedMockData {
             case 'Edm.DateTime':
             case 'Edm.DateTimeOffset':
                 let targetDateLiteral = literal;
-                if (literal && literal.startsWith("datetime'")) {
-                    targetDateLiteral = literal.substring(9, literal.length - 1);
+                if (literal) {
+                    if (Array.isArray(literal)) {
+                        targetDateLiteral = literal.map((literalValue) => {
+                            if (literalValue.startsWith("datetime'")) {
+                                return literalValue.substring(9, literalValue.length - 1);
+                            }
+                            return literalValue;
+                        });
+                    } else if (literal.startsWith("datetime'")) {
+                        targetDateLiteral = literal.substring(9, literal.length - 1);
+                    }
                 }
+
                 const testValue = new Date(targetDateLiteral).getTime();
                 const mockValueDate = new Date(mockValue).getTime();
                 isValid = performSimpleComparison(operator, mockValueDate, testValue);
@@ -578,10 +758,22 @@ export class FileBasedMockData {
             case 'Edm.Guid':
             default:
                 let targetLiteral = literal;
-                if (literal && literal.startsWith("guid'")) {
-                    targetLiteral = literal.substring(5, literal.length - 1);
-                } else if (literal && literal.startsWith("'")) {
-                    targetLiteral = literal.substring(1, literal.length - 1);
+                if (literal) {
+                    if (Array.isArray(literal)) {
+                        targetLiteral = literal.map((literalValue) => {
+                            if (literalValue.startsWith("guid'")) {
+                                return literalValue.substring(5, literalValue.length - 1);
+                            } else if (literalValue.startsWith("'")) {
+                                return literalValue.substring(1, literalValue.length - 1);
+                            } else {
+                                return literalValue;
+                            }
+                        });
+                    } else if (literal.startsWith("guid'")) {
+                        targetLiteral = literal.substring(5, literal.length - 1);
+                    } else if (literal.startsWith("'")) {
+                        targetLiteral = literal.substring(1, literal.length - 1);
+                    }
                 }
 
                 isValid = performSimpleComparison(operator, mockValue?.toString(), targetLiteral);
@@ -630,16 +822,23 @@ export class FileBasedMockData {
         hierarchyNode.$rootDistance = depth;
         return hierarchyNode;
     }
-    buildHierarchyTree(hierarchyQualifier: string, inputSet: any[], hierarchyDefinition: HierarchyDefinition) {
+    buildHierarchyTree(
+        hierarchyQualifier: string,
+        inputSet: any[],
+        hierarchyDefinition: HierarchyDefinition,
+        applyToActiveEntity: boolean = true
+    ) {
         //if (!this._hierarchyTree[hierarchyQualifier]) {
         const itemPerParents: Record<string, any[]> = {};
 
         inputSet.forEach((item: any) => {
-            const parentItemValue = getData(item, hierarchyDefinition.sourceReference) ?? '';
-            if (!itemPerParents[parentItemValue]) {
-                itemPerParents[parentItemValue] = [];
+            if (!this._mockDataEntitySet.isDraft() || item.IsActiveEntity !== !applyToActiveEntity) {
+                const parentItemValue = getData(item, hierarchyDefinition.sourceReference) ?? '';
+                if (!itemPerParents[parentItemValue]) {
+                    itemPerParents[parentItemValue] = [];
+                }
+                itemPerParents[parentItemValue].push(item);
             }
-            itemPerParents[parentItemValue].push(item);
         });
         this._hierarchyTree[hierarchyQualifier] = itemPerParents;
 
@@ -651,7 +850,7 @@ export class FileBasedMockData {
         nodeProperty: string,
         hierarchyDefinition: HierarchyDefinition,
         depth: number,
-        toExpand: string[] = [],
+        toExpand: ToExpand[] = [],
         toCollapse: string[] = [],
         toShow: string[] = [],
         toShowAncestors: string[] = [],
@@ -661,9 +860,9 @@ export class FileBasedMockData {
         const currentNodeProperty = getData(currentNode, nodeProperty);
         const shouldShowAncestor = toShowAncestors.includes(currentNodeProperty);
         if (currentNode && (depth < 0 || depth > 0 || forceExpand || shouldShowAncestor)) {
-            const shouldExpand = toExpand.includes(currentNodeProperty);
+            const shouldExpand = toExpand.find((toExpand) => toExpand.name === currentNodeProperty);
             if (shouldExpand) {
-                depth++;
+                depth += shouldExpand.depth;
             }
 
             const shouldShow = toShow.includes(currentNodeProperty);
@@ -739,7 +938,9 @@ export class FileBasedMockData {
         hierarchyDefinition: HierarchyDefinition,
         depth: number,
         matchedChildrenCount: number,
-        matchedProperties: any[]
+        matchedProperties: any[],
+        isDraft: boolean,
+        applyToActiveEntity: boolean
     ) {
         let descendantCount = 0;
         if (currentNode && (depth < 0 || depth > 0)) {
@@ -763,11 +964,9 @@ export class FileBasedMockData {
                     setData(
                         currentNode,
                         hierarchyDefinition.matchedProperty,
-                        !!matchedProperties.find((prop) => {
-                            const mainItem = getData(prop, nodeProperty);
-                            const adjustedItem = getData(currentNode, nodeProperty);
-                            return mainItem === adjustedItem;
-                        })
+                        !!matchedProperties.find((prop) =>
+                            compareRowData(prop, currentNode, nodeProperty, nodeProperty, isDraft, applyToActiveEntity)
+                        )
                     );
                     if (getData(currentNode, hierarchyDefinition.matchedProperty)) {
                         matchedChildrenCount++;
@@ -797,7 +996,9 @@ export class FileBasedMockData {
                     hierarchyDefinition,
                     depth - 1,
                     matchedChildrenCount,
-                    matchedProperties
+                    matchedProperties,
+                    isDraft,
+                    applyToActiveEntity
                 );
             }
 
@@ -813,6 +1014,8 @@ export class FileBasedMockData {
             _parameters.HierarchyQualifier.length - 1
         );
 
+        const hierarchyNodes = _parameters.HierarchyNodes ?? '';
+        const applyToActiveEntity = !hierarchyNodes.includes('IsActiveEntity=false');
         const outItems: any[] = [];
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${hierarchyQualifier}`];
@@ -820,35 +1023,58 @@ export class FileBasedMockData {
         if (aggregationAnnotation) {
             const nodeProperty = getNodeProperty(aggregationAnnotation)!;
             let adjustedData = data.map((adjustedRowData: any) => {
-                const item = this._mockData.find((dataItem: any) => {
-                    const mainItem = getData(dataItem, nodeProperty);
-                    const adjustedItem = getData(adjustedRowData, nodeProperty);
-                    return mainItem === adjustedItem;
-                });
+                const item = this._mockData.find((dataItem: any) =>
+                    compareRowData(
+                        dataItem,
+                        adjustedRowData,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
             });
             const restOfData = this._mockData
                 .filter((item: any) => {
-                    return !data.find((dataItem: any) => {
-                        const mainItem = getData(dataItem, nodeProperty);
-                        const adjustedItem = getData(item, nodeProperty);
-                        return mainItem === adjustedItem;
-                    });
+                    if (this._mockDataEntitySet.isDraft() && item.IsActiveEntity === !applyToActiveEntity) {
+                        return false;
+                    }
+                    return !data.find((dataItem: any) =>
+                        compareRowData(
+                            dataItem,
+                            item,
+                            nodeProperty,
+                            nodeProperty,
+                            this._mockDataEntitySet.isDraft(),
+                            applyToActiveEntity
+                        )
+                    );
                 })
                 .map((item: any) => {
                     return { ...item, ...{ $inResultSet: false } };
                 });
             adjustedData = adjustedData.concat(restOfData);
             const hierarchyDefinition = this.getHierarchyDefinition(hierarchyQualifier);
-            const hierarchyNodes = this.buildHierarchyTree(hierarchyQualifier, adjustedData, hierarchyDefinition);
+            const hierarchyNodes = this.buildHierarchyTree(
+                hierarchyQualifier,
+                adjustedData,
+                hierarchyDefinition,
+                applyToActiveEntity
+            );
             const sourceReference = this.getSourceReference(aggregationAnnotation);
             // TODO Considering the input set the top level node is not necessarely the root node
             const allRootNodes = adjustedData.filter((node) => {
-                const parent = adjustedData.find((parent) => {
-                    const nodeValue = getData(parent, nodeProperty);
-                    const sourceReferenceValue = getData(node, sourceReference);
-                    return nodeValue === sourceReferenceValue;
-                });
+                const parent = adjustedData.find((parent) =>
+                    compareRowData(
+                        parent,
+                        node,
+                        nodeProperty,
+                        sourceReference,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 return !parent || !parent.$inResultSet;
             });
             allRootNodes.sort((a) => {
@@ -861,8 +1087,22 @@ export class FileBasedMockData {
             // If no 'Levels' value is specified, then all levels are returned
             const depth: number = _parameters.Levels ? parseInt(_parameters.Levels, 10) : Number.POSITIVE_INFINITY;
 
-            const toExpand = _parameters.Expand?.map((expand) => expand.substring(1, expand.length - 1)) ?? [];
+            const toExpand: ToExpand[] =
+                _parameters.Expand?.map((expand) => {
+                    return { name: expand.substring(1, expand.length - 1), depth: 1 };
+                }) ?? [];
             const toShow = _parameters.Show?.map((collapse) => collapse.substring(1, collapse.length - 1)) ?? [];
+            if (_parameters.ExpandLevels) {
+                for (const expandLevels of _parameters.ExpandLevels) {
+                    toExpand.push({
+                        name: expandLevels['"NodeID"'].substring(1, expandLevels['"NodeID"'].length - 1),
+                        depth:
+                            expandLevels['"Levels"'] && expandLevels['"Levels"'] !== 'null'
+                                ? parseInt(expandLevels['"Levels"'], 10)
+                                : Number.POSITIVE_INFINITY
+                    });
+                }
+            }
             const toShowAncestors: string[] = [];
             for (const nodeId of toShow) {
                 const node = this._mockData.find((node: any) => getData(node, nodeProperty) === nodeId);
@@ -904,11 +1144,16 @@ export class FileBasedMockData {
 
             let outData: object[] = [];
             outItems.forEach((item: any) => {
-                const subTreeData = data.find((dataItem: any) => {
-                    const mainItem = getData(dataItem, nodeProperty);
-                    const adjustedItem = getData(item, nodeProperty);
-                    return mainItem === adjustedItem;
-                });
+                const subTreeData = data.find((dataItem: any) =>
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 const nodePropertyValue = getData(item, nodeProperty);
                 if (subTreeData) {
                     if (
@@ -923,6 +1168,11 @@ export class FileBasedMockData {
                     outData.push(item);
                 }
             });
+            if (hierarchyDefinition.limitedRankProperty) {
+                outData.forEach((item, dataIdx) => {
+                    setData(item, hierarchyDefinition.limitedRankProperty!, dataIdx);
+                });
+            }
             // restrict tree data with skiplocation && skipcontext
             if (_odataRequest.skipLocation) {
                 let skipLocation = _odataRequest.skipLocation.split('(')[1].split(')')[0];
@@ -955,22 +1205,33 @@ export class FileBasedMockData {
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${_parameters.qualifier}`];
         const hierarchyDefinition = this.getHierarchyDefinition(_parameters.qualifier);
-
+        const hierarchyNodes = _parameters.hierarchyRoot ?? '';
+        const applyToActiveEntity = !hierarchyNodes.includes('IsActiveEntity=false');
         if (aggregationAnnotation) {
             const nodeProperty = getNodeProperty(aggregationAnnotation)!;
             const adjustedData = this._mockData.map((item: any) => {
-                const adjustedRowData = hierarchyFilter.find((dataItem: any) => {
-                    const mainItem = getData(dataItem, nodeProperty);
-                    const adjustedItem = getData(item, nodeProperty);
-                    return mainItem === adjustedItem;
-                });
+                const adjustedRowData = hierarchyFilter.find((dataItem: any) =>
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 if (adjustedRowData) {
                     return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
                 } else {
                     return { ...item, ...{ $inResultSet: false } };
                 }
             });
-            const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData, hierarchyDefinition);
+            const hierarchyNodes = this.buildHierarchyTree(
+                _parameters.qualifier,
+                adjustedData,
+                hierarchyDefinition,
+                applyToActiveEntity
+            );
             const sourceReference = this.getSourceReference(aggregationAnnotation);
             const rootNodes = hierarchyNodes[''];
             rootNodes.forEach((rootNode: any) => {
@@ -979,38 +1240,50 @@ export class FileBasedMockData {
 
             const subTrees: object[] = [];
             hierarchyFilter.forEach((item: any) => {
-                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference)];
+                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
                 if (parentNodeChildren) {
-                    const currentNode = parentNodeChildren.find((node: any) => {
-                        const mainItem = getData(node, nodeProperty);
-                        const adjustedItem = getData(item, nodeProperty);
-                        return mainItem === adjustedItem;
-                    });
-                    if (_parameters.keepStart) {
-                        if (hierarchyDefinition.matchedProperty) {
-                            // TODO compare with lastFilterTransformationResult
-                            setData(currentNode, hierarchyDefinition.matchedProperty, true);
-                        }
-                        subTrees.push(currentNode);
-                    }
-                    currentNode.$children?.forEach((child: any) => {
-                        this.flattenTree(
-                            child,
-                            subTrees,
+                    const currentNode = parentNodeChildren.find((node: any) =>
+                        compareRowData(
+                            node,
+                            item,
                             nodeProperty,
-                            hierarchyDefinition,
-                            _parameters.maximumDistance
-                        );
-                    });
+                            nodeProperty,
+                            this._mockDataEntitySet.isDraft(),
+                            applyToActiveEntity
+                        )
+                    );
+                    if (currentNode) {
+                        if (_parameters.keepStart) {
+                            if (hierarchyDefinition.matchedProperty) {
+                                // TODO compare with lastFilterTransformationResult
+                                setData(currentNode, hierarchyDefinition.matchedProperty, true);
+                            }
+                            subTrees.push(currentNode);
+                        }
+                        currentNode.$children?.forEach((child: any) => {
+                            this.flattenTree(
+                                child,
+                                subTrees,
+                                nodeProperty,
+                                hierarchyDefinition,
+                                _parameters.maximumDistance
+                            );
+                        });
+                    }
                 }
             });
             const outData: object[] = [];
             inputSet.forEach((item: any) => {
-                const subTreeData: any = subTrees.find((dataItem: any) => {
-                    const mainItem = getData(dataItem, nodeProperty);
-                    const adjustedItem = getData(item, nodeProperty);
-                    return mainItem === adjustedItem;
-                });
+                const subTreeData: any = subTrees.find((dataItem: any) =>
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 if (subTreeData) {
                     if (
                         hierarchyDefinition.matchedDescendantCountProperty &&
@@ -1028,7 +1301,13 @@ export class FileBasedMockData {
         }
     }
 
+    /**
+     *
+     */
     getHierarchyDefinition(hierarchyQualifier: string): HierarchyDefinition;
+    /**
+     *
+     */
     getHierarchyDefinition(
         hierarchyQualifier: string,
         excludeSourceRef: true
@@ -1047,27 +1326,45 @@ export class FileBasedMockData {
             sourceReference = this.getSourceReference(aggregationAnnotation!);
             return {
                 distanceFromRootProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.DistanceFromRootProperty) ?? '$$distanceFromRootProperty',
+                    getPathOrPropertyPath(
+                        hierarchyAnnotation.DistanceFromRoot ?? hierarchyAnnotation.DistanceFromRootProperty
+                    ) ?? '$$distanceFromRootProperty',
                 drillStateProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.DrillStateProperty) ?? '$$drillStateProperty',
+                    getPathOrPropertyPath(hierarchyAnnotation.DrillState ?? hierarchyAnnotation.DrillStateProperty) ??
+                    '$$drillStateProperty',
                 limitedDescendantCountProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.LimitedDescendantCountProperty) ??
-                    '$$limitedDescendantCountProperty',
+                    getPathOrPropertyPath(
+                        hierarchyAnnotation.LimitedDescendantCount ?? hierarchyAnnotation.LimitedDescendantCountProperty
+                    ) ?? '$$limitedDescendantCountProperty',
+                limitedRankProperty: getPathOrPropertyPath(hierarchyAnnotation.LimitedRank),
                 matchedDescendantCountProperty:
-                    getPathOrPropertyPath(hierarchyAnnotation.MatchedDescendantCountProperty) ??
-                    '$$matchedDescendantCountProperty',
-                matchedProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedProperty) ?? '$$matchedProperty',
+                    getPathOrPropertyPath(
+                        hierarchyAnnotation.MatchedDescendantCount ?? hierarchyAnnotation.MatchedDescendantCountProperty
+                    ) ?? '$$matchedDescendantCountProperty',
+                matchedProperty:
+                    getPathOrPropertyPath(hierarchyAnnotation.Matched ?? hierarchyAnnotation.MatchedProperty) ??
+                    '$$matchedProperty',
                 sourceReference
             } as HierarchyDefinition;
         }
         return {
-            distanceFromRootProperty: getPathOrPropertyPath(hierarchyAnnotation.DistanceFromRootProperty),
-            drillStateProperty: getPathOrPropertyPath(hierarchyAnnotation.DrillStateProperty),
-            limitedDescendantCountProperty: getPathOrPropertyPath(hierarchyAnnotation.LimitedDescendantCountProperty),
-            matchedDescendantCountProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedDescendantCountProperty),
-            matchedProperty: getPathOrPropertyPath(hierarchyAnnotation.MatchedProperty)
+            distanceFromRootProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.DistanceFromRoot ?? hierarchyAnnotation.DistanceFromRootProperty
+            ),
+            drillStateProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.DrillState ?? hierarchyAnnotation.DrillStateProperty
+            ),
+            limitedDescendantCountProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.LimitedDescendantCount ?? hierarchyAnnotation.LimitedDescendantCountProperty
+            ),
+            limitedRankProperty: getPathOrPropertyPath(hierarchyAnnotation.LimitedRank),
+            matchedDescendantCountProperty: getPathOrPropertyPath(
+                hierarchyAnnotation.MatchedDescendantCount ?? hierarchyAnnotation.MatchedDescendantCountProperty
+            ),
+            matchedProperty: getPathOrPropertyPath(hierarchyAnnotation.Matched ?? hierarchyAnnotation.MatchedProperty)
         };
     }
+
     async getAncestors(
         inputSet: object[],
         lastFilterTransformationResult: object[],
@@ -1079,35 +1376,51 @@ export class FileBasedMockData {
         const aggregationAnnotation =
             this._entityType.annotations?.Aggregation?.[`RecursiveHierarchy#${_parameters.qualifier}`];
         const hierarchyDefinition = this.getHierarchyDefinition(_parameters.qualifier);
-
+        const hierarchyNodes = _parameters.hierarchyRoot ?? '';
+        const applyToActiveEntity = !hierarchyNodes.includes('IsActiveEntity=false');
         if (aggregationAnnotation) {
             const nodeProperty = getNodeProperty(aggregationAnnotation)!;
             const sourceReference = this.getSourceReference(aggregationAnnotation);
             const adjustedData = this._mockData.map((item: any) => {
-                const adjustedRowData = limitedHierarchy.find((dataItem: any) => {
-                    const mainItem = getData(dataItem, nodeProperty);
-                    const adjustedItem = getData(item, nodeProperty);
-                    return mainItem === adjustedItem;
-                });
+                const adjustedRowData = limitedHierarchy.find((dataItem: any) =>
+                    compareRowData(
+                        item,
+                        dataItem,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 if (adjustedRowData) {
                     return { ...item, ...adjustedRowData, ...{ $inResultSet: true } };
                 } else {
                     return { ...item, ...{ $inResultSet: false } };
                 }
             });
-            const hierarchyNodes = this.buildHierarchyTree(_parameters.qualifier, adjustedData, hierarchyDefinition);
+            const hierarchyNodes = this.buildHierarchyTree(
+                _parameters.qualifier,
+                adjustedData,
+                hierarchyDefinition,
+                applyToActiveEntity
+            );
             const rootNodes = hierarchyNodes[''];
             rootNodes.forEach((rootNode: any) => {
                 this.buildTree(rootNode, hierarchyNodes, nodeProperty, 0, undefined);
             });
             const ancestors: any[] = [];
             limitedHierarchy.forEach((item: any) => {
-                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference)];
-                const currentNode = parentNodeChildren.find((node: any) => {
-                    const mainItem = getData(node, nodeProperty);
-                    const adjustedItem = getData(item, nodeProperty);
-                    return mainItem === adjustedItem;
-                });
+                const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
+                const currentNode = parentNodeChildren.find((node: any) =>
+                    compareRowData(
+                        node,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 if (_parameters.keepStart) {
                     this.getAncestorsOfNode(
                         currentNode,
@@ -1116,7 +1429,9 @@ export class FileBasedMockData {
                         hierarchyDefinition,
                         _parameters.maximumDistance - 1,
                         0,
-                        lastFilterTransformationResult
+                        lastFilterTransformationResult,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
                     );
                 } else if (currentNode && currentNode.$parent) {
                     this.getAncestorsOfNode(
@@ -1126,17 +1441,24 @@ export class FileBasedMockData {
                         hierarchyDefinition,
                         _parameters.maximumDistance - 1,
                         1,
-                        lastFilterTransformationResult
+                        lastFilterTransformationResult,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
                     );
                 }
             });
             const outData: object[] = [];
             inputSet.forEach((item: any) => {
-                const subTreeData = ancestors.find((dataItem: any) => {
-                    const mainItem = getData(dataItem, nodeProperty);
-                    const adjustedItem = getData(item, nodeProperty);
-                    return mainItem === adjustedItem;
-                });
+                const subTreeData = ancestors.find((dataItem: any) =>
+                    compareRowData(
+                        dataItem,
+                        item,
+                        nodeProperty,
+                        nodeProperty,
+                        this._mockDataEntitySet.isDraft(),
+                        applyToActiveEntity
+                    )
+                );
                 if (subTreeData) {
                     outData.push({ ...item, ...subTreeData });
                 }

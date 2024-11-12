@@ -14,6 +14,7 @@ export interface Service {
     strictKeyMode?: boolean;
     watch?: boolean;
     noETag?: boolean;
+    metadataProcessor?: MetadataProcessorConfig;
 }
 export interface ConfigService {
     urlBasePath?: string;
@@ -28,9 +29,12 @@ export interface ConfigService {
     cdsServiceName?: string;
     debug: boolean;
     noETag: boolean;
+    validateETag: boolean;
     contextBasedIsolation: boolean;
+    forceNullableValuesToNull: boolean;
     strictKeyMode: boolean;
     watch: boolean;
+    metadataProcessor?: MetadataProcessorConfig;
 }
 
 export interface ConfigAnnotation {
@@ -44,19 +48,23 @@ export interface StaticFiles {
     localPath: string;
 }
 
+type MetadataProcessorConfig = {
+    name: string;
+    options?: any;
+};
+
 export interface BaseServerConfig {
     strictKeyMode?: boolean;
     debug?: boolean;
     watch?: boolean;
     noETag?: boolean;
+    validateETag?: boolean;
     contextBasedIsolation?: boolean;
     generateMockData?: boolean;
+    forceNullableValuesToNull?: boolean;
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
-    metadataProcessor?: {
-        name: string;
-        options?: any;
-    };
+    metadataProcessor?: MetadataProcessorConfig;
 }
 export interface FolderBasedServerConfig extends BaseServerConfig {
     mockFolder: string;
@@ -77,11 +85,14 @@ export type ServiceConfig = {
     metadataPath: string;
     mockdataPath: string;
     generateMockData?: boolean;
+    forceNullableValuesToNull?: boolean;
     debug?: boolean;
     strictKeyMode?: boolean;
     watch?: boolean; // should be forced to false in browser
     noETag?: boolean; // should be forced to true in browser
     contextBasedIsolation?: boolean;
+    validateETag?: boolean;
+    metadataProcessor?: MetadataProcessorConfig;
 };
 
 export type ServiceConfigEx = ServiceConfig & {
@@ -100,10 +111,7 @@ export interface MockserverConfiguration {
     /** Name of the package to use for the file loader **/
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
-    metadataProcessor?: {
-        name: string;
-        options?: any;
-    };
+    metadataProcessor?: MetadataProcessorConfig;
 }
 
 export type MockServerMessage = IncomingMessage & {

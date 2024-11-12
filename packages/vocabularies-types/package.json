@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/vocabularies-types",
-    "version": "0.10.1",
+    "version": "0.11.5",
     "description": "SAP Fiori OData - TS types for vocabularies",
     "repository": {
         "type": "git",
@@ -31,7 +31,6 @@
         "BaseEdm.d.ts"
     ],
     "engines": {
-        "pnpm": ">=8",
-        "node": ">=18.0.0 < 19.0.0 || >=20.0.0 < 21.0.0"
+        "node": ">=18.x"
     }
 }

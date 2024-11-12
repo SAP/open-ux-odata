@@ -76,7 +76,8 @@ function revertObjectToRawType(references: Reference[], value: any) {
     } else if (value.type === 'Apply') {
         result = {
             type: 'Apply',
-            Apply: value.Apply
+            $Apply: value.$Apply,
+            $Function: value.$Function
         };
     } else if (value.type === 'Null') {
         result = {

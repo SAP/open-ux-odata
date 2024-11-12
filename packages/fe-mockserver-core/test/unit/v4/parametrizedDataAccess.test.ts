@@ -179,7 +179,7 @@ describe('Parametrized Data Access', () => {
         // aggregate($count as UI5__count)
         expect(customerData.length).toBe(5);
         expect(customerData[0].CreditScore).toBe(6750);
-        expect(customerData[4].UI5__count).toBe(3);
+        expect(customerData[1].UI5__count).toBe(3);
     });
     test('can use the concat expression to do something else again', async () => {
         const customerData = await dataAccess.getData(

@@ -1579,6 +1579,195 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('8.5 - Expand on sub-nodes', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=\'SalesOrgHierarchy\',NodeProperty=\'ID\',Levels=2,ExpandLevels=[{"NodeID":"US","Levels":1},{"NodeID":"US East","Levels":2}])&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=50'
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "ExpandLevels": [
+                    {
+                      ""Levels"": "1",
+                      ""NodeID"": ""US"",
+                    },
+                    {
+                      ""Levels"": "2",
+                      ""NodeID"": ""US East"",
+                    },
+                  ],
+                  "HierarchyNodes": "$root/SalesOrganizations",
+                  "HierarchyQualifier": "'SalesOrgHierarchy'",
+                  "Levels": "2",
+                  "NodeProperty": "'ID'",
+                },
+                "type": "customFunction",
+              },
+            ]
+        `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 6,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "US",
+                "LimitedDescendantCount": 4,
+                "Name": "US",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "US West",
+                "LimitedDescendantCount": 0,
+                "Name": "US West",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "expanded",
+                "ID": "US East",
+                "LimitedDescendantCount": 2,
+                "Name": "US East",
+              },
+              {
+                "DistanceFromRoot": 3,
+                "DrillState": "expanded",
+                "ID": "NY",
+                "LimitedDescendantCount": 1,
+                "Name": "New York State",
+              },
+              {
+                "DistanceFromRoot": 4,
+                "DrillState": "leaf",
+                "ID": "NYC",
+                "LimitedDescendantCount": 0,
+                "Name": "New York City",
+              },
+            ]
+        `);
+    });
+
+    test('Limited rank - no filter', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=\'SalesOrgHierarchy\',NodeProperty=\'ID\',Levels=2,ExpandLevels=[{"NodeID":"US","Levels":1}])&$count=true&$select=Name,LimitedRank'
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+                    [
+                      {
+                        "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                        "parameters": {
+                          "ExpandLevels": [
+                            {
+                              ""Levels"": "1",
+                              ""NodeID"": ""US"",
+                            },
+                          ],
+                          "HierarchyNodes": "$root/SalesOrganizations",
+                          "HierarchyQualifier": "'SalesOrgHierarchy'",
+                          "Levels": "2",
+                          "NodeProperty": "'ID'",
+                        },
+                        "type": "customFunction",
+                      },
+                    ]
+            `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+                      [
+                        {
+                          "ID": "Sales",
+                          "LimitedRank": 0,
+                          "Name": "Corporate Sales",
+                        },
+                        {
+                          "ID": "EMEA",
+                          "LimitedRank": 1,
+                          "Name": "EMEA",
+                        },
+                        {
+                          "ID": "US",
+                          "LimitedRank": 2,
+                          "Name": "US",
+                        },
+                        {
+                          "ID": "US West",
+                          "LimitedRank": 3,
+                          "Name": "US West",
+                        },
+                        {
+                          "ID": "US East",
+                          "LimitedRank": 4,
+                          "Name": "US East",
+                        },
+                      ]
+              `);
+    });
+
+    test('Limited rank - with filter', async () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=\'SalesOrgHierarchy\',NodeProperty=\'ID\',Levels=2,ExpandLevels=[{"NodeID":"US","Levels":1}])&$count=true&$filter=ID%20eq%20\'US West\'&$select=Name,LimitedRank'
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+                  [
+                    {
+                      "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                      "parameters": {
+                        "ExpandLevels": [
+                          {
+                            ""Levels"": "1",
+                            ""NodeID"": ""US"",
+                          },
+                        ],
+                        "HierarchyNodes": "$root/SalesOrganizations",
+                        "HierarchyQualifier": "'SalesOrgHierarchy'",
+                        "Levels": "2",
+                        "NodeProperty": "'ID'",
+                      },
+                      "type": "customFunction",
+                    },
+                  ]
+          `);
+        const data = await dataAccess.getData(odataRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "ID": "US West",
+                "LimitedRank": 3,
+                "Name": "US West",
+              },
+            ]
+        `);
+    });
+
     test('9 - Create new root and a child', async () => {
         const createRequest = new ODataRequest(
             {
@@ -1721,6 +1910,7 @@ describe('Hierarchy Access', () => {
               "DrillState": "",
               "ID": "APJ",
               "LimitedDescendantCount": 0,
+              "LimitedRank": 0,
               "Matched": false,
               "MatchedDescendantCount": 0,
               "Name": "APJ",
@@ -1964,6 +2154,32 @@ describe('Hierarchy Access', () => {
             ]
         `);
     });
+
+    test('Query with multiple keys', () => {
+        const q =
+            "NumberSchemeVersion(NumberingSchemeVersionUUID=877969d8-1456-5cfb-ad4b-ff094b96fa3a,IsActiveEntity=false)/_Result?sap-client=601&$select=HasActiveEntity,IsActiveEntity,NumberingSchemeVersionUUID,TradeClassificationNumber,TrdClassfctnNmbrOfclDesc,TrdClassfctnNumberIsEndline,TrdClassfctnNumberType,TrdClassfctnNumberUUID,TrdClfnNumberValidityEndDate,TrdClfnNumberValidtyStartDate,__EntityControl/Deletable,__EntityControl/Updatable,__FieldControl/TrdClfnNumberValidtyStartDate,__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/DrillState,__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/NodeId,__OperationControl/ReplaceContent,__OperationControl/UpdateContent&$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/NumberSchemeVersion(NumberingSchemeVersionUUID=877969d8-1456-5cfb-ad4b-ff094b96fa3a,IsActiveEntity=false)/_Result,HierarchyQualifier='I_ITMTrdClfnNumberHierarchy',NodeProperty='__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/NodeId',Levels=1)&$count=true&$skip=0&$top=55";
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: q
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "name": "com.sap.vocabularies.Hierarchy.v1.TopLevels",
+                "parameters": {
+                  "HierarchyNodes": "$root/NumberSchemeVersion(NumberingSchemeVersionUUID=877969d8-1456-5cfb-ad4b-ff094b96fa3a,IsActiveEntity=false)/_Result",
+                  "HierarchyQualifier": "'I_ITMTrdClfnNumberHierarchy'",
+                  "Levels": "1",
+                  "NodeProperty": "'__HierarchyPropertiesForI_ITMTrdClfnNumberHierarchy/NodeId'",
+                },
+                "type": "customFunction",
+              },
+            ]
+        `);
+    });
     test('apply queries', () => {
         const odataRequest = new ODataRequest(
             {
@@ -2024,6 +2240,125 @@ describe('Hierarchy Access', () => {
                   "NodeProperty": "'__HierarchyPropertiesForI_PPS_ProcPurReqnItemHNRltn/NodeId'",
                 },
                 "type": "customFunction",
+              },
+            ]
+        `);
+    });
+
+    test('more apply queries', () => {
+        const odataRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: '/RiskSettingsService/LevelCorrelation?entitySet=LevelCorrelation&$apply=filter(IsActiveEntity%20eq%20true)/groupby((impactLevelUpperValue,impactLevel_ID,probabilityLevelUpperValue,probabilityLevel_ID),aggregate(nullProperty%20with%20min%20as%20nullMeasure))'
+            },
+            dataAccess
+        );
+        expect(odataRequest.applyDefinition).toMatchInlineSnapshot(`
+            [
+              {
+                "filterExpr": {
+                  "expressions": [
+                    {
+                      "identifier": "IsActiveEntity",
+                      "literal": "true",
+                      "operator": "eq",
+                    },
+                  ],
+                },
+                "type": "filter",
+              },
+              {
+                "groupBy": [
+                  "impactLevelUpperValue",
+                  "impactLevel_ID",
+                  "probabilityLevelUpperValue",
+                  "probabilityLevel_ID",
+                ],
+                "subTransformations": [
+                  {
+                    "aggregateDef": [
+                      {
+                        "name": "nullMeasure",
+                        "operator": "min",
+                        "sourceProperty": "nullProperty",
+                      },
+                    ],
+                    "type": "aggregates",
+                  },
+                ],
+                "type": "groupBy",
+              },
+            ]
+        `);
+    });
+
+    test('17 - Expand a node completely (LR)', async () => {
+        const expandRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: `/SalesOrganizations?$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier=%27SalesOrgHierarchy%27,NodeProperty=%27ID%27,Levels=2,ExpandLevels=%5B%7B"NodeID":"US","Levels":null%7D%5D)&$select=DistanceFromRoot,DrillState,ID,LimitedDescendantCount,Name&$count=true&$skip=0&$top=251`
+            },
+            dataAccess
+        );
+        // Expand US
+        const data = await dataAccess.getData(expandRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 7,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "US",
+                "LimitedDescendantCount": 4,
+                "Name": "US",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "US West",
+                "LimitedDescendantCount": 0,
+                "Name": "US West",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "expanded",
+                "ID": "US East",
+                "LimitedDescendantCount": 2,
+                "Name": "US East",
+              },
+              {
+                "DistanceFromRoot": 3,
+                "DrillState": "expanded",
+                "ID": "NY",
+                "LimitedDescendantCount": 1,
+                "Name": "New York State",
+              },
+              {
+                "DistanceFromRoot": 4,
+                "DrillState": "leaf",
+                "ID": "NYC",
+                "LimitedDescendantCount": 0,
+                "Name": "New York City",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "APJ",
+                "LimitedDescendantCount": 0,
+                "Name": "APJ",
               },
             ]
         `);

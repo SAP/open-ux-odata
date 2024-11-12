@@ -122,7 +122,8 @@ function resolveTarget<T>(
             startElement =
                 converter.getConvertedEntityType(pathSegments[0]) ??
                 converter.getConvertedComplexType(pathSegments[0]) ??
-                converter.getConvertedAction(pathSegments[0]);
+                converter.getConvertedAction(pathSegments[0]) ??
+                converter.getConvertedAction(`${pathSegments[0]}()`); // unbound action
             pathSegments.shift(); // Let's remove the first path element
         } else {
             startElement = converter.getConvertedEntityContainer();
@@ -1476,7 +1477,7 @@ function convertActionParameter(
         // annotations on action parameters are resolved following the rules for actions
         const unspecificOverloadTarget =
             rawActionParameter.fullyQualifiedName.substring(0, rawActionParameter.fullyQualifiedName.indexOf('(')) +
-            rawActionParameter.fullyQualifiedName.substring(rawActionParameter.fullyQualifiedName.indexOf(')') + 1);
+            rawActionParameter.fullyQualifiedName.substring(rawActionParameter.fullyQualifiedName.lastIndexOf(')') + 1);
         const specificOverloadTarget = rawActionParameter.fullyQualifiedName;
 
         const effectiveAnnotations = converter.getAnnotations(specificOverloadTarget);
@@ -1551,11 +1552,6 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         references: VocabularyReferences,
         diagnostics: []
     } as any;
-
-    // fall back on the default references if the caller does not specify any
-    if (rawMetadata.references.length === 0) {
-        rawMetadata.references = VocabularyReferences;
-    }
 
     // Converter
     const converter = new Converter(rawMetadata, convertedOutput);

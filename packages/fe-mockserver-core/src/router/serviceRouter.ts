@@ -61,7 +61,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
     });
 
     // Deal with the $metadata support
-    router.get('/\\$metadata', (_req: IncomingMessage, res: ServerResponse) => {
+    router.get('/$metadata', (_req: IncomingMessage, res: ServerResponse) => {
         res.setHeader('Content-Type', 'application/xml');
         if (service.ETag) {
             res.setHeader('ETag', service.ETag);
@@ -70,25 +70,56 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         res.write(dataAccess.getMetadata().getEdmx());
         res.end();
     });
-    router.post('/\\$metadata/reload', (_req: IncomingMessage, res: ServerResponse) => {
+    router.post('/$metadata/reload', (_req: IncomingMessage, res: ServerResponse) => {
         dataAccess.reloadData();
         res.setHeader('Content-Type', 'application/json');
         res.write(JSON.stringify({ message: 'Reload success' }));
         res.end();
     });
     router.get('/', (_req: IncomingMessage, res: ServerResponse) => {
-        const data = `<?xml version="1.0" encoding="utf-8"?>
-        <app:service xml:lang="en" xml:base="${service.urlPath}/"
-            xmlns:app="http://www.w3.org/2007/app"
-            xmlns:atom="http://www.w3.org/2005/Atom"
-            xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
-            xmlns:sap="http://www.sap.com/Protocols/SAPData">
-            <app:workspace>
-            </app:workspace>
-            <atom:link rel="self" href="${service.urlPath}/"/>
-            <atom:link rel="latest-version" href="${service.urlPath}/"/>
-        </app:service>`;
-        res.setHeader('Content-Type', 'application/xml');
+        const allEntitySets = dataAccess.getMetadata().getEntitySets();
+        const parsedUrl = new URL(`http://dummy${_req.url}`);
+        let data: string;
+        if (parsedUrl.searchParams.get('$format') === 'json') {
+            if (dataAccess.isV4()) {
+                data = JSON.stringify({
+                    '@odata.context': '$metadata',
+                    '@odata.metadataEtag': service.ETag,
+                    value: allEntitySets.map((entitySet) => {
+                        return {
+                            name: entitySet.name,
+                            kind: entitySet._type,
+                            url: entitySet.name
+                        };
+                    })
+                });
+            } else {
+                data = JSON.stringify({
+                    d: { EntitySets: allEntitySets.map((entitySet) => entitySet.name) }
+                });
+            }
+            res.setHeader('content-type', 'application/json');
+        } else {
+            data = `<?xml version="1.0" encoding="utf-8"?>
+            <app:service xml:lang="en" xml:base="${service.urlPath}/"
+                xmlns:app="http://www.w3.org/2007/app"
+                xmlns:atom="http://www.w3.org/2005/Atom"
+                xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+                xmlns:sap="http://www.sap.com/Protocols/SAPData">
+                <app:workspace>
+                ${allEntitySets
+                    .map(
+                        (entitySet) =>
+                            `<atom:collection href="${entitySet.name}"><atom:title type="text">${entitySet.name}</atom:title><sap:member-title>${entitySet.entityTypeName}</sap:member-title></atom:collection>`
+                    )
+                    .join('')}
+                </app:workspace>
+                <atom:link rel="self" href="${service.urlPath}/"/>
+                <atom:link rel="latest-version" href="${service.urlPath}/"/>
+            </app:service>`;
+            res.setHeader('Content-Type', 'application/xml');
+        }
+
         addCSRFTokenIfRequested(_req, res); //GET use case
         res.write(data);
         res.end();
@@ -126,7 +157,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
 
     router.use('/\\$batch', batchRouter(dataAccess));
 
-    router.route('/*').all(async (req: IncomingMessageWithTenant, res: ServerResponse, next: NextFunction) => {
+    router.route('/*all').all(async (req: IncomingMessageWithTenant, res: ServerResponse, next: NextFunction) => {
         try {
             const oDataRequest = new ODataRequest(
                 {
@@ -162,7 +193,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
         }
     });
 
-    router.use('*', (err: any, _req: IncomingMessage, res: ServerResponse, next: NextFunction) => {
+    router.use('*all', (err: any, _req: IncomingMessage, res: ServerResponse, next: NextFunction) => {
         log.error(err);
         if (res.headersSent) {
             return next(err);

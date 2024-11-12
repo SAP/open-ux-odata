@@ -66,6 +66,7 @@ export type MockDataContributor<T extends object> = {
         responseData: any,
         odataRequest: ODataRequest
     ): Promise<any>;
+    onAfterRead?(data: T, odataRequest: ODataRequest): Promise<T>;
     onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
     onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
     hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
@@ -75,7 +76,8 @@ export type MockDataContributor<T extends object> = {
         statusCode?: number,
         messageData?: object,
         isSAPMessage?: boolean,
-        headers?: Record<string, string>
+        headers?: Record<string, string>,
+        isGlobalRequestError?: boolean
     ): any;
     base?: {
         generateMockData: () => void;
@@ -84,9 +86,9 @@ export type MockDataContributor<T extends object> = {
         updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => Promise<void>;
         removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<void>;
         hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
-        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => T[];
+        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<T[]>;
         hasEntries: (odataRequest: ODataRequest) => boolean;
-        getAllEntries: (odataRequest: ODataRequest) => T[];
+        getAllEntries: (odataRequest: ODataRequest) => Promise<T[]>;
         getEmptyObject: (odataRequest: ODataRequest) => T;
         getDefaultElement: (odataRequest: ODataRequest) => T;
         getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
@@ -146,8 +148,8 @@ export class FunctionBasedMockData extends FileBasedMockData {
                 newObject = Object.assign(newObject, postData);
                 return super.addEntry(newObject, {} as any);
             },
-            updateEntry: (keyValues: KeyDefinitions, patchData: object, odataRequest) => {
-                const data = this.fetchEntries(keyValues, odataRequest)[0];
+            updateEntry: async (keyValues: KeyDefinitions, patchData: object, odataRequest) => {
+                const data = (await this.fetchEntries(keyValues, odataRequest))[0];
                 const updatedData = Object.assign(data, patchData);
                 return super.updateEntry(keyValues, updatedData, patchData, odataRequest);
             },
@@ -168,9 +170,10 @@ export class FunctionBasedMockData extends FileBasedMockData {
             statusCode = 500,
             messageData?: object,
             isSAPMessage = false,
-            headers: Record<string, string> = {}
+            headers: Record<string, string> = {},
+            isGlobalRequestError?: boolean
         ) {
-            throw new ExecutionError(message, statusCode, messageData, isSAPMessage, headers);
+            throw new ExecutionError(message, statusCode, messageData, isSAPMessage, headers, isGlobalRequestError);
         };
     }
 
@@ -200,7 +203,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
         return super.removeEntry(keyValues, odataRequest);
     }
 
-    fetchEntries(keyValues: KeyDefinitions, odataRequest: ODataRequest): object[] {
+    async fetchEntries(keyValues: KeyDefinitions, odataRequest: ODataRequest): Promise<object[]> {
         if (this._mockDataFn?.fetchEntries) {
             return this._mockDataFn.fetchEntries(keyValues, odataRequest);
         } else {
@@ -246,7 +249,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
         }
     }
 
-    getAllEntries(odataRequest: ODataRequest, dontClone: boolean = false): object[] {
+    async getAllEntries(odataRequest: ODataRequest, dontClone: boolean = false): Promise<object[]> {
         if (this._mockDataFn?.getAllEntries) {
             return this._mockDataFn.getAllEntries(odataRequest);
         } else {
@@ -264,6 +267,14 @@ export class FunctionBasedMockData extends FileBasedMockData {
             return this._mockDataFn.onBeforeAction(actionDefinition, actionData, keys, odataRequest);
         } else {
             return super.onBeforeAction(actionDefinition, actionData, keys, odataRequest);
+        }
+    }
+
+    async onAfterRead(data: object, odataRequest: ODataRequest): Promise<object> {
+        if (this._mockDataFn?.onAfterRead) {
+            return this._mockDataFn.onAfterRead(data, odataRequest);
+        } else {
+            return super.onAfterRead(data, odataRequest);
         }
     }
 
@@ -357,7 +368,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
         if (this._mockDataFn?.getReferentialConstraints) {
             return this._mockDataFn.getReferentialConstraints(_navigationProperty);
         } else {
-            return undefined;
+            return super.getReferentialConstraints(_navigationProperty);
         }
     }
 

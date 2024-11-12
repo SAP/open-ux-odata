@@ -4113,7 +4113,9 @@
         <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
       <Annotations Target="com.c_salesordermanage_sd.DummyBoundAction(com.c_salesordermanage_sd.SalesOrderItem)">
-        <Annotation Term="Core.OperationAvailable" Path="_it/owner/_ShipToParty/isVerified"/>
+        <Annotation Term="Core.OperationAvailable">
+          <Path>_it/owner/_ShipToParty/isVerified</Path>
+        </Annotation>
       </Annotations>
       <Annotations Target="com.c_salesordermanage_sd.IdentificationFormAction(com.c_salesordermanage_sd.SalesOrderItem)">
         <Annotation Term="Common.SideEffects">

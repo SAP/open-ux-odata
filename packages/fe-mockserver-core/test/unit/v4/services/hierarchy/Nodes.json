@@ -1,0 +1,133 @@
+[
+    {
+        "ID": "GEO1",
+        "name": "America North",
+        "orgID": "GEO",
+        "hrPartner": "John Woodward",
+        "employeeCount": 578,
+        "nodeType": "Zone"
+    },
+    {
+        "ID": "GEO11",
+        "parent": "GEO1",
+        "name": "USA",
+        "orgID": "GEO",
+        "hrPartner": "John Woodward",
+        "employeeCount": 508,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "GEO12",
+        "parent": "GEO1",
+        "name": "Canada",
+        "orgID": "GEO",
+        "hrPartner": "André Laclanche",
+        "employeeCount": 70,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "GEO2",
+        "name": "Europe North",
+        "orgID": "GEO",
+        "hrPartner": "Andrew McAllister",
+        "employeeCount": 498,
+        "nodeType": "Zone"
+    },
+    {
+        "ID": "GEO21",
+        "parent": "GEO2",
+        "name": "United Kingdom",
+        "orgID": "GEO",
+        "hrPartner": "Nelly Flint",
+        "employeeCount": 204,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "GEO22",
+        "parent": "GEO2",
+        "name": "Ireland",
+        "orgID": "GEO",
+        "hrPartner": "Niamh O'Connor",
+        "employeeCount": 294,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "GEO221",
+        "parent": "GEO22",
+        "name": "Dublin",
+        "orgID": "GEO",
+        "hrPartner": "Niamh O'Connor",
+        "employeeCount": 294,
+        "nodeType": "Line"
+    },
+    {
+        "ID": "FUNC1",
+        "name": "Operations",
+        "orgID": "FUNC",
+        "hrPartner": "Julia Black",
+        "employeeCount": 274,
+        "nodeType": "Zone"
+    },
+    {
+        "ID": "FUNC11",
+        "parent": "FUNC1",
+        "name": "Human Resources",
+        "orgID": "FUNC",
+        "hrPartner": "Marie Kramp",
+        "employeeCount": 117,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "FUNC12",
+        "parent": "FUNC1",
+        "name": "Finance",
+        "orgID": "FUNC",
+        "hrPartner": "Marie Kramp",
+        "employeeCount": 157,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "FUNC2",
+        "name": "Sales",
+        "orgID": "FUNC",
+        "hrPartner": "Richard Dowey",
+        "employeeCount": 88,
+        "nodeType": "Zone"
+    },
+    {
+        "ID": "FUNC21",
+        "parent": "FUNC2",
+        "name": "Consumer goods",
+        "orgID": "FUNC",
+        "hrPartner": "Anna Pritchard",
+        "employeeCount": 61,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "FUNC22",
+        "parent": "FUNC2",
+        "name": "Financial services",
+        "orgID": "FUNC",
+        "hrPartner": "Don Paney",
+        "employeeCount": 27,
+        "nodeType": "Intermediary"
+    },
+    {
+        "ID": "FUNC221",
+        "parent": "FUNC22",
+        "name": "Bank",
+        "orgID": "FUNC",
+        "hrPartner": "Don Paney",
+        "employeeCount": 19,
+        "nodeType": "Line"
+    },
+    {
+        "ID": "FUNC222",
+        "parent": "FUNC22",
+        "name": "Insurance",
+        "orgID": "FUNC",
+        "hrPartner": "Don Paney",
+        "employeeCount": 8,
+        "nodeType": "Line"
+    }
+]

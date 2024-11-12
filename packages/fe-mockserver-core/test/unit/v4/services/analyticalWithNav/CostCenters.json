@@ -1,0 +1,62 @@
+[
+    {
+        "ID": "11c765ef-3745-430d-a6e0-77005d5c4136",
+        "name": "CC7",
+        "company_ID": "41751178-90fd-4956-830b-d5426489132c",
+        "profitCenter_ID": "a4f7a3b6-22be-4757-a7c2-55de95d47ff2"
+    },
+    {
+        "ID": "1a9807ea-e4c4-4280-9f81-9321589ab203",
+        "name": "CC5",
+        "company_ID": "0300549a-f0ad-45f8-acc2-83dcffbf8ca1",
+        "profitCenter_ID": "736d0b70-f5e4-4ba2-9b69-09f7a0b6d651"
+    },
+    {
+        "ID": "3c5628ff-731c-48c7-b604-59013aa088e8",
+        "name": "CC8",
+        "company_ID": "3fb2a3f5-a945-4148-bb8c-5b486da697bc",
+        "profitCenter_ID": "aeea0435-8100-4815-ab83-37620fdbc9fc"
+    },
+    {
+        "ID": "512fefd0-72bf-41a6-a683-19c3bd0fe349",
+        "name": "CC1",
+        "company_ID": "d3c7aaec-734d-489c-b7d8-662325c289c1",
+        "profitCenter_ID": "736d0b70-f5e4-4ba2-9b69-09f7a0b6d651"
+    },
+    {
+        "ID": "884fdb58-fc3b-47ac-948d-4ba991f708d5",
+        "name": "CC10",
+        "company_ID": "f66ca4eb-a34f-46de-b4ff-bb5e6e57197c",
+        "profitCenter_ID": "a4f7a3b6-22be-4757-a7c2-55de95d47ff2"
+    },
+    {
+        "ID": "8d6a4371-6ddc-4e05-904f-f786e2a79aa7",
+        "name": "CC3",
+        "company_ID": "d3c7aaec-734d-489c-b7d8-662325c289c1",
+        "profitCenter_ID": "a4f7a3b6-22be-4757-a7c2-55de95d47ff2"
+    },
+    {
+        "ID": "a0d4ffd7-7f19-4095-a57b-405c4f04c1dd",
+        "name": "CC2",
+        "company_ID": "d3c7aaec-734d-489c-b7d8-662325c289c1",
+        "profitCenter_ID": "0a1342c9-910e-4dba-a5ef-abbbd17b5d37"
+    },
+    {
+        "ID": "a8fd3529-a541-4564-a421-49c85634319e",
+        "name": "CC4",
+        "company_ID": "d3c7aaec-734d-489c-b7d8-662325c289c1",
+        "profitCenter_ID": "08a97745-96f8-4d82-a57c-e030e3158d73"
+    },
+    {
+        "ID": "d12a8109-253e-48a2-933a-4892fa5507a8",
+        "name": "CC9",
+        "company_ID": "f66ca4eb-a34f-46de-b4ff-bb5e6e57197c",
+        "profitCenter_ID": "aeea0435-8100-4815-ab83-37620fdbc9fc"
+    },
+    {
+        "ID": "ed66f901-6074-4937-b3b7-81b48b293b28",
+        "name": "CC6",
+        "company_ID": "41751178-90fd-4956-830b-d5426489132c",
+        "profitCenter_ID": "aeea0435-8100-4815-ab83-37620fdbc9fc"
+    }
+]

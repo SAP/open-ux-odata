@@ -91,8 +91,8 @@ export type ConstantExpression<T> = {
 
 export type ApplyAnnotationExpression<P> = {
     type: 'Apply';
-    Apply: PropertyAnnotationValue<P>[];
-    Function: 'odata.concat';
+    $Apply: PropertyAnnotationValue<P>[];
+    $Function: 'odata.concat';
 };
 
 export type EqConditionalExpression = {
@@ -155,59 +155,59 @@ export type ConditionalCheckOrValue =
 export type IfAnnotationExpressionValue<OutType> = [ConditionalCheck, OutType, OutType];
 export type IfAnnotationExpression<P> = {
     type: 'If';
-    If: IfAnnotationExpressionValue<P>;
+    $If: IfAnnotationExpressionValue<P>;
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type AndAnnotationExpression<P> = {
     type: 'And';
-    And: AndConditionalExpression[];
+    $And: AndConditionalExpression[];
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type OrAnnotationExpression<P> = {
     type: 'Or';
-    Or: OrConditionalExpression[];
+    $Or: OrConditionalExpression[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type EqAnnotationExpression<P> = {
     type: 'Eq';
-    Eq: EqConditionalExpression[];
+    $Eq: EqConditionalExpression[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type NeAnnotationExpression<P> = {
     type: 'Ne';
-    Ne: NeConditionalExpression[];
+    $Ne: NeConditionalExpression[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type NotAnnotationExpression<P> = {
     type: 'Not';
-    Not: NotConditionalExpression;
+    $Not: NotConditionalExpression;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type GtAnnotationExpression<P> = {
     type: 'Gt';
-    Gt: GtConditionalExpression[];
+    $Gt: GtConditionalExpression[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type GeAnnotationExpression<P> = {
     type: 'Ge';
-    Ge: GeConditionalExpression[];
+    $Ge: GeConditionalExpression[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type LtAnnotationExpression<P> = {
     type: 'Lt';
-    Lt: LtConditionalExpression[];
+    $Lt: LtConditionalExpression[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type LeAnnotationExpression<P> = {
     type: 'Le';
-    Le: LeConditionalExpression[];
+    $Le: LeConditionalExpression[];
 };
 
 export type PropertyAnnotationValue<P> = DynamicAnnotationExpression<P>;
@@ -365,7 +365,7 @@ export type ReferentialConstraint = {
 export type BaseNavigationProperty = {
     _type: 'NavigationProperty';
     name: SimpleIdentifier;
-    partner: string;
+    partner?: string;
     fullyQualifiedName: FullyQualifiedName;
     targetTypeName: FullyQualifiedName;
     targetType: EntityType;
@@ -447,6 +447,7 @@ export type Action = {
     isBound: boolean;
     sourceType: string;
     returnType: string;
+    returnCollection: boolean;
     isFunction: boolean;
     sourceEntityType?: EntityType;
     returnEntityType?: EntityType;

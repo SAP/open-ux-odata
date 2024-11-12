@@ -1,5 +1,119 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.5
+
+### Patch Changes
+
+-   1859284: Remove node requirement
+
+## 0.11.4
+
+### Patch Changes
+
+-   e1ddd79: security patch
+
+## 0.11.3
+
+### Patch Changes
+
+-   74c2d22: Documntation ref annotation is available
+
+## 0.11.2
+
+### Patch Changes
+
+-   6f7141d: Bump vocabulary changes
+
+## 0.11.1
+
+### Patch Changes
+
+-   ec29f84: Fix one typing issue
+
+## 0.11.0
+
+### Minor Changes
+
+-   bf2b130: Proper parsing for complex expression and adjustment to the format for embedded expressions
+
+## 0.10.14
+
+### Patch Changes
+
+-   a7c29f3: Update due to annotation changes
+
+## 0.10.13
+
+### Patch Changes
+
+-   b1c3d54: Update vocabulary version
+
+## 0.10.12
+
+### Patch Changes
+
+-   d283913: Update the vocabulary types
+
+## 0.10.11
+
+### Patch Changes
+
+-   af38185: Adjust to vocabulary changes
+
+## 0.10.10
+
+### Patch Changes
+
+-   3c0d8bd: fix: We now keep track of the fact that the return type for a function is a collection
+
+## 0.10.9
+
+### Patch Changes
+
+-   1030a62: DataPoint criticality can be dynamic
+
+## 0.10.8
+
+### Patch Changes
+
+-   f19e9b4: Revert previous change
+
+## 0.10.7
+
+### Patch Changes
+
+-   b776b71: Another type update
+
+## 0.10.6
+
+### Patch Changes
+
+-   1b25c13: Introduce a new property `forceNullableValuesToNull`
+
+## 0.10.5
+
+### Patch Changes
+
+-   bad1db5: Some additional fixes to the type
+
+## 0.10.4
+
+### Patch Changes
+
+-   609a24a: Slight type improvement
+
+## 0.10.3
+
+### Patch Changes
+
+-   85a06d9: Slight change for the partner navigation on type or the raw v4 navigation
+
+## 0.10.2
+
+### Patch Changes
+
+-   0b08eb8: Update the vocabularies with new content
+
 ## 0.10.1
 
 ### Patch Changes
