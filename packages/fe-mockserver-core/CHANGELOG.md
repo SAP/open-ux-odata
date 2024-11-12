@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.4
+
+### Patch Changes
+
+-   ac9a43e: Order by should respect the nullable field
+
 ## 1.4.3
 
 ### Patch Changes
