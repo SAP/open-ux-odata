@@ -117,6 +117,7 @@ function parseProperties(
                         edmProperty.defaultValue = parseInt(entityProperty._attributes.DefaultValue, 10);
                         break;
                     case 'Edm.Decimal':
+                    case 'Edm.Double':
                         edmProperty.defaultValue = parseFloat(entityProperty._attributes.DefaultValue);
                         break;
                     case 'Edm.Boolean':
@@ -776,6 +777,12 @@ function parseInlineExpression(
                 type: 'Decimal',
                 Decimal: parseFloat(expression.Decimal as string)
             };
+
+        case 'Double':
+            return {
+                type: 'Double',
+                Double: parseFloat(expression.Double as string)
+            };
         case 'Date':
             return {
                 type: 'Date',
@@ -948,6 +955,14 @@ function parseExpression(
             return {
                 type: 'Decimal',
                 Decimal: parseFloat((expression.Decimal as any)._text as string)
+            };
+        case 'Double':
+            if (simplifyPrimitive) {
+                return parseFloat((expression.Double as any)._text as string);
+            }
+            return {
+                type: 'Double',
+                Decimal: parseFloat((expression.Double as any)._text as string)
             };
         case 'Path':
             return {

@@ -168,6 +168,20 @@ export function isComplexTypeDefinition(
     );
 }
 
+export function Double(value: number) {
+    return {
+        isDouble() {
+            return true;
+        },
+        valueOf() {
+            return value;
+        },
+        toString() {
+            return value.toString();
+        }
+    };
+}
+
 export function Decimal(value: number) {
     return {
         isDecimal() {
