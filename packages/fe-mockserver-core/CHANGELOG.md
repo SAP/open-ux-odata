@@ -1,5 +1,15 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.3
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+-   f4cb2e9: log missing mockdata
+-   Updated dependencies [cdce1a0]
+    -   @sap-ux/annotation-converter@0.9.9
+    -   @sap-ux/edmx-parser@0.8.2
+
 ## 1.4.2
 
 ### Patch Changes
