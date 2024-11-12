@@ -326,6 +326,7 @@ declare namespace EDMX {
     export type DateWrapperWrapper = Record<'Date', Date>;
     export type DateTimeOffsetWrapper = Record<'DateTimeOffset', any>;
     export type DecimalWrapper = Record<'Decimal', string>;
+    export type DoubleWrapper = Record<'Double', string>;
     export type DurationWrapper = Record<'Duration', any>;
     export type EnumMemberWrapper = Record<'EnumMember', string>;
     export type FloatWrapper = Record<'Float', number>;
@@ -375,6 +376,7 @@ declare namespace EDMX {
             DateWrapperWrapper &
             DateTimeOffsetWrapper &
             DecimalWrapper &
+            DoubleWrapper &
             DurationWrapper &
             EnumMemberWrapper &
             FloatWrapper &
@@ -409,6 +411,7 @@ declare namespace EDMX {
             DateWrapperWrapper &
             DateTimeOffsetWrapper &
             DecimalWrapper &
+            DoubleWrapper &
             DurationWrapper &
             EnumMemberWrapper &
             FloatWrapper &
@@ -444,6 +447,7 @@ declare namespace EDMX {
     export type DateCollectionWrapperCollectionWrapper = Record<'Date', Date[]>;
     export type DateTimeOffsetCollectionWrapper = Record<'DateTimeOffset', any[]>;
     export type DecimalCollectionWrapper = Record<'Decimal', number[]>;
+    export type DoubleCollectionWrapper = Record<'Double', number[]>;
     export type DurationCollectionWrapper = Record<'Duration', any[]>;
     export type EnumMemberCollectionWrapper = Record<'EnumMember', any[]>;
     export type FloatCollectionWrapper = Record<'Float', number[]>;
@@ -466,6 +470,7 @@ declare namespace EDMX {
         | DateCollectionWrapperCollectionWrapper
         | DateTimeOffsetCollectionWrapper
         | DecimalCollectionWrapper
+        | DoubleCollectionWrapper
         | DurationCollectionWrapper
         | EnumMemberCollectionWrapper
         | FloatCollectionWrapper
@@ -510,6 +515,7 @@ declare namespace EDMX {
         Bool?: string;
         EnumMember?: string;
         Decimal?: string;
+        Double?: string;
     }
 
     export interface AnnotationList {

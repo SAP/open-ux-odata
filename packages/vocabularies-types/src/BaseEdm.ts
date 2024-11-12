@@ -28,6 +28,7 @@ export type LabeledElementExpression = {
 };
 export type BoolExpression = GenericExpression<'Bool', boolean>;
 export type DecimalExpression = GenericExpression<'Decimal', number>;
+export type DoubleExpression = GenericExpression<'Double', number>;
 export type DateExpression = GenericExpression<'Date', string>;
 export type IntExpression = GenericExpression<'Int', number>;
 export type FloatExpression = GenericExpression<'Float', number>;
@@ -97,6 +98,7 @@ export type Expression =
     | LabeledElementExpression
     | BoolExpression
     | DecimalExpression
+    | DoubleExpression
     | FloatExpression
     | IntExpression
     | DateExpression
@@ -129,6 +131,7 @@ export type Collection =
     | ArrayWithType<EnumMemberExpression, 'EnumMember'>
     | ArrayWithType<BoolExpression, 'Bool'>
     | ArrayWithType<DecimalExpression, 'Decimal'>
+    | ArrayWithType<DoubleExpression, 'Double'>
     | ArrayWithType<DateExpression, 'Date'>
     | ArrayWithType<IntExpression, 'Int'>
     | ArrayWithType<FloatExpression, 'Float'>

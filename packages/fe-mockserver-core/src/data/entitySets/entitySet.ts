@@ -54,7 +54,8 @@ function transformationFn(type: string, check?: any) {
                     case 'Edm.Int64': {
                         return parseInt(data, 10);
                     }
-                    case 'Edm.Decimal': {
+                    case 'Edm.Decimal':
+                    case 'Edm.Double': {
                         return parseFloat(data);
                     }
                     default:
@@ -124,6 +125,7 @@ function prepareLiteral(literal: string, propertyType: string) {
         case 'Edm.Int64': {
             return parseInt(literal, 10);
         }
+        case 'Edm.Double':
         case 'Edm.Decimal': {
             return parseFloat(literal);
         }
