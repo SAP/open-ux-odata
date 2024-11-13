@@ -14,6 +14,7 @@ import { commonI18n } from './common.i18n';
 export type CDSMetadataProviderOptions = {
     odataVersion?: 'v2' | 'v4';
     odataFormat?: 'structured' | 'flat';
+    i18nPath?: string | string[];
 };
 
 /**
@@ -30,7 +31,7 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
 
     async loadI18nMapFolder(targetFolder: string, i18nMap: Record<string, string>): Promise<void> {
         if (await this.fileLoader.exists(targetFolder)) {
-            const i18nProp = await this.fileLoader.loadFile(targetFolder + 'i18n.properties');
+            const i18nProp = await this.fileLoader.loadFile(path.resolve(targetFolder, 'i18n.properties'));
             const i18nPropLines = i18nProp.split('\n');
             for (const line of i18nPropLines) {
                 const [key, value] = line.trim().split(/[=](.*)/s);
@@ -40,14 +41,24 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
     }
     async loadI18nMap(dirName: string): Promise<Record<string, string>> {
         const i18nMap = { ...commonI18n };
-        if (await this.fileLoader.exists(dirName + '/i18n')) {
-            await this.loadI18nMapFolder(dirName + '/i18n/', i18nMap);
+        if (await this.fileLoader.exists(path.resolve(dirName, './i18n'))) {
+            await this.loadI18nMapFolder(path.resolve(dirName, './i18n'), i18nMap);
         }
-        if (await this.fileLoader.exists(dirName + '/_i18n')) {
-            await this.loadI18nMapFolder(dirName + '/_i18n/', i18nMap);
+        if (await this.fileLoader.exists(path.resolve(dirName, './_i18n'))) {
+            await this.loadI18nMapFolder(path.resolve(dirName, './_i18n'), i18nMap);
         }
-        if (await this.fileLoader.exists(path.resolve(dirName + '../_i18n'))) {
-            await this.loadI18nMapFolder(path.resolve(dirName + '../_i18n'), i18nMap);
+        if (await this.fileLoader.exists(path.resolve(dirName, '../_i18n'))) {
+            await this.loadI18nMapFolder(path.resolve(dirName, '../_i18n'), i18nMap);
+        }
+        let i18nPaths: string[] = this.options?.i18nPath as string[];
+        if (i18nPaths && !Array.isArray(i18nPaths)) {
+            i18nPaths = [i18nPaths];
+        }
+        i18nPaths ??= [];
+        for (const i18nPath of i18nPaths) {
+            if (await this.fileLoader.exists(path.resolve(dirName, i18nPath))) {
+                await this.loadI18nMapFolder(path.resolve(dirName, i18nPath), i18nMap);
+            }
         }
         return i18nMap;
     }

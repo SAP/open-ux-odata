@@ -125,6 +125,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
         <Property Name="Prop2" Type="Edm.String"/>
         <Property Name="Prop3" Type="Edm.String"/>
         <Property Name="Prop4" Type="Edm.String"/>
+        <Property Name="Prop5" Type="Edm.String"/>
         <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
@@ -147,6 +148,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop4">
         <Annotation Term="Common.Label" String="End Date"/>
+      </Annotations>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop5">
+        <Annotation Term="Common.Label" String="Other Properties"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
@@ -189,6 +193,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file in V2 1`] = `
         <Property Name="Prop2" Type="Edm.String"/>
         <Property Name="Prop3" Type="Edm.String"/>
         <Property Name="Prop4" Type="Edm.String"/>
+        <Property Name="Prop5" Type="Edm.String"/>
         <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
@@ -221,6 +226,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file in V2 1`] = `
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop4" xmlns="http://docs.oasis-open.org/odata/ns/edm">
         <Annotation Term="Common.Label" String="End Date"/>
+      </Annotations>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop5" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Common.Label" String="OtherProp"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden" xmlns="http://docs.oasis-open.org/odata/ns/edm">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
@@ -895,6 +903,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`
         <Property Name="Prop2" Type="Edm.String"/>
         <Property Name="Prop3" Type="Edm.String"/>
         <Property Name="Prop4" Type="Edm.String"/>
+        <Property Name="Prop5" Type="Edm.String"/>
         <Property Name="isBoundAction1Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction2Hidden" Type="Edm.Boolean"/>
         <Property Name="isBoundAction3Hidden" Type="Edm.Boolean"/>
@@ -938,6 +947,9 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop4">
         <Annotation Term="Common.Label" String="End Date"/>
+      </Annotations>
+      <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop5">
+        <Annotation Term="Common.Label" String="Other Properties"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
