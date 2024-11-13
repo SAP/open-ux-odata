@@ -14,7 +14,6 @@ import { commonI18n } from './common.i18n';
 export type CDSMetadataProviderOptions = {
     odataVersion?: 'v2' | 'v4';
     odataFormat?: 'structured' | 'flat';
-    i18nPath?: string | string[];
 };
 
 /**
@@ -27,7 +26,11 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
      * @param fileLoader the file loader injected by the mockserver
      * @param options a set of options for the plugin
      */
-    constructor(private fileLoader: IFileLoader, private options?: CDSMetadataProviderOptions) {}
+    constructor(
+        private fileLoader: IFileLoader,
+        private options?: CDSMetadataProviderOptions,
+        private i18nPath?: string[]
+    ) {}
 
     async loadI18nMapFolder(targetFolder: string, i18nMap: Record<string, string>): Promise<void> {
         if (await this.fileLoader.exists(targetFolder)) {
@@ -50,10 +53,7 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
         if (await this.fileLoader.exists(path.resolve(dirName, '../_i18n'))) {
             await this.loadI18nMapFolder(path.resolve(dirName, '../_i18n'), i18nMap);
         }
-        let i18nPaths: string[] = this.options?.i18nPath as string[];
-        if (i18nPaths && !Array.isArray(i18nPaths)) {
-            i18nPaths = [i18nPaths];
-        }
+        let i18nPaths: string[] = this.i18nPath as string[];
         i18nPaths ??= [];
         for (const i18nPath of i18nPaths) {
             if (await this.fileLoader.exists(path.resolve(dirName, i18nPath))) {

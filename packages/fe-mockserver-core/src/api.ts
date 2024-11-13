@@ -84,6 +84,7 @@ export type ServiceConfig = {
     urlPath: string;
     metadataPath: string;
     mockdataPath: string;
+    i18nPath?: string[];
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
     debug?: boolean;

@@ -97,7 +97,8 @@ export async function createMockMiddleware(
                 processor = await getMetadataProcessor(
                     fileLoader,
                     mockService.metadataProcessor.name,
-                    mockService.metadataProcessor.options
+                    mockService.metadataProcessor.options,
+                    mockServiceIn.i18nPath
                 );
             }
 

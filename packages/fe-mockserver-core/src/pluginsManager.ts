@@ -12,11 +12,12 @@ import type { IFileLoader, IMetadataProcessor } from './index';
 export async function getMetadataProcessor(
     fileLoader: IFileLoader,
     name: string | undefined,
-    options?: unknown
+    options?: unknown,
+    i18nPath?: string[]
 ): Promise<IMetadataProcessor> {
     const MetadataProcessorClass = (
         await fileLoader.loadJS(name || path.resolve(__dirname, './plugins/metadataProvider'))
     ).default;
 
-    return new MetadataProcessorClass(fileLoader, options) as IMetadataProcessor;
+    return new MetadataProcessorClass(fileLoader, options, i18nPath) as IMetadataProcessor;
 }

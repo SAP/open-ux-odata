@@ -16,7 +16,7 @@ describe('FE Mockserver CDS Plugin', () => {
             }
         }
     } as IFileLoader;
-    const myCDSProvider = new CDSMetadataProvider(fakeFileLoader, { i18nPath: './otherfolder/i18n' });
+    const myCDSProvider = new CDSMetadataProvider(fakeFileLoader, {}, ['./otherfolder/i18n']);
     const myV2CDSProvider = new CDSMetadataProvider(fakeFileLoader, { odataVersion: 'v2' });
     const cdsDataPath = path.join(__dirname, 'cds');
     const xmlDataPath = path.join(__dirname, 'xml');
