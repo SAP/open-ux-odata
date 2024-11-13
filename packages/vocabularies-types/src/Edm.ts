@@ -68,6 +68,7 @@ export type AnnotationTerm<P> = PrimitiveTypeCast<
 type TypeToString1 = {
     String: 'Edm.String';
     Decimal: 'Edm.String';
+    Double: 'Edm.String';
 };
 // export type TypeToString<T> = T extends Edm.String ? "Edm.String" :
 //                                 T extends Edm.Decimal ? "Edm.Decimal" :

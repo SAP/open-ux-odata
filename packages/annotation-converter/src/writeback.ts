@@ -30,6 +30,11 @@ function revertObjectToRawType(references: Reference[], value: any) {
             type: 'Decimal',
             Decimal: value.valueOf()
         };
+    } else if (value.isDouble?.()) {
+        result = {
+            type: 'Double',
+            Double: value.valueOf()
+        };
     } else if (value.isString?.()) {
         const valueMatches = value.valueOf().split('.');
         if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {

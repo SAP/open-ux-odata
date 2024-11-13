@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.6
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+
 ## 0.11.5
 
 ### Patch Changes
