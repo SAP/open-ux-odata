@@ -1097,6 +1097,7 @@ export class DataAccess implements DataAccessInterface {
                 case 'Edm.Byte':
                 case 'Edm.Int16':
                 case 'Edm.Int32':
+                case 'Edm.Double':
                 case 'Edm.Boolean':
                 case 'Edm.Int64': {
                     keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
@@ -1119,7 +1120,8 @@ export class DataAccess implements DataAccessInterface {
                         case 'Edm.Int16':
                         case 'Edm.Int32':
                         case 'Edm.Boolean':
-                        case 'Edm.Int64': {
+                        case 'Edm.Int64':
+                        case 'Edm.Double': {
                             return `${key}=${currentKeys[key]}`;
                         }
                         case 'Edm.Guid':
@@ -1203,7 +1205,13 @@ export class DataAccess implements DataAccessInterface {
                 }
                 const firstElementData = getData(firstElement, orderByDef.name);
                 const secondElementData = getData(secondElement, orderByDef.name);
-                if (firstElementData > secondElementData) {
+                if (firstElementData === null) {
+                    isDecisive = true;
+                    outValue = -1;
+                } else if (secondElementData === null) {
+                    isDecisive = true;
+                    outValue = 1;
+                } else if (firstElementData > secondElementData) {
                     outValue = orderByDef.direction === 'asc' ? 1 : -1;
                     isDecisive = true;
                 } else if (firstElementData < secondElementData) {

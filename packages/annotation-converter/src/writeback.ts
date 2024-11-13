@@ -30,6 +30,11 @@ function revertObjectToRawType(references: Reference[], value: any) {
             type: 'Decimal',
             Decimal: value.valueOf()
         };
+    } else if (value.isDouble?.()) {
+        result = {
+            type: 'Double',
+            Double: value.valueOf()
+        };
     } else if (value.isString?.()) {
         const valueMatches = value.valueOf().split('.');
         if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {
@@ -111,6 +116,9 @@ function revertObjectToRawType(references: Reference[], value: any) {
  */
 function revertValueToRawType(references: Reference[], value: any): Expression | undefined {
     let result: Expression | undefined;
+    if (value.type === 'Constant') {
+        value = value.value;
+    }
     const valueConstructor = value?.constructor.name;
     switch (valueConstructor) {
         case 'String':
@@ -249,6 +257,8 @@ function revertCollectionItemToRawType(
                 type: 'NavigationPropertyPath',
                 NavigationPropertyPath: collectionItem.value
             };
+        } else if (collectionItem.type === 'Constant') {
+            return collectionItem.value;
         }
     }
     return undefined;

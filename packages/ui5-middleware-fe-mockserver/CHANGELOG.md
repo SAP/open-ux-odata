@@ -1,5 +1,27 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.77
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.4.5
+
+## 2.2.76
+
+### Patch Changes
+
+-   Updated dependencies [ac9a43e]
+    -   @sap-ux/fe-mockserver-core@1.4.4
+
+## 2.2.75
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+-   Updated dependencies [cdce1a0]
+-   Updated dependencies [f4cb2e9]
+    -   @sap-ux/fe-mockserver-core@1.4.3
+
 ## 2.2.74
 
 ### Patch Changes

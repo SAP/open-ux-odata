@@ -91,8 +91,8 @@ describe('Data Access', () => {
             new ODataRequest({ method: 'GET', url: '/SEPMRA_C_PD_Product?$orderby=Price,Supplier' }, dataAccess)
         );
         expect(productData.length).toEqual(4);
-        expect(productData[0].Name).toEqual('Acme TNT');
-        expect(productData[1].Name).toEqual('Acme Trap v2');
+        expect(productData[0].Name).toEqual('Acme Trap v2');
+        expect(productData[1].Name).toEqual('Acme TNT');
         expect(productData[2].Name).toEqual('Acme Boomerang');
         expect(productData[3].Name).toEqual('Acme Extra Comfy Safe');
 
