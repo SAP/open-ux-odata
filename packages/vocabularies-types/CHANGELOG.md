@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.7
+
+### Patch Changes
+
+-   437436e: Define a new ConstantExpression type for writeback
+
 ## 0.11.6
 
 ### Patch Changes
