@@ -25,6 +25,7 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
      *
      * @param fileLoader the file loader injected by the mockserver
      * @param options a set of options for the plugin
+     * @param i18nPath a list of paths to look for i18n files
      */
     constructor(
         private fileLoader: IFileLoader,
