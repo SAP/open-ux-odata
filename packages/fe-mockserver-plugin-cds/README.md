@@ -55,7 +55,7 @@ The i18n file should be in the same folder as the metadata file and should be na
  - or in an i18n folder in the same directory as the metadata file.
  - or in an _i18n folder in the same directory as the metadata file.
  - or in an _i18n folder one level above the metadata file.
- - or you can define i18nPath property in the configuration to add more location relativeto the cds file
+ - or you can define i18nPath property in the configuration to add more location relative to the cds file
 
 ```yaml
  - name: sap-fe-mockserver
