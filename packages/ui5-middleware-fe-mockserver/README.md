@@ -87,7 +87,7 @@ By default the mockserver will try many ways to match an entityset with its navi
 Tenants can be enabled either by using the ?sap-client in your application / request or by prepending /tenant-xxx at the very start of your service call.
 With tenants you will be able to work on tenant isolated data.
 
-Tenants will automatically try to fetch the json data from a file including the tenant ID in the name. 
+On top of the standard json file loading, when using tenants we will automatically try to fetch a specific json data from a file including the tenant ID in the name. 
 For instance if you have an entity called `Product` you can have a `Product.json` file containing the standard data and a `Product-testErrorXXX.json` file for a specific tenant called testErrorXXX.
 
 You can also define static annotation file using the `annotations` entry, each annotation must provide
