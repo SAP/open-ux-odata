@@ -97,9 +97,6 @@ importers:
       '@sap-ux/edmx-parser':
         specifier: workspace:*
         version: link:../edmx-parser
-      '@ui5/logger':
-        specifier: 4.0.1
-        version: 4.0.1
       balanced-match:
         specifier: 1.0.2
         version: 1.0.2
@@ -173,6 +170,9 @@ importers:
       '@types/node-fetch':
         specifier: '2'
         version: 2.6.11
+      '@ui5/logger':
+        specifier: ^4.0.1
+        version: 4.0.1
       finalhandler:
         specifier: 1.2.0
         version: 1.2.0
