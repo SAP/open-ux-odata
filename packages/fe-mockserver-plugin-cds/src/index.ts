@@ -43,6 +43,14 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
             }
         }
     }
+
+    addI18nPath(i18nPath?: string[]): void {
+        if (!this.i18nPath) {
+            this.i18nPath = [];
+        }
+        this.i18nPath = this.i18nPath.concat(i18nPath ?? []);
+    }
+
     async loadI18nMap(dirName: string): Promise<Record<string, string>> {
         const i18nMap = { ...commonI18n };
         if (await this.fileLoader.exists(path.resolve(dirName, './i18n'))) {

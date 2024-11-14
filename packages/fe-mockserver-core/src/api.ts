@@ -51,6 +51,7 @@ export interface StaticFiles {
 type MetadataProcessorConfig = {
     name: string;
     options?: any;
+    i18nPath?: string[];
 };
 
 export interface BaseServerConfig {

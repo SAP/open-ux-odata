@@ -21,6 +21,7 @@ describe('FE Mockserver CDS Plugin', () => {
     const cdsDataPath = path.join(__dirname, 'cds');
     const xmlDataPath = path.join(__dirname, 'xml');
     it('can compile valid CDS file', async () => {
+        myCDSProvider.addI18nPath(['./otherotherfolder/i18n']);
         const edmx = await myCDSProvider.loadMetadata(path.join(cdsDataPath, 'valid.cds'));
         expect(edmx).toMatchSnapshot();
     });
