@@ -34,6 +34,7 @@ export interface ConfigService {
     forceNullableValuesToNull: boolean;
     strictKeyMode: boolean;
     watch: boolean;
+    i18nPath: string[];
     metadataProcessor?: MetadataProcessorConfig;
 }
 
