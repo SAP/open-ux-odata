@@ -64,12 +64,13 @@ export class DataAccess implements DataAccessInterface {
     public constructor(
         private service: ServiceConfig,
         private metadata: ODataMetadata,
-        public fileLoader: IFileLoader
+        public fileLoader: IFileLoader,
+        public logger?: ILogger
     ) {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
         this.debug = !!service.debug;
-        this.log = getLogger('server:ux-fe-mockserver', this.debug);
+        this.log = this.logger ?? getLogger('server:ux-fe-mockserver', this.debug);
 
         this.strictKeyMode = !!service.strictKeyMode;
         this.generateMockData = !!service.generateMockData;

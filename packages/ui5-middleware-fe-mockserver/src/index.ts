@@ -1,10 +1,16 @@
+import type { ServerConfig } from '@sap-ux/fe-mockserver-core';
 import FEMockserver from '@sap-ux/fe-mockserver-core';
 import * as path from 'path';
 import type { IRouter } from 'router';
 import { resolveConfig } from './configResolver';
 export type { MockDataContributor } from '@sap-ux/fe-mockserver-core';
 
-async function FEMiddleware(middlewareConfig: any): Promise<IRouter> {
+async function FEMiddleware(middlewareConfig: {
+    resources?: any;
+    options: {
+        configuration: ServerConfig;
+    };
+}): Promise<IRouter> {
     // basepath will be the webapp folder so we have to go up a level to retrieve the config
     let basePath = middlewareConfig?.resources?.rootProject?._readers[0]?._fsBasePath;
     if (basePath) {
