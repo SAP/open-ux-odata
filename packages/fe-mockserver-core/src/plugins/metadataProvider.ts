@@ -6,4 +6,8 @@ export default class MetadataProvider implements IMetadataProcessor {
     async loadMetadata(filePath: string): Promise<string> {
         return this.fileLoader.loadFile(filePath);
     }
+
+    addI18nPath(_i18Path?: string[]): void {
+        // do nothing
+    }
 }

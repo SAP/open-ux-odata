@@ -25,12 +25,17 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
      *
      * @param fileLoader the file loader injected by the mockserver
      * @param options a set of options for the plugin
+     * @param i18nPath a list of paths to look for i18n files
      */
-    constructor(private fileLoader: IFileLoader, private options?: CDSMetadataProviderOptions) {}
+    constructor(
+        private fileLoader: IFileLoader,
+        private options?: CDSMetadataProviderOptions,
+        private i18nPath?: string[]
+    ) {}
 
     async loadI18nMapFolder(targetFolder: string, i18nMap: Record<string, string>): Promise<void> {
         if (await this.fileLoader.exists(targetFolder)) {
-            const i18nProp = await this.fileLoader.loadFile(targetFolder + 'i18n.properties');
+            const i18nProp = await this.fileLoader.loadFile(path.resolve(targetFolder, 'i18n.properties'));
             const i18nPropLines = i18nProp.split('\n');
             for (const line of i18nPropLines) {
                 const [key, value] = line.trim().split(/[=](.*)/s);
@@ -38,16 +43,31 @@ export default class CDSMetadataProvider implements IMetadataProcessor {
             }
         }
     }
+
+    addI18nPath(i18nPath?: string[]): void {
+        if (!this.i18nPath) {
+            this.i18nPath = [];
+        }
+        this.i18nPath = this.i18nPath.concat(i18nPath ?? []);
+    }
+
     async loadI18nMap(dirName: string): Promise<Record<string, string>> {
         const i18nMap = { ...commonI18n };
-        if (await this.fileLoader.exists(dirName + '/i18n')) {
-            await this.loadI18nMapFolder(dirName + '/i18n/', i18nMap);
+        if (await this.fileLoader.exists(path.resolve(dirName, './i18n'))) {
+            await this.loadI18nMapFolder(path.resolve(dirName, './i18n'), i18nMap);
         }
-        if (await this.fileLoader.exists(dirName + '/_i18n')) {
-            await this.loadI18nMapFolder(dirName + '/_i18n/', i18nMap);
+        if (await this.fileLoader.exists(path.resolve(dirName, './_i18n'))) {
+            await this.loadI18nMapFolder(path.resolve(dirName, './_i18n'), i18nMap);
         }
-        if (await this.fileLoader.exists(path.resolve(dirName + '../_i18n'))) {
-            await this.loadI18nMapFolder(path.resolve(dirName + '../_i18n'), i18nMap);
+        if (await this.fileLoader.exists(path.resolve(dirName, '../_i18n'))) {
+            await this.loadI18nMapFolder(path.resolve(dirName, '../_i18n'), i18nMap);
+        }
+        let i18nPaths: string[] = this.i18nPath as string[];
+        i18nPaths ??= [];
+        for (const i18nPath of i18nPaths) {
+            if (await this.fileLoader.exists(path.resolve(dirName, i18nPath))) {
+                await this.loadI18nMapFolder(path.resolve(dirName, i18nPath), i18nMap);
+            }
         }
         return i18nMap;
     }

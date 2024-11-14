@@ -64,6 +64,10 @@ jobs:
               with:
                   fetch-depth: 0
                   token: ${{ secrets.ACCESS_PAT }}
+            - name: Use Node.js 20.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20.x
             - name: Setup pnpm
               uses: pnpm/action-setup@v4
               with:
@@ -77,10 +81,7 @@ jobs:
                   key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: |
                       ${{ runner.os }}-build-${{ env.cache-name }}-
-            - name: Use Node.js 20.x
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 20.x
+            
             - name: Install pnpm modules
               run: pnpm install
             - name: Apply changesets
@@ -109,6 +110,10 @@ jobs:
         steps:
             - name: Checkout code repository
               uses: actions/checkout@v3
+            - name: Use Node.js 20.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20.x
             - name: Setup pnpm
               uses: pnpm/action-setup@v4
               with:
@@ -122,10 +127,7 @@ jobs:
                   key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: |
                       ${{ runner.os }}-build-${{ env.cache-name }}-
-            - name: Use Node.js 20.x
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 20.x
+           
             - name: Install pnpm modules
               run: pnpm install
             - name: Run build

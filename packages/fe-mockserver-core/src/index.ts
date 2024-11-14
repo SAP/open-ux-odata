@@ -14,6 +14,7 @@ export interface IFileLoader {
 }
 export interface IMetadataProcessor {
     loadMetadata(filePath: string): Promise<string>;
+    addI18nPath(i18Path?: string[]): void;
 }
 export * from './api';
 export { MockDataContributor } from './mockdata/functionBasedMockData';
@@ -37,7 +38,8 @@ export default class FEMockserver {
         this.metadataProvider = await getMetadataProcessor(
             this.fileLoader,
             this.configuration.metadataProcessor?.name,
-            this.configuration.metadataProcessor?.options
+            this.configuration.metadataProcessor?.options,
+            this.configuration.metadataProcessor?.i18nPath
         );
 
         await createMockMiddleware(this.configuration, this.mainRouter, this.fileLoader, this.metadataProvider);

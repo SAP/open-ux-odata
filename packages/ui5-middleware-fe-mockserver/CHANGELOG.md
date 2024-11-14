@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.78
+
+### Patch Changes
+
+-   c2b7af8: we no longer depend on a deprecated version of ui5 logger
+-   Updated dependencies [c2b7af8]
+    -   @sap-ux/fe-mockserver-core@1.4.6
+
 ## 2.2.77
 
 ### Patch Changes
