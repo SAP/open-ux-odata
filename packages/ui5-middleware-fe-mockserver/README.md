@@ -89,6 +89,7 @@ With tenants you will be able to work on tenant isolated data.
 
 On top of the standard json file loading, when using tenants we will automatically try to fetch a specific json data from a file including the tenant ID in the name. 
 For instance if you have an entity called `Product` you can have a `Product.json` file containing the standard data and a `Product-testErrorXXX.json` file for a specific tenant called testErrorXXX.
+If you don't have a tenant specific file, the mockserver will fallback to the standard file.
 
 You can also define static annotation file using the `annotations` entry, each annotation must provide
 
