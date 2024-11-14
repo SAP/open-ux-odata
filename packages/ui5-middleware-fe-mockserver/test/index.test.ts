@@ -14,7 +14,9 @@ describe('The middleware', () => {
                         info(message: string) {
                             return logFn(message);
                         },
-                        error(message: string | Error) {}
+                        error(message: string | Error): void {
+                            // do nothing
+                        }
                     }
                 }
             }
