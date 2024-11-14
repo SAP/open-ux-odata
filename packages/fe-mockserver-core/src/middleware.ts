@@ -1,13 +1,13 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { MockserverConfiguration, ServiceConfig, ServiceConfigEx } from './api';
 
-import { getLogger } from '@ui5/logger';
 import etag from 'etag';
 import type { IRouter } from 'router';
 import Router from 'router';
 import { DataAccess } from './data/dataAccess';
 import { ODataMetadata } from './data/metadata';
 import type { IFileLoader, IMetadataProcessor } from './index';
+import { getLogger } from './logger';
 import { getMetadataProcessor } from './pluginsManager';
 import { catalogServiceRouter } from './router/catalogServiceRouter';
 import { serviceRouter } from './router/serviceRouter';
@@ -75,8 +75,11 @@ export async function createMockMiddleware(
     fileLoader: IFileLoader,
     metadataProcessor: IMetadataProcessor
 ): Promise<void> {
-    const log = getLogger('server:ux-fe-mockserver');
+    const log = newConfig.logger ?? getLogger('server:ux-fe-mockserver', !!newConfig.debug);
 
+    if (newConfig.services.length === 0) {
+        log.info('No services configured. Skipping mockserver setup.');
+    }
     const oDataHandlerPromises = newConfig.services.map(async (mockServiceIn: ServiceConfig) => {
         const mockService = mockServiceIn as ServiceConfigEx;
         const splittedPath = mockService.urlPath.split('/');
@@ -105,7 +108,7 @@ export async function createMockMiddleware(
             }
 
             let metadata = await loadMetadata(mockService, processor);
-            const dataAccess = new DataAccess(mockService, metadata, fileLoader);
+            const dataAccess = new DataAccess(mockService, metadata, fileLoader, newConfig.logger);
 
             if (mockService.watch) {
                 const watchPath = [mockService.mockdataPath];

@@ -83,6 +83,7 @@ On top of that you can specify one of the following option
 Additional option are available either per service of for all services if defined globally
 
 - debug : toggle the debug mode
+- logger: specify the logger to use, by default it will use the @ui5/logger
 - watch : toggle the watch mode, the mockserver will restart the service where data or metadata have changed
 - noETag : disable ETag support on metadata
 - strictKeyMode : disable the default "loose" mode for the key matching, you can try this if the mockserver returns too much data

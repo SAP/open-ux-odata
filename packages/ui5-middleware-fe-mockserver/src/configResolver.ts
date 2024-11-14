@@ -78,6 +78,7 @@ function processServicesConfig(
             urlPath: inService.urlPath,
             noETag: inService.noETag,
             validateETag: inService.validateETag,
+            logger: inService.logger,
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
             generateMockData: inService.generateMockData,
@@ -110,6 +111,9 @@ function processServicesConfig(
         }
         if (inConfig.debug && !inService.hasOwnProperty('debug')) {
             myServiceConfig.debug = inConfig.debug;
+        }
+        if (inConfig.logger && !inService.hasOwnProperty('logger')) {
+            myServiceConfig.logger = inConfig.logger;
         }
         if (inConfig.strictKeyMode && !inService.hasOwnProperty('strictKeyMode')) {
             myServiceConfig.strictKeyMode = inConfig.strictKeyMode;
@@ -155,6 +159,7 @@ export function resolveConfig(inConfig: ServerConfig, basePath: string): Mockser
         watch: !!inConfig.watch,
         strictKeyMode: !!inConfig.strictKeyMode,
         debug: !!inConfig.debug,
+        logger: inConfig.logger,
         generateMockData: !!inConfig.generateMockData,
         annotations: annotations,
         services: services,
