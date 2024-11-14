@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.7
+
+### Patch Changes
+
+-   2df4e00: Fix logger preventing start
+
 ## 1.4.6
 
 ### Patch Changes
