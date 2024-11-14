@@ -1,6 +1,8 @@
+const path = require('path');
 module.exports = {
     transform: {
-        '^.+\\.ts$': 'ts-jest'
+        '^.+\\.ts$': 'ts-jest',
+        'node_modules.+\\.js$': ['babel-jest', { configFile: './babellogger.config.js' }]
     },
     collectCoverage: true,
     collectCoverageFrom: ['src/**/*.ts'],
@@ -14,6 +16,7 @@ module.exports = {
             }
         ]
     ],
+    transformIgnorePatterns: [`${path.join(__dirname, '../..')}/node_modules/.pnpm/(?!(@ui5\\+logger)@)`],
     coverageReporters: [['lcov', { projectRoot: '../../' }], 'text'],
     modulePathIgnorePatterns: [
         '<rootDir>/dist',

@@ -1,4 +1,3 @@
-import { getLogger } from '@ui5/logger';
 import { raw } from 'body-parser';
 import type { IncomingMessage } from 'connect';
 import type { NextFunction } from 'express';
@@ -8,6 +7,7 @@ import Router from 'router';
 import { URL } from 'url';
 import type { ServiceConfigEx } from '../api';
 import type { DataAccess } from '../data/dataAccess';
+import { getLogger } from '../logger';
 import ODataRequest from '../request/odataRequest';
 import { batchRouter } from './batchRouter';
 
@@ -53,7 +53,7 @@ function disableCache(_req: IncomingMessage, res: ServerResponse, next: NextFunc
  */
 export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAccess): Promise<IRouter> {
     const router = new Router();
-    const log = getLogger('server:ux-fe-mockserver');
+    const log = service.logger ?? getLogger('server:ux-fe-mockserver', !!service.debug);
     router.use(disableCache);
     router.head('/', (_req: IncomingMessage, res: ServerResponse, next) => {
         addCSRFTokenIfRequested(_req, res); //HEAD use case

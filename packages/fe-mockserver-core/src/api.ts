@@ -1,3 +1,4 @@
+import type { ILogger } from '@ui5/logger';
 import type { IncomingMessage } from 'http';
 
 export interface Service {
@@ -28,6 +29,7 @@ export interface ConfigService {
     metadataPath?: string;
     cdsServiceName?: string;
     debug: boolean;
+    logger?: ILogger;
     noETag: boolean;
     validateETag: boolean;
     contextBasedIsolation: boolean;
@@ -58,6 +60,7 @@ export interface BaseServerConfig {
     debug?: boolean;
     watch?: boolean;
     noETag?: boolean;
+    logger?: ILogger;
     validateETag?: boolean;
     contextBasedIsolation?: boolean;
     generateMockData?: boolean;
@@ -82,6 +85,7 @@ export type AnnotationConfig = {
 };
 export type ServiceConfig = {
     urlPath: string;
+    logger?: ILogger;
     metadataPath: string;
     mockdataPath: string;
     generateMockData?: boolean;
@@ -102,6 +106,7 @@ export type ServiceConfigEx = ServiceConfig & {
 
 export interface MockserverConfiguration {
     debug?: boolean;
+    logger?: ILogger;
     contextBasedIsolation?: boolean;
     generateMockData?: boolean;
     watch?: boolean;
