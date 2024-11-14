@@ -1,7 +1,7 @@
 {
     "_version": "1.32.0",
     "sap.app": {
-        "id": "sap.fe.mockserver.errorHandling.errorHandling",
+        "id": "sap.fe.mockserver.tenants",
         "type": "application",
         "applicationVersion": {
             "version": "1.0.0"
@@ -13,16 +13,8 @@
                 "uri": "/here/goes/your/serviceurl/",
                 "type": "OData",
                 "settings": {
-                    "annotations": ["annotation"],
                     "odataVersion": "4.0",
                     "localUri": "localService/metadata.xml"
-                }
-            },
-            "annotation": {
-                "type": "ODataAnnotation",
-                "uri": "annotations/annotation.xml",
-                "settings": {
-                    "localUri": "annotations/annotation.xml"
                 }
             }
         },

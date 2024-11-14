@@ -146,7 +146,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         isDraft: boolean,
         dataAccess: DataAccessInterface
     ): Promise<object[]> {
-        const path = join(mockDataRootFolder, entity) + '.json';
+        const jsonFilePath = join(mockDataRootFolder, entity) + '.json';
         const jsPath = join(mockDataRootFolder, entity) + '.js';
         let outData: any[] | object = [];
         let isInitial = true;
@@ -162,10 +162,10 @@ export class MockDataEntitySet implements EntitySetInterface {
                 return Promise.resolve([]);
             }
         }
-        if ((isInitial || !(outData as any).getInitialDataSet) && (await dataAccess.fileLoader.exists(path))) {
-            dataAccess.log.info(`Trying to find ${path} for mockdata`);
+        if ((isInitial || !(outData as any).getInitialDataSet) && (await dataAccess.fileLoader.exists(jsonFilePath))) {
+            dataAccess.log.info(`Trying to find ${jsonFilePath} for mockdata`);
             try {
-                const fileContent = await dataAccess.fileLoader.loadFile(path);
+                const fileContent = await dataAccess.fileLoader.loadFile(jsonFilePath);
                 let outJsonData: any[];
                 if (fileContent.length === 0) {
                     outJsonData = [];
@@ -186,19 +186,47 @@ export class MockDataEntitySet implements EntitySetInterface {
                 }
                 dataAccess.log.info(`JSON file found for ${entity}`);
                 if (isInitial) {
-                    outData = outJsonData;
-                    isInitial = false;
-                } else {
-                    (outData as any).getInitialDataSet = function () {
-                        return outJsonData.concat();
-                    };
+                    outData = {}; // set as an object in all case
                 }
+                isInitial = false;
+                (outData as any).getInitialDataSet = function (contextId: string) {
+                    if (dataAccess.fileLoader.syncSupported()) {
+                        const fileNameSuffix =
+                            contextId === 'tenant-default' ? '' : `-${contextId.replace('tenant-', '')}`;
+                        const targetFile = join(mockDataRootFolder, entity + fileNameSuffix) + '.json';
+                        if (dataAccess.fileLoader.existsSync(targetFile)) {
+                            const jsonFileContent = dataAccess.fileLoader.loadFileSync(targetFile);
+                            let tenantJsonData: any[];
+                            if (fileContent.length === 0) {
+                                tenantJsonData = [];
+                            } else {
+                                tenantJsonData = JSON.parse(jsonFileContent);
+
+                                tenantJsonData.forEach((jsonLine) => {
+                                    if (isDraft) {
+                                        const IsActiveEntityValue = jsonLine.IsActiveEntity;
+                                        if (IsActiveEntityValue === undefined) {
+                                            jsonLine.IsActiveEntity = true;
+                                            jsonLine.HasActiveEntity = true;
+                                            jsonLine.HasDraftEntity = false;
+                                        }
+                                    }
+                                    delete jsonLine['@odata.etag'];
+                                });
+                            }
+                            return tenantJsonData;
+                        }
+                    }
+
+                    return outJsonData.concat();
+                };
+                // }
             } catch (e) {
                 dataAccess.log.info(e as string);
             }
         }
         if (isInitial) {
-            dataAccess.log.info(`No JS or Json file found for ${entity} at  ${path}`);
+            dataAccess.log.info(`No JS or Json file found for ${entity} at  ${jsonFilePath}`);
             outData = [];
             if (generateMockData) {
                 (outData as any).__generateMockData = generateMockData;

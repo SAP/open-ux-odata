@@ -1,4 +1,4 @@
-import { access, readFile } from 'graceful-fs';
+import { access, accessSync, readFile, readFileSync } from 'graceful-fs';
 import { promisify } from 'util';
 import type { IFileLoader } from '../index';
 const readFileP = promisify(readFile);
@@ -16,6 +16,23 @@ export default class FileSystemLoader implements IFileLoader {
             return false;
         }
     }
+    syncSupported(): boolean {
+        return true;
+    }
+
+    existsSync(filePath: string): boolean {
+        try {
+            accessSync(filePath);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    loadFileSync(filePath: string): string {
+        return readFileSync(filePath, 'utf-8');
+    }
+
     async loadJS(filePath: string): Promise<any> {
         delete require.cache[filePath];
         // eslint-disable-next-line @typescript-eslint/no-var-requires

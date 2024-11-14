@@ -6,7 +6,10 @@ import { getMetadataProcessor } from './pluginsManager';
 
 export interface IFileLoader {
     loadFile(filePath: string): Promise<string>;
+    loadFileSync(filePath: string): string;
     exists(filePath: string): Promise<boolean>;
+    existsSync(filePath: string): boolean;
+    syncSupported(): boolean;
     loadJS(filePath: string): Promise<any>;
 }
 export interface IMetadataProcessor {
