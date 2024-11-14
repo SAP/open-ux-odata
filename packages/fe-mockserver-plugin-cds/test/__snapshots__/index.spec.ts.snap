@@ -961,7 +961,7 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`
         <Annotation Term="Common.Label" String="Other Properties"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/Prop6">
-        <Annotation Term="Common.Label" String="OtherOtherProp"/>
+        <Annotation Term="Common.Label" String="Yet another Properties"/>
       </Annotations>
       <Annotations Target="sap.fe.mockserver.ValidCDS.RootElement/isBoundAction1Hidden">
         <Annotation Term="Common.Label" String="Bound Action 1 Hidden"/>
