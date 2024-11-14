@@ -29,7 +29,6 @@
     "dependencies": {
         "@sap-ux/annotation-converter": "workspace:*",
         "@sap-ux/edmx-parser": "workspace:*",
-        "@ui5/logger": "4.0.1",
         "balanced-match": "1.0.2",
         "body-parser": "1.20.3",
         "chevrotain": "9.1.0",
@@ -45,6 +44,7 @@
     "devDependencies": {
         "@sap-ux/vocabularies-types": "workspace:*",
         "@sap-ux/fe-mockserver-plugin-cds": "workspace:*",
+        "@ui5/logger": "^4.0.1",
         "@babel/preset-env": "^7.26.0",
         "@types/body-parser": "1.19.5",
         "@types/graceful-fs": "^4.1.5",

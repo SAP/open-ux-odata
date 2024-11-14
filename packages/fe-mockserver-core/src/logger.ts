@@ -1,20 +1,16 @@
 import type { ILogger } from '@ui5/logger';
-import { getLogger as _getLogger } from '@ui5/logger';
+import process from 'node:process';
 
 class Logger implements ILogger {
-    logger: ILogger;
-
-    constructor(loggerName: string, private debug: boolean) {
-        this.logger = _getLogger(loggerName);
-    }
+    constructor(private loggerName: string, private debug: boolean) {}
 
     error(message: string | Error): void {
-        this.logger.error(message);
+        process.stderr.write('error ' + this.loggerName + ' :: ' + message.toString() + '\n');
     }
 
     info(message: string): void {
         if (this.debug) {
-            this.logger.info(message);
+            process.stdout.write('info ' + this.loggerName + ' :: ' + message + '\n');
         }
     }
 }
