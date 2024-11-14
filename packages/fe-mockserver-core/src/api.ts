@@ -36,6 +36,7 @@ export interface ConfigService {
     forceNullableValuesToNull: boolean;
     strictKeyMode: boolean;
     watch: boolean;
+    i18nPath: string[];
     metadataProcessor?: MetadataProcessorConfig;
 }
 
@@ -53,6 +54,7 @@ export interface StaticFiles {
 type MetadataProcessorConfig = {
     name: string;
     options?: any;
+    i18nPath?: string[];
 };
 
 export interface BaseServerConfig {
@@ -88,6 +90,7 @@ export type ServiceConfig = {
     logger?: ILogger;
     metadataPath: string;
     mockdataPath: string;
+    i18nPath?: string[];
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
     debug?: boolean;
