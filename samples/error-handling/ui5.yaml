@@ -10,10 +10,5 @@ server:
               service:
                   urlBasePath: /here/goes/your/serviceurl
                   name: ''
-                  metadataXmlPath: ./webapp/localService/metadata.xml
-                  mockdataRootPath: ./webapp/localService/mockdata
-        - name: fiori-tools-appreload
-          afterMiddleware: compression
-          configuration:
-              port: 35729
-              path: webapp
+                  metadataPath: ./webapp/localService/metadata.xml
+                  mockdataPath: ./webapp/localService/mockdata
