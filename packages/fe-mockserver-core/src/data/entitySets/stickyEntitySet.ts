@@ -101,7 +101,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         odataRequest: ODataRequest
     ): Promise<any> {
         keyValues = this.prepareKeys(keyValues);
-        const data = this.performGET(keyValues, false, tenantId, odataRequest);
+        const data = await this.performGET(keyValues, false, tenantId, odataRequest);
         if (!data) {
             throw new ExecutionError('Not found', 404, undefined, false);
         }
@@ -133,7 +133,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         switch (actionDefinition.fullyQualifiedName) {
             // Draft Edit Action
             case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.EditAction}(${actionDefinition.sourceType})`: {
-                const data = this.performGET(keys, false, odataRequest.tenantId, odataRequest);
+                const data = await this.performGET(keys, false, odataRequest.tenantId, odataRequest);
                 const duplicate = Object.assign({}, data);
 
                 this.createSession(duplicate).addSessionToken(odataRequest);
@@ -192,13 +192,13 @@ export class StickyMockEntitySet extends MockDataEntitySet {
         return responseObject;
     }
 
-    public performGET(
+    public async performGET(
         keyValues: KeyDefinitions,
         asArray: boolean,
         tenantId: string,
         odataRequest: ODataRequest,
         dontClone = false
-    ): any {
+    ): Promise<any> {
         const session = this.getSession(odataRequest);
         if (session && keyValues && Object.keys(keyValues).length) {
             if (

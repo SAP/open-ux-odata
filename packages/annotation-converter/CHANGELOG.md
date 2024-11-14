@@ -1,5 +1,54 @@
 # @sap-ux/annotation-converter
 
+## 0.9.10
+
+### Patch Changes
+
+-   Updated dependencies [437436e]
+    -   @sap-ux/vocabularies-types@0.11.7
+
+## 0.9.9
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+-   Updated dependencies [cdce1a0]
+    -   @sap-ux/vocabularies-types@0.11.6
+
+## 0.9.8
+
+### Patch Changes
+
+-   b4d0774: Action parameter on action with collection now properly consider the unspecific anntoations on top of the overloaded ones
+
+## 0.9.7
+
+### Patch Changes
+
+-   Updated dependencies [1859284]
+    -   @sap-ux/vocabularies-types@0.11.5
+
+## 0.9.6
+
+### Patch Changes
+
+-   e1ddd79: security patch
+-   Updated dependencies [e1ddd79]
+    -   @sap-ux/vocabularies-types@0.11.4
+
+## 0.9.5
+
+### Patch Changes
+
+-   514896d: Fix the $Path handling
+
+## 0.9.4
+
+### Patch Changes
+
+-   Updated dependencies [74c2d22]
+    -   @sap-ux/vocabularies-types@0.11.3
+
 ## 0.9.3
 
 ### Patch Changes

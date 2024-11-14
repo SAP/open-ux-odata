@@ -921,6 +921,8 @@ export class DataAccess implements DataAccessInterface {
 
             if (isCount) {
                 data = dataLength;
+            } else {
+                data = await mockEntitySet.getMockData(odataRequest.tenantId).onAfterRead(data, odataRequest);
             }
         }
 
@@ -942,13 +944,19 @@ export class DataAccess implements DataAccessInterface {
             }
             patchData = finalPatchObject;
         }
-        return (await this.getMockEntitySet(entitySetName)).performPATCH(
+        const mockEntitySet = await this.getMockEntitySet(entitySetName);
+
+        const resultData = await mockEntitySet.performPATCH(
             odataRequest.queryPath[0].keys,
             patchData,
             odataRequest.tenantId,
             odataRequest,
             true
         );
+        if (this.validateETag && !Array.isArray(resultData) && mockEntitySet.isDraft()) {
+            odataRequest.setETag(resultData['@odata.etag']);
+        }
+        return resultData;
     }
 
     public async createData(odataRequest: ODataRequest, postData: any) {
@@ -968,7 +976,9 @@ export class DataAccess implements DataAccessInterface {
             const navPropDetail = entityType.navigationProperties.find((navProp) => navProp.name === lastNavPropName);
             if (navPropDetail) {
                 const navPropEntityType = navPropDetail.targetType;
-                const data: any = (await this.getMockEntitySet(parentEntitySet.name)).performGET(
+                const data: any = await (
+                    await this.getMockEntitySet(parentEntitySet.name)
+                ).performGET(
                     odataRequest.queryPath[odataRequest.queryPath.length - 2].keys,
                     false,
                     odataRequest.tenantId,
@@ -1025,9 +1035,14 @@ export class DataAccess implements DataAccessInterface {
                     currentKeys[key.name] = postData[key.name];
                 }
             });
-            postData = await (
-                await this.getMockEntitySet(parentEntitySet.name)
-            ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
+            const mockEntitySet = await this.getMockEntitySet(parentEntitySet.name);
+            postData = await mockEntitySet.performPOST(
+                currentKeys,
+                postData,
+                odataRequest.tenantId,
+                odataRequest,
+                true
+            );
             // Update keys from location
             parentEntitySet.entityType.keys.forEach((key) => {
                 if (postData[key.name] !== undefined) {
@@ -1053,6 +1068,9 @@ export class DataAccess implements DataAccessInterface {
                 );
             }
             odataRequest.setResponseData(await postData);
+            if (this.validateETag && !Array.isArray(postData) && mockEntitySet.isDraft()) {
+                odataRequest.setETag(postData['@odata.etag']);
+            }
             return postData;
         } else {
             throw new Error('Unknown Entity Set' + entitySetName);
@@ -1079,6 +1097,7 @@ export class DataAccess implements DataAccessInterface {
                 case 'Edm.Byte':
                 case 'Edm.Int16':
                 case 'Edm.Int32':
+                case 'Edm.Double':
                 case 'Edm.Boolean':
                 case 'Edm.Int64': {
                     keyStr = currentKeys[Object.keys(currentKeys)[0]].toString();
@@ -1101,7 +1120,8 @@ export class DataAccess implements DataAccessInterface {
                         case 'Edm.Int16':
                         case 'Edm.Int32':
                         case 'Edm.Boolean':
-                        case 'Edm.Int64': {
+                        case 'Edm.Int64':
+                        case 'Edm.Double': {
                             return `${key}=${currentKeys[key]}`;
                         }
                         case 'Edm.Guid':
@@ -1185,7 +1205,13 @@ export class DataAccess implements DataAccessInterface {
                 }
                 const firstElementData = getData(firstElement, orderByDef.name);
                 const secondElementData = getData(secondElement, orderByDef.name);
-                if (firstElementData > secondElementData) {
+                if (firstElementData === null) {
+                    isDecisive = true;
+                    outValue = -1;
+                } else if (secondElementData === null) {
+                    isDecisive = true;
+                    outValue = 1;
+                } else if (firstElementData > secondElementData) {
                     outValue = orderByDef.direction === 'asc' ? 1 : -1;
                     isDecisive = true;
                 } else if (firstElementData < secondElementData) {
@@ -1352,7 +1378,7 @@ export class DataAccess implements DataAccessInterface {
             case 'ancestors':
                 const limitedHierarchyForAncestors = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
-                    mockData.getAllEntries(odataRequest),
+                    await mockData.getAllEntries(odataRequest),
                     odataRequest,
                     mockEntitySet,
                     mockData,
@@ -1382,7 +1408,7 @@ export class DataAccess implements DataAccessInterface {
             case 'descendants':
                 const limitedHierarchyData = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
-                    mockData.getAllEntries(odataRequest),
+                    await mockData.getAllEntries(odataRequest),
                     odataRequest,
                     mockEntitySet,
                     mockData,

@@ -1,5 +1,35 @@
 # @sap-ux/vocabularies-types
 
+## 0.11.7
+
+### Patch Changes
+
+-   437436e: Define a new ConstantExpression type for writeback
+
+## 0.11.6
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+
+## 0.11.5
+
+### Patch Changes
+
+-   1859284: Remove node requirement
+
+## 0.11.4
+
+### Patch Changes
+
+-   e1ddd79: security patch
+
+## 0.11.3
+
+### Patch Changes
+
+-   74c2d22: Documntation ref annotation is available
+
 ## 0.11.2
 
 ### Patch Changes

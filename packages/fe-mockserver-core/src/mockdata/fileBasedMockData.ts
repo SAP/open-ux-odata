@@ -281,7 +281,7 @@ export class FileBasedMockData {
         return keyIndex[key] ?? -1;
     }
 
-    fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): object[] {
+    async fetchEntries(keyValues: KeyDefinitions, _odataRequest: ODataRequest): Promise<object[]> {
         const keys = this._entityType.keys;
         const indexFromKey = this.fetchIndexFromKey(keys, keyValues, _odataRequest);
         if (indexFromKey !== false) {
@@ -303,7 +303,7 @@ export class FileBasedMockData {
         return this._mockData.length > 0;
     }
 
-    getAllEntries(_odataRequest: ODataRequest, dontClone: boolean = false): any[] {
+    async getAllEntries(_odataRequest: ODataRequest, dontClone: boolean = false): Promise<any[]> {
         if (dontClone) {
             return this._mockData;
         }
@@ -409,6 +409,7 @@ export class FileBasedMockData {
             case 'Edm.Byte':
             case 'Edm.Int32':
             case 'Edm.Int64':
+            case 'Edm.Double':
             case 'Edm.Decimal':
                 return 0;
             case 'Edm.Boolean':
@@ -480,6 +481,7 @@ export class FileBasedMockData {
                 return Math.random() < 0.5;
             case 'Edm.Byte':
                 return Math.floor(Math.random() * 10);
+            case 'Edm.Double':
             case 'Edm.Decimal':
                 return Math.floor(Math.random() * 100000) / 100;
             case 'Edm.Guid':
@@ -690,6 +692,10 @@ export class FileBasedMockData {
     ): Promise<void> {
         // DO Nothing
     }
+
+    async onAfterRead(data: object, _odataRequest: ODataRequest): Promise<object> {
+        return data;
+    }
     //eslint-disable-next-line
     hasCustomAggregate(_customAggregateName: string, _odataRequest: ODataRequest): boolean {
         return false;
@@ -723,6 +729,7 @@ export class FileBasedMockData {
                 isValid = performSimpleComparison(operator, mockValue, intTestValue);
                 break;
             }
+            case 'Edm.Double':
             case 'Edm.Decimal': {
                 const decimalTestValue = parseFloat(literal);
                 isValid = performSimpleComparison(operator, mockValue, decimalTestValue);
@@ -1092,7 +1099,10 @@ export class FileBasedMockData {
                 for (const expandLevels of _parameters.ExpandLevels) {
                     toExpand.push({
                         name: expandLevels['"NodeID"'].substring(1, expandLevels['"NodeID"'].length - 1),
-                        depth: parseInt(expandLevels['"Levels"'], 10)
+                        depth:
+                            expandLevels['"Levels"'] && expandLevels['"Levels"'] !== 'null'
+                                ? parseInt(expandLevels['"Levels"'], 10)
+                                : Number.POSITIVE_INFINITY
                     });
                 }
             }

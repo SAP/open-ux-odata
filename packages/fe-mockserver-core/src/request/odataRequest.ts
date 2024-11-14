@@ -12,6 +12,21 @@ import type { FilterExpression } from './filterParser';
 import { parseFilter } from './filterParser';
 import { parseSearch } from './searchParser';
 
+export type ErrorResponse = {
+    code: string;
+    message: string;
+    severity?: string;
+    details: ErrorDetails[];
+    '@Core.ContentID'?: string;
+} & Record<string, unknown>;
+
+export type ErrorDetails = {
+    code: string;
+    message: string;
+    severity?: string;
+    '@Core.ContentID'?: string;
+} & Record<string, unknown>;
+
 export type ExpandDefinition = {
     expand: Record<string, ExpandDefinition>;
     properties: SelectDefinition;
@@ -100,6 +115,7 @@ export default class ODataRequest {
     private context: string;
     private messages: any[] = [];
     private elementETag: string | undefined;
+    private contentId?: string;
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
@@ -113,6 +129,7 @@ export default class ODataRequest {
         this.etagReference = requestContent.headers?.['if-match'];
         this.isStrictMode = requestContent.headers?.['prefer']?.includes('handling=strict') ?? false;
         this.queryPath = this.parsePath(parsedUrl.pathname.substring(1));
+        this.contentId = requestContent.contentId;
         this.parseParameters(parsedUrl.searchParams);
     }
 
@@ -451,7 +468,12 @@ export default class ODataRequest {
         } catch (errorInfo: any) {
             const errorInformation: ExecutionError = errorInfo as ExecutionError;
             if (errorInformation.isCustomError) {
+                if (errorInformation.isGlobalRequestError) {
+                    // The whole request will fail
+                    throw errorInformation;
+                }
                 if (errorInformation.messageData) {
+                    this.addContentIdToErrorMessage(errorInformation.messageData);
                     if (errorInformation.isSAPMessage) {
                         this.addResponseHeader('sap-messages', JSON.stringify(errorInformation.messageData));
                     } else {
@@ -625,6 +647,23 @@ export default class ODataRequest {
             for (const expression of filterDefinition.expressions) {
                 expand(expression, expandOptions);
             }
+        }
+    }
+
+    /**
+     * Adding content-id to error message.
+     * This helps map the error to the right request in change set.
+     *
+     * @param errorObj Object containing error
+     * @param errorObj.error Error object
+     */
+    private addContentIdToErrorMessage(errorObj: { error?: ErrorResponse }) {
+        if (this.contentId && errorObj?.error) {
+            errorObj.error['@Core.ContentID'] = this.contentId;
+            const details = errorObj.error?.details ?? [];
+            details.forEach((errorDetail) => {
+                errorDetail['@Core.ContentID'] = this.contentId;
+            });
         }
     }
 

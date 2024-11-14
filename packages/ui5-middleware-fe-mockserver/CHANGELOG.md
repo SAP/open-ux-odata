@@ -1,5 +1,129 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.77
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.4.5
+
+## 2.2.76
+
+### Patch Changes
+
+-   Updated dependencies [ac9a43e]
+    -   @sap-ux/fe-mockserver-core@1.4.4
+
+## 2.2.75
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+-   Updated dependencies [cdce1a0]
+-   Updated dependencies [f4cb2e9]
+    -   @sap-ux/fe-mockserver-core@1.4.3
+
+## 2.2.74
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.4.2
+
+## 2.2.73
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.4.1
+
+## 2.2.72
+
+### Patch Changes
+
+-   Updated dependencies [1aa917d]
+    -   @sap-ux/fe-mockserver-core@1.4.0
+
+## 2.2.71
+
+### Patch Changes
+
+-   Updated dependencies [e8c8e17]
+    -   @sap-ux/fe-mockserver-core@1.3.11
+
+## 2.2.70
+
+### Patch Changes
+
+-   Updated dependencies [81920f4]
+    -   @sap-ux/fe-mockserver-core@1.3.10
+
+## 2.2.69
+
+### Patch Changes
+
+-   Updated dependencies [04bcbb5]
+    -   @sap-ux/fe-mockserver-core@1.3.9
+
+## 2.2.68
+
+### Patch Changes
+
+-   e1ddd79: security patch
+-   Updated dependencies [e1ddd79]
+    -   @sap-ux/fe-mockserver-core@1.3.8
+
+## 2.2.67
+
+### Patch Changes
+
+-   Updated dependencies [83adadc]
+    -   @sap-ux/fe-mockserver-core@1.3.7
+
+## 2.2.66
+
+### Patch Changes
+
+-   ed78e39: add ability to throw a global error that makes a whole batch fail
+-   Updated dependencies [ed78e39]
+    -   @sap-ux/fe-mockserver-core@1.3.6
+
+## 2.2.65
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.3.5
+
+## 2.2.64
+
+### Patch Changes
+
+-   Updated dependencies [738750d]
+    -   @sap-ux/fe-mockserver-core@1.3.4
+
+## 2.2.63
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.3.3
+
+## 2.2.62
+
+### Patch Changes
+
+-   Updated dependencies [d848d39]
+    -   @sap-ux/fe-mockserver-core@1.3.2
+
+## 2.2.61
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.3.1
+
+## 2.2.60
+
+### Patch Changes
+
+-   Updated dependencies [fea7688]
+    -   @sap-ux/fe-mockserver-core@1.3.0
+
 ## 2.2.59
 
 ### Patch Changes

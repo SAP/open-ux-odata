@@ -285,7 +285,7 @@ MergedRawMetadata {
                     "value": {
                       "$Eq": [
                         {
-                          "$Path": "isBoundAction1Hidden",
+                          "Path": "isBoundAction1Hidden",
                           "type": "Path",
                         },
                         true,
@@ -326,7 +326,7 @@ MergedRawMetadata {
                     "term": "com.sap.vocabularies.UI.v1.Hidden",
                     "value": {
                       "$Not": {
-                        "$Path": "isBoundAction2Hidden",
+                        "Path": "isBoundAction2Hidden",
                         "type": "Path",
                       },
                       "type": "Not",
@@ -4406,7 +4406,7 @@ MergedRawMetadata {
                           "value": {
                             "$Eq": [
                               {
-                                "$Path": "isBoundAction1Hidden",
+                                "Path": "isBoundAction1Hidden",
                                 "type": "Path",
                               },
                               true,
@@ -4447,7 +4447,7 @@ MergedRawMetadata {
                           "term": "com.sap.vocabularies.UI.v1.Hidden",
                           "value": {
                             "$Not": {
-                              "$Path": "isBoundAction2Hidden",
+                              "Path": "isBoundAction2Hidden",
                               "type": "Path",
                             },
                             "type": "Not",

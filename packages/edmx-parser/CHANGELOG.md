@@ -1,5 +1,17 @@
 # @sap-ux/edmx-parser
 
+## 0.8.2
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+
+## 0.8.1
+
+### Patch Changes
+
+-   7899cab: Fix $Path
+
 ## 0.8.0
 
 ### Minor Changes

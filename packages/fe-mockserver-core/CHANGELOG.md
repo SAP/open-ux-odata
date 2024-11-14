@@ -1,5 +1,127 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.5
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.10
+-   @sap-ux/edmx-parser@0.8.2
+
+## 1.4.4
+
+### Patch Changes
+
+-   ac9a43e: Order by should respect the nullable field
+
+## 1.4.3
+
+### Patch Changes
+
+-   cdce1a0: fix: improve support for Edm.Double
+-   f4cb2e9: log missing mockdata
+-   Updated dependencies [cdce1a0]
+    -   @sap-ux/annotation-converter@0.9.9
+    -   @sap-ux/edmx-parser@0.8.2
+
+## 1.4.2
+
+### Patch Changes
+
+-   Updated dependencies [b4d0774]
+    -   @sap-ux/annotation-converter@0.9.8
+
+## 1.4.1
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.7
+-   @sap-ux/edmx-parser@0.8.1
+
+## 1.4.0
+
+### Minor Changes
+
+-   1aa917d: Update to router 2.x
+
+## 1.3.11
+
+### Patch Changes
+
+-   e8c8e17: fix: We add ContentID to error details on changeset failure
+
+## 1.3.10
+
+### Patch Changes
+
+-   81920f4: fix: add v2 batch response headers correctly
+
+## 1.3.9
+
+### Patch Changes
+
+-   04bcbb5: fix: provide right response when there are failures in multi select changeset mode
+
+## 1.3.8
+
+### Patch Changes
+
+-   e1ddd79: security patch
+-   Updated dependencies [e1ddd79]
+    -   @sap-ux/annotation-converter@0.9.6
+    -   @sap-ux/edmx-parser@0.8.1
+
+## 1.3.7
+
+### Patch Changes
+
+-   83adadc: Adding tests to support Expand all children of a node
+
+## 1.3.6
+
+### Patch Changes
+
+-   ed78e39: add ability to throw a global error that makes a whole batch fail
+
+## 1.3.5
+
+### Patch Changes
+
+-   Updated dependencies [7899cab]
+    -   @sap-ux/edmx-parser@0.8.1
+    -   @sap-ux/annotation-converter@0.9.5
+
+## 1.3.4
+
+### Patch Changes
+
+-   738750d: fix(deps): update dependency body-parser to v1.20.3 [security]
+
+## 1.3.3
+
+### Patch Changes
+
+-   Updated dependencies [514896d]
+    -   @sap-ux/annotation-converter@0.9.5
+
+## 1.3.2
+
+### Patch Changes
+
+-   d848d39: Etag on patch
+
+## 1.3.1
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.4
+-   @sap-ux/edmx-parser@0.8.0
+
+## 1.3.0
+
+### Minor Changes
+
+-   fea7688: Make the fetchEntries / getAllEntries method async
+
 ## 1.2.59
 
 ### Patch Changes

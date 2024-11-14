@@ -21,7 +21,7 @@
         "ProductID": 3,
         "Product": "Acme_Trap",
         "DraftUUID": "",
-        "Price": null,
+        "Price": 2,
         "Name": "Acme Trap v2",
         "Supplier": "Acme FR",
         "StartingSaleDate": "2018-01-01T00:00:00"

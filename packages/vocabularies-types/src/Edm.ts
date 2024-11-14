@@ -68,6 +68,7 @@ export type AnnotationTerm<P> = PrimitiveTypeCast<
 type TypeToString1 = {
     String: 'Edm.String';
     Decimal: 'Edm.String';
+    Double: 'Edm.String';
 };
 // export type TypeToString<T> = T extends Edm.String ? "Edm.String" :
 //                                 T extends Edm.Decimal ? "Edm.Decimal" :
@@ -82,6 +83,11 @@ export type PathAnnotationExpression<P> = {
     path: string; // The defined path
     $target: Property | undefined;
     getValue(): P;
+};
+
+export type ConstantExpression<T> = {
+    type: 'Constant';
+    value: T;
 };
 
 export type ApplyAnnotationExpression<P> = {
@@ -219,7 +225,8 @@ export type DynamicAnnotationExpression<P> =
     | GeAnnotationExpression<P>
     | LtAnnotationExpression<P>
     | LeAnnotationExpression<P>
-    | IfAnnotationExpression<P>;
+    | IfAnnotationExpression<P>
+    | ConstantExpression<P>;
 
 export type IDecimal = {
     isDecimal(): boolean;

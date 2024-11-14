@@ -90,6 +90,13 @@ annotate RootElement with @UI: {
       Action            : 'sap.fe.core.ActionVisibility.bound412Action',
       InvocationGrouping: #ChangeSet
     },
+    {
+      $Type             : 'UI.DataFieldForAction',
+      Label             : 'Bound Action ChangeSet',
+      Action            : 'sap.fe.core.ActionVisibility.boundActionChangeSet',
+      InvocationGrouping: #ChangeSet
+    },
+
   ],
   HeaderInfo                    : {
     $Type         : 'UI.HeaderInfoType',
@@ -236,6 +243,8 @@ service ActionVisibility {
       @cds.odata.bindingparameter.name: 'self'
       action   bound412Action()            returns RootElement;
       @cds.odata.bindingparameter.name: 'self'
+      action   boundActionChangeSet()      returns RootElement;
+      @cds.odata.bindingparameter.name: 'self'
       action   boundAction1()              returns RootElement;
       action   boundAction2()              returns RootElement;
       @cds.odata.bindingparameter.name: 'self'
@@ -243,5 +252,7 @@ service ActionVisibility {
       action   boundActionReturnsVoid();
       @cds.odata.bindingparameter.name: 'self'
       function baseFunction(data : String) returns String;
+      @cds.odata.bindingparameter.name: 'self'
+      function bound503Action(globalError : Boolean) returns RootElement;
     };
 }

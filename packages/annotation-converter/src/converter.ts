@@ -44,6 +44,7 @@ import {
     addGetByValue,
     alias,
     Decimal,
+    Double,
     EnumIsFlag,
     lazy,
     mergeAnnotations,
@@ -544,6 +545,8 @@ function parseValue(
             return propertyValue.Int;
         case 'Bool':
             return propertyValue.Bool;
+        case 'Double':
+            return Double(propertyValue.Double);
         case 'Decimal':
             return Decimal(propertyValue.Decimal);
         case 'Date':
@@ -1477,7 +1480,7 @@ function convertActionParameter(
         // annotations on action parameters are resolved following the rules for actions
         const unspecificOverloadTarget =
             rawActionParameter.fullyQualifiedName.substring(0, rawActionParameter.fullyQualifiedName.indexOf('(')) +
-            rawActionParameter.fullyQualifiedName.substring(rawActionParameter.fullyQualifiedName.indexOf(')') + 1);
+            rawActionParameter.fullyQualifiedName.substring(rawActionParameter.fullyQualifiedName.lastIndexOf(')') + 1);
         const specificOverloadTarget = rawActionParameter.fullyQualifiedName;
 
         const effectiveAnnotations = converter.getAnnotations(specificOverloadTarget);
