@@ -109,7 +109,7 @@ See the usage in demo apps [SAP Fiori sample apps](https://github.com/SAP-sample
 
 ## Support
 
-Join the [SAP Fiori tools Community](https://community.sap.com/search/?by=updated&ct=blog&mt=73555000100800002345). Ask Questions, Read the Latest Blogs, Explore Content.
+Join the [SAP Fiori tools Community](https://community.sap.com/t5/c-khhcw49343/SAP+Fiori+tools/pd-p/73555000100800002345). Ask Questions, Read the Latest Blogs, Explore Content.
 Please assign tag: _SAP Fiori tools_
 
 To log an issue with SAP Fiori tools, please see [Contact SAP Support](https://help.sap.com/viewer/1bb01966b27a429ebf62fa2e45354fea/Latest/en-US).
