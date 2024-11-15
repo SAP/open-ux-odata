@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.8
+
+### Patch Changes
+
+-   e7f354a: Support autoloading mockdata file for specific tenants
+
 ## 1.4.7
 
 ### Patch Changes
