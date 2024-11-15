@@ -68,7 +68,7 @@ describe('Hierarchy Access', () => {
                 "Name": "US",
               },
             ]
-         `);
+        `);
     });
     test('2- Request first page of children of node US which the user has expanded', async () => {
         const odataRequest = new ODataRequest(
@@ -1698,34 +1698,34 @@ describe('Hierarchy Access', () => {
             `);
         const data = await dataAccess.getData(odataRequest);
         expect(data).toMatchInlineSnapshot(`
-                      [
-                        {
-                          "ID": "Sales",
-                          "LimitedRank": 0,
-                          "Name": "Corporate Sales",
-                        },
-                        {
-                          "ID": "EMEA",
-                          "LimitedRank": 1,
-                          "Name": "EMEA",
-                        },
-                        {
-                          "ID": "US",
-                          "LimitedRank": 2,
-                          "Name": "US",
-                        },
-                        {
-                          "ID": "US West",
-                          "LimitedRank": 3,
-                          "Name": "US West",
-                        },
-                        {
-                          "ID": "US East",
-                          "LimitedRank": 4,
-                          "Name": "US East",
-                        },
-                      ]
-              `);
+            [
+              {
+                "ID": "Sales",
+                "LimitedRank": 0,
+                "Name": "Corporate Sales",
+              },
+              {
+                "ID": "EMEA",
+                "LimitedRank": 1,
+                "Name": "EMEA",
+              },
+              {
+                "ID": "US",
+                "LimitedRank": 2,
+                "Name": "US",
+              },
+              {
+                "ID": "US West",
+                "LimitedRank": 3,
+                "Name": "US West",
+              },
+              {
+                "ID": "US East",
+                "LimitedRank": 4,
+                "Name": "US East",
+              },
+            ]
+        `);
     });
 
     test('Limited rank - with filter', async () => {
@@ -1852,44 +1852,44 @@ describe('Hierarchy Access', () => {
         );
         const data2 = await dataAccess.getData(odataRequest2);
         expect(data2).toMatchInlineSnapshot(`
-                      [
-                        {
-                          "DistanceFromRoot": 0,
-                          "DrillState": "expanded",
-                          "ID": "NZL",
-                          "LimitedDescendantCount": 1,
-                          "Name": "NZL",
-                        },
-                        {
-                          "DistanceFromRoot": 1,
-                          "DrillState": "leaf",
-                          "ID": "NZL_C",
-                          "LimitedDescendantCount": 0,
-                          "Name": "NZL_C",
-                        },
-                        {
-                          "DistanceFromRoot": 0,
-                          "DrillState": "expanded",
-                          "ID": "Sales",
-                          "LimitedDescendantCount": 2,
-                          "Name": "Corporate Sales",
-                        },
-                        {
-                          "DistanceFromRoot": 1,
-                          "DrillState": "collapsed",
-                          "ID": "EMEA",
-                          "LimitedDescendantCount": 0,
-                          "Name": "EMEA",
-                        },
-                        {
-                          "DistanceFromRoot": 1,
-                          "DrillState": "collapsed",
-                          "ID": "US",
-                          "LimitedDescendantCount": 0,
-                          "Name": "US",
-                        },
-                      ]
-              `);
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "NZL",
+                "LimitedDescendantCount": 1,
+                "Name": "NZL",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "NZL_C",
+                "LimitedDescendantCount": 0,
+                "Name": "NZL_C",
+              },
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "Sales",
+                "LimitedDescendantCount": 2,
+                "Name": "Corporate Sales",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "EMEA",
+                "LimitedDescendantCount": 0,
+                "Name": "EMEA",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "collapsed",
+                "ID": "US",
+                "LimitedDescendantCount": 0,
+                "Name": "US",
+              },
+            ]
+        `);
     });
     test('10 - Create new child node of existing node', async () => {
         const createRequest = new ODataRequest(

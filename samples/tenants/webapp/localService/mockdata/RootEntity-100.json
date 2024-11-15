@@ -1,0 +1,20 @@
+[
+    {
+        "ID": 1,
+        "name": "Sample Entity 1 Client 100",
+        "description": "This is a description for Sample Entity 1"
+    },
+    {
+        "ID": 2,
+        "name": "Sample Entity 2 Client 100",
+        "description": "Description for Sample Entity 2"
+    },
+    {
+        "ID": 3,
+        "name": "Sample Entity 3 Client 100",
+        "description": "A brief description for Sample Entity 3",
+        "SiblingEntity": {
+            "ID": 1
+        }
+    }
+]

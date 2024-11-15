@@ -6,8 +6,8 @@
     },
     {
         "urlPath": "/my/service/URL",
-        "metadataXmlPath": "metadata.xml",
-        "mockdataRootPath": "mockData",
+        "metadataPath": "metadata.xml",
+        "mockdataPath": "mockData",
         "watch": false,
         "debug": false,
         "contextBasedIsolation": false

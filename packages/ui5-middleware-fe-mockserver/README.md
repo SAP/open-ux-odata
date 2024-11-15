@@ -16,7 +16,7 @@ pnpm
 
 ## Usage
 
-In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mockserver` needs to be added as devDependency and ui5.dependencies to `package.json`, and a valid `ui5.yaml` configuration needs to be provided.
+In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mockserver` needs to be added as devDependency to `package.json`, and a valid `ui5.yaml` configuration needs to be provided.
 **Entries in package.json**
 
 ```
@@ -24,11 +24,6 @@ In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mocks
 
 "devDependencies": {
     "@sap-ux/ui5-middleware-fe-mockserver": "^2"
-},
-"ui5": {
-    "dependencies": [
-        "@sap-ux/ui5-middleware-fe-mockserver"
-    ]
 }
 
 [..]
@@ -38,7 +33,7 @@ In order to use the mock server, the npm module `@sap-ux/ui5-middleware-fe-mocks
 
 ```
 
-specVersion: '2.0'
+specVersion: '3.0'
 metadata:
   name: <NAME>
 type: application
@@ -86,8 +81,15 @@ Additional option are available either per service of for all services if define
 - logger: specify the logger to use, by default it will use the @ui5/logger
 - watch : toggle the watch mode, the mockserver will restart the service where data or metadata have changed
 - noETag : disable ETag support on metadata
-- strictKeyMode : disable the default "loose" mode for the key matching, you can try this if the mockserver returns too much data
-- contextBasedIsolation : enable the support of "tenants", by adding /tenant-xxx at the very start of your service call you will be able to work on tenant isolated data.
+- strictKeyMode : disable the default "loose" mode for the key matching.
+By default the mockserver will try many ways to match an entityset with its navigation property, which can result in some rather loose join of data. In case you have a very well defined mockdata and you feel the mockserver is returning too much data, you can enable this feature.
+- contextBasedIsolation : enable the support of "tenants".
+Tenants can be enabled either by using the ?sap-client in your application / request or by prepending /tenant-xxx at the very start of your service call.
+With tenants you will be able to work on tenant isolated data.
+
+On top of the standard json file loading, when using tenants we will automatically try to fetch a specific json data from a file including the tenant ID in the name. 
+For instance if you have an entity called `Product` you can have a `Product.json` file containing the standard data and a `Product-testErrorXXX.json` file for a specific tenant called testErrorXXX.
+If you don't have a tenant specific file, the mockserver will fallback to the standard file.
 
 You can also define static annotation file using the `annotations` entry, each annotation must provide
 
