@@ -181,7 +181,7 @@ importers:
     devDependencies:
       '@sap/cds-compiler':
         specifier: ^4.8
-        version: 4.9.4
+        version: 4.9.8
 
   packages/ui5-middleware-fe-mockserver:
     dependencies:
@@ -1252,8 +1252,8 @@ packages:
     resolution: {integrity: sha512-jojo+NDZyuguUmTznj+yof2luSRarfqR2x09jRoVhS0CT2oJaAxyd60yXRtuCUFW7FbuEii+jSf+aeBU7QSPVw==}
     engines: {node: '>=18.x'}
 
-  '@sap/cds-compiler@4.9.4':
-    resolution: {integrity: sha512-V8vh1oeNbjdeVLSnrcVHcgrkF9QGQVi0Y2gHfETqWPFMFr66S3Qzevk8VuhX351TxTbBBv5HXeL3ovQxIhCHqg==}
+  '@sap/cds-compiler@4.9.8':
+    resolution: {integrity: sha512-DaodIJoYPpVygVf+9JU6XNW+WLDqX1sHklpj8qkrONLxM6G1TFBm5yrAT0P2YCibgNsGVhizA4eydgoHnVxUVQ==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -6483,7 +6483,7 @@ snapshots:
       lodash: 4.17.21
       yaml: 2.2.2
 
-  '@sap/cds-compiler@4.9.4':
+  '@sap/cds-compiler@4.9.8':
     dependencies:
       antlr4: 4.9.3
 
