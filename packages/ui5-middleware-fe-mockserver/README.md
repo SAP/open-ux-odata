@@ -83,10 +83,10 @@ Additional option are available either per service of for all services if define
 - noETag : disable ETag support on metadata
 - strictKeyMode : disable the default "loose" mode for the key matching.
 By default the mockserver will try many ways to match an entityset with its navigation property, which can result in some rather loose join of data. In case you have a very well defined mockdata and you feel the mockserver is returning too much data, you can enable this feature.
-- contextBasedIsolation : enable the support of "tenants".
-Tenants can be enabled either by using the ?sap-client in your application / request or by prepending /tenant-xxx at the very start of your service call.
-With tenants you will be able to work on tenant isolated data.
 
+- contextBasedIsolation : enable the support of "tenants" at the URL level.
+Tenants allow you to work on the same app with dedicated, isolated tenant data.
+Tenants are always available by using ?sap-client in your application url, however by enabling this setting you can also enable a specific path based tenant by prepending /tenant-xxx at the very start of your service call.
 On top of the standard json file loading, when using tenants we will automatically try to fetch a specific json data from a file including the tenant ID in the name. 
 For instance if you have an entity called `Product` you can have a `Product.json` file containing the standard data and a `Product-testErrorXXX.json` file for a specific tenant called testErrorXXX.
 If you don't have a tenant specific file, the mockserver will fallback to the standard file.
