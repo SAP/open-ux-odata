@@ -6,11 +6,15 @@ import { getMetadataProcessor } from './pluginsManager';
 
 export interface IFileLoader {
     loadFile(filePath: string): Promise<string>;
+    loadFileSync(filePath: string): string;
     exists(filePath: string): Promise<boolean>;
+    existsSync(filePath: string): boolean;
+    syncSupported(): boolean;
     loadJS(filePath: string): Promise<any>;
 }
 export interface IMetadataProcessor {
     loadMetadata(filePath: string): Promise<string>;
+    addI18nPath(i18Path?: string[]): void;
 }
 export * from './api';
 export { MockDataContributor } from './mockdata/functionBasedMockData';
@@ -34,7 +38,8 @@ export default class FEMockserver {
         this.metadataProvider = await getMetadataProcessor(
             this.fileLoader,
             this.configuration.metadataProcessor?.name,
-            this.configuration.metadataProcessor?.options
+            this.configuration.metadataProcessor?.options,
+            this.configuration.metadataProcessor?.i18nPath
         );
 
         await createMockMiddleware(this.configuration, this.mainRouter, this.fileLoader, this.metadataProvider);

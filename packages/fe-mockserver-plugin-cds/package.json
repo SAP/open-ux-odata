@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/fe-mockserver-plugin-cds",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "description": "SAP Fiori Tools - FE Mockserver CDS Plugin",
     "repository": {
         "type": "git",

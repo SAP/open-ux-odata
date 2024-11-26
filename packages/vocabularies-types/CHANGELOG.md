@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.12.0
+
+### Minor Changes
+
+-   8ac2f52: Add identifier to action groups
+
 ## 0.11.7
 
 ### Patch Changes

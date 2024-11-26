@@ -1,5 +1,24 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.9
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.9.11
+-   @sap-ux/edmx-parser@0.8.2
+
+## 1.4.8
+
+### Patch Changes
+
+-   e7f354a: Support autoloading mockdata file for specific tenants
+
+## 1.4.7
+
+### Patch Changes
+
+-   2df4e00: Fix logger preventing start
+
 ## 1.4.6
 
 ### Patch Changes

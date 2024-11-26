@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.2.5
+
+### Patch Changes
+
+-   a34e9e2: More i18n support
+
 ## 1.2.4
 
 ### Patch Changes

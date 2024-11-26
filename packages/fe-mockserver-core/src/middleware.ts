@@ -100,8 +100,11 @@ export async function createMockMiddleware(
                 processor = await getMetadataProcessor(
                     fileLoader,
                     mockService.metadataProcessor.name,
-                    mockService.metadataProcessor.options
+                    mockService.metadataProcessor.options,
+                    mockServiceIn.i18nPath
                 );
+            } else {
+                processor.addI18nPath(mockServiceIn.i18nPath);
             }
 
             let metadata = await loadMetadata(mockService, processor);
