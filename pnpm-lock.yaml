@@ -180,8 +180,8 @@ importers:
   packages/fe-mockserver-plugin-cds:
     devDependencies:
       '@sap/cds-compiler':
-        specifier: ^4.8
-        version: 4.9.4
+        specifier: ^5.4
+        version: 5.5.0
 
   packages/ui5-middleware-fe-mockserver:
     dependencies:
@@ -1161,9 +1161,9 @@ packages:
     resolution: {integrity: sha512-hD8ml183638O3R6/Txrh0L8VzGOrFXgRtRDG4qQC4tONdZ5Z1M+tlUUDUvrjYdmK6G+JTBTeaCLMna11cXzi8A==}
     engines: {node: '>=12'}
 
-  '@sap/cds-compiler@4.9.4':
-    resolution: {integrity: sha512-V8vh1oeNbjdeVLSnrcVHcgrkF9QGQVi0Y2gHfETqWPFMFr66S3Qzevk8VuhX351TxTbBBv5HXeL3ovQxIhCHqg==}
-    engines: {node: '>=16'}
+  '@sap/cds-compiler@5.5.0':
+    resolution: {integrity: sha512-UlNcFjkoBEbknmMCQWvbMETtbIU22heVj+5ZNh3ewZpBo7ClmUGueRWIt5Hlzle9l1JscpPMZUpt/VYgx2Z/KA==, tarball: https://int.repositories.cloud.sap/artifactory/api/npm/build-milestones-npm/@sap/cds-compiler/-/@sap/cds-compiler-5.5.0.tgz}
+    engines: {node: '>=18'}
     hasBin: true
 
   '@sigstore/bundle@2.2.0':
@@ -6024,7 +6024,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@sap/cds-compiler@4.9.4':
+  '@sap/cds-compiler@5.5.0':
     dependencies:
       antlr4: 4.9.3
 

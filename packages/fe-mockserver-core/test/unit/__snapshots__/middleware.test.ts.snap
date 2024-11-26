@@ -20,7 +20,7 @@ exports[`V4 Requestor Sticky create, discard, try to update the discarded item: 
 {
   "body": {
     "@odata.context": "../$metadata#Root()/$entity",
-    "@odata.metadataEtag": "W/"a20-O5lCLLWGDNbr2oZok3e/UzVbxgg"",
+    "@odata.metadataEtag": "W/"b33-HKR7/Mrdzt2tAPtxAnMANiNzQLw"",
     "ID": 0,
     "__transient": true,
     "data": "",
@@ -55,7 +55,7 @@ exports[`V4 Requestor Sticky create, discard, try to update the discarded item: 
 exports[`V4 Requestor can create data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 555,
@@ -72,7 +72,7 @@ exports[`V4 Requestor can create data through a call 1`] = `
 exports[`V4 Requestor can create data through a call 2`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 666,
@@ -125,6 +125,14 @@ exports[`V4 Requestor can get the metadata 1`] = `
   </edmx:Reference>
   <edmx:DataServices>
     <Schema Namespace="sap.fe.core.ActionVisibility" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer">
         <EntitySet Name="RootElement" EntityType="sap.fe.core.ActionVisibility.RootElement">
           <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
@@ -638,7 +646,7 @@ exports[`V4 Requestor can get the root 1`] = `
 exports[`V4 Requestor can get the root 2`] = `
 {
   "@odata.context": "$metadata",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "value": [
     {
       "kind": "EntitySet",
@@ -684,7 +692,7 @@ exports[`V4 Requestor can reload the data 1`] = `
 exports[`V4 Requestor can update data through a call 1`] = `
 {
   "@odata.context": "../$metadata#RootElement/$entity",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -701,7 +709,7 @@ exports[`V4 Requestor can update data through a call 1`] = `
 exports[`V4 Requestor can update data through a call 2`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -725,7 +733,7 @@ exports[`V4 Requestor can update data through a call 3`] = `
 exports[`V4 Requestor can update data through a call 4`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -749,7 +757,7 @@ exports[`V4 Requestor can update data through a call 5`] = `
 exports[`V4 Requestor can update data through a call 6`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=556)/Prop1",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 556,
@@ -766,7 +774,7 @@ exports[`V4 Requestor can update data through a call 6`] = `
 exports[`V4 Requestor get one data 1`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,
@@ -785,7 +793,7 @@ exports[`V4 Requestor get one data 2`] = `""`;
 exports[`V4 Requestor get one data 3`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
-  "@odata.metadataEtag": "W/"665d-1Bvuw4Fa+YxIyJH8kB/cmsTZ1V0"",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
   "ID": 2,
