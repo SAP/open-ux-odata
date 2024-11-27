@@ -46,5 +46,13 @@
         "SpokenLanguages": ["Lettish"],
         "MainLanguage": "Lettish",
         "IsHot": false
+    },
+    {
+        "Country_Code": null,
+        "Name": "Null",
+        "PeopleCount": 2,
+        "SpokenLanguages": ["Nullish"],
+        "MainLanguage": "Nullish",
+        "IsHot": false
     }
 ]
