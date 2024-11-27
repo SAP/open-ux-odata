@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.10
+
+### Patch Changes
+
+-   e49df89: We now properly support filter with string values null
+
 ## 1.4.9
 
 ### Patch Changes
