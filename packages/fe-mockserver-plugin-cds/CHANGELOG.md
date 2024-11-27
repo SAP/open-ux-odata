@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 1.2.6
+
+### Patch Changes
+
+-   e13606e: We now also support CDS 5.x
+
 ## 1.2.5
 
 ### Patch Changes
