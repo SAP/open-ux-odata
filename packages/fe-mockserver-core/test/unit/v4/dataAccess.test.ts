@@ -36,8 +36,8 @@ describe('Data Access', () => {
             dataAccess
         );
         let countryData = await dataAccess.getData(odataRequest);
-        expect(countryData.length).toEqual(6);
-        expect(odataRequest.dataCount).toEqual(6);
+        expect(countryData.length).toEqual(7);
+        expect(odataRequest.dataCount).toEqual(7);
         odataRequest = new ODataRequest(
             {
                 url: '/Countries?$skip=0&$top=3',
@@ -47,7 +47,7 @@ describe('Data Access', () => {
         );
         countryData = await dataAccess.getData(odataRequest);
         expect(countryData.length).toEqual(3);
-        expect(odataRequest.dataCount).toEqual(6);
+        expect(odataRequest.dataCount).toEqual(7);
         expect(countryData[0].Country_Code).toEqual('DE');
         expect(countryData[0].PeopleCount).toEqual(70);
         expect(countryData[0].SuperHeroCount).toEqual(7);
@@ -87,7 +87,7 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(countryData.length).toEqual(1);
+        expect(countryData.length).toEqual(2);
         expect(countryData[0].Country_Code).toEqual('DE');
 
         countryData = await dataAccess.getData(
@@ -96,7 +96,7 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(countryData.length).toEqual(0);
+        expect(countryData.length).toEqual(1);
 
         countryData = await dataAccess.getData(
             new ODataRequest(
@@ -104,7 +104,7 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(countryData.length).toEqual(1);
+        expect(countryData.length).toEqual(2);
         expect(countryData[0].Country_Code).toEqual('DE');
 
         countryData = await dataAccess.getData(
@@ -143,7 +143,7 @@ describe('Data Access', () => {
         expect(countryData[0].Country_Code).toEqual('DE');
         countryData = await dataAccess.getData(
             new ODataRequest(
-                { method: 'GET', url: "/Countries?$filter=tolower(Country_Code) eq tolower('dE')" },
+                { method: 'GET', url: "/Countries?$filter=toupper(Country_Code) eq toupper('dE')" },
                 dataAccess
             )
         );
@@ -162,28 +162,31 @@ describe('Data Access', () => {
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$orderby=PeopleCount,Country_Code' }, dataAccess)
         );
-        expect(countryData.length).toEqual(6);
-        expect(countryData[0].Country_Code).toEqual('LV');
-        expect(countryData[1].Country_Code).toEqual('IR');
-        expect(countryData[2].Country_Code).toEqual('FR');
-        expect(countryData[3].Country_Code).toEqual('DE');
-        expect(countryData[4].Country_Code).toEqual('US');
-        expect(countryData[5].Country_Code).toEqual('IN');
+        expect(countryData.length).toEqual(7);
+        expect(countryData[0].Country_Code).toEqual(null);
+        expect(countryData[1].Country_Code).toEqual('LV');
+        expect(countryData[2].Country_Code).toEqual('IR');
+        expect(countryData[3].Country_Code).toEqual('FR');
+        expect(countryData[4].Country_Code).toEqual('DE');
+        expect(countryData[5].Country_Code).toEqual('US');
+        expect(countryData[6].Country_Code).toEqual('IN');
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$orderby=PeopleCount,Country_Code desc' }, dataAccess)
         );
-        expect(countryData.length).toEqual(6);
-        expect(countryData[0].Country_Code).toEqual('LV');
-        expect(countryData[1].Country_Code).toEqual('IR');
-        expect(countryData[2].Country_Code).toEqual('FR');
-        expect(countryData[3].Country_Code).toEqual('US');
-        expect(countryData[4].Country_Code).toEqual('DE');
-        expect(countryData[5].Country_Code).toEqual('IN');
+        expect(countryData.length).toEqual(7);
+        expect(countryData[0].Country_Code).toEqual(null);
+        expect(countryData[1].Country_Code).toEqual('LV');
+        expect(countryData[2].Country_Code).toEqual('IR');
+        expect(countryData[3].Country_Code).toEqual('FR');
+        expect(countryData[4].Country_Code).toEqual('US');
+        expect(countryData[5].Country_Code).toEqual('DE');
+        expect(countryData[6].Country_Code).toEqual('IN');
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$orderby=PeopleCount desc,Country_Code' }, dataAccess)
         );
-        expect(countryData.length).toEqual(6);
-        expect(countryData[5].Country_Code).toEqual('LV');
+        expect(countryData.length).toEqual(7);
+        expect(countryData[6].Country_Code).toEqual('LV');
+        expect(countryData[5].Country_Code).toEqual(null);
         expect(countryData[4].Country_Code).toEqual('IR');
         expect(countryData[3].Country_Code).toEqual('FR');
         expect(countryData[2].Country_Code).toEqual('US');
@@ -421,7 +424,7 @@ describe('Data Access', () => {
 
     test('v4metadata - it can POST data for an entity', async () => {
         let countryData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/Countries' }, dataAccess));
-        expect(countryData.length).toEqual(6);
+        expect(countryData.length).toEqual(7);
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$filter=PeopleCount gt 750' }, dataAccess)
         );
@@ -458,12 +461,12 @@ describe('Data Access', () => {
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$filter=PeopleCount lt 3' }, dataAccess)
         );
-        expect(countryData.length).toEqual(1);
+        expect(countryData.length).toEqual(2);
         // LE
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$filter=PeopleCount le 3' }, dataAccess)
         );
-        expect(countryData.length).toEqual(2);
+        expect(countryData.length).toEqual(3);
         // EQ
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$filter=PeopleCount eq 3' }, dataAccess)
@@ -473,7 +476,7 @@ describe('Data Access', () => {
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$filter=PeopleCount ne 3' }, dataAccess)
         );
-        expect(countryData.length).toEqual(5);
+        expect(countryData.length).toEqual(6);
         // Boolean
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$filter=IsHot eq true' }, dataAccess)
@@ -494,7 +497,7 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(countryData.length).toEqual(3);
+        expect(countryData.length).toEqual(4);
     });
     test('v4 metadata with draft, POST', async () => {
         // Create Empty Element
@@ -1051,7 +1054,7 @@ describe('Data Access', () => {
         let odataRequest = new ODataRequest({ method: 'GET', url: '/Countries?$skip=0&$top=3' }, dataAccess);
         let countryData = await dataAccess.getData(odataRequest);
         expect(countryData.length).toEqual(3);
-        expect(odataRequest.dataCount).toEqual(6);
+        expect(odataRequest.dataCount).toEqual(7);
         expect(countryData[0].Country_Code).toEqual('DE');
         expect(countryData[0].PeopleCount).toEqual(70);
 

@@ -26,11 +26,11 @@ function makeTransformationFn(type: string, preparedArgs: PreparedFunction[]) {
 function transformationFn(type: string, check?: any) {
     switch (type) {
         case 'tolower':
-            return (data: string) => data.toLowerCase();
+            return (data: string) => data?.toLowerCase();
         case 'toupper':
-            return (data: string) => data.toUpperCase();
+            return (data: string) => data?.toUpperCase();
         case 'trim':
-            return (data: string) => data.trim();
+            return (data: string) => data?.trim();
         case 'length':
             return (data: string) => {
                 return data && data.length;
@@ -45,7 +45,7 @@ function transformationFn(type: string, check?: any) {
             return (data: string) => {
                 switch (check) {
                     case 'Edm.String':
-                        return data.toString();
+                        return data?.toString();
                     case 'Edm.Boolean':
                         return data === 'true';
                     case 'Edm.Byte':
@@ -64,19 +64,19 @@ function transformationFn(type: string, check?: any) {
             };
         case 'startswith':
             return (data: string) => {
-                return data.startsWith(prepareLiteral(check, 'Edm.String') as string);
+                return data?.startsWith(prepareLiteral(check, 'Edm.String') as string);
             };
         case 'endswith':
             return (data: string) => {
-                return data.endsWith(prepareLiteral(check, 'Edm.String') as string);
+                return data?.endsWith(prepareLiteral(check, 'Edm.String') as string);
             };
         case 'substringof':
             return (data: string) => {
-                return check.indexOf(prepareLiteral(data, 'Edm.String') as string) !== -1;
+                return check?.indexOf(prepareLiteral(data, 'Edm.String') as string) !== -1;
             };
         case 'contains':
             return (data: string) => {
-                return data.indexOf(prepareLiteral(check, 'Edm.String') as string) !== -1;
+                return data?.indexOf(prepareLiteral(check, 'Edm.String') as string) !== -1;
             };
         case 'concat':
             return (data: string) => {
@@ -84,11 +84,11 @@ function transformationFn(type: string, check?: any) {
             };
         case 'indexof':
             return (data: string) => {
-                return data.indexOf(prepareLiteral(check, 'Edm.String') as string);
+                return data?.indexOf(prepareLiteral(check, 'Edm.String') as string);
             };
         case 'substring':
             return (data: string) => {
-                return data.substring(check);
+                return data?.substring(check);
             };
         case 'matchesPattern':
             const regExp = new RegExp(prepareLiteral(check, 'Edm.String') as string);
