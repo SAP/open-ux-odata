@@ -143,7 +143,7 @@ describe('Data Access', () => {
         expect(countryData[0].Country_Code).toEqual('DE');
         countryData = await dataAccess.getData(
             new ODataRequest(
-                { method: 'GET', url: "/Countries?$filter=tolower(Country_Code) eq tolower('dE')" },
+                { method: 'GET', url: "/Countries?$filter=toupper(Country_Code) eq toupper('dE')" },
                 dataAccess
             )
         );
