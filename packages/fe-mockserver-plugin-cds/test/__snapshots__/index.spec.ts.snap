@@ -11,6 +11,14 @@ exports[`FE Mockserver CDS Plugin V4 only: can compile a CDS file without flatte
   </edmx:Reference>
   <edmx:DataServices>
     <Schema Namespace="TestService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer">
         <EntitySet Name="Entity1" EntityType="TestService.Entity1">
           <NavigationPropertyBinding Path="to_Entity2_unmanaged" Target="Entity2"/>
@@ -111,6 +119,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file 1`] = `
   </edmx:Reference>
   <edmx:DataServices>
     <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer">
         <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement">
           <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
@@ -181,6 +197,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file in V2 1`] = `
   </edmx:Reference>
   <edmx:DataServices m:DataServiceVersion="2.0">
     <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <Annotation Term="Core.Links" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
         <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement"/>
         <AssociationSet Name="RootElement_Sibling" Association="sap.fe.mockserver.ValidCDS.RootElement_Sibling">
@@ -266,6 +290,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
   </edmx:Reference>
   <edmx:DataServices>
     <Schema Namespace="sap.fe.mockserver.ValidCDSWithCommon" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer">
         <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDSWithCommon.RootElement">
           <NavigationPropertyBinding Path="Currency" Target="Currencies"/>
@@ -413,6 +445,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using common stuff 
   </edmx:Reference>
   <edmx:DataServices m:DataServiceVersion="2.0">
     <Schema Namespace="sap.fe.mockserver.ValidCDSWithCommon" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <Annotation Term="Core.Links" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
         <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDSWithCommon.RootElement"/>
         <EntitySet Name="Currencies" EntityType="sap.fe.mockserver.ValidCDSWithCommon.Currencies"/>
@@ -586,6 +626,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more common s
   </edmx:Reference>
   <edmx:DataServices>
     <Schema Namespace="Service" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer">
         <EntitySet Name="RootEntity" EntityType="Service.RootEntity">
           <NavigationPropertyBinding Path="SiblingEntity" Target="RootEntity"/>
@@ -897,6 +945,14 @@ exports[`FE Mockserver CDS Plugin can compile valid CDS file using more files 1`
   </edmx:Reference>
   <edmx:DataServices>
     <Schema Namespace="sap.fe.mockserver.ValidCDS" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
       <EntityContainer Name="EntityContainer">
         <EntitySet Name="RootElement" EntityType="sap.fe.mockserver.ValidCDS.RootElement">
           <NavigationPropertyBinding Path="Sibling" Target="RootElement"/>
