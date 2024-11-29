@@ -430,10 +430,12 @@ function mapPropertyPath(
     propertyPath: { type: 'PropertyPath'; PropertyPath: string },
     fullyQualifiedName: FullyQualifiedName,
     currentTarget: any,
-    currentTerm: string
+    currentTerm: string,
+    currentSource: string
 ) {
     const result: Omit<AnnotationValue<PropertyPath>, '$target'> = {
         type: 'PropertyPath',
+        __source: currentSource,
         value: propertyPath.PropertyPath,
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
@@ -453,11 +455,13 @@ function mapAnnotationPath(
     annotationPath: { type: 'AnnotationPath'; AnnotationPath: string },
     fullyQualifiedName: FullyQualifiedName,
     currentTarget: any,
-    currentTerm: string
+    currentTerm: string,
+    currentSource: string
 ) {
     const result: Omit<AnnotationValue<AnnotationPath<any>>, '$target'> = {
         type: 'AnnotationPath',
         value: converter.unalias(annotationPath.AnnotationPath),
+        __source: currentSource,
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
     };
@@ -476,11 +480,13 @@ function mapNavigationPropertyPath(
     navigationPropertyPath: { type: 'NavigationPropertyPath'; NavigationPropertyPath: string },
     fullyQualifiedName: FullyQualifiedName,
     currentTarget: any,
-    currentTerm: string
+    currentTerm: string,
+    currentSource: string
 ) {
     const result: Omit<AnnotationValue<NavigationPropertyPath>, '$target'> = {
         type: 'NavigationPropertyPath',
         value: navigationPropertyPath.NavigationPropertyPath ?? '',
+        __source: currentSource,
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
     };
@@ -505,12 +511,14 @@ function mapPath(
     path: { type: 'Path'; Path: string },
     fullyQualifiedName: FullyQualifiedName,
     currentTarget: any,
-    currentTerm: string
+    currentTerm: string,
+    currentSource: string
 ) {
     const result: Omit<AnnotationValue<PathAnnotationExpression<any>>, '$target'> = {
         type: 'Path',
         path: path.Path,
         fullyQualifiedName: fullyQualifiedName,
+        __source: currentSource,
         getValue(): any {
             return undefined; // TODO: Required according to the type...
         },
@@ -562,20 +570,27 @@ function parseValue(
             return splitEnum[0];
 
         case 'PropertyPath':
-            return mapPropertyPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
+            return mapPropertyPath(converter, propertyValue, valueFQN, currentTarget, currentTerm, currentSource);
 
         case 'NavigationPropertyPath':
-            return mapNavigationPropertyPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
+            return mapNavigationPropertyPath(
+                converter,
+                propertyValue,
+                valueFQN,
+                currentTarget,
+                currentTerm,
+                currentSource
+            );
 
         case 'AnnotationPath':
-            return mapAnnotationPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
+            return mapAnnotationPath(converter, propertyValue, valueFQN, currentTarget, currentTerm, currentSource);
 
         case 'Path': {
             if (isAnnotationPath(propertyValue.Path)) {
                 // inline the target
                 return resolveTarget(converter, currentTarget, propertyValue.Path, currentTerm).target;
             } else {
-                return mapPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
+                return mapPath(converter, propertyValue, valueFQN, currentTarget, currentTerm, currentSource);
             }
         }
 
@@ -806,7 +821,7 @@ function parseCollection(
     switch (collectionDefinitionType) {
         case 'PropertyPath':
             return collectionDefinition.map((path, index) =>
-                mapPropertyPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm)
+                mapPropertyPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm, currentSource)
             );
 
         case 'Path':
@@ -817,12 +832,19 @@ function parseCollection(
 
         case 'AnnotationPath':
             return collectionDefinition.map((path, index) =>
-                mapAnnotationPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm)
+                mapAnnotationPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm, currentSource)
             );
 
         case 'NavigationPropertyPath':
             return collectionDefinition.map((path, index) =>
-                mapNavigationPropertyPath(converter, path, `${parentFQN}/${index}`, currentTarget, currentTerm)
+                mapNavigationPropertyPath(
+                    converter,
+                    path,
+                    `${parentFQN}/${index}`,
+                    currentTarget,
+                    currentTerm,
+                    currentSource
+                )
             );
 
         case 'Record':

@@ -31,6 +31,7 @@ export type PropertyPath = {
     type: 'PropertyPath';
     fullyQualifiedName: FullyQualifiedName;
     value: string;
+    __source: string;
     $target: Property | undefined;
 };
 
@@ -40,6 +41,7 @@ export type NavigationPropertyPath = {
     type: 'NavigationPropertyPath';
     fullyQualifiedName: FullyQualifiedName;
     value: string;
+    __source: string;
     $target: NavigationProperty | undefined;
 };
 
@@ -47,6 +49,7 @@ export type AnnotationPath<P> = {
     type: 'AnnotationPath';
     fullyQualifiedName: FullyQualifiedName;
     value: string;
+    __source: string;
     $target: (AnnotationTerm<P> & { term: string }) | undefined;
 };
 
@@ -81,6 +84,7 @@ export type PathAnnotationExpression<P> = {
     type: 'Path';
     fullyQualifiedName: FullyQualifiedName;
     path: string; // The defined path
+    __source: string;
     $target: Property | undefined;
     getValue(): P;
 };
