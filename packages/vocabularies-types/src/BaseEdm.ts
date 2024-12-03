@@ -6,7 +6,7 @@ type GenericExpression<K extends keyof any, T> = {
 } & {
     type: K;
 };
-type ArrayWithType<T, K> = T[] & { type?: K };
+export type ArrayWithType<T, K> = T[] & { type?: K };
 
 export type Apply = any;
 export type If = any;
