@@ -4,6 +4,7 @@ import type {
     AnnotationList,
     AnnotationPathExpression,
     AnnotationRecord,
+    ArrayWithType,
     Expression,
     FullyQualifiedName,
     NavigationPropertyPathExpression,
@@ -32,8 +33,7 @@ import type {
     RawV4NavigationProperty,
     Reference,
     ReferentialConstraint,
-    SimpleIdentifier,
-    ArrayWithType
+    SimpleIdentifier
 } from '@sap-ux/vocabularies-types';
 import type { StringExpression } from '@sap-ux/vocabularies-types/src';
 import { xml2js } from 'xml-js';
@@ -278,6 +278,12 @@ function parseNavigationProperties(
     );
 }
 
+/**
+ *
+ * @param associations
+ * @param namespace
+ * @param entityContainer
+ */
 function parseAssociationSets(
     associations: EDMX.AssociationSet[],
     namespace: string,
@@ -302,6 +308,11 @@ function parseAssociationSets(
     });
 }
 
+/**
+ *
+ * @param associations
+ * @param namespace
+ */
 function parseAssociations(associations: EDMX.Association[], namespace: string): RawAssociation[] {
     return associations.map((association) => {
         const associationFQN = `${namespace}.${association._attributes.Name}`;
@@ -326,6 +337,12 @@ function parseAssociations(associations: EDMX.Association[], namespace: string):
     });
 }
 
+/**
+ *
+ * @param entityTypes
+ * @param annotationLists
+ * @param namespace
+ */
 function parseEntityTypes(
     entityTypes: EDMX.EntityType[],
     annotationLists: AnnotationList[],
@@ -368,6 +385,12 @@ function parseEntityTypes(
     }, []);
 }
 
+/**
+ *
+ * @param complexTypes
+ * @param annotationLists
+ * @param namespace
+ */
 function parseComplexTypes(
     complexTypes: EDMX.ComplexType[],
     annotationLists: AnnotationList[],
@@ -398,6 +421,11 @@ function parseComplexTypes(
     }, []);
 }
 
+/**
+ *
+ * @param typeDefinitions
+ * @param namespace
+ */
 function parseTypeDefinitions(typeDefinitions: EDMX.TypeDefinition[], namespace: string): RawTypeDefinition[] {
     return typeDefinitions.reduce((outArray: RawTypeDefinition[], typeDefinition) => {
         const typeDefinitionFQN = `${namespace}.${typeDefinition._attributes.Name}`;
@@ -411,6 +439,13 @@ function parseTypeDefinitions(typeDefinitions: EDMX.TypeDefinition[], namespace:
     }, []);
 }
 
+/**
+ *
+ * @param entitySets
+ * @param namespace
+ * @param entityContainerName
+ * @param annotationLists
+ */
 function parseEntitySets(
     entitySets: EDMX.EntitySet[],
     namespace: string,
@@ -448,6 +483,13 @@ function parseEntitySets(
     return outEntitySets;
 }
 
+/**
+ *
+ * @param singletons
+ * @param namespace
+ * @param entityContainerName
+ * @param annotationLists
+ */
 function parseSingletons(
     singletons: EDMX.Singleton[],
     namespace: string,
@@ -486,6 +528,12 @@ function parseSingletons(
     return outSingletons;
 }
 
+/**
+ *
+ * @param actions
+ * @param namespace
+ * @param isFunction
+ */
 function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: string, isFunction: boolean): RawAction[] {
     return actions.map((action) => {
         const parameters = ensureArray(action.Parameter);
@@ -542,6 +590,12 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
     });
 }
 
+/**
+ *
+ * @param actions
+ * @param entitySets
+ * @param namespace
+ */
 function parseV2FunctionImport(
     actions: EDMX.FunctionImportV2[],
     entitySets: RawEntitySet[],
@@ -574,6 +628,11 @@ function parseV2FunctionImport(
     });
 }
 
+/**
+ *
+ * @param imports
+ * @param namespace
+ */
 function parseActionImports(
     imports: (EDMX.FunctionImport | EDMX.ActionImport)[],
     namespace: string
@@ -592,6 +651,12 @@ function parseActionImports(
     });
 }
 
+/**
+ *
+ * @param propertyValues
+ * @param currentTarget
+ * @param annotationsLists
+ */
 function parsePropertyValues(
     propertyValues: EDMX.PropertyValue[],
     currentTarget: string,
@@ -632,6 +697,12 @@ function parsePropertyValues(
     });
 }
 
+/**
+ *
+ * @param record
+ * @param currentTarget
+ * @param annotationsLists
+ */
 function parseRecord(
     record: EDMX.RecordExpression,
     currentTarget: string,
@@ -659,6 +730,11 @@ function isExpressionOfType<K>(annotation: any, propertyNameToCheck: string): an
     return annotation[propertyNameToCheck] != null;
 }
 
+/**
+ *
+ * @param propertyPath
+ * @param modelPathType
+ */
 function parseModelPath(
     propertyPath: EDMX.ModelPath,
     modelPathType: 'AnnotationPath' | 'PropertyPath' | 'NavigationPropertyPath' | 'Path'
@@ -675,6 +751,12 @@ function parseModelPath(
     }
 }
 
+/**
+ *
+ * @param collection
+ * @param currentTarget
+ * @param annotationsLists
+ */
 function parseCollection(
     collection: EDMX.CollectionExpression,
     currentTarget: string,
@@ -738,6 +820,10 @@ function parseCollection(
     return [];
 }
 
+/**
+ *
+ * @param expressionWithChild
+ */
 function parseChildren(expressionWithChild: any): any {
     const keys = Object.keys(expressionWithChild).filter(
         (keyValue) => keyValue !== '_attributes' && keyValue !== 'Annotation'
@@ -757,6 +843,12 @@ function parseChildren(expressionWithChild: any): any {
     return outObj;
 }
 
+/**
+ *
+ * @param expression
+ * @param currentTarget
+ * @param annotationsLists
+ */
 function parseInlineExpression(
     expression: EDMX.InlineExpression,
     currentTarget: string,
@@ -912,6 +1004,13 @@ function parseExpression(
     annotationsLists: AnnotationList[],
     simplifyPrimitive: true
 ): Expression | PrimitiveType;
+/**
+ *
+ * @param expression
+ * @param currentTarget
+ * @param annotationsLists
+ * @param simplifyPrimitive
+ */
 function parseExpression(
     expression: EDMX.Expression<{}>,
     currentTarget: string,
@@ -1080,6 +1179,12 @@ function parseExpression(
     }
 }
 
+/**
+ *
+ * @param annotation
+ * @param currentTarget
+ * @param annotationsLists
+ */
 function parseAnnotation(
     annotation: EDMX.Annotation,
     currentTarget: string,
@@ -1126,6 +1231,12 @@ function parseAnnotation(
     return outAnnotation as RawAnnotation;
 }
 
+/**
+ *
+ * @param annotations
+ * @param currentTarget
+ * @param annotationsLists
+ */
 function parseAnnotations(
     annotations: EDMX.Annotation[],
     currentTarget: string,
@@ -1134,6 +1245,11 @@ function parseAnnotations(
     return annotations.map((annotation) => parseAnnotation(annotation, currentTarget, annotationsLists));
 }
 
+/**
+ *
+ * @param target
+ * @param annotations
+ */
 function createAnnotationList(target: string, annotations: RawAnnotation[]): AnnotationList {
     return {
         target: target,
@@ -1162,6 +1278,12 @@ function parseAnnotationLists(annotationLists: EDMX.AnnotationList[], annotation
         });
 }
 
+/**
+ *
+ * @param edmSchema
+ * @param edmVersion
+ * @param identification
+ */
 function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification: string): RawSchema {
     const namespace = edmSchema._attributes.Namespace;
     const annotations: AnnotationList[] = [];
@@ -1256,6 +1378,10 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
     };
 }
 
+/**
+ *
+ * @param references
+ */
 function parseReferences(references: EDMX.Reference[]): Reference[] {
     return references.reduce((referencesArray: Reference[], reference: EDMX.Reference) => {
         const includes = ensureArray(reference['edmx:Include']);
@@ -1272,6 +1398,10 @@ function parseReferences(references: EDMX.Reference[]): Reference[] {
 
 let aliases: Record<string, string> = {};
 
+/**
+ *
+ * @param type
+ */
 function unaliasType(type: string) {
     const collection = type.match(collectionRegexp);
     const _type = collection ? collection[1] : type;
@@ -1284,6 +1414,10 @@ function unaliasType(type: string) {
 
 function unalias(aliasedValue: string): string;
 function unalias(aliasedValue: undefined): undefined;
+/**
+ *
+ * @param aliasedValue
+ */
 function unalias(aliasedValue: string | undefined): string | undefined {
     if (!aliasedValue) {
         return aliasedValue;
@@ -1311,6 +1445,10 @@ function unalias(aliasedValue: string | undefined): string | undefined {
     return unaliased.join('');
 }
 
+/**
+ *
+ * @param schemas
+ */
 function mergeSchemas(schemas: RawSchema[]): RawSchema {
     const associations = schemas.reduce((associationsToReduce: RawAssociation[], schema) => {
         return associationsToReduce.concat(schema.associations);
@@ -1407,6 +1545,11 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
     };
 }
 
+/**
+ *
+ * @param references
+ * @param schemas
+ */
 function createAliasMap(references: Reference[], schemas: EDMX.Schema[]) {
     aliases = references.reduce((map, reference) => {
         map[reference.alias] = reference.namespace;
