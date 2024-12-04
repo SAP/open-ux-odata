@@ -65,16 +65,10 @@ export class RawMetadataInstance implements RawMetadata {
  *
  */
 export class MergedRawMetadata implements RawMetadataInstance {
-    /**
-     *
-     */
     get references(): Reference[] {
         return this._references;
     }
 
-    /**
-     *
-     */
     get schema(): RawSchema {
         return {
             associations: this._associations,
