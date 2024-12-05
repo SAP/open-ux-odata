@@ -13425,7 +13425,10 @@ RawMetadataInstance {
             },
             {
               "collection": [
-                "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                {
+                  "String": "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                  "type": "String",
+                },
               ],
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.DraftActivationVia",
@@ -13566,7 +13569,10 @@ RawMetadataInstance {
             },
             {
               "collection": [
-                "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                {
+                  "String": "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                  "type": "String",
+                },
               ],
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.DraftActivationVia",
@@ -28808,7 +28814,10 @@ RawMetadataInstance {
             },
             {
               "collection": [
-                "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                {
+                  "String": "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                  "type": "String",
+                },
               ],
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.DraftActivationVia",
@@ -28843,7 +28852,10 @@ RawMetadataInstance {
             },
             {
               "collection": [
-                "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                {
+                  "String": "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_Product",
+                  "type": "String",
+                },
               ],
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.DraftActivationVia",
@@ -35603,7 +35615,10 @@ RawMetadataInstance {
           "annotations": [
             {
               "collection": [
-                undefined,
+                {
+                  "String": undefined,
+                  "type": "String",
+                },
               ],
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.ValueListRelevantQualifiers",
@@ -111901,9 +111916,18 @@ RawMetadataInstance {
                     "name": "Transformations",
                     "value": {
                       "Collection": [
-                        "aggregate",
-                        "groupby",
-                        "filter",
+                        {
+                          "String": "aggregate",
+                          "type": "String",
+                        },
+                        {
+                          "String": "groupby",
+                          "type": "String",
+                        },
+                        {
+                          "String": "filter",
+                          "type": "String",
+                        },
                       ],
                       "type": "Collection",
                     },

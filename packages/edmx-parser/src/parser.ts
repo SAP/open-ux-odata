@@ -4,6 +4,7 @@ import type {
     AnnotationList,
     AnnotationPathExpression,
     AnnotationRecord,
+    ArrayWithType,
     Expression,
     FullyQualifiedName,
     NavigationPropertyPathExpression,
@@ -705,9 +706,14 @@ function parseCollection(
         (navPropertyPathArray as any).type = 'NavigationPropertyPath';
         return navPropertyPathArray;
     } else if (isExpressionOfType<EDMX.StringCollectionWrapper>(collection, 'String')) {
-        const stringArray = ensureArray(collection.String).map((stringValue) => stringValue._text);
-        (stringArray as any).type = 'String';
-        return stringArray as unknown as StringExpression[];
+        const stringArray: ArrayWithType<StringExpression, 'String'> = ensureArray(collection.String).map(
+            (stringValue): StringExpression => ({
+                type: 'String',
+                String: stringValue._text
+            })
+        );
+        stringArray.type = 'String';
+        return stringArray;
     } else if (isExpressionOfType<EDMX.AnnotationPathCollectionWrapper>(collection, 'AnnotationPath')) {
         const annotationPathArray = ensureArray(collection.AnnotationPath).map(
             (annotationPath) => parseModelPath(annotationPath, 'AnnotationPath') as AnnotationPathExpression

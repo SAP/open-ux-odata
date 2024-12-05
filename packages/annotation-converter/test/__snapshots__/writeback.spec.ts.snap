@@ -1890,7 +1890,10 @@ exports[`Writeback capabilities can revert further SideEffects definition 1`] = 
         "name": "TargetProperties",
         "value": {
           "Collection": [
-            "WarrantyYear",
+            {
+              "String": "WarrantyYear",
+              "type": "String",
+            },
           ],
           "type": "Collection",
         },

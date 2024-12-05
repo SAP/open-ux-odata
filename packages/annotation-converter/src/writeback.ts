@@ -7,7 +7,8 @@ import type {
     PathExpression,
     PropertyPathExpression,
     RawAnnotation,
-    Reference
+    Reference,
+    StringExpression
 } from '@sap-ux/vocabularies-types';
 import { unalias } from './utils';
 
@@ -213,14 +214,17 @@ function revertCollectionItemToRawType(
     collectionItem: any
 ):
     | AnnotationRecord
-    | string
+    | StringExpression
     | PropertyPathExpression
     | PathExpression
     | NavigationPropertyPathExpression
     | AnnotationPathExpression
     | undefined {
     if (typeof collectionItem === 'string') {
-        return collectionItem;
+        return {
+            type: 'String',
+            String: collectionItem
+        };
     } else if (typeof collectionItem === 'object') {
         if (collectionItem.hasOwnProperty('$Type')) {
             // Annotation Record
