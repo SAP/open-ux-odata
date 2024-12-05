@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.12.1
+
+### Patch Changes
+
+-   d581d62: Export `ArrayWithType` type definition.
+
 ## 0.12.0
 
 ### Minor Changes

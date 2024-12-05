@@ -1,5 +1,16 @@
 # @sap-ux/annotation-converter
 
+## 0.10.0
+
+### Minor Changes
+
+-   d581d62: **BREAKING CHANGE**: parser and writeback no longer incorrectly convert string Collections entries as `string`. Now returned values correctly match the `StringExpression` type and function signatures.
+
+### Patch Changes
+
+-   Updated dependencies [d581d62]
+    -   @sap-ux/vocabularies-types@0.12.1
+
 ## 0.9.11
 
 ### Patch Changes

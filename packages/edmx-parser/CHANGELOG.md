@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.0
+
+### Minor Changes
+
+-   d581d62: **BREAKING CHANGE**: parser and writeback no longer incorrectly convert string Collections entries as `string`. Now returned values correctly match the `StringExpression` type and function signatures.
+
 ## 0.8.2
 
 ### Patch Changes
