@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.12
+
+### Patch Changes
+
+-   68a00a9: We now support search string without quotes in analytical queries
+
 ## 1.4.11
 
 ### Patch Changes
