@@ -341,8 +341,20 @@ export class ApplyParser extends FilterParser {
             this.MANY_SEP({
                 SEP: WS,
                 DEF: () => {
-                    const stringToken = this.CONSUME(SIMPLEIDENTIFIERWITHWS);
-                    searchExpr.push(stringToken.image.substring(1, stringToken.image.length - 1));
+                    this.OR([
+                        {
+                            ALT: () => {
+                                const stringToken = this.CONSUME(SIMPLEIDENTIFIERWITHWS);
+                                searchExpr.push(stringToken.image.substring(1, stringToken.image.length - 1));
+                            }
+                        },
+                        {
+                            ALT: () => {
+                                const stringToken = this.CONSUME(SIMPLEIDENTIFIER);
+                                searchExpr.push(stringToken.image);
+                            }
+                        }
+                    ]);
                 }
             });
             transformations.push({ type: 'search', searchExpr: searchExpr });
