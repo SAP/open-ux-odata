@@ -23,14 +23,15 @@ function escapeRegex(strValue: string) {
 }
 
 /**
- * Encore single quote as string element so that they cna be matched as well.
+ * Encode single quotes and asterisks in the string.
  *
- * @param str
+ * @param str the string to encode
  * @returns the encoded string
  */
 function encode(str: string) {
-    return str.replace(/'/g, '%27');
+    return str.replaceAll("'", '%27').replaceAll('*', '%2A');
 }
+
 async function loadMetadata(service: ServiceConfigEx, metadataProcessor: IMetadataProcessor) {
     const edmx = await metadataProcessor.loadMetadata(service.metadataPath);
     if (!service.noETag) {
@@ -133,16 +134,28 @@ export async function createMockMiddleware(
             const oDataHandlerInstance = await serviceRouter(mockService, dataAccess);
             if (mockService.contextBasedIsolation || newConfig.contextBasedIsolation) {
                 const subRouter = new Router();
-                subRouter.use(`${mockService.urlPath}`, oDataHandlerInstance);
-                subRouter.use(`${encode(mockService.urlPath)}`, oDataHandlerInstance);
+                try {
+                    subRouter.use(mockService.urlPath, oDataHandlerInstance);
+                } catch {
+                    // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
+                    // be a problem since clients usually call the encoded path.
+                    log.error(`Could not register service path: ${mockService.urlPath}`);
+                }
+                subRouter.use(encode(mockService.urlPath), oDataHandlerInstance);
                 app.use(/^\/tenant-(\d{1,3})/, subRouter);
             }
             if (mockService.debug) {
                 log.info(`Mockdata location: ${mockService.mockdataPath}`);
                 log.info(`Service path: ${mockService.urlPath}`);
             }
-            app.use(`${mockService.urlPath}`, oDataHandlerInstance);
-            app.use(`${encode(mockService.urlPath)}`, oDataHandlerInstance);
+            try {
+                app.use(mockService.urlPath, oDataHandlerInstance);
+            } catch {
+                // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
+                // be a problem since clients usually call the encoded path.
+                log.error(`Could not register path: ${mockService.urlPath}`);
+            }
+            app.use(encode(mockService.urlPath), oDataHandlerInstance);
         } catch (e) {
             log.error(e as any);
             throw new Error('Failed to start ' + JSON.stringify(mockService, null, 4));
