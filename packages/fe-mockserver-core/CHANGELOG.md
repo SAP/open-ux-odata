@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.13
+
+### Patch Changes
+
+-   b217a1e: fix: gracefully handle service paths with asterisks
+
 ## 1.4.12
 
 ### Patch Changes
