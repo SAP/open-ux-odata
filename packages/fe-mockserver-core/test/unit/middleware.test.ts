@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import type { Server } from 'http';
 import * as http from 'http';
 import * as path from 'path';
-import FEMockserver from '../../src';
+import FEMockserver, { type MockserverConfiguration } from '../../src';
 import { getJsonFromMultipartContent, getStatusAndHeadersFromMultipartContent } from '../../test/unit/__testData/utils';
 import { ODataV4Requestor } from './__testData/Requestor';
 
@@ -781,5 +781,31 @@ X-Requested-With: XMLHttpRequest
         });
         const responseStr = await response.text();
         expect(responseStr.replace(/\/Date\([^)]+\)/g, '/Date()')).toMatchSnapshot();
+    });
+
+    it('can create a mock middleware for services with special characters', async () => {
+        const config: MockserverConfiguration = {
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+                    mockdataPath: path.join(__dirname, '__testData'),
+                    urlPath:
+                        "/dmo/i_customer_stdvh/0001;ps='srvd-*dmo*ui_travel_d_d-0001';va='et-*dmo*c_booking_d_d.customerid'",
+                    watch: true,
+                    validateETag: true
+                }
+            ],
+            annotations: [],
+            metadataProcessor: {
+                name: '@sap-ux/fe-mockserver-plugin-cds',
+                options: {}
+            }
+        };
+
+        let mockServer = new FEMockserver({ ...config, contextBasedIsolation: true });
+        await expect(mockServer.isReady).resolves.toBeUndefined();
+
+        mockServer = new FEMockserver({ ...config, contextBasedIsolation: false });
+        await expect(mockServer.isReady).resolves.toBeUndefined();
     });
 });
