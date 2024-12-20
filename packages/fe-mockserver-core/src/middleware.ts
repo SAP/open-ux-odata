@@ -135,13 +135,13 @@ export async function createMockMiddleware(
             if (mockService.contextBasedIsolation || newConfig.contextBasedIsolation) {
                 const subRouter = new Router();
                 try {
-                    subRouter.use(`${mockService.urlPath}`, oDataHandlerInstance);
+                    subRouter.use(mockService.urlPath, oDataHandlerInstance);
                 } catch {
                     // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
                     // be a problem since clients usually call the encoded path.
                     log.error(`Could not register service path: ${mockService.urlPath}`);
                 }
-                subRouter.use(`${encode(mockService.urlPath)}`, oDataHandlerInstance);
+                subRouter.use(encode(mockService.urlPath), oDataHandlerInstance);
                 app.use(/^\/tenant-(\d{1,3})/, subRouter);
             }
             if (mockService.debug) {
@@ -149,13 +149,13 @@ export async function createMockMiddleware(
                 log.info(`Service path: ${mockService.urlPath}`);
             }
             try {
-                app.use(`${mockService.urlPath}`, oDataHandlerInstance);
+                app.use(mockService.urlPath, oDataHandlerInstance);
             } catch {
                 // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
                 // be a problem since clients usually call the encoded path.
                 log.error(`Could not register path: ${mockService.urlPath}`);
             }
-            app.use(`${encode(mockService.urlPath)}`, oDataHandlerInstance);
+            app.use(encode(mockService.urlPath), oDataHandlerInstance);
         } catch (e) {
             log.error(e as any);
             throw new Error('Failed to start ' + JSON.stringify(mockService, null, 4));
