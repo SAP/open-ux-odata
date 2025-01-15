@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.13.0
+
+### Minor Changes
+
+-   3539b13: OperationParameterFacets
+
 ## 0.12.1
 
 ### Patch Changes
