@@ -75,6 +75,52 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
     });
 
+    it('can convert properly side effects enum', async () => {
+        const parsedEDMX = parse(await loadFixture('v2/sideEffects.xml'));
+        const convertedTypes = convert(parsedEDMX);
+        expect(convertedTypes.entityTypes[9].annotations.Common?.SideEffects?.EffectTypes).not.toBeNull();
+        expect(
+            revertTermToGenericType(defaultReferences, convertedTypes.entityTypes[9].annotations.Common?.SideEffects)
+        ).toMatchInlineSnapshot(`
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "",
+                          "type": "NavigationPropertyPath",
+                        },
+                        {
+                          "NavigationPropertyPath": "to_ProductText",
+                          "type": "NavigationPropertyPath",
+                        },
+                        {
+                          "NavigationPropertyPath": "to_ProductTextInOriginalLang",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                  {
+                    "name": "EffectTypes",
+                    "value": {
+                      "EnumMember": "Common.EffectType/ValidationMessage",
+                      "type": "EnumMember",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            }
+        `);
+    });
+
     it('can convert EDMX with multiple schemas', async () => {
         const parsedEDMX = parse(await loadFixture('bugs/metadata.xml'));
         Object.freeze(parsedEDMX);
