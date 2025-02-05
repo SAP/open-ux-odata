@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.16
+
+### Patch Changes
+
+-   759e442: feat: we now properly support x-http-method to pass more information
+
 ## 1.4.15
 
 ### Patch Changes
