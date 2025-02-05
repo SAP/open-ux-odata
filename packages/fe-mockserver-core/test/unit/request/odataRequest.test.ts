@@ -10,6 +10,10 @@ describe('OData Request', () => {
                 }
             };
         },
+        deleteData: jest.fn(),
+        checkSession: jest.fn(),
+        resetStickySessionTimeout: jest.fn(),
+        updateData: jest.fn(),
         log: {
             info: (message: string) => {
                 /* nothing */
@@ -18,7 +22,7 @@ describe('OData Request', () => {
                 /* nothing */
             }
         }
-    } as DataAccess;
+    } as unknown as DataAccess;
     const fakeDataAccessV2: DataAccess = {
         getMetadata: () => {
             return {
@@ -1045,5 +1049,32 @@ describe('OData Request', () => {
             const defaultKey = new ODataRequest({ method: 'POST', url: `/Entity(${keyValue})` }, fakeDataAccess);
             expect(defaultKey.queryPath[0].keys).toEqual({ '': parsedValue });
         });
+    });
+    test('It can consider POST queries with x-http-method as their correct equivalent', async () => {
+        const myRequest = new ODataRequest(
+            {
+                method: 'POST',
+                url: `/Countries?$filter=substringof(%27test%27, CompanyCode)&search-focus=CompanyCode&search=Value1`,
+                headers: {
+                    'x-http-method': 'MERGE'
+                }
+            },
+            fakeDataAccess
+        );
+        await myRequest.handleRequest();
+        expect(fakeDataAccess.updateData).toHaveBeenCalled();
+
+        const myOtherRequest = new ODataRequest(
+            {
+                method: 'POST',
+                url: `/Countries?$filter=substringof(%27test%27, CompanyCode)&search-focus=CompanyCode&search=Value1`,
+                headers: {
+                    'x-http-method': 'DELETE'
+                }
+            },
+            fakeDataAccess
+        );
+        await myOtherRequest.handleRequest();
+        expect(fakeDataAccess.deleteData).toHaveBeenCalled();
     });
 });

@@ -131,6 +131,19 @@ export default class ODataRequest {
         this.queryPath = this.parsePath(parsedUrl.pathname.substring(1));
         this.contentId = requestContent.contentId;
         this.parseParameters(parsedUrl.searchParams);
+        if (this.requestContent.method === 'POST') {
+            switch (this.headers['x-http-method']) {
+                case 'PUT':
+                    this.requestContent.method = 'PUT';
+                    break;
+                case 'MERGE':
+                    this.requestContent.method = 'PATCH';
+                    break;
+                case 'DELETE':
+                    this.requestContent.method = 'DELETE';
+                    break;
+            }
+        }
     }
 
     private parseParameters(searchParams: URLSearchParams) {

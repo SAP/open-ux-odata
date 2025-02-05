@@ -149,7 +149,12 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
                 (req as any).body &&
                 req.headers['content-type'].indexOf('application/json') !== -1
             ) {
-                (req as any).body = JSON.parse((req as any).body);
+                try {
+                    (req as any).body = JSON.parse((req as any).body);
+                } catch (e) {
+                    log.error('Error parsing request body');
+                    throw new Error('Error parsing request body');
+                }
             }
             next();
         });
