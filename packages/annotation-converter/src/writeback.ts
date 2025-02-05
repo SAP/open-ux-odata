@@ -10,7 +10,7 @@ import type {
     Reference,
     StringExpression
 } from '@sap-ux/vocabularies-types';
-import { unalias } from './utils';
+import { EnumIsFlag, substringBeforeFirst, unalias } from './utils';
 
 /**
  * Revert an object to its raw type equivalent.
@@ -22,10 +22,26 @@ import { unalias } from './utils';
 function revertObjectToRawType(references: Reference[], value: any) {
     let result: Expression | undefined;
     if (Array.isArray(value)) {
-        result = {
-            type: 'Collection',
-            Collection: value.map((anno) => revertCollectionItemToRawType(references, anno)) as any[]
-        };
+        // Special case of flag enum type
+        const firstValue = value[0];
+        let isEnumFlags = false;
+        if (firstValue && typeof firstValue === 'string') {
+            const valueMatches = firstValue.valueOf().split('.');
+            if (valueMatches.length > 1 && references.find((ref) => ref.alias === valueMatches[0])) {
+                isEnumFlags = EnumIsFlag[substringBeforeFirst(firstValue, '/')];
+            }
+        }
+        if (isEnumFlags) {
+            result = {
+                type: 'EnumMember',
+                EnumMember: value.map((val) => val.valueOf()).join(' ')
+            };
+        } else {
+            result = {
+                type: 'Collection',
+                Collection: value.map((anno) => revertCollectionItemToRawType(references, anno)) as any[]
+            };
+        }
     } else if (value.isDecimal?.()) {
         result = {
             type: 'Decimal',

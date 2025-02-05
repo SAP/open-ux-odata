@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.2
+
+### Patch Changes
+
+-   ca0aa14: "Flag" enum are now properly converted back to single value instead of a collection
+
 ## 0.10.1
 
 ### Patch Changes
