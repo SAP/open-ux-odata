@@ -58,9 +58,31 @@ async function getPartRequest(
  * @param partRequest
  * @param partDefinition
  * @param globalHeaders
+ * @returns {string} Response string corresponding to the part request.
+ */
+function getPartResponseHeaderAsObject(
+    partRequest: ODataRequest,
+    partDefinition: BatchPart,
+    globalHeaders: Record<string, string>
+) {
+    partRequest.getResponseData();
+    for (const headerName in partRequest.globalResponseHeaders) {
+        globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
+    }
+    return {
+        id: partDefinition.contentId,
+        status: partRequest.statusCode,
+        headers: partRequest.responseHeaders
+    };
+}
+
+/**
+ * Get the header of the part response.
+ * @param partRequest
+ * @param partDefinition
+ * @param globalHeaders
  * @param isChangeSet
  * @param isResponse412
- * @param asString
  * @returns {string} Response string corresponding to the part request.
  */
 function getPartResponseHeader(
@@ -68,45 +90,45 @@ function getPartResponseHeader(
     partDefinition: BatchPart,
     globalHeaders: Record<string, string>,
     isChangeSet: boolean = false,
-    isResponse412: boolean = false,
-    asString: boolean = true
+    isResponse412: boolean = false
 ) {
-    if (asString) {
-        let batchResponse = '';
-        batchResponse += `Content-Type: application/http${NL}`;
-        batchResponse += `Content-Transfer-Encoding: binary${NL}`;
-        const contentId = partDefinition.contentId;
-        if (!isResponse412 && isChangeSet && contentId) {
-            // 1. Final 412 response is a combined one, so it doesn't need explicit content-id in response header.
-            // 2. This content-id is presently valid only for change set senarios.
-            batchResponse += `Content-ID: ${contentId}${NL}`;
-        }
-        if (partRequest.getETag()) {
-            batchResponse += `ETag: ${partRequest.getETag()}${NL}`;
-        }
-        batchResponse += NL;
-        // NOTE: This function internally adds the response header to 'responseHeaders' of partRequest.
-        partRequest.getResponseData();
-        batchResponse += `HTTP/1.1 ${partRequest.statusCode} ${http.STATUS_CODES[partRequest.statusCode]}${NL}`;
-        for (const headerName in partRequest.responseHeaders) {
-            batchResponse += `${headerName}: ${partRequest.responseHeaders[headerName]}${NL}`;
-        }
-        for (const headerName in partRequest.globalResponseHeaders) {
-            globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
-        }
-        batchResponse += NL; // End of part header
-        return batchResponse;
-    } else {
-        partRequest.getResponseData();
-        for (const headerName in partRequest.globalResponseHeaders) {
-            globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
-        }
-        return {
-            id: partDefinition.contentId,
-            status: partRequest.statusCode,
-            headers: partRequest.responseHeaders
-        };
+    let batchResponse = '';
+    batchResponse += `Content-Type: application/http${NL}`;
+    batchResponse += `Content-Transfer-Encoding: binary${NL}`;
+    const contentId = partDefinition.contentId;
+    if (!isResponse412 && isChangeSet && contentId) {
+        // 1. Final 412 response is a combined one, so it doesn't need explicit content-id in response header.
+        // 2. This content-id is presently valid only for change set senarios.
+        batchResponse += `Content-ID: ${contentId}${NL}`;
     }
+    if (partRequest.getETag()) {
+        batchResponse += `ETag: ${partRequest.getETag()}${NL}`;
+    }
+    batchResponse += NL;
+    // NOTE: This function internally adds the response header to 'responseHeaders' of partRequest.
+    partRequest.getResponseData();
+    batchResponse += `HTTP/1.1 ${partRequest.statusCode} ${http.STATUS_CODES[partRequest.statusCode]}${NL}`;
+    for (const headerName in partRequest.responseHeaders) {
+        batchResponse += `${headerName}: ${partRequest.responseHeaders[headerName]}${NL}`;
+    }
+    for (const headerName in partRequest.globalResponseHeaders) {
+        globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
+    }
+    batchResponse += NL; // End of part header
+    return batchResponse;
+}
+
+function getPartResponseAsObject(
+    partRequest: ODataRequest,
+    partDefinition: BatchPart,
+    globalHeaders: Record<string, string>
+) {
+    const baseResponse = getPartResponseHeaderAsObject(partRequest, partDefinition, globalHeaders) as Record<
+        string,
+        unknown
+    >;
+    baseResponse.body = partRequest.getResponseData(false);
+    return baseResponse;
 }
 
 /**
@@ -115,39 +137,24 @@ function getPartResponseHeader(
  * @param partDefinition
  * @param globalHeaders
  * @param isChangeSet
- * @param asString
  * @returns {string} Response string corresponding to the part request.
  */
 function getPartResponse(
     partRequest: ODataRequest,
     partDefinition: BatchPart,
     globalHeaders: Record<string, string>,
-    isChangeSet: boolean = false,
-    asString: boolean = true
+    isChangeSet: boolean = false
 ) {
-    if (asString) {
-        let batchResponse = getPartResponseHeader(partRequest, partDefinition, globalHeaders, isChangeSet);
+    let batchResponse = getPartResponseHeader(partRequest, partDefinition, globalHeaders, isChangeSet);
 
-        const responseData = partRequest.getResponseData(asString);
-        if (responseData) {
-            batchResponse += responseData;
-            //batchResponse += NL; // End of body content
-        }
-        batchResponse += NL;
-
-        return batchResponse;
-    } else {
-        const baseResponse = getPartResponseHeader(
-            partRequest,
-            partDefinition,
-            globalHeaders,
-            isChangeSet,
-            false,
-            asString
-        ) as Record<string, unknown>;
-        baseResponse.body = partRequest.getResponseData(asString);
-        return baseResponse;
+    const responseData = partRequest.getResponseData(true);
+    if (responseData) {
+        batchResponse += responseData;
+        //batchResponse += NL; // End of body content
     }
+    batchResponse += NL;
+
+    return batchResponse;
 }
 
 /**
@@ -310,7 +317,7 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
 
                 for (const part of batchData.requests) {
                     const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
-                    batchResponses.push(getPartResponse(partRequest, part, {}, false, false));
+                    batchResponses.push(getPartResponseAsObject(partRequest, part, {}));
                 }
                 res.setHeader('Content-Type', `application/json`);
                 res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
