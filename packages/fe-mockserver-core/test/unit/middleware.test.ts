@@ -92,6 +92,8 @@ describe('V4 Requestor', function () {
         expect(dataRes.body.length).toBe(4);
         const dataRes2 = await dataRequestor.getList<any>('/RootElement').executeAsBatch();
         expect(dataRes2.length).toBe(4);
+        const dataRes3 = await dataRequestor.getList<any>('/RootElement').executeAsJsonBatch();
+        expect(dataRes3.length).toBe(4);
     });
     it('can execute an action without return type', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
@@ -235,6 +237,8 @@ describe('V4 Requestor', function () {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
         const dataRes = await dataRequestor.getCount<any>('RootElement').executeAsBatch();
         expect(dataRes).toBe(4);
+        const dataRes2 = await dataRequestor.getCount<any>('RootElement').executeAsJsonBatch();
+        expect(dataRes2).toBe(4);
     });
 
     it('can get some data through a batch call with changeset', async () => {
@@ -250,6 +254,9 @@ describe('V4 Requestor', function () {
         let dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 2 }).executeAsBatch();
         delete dataRes['@odata.etag'];
         expect(dataRes).toMatchSnapshot();
+        const dataRes2 = await dataRequestor.getObject<any>('RootElement', { ID: 2 }).executeAsJsonBatch();
+        delete dataRes2['@odata.etag'];
+        expect(dataRes2).toMatchSnapshot();
 
         dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         dataRes = await dataRequestor.getObject<any>('RootElement', { ID: 233 }).executeAsBatch();
@@ -279,15 +286,24 @@ describe('V4 Requestor', function () {
         expect(dataRes2[4].ID).toBe(555);
         expect(dataRes2[4].Prop1).toBe('');
 
+        const dataResJ = await dataRequestor.createData<any>('RootElement', { ID: 556 }).executeAsJsonBatch();
+        delete dataResJ.DraftAdministrativeData;
+        expect(dataResJ).toMatchSnapshot();
+
+        const dataResJ2 = await dataRequestor.getList<any>('RootElement').executeAsJsonBatch();
+        expect(dataResJ2.length).toBe(6);
+        expect(dataResJ2[5].ID).toBe(556);
+        expect(dataResJ2[5].Prop1).toBe('');
+
         const dataRequestor3 = new ODataV4Requestor('http://localhost:33331/tenant-008/sap/fe/core/mock/action');
         const dataRes3 = await dataRequestor.createData<any>('/RootElement', { ID: 666 }).execute();
         delete dataRes3.body.DraftAdministrativeData;
         expect(dataRes3.body).toMatchSnapshot();
 
         const dataRes4 = await dataRequestor.getList<any>('RootElement').executeAsBatch();
-        expect(dataRes4.length).toBe(6);
-        expect(dataRes4[5].ID).toBe(666);
-        expect(dataRes4[5].Prop1).toBe('');
+        expect(dataRes4.length).toBe(7);
+        expect(dataRes4[6].ID).toBe(666);
+        expect(dataRes4[6].Prop1).toBe('');
         // const dataRequestor = new ODataV4Requestor('http://localhost:33331/tenant-002/sap/fe/core/mock/action');
         // const dataRes = await dataRequestor.createData<any>('/RootElement', { ID: 556 }).executeAsBatch(true);
         // expect(dataRes).toMatchSnapshot();

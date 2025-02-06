@@ -60,6 +60,7 @@ async function getPartRequest(
  * @param globalHeaders
  * @param isChangeSet
  * @param isResponse412
+ * @param asString
  * @returns {string} Response string corresponding to the part request.
  */
 function getPartResponseHeader(
@@ -67,32 +68,45 @@ function getPartResponseHeader(
     partDefinition: BatchPart,
     globalHeaders: Record<string, string>,
     isChangeSet: boolean = false,
-    isResponse412: boolean = false
+    isResponse412: boolean = false,
+    asString: boolean = true
 ) {
-    let batchResponse = '';
-    batchResponse += `Content-Type: application/http${NL}`;
-    batchResponse += `Content-Transfer-Encoding: binary${NL}`;
-    const contentId = partDefinition.contentId;
-    if (!isResponse412 && isChangeSet && contentId) {
-        // 1. Final 412 response is a combined one, so it doesn't need explicit content-id in response header.
-        // 2. This content-id is presently valid only for change set senarios.
-        batchResponse += `Content-ID: ${contentId}${NL}`;
+    if (asString) {
+        let batchResponse = '';
+        batchResponse += `Content-Type: application/http${NL}`;
+        batchResponse += `Content-Transfer-Encoding: binary${NL}`;
+        const contentId = partDefinition.contentId;
+        if (!isResponse412 && isChangeSet && contentId) {
+            // 1. Final 412 response is a combined one, so it doesn't need explicit content-id in response header.
+            // 2. This content-id is presently valid only for change set senarios.
+            batchResponse += `Content-ID: ${contentId}${NL}`;
+        }
+        if (partRequest.getETag()) {
+            batchResponse += `ETag: ${partRequest.getETag()}${NL}`;
+        }
+        batchResponse += NL;
+        // NOTE: This function internally adds the response header to 'responseHeaders' of partRequest.
+        partRequest.getResponseData();
+        batchResponse += `HTTP/1.1 ${partRequest.statusCode} ${http.STATUS_CODES[partRequest.statusCode]}${NL}`;
+        for (const headerName in partRequest.responseHeaders) {
+            batchResponse += `${headerName}: ${partRequest.responseHeaders[headerName]}${NL}`;
+        }
+        for (const headerName in partRequest.globalResponseHeaders) {
+            globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
+        }
+        batchResponse += NL; // End of part header
+        return batchResponse;
+    } else {
+        partRequest.getResponseData();
+        for (const headerName in partRequest.globalResponseHeaders) {
+            globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
+        }
+        return {
+            id: partDefinition.contentId,
+            status: partRequest.statusCode,
+            headers: partRequest.responseHeaders
+        };
     }
-    if (partRequest.getETag()) {
-        batchResponse += `ETag: ${partRequest.getETag()}${NL}`;
-    }
-    batchResponse += NL;
-    // NOTE: This function internally adds the response header to 'responseHeaders' of partRequest.
-    partRequest.getResponseData();
-    batchResponse += `HTTP/1.1 ${partRequest.statusCode} ${http.STATUS_CODES[partRequest.statusCode]}${NL}`;
-    for (const headerName in partRequest.responseHeaders) {
-        batchResponse += `${headerName}: ${partRequest.responseHeaders[headerName]}${NL}`;
-    }
-    for (const headerName in partRequest.globalResponseHeaders) {
-        globalHeaders[headerName] = partRequest.globalResponseHeaders[headerName];
-    }
-    batchResponse += NL; // End of part header
-    return batchResponse;
 }
 
 /**
@@ -101,24 +115,39 @@ function getPartResponseHeader(
  * @param partDefinition
  * @param globalHeaders
  * @param isChangeSet
+ * @param asString
  * @returns {string} Response string corresponding to the part request.
  */
 function getPartResponse(
     partRequest: ODataRequest,
     partDefinition: BatchPart,
     globalHeaders: Record<string, string>,
-    isChangeSet: boolean = false
+    isChangeSet: boolean = false,
+    asString: boolean = true
 ) {
-    let batchResponse = getPartResponseHeader(partRequest, partDefinition, globalHeaders, isChangeSet);
+    if (asString) {
+        let batchResponse = getPartResponseHeader(partRequest, partDefinition, globalHeaders, isChangeSet);
 
-    const responseData = partRequest.getResponseData();
-    if (responseData) {
-        batchResponse += responseData;
-        //batchResponse += NL; // End of body content
+        const responseData = partRequest.getResponseData(asString);
+        if (responseData) {
+            batchResponse += responseData;
+            //batchResponse += NL; // End of body content
+        }
+        batchResponse += NL;
+
+        return batchResponse;
+    } else {
+        const baseResponse = getPartResponseHeader(
+            partRequest,
+            partDefinition,
+            globalHeaders,
+            isChangeSet,
+            false,
+            asString
+        ) as Record<string, unknown>;
+        baseResponse.body = partRequest.getResponseData(asString);
+        return baseResponse;
     }
-    batchResponse += NL;
-
-    return batchResponse;
 }
 
 /**
@@ -190,7 +219,7 @@ function get412ErrorInfo(
         const error412Object = partRequest.getResponseData();
         if (typeof error412Object === 'string') {
             return {
-                header: getPartResponseHeader(partRequest, changeSetPart, globalHeaders, true, true),
+                header: getPartResponseHeader(partRequest, changeSetPart, globalHeaders, true, true) as string,
                 error: JSON.parse(error412Object).error as ErrorResponse,
                 contentId: changeSetPart.contentId
             };
@@ -243,7 +272,7 @@ async function getChangeSetResponse(
                 // We presently override the response and exit in these scenarios.
                 // We don't need changeSet boundary in this case as we break out of the loop.
                 // NOTE: This might change on implementation of continue-on-error.
-                batchResponse = batchPartRes;
+                batchResponse = batchPartRes as string;
                 changeSetFailed = true;
                 break;
             } else if (batchPartRes !== null) {
@@ -274,32 +303,47 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
     return async (req: IncomingMessageWithTenant, res: ServerResponse, next: NextFunction) => {
         try {
             dataAccess.checkSession(req);
-            const boundary = getBoundary(req.headers['content-type'] as string);
-            const body = (req as any).body;
-            const batchData = parseBatch(new BatchContent(body), boundary);
-            const globalHeaders: Record<string, string> = {};
-            let batchResponse = '';
+            if (req.headers['content-type'] === 'application/json') {
+                // JSON batch
+                const batchData = (req as any).body as { requests: BatchPart[] };
+                const batchResponses = [];
 
-            for (const part of batchData.parts) {
-                batchResponse += `--${batchData.boundary}${NL}`;
-                if (isPartChangeSet(part)) {
-                    batchResponse += await getChangeSetResponse(part, dataAccess, req.tenantId!, globalHeaders);
-                } else {
+                for (const part of batchData.requests) {
                     const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
-                    batchResponse += getPartResponse(partRequest, part, globalHeaders);
+                    batchResponses.push(getPartResponse(partRequest, part, {}, false, false));
                 }
-            }
-            batchResponse += `--${batchData.boundary}--${NL}`;
-            res.statusCode = 200;
-            for (const globalHeaderName in globalHeaders) {
-                if (globalHeaders[globalHeaderName]) {
-                    res.setHeader(globalHeaderName, globalHeaders[globalHeaderName]);
+                res.setHeader('Content-Type', `application/json`);
+                res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
+                res.write(JSON.stringify({ responses: batchResponses }));
+                res.end();
+            } else {
+                const boundary = getBoundary(req.headers['content-type'] as string);
+                const body = (req as any).body;
+                const batchData = parseBatch(new BatchContent(body), boundary);
+                const globalHeaders: Record<string, string> = {};
+                let batchResponse = '';
+
+                for (const part of batchData.parts) {
+                    batchResponse += `--${batchData.boundary}${NL}`;
+                    if (isPartChangeSet(part)) {
+                        batchResponse += await getChangeSetResponse(part, dataAccess, req.tenantId!, globalHeaders);
+                    } else {
+                        const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
+                        batchResponse += getPartResponse(partRequest, part, globalHeaders);
+                    }
                 }
+                batchResponse += `--${batchData.boundary}--${NL}`;
+                res.statusCode = 200;
+                for (const globalHeaderName in globalHeaders) {
+                    if (globalHeaders[globalHeaderName]) {
+                        res.setHeader(globalHeaderName, globalHeaders[globalHeaderName]);
+                    }
+                }
+                res.setHeader('Content-Type', `multipart/mixed; boundary=${batchData.boundary}`);
+                res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
+                res.write(batchResponse);
+                res.end();
             }
-            res.setHeader('Content-Type', `multipart/mixed; boundary=${batchData.boundary}`);
-            res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
-            res.write(batchResponse);
-            res.end();
         } catch (e) {
             // Check if the error makes the whole request fail
             const customError = e as ExecutionError;

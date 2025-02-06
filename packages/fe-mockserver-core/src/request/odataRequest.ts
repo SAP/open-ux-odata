@@ -533,7 +533,7 @@ export default class ODataRequest {
         }
     }
 
-    public getResponseData() {
+    public getResponseData(asString: boolean = true) {
         if (this.messages.length) {
             this.addResponseHeader('sap-messages', JSON.stringify(this.messages));
         }
@@ -549,7 +549,11 @@ export default class ODataRequest {
         }
         if (typeof this.responseData === 'number' && this.isCountQuery) {
             this.addResponseHeader('content-type', 'text/plain');
-            return this.responseData.toString();
+            if (asString) {
+                return this.responseData.toString();
+            } else {
+                return this.responseData;
+            }
         }
         if (this.dataAccess.getMetadata().getVersion() === '4.0') {
             if (this.statusCode === 204) {
@@ -584,8 +588,11 @@ export default class ODataRequest {
                 } else {
                     resultObject = { ...resultObject, ...this.responseData };
                 }
-
-                return JSON.stringify(resultObject);
+                if (asString) {
+                    return JSON.stringify(resultObject);
+                } else {
+                    return resultObject;
+                }
             }
         } else {
             if (this.statusCode === 204) {
@@ -600,7 +607,11 @@ export default class ODataRequest {
             } else {
                 resultObject.d = this.responseData;
             }
-            return JSON.stringify(resultObject);
+            if (asString) {
+                return JSON.stringify(resultObject);
+            } else {
+                return resultObject;
+            }
         }
     }
 
