@@ -226,7 +226,7 @@ function get412ErrorInfo(
         const error412Object = partRequest.getResponseData();
         if (typeof error412Object === 'string') {
             return {
-                header: getPartResponseHeader(partRequest, changeSetPart, globalHeaders, true, true) as string,
+                header: getPartResponseHeader(partRequest, changeSetPart, globalHeaders, true, true),
                 error: JSON.parse(error412Object).error as ErrorResponse,
                 contentId: changeSetPart.contentId
             };
@@ -279,7 +279,7 @@ async function getChangeSetResponse(
                 // We presently override the response and exit in these scenarios.
                 // We don't need changeSet boundary in this case as we break out of the loop.
                 // NOTE: This might change on implementation of continue-on-error.
-                batchResponse = batchPartRes as string;
+                batchResponse = batchPartRes;
                 changeSetFailed = true;
                 break;
             } else if (batchPartRes !== null) {
@@ -301,6 +301,49 @@ async function getChangeSetResponse(
     return batchResponse;
 }
 
+async function jsonBatchHandler(req: IncomingMessageWithTenant, res: ServerResponse, dataAccess: DataAccess) {
+    // JSON batch
+    const batchData = (req as any).body as { requests: BatchPart[] };
+    const batchResponses = [];
+
+    for (const part of batchData.requests) {
+        const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
+        batchResponses.push(getPartResponseAsObject(partRequest, part, {}));
+    }
+    res.setHeader('Content-Type', `application/json`);
+    res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
+    res.write(JSON.stringify({ responses: batchResponses }));
+    res.end();
+}
+
+async function standardBatchHandler(req: IncomingMessageWithTenant, res: ServerResponse, dataAccess: DataAccess) {
+    const boundary = getBoundary(req.headers['content-type'] as string);
+    const body = (req as any).body;
+    const batchData = parseBatch(new BatchContent(body), boundary);
+    const globalHeaders: Record<string, string> = {};
+    let batchResponse = '';
+
+    for (const part of batchData.parts) {
+        batchResponse += `--${batchData.boundary}${NL}`;
+        if (isPartChangeSet(part)) {
+            batchResponse += await getChangeSetResponse(part, dataAccess, req.tenantId!, globalHeaders);
+        } else {
+            const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
+            batchResponse += getPartResponse(partRequest, part, globalHeaders);
+        }
+    }
+    batchResponse += `--${batchData.boundary}--${NL}`;
+    res.statusCode = 200;
+    for (const globalHeaderName in globalHeaders) {
+        if (globalHeaders[globalHeaderName]) {
+            res.setHeader(globalHeaderName, globalHeaders[globalHeaderName]);
+        }
+    }
+    res.setHeader('Content-Type', `multipart/mixed; boundary=${batchData.boundary}`);
+    res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
+    res.write(batchResponse);
+    res.end();
+}
 /**
  * Creates a router dedicated to batch request handling.
  * @param dataAccess the current DataAccess object
@@ -311,45 +354,9 @@ export function batchRouter(dataAccess: DataAccess): NextHandleFunction {
         try {
             dataAccess.checkSession(req);
             if (req.headers['content-type'] === 'application/json') {
-                // JSON batch
-                const batchData = (req as any).body as { requests: BatchPart[] };
-                const batchResponses = [];
-
-                for (const part of batchData.requests) {
-                    const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
-                    batchResponses.push(getPartResponseAsObject(partRequest, part, {}));
-                }
-                res.setHeader('Content-Type', `application/json`);
-                res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
-                res.write(JSON.stringify({ responses: batchResponses }));
-                res.end();
+                await jsonBatchHandler(req, res, dataAccess);
             } else {
-                const boundary = getBoundary(req.headers['content-type'] as string);
-                const body = (req as any).body;
-                const batchData = parseBatch(new BatchContent(body), boundary);
-                const globalHeaders: Record<string, string> = {};
-                let batchResponse = '';
-
-                for (const part of batchData.parts) {
-                    batchResponse += `--${batchData.boundary}${NL}`;
-                    if (isPartChangeSet(part)) {
-                        batchResponse += await getChangeSetResponse(part, dataAccess, req.tenantId!, globalHeaders);
-                    } else {
-                        const partRequest = await getPartRequest(part, dataAccess, req.tenantId!);
-                        batchResponse += getPartResponse(partRequest, part, globalHeaders);
-                    }
-                }
-                batchResponse += `--${batchData.boundary}--${NL}`;
-                res.statusCode = 200;
-                for (const globalHeaderName in globalHeaders) {
-                    if (globalHeaders[globalHeaderName]) {
-                        res.setHeader(globalHeaderName, globalHeaders[globalHeaderName]);
-                    }
-                }
-                res.setHeader('Content-Type', `multipart/mixed; boundary=${batchData.boundary}`);
-                res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
-                res.write(batchResponse);
-                res.end();
+                await standardBatchHandler(req, res, dataAccess);
             }
         } catch (e) {
             // Check if the error makes the whole request fail
