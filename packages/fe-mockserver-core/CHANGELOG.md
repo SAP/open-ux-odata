@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.17
+
+### Patch Changes
+
+-   ce2e185: feat: veeeeeeeeery basic json batch support
+
 ## 1.4.16
 
 ### Patch Changes
