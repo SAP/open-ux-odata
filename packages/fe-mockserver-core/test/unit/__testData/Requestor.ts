@@ -25,9 +25,11 @@ export abstract class ODataRequest<T> {
     protected abstract buildHeaders(): Headers;
     protected abstract getBody(): any;
     protected abstract buildBatchContent(boundary: string, changesetBoundary: string): string;
+    protected abstract buildJsonBatchContent(): string;
 
     protected abstract extractContent<T>(content: any): T;
     protected abstract extractBatchContent<T>(content: any, boundary: string): T;
+    protected abstract extractJsonBatchContent<T>(content: any): T;
 
     /**
      *
@@ -85,6 +87,22 @@ export abstract class ODataRequest<T> {
         const responseBoundary = contentType?.split('boundary=')[1];
         const responseData = await response.text();
         return this.extractBatchContent<T>(responseData, responseBoundary!);
+    }
+
+    public async executeAsJsonBatch(asChangeset: boolean = false, clientInfo: string = ''): Promise<T> {
+        const fetchContent = {
+            method: 'POST',
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            headers: new Headers({
+                'content-type': 'application/json',
+                accept: 'application/json'
+            }),
+            body: this.buildJsonBatchContent()
+        };
+        const response = await fetch(`${this.odataRootUri}/$batch${clientInfo}`, fetchContent as any);
+        const responseData = await response.json();
+        return this.extractJsonBatchContent<T>(responseData);
     }
 }
 /**
@@ -219,6 +237,18 @@ export class ODataV4ListRequest<T> extends ODataRequest<T> {
         return batchBody;
     }
 
+    protected buildJsonBatchContent(): string {
+        const allRequests = [];
+        allRequests.push({
+            method: 'GET',
+            url: '/' + this.buildUrl(true),
+            headers: {
+                accept: 'application/json'
+            }
+        });
+        return JSON.stringify({ requests: allRequests });
+    }
+
     /**
      * @param content
      */
@@ -237,6 +267,10 @@ export class ODataV4ListRequest<T> extends ODataRequest<T> {
         } else {
             return batchResult.parts[0].body.value as T;
         }
+    }
+
+    protected extractJsonBatchContent<T>(content: any): T {
+        return content.responses[0].body.value as T;
     }
 
     setInvalidBatch(isInvalid: boolean) {
@@ -362,6 +396,19 @@ export class ODataV4ObjectRequest<T> extends ODataRequest<T> {
         return batchBody;
     }
 
+    protected buildJsonBatchContent(): string {
+        const allRequests = [];
+        allRequests.push({
+            method: this.method,
+            url: '/' + this.buildUrl(true),
+            headers: {
+                accept: 'application/json'
+            },
+            body: this.body && JSON.parse(this.body)
+        });
+        return JSON.stringify({ requests: allRequests });
+    }
+
     /**
      * @param content
      */
@@ -377,6 +424,10 @@ export class ODataV4ObjectRequest<T> extends ODataRequest<T> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const batchResult = parseBatch(new BatchContent(content), boundary);
         return (batchResult.parts[0] as BatchPart).body as T;
+    }
+
+    protected extractJsonBatchContent<T>(content: any): T {
+        return content.responses[0].body as T;
     }
 
     /**

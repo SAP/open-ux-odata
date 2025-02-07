@@ -75,6 +75,23 @@ exports[`V4 Requestor can create data through a call 2`] = `
   "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
   "HasActiveEntity": false,
   "HasDraftEntity": false,
+  "ID": 556,
+  "IsActiveEntity": false,
+  "Prop1": "",
+  "Prop2": "",
+  "Sibling_ID": 0,
+  "isBoundAction1Hidden": false,
+  "isBoundAction2Hidden": false,
+  "isBoundAction3Hidden": false,
+}
+`;
+
+exports[`V4 Requestor can create data through a call 3`] = `
+{
+  "@odata.context": "../$metadata#RootElement/$entity",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
+  "HasActiveEntity": false,
+  "HasDraftEntity": false,
   "ID": 666,
   "IsActiveEntity": false,
   "Prop1": "",
@@ -788,9 +805,26 @@ exports[`V4 Requestor get one data 1`] = `
 }
 `;
 
-exports[`V4 Requestor get one data 2`] = `""`;
+exports[`V4 Requestor get one data 2`] = `
+{
+  "@odata.context": "$metadata#RootElement(ID=2)",
+  "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
+  "HasActiveEntity": false,
+  "HasDraftEntity": false,
+  "ID": 2,
+  "IsActiveEntity": true,
+  "Prop1": "First Prop for Obj2",
+  "Prop2": "Second Prop for Obj3",
+  "Sibling_ID": 1,
+  "isBoundAction1Hidden": true,
+  "isBoundAction2Hidden": true,
+  "isBoundAction3Hidden": false,
+}
+`;
 
-exports[`V4 Requestor get one data 3`] = `
+exports[`V4 Requestor get one data 3`] = `""`;
+
+exports[`V4 Requestor get one data 4`] = `
 {
   "@odata.context": "$metadata#RootElement(ID=2)",
   "@odata.metadataEtag": "W/"6770-h9dQUjphfbSGIAAET0AzZrT84Us"",
