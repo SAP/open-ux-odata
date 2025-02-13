@@ -674,7 +674,12 @@ export class DataAccess implements DataAccessInterface {
                                 // Fake containment for result set
                                 targetContainedEntityType = navPropDetail.targetType;
                                 targetContainedData = innerData[queryPathPart.path];
-                                currentEntitySet = undefined;
+                                if (this.metadata.getVersion() === '2.0') {
+                                    // In V2 there might be a target entityset as containment doesn't exist
+                                    currentEntitySet = currentEntitySet?.navigationPropertyBinding[navPropDetail.name];
+                                } else {
+                                    currentEntitySet = undefined;
+                                }
                                 currentEntityType = targetContainedEntityType;
                                 if (hasOnlyDraftKeyOrNoKeys) {
                                     currentKeys = {};
