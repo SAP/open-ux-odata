@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.18
+
+### Patch Changes
+
+-   0653af7: We now properly identify the entityset in case of parametrized query in v2
+
 ## 1.4.17
 
 ### Patch Changes
