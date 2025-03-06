@@ -10,7 +10,7 @@ const STRINGLITERAL = createToken({
     pattern: /(:?[^\\"\s]+|\\(:?[bfnrtv"\\/]|u[0-9a-fA-F]{4}))+/
 });
 // null, boolean, guid, dateTimeInOffset / dateValue / timeOfDay / decimalValue / doubleValue / singleValue / string / duration / enum / binary
-const ANDOR = createToken({ name: 'AndOr', pattern: /(:?AND|OR)/ });
+const ANDOR = createToken({ name: 'AndOr', longer_alt: STRINGLITERAL, pattern: /(:?AND|OR)/ });
 const WS = createToken({ name: 'Whitespace', pattern: /\s+/ });
 const searchTokens = [OPEN, CLOSE, QUOTE, ANDOR, WS, STRINGLITERAL];
 

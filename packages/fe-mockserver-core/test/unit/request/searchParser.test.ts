@@ -23,4 +23,8 @@ describe('Search Parser', () => {
         expect(multipleTextWithSpace2[0]).toBe('Hello Horld');
         expect(multipleTextWithSpace2[1]).toBe('World');
     });
+    test('can parse search with an OR', () => {
+        const ORCheck = parseSearch('"ORANGE"');
+        expect(ORCheck[0]).toBe('ORANGE');
+    });
 });
