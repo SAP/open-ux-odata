@@ -75,6 +75,16 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.entitySets[0].annotations).not.toBeNull();
     });
 
+    it('can convert EDMX with aliasing', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/with-alias.xml'));
+        const convertedTypes = convert(parsedEDMX);
+        expect(
+            (convertedTypes.entitySets['0'].entityType.annotations as any).UI[
+                'SelectionPresentationVariant#coffeeSPVList'
+            ].PresentationVariant
+        ).toBeDefined();
+    });
+
     it('can convert properly side effects enum', async () => {
         const parsedEDMX = parse(await loadFixture('v2/sideEffects.xml'));
         const convertedTypes = convert(parsedEDMX);
