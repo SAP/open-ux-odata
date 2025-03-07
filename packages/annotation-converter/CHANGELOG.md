@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.3
+
+### Patch Changes
+
+-   52a22e6: Fix issue with vocabularies alias
+
 ## 0.10.2
 
 ### Patch Changes
