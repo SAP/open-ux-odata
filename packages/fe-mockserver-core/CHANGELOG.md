@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.20
+
+### Patch Changes
+
+-   5f67cc2: We fixed an issue while searching for OR / AND
+
 ## 1.4.19
 
 ### Patch Changes
