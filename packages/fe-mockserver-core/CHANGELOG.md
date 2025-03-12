@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.21
+
+### Patch Changes
+
+-   dd40fed: We now properly deal with draft in case of complex cross navigation
+
 ## 1.4.20
 
 ### Patch Changes
