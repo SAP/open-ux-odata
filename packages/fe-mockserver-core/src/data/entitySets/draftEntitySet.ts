@@ -162,7 +162,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                 await currentMockData.updateEntry(draftKeys, myDataToClean, myDataToClean, odataRequest);
             }
         }
-        await this.draftDiscard(keyValues, tenantId, odataRequest);
+        await this.draftDiscard(keyValues, tenantId, odataRequest, false);
         return activeDraft;
     }
 
@@ -225,28 +225,36 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             }
         }
     }
-    public async draftDiscard(keyValues: Record<string, any>, tenantId: string, odataRequest: ODataRequest) {
+    public async draftDiscard(
+        keyValues: Record<string, any>,
+        tenantId: string,
+        odataRequest: ODataRequest,
+        cascadeDiscard: boolean = true
+    ) {
         const dataToDiscard = await this.performGET(keyValues, true, tenantId, odataRequest);
         for (const data of dataToDiscard) {
             const keys = this.getKeys(data);
             await super.performDELETE(keys, tenantId, odataRequest);
-            for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
-                if (
-                    (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
-                        ?.DraftNode &&
-                    navPropName !== 'SiblingEntity'
-                ) {
-                    // For all the draft node data duplicate them
-                    const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(
-                        navPropName,
-                        data,
-                        tenantId
-                    );
-                    if (navPropEntity?.draftDiscard) {
-                        await navPropEntity.draftDiscard(subKeys, tenantId, odataRequest);
+            if (cascadeDiscard) {
+                for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
+                    if (
+                        (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
+                            ?.DraftNode &&
+                        navPropName !== 'SiblingEntity'
+                    ) {
+                        // For all the draft node data duplicate them
+                        const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(
+                            navPropName,
+                            data,
+                            tenantId
+                        );
+                        if (navPropEntity?.draftDiscard) {
+                            await navPropEntity.draftDiscard(subKeys, tenantId, odataRequest);
+                        }
                     }
                 }
             }
+
             const deleteKeyValues = Object.assign({}, keys);
             deleteKeyValues.IsActiveEntity = true;
             const newActiveData = (await this.performGET(
