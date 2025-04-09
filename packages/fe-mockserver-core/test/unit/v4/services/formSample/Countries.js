@@ -10,7 +10,7 @@ module.exports = {
         return results;
     },
     async onAfterRead(data, odataRequest) {
-        if (odataRequest.allParams.get('$yolo')) {
+        if (odataRequest.allParams.get('$yolo') === 'true') {
             return [
                 {
                     Country_Code: 'IN',

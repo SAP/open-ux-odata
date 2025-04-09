@@ -842,7 +842,8 @@ export class DataAccess implements DataAccessInterface {
                     );
                 })
             );
-
+            let dataLength = Array.isArray(data) ? data.length : 1;
+            odataRequest.setDataCount(dataLength);
             // Apply $skip / $top
             if (Array.isArray(data) && odataRequest.startIndex !== undefined && odataRequest.maxElements) {
                 data = data.slice(odataRequest.startIndex, odataRequest.startIndex + odataRequest.maxElements);
@@ -923,9 +924,12 @@ export class DataAccess implements DataAccessInterface {
             }
 
             // OnAfterRead hook
+            const currentDataCount = Array.isArray(data) ? data.length : 1;
             data = await mockEntitySet.getMockData(odataRequest.tenantId).onAfterRead(data, odataRequest);
-            const dataLength = Array.isArray(data) ? data.length : 1;
-            odataRequest.setDataCount(dataLength);
+            if (Array.isArray(data) && data.length !== dataLength && currentDataCount !== data.length) {
+                dataLength = Array.isArray(data) ? data.length : 1;
+                odataRequest.setDataCount(dataLength);
+            }
             if (isCount) {
                 data = dataLength;
             }
