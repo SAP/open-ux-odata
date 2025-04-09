@@ -66,7 +66,7 @@ export type MockDataContributor<T extends object> = {
         responseData: any,
         odataRequest: ODataRequest
     ): Promise<any>;
-    onAfterRead?(data: T, odataRequest: ODataRequest): Promise<T>;
+    onAfterRead?(data: T[], odataRequest: ODataRequest): Promise<T[]>;
     onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
     onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
     hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
@@ -270,7 +270,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
         }
     }
 
-    async onAfterRead(data: object, odataRequest: ODataRequest): Promise<object> {
+    async onAfterRead(data: object[], odataRequest: ODataRequest): Promise<object[]> {
         if (this._mockDataFn?.onAfterRead) {
             return this._mockDataFn.onAfterRead(data, odataRequest);
         } else {

@@ -693,7 +693,7 @@ export class FileBasedMockData {
         // DO Nothing
     }
 
-    async onAfterRead(data: object, _odataRequest: ODataRequest): Promise<object> {
+    async onAfterRead(data: object[], _odataRequest: ODataRequest): Promise<object[]> {
         return data;
     }
     //eslint-disable-next-line
