@@ -1,5 +1,24 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.21
+
+### Patch Changes
+
+-   dd40fed: We now properly deal with draft in case of complex cross navigation
+
+## 1.4.20
+
+### Patch Changes
+
+-   5f67cc2: We fixed an issue while searching for OR / AND
+
+## 1.4.19
+
+### Patch Changes
+
+-   Updated dependencies [52a22e6]
+    -   @sap-ux/annotation-converter@0.10.3
+
 ## 1.4.18
 
 ### Patch Changes

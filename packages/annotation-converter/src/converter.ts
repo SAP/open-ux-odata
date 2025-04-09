@@ -573,7 +573,8 @@ function parseValue(
         case 'Path': {
             if (isAnnotationPath(propertyValue.Path)) {
                 // inline the target
-                return resolveTarget(converter, currentTarget, propertyValue.Path, currentTerm).target;
+                return resolveTarget(converter, currentTarget, converter.unalias(propertyValue.Path), currentTerm)
+                    .target;
             } else {
                 return mapPath(converter, propertyValue, valueFQN, currentTarget, currentTerm);
             }

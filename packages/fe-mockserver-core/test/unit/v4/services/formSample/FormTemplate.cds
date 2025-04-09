@@ -12,8 +12,10 @@ entity FormRoot {
         LastName     : String  @Common.Label :                                'Last Name';
         DateOfBirth  : Date    @Common.Label :                                'Date of Birth';
         EmailAddress : String  @Communication.IsEmailAddress  @Common.Label : 'Email Address';
-        _Elements    :Association to many SubElements
+        _Elements    :Composition of many SubElements
                                   on _Elements.owner = $self;
+        _OtherChild  : Composition of many OtherElements
+                                    on _OtherChild.owner = $self;
         SpecialOne: Composition of one SubElements;
         Currency     : Currency;
         Country      : String  @(Common : {
@@ -36,12 +38,24 @@ entity FormRoot {
         });
 };
 
+entity OtherElements           @(cds.autoexpose) {
+    key ID       : Integer   @Core.Computed;
+        Name     : String(20)@(Common : {Label : 'Name'});
+        owner_ID : Integer;
+        sibling_ID : Integer;
+        SpecialOne: Composition of one SubElements;
+        subElementsibling : Association to SubElements on subElementsibling.owner_ID = owner_ID;
+        owner    : Association to FormRoot
+                       on owner.ID = owner_ID;
+}
+
 entity SubElements           @(cds.autoexpose) {
     key ID       : Integer   @Core.Computed;
         Name     : String(20)@(Common : {Label : 'Name'});
         owner_ID : Integer;
         sibling_ID : Integer;
         sibling : Association to SubElements on sibling.ID = sibling_ID;
+        otherElementSiblings : Association to OtherElements on otherElementSiblings.owner_ID = owner_ID;
         owner    : Association to FormRoot
                        on owner.ID = owner_ID;
 }

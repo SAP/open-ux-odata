@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/SAP__UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="example" Alias="ns">
+            <EntityType Name="CoffeeType">
+                <Key>
+                    <PropertyRef Name="CoffeeID"/>
+                    <PropertyRef Name="BeansID"/>
+                </Key>
+                <Property Name="CoffeeID" Type="Edm.String" Nullable="false" MaxLength="8"/>
+                <Property Name="BeansID" Type="Edm.String" Nullable="false" MaxLength="8"/>
+                <NavigationProperty Name="_Beans" Type="example.BeansType" Nullable="false">
+                    <ReferentialConstraint Property="BeansID" ReferencedProperty="BeansID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="BeansType">
+                <Key>
+                    <PropertyRef Name="BeansID"/>
+                </Key>
+                <Property Name="BeansID" Type="Edm.String" Nullable="false" MaxLength="8"/>
+                <NavigationProperty Name="_Coffee" Type="Collection(example.CoffeeType)" />
+            </EntityType>
+            <EntityContainer Name="Container">
+                <EntitySet Name="Coffee" EntityType="example.CoffeeType">
+                    <NavigationPropertyBinding Path="_Beans" Target="Beans"/>
+                </EntitySet>
+                <EntitySet Name="Beans" EntityType="example.BeansType">
+                    <NavigationPropertyBinding Path="_Coffee" Target="Coffee"/>
+                </EntitySet>
+            </EntityContainer>
+            <Annotations Target="ns.CoffeeType">
+                <Annotation Term="SAP__UI.LineItem" Qualifier="CoffeeTableItem">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="CoffeeID"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.PresentationVariant" Qualifier="coffeeTableView">
+                    <Record>
+                        <PropertyValue Property="Text" String="Coffee PV"/>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="com.sap.vocabularies.Common.v1.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="CoffeeID"/>
+                                    <PropertyValue Property="Descending" Bool="true"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@SAP__UI.LineItem#CoffeeTableItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>CoffeeID</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.SelectionVariant" Qualifier="Beans">
+                    <Record>
+                        <PropertyValue Property="Text" String="Beans"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__UI.SelectionPresentationVariant" Qualifier="coffeeSPVList">
+                    <Record>
+                        <PropertyValue Property="Text" String="Coffee SPV"/>
+                        <PropertyValue Property="SelectionVariant" Path="@SAP__UI.SelectionVariant#Beans"/>
+                        <PropertyValue Property="PresentationVariant" Path="@SAP__UI.PresentationVariant#coffeeTableView"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ns.BeansType">
+                <Annotation Term="SAP__UI.Facets">
+                    <Collection>
+                        <Record Type="SAP__UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Coffee"/>
+                            <PropertyValue Property="ID" String="coffeeSPVFacetID"/>
+                            <PropertyValue Property="Target" AnnotationPath="_Coffee/@SAP__UI.SelectionPresentationVariant#coffeeSPVList"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

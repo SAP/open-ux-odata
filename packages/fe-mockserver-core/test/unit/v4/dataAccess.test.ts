@@ -856,6 +856,140 @@ describe('Data Access', () => {
         expect(formData[0].FirstName).toEqual('Mark');
         expect(formData[0]._Elements.length).toEqual(1);
     });
+
+    test('v4 cross draft scenarios', async () => {
+        // Create Empty Element
+        const formElement = await dataAccess.createData(
+            new ODataRequest({ method: 'GET', url: '/FormRoot', tenantId: 'other' }, dataAccess),
+            {
+                ID: 2,
+                FirstName: 'Bob'
+            }
+        );
+        expect(formElement).toBeDefined;
+        expect(formElement.IsActiveEntity).toEqual(false);
+        expect(formElement.HasActiveEntity).toEqual(false);
+        expect(formElement.HasDraftEntity).toEqual(false);
+
+        expect(formElement.ID).toEqual(2);
+        let subElement = await dataAccess.createData(
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=2,IsActiveEntity=false)/_Elements', tenantId: 'other' },
+                dataAccess
+            ),
+            {
+                Name: 'Child'
+            }
+        );
+        expect(subElement).toBeDefined;
+        const otherElement = await dataAccess.createData(
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=2,IsActiveEntity=false)/_OtherChild', tenantId: 'other' },
+                dataAccess
+            ),
+            {
+                Name: 'OtherChild'
+            }
+        );
+        subElement = await dataAccess.createData(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot(ID=2,IsActiveEntity=false)/_OtherChild(ID=1,IsActiveEntity=false)/SpecialOne',
+                    tenantId: 'other'
+                },
+                dataAccess
+            ),
+            {
+                Name: 'My Favorite'
+            }
+        );
+        // Activate it
+        let actionResult = await dataAccess.performAction(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot(ID=2,IsActiveEntity=false)/sap.fe.core.Form.draftActivate',
+                    tenantId: 'other'
+                },
+                dataAccess
+            )
+        );
+        expect(actionResult).toBeDefined;
+        expect(actionResult.DraftAdministrativeData).toBeNull();
+        let formData = await dataAccess.getData(
+            new ODataRequest({ method: 'GET', url: '/FormRoot', tenantId: 'other' }, dataAccess)
+        );
+        expect(formData.length).toEqual(1);
+
+        formData = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot?$expand=_Elements,_OtherChild', tenantId: 'other' },
+                dataAccess
+            )
+        );
+        expect(formData.length).toEqual(1);
+        expect(formData[0]._Elements.length).toEqual(1);
+        expect(formData[0]._OtherChild.length).toEqual(1);
+        actionResult = await dataAccess.performAction(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot(ID=2,IsActiveEntity=true)/sap.fe.core.Form.draftEdit',
+                    tenantId: 'other'
+                },
+                dataAccess
+            )
+        );
+        subElement = await dataAccess.updateData(
+            new ODataRequest(
+                { method: 'PATCH', url: '/SubElements(ID=1,IsActiveEntity=false)', tenantId: 'other' },
+                dataAccess
+            ),
+            {
+                Name: 'Child2'
+            }
+        );
+        subElement = await dataAccess.updateData(
+            new ODataRequest(
+                { method: 'PATCH', url: '/OtherElements(ID=1,IsActiveEntity=false)', tenantId: 'other' },
+                dataAccess
+            ),
+            {
+                Name: 'OtherChild2'
+            }
+        );
+        subElement = await dataAccess.updateData(
+            new ODataRequest(
+                { method: 'PATCH', url: '/OtherElements(ID=1,IsActiveEntity=false)/SpecialOne', tenantId: 'other' },
+                dataAccess
+            ),
+            {
+                Name: 'Not My Favorite anymore'
+            }
+        );
+
+        actionResult = await dataAccess.performAction(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot(ID=2,IsActiveEntity=false)/sap.fe.core.Form.draftActivate',
+                    tenantId: 'other'
+                },
+                dataAccess
+            )
+        );
+        formData = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot?$expand=_Elements,_OtherChild', tenantId: 'other' },
+                dataAccess
+            )
+        );
+        expect(formData.length).toEqual(1);
+        expect(formData[0]._Elements.length).toEqual(1);
+        expect(formData[0]._OtherChild.length).toEqual(1);
+    });
+
     test('v4metadata - generator', async () => {
         let part3Data = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/Part3' }, dataAccess));
         expect(part3Data.length).toEqual(150);
