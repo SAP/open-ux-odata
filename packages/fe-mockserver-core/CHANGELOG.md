@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.22
+
+### Patch Changes
+
+-   2ab221f: Ensure that data changed through onAfterRead is properly maintained
+
 ## 1.4.21
 
 ### Patch Changes
