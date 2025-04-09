@@ -263,6 +263,18 @@ describe('Data Access', () => {
         expect(countryData.length).toEqual(1);
         expect(countryData[0].Name).toEqual('Latvia');
     });
+    test('v4metadata - it can GET data with an afterRead', async () => {
+        const query = new ODataRequest(
+            { method: 'GET', url: '/Countries?$filter=length(Name) eq 5&$yolo=true' },
+            dataAccess
+        );
+        const countryData = await dataAccess.getData(query);
+        expect(countryData.length).toEqual(3);
+        expect(countryData[0].Name).toEqual('India');
+        expect(countryData[1].Name).toEqual('U S A');
+        expect(countryData[2].Name).toEqual('France');
+        expect(query.dataCount).toBe(3);
+    });
     test('v4metadata - it can GET data for an entity with complex filter function with comparison', async () => {
         let countryData;
         countryData = await dataAccess.getData(

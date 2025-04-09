@@ -9,6 +9,40 @@ module.exports = {
         });
         return results;
     },
+    async onAfterRead(data, odataRequest) {
+        if (odataRequest.allParams.get('$yolo')) {
+            return [
+                {
+                    Country_Code: 'IN',
+                    Name: 'India',
+                    PeopleCount: 70000000,
+                    SpokenLanguages: ['Indian Dialects', 'English'],
+                    MainLanguage: 'Indian Dialects',
+                    IsHot: true,
+                    SuperHeroCount: 70
+                },
+                {
+                    Country_Code: 'US',
+                    Name: 'U S A',
+                    PeopleCount: 70,
+                    SpokenLanguages: ['English'],
+                    MainLanguage: 'English',
+                    IsHot: false,
+                    SuperHeroCount: 7
+                },
+                {
+                    Country_Code: 'FR',
+                    Name: 'France',
+                    PeopleCount: 1,
+                    SpokenLanguages: ['French'],
+                    MainLanguage: 'French',
+                    IsHot: false,
+                    SuperHeroCount: 0
+                }
+            ];
+        }
+        return data;
+    },
     async getAllEntries() {
         const results = await this.base.getAllEntries();
         results.forEach((result) => {

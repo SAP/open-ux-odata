@@ -82,7 +82,7 @@ async onAfterAction(actionDefinition, actionData, keys, responseData, odataReque
 
 Provides hooks after an entity is read, this is mostly used to provide additional handling on top of the standard mechanism in order to modify the returned data.
 
-- `onAfterRead(data: object, odataRequest:ODataRequest): Promise<object>;`
+- `onAfterRead(data: object[], odataRequest:ODataRequest): Promise<object[]>;`
 
 ### onBeforeUpdateEntry / onAfterUpdateEntry
 
