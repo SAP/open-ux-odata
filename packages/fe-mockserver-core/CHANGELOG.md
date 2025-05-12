@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.23
+
+### Patch Changes
+
+-   20a47be: Fix types
+
 ## 1.4.22
 
 ### Patch Changes
