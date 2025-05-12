@@ -14,7 +14,7 @@ export type MockDataContributor<T extends object> = {
     hasEntry?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
     hasEntries?: (odataRequest: ODataRequest) => boolean;
     fetchEntries?: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => T[];
-    getAllEntries?: (odataRequest: ODataRequest) => T[];
+    getAllEntries?: (odataRequest: ODataRequest) => Promise<T[]>;
     getEmptyObject?: (odataRequest: ODataRequest) => T;
     getDefaultElement?: (odataRequest: ODataRequest) => T;
 
