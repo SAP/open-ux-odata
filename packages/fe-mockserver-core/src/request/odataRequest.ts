@@ -659,7 +659,7 @@ export default class ODataRequest {
                     true
                 );
 
-                if (expression.identifier.expression) {
+                if (expression.identifier.expression && expression.identifier.expression.expressions) {
                     for (const subExpression of expression.identifier.expression.expressions) {
                         expand(subExpression, target, expression.identifier.key);
                     }

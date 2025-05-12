@@ -363,11 +363,11 @@ export class MockDataEntitySet implements EntitySetInterface {
         let isValid = true;
         if (filterExpression.hasOwnProperty('expressions')) {
             if (filterExpression.operator === 'AND') {
-                isValid = filterExpression.expressions.every((filterValue) => {
+                isValid = filterExpression.expressions!.every((filterValue) => {
                     return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             } else {
-                isValid = filterExpression.expressions.some((filterValue) => {
+                isValid = filterExpression.expressions!.some((filterValue) => {
                     return this.checkFilter(mockData, filterValue, tenantId, odataRequest);
                 });
             }

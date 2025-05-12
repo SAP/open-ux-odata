@@ -64,7 +64,7 @@ export type LambdaExpression = {
     propertyPath?: string;
 };
 export type FilterExpression = {
-    expressions: FilterExpression[];
+    expressions?: FilterExpression[];
     operator?: string;
     isGroup?: boolean;
     isReversed?: boolean;
@@ -401,7 +401,7 @@ export class FilterParser extends EmbeddedActionsParser {
                     } else {
                         expressions = [subExpr].concat([subsubExpr]);
                     }
-                } else if (currentOperator === 'AND' && !subsubExpr.isGroup) {
+                } else if (currentOperator === 'AND' && !subsubExpr.isGroup && subsubExpr.expressions) {
                     //AND has priority
                     expressions = [subExpr].concat(subsubExpr.expressions.shift());
                     const subObject: FilterExpression = {
