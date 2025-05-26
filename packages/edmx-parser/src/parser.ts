@@ -1212,7 +1212,7 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
                 )
             );
             // major version 4
-        } else if (edmVersion?.startsWith('4.')) {
+        } else if (edmVersion.startsWith('4.')) {
             // FunctionImports
             actionImports = actionImports.concat(
                 parseActionImports(
