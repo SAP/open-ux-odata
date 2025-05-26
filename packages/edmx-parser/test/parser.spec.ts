@@ -125,6 +125,23 @@ describe('Parser', function () {
         `);
     });
 
+    it('creates the correct fully-qualified names for functions and actions - odata version 4.01', async () => {
+        const xmlFile = await loadFixture('v4/action-parameters_4.01.xml');
+        const schema = parse(xmlFile);
+
+        const fqns = schema.schema.actions.map((action) => action.fullyQualifiedName);
+        expect(fqns).toMatchInlineSnapshot(`
+            [
+              "TestService.action(TestService.Entity1)",
+              "TestService.action(TestService.Entity2)",
+              "TestService.action()",
+              "TestService.function(TestService.Entity1,Edm.String,Edm.String)",
+              "TestService.function(TestService.Entity2,Edm.String,Edm.String)",
+              "TestService.function(Edm.String,Edm.String)",
+            ]
+        `);
+    });
+
     it('can parse an EDMX file with if / eq / ...', async () => {
         const xmlFile = await loadFixture('v4/edmJson.metadata.xml');
         const schema: RawMetadata = parse(xmlFile);

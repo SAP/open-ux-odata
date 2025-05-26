@@ -1160,7 +1160,7 @@ describe('Annotation Converter', () => {
         const convertedTypes = convert({
             identification: '',
             references: [{ alias: 'MyAlias', namespace: 'MyNamespace', uri: 'MyUri' }],
-            version: '4.0',
+            version: '4.1',
             schema: {
                 namespace: '',
                 actions: [],
