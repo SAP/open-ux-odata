@@ -1211,7 +1211,8 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
                     entityContainer.fullyQualifiedName
                 )
             );
-        } else if (edmVersion === '4.0') {
+            // major version 4
+        } else if (edmVersion.startsWith('4.')) {
             // FunctionImports
             actionImports = actionImports.concat(
                 parseActionImports(
@@ -1231,7 +1232,8 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
             throw new Error(`Unsupported EDMX version: ${edmVersion}`);
         }
     }
-    if (edmVersion === '4.0') {
+    // major version 4
+    if (edmVersion.startsWith('4.')) {
         actions = actions.concat(parseActions(ensureArray(edmSchema.Action), namespace, false));
         actions = actions.concat(parseActions(ensureArray(edmSchema.Function), namespace, true));
     }
