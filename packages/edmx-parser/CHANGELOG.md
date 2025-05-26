@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.1
+
+### Patch Changes
+
+-   95bbfae: handle odata v4 minor versions - fix "Unsupported EDMX version:" message
+
 ## 0.9.0
 
 ### Minor Changes
