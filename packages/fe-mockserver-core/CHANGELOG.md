@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.25
+
+### Patch Changes
+
+-   a1d9fce: Slight update of the typescript api
+
 ## 1.4.24
 
 ### Patch Changes
