@@ -14,6 +14,7 @@
       <EntityContainer Name="EntityContainer">
         <EntitySet Name="Entity1" EntityType="TestService.Entity1"/>
         <EntitySet Name="Entity2" EntityType="TestService.Entity2"/>
+        <ActionImport Name="action2" Action="TestService.action2"/>
         <ActionImport Name="action" Action="TestService.action"/>
         <FunctionImport Name="function" Function="TestService.function"/>
       </EntityContainer>
@@ -35,12 +36,19 @@
       <Action Name="action" IsBound="true">
         <Parameter Name="in" Type="TestService.Entity2"/>
       </Action>
+      <Action Name="action2" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity1"/>
+      </Action>
+      <Action Name="action2" IsBound="true">
+        <Parameter Name="in" Type="TestService.Entity2"/>
+      </Action>
       <Action Name="actionFrom1" IsBound="true">
         <Parameter Name="in" Type="TestService.Entity1"/>
       </Action>
       <Action Name="action2" IsBound="true">
         <Parameter Name="in" Type="TestService.Entity2"/>
       </Action>
+      <Action Name="action2" IsBound="false"/>
       <Action Name="action" IsBound="false"/>
       <Function Name="function" IsBound="true" IsComposable="false">
         <Parameter Name="in" Type="TestService.Entity1"/>
@@ -82,11 +90,11 @@
             </Record>
             <Record Type="UI.DataFieldForAction">
               <PropertyValue Property="Label" String="Bound action of the incorrect entity type indirect reference"/>
-              <PropertyValue Property="Action" String="TestService.action2"/>
+              <PropertyValue Property="Action" String="TestService.action3"/>
             </Record>
             <Record Type="UI.DataFieldForAction">
               <PropertyValue Property="Label" String="Bound action of the incorrect entity type (explicit reference)"/>
-              <PropertyValue Property="Action" String="TestService.action2(TestService.Entity2)"/>
+              <PropertyValue Property="Action" String="TestService.action3(TestService.Entity2)"/>
             </Record>
             <Record Type="UI.DataFieldForAction">
               <PropertyValue Property="Label" String="Unbound action with simple name"/>

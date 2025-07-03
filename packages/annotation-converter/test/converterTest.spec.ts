@@ -983,7 +983,7 @@ describe('Annotation Converter', () => {
         expect(dataFields1[3].ActionTarget).toBe(getAction('TestService.function()'));
         expect(dataFields1[4].ActionTarget).toBe(getAction('TestService.action(TestService.Entity1)'));
         expect(dataFields1[5].ActionTarget).toBe(undefined);
-        expect(dataFields1[6].ActionTarget).toBe(getAction('TestService.action2(TestService.Entity2)'));
+        expect(dataFields1[6].ActionTarget).toBe(undefined);
         expect(dataFields1[7].ActionTarget).toBe(getAction('TestService.action()'));
         expect(dataFields1[8].ActionTarget).toBe(getAction('TestService.function()'));
 
