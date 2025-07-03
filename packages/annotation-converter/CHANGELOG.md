@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.4
+
+### Patch Changes
+
+-   e5fad12: We fixed an issue with action name resolution in case of conflicting names
+
 ## 0.10.3
 
 ### Patch Changes
