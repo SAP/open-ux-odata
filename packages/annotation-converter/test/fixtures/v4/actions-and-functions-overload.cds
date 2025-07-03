@@ -3,6 +3,7 @@ service TestService {
         key ID : String;
     } actions {
         action   action();
+        action   action2();
         function function() returns Integer;
     }
 
@@ -10,10 +11,12 @@ service TestService {
         key ID : String;
     } actions {
         action   action();
+        action   action2();
         function function() returns Integer;
     }
 
     action   action();
+    action   action2();
     function function() returns Integer;
 }
 

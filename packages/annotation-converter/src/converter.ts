@@ -1380,7 +1380,8 @@ function convertActionImport(converter: Converter, rawActionImport: RawActionImp
 
     lazy(convertedActionImport, 'action', () => {
         const rawActions = converter.rawSchema.actions.filter(
-            (rawAction) => !rawAction.isBound && rawAction.fullyQualifiedName.startsWith(rawActionImport.actionName)
+            (rawAction) =>
+                !rawAction.isBound && rawAction.fullyQualifiedName.startsWith(rawActionImport.actionName + '(')
         );
 
         // this always resolves to a unique unbound action, but resolution of unbound functions can be ambiguous:
