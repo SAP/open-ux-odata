@@ -1,0 +1,887 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata4/sap/eam_sb_materialserialnumber/srvd/sap/eam_materialserialnumber/0001/$metadata">
+        <edmx:Include Namespace="com.sap.gateway.srvd.eam_materialserialnumber.v0001" Alias="SAP__self" />
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            <Annotations Target="SAP__self.I_MaterialSerialNumberVHType/UniqueItemIdentifier">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/UniqueItemIdentifier">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/UniqueItemIdentifierStrucType">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/UniqueItemIdentifierRespPlant">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/ConcatenatedActiveUserStsName">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <!-- <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/EquipMaterialLastSerialNumber">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/ReadOnly" />
+            </Annotations> -->
+            <Annotations Target="SAP__self.CreateMassMaterialSerialNumber(Collection(SAP__self.C_EquipMaterialSerialNumberTPType))/EquipMaterialLastSerialNumber">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/ReadOnly" />
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/SetSrlzdMaterialItemToInactive">
+                <Annotation Term="com.sap.vocabularies.Common.v1.SideEffects" Qualifier="LastChangeDateTimeChanged">
+                    <Record>
+                        <!-- <PropertyValue Property="SourceProperties">
+                            <Collection>
+                                <PropertyPath>LastChangeDateTime</PropertyPath>
+                            </Collection>
+                        </PropertyValue> -->
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_EquipMatlSrlNmbrChgHistoryTP</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <!-- <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/Material">
+                <Annotation Term="Common.SemanticObject" Qualifier="TechnicalObjectLinks">
+                    <String>MaintenanceObject</String>
+                </Annotation >
+            </Annotations> -->
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/Material">
+                <Annotation Term="Common.SemanticObject" Qualifier="MaterialLinks">
+                    <String>Material</String>
+                </Annotation>
+
+                <Annotation Term="Common.SemanticObjectUnavailableActions" Qualifier="MaterialLinks">
+                    <Collection>
+                        <String>displayInAssetViewer</String>
+                        <String>displayBreakdownAnalysis</String>
+                        <String>displayDamageAnalysis</String>
+                        <String>postprocessDataTransfer</String>
+                        <String>transferDataFromEquipment</String>
+                        <String>transferDataFromFunctionalLoc</String>
+                        <String>analyzeInventoryTurnover</String>
+                        <String>analyzeInventoryKPIsTimeseries</String>
+                        <String>analyzeStockinDateRange</String>
+                        <String>displayDeadStock</String>
+                        <String>displayMaterialDocuments</String>
+                        <String>displayOverdueGRBlockedStock</String>
+                        <String>displayOverdueStockInTransit</String>
+                        <String>displaySerialNumberInfo</String>
+                        <String>displaySerStockInfo</String>
+                        <String>displaySlowOrNonMoving</String>
+                        <String>displayStockForPostingDate</String>
+                        <String>displayStockInTransitInWebGUI</String>
+                        <String>displayStockMultipleMaterials</String>
+                        <String>displayStockOverview</String>
+                        <String>displayStockOverviewInWebGUI</String>
+                        <String>displayWarehouseStockInWebGUI</String>
+                        <String>manageBySubcontractingSupplier</String>
+                        <String>postGoodsIssueInWebGUI</String>
+                        <String>postGoodsMovementInWebGUI</String>
+                        <String>postGoodsReceiptInWebGUI</String>
+                        <String>postTransferPostingInWebGUI</String>
+                        <String>transferStock</String>
+                        <String>transferStockCrossPlant</String>
+                        <String>change</String>
+                        <String>create</String>
+                        <String>displayEquipment</String>
+                        <String>display</String>
+                        <String>displayFactSheet</String>
+                        <String>createMatlSerialNumber</String>
+                        <String>createMultipleMatlSerialNumber</String>
+                        <String>displayComplianceInfo</String>
+                        <String>activatePlannedChanges</String>
+                        <String>maintainCyCIndicator</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="Common.SemanticObjectMapping">
+                    <Collection>
+                        <Record Type="Common.SemanticObjectMappingType">
+                            <PropertyValue Property="LocalProperty" PropertyPath="TechnicalObject" />
+                            <PropertyValue Property="SemanticObjectProperty" String="Equipment" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/EquipmentName">
+                <Annotation Term="UI.Hidden">
+                    <If>
+                        <Eq>
+                            <Path>HasEquipmentData</Path>
+                            <Bool>false</Bool>
+                        </Eq>
+                        <Bool>true</Bool>
+                        <Bool>false</Bool>
+                    </If>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType/TechnicalObject">
+                <Annotation Term="Common.SemanticObjectUnavailableActions">
+                    <Collection>
+                        <String>displayInAssetViewer</String>
+                        <String>changeMatlSerialNumber</String>
+                        <String>createMatlSerialNumber</String>
+                        <String>createMultipleMatlSerialNumber</String>
+                        <String>displayMatlSerialNumberList</String>
+                        <String>displayMatlSerialNumber</String>
+                        <String>displayBreakdownAnalysis</String>
+                        <String>displayDamageAnalysis</String>
+                        <String>postprocessDataTransfer</String>
+                        <String>transferDataFromEquipment</String>
+                        <String>transferDataFromFunctionalLoc</String>
+                        <String>displayFactSheet</String>
+                        <String>createMatlSerialNumber</String>
+                        <String>createMultipleMatlSerialNumber</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="Common.SemanticObjectMapping">
+                    <Collection>
+                        <Record Type="Common.SemanticObjectMappingType">
+                            <PropertyValue Property="LocalProperty" PropertyPath="TechObjIsEquipOrFuncnlLoc" />
+                            <PropertyValue Property="SemanticObjectProperty" String="TechObjIsEquipOrFuncnlLoc" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMaterialSerialNumberTPType">
+                <Annotation Term="SAP__UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>Material</PropertyPath>
+                        <PropertyPath>SerialNumber</PropertyPath>
+                        <PropertyPath>Equipment</PropertyPath>
+                        <PropertyPath>ConcatenatedActiveSystStsName</PropertyPath>
+                        <PropertyPath>InventoryStockType</PropertyPath>
+                        <PropertyPath>EquipmentCategory</PropertyPath>
+                        <PropertyPath>Plant</PropertyPath>
+                        <PropertyPath>MaterialSerialNumberStockBatch</PropertyPath>
+                        <PropertyPath>StorageLocation</PropertyPath>
+                        <PropertyPath>Customer</PropertyPath>
+                        <PropertyPath>HasEquipmentData</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataFieldForIntentBasedNavigation">
+                            <PropertyValue Property="Label" String="{@i18n>serialNumberHistory}" />
+                            <PropertyValue Property="SemanticObject" String="Material" />
+                            <PropertyValue Property="Action" String="displaySerHistoryInfo" />
+                            <PropertyValue Property="RequiresContext" Bool="false" />
+                            <PropertyValue Property="NavigationAvailable" Bool="true" />
+                            <Annotation Term="UI.Hidden">
+                                <If>
+                                    <Or>
+                                        <And>
+                                            <Eq>
+                                                <Path>HasActiveEntity</Path>
+                                                <Bool>false</Bool>
+                                            </Eq>
+                                            <Eq>
+                                                <Path>IsActiveEntity</Path>
+                                                <Bool>true</Bool>
+                                            </Eq>
+                                        </And>
+                                        <And>
+                                            <Eq>
+                                                <Path>HasActiveEntity</Path>
+                                                <Bool>true</Bool>
+                                            </Eq>
+                                            <Eq>
+                                                <Path>IsActiveEntity</Path>
+                                                <Bool>false</Bool>
+                                            </Eq>
+                                        </And>
+                                    </Or>
+                                    <Bool>false</Bool>
+                                    <Bool>true</Bool>
+                                </If>
+                            </Annotation>
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="{@i18n>activateEquipmentView}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.ActvtSrlzdMatlItmEquipmentData(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="{@i18n>changeEquipmentCategory}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeEquipmentCategory(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="{@i18n>changePlant}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeMaintenancePlant(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <Annotation Term="UI.Hidden">
+                                <If>
+                                    <Eq>
+                                        <Path>IsCloudSystem</Path>
+                                        <Bool>true</Bool>
+                                    </Eq>
+                                    <Bool>true</Bool>
+                                    <Bool>false</Bool>
+                                </If>
+                            </Annotation>
+                            <PropertyValue Property="Label" String="{@i18n>changeUII}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeUniqueItemIdentifier(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="{@i18n>setMaterialItemInactive}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.SetSrlzdMaterialItemToInactive(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="{@i18n>resetMaterialItemInactive}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.RsetSrlzdMatlItemFromInactive(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="{@i18n>setMaterialItemDeletion}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.SetSrlzdMaterialItemToDeletion(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="{@i18n>resetMaterialItemDeletion}" />
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.ResetSrlzdMatlItmFrmDeletion(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)" />
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.ConnectedFields" Qualifier="SalesOrder">
+                    <Record>
+                        <PropertyValue Property="Data">
+                            <Record>
+                                <PropertyValue Property="SalesOrder">
+                                    <Record Type="UI.DataField">
+                                        <PropertyValue Property="Value" Path="SalesOrder" />
+                                    </Record>
+                                </PropertyValue>
+                                <PropertyValue Property="SalesOrderItem">
+                                    <Record Type="UI.DataField">
+                                        <PropertyValue Property="Value" Path="SalesOrderItem" />
+                                    </Record>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Label" String="{@i18n>salesOrder} / {@i18n>salesOrderItem}" />
+                        <PropertyValue Property="Template" String="{SalesOrder} / {SalesOrderItem}" />
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.HeaderFacets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="ID" String="General" />
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#HeaderFacetMain" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="HeaderFacetMain">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="EquipmentCategory" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="SerialNumber" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="UniqueItemIdentifierRespPlant" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="UniqueItemIdentifier" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="UniqueItemIdentifierStrucType" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="ConcatenatedActiveSystStsName" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.CollectionFacet">
+                            <PropertyValue Property="Label" String="{@i18n>serialNumberData}" />
+                            <PropertyValue Property="ID" String="SerialNumberData" />
+                            <PropertyValue Property="Facets">
+                                <Collection>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Label" String="{@i18n>general}" />
+                                        <PropertyValue Property="ID" String="General" />
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#General" />
+                                    </Record>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Label" String="{@i18n>stockInformation}" />
+                                        <PropertyValue Property="ID" String="StockInformation" />
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#StockInformation" />
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="SAP__UI.CollectionFacet">
+                            <PropertyValue Property="Label" String="{@i18n>PartnersTable}" />
+                            <PropertyValue Property="ID" String="Partners" />
+                            <PropertyValue Property="Facets">-->
+                                <Collection>
+                                    <Record Type="SAP__UI.ReferenceFacet">
+                                        <!-- <PropertyValue Property="Label" String="{i18n>PartnersTable}" /> -->
+                                        <PropertyValue Property="ID" String="PartnersTable" />
+                                        <PropertyValue Property="Target" AnnotationPath="_Partner/@SAP__UI.LineItem#Partners" />
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.CollectionFacet">
+                            <PropertyValue Property="Label" String="{@i18n>WarrantySection}" />
+                            <PropertyValue Property="ID" String="WarrantySection" />
+                            <PropertyValue Property="Facets">
+                                <Collection>
+                                    <Record Type="SAP__UI.ReferenceFacet">
+                                        <!-- <PropertyValue Property="Label" String="{i18n>WarrantyTable}" /> -->
+                                        <PropertyValue Property="ID" String="WarrantyTable" />
+                                        <PropertyValue Property="Target" AnnotationPath="_Warranty/@SAP__UI.LineItem#WarrantyTable" />
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="SAP__UI.CollectionFacet">
+                            <PropertyValue Property="Label" String="{@i18n>history}" />
+                            <PropertyValue Property="ID" String="History" />
+                            <PropertyValue Property="Facets">
+                                <Collection>
+                                    <Record Type="SAP__UI.ReferenceFacet">
+                                        <!-- <PropertyValue Property="Label" String="{@i18n>history}" /> -->
+                                        <PropertyValue Property="ID" String="History1" />
+                                        <PropertyValue Property="Target" AnnotationPath="_EquipMatlSrlNmbrChgHistory/@SAP__UI.LineItem#History" />
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+
+                <Annotation Term="UI.FieldGroup" Qualifier="General">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="TechnicalObject" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="EquipMaterialLastSerialNumber" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="EquipmentName" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="StockInformation">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="InventoryStockType" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Plant" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="CompanyCode" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="StorageLocation" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="MatlSrlNmbrLastGdsMvtDte" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="MaterialSerialNumberStockBatch" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="InventorySpecialStockType" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="MatlSrlNmbrMasterBatch" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Customer" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="Supplier" />
+                                </Record>
+                                <Record Type="UI.DataFieldForAnnotation">
+                                    <PropertyValue Property="Target" AnnotationPath="@UI.ConnectedFields#SalesOrder" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="WBSElement" />
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="StockOwner" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <!-- <Annotations Target="SAP__self.CreateMassMaterialSerialNumber">
+                <Annotation Term="Common.DefaultValuesFunction" String="com.sap.gateway.srvd.eam_materialserialnumber.v0001.GetRefSerializedMaterialItem" />
+            </Annotations> -->
+            <Annotations Target="SAP__self.CrteWthRefFrmSrlzdMaterialItem/Material">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory" />
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionPath" String="I_MaterialSerialNumberVH" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Material" />
+                                    <PropertyValue Property="ValueListProperty" String="Material" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment_Text" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="SerialNumber" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="UniqueItemIdentifier" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.I_StorageLocationStdVH/StorageLocation">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionPath" String="C_EquipMaterialSerialNumberTPType" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterIn">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="StorageLocation" />
+                                    <PropertyValue Property="ValueListProperty" String="StorageLocation" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Plant" />
+                                    <PropertyValue Property="ValueListProperty" String="Plant" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="StorageLocation" />
+                                    <PropertyValue Property="ValueListProperty" String="StorageLocation" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Plant" />
+                                    <PropertyValue Property="ValueListProperty" String="Plant" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="StorageLocation" />
+                                    <PropertyValue Property="ValueListProperty" String="StorageLocation" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.CrteWthRefFrmSrlzdMaterialItem/SrlzdMatlItmReferenceMaterial">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionPath" String="I_MaterialSerialNumberVH" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="SrlzdMatlItmReferenceMaterial" />
+                                    <PropertyValue Property="ValueListProperty" String="Material" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="SerialNumber" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment_Text" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.CrteWthRefFrmSrlzdMaterialItem/EquipmentCategory">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionPath" String="I_EquipmentCategoryStdVH" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="EquipmentCategory" />
+                                    <PropertyValue Property="ValueListProperty" String="EquipmentCategory" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.CrteWthRefFrmSrlzdMaterialItem/SerialNumber">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory" />
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionPath" String="I_MaterialSerialNumberVH" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="SerialNumber" />
+                                    <PropertyValue Property="ValueListProperty" String="SerialNumber" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterIn">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Material" />
+                                    <PropertyValue Property="ValueListProperty" String="Material" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment_Text" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.CrteWthRefFrmSrlzdMaterialItem/SrlzdMatlItmRefSerialNumber">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionPath" String="I_MaterialSerialNumberVH" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="SrlzdMatlItmRefSerialNumber" />
+                                    <PropertyValue Property="ValueListProperty" String="SerialNumber" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterIn">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="SrlzdMatlItmReferenceMaterial" />
+                                    <PropertyValue Property="ValueListProperty" String="Material" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment_Text" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ChgSrlzdMatlItemSerialNumber/SerialNumber">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory" />
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionPath" String="I_MaterialSerialNumberVH" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="SerialNumber" />
+                                    <PropertyValue Property="ValueListProperty" String="SerialNumber" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Material" />
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Equipment_Text" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.CrteWthRefFrmSrlzdMaterialItem/UniqueItemIdentifierRespPlant">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.CreateMassMaterialSerialNumber/UniqueItemIdentifierRespPlant">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.CreateMassMaterialSerialNumber/Material">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory" />
+            </Annotations>
+            <Annotations Target="SAP__self.CreateMassMaterialSerialNumber/EquipmentCategory">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory" />
+            </Annotations>
+            <Annotations Target="SAP__self.CreateMassMaterialSerialNumber/EquipMaterialLastSerialNumber">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/ReadOnly" />
+            </Annotations>
+            <Annotations Target="SAP__self.ChangeMaintenancePlant/MaintenancePlant">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory" />
+            </Annotations>
+            <!-- <Annotations Target="SAP__self.CreateMassMaterialSerialNumber/_SerialList">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations> -->
+            <Annotations Target="SAP__self.CreateMassMaterialSerialNumber(Collection(SAP__self.C_EquipMaterialSerialNumberTPType))/_SerialList">
+                <Annotation Term="UI.Hidden" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.ActvtSrlzdMatlItmEquipmentData">
+                <Annotation Term="com.sap.vocabularies.Common.v1.IsActionCritical" Bool="true" />
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMatlSrlNmbrPrtnTPType">
+                <Annotation Term="SAP__UI.LineItem" Qualifier="Partners">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="PartnerFunctionForEdit" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="EquipmentPartner" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="PersonFullName" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="SearchTerm1" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="CityName" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="PostalCode" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="FaxAreaCodeSubscriberNumber" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="PhoneNumber" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant">
+                    <Record>
+                        <PropertyValue Property="MaxItems" Int="2" />
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="CreationDateTime" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMatlSrlNmbrWarrantyTPType">
+                <Annotation Term="SAP__UI.LineItem" Qualifier="WarrantyTable">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="WarrantyType" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="WarrantyCategory" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="MasterWarranty" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="WarrantyStartDate" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="WarrantyEndDate" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="WrntyIsInhtdFromSuperiorObject" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="WrntyIsPassedOnToChildObject" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant">
+                    <Record>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.C_EquipMatlSrlNmbrChgHistoryTPType">
+                <Annotation Term="SAP__UI.LineItem" Qualifier="History">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="ChangeDocDatabaseTableField" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="ChangeDocItemChangeType" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="ChangeDocNewFieldValue" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="ChangeDocPreviousFieldValue" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="CreatedByUser" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="CreationDateTime" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="TechObjChgDocNewFldValueText" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="TechObjChgDocOldFldValueText" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="MaterialName" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="MaintObjectChangeTypeCodeText" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="MaintObjectChangeTypeCode" />
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="UserDescription" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant">
+                    <Record>
+                        <PropertyValue Property="MaxItems" Int="2" />
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="CreationDateTime" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ChangeMaterial(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ChgSrlzdMatlItemSerialNumber(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ChangeEquipmentCategory(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ChangeMaintenancePlant(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ActvtSrlzdMatlItmEquipmentData(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.SetSrlzdMaterialItemToInactive(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.RsetSrlzdMatlItemFromInactive(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.SetSrlzdMaterialItemToDeletion(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ResetSrlzdMatlItmFrmDeletion(SAP__self.C_EquipMaterialSerialNumberTPType)">
+                <Annotation Term="Common.SideEffects">
+                    <Record Type="Common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath>_it/_EquipMatlSrlNmbrChgHistory</NavigationPropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -919,7 +919,7 @@ function parseExpression(
     simplifyPrimitive: boolean
 ): Expression | PrimitiveType {
     const expressionKeys = Object.keys(expression);
-    if (expressionKeys.length > 1) {
+    if (expressionKeys.filter((value) => value !== '_text').length > 1) {
         throw new Error(`Too many expressions defined on a single object ${JSON.stringify(expression)}`);
     }
     const expressionKey = expressionKeys[0];

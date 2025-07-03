@@ -147,4 +147,10 @@ describe('Parser', function () {
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
+
+    it('can parse an EDMX with comments inside', async () => {
+        const xmlFile = await loadFixture('inlineError.metadata.xml');
+        const schema: RawMetadata = parse(xmlFile);
+        expect(schema).toMatchSnapshot();
+    });
 });

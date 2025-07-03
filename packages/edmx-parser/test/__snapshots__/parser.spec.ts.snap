@@ -46066,6 +46066,2943 @@ RawMetadataInstance {
 }
 `;
 
+exports[`Parser can parse an EDMX with comments inside 1`] = `
+RawMetadataInstance {
+  "identification": "serviceFile",
+  "references": [
+    {
+      "alias": "Common",
+      "namespace": "com.sap.vocabularies.Common.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/Common.xml",
+    },
+    {
+      "alias": "UI",
+      "namespace": "com.sap.vocabularies.UI.v1",
+      "uri": "https://sap.github.io/odata-vocabularies/vocabularies/UI.xml",
+    },
+    {
+      "alias": "SAP__self",
+      "namespace": "com.sap.gateway.srvd.eam_materialserialnumber.v0001",
+      "uri": "/sap/opu/odata4/sap/eam_sb_materialserialnumber/srvd/sap/eam_materialserialnumber/0001/$metadata",
+    },
+    {
+      "alias": "SAP__UI",
+      "namespace": "com.sap.vocabularies.UI.v1",
+      "uri": "/sap/opu/odata4/sap/eam_sb_materialserialnumber/srvd/sap/eam_materialserialnumber/0001/$metadata",
+    },
+  ],
+  "schema": {
+    "actionImports": [],
+    "actions": [],
+    "annotations": {
+      "serviceFile": [
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.I_MaterialSerialNumberVHType/UniqueItemIdentifier",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/UniqueItemIdentifier",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/UniqueItemIdentifierStrucType",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/UniqueItemIdentifierRespPlant",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/ConcatenatedActiveUserStsName",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/ReadOnly",
+                "type": "EnumMember",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))/EquipMaterialLastSerialNumber",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": "LastChangeDateTimeChanged",
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_EquipMatlSrlNmbrChgHistoryTP",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/SetSrlzdMaterialItemToInactive",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": "MaterialLinks",
+              "term": "com.sap.vocabularies.Common.v1.SemanticObject",
+              "value": {
+                "String": "Material",
+                "type": "String",
+              },
+            },
+            {
+              "collection": [
+                {
+                  "String": "displayInAssetViewer",
+                  "type": "String",
+                },
+                {
+                  "String": "displayBreakdownAnalysis",
+                  "type": "String",
+                },
+                {
+                  "String": "displayDamageAnalysis",
+                  "type": "String",
+                },
+                {
+                  "String": "postprocessDataTransfer",
+                  "type": "String",
+                },
+                {
+                  "String": "transferDataFromEquipment",
+                  "type": "String",
+                },
+                {
+                  "String": "transferDataFromFunctionalLoc",
+                  "type": "String",
+                },
+                {
+                  "String": "analyzeInventoryTurnover",
+                  "type": "String",
+                },
+                {
+                  "String": "analyzeInventoryKPIsTimeseries",
+                  "type": "String",
+                },
+                {
+                  "String": "analyzeStockinDateRange",
+                  "type": "String",
+                },
+                {
+                  "String": "displayDeadStock",
+                  "type": "String",
+                },
+                {
+                  "String": "displayMaterialDocuments",
+                  "type": "String",
+                },
+                {
+                  "String": "displayOverdueGRBlockedStock",
+                  "type": "String",
+                },
+                {
+                  "String": "displayOverdueStockInTransit",
+                  "type": "String",
+                },
+                {
+                  "String": "displaySerialNumberInfo",
+                  "type": "String",
+                },
+                {
+                  "String": "displaySerStockInfo",
+                  "type": "String",
+                },
+                {
+                  "String": "displaySlowOrNonMoving",
+                  "type": "String",
+                },
+                {
+                  "String": "displayStockForPostingDate",
+                  "type": "String",
+                },
+                {
+                  "String": "displayStockInTransitInWebGUI",
+                  "type": "String",
+                },
+                {
+                  "String": "displayStockMultipleMaterials",
+                  "type": "String",
+                },
+                {
+                  "String": "displayStockOverview",
+                  "type": "String",
+                },
+                {
+                  "String": "displayStockOverviewInWebGUI",
+                  "type": "String",
+                },
+                {
+                  "String": "displayWarehouseStockInWebGUI",
+                  "type": "String",
+                },
+                {
+                  "String": "manageBySubcontractingSupplier",
+                  "type": "String",
+                },
+                {
+                  "String": "postGoodsIssueInWebGUI",
+                  "type": "String",
+                },
+                {
+                  "String": "postGoodsMovementInWebGUI",
+                  "type": "String",
+                },
+                {
+                  "String": "postGoodsReceiptInWebGUI",
+                  "type": "String",
+                },
+                {
+                  "String": "postTransferPostingInWebGUI",
+                  "type": "String",
+                },
+                {
+                  "String": "transferStock",
+                  "type": "String",
+                },
+                {
+                  "String": "transferStockCrossPlant",
+                  "type": "String",
+                },
+                {
+                  "String": "change",
+                  "type": "String",
+                },
+                {
+                  "String": "create",
+                  "type": "String",
+                },
+                {
+                  "String": "displayEquipment",
+                  "type": "String",
+                },
+                {
+                  "String": "display",
+                  "type": "String",
+                },
+                {
+                  "String": "displayFactSheet",
+                  "type": "String",
+                },
+                {
+                  "String": "createMatlSerialNumber",
+                  "type": "String",
+                },
+                {
+                  "String": "createMultipleMatlSerialNumber",
+                  "type": "String",
+                },
+                {
+                  "String": "displayComplianceInfo",
+                  "type": "String",
+                },
+                {
+                  "String": "activatePlannedChanges",
+                  "type": "String",
+                },
+                {
+                  "String": "maintainCyCIndicator",
+                  "type": "String",
+                },
+              ],
+              "qualifier": "MaterialLinks",
+              "term": "com.sap.vocabularies.Common.v1.SemanticObjectUnavailableActions",
+            },
+            {
+              "collection": [
+                {
+                  "propertyValues": [
+                    {
+                      "name": "LocalProperty",
+                      "value": {
+                        "PropertyPath": "TechnicalObject",
+                        "type": "PropertyPath",
+                      },
+                    },
+                    {
+                      "name": "SemanticObjectProperty",
+                      "value": {
+                        "String": "Equipment",
+                        "type": "String",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.Common.v1.SemanticObjectMappingType",
+                },
+              ],
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.SemanticObjectMapping",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/Material",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "$If": [
+                  {
+                    "$Eq": [
+                      {
+                        "Path": "HasEquipmentData",
+                        "type": "Path",
+                      },
+                      false,
+                    ],
+                    "type": "Eq",
+                  },
+                  true,
+                  false,
+                ],
+                "type": "If",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/EquipmentName",
+        },
+        {
+          "annotations": [
+            {
+              "collection": [
+                {
+                  "String": "displayInAssetViewer",
+                  "type": "String",
+                },
+                {
+                  "String": "changeMatlSerialNumber",
+                  "type": "String",
+                },
+                {
+                  "String": "createMatlSerialNumber",
+                  "type": "String",
+                },
+                {
+                  "String": "createMultipleMatlSerialNumber",
+                  "type": "String",
+                },
+                {
+                  "String": "displayMatlSerialNumberList",
+                  "type": "String",
+                },
+                {
+                  "String": "displayMatlSerialNumber",
+                  "type": "String",
+                },
+                {
+                  "String": "displayBreakdownAnalysis",
+                  "type": "String",
+                },
+                {
+                  "String": "displayDamageAnalysis",
+                  "type": "String",
+                },
+                {
+                  "String": "postprocessDataTransfer",
+                  "type": "String",
+                },
+                {
+                  "String": "transferDataFromEquipment",
+                  "type": "String",
+                },
+                {
+                  "String": "transferDataFromFunctionalLoc",
+                  "type": "String",
+                },
+                {
+                  "String": "displayFactSheet",
+                  "type": "String",
+                },
+                {
+                  "String": "createMatlSerialNumber",
+                  "type": "String",
+                },
+                {
+                  "String": "createMultipleMatlSerialNumber",
+                  "type": "String",
+                },
+              ],
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.SemanticObjectUnavailableActions",
+            },
+            {
+              "collection": [
+                {
+                  "propertyValues": [
+                    {
+                      "name": "LocalProperty",
+                      "value": {
+                        "PropertyPath": "TechObjIsEquipOrFuncnlLoc",
+                        "type": "PropertyPath",
+                      },
+                    },
+                    {
+                      "name": "SemanticObjectProperty",
+                      "value": {
+                        "String": "TechObjIsEquipOrFuncnlLoc",
+                        "type": "String",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.Common.v1.SemanticObjectMappingType",
+                },
+              ],
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.SemanticObjectMapping",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType/TechnicalObject",
+        },
+        {
+          "annotations": [
+            {
+              "collection": [
+                {
+                  "PropertyPath": "Material",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "SerialNumber",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "Equipment",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "ConcatenatedActiveSystStsName",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "InventoryStockType",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "EquipmentCategory",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "Plant",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "MaterialSerialNumberStockBatch",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "StorageLocation",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "Customer",
+                  "type": "PropertyPath",
+                },
+                {
+                  "PropertyPath": "HasEquipmentData",
+                  "type": "PropertyPath",
+                },
+              ],
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.SelectionFields",
+            },
+            {
+              "collection": [
+                {
+                  "annotations": [
+                    {
+                      "qualifier": undefined,
+                      "term": "com.sap.vocabularies.UI.v1.Hidden",
+                      "value": {
+                        "$If": [
+                          {
+                            "$Or": [
+                              {
+                                "$And": [
+                                  {
+                                    "$Eq": [
+                                      {
+                                        "Path": "HasActiveEntity",
+                                        "type": "Path",
+                                      },
+                                      false,
+                                    ],
+                                    "type": "Eq",
+                                  },
+                                  {
+                                    "$Eq": [
+                                      {
+                                        "Path": "IsActiveEntity",
+                                        "type": "Path",
+                                      },
+                                      true,
+                                    ],
+                                    "type": "Eq",
+                                  },
+                                ],
+                                "type": "And",
+                              },
+                              {
+                                "$And": [
+                                  {
+                                    "$Eq": [
+                                      {
+                                        "Path": "HasActiveEntity",
+                                        "type": "Path",
+                                      },
+                                      true,
+                                    ],
+                                    "type": "Eq",
+                                  },
+                                  {
+                                    "$Eq": [
+                                      {
+                                        "Path": "IsActiveEntity",
+                                        "type": "Path",
+                                      },
+                                      false,
+                                    ],
+                                    "type": "Eq",
+                                  },
+                                ],
+                                "type": "And",
+                              },
+                            ],
+                            "type": "Or",
+                          },
+                          false,
+                          true,
+                        ],
+                        "type": "If",
+                      },
+                    },
+                  ],
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>serialNumberHistory}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "SemanticObject",
+                      "value": {
+                        "String": "Material",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "displaySerHistoryInfo",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "RequiresContext",
+                      "value": {
+                        "Bool": false,
+                        "type": "Bool",
+                      },
+                    },
+                    {
+                      "name": "NavigationAvailable",
+                      "value": {
+                        "Bool": true,
+                        "type": "Bool",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForIntentBasedNavigation",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>activateEquipmentView}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ActvtSrlzdMatlItmEquipmentData(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>changeEquipmentCategory}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeEquipmentCategory(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>changePlant}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeMaintenancePlant(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+                {
+                  "annotations": [
+                    {
+                      "qualifier": undefined,
+                      "term": "com.sap.vocabularies.UI.v1.Hidden",
+                      "value": {
+                        "$If": [
+                          {
+                            "$Eq": [
+                              {
+                                "Path": "IsCloudSystem",
+                                "type": "Path",
+                              },
+                              true,
+                            ],
+                            "type": "Eq",
+                          },
+                          true,
+                          false,
+                        ],
+                        "type": "If",
+                      },
+                    },
+                  ],
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>changeUII}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeUniqueItemIdentifier(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>setMaterialItemInactive}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.SetSrlzdMaterialItemToInactive(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>resetMaterialItemInactive}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.RsetSrlzdMatlItemFromInactive(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>setMaterialItemDeletion}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.SetSrlzdMaterialItemToDeletion(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>resetMaterialItemDeletion}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Action",
+                      "value": {
+                        "String": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ResetSrlzdMatlItmFrmDeletion(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "InvocationGrouping",
+                      "value": {
+                        "EnumMember": "SAP__UI.OperationGroupingType/Isolated",
+                        "type": "EnumMember",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataFieldForAction",
+                },
+              ],
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Identification",
+            },
+            {
+              "qualifier": "SalesOrder",
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "Data",
+                    "value": {
+                      "Record": {
+                        "propertyValues": [
+                          {
+                            "name": "SalesOrder",
+                            "value": {
+                              "Record": {
+                                "propertyValues": [
+                                  {
+                                    "name": "Value",
+                                    "value": {
+                                      "Path": "SalesOrder",
+                                      "type": "Path",
+                                    },
+                                  },
+                                ],
+                                "type": "com.sap.vocabularies.UI.v1.DataField",
+                              },
+                              "type": "Record",
+                            },
+                          },
+                          {
+                            "name": "SalesOrderItem",
+                            "value": {
+                              "Record": {
+                                "propertyValues": [
+                                  {
+                                    "name": "Value",
+                                    "value": {
+                                      "Path": "SalesOrderItem",
+                                      "type": "Path",
+                                    },
+                                  },
+                                ],
+                                "type": "com.sap.vocabularies.UI.v1.DataField",
+                              },
+                              "type": "Record",
+                            },
+                          },
+                        ],
+                        "type": undefined,
+                      },
+                      "type": "Record",
+                    },
+                  },
+                  {
+                    "name": "Label",
+                    "value": {
+                      "String": "{@i18n>salesOrder} / {@i18n>salesOrderItem}",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Template",
+                    "value": {
+                      "String": "{SalesOrder} / {SalesOrderItem}",
+                      "type": "String",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.UI.v1.ConnectedFields",
+            },
+            {
+              "collection": [
+                {
+                  "propertyValues": [
+                    {
+                      "name": "ID",
+                      "value": {
+                        "String": "General",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Target",
+                      "value": {
+                        "AnnotationPath": "@UI.FieldGroup#HeaderFacetMain",
+                        "type": "AnnotationPath",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                },
+              ],
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.HeaderFacets",
+            },
+            {
+              "qualifier": "HeaderFacetMain",
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "Data",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "EquipmentCategory",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "SerialNumber",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "UniqueItemIdentifierRespPlant",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "UniqueItemIdentifier",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "UniqueItemIdentifierStrucType",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "ConcatenatedActiveSystStsName",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.FieldGroupType",
+              },
+              "term": "com.sap.vocabularies.UI.v1.FieldGroup",
+            },
+            {
+              "collection": [
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>serialNumberData}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "ID",
+                      "value": {
+                        "String": "SerialNumberData",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Facets",
+                      "value": {
+                        "Collection": [
+                          {
+                            "propertyValues": [
+                              {
+                                "name": "Label",
+                                "value": {
+                                  "String": "{@i18n>general}",
+                                  "type": "String",
+                                },
+                              },
+                              {
+                                "name": "ID",
+                                "value": {
+                                  "String": "General",
+                                  "type": "String",
+                                },
+                              },
+                              {
+                                "name": "Target",
+                                "value": {
+                                  "AnnotationPath": "@UI.FieldGroup#General",
+                                  "type": "AnnotationPath",
+                                },
+                              },
+                            ],
+                            "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                          },
+                          {
+                            "propertyValues": [
+                              {
+                                "name": "Label",
+                                "value": {
+                                  "String": "{@i18n>stockInformation}",
+                                  "type": "String",
+                                },
+                              },
+                              {
+                                "name": "ID",
+                                "value": {
+                                  "String": "StockInformation",
+                                  "type": "String",
+                                },
+                              },
+                              {
+                                "name": "Target",
+                                "value": {
+                                  "AnnotationPath": "@UI.FieldGroup#StockInformation",
+                                  "type": "AnnotationPath",
+                                },
+                              },
+                            ],
+                            "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                          },
+                        ],
+                        "type": "Collection",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>PartnersTable}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "ID",
+                      "value": {
+                        "String": "Partners",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Facets",
+                      "value": {
+                        "type": "Unknown",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>WarrantySection}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "ID",
+                      "value": {
+                        "String": "WarrantySection",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Facets",
+                      "value": {
+                        "Collection": [
+                          {
+                            "propertyValues": [
+                              {
+                                "name": "ID",
+                                "value": {
+                                  "String": "WarrantyTable",
+                                  "type": "String",
+                                },
+                              },
+                              {
+                                "name": "Target",
+                                "value": {
+                                  "AnnotationPath": "_Warranty/@SAP__UI.LineItem#WarrantyTable",
+                                  "type": "AnnotationPath",
+                                },
+                              },
+                            ],
+                            "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                          },
+                        ],
+                        "type": "Collection",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Label",
+                      "value": {
+                        "String": "{@i18n>history}",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "ID",
+                      "value": {
+                        "String": "History",
+                        "type": "String",
+                      },
+                    },
+                    {
+                      "name": "Facets",
+                      "value": {
+                        "Collection": [
+                          {
+                            "propertyValues": [
+                              {
+                                "name": "ID",
+                                "value": {
+                                  "String": "History1",
+                                  "type": "String",
+                                },
+                              },
+                              {
+                                "name": "Target",
+                                "value": {
+                                  "AnnotationPath": "_EquipMatlSrlNmbrChgHistory/@SAP__UI.LineItem#History",
+                                  "type": "AnnotationPath",
+                                },
+                              },
+                            ],
+                            "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                          },
+                        ],
+                        "type": "Collection",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.CollectionFacet",
+                },
+              ],
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Facets",
+            },
+            {
+              "qualifier": "General",
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "Data",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "TechnicalObject",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "EquipMaterialLastSerialNumber",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "EquipmentName",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.FieldGroupType",
+              },
+              "term": "com.sap.vocabularies.UI.v1.FieldGroup",
+            },
+            {
+              "qualifier": "StockInformation",
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "Data",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "InventoryStockType",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "Plant",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "CompanyCode",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "StorageLocation",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "MatlSrlNmbrLastGdsMvtDte",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "MaterialSerialNumberStockBatch",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "InventorySpecialStockType",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "MatlSrlNmbrMasterBatch",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "Customer",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "Supplier",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Target",
+                              "value": {
+                                "AnnotationPath": "@UI.ConnectedFields#SalesOrder",
+                                "type": "AnnotationPath",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataFieldForAnnotation",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "WBSElement",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Value",
+                              "value": {
+                                "Path": "StockOwner",
+                                "type": "Path",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.UI.v1.DataField",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.UI.v1.FieldGroupType",
+              },
+              "term": "com.sap.vocabularies.UI.v1.FieldGroup",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/Mandatory",
+                "type": "EnumMember",
+              },
+            },
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "CollectionPath",
+                    "value": {
+                      "String": "I_MaterialSerialNumberVH",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Parameters",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "Material",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Material",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterInOut",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment_Text",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "SerialNumber",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "UniqueItemIdentifier",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.ValueList",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CrteWthRefFrmSrlzdMaterialItem/Material",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "CollectionPath",
+                    "value": {
+                      "String": "C_EquipMaterialSerialNumberTPType",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Parameters",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "StorageLocation",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "StorageLocation",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterIn",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "Plant",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Plant",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterOut",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "StorageLocation",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "StorageLocation",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterOut",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "Plant",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Plant",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "StorageLocation",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "StorageLocation",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.ValueList",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.I_StorageLocationStdVH/StorageLocation",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "CollectionPath",
+                    "value": {
+                      "String": "I_MaterialSerialNumberVH",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Parameters",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "SrlzdMatlItmReferenceMaterial",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Material",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterInOut",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "SerialNumber",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment_Text",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.ValueList",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CrteWthRefFrmSrlzdMaterialItem/SrlzdMatlItmReferenceMaterial",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "CollectionPath",
+                    "value": {
+                      "String": "I_EquipmentCategoryStdVH",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Parameters",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "EquipmentCategory",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "EquipmentCategory",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterInOut",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.ValueList",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CrteWthRefFrmSrlzdMaterialItem/EquipmentCategory",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/Mandatory",
+                "type": "EnumMember",
+              },
+            },
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "CollectionPath",
+                    "value": {
+                      "String": "I_MaterialSerialNumberVH",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Parameters",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "SerialNumber",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "SerialNumber",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterInOut",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "Material",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Material",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterIn",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment_Text",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.ValueList",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CrteWthRefFrmSrlzdMaterialItem/SerialNumber",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "CollectionPath",
+                    "value": {
+                      "String": "I_MaterialSerialNumberVH",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Parameters",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "SrlzdMatlItmRefSerialNumber",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "SerialNumber",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterInOut",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "SrlzdMatlItmReferenceMaterial",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Material",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterIn",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment_Text",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.ValueList",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CrteWthRefFrmSrlzdMaterialItem/SrlzdMatlItmRefSerialNumber",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/Mandatory",
+                "type": "EnumMember",
+              },
+            },
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "CollectionPath",
+                    "value": {
+                      "String": "I_MaterialSerialNumberVH",
+                      "type": "String",
+                    },
+                  },
+                  {
+                    "name": "Parameters",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "LocalDataProperty",
+                              "value": {
+                                "PropertyPath": "SerialNumber",
+                                "type": "PropertyPath",
+                              },
+                            },
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "SerialNumber",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterInOut",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Material",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "ValueListProperty",
+                              "value": {
+                                "String": "Equipment_Text",
+                                "type": "String",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.ValueListParameterDisplayOnly",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.Common.v1.ValueList",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChgSrlzdMatlItemSerialNumber/SerialNumber",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CrteWthRefFrmSrlzdMaterialItem/UniqueItemIdentifierRespPlant",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber/UniqueItemIdentifierRespPlant",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/Mandatory",
+                "type": "EnumMember",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber/Material",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/Mandatory",
+                "type": "EnumMember",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber/EquipmentCategory",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/ReadOnly",
+                "type": "EnumMember",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber/EquipMaterialLastSerialNumber",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.FieldControl",
+              "value": {
+                "EnumMember": "Common.FieldControlType/Mandatory",
+                "type": "EnumMember",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeMaintenancePlant/MaintenancePlant",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.UI.v1.Hidden",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.CreateMassMaterialSerialNumber(Collection(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType))/_SerialList",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "term": "com.sap.vocabularies.Common.v1.IsActionCritical",
+              "value": {
+                "Bool": true,
+                "type": "Bool",
+              },
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ActvtSrlzdMatlItmEquipmentData",
+        },
+        {
+          "annotations": [
+            {
+              "collection": [
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "PartnerFunctionForEdit",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "EquipmentPartner",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "PersonFullName",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "SearchTerm1",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "CityName",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "PostalCode",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "FaxAreaCodeSubscriberNumber",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "PhoneNumber",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+              ],
+              "qualifier": "Partners",
+              "term": "com.sap.vocabularies.UI.v1.LineItem",
+            },
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "MaxItems",
+                    "value": {
+                      "Int": 2,
+                      "type": "Int",
+                    },
+                  },
+                  {
+                    "name": "SortOrder",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Property",
+                              "value": {
+                                "PropertyPath": "CreationDateTime",
+                                "type": "PropertyPath",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.SortOrderType",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                  {
+                    "name": "Visualizations",
+                    "value": {
+                      "Collection": [
+                        {
+                          "AnnotationPath": "@UI.LineItem",
+                          "type": "AnnotationPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.UI.v1.PresentationVariant",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMatlSrlNmbrPrtnTPType",
+        },
+        {
+          "annotations": [
+            {
+              "collection": [
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "WarrantyType",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "WarrantyCategory",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "MasterWarranty",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "WarrantyStartDate",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "WarrantyEndDate",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "WrntyIsInhtdFromSuperiorObject",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "WrntyIsPassedOnToChildObject",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+              ],
+              "qualifier": "WarrantyTable",
+              "term": "com.sap.vocabularies.UI.v1.LineItem",
+            },
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "Visualizations",
+                    "value": {
+                      "Collection": [
+                        {
+                          "AnnotationPath": "@UI.LineItem",
+                          "type": "AnnotationPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.UI.v1.PresentationVariant",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMatlSrlNmbrWarrantyTPType",
+        },
+        {
+          "annotations": [
+            {
+              "collection": [
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "ChangeDocDatabaseTableField",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "ChangeDocItemChangeType",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "ChangeDocNewFieldValue",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "ChangeDocPreviousFieldValue",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "CreatedByUser",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "CreationDateTime",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "TechObjChgDocNewFldValueText",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "TechObjChgDocOldFldValueText",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "MaterialName",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "MaintObjectChangeTypeCodeText",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "MaintObjectChangeTypeCode",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+                {
+                  "propertyValues": [
+                    {
+                      "name": "Value",
+                      "value": {
+                        "Path": "UserDescription",
+                        "type": "Path",
+                      },
+                    },
+                  ],
+                  "type": "com.sap.vocabularies.UI.v1.DataField",
+                },
+              ],
+              "qualifier": "History",
+              "term": "com.sap.vocabularies.UI.v1.LineItem",
+            },
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "MaxItems",
+                    "value": {
+                      "Int": 2,
+                      "type": "Int",
+                    },
+                  },
+                  {
+                    "name": "SortOrder",
+                    "value": {
+                      "Collection": [
+                        {
+                          "propertyValues": [
+                            {
+                              "name": "Property",
+                              "value": {
+                                "PropertyPath": "CreationDateTime",
+                                "type": "PropertyPath",
+                              },
+                            },
+                          ],
+                          "type": "com.sap.vocabularies.Common.v1.SortOrderType",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                  {
+                    "name": "Visualizations",
+                    "value": {
+                      "Collection": [
+                        {
+                          "AnnotationPath": "@UI.LineItem",
+                          "type": "AnnotationPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": undefined,
+              },
+              "term": "com.sap.vocabularies.UI.v1.PresentationVariant",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMatlSrlNmbrChgHistoryTPType",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeMaterial(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChgSrlzdMatlItemSerialNumber(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeEquipmentCategory(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ChangeMaintenancePlant(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ActvtSrlzdMatlItmEquipmentData(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.SetSrlzdMaterialItemToInactive(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.RsetSrlzdMatlItemFromInactive(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.SetSrlzdMaterialItemToDeletion(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+        {
+          "annotations": [
+            {
+              "qualifier": undefined,
+              "record": {
+                "propertyValues": [
+                  {
+                    "name": "TargetEntities",
+                    "value": {
+                      "Collection": [
+                        {
+                          "NavigationPropertyPath": "_it/_EquipMatlSrlNmbrChgHistory",
+                          "type": "NavigationPropertyPath",
+                        },
+                      ],
+                      "type": "Collection",
+                    },
+                  },
+                ],
+                "type": "com.sap.vocabularies.Common.v1.SideEffectsType",
+              },
+              "term": "com.sap.vocabularies.Common.v1.SideEffects",
+            },
+          ],
+          "target": "com.sap.gateway.srvd.eam_materialserialnumber.v0001.ResetSrlzdMatlItmFrmDeletion(com.sap.gateway.srvd.eam_materialserialnumber.v0001.C_EquipMaterialSerialNumberTPType)",
+        },
+      ],
+    },
+    "associationSets": [],
+    "associations": [],
+    "complexTypes": [],
+    "entityContainer": {
+      "_type": "EntityContainer",
+      "fullyQualifiedName": "",
+    },
+    "entitySets": [],
+    "entityTypes": [],
+    "namespace": "local",
+    "singletons": [],
+    "typeDefinitions": [],
+  },
+  "version": "4.0",
+}
+`;
+
 exports[`Parser can parse an edmx file 1`] = `
 MergedRawMetadata {
   "_actionImports": [
