@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.2
+
+### Patch Changes
+
+-   be78dde: Ignore trailing text content during parsing of expressions
+
 ## 0.9.1
 
 ### Patch Changes
