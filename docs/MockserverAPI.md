@@ -10,7 +10,7 @@ This also goes hand to hand with providing the mockdata as JSON files, so for on
 
 ## Available functions
 
-### getInitialDataset
+### getInitialDataSet
 
 This method allow to provide the initial dataset for the entity set dynamically
 You just have to return an array of objects that will be used as the initial dataset.
