@@ -66,6 +66,7 @@ export interface EntitySetInterface {
     isV4(): boolean;
     shouldValidateETag(): boolean;
     isDraft(): boolean;
+    dataAccess: DataAccessInterface;
 }
 export interface DataAccessInterface {
     isV4(): boolean;
@@ -89,6 +90,11 @@ export interface DataAccessInterface {
     getData(odataRequest: ODataRequest): Promise<any>;
     getDraftRoot(keyValues: KeyDefinitions, _tenantId: string, entitySetDefinition: EntitySet): any;
     getMetadata(): ODataMetadata;
+    getOtherServiceEntityInterface(
+        serviceName: string,
+        entityName: string,
+        tenantId?: string
+    ): Promise<FileBasedMockData | undefined>;
     debug: boolean;
     fileLoader: IFileLoader;
     log: ILogger;

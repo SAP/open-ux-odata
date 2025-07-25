@@ -5,7 +5,8 @@
     "author": "„marianfoo“",
     "license": "Apache-2.0",
     "scripts": {
-        "start": "ui5 serve --port 8080 -o index-cdn.html"
+        "start": "ui5 serve --port 8080 -o index-cdn.html",
+        "start:silent": "ui5 serve --port 8080"
     },
     "devDependencies": {
         "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",

@@ -33,7 +33,7 @@
                     <content>
                         <VBox class="sapUiSmallMargin">
                             <Text text="First Service Data:" class="sapUiTinyMarginBottom"/>
-                            <Table items="{/RootEntity}" class="sapUiTinyMarginBottom">
+                            <Table items="{/RootEntity}" id="table1" class="sapUiTinyMarginBottom">
                                 <columns>
                                     <Column><Text text="ID"/></Column>
                                     <Column><Text text="Name"/></Column>
@@ -51,7 +51,7 @@
                             </Table>
 
                             <Text text="Second Service Data:" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
-                            <Table items="{secondService>/RootEntity}">
+                            <Table items="{secondService>/RootEntity}" id="table2">
                                 <columns>
                                     <Column><Text text="ID"/></Column>
                                     <Column><Text text="Name"/></Column>

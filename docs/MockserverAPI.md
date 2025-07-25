@@ -152,11 +152,22 @@ Remove an entry from the data set
 
 #### getEntityInterface
 
-Retrieve the mockdata entity interface for a given entity set.
+Retrieve the mockdata entity interface for a given entity set within the current service.
 
 `getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;`
 
 The entity interface allow you then to access the standard function (`addEntry`, `fetchEntries`, ...) to manipulate the mockdata of the application.
+
+#### getOtherServiceEntityInterface
+
+Retrieve the mockdata entity interface for an entity set from another service. This enables cross-service communication and data manipulation across multiple OData services.
+
+`getOtherServiceEntityInterface: (serviceName: string, entityName: string) => Promise<FileBasedMockData | undefined>;`
+
+- `serviceName` - The URL path of the target service (e.g., '/sap/opu/odata/sap/MY_OTHER_SERVICE')
+- `entityName` - The name of the entity set in the target service
+
+See [Cross-Service Communication](./CrossServiceCommunication.md) for detailed usage examples and best practices.
 
 #### example
 
@@ -179,6 +190,14 @@ The entity interface allow you then to access the standard function (`addEntry`,
         // For tenant-006 we will retrive the EntityInterface for a different entity and add a new entry there using addEntry
         const mySecondEntityInterface = await this.base.getEntityInterface('MySecondEntity');
         mySecondEntityInterface.addEntry({ Name: 'MySecondEntityName' });
+        return this.base.updateEntry(keyValues, newData);
+    } else if (odataRequest.tenantId === 'tenant-007') {
+        // For tenant-007 we will update an entity in a different service using cross-service communication
+        const otherServiceEntity = await this.base.getOtherServiceEntityInterface('/other/service', 'RelatedEntity');
+        if (otherServiceEntity) {
+            // Cross-service updateEntry works just like this.base.updateEntry - automatic data merging
+            await otherServiceEntity.updateEntry(keyValues, { status: 'updated_from_main_service' });
+        }
         return this.base.updateEntry(keyValues, newData);
     } else {
         return this.base.updateEntry(keyValues, newData);

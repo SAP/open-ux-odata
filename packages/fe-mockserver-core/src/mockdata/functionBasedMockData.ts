@@ -93,6 +93,10 @@ export type MockDataContributor<T extends object> = {
         getDefaultElement: (odataRequest: ODataRequest) => T;
         getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
         getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
+        getOtherServiceEntityInterface: (
+            serviceName: string,
+            entityName: string
+        ) => Promise<FileBasedMockData | undefined>;
         checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
         checkFilterValue: (
             comparisonType: string,
@@ -162,6 +166,30 @@ export class FunctionBasedMockData extends FileBasedMockData {
             getDefaultElement: super.getDefaultElement.bind(this),
             getParentEntityInterface: super.getParentEntityInterface.bind(this),
             getEntityInterface: super.getEntityInterface.bind(this),
+            getOtherServiceEntityInterface: async (serviceName: string, entityName: string) => {
+                const rawInterface = await mockDataEntitySet.dataAccess.getOtherServiceEntityInterface(
+                    serviceName,
+                    entityName,
+                    contextId
+                );
+
+                if (!rawInterface) {
+                    return rawInterface;
+                }
+
+                // Create a smart updateEntry method using the same logic as this.base.updateEntry
+                const smartUpdateEntry = async (keyValues: KeyDefinitions, patchData: object) => {
+                    const data = (await rawInterface.fetchEntries(keyValues, {} as any))[0];
+                    const updatedData = Object.assign(data, patchData);
+                    return rawInterface.updateEntry(keyValues, updatedData, patchData, {} as any);
+                };
+
+                // Enhance the interface with smart updateEntry behavior
+                const enhancedInterface = Object.create(rawInterface);
+                enhancedInterface.updateEntry = smartUpdateEntry;
+
+                return enhancedInterface;
+            },
             checkFilterValue: super.checkFilterValue.bind(this),
             checkSearchQuery: super.checkSearchQuery.bind(this)
         };

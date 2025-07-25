@@ -12,6 +12,12 @@ In order to define your mockdata, you need to create a file with the name of the
 
 You can then implement some functions defined in the [API](./MockserverAPI.md) to add your custom logic.
 
+## Cross-Service Communication
+
+Starting with the latest version, the mockserver supports cross-service communication, allowing your entity sets to interact with and modify data in other services. This is particularly useful for testing complex business scenarios that involve multiple OData services.
+
+You can access entities from other services using the `base.getOtherServiceEntityInterface()` method. For detailed examples and best practices, see [Cross-Service Communication](./CrossServiceCommunication.md).
+
 ## Defining unbound actions
 
 Unbound actions are by definition specific to your application so the mockserver can't do much to help you there beside allowing you to implement whatever logic you need.

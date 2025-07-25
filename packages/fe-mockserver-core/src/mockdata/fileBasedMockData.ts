@@ -613,6 +613,13 @@ export class FileBasedMockData {
         return this._mockDataEntitySet.getEntityInterface(entitySetName, this._contextId);
     }
 
+    async getOtherServiceEntityInterface(
+        serviceName: string,
+        entityName: string
+    ): Promise<FileBasedMockData | undefined> {
+        return await this._mockDataEntitySet.dataAccess.getOtherServiceEntityInterface(serviceName, entityName);
+    }
+
     generateMockData() {
         const mockData: any[] = [];
         for (let i = 0; i < 150; i++) {

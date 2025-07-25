@@ -244,7 +244,7 @@ export class MockDataEntitySet implements EntitySetInterface {
     public readyPromise: Promise<EntitySetInterface>;
     protected entitySetDefinition: EntitySet | null;
     protected entityTypeDefinition: EntityType;
-    protected dataAccess: DataAccessInterface;
+    public dataAccess: DataAccessInterface;
     /**
      * @param rootFolder
      * @param entitySetDefinition

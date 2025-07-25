@@ -15,6 +15,11 @@ sap.ui.define(['./BaseController', 'sap/m/MessageToast'], function (BaseControll
                 .invoke()
                 .then(() => {
                     MessageToast.show('Action executed successfully on First Service');
+                    // update both tables
+                    const table1 = this.getView().byId('table1');
+                    const table2 = this.getView().byId('table2');
+                    table1.getBinding('items').refresh();
+                    table2.getBinding('items').refresh();
                 })
                 .catch((error) => {
                     MessageToast.show('Action failed on First Service: ' + error.message);
