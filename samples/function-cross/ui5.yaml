@@ -1,0 +1,20 @@
+specVersion: '2.4'
+metadata:
+    name: sap.fe.mockserver.functioncross
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          beforeMiddleware: compression
+          configuration:
+              services:
+                  - urlBasePath: /here/goes/your/firstService
+                    name: ''
+                    generateMockData: false
+                    metadataPath: ./webapp/localService/firstService/metadata.xml
+                    mockdataPath: ./webapp/localService/firstService/mockdata
+                  - urlBasePath: /here/goes/your/secondService
+                    name: ''
+                    generateMockData: false
+                    metadataPath: ./webapp/localService/secondService/metadata.xml
+                    mockdataPath: ./webapp/localService/secondService/mockdata

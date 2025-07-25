@@ -1,0 +1,78 @@
+<mvc:View
+	controllerName="sap.fe.mockserver.functioncross.controller.Main"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+
+	<Page
+		title="{i18n>appTitle}"
+		id="page">
+        <content>
+            <VBox class="sapUiMediumMargin">
+                
+                <!-- Simple Action Testing Panel -->
+                <Panel headerText="Test Actions on Both Services" class="sapUiResponsiveMargin">
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Text text="Click the buttons below to test the myCustomAction on both services:" class="sapUiTinyMarginBottom"/>
+                            <HBox class="sapUiSmallMarginTop">
+                                <Button text="Execute Action on First Service" 
+                                        type="Emphasized" 
+                                        press="onExecuteFirstServiceAction" 
+                                        class="sapUiTinyMarginEnd"/>
+                                <Button text="Execute Action on Second Service" 
+                                        type="Emphasized" 
+                                        press="onExecuteSecondServiceAction"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- Data Display Panel -->
+                <Panel headerText="Service Data" class="sapUiResponsiveMargin">
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Text text="First Service Data:" class="sapUiTinyMarginBottom"/>
+                            <Table items="{/RootEntity}" class="sapUiTinyMarginBottom">
+                                <columns>
+                                    <Column><Text text="ID"/></Column>
+                                    <Column><Text text="Name"/></Column>
+                                    <Column><Text text="Description"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{ID}"/>
+                                            <Text text="{name}"/>
+                                            <Text text="{description}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+
+                            <Text text="Second Service Data:" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
+                            <Table items="{secondService>/RootEntity}">
+                                <columns>
+                                    <Column><Text text="ID"/></Column>
+                                    <Column><Text text="Name"/></Column>
+                                    <Column><Text text="Description"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{secondService>ID}"/>
+                                            <Text text="{secondService>name}"/>
+                                            <Text text="{secondService>description}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </content>
+                </Panel>
+
+            </VBox>
+        </content>
+	</Page>
+
+</mvc:View>
