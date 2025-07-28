@@ -196,4 +196,61 @@ describe('The config resolver', () => {
             }
         });
     });
+
+    it('can resolve service alias configuration', () => {
+        const configWithAlias = resolveConfig(
+            {
+                services: [
+                    {
+                        urlBasePath: '/first/service',
+                        alias: 'service1',
+                        name: 'FirstService',
+                        metadataXmlPath: 'first-metadata.xml',
+                        mockdataRootPath: 'first-mockdata',
+                        watch: false,
+                        debug: false,
+                        contextBasedIsolation: false
+                    },
+                    {
+                        urlBasePath: '/second/service',
+                        alias: 'service2',
+                        name: 'SecondService',
+                        metadataXmlPath: 'second-metadata.xml',
+                        mockdataRootPath: 'second-mockdata',
+                        watch: false,
+                        debug: false,
+                        contextBasedIsolation: false
+                    },
+                    {
+                        urlBasePath: '/third/service',
+                        // No alias for this service
+                        name: 'ThirdService',
+                        metadataXmlPath: 'third-metadata.xml',
+                        mockdataRootPath: 'third-mockdata',
+                        watch: false,
+                        debug: false,
+                        contextBasedIsolation: false
+                    }
+                ]
+            },
+            '/'
+        );
+
+        // First service should have alias
+        expect(configWithAlias.services[0].alias).toBe('service1');
+        expect(configWithAlias.services[0].urlPath).toBe('/first/service/FirstService');
+
+        // Second service should have alias
+        expect(configWithAlias.services[1].alias).toBe('service2');
+        expect(configWithAlias.services[1].urlPath).toBe('/second/service/SecondService');
+
+        // Third service should not have alias (undefined)
+        expect(configWithAlias.services[2].alias).toBeUndefined();
+        expect(configWithAlias.services[2].urlPath).toBe('/third/service/ThirdService');
+
+        // Verify other properties are still correctly mapped
+        expect(configWithAlias.services[0].metadataPath).toBe('/first-metadata.xml');
+        expect(configWithAlias.services[1].metadataPath).toBe('/second-metadata.xml');
+        expect(configWithAlias.services[2].metadataPath).toBe('/third-metadata.xml');
+    });
 });

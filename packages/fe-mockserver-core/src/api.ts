@@ -21,6 +21,7 @@ export interface Service {
 export interface ConfigService {
     urlBasePath?: string;
     name?: string;
+    alias?: string;
     urlPath?: string;
     metadataXmlPath?: string;
     mockdataRootPath?: string;

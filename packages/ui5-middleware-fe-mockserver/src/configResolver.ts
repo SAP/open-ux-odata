@@ -76,6 +76,7 @@ function processServicesConfig(
         const myServiceConfig: ServiceConfig = {
             watch: inService.watch,
             urlPath: inService.urlPath,
+            alias: inService.alias,
             noETag: inService.noETag,
             validateETag: inService.validateETag,
             logger: inService.logger,
