@@ -15,22 +15,49 @@ By default, each mockserver service operates in isolation. With cross-service co
 
 Cross-service communication is automatically enabled when you configure multiple services in your mockserver setup. No additional configuration is required.
 
+## Service Aliases
+
+To make cross-service references easier and more maintainable, you can define short aliases for your services in the configuration:
+
+```yaml
+# ui5.yaml
+server:
+  customMiddleware:
+    - name: sap-fe-mockserver
+      configuration:
+        services:
+          - urlBasePath: /sap/opu/odata/sap/MY_FIRST_SERVICE
+            alias: service1
+            metadataPath: ./first-service/metadata.xml
+            mockdataPath: ./first-service/mockdata
+          - urlBasePath: /sap/opu/odata/sap/MY_SECOND_SERVICE  
+            alias: service2
+            metadataPath: ./second-service/metadata.xml
+            mockdataPath: ./second-service/mockdata
+```
+
+With aliases defined, you can reference services using short names like `'service2'` instead of long URLs.
+
 ## API Reference
 
-### getOtherServiceEntityInterface
+### getEntityInterface (Enhanced)
 
-Access an entity interface from another service to perform operations.
+The `getEntityInterface` method has been enhanced to support cross-service access:
 
 ```javascript
-this.base.getOtherServiceEntityInterface(serviceName, entityName)
+// Same service access (existing behavior)
+this.base.getEntityInterface(entityName)
+
+// Cross-service access (new capability)
+this.base.getEntityInterface(entityName, serviceNameOrAlias)
 ```
 
 **Parameters:**
-- `serviceName: string` - The URL path of the target service (e.g., '/sap/opu/odata/sap/MY_SERVICE')
-- `entityName: string` - The name of the entity set in the target service
+- `entityName: string` - The name of the entity set
+- `serviceNameOrAlias: string` (optional) - The URL path or alias of the target service
 
 **Returns:**
-- `Promise<FileBasedMockData | undefined>` - The entity interface for the target service's entity
+- `Promise<FileBasedMockData | undefined>` - The entity interface for the entity
 
 **Throws:**
 - Error if the service is not found
@@ -39,7 +66,7 @@ this.base.getOtherServiceEntityInterface(serviceName, entityName)
 
 ## Usage Examples
 
-### Basic Cross-Service Update
+### Basic Cross-Service Update (Using Alias)
 
 Update an entity in another service when executing an action:
 
@@ -49,13 +76,11 @@ module.exports = {
     executeAction: function (actionDefinition, actionData, keys) {
         // Update current service
         this.base.updateEntry(keys, { status: 'processed' });
-        
-        // Update corresponding entity in second service - works exactly like this.base.updateEntry!
-        this.base.getOtherServiceEntityInterface('/second/service', 'RelatedEntity')
+        // Update corresponding entity in second service using alias
+        this.base.getEntityInterface('RelatedEntity', 'service2')
             .then(function(otherServiceEntity) {
                 if (otherServiceEntity) {
-                    // Same API as this.base.updateEntry - just pass keys and partial data
-                    // Automatically preserves existing fields (ID, name, etc.)
+                    // Same API as this.base.updateEntry
                     return otherServiceEntity.updateEntry(keys, {
                         lastModified: new Date().toISOString(),
                         processedBy: 'FirstService'
@@ -79,8 +104,8 @@ Create new entries in other services:
 ```javascript
 module.exports = {
     executeAction: function (actionDefinition, actionData, keys) {
-        // Create audit entry in logging service
-        this.base.getOtherServiceEntityInterface('/audit/service', 'AuditLog')
+        // Create audit entry in logging service using full URL
+        this.base.getEntityInterface('AuditLog', '/audit/service')
             .then(function(auditService) {
                 if (auditService) {
                     return auditService.addEntry({
@@ -98,56 +123,9 @@ module.exports = {
 };
 ```
 
-### Complex Cross-Service Workflow
-
-Implement complex business logic across multiple services:
-
-```javascript
-module.exports = {
-    executeAction: async function (actionDefinition, actionData, keys) {
-        try {
-            // Step 1: Update current service
-            this.base.updateEntry(keys, { status: 'processing' });
-            
-            // Step 2: Check inventory in another service
-            const inventoryService = await this.base.getOtherServiceEntityInterface(
-                '/inventory/service', 
-                'Stock'
-            );
-            
-            if (inventoryService) {
-                const stockItems = await inventoryService.fetchEntries(
-                    { productId: keys.productId }
-                );
-                
-                if (stockItems.length > 0 && stockItems[0].quantity > 0) {
-                    // Step 3: Reserve inventory - automatically preserves other fields
-                    await inventoryService.updateEntry(
-                        { productId: keys.productId },
-                        { 
-                            quantity: stockItems[0].quantity - 1,
-                            reserved: stockItems[0].reserved + 1
-                        }
-                    );
-                    
-                    // Step 4: Update order status
-                    this.base.updateEntry(keys, { status: 'confirmed' });
-                } else {
-                    // Step 5: Handle out of stock
-                    this.base.updateEntry(keys, { status: 'backordered' });
-                }
-            }
-        } catch (error) {
-            console.error('Cross-service workflow failed:', error.message);
-            this.base.updateEntry(keys, { status: 'error' });
-        }
-    }
-};
-```
-
 ## Available Operations
 
-Once you obtain an entity interface from another service using `getOtherServiceEntityInterface`, you can perform all standard mockdata operations with the same simplified API as `this.base`:
+Once you obtain an entity interface from another service using `getEntityInterface`, you can perform all standard mockdata operations with the same simplified API as `this.base`:
 
 ### Data Modification
 - `addEntry(mockEntry)` - Create new entries
@@ -170,7 +148,7 @@ Once you obtain an entity interface from another service using `getOtherServiceE
 Always implement proper error handling for cross-service operations:
 
 ```javascript
-this.base.getOtherServiceEntityInterface('/other/service', 'Entity')
+this.base.getEntityInterface('Entity', 'service2')
     .then(function(otherService) {
         if (!otherService) {
             console.warn('Target service not available');
@@ -189,28 +167,6 @@ this.base.getOtherServiceEntityInterface('/other/service', 'Entity')
     });
 ```
 
-## Best Practices
-
-### 1. Service Dependencies
-- Document cross-service dependencies clearly
-- Ensure target services are properly configured
-- Handle cases where dependent services might be unavailable
-
-### 2. Error Resilience
-- Always use `.catch()` for promise-based operations
-- Implement fallback behavior when cross-service operations fail
-- Log errors appropriately for debugging
-
-### 3. Performance Considerations
-- Minimize cross-service calls where possible
-- Use asynchronous operations to avoid blocking
-- Consider caching frequently accessed data
-
-### 4. Testing
-- Test scenarios with all dependent services running
-- Test error scenarios (missing services, missing entities)
-- Verify data consistency across services
-
 ## Limitations
 
 - Cross-service operations use a shared tenant context (empty tenant ID)
@@ -224,44 +180,14 @@ this.base.getOtherServiceEntityInterface('/other/service', 'Entity')
 
 **Service not found error:**
 ```
-Error: Service '/my/service' not found in registry
+Error: Service 'service2' not found in registry. Available services: /first/service (alias: service1), /second/service (alias: service2), /third/service, /fourth/service
 ```
-- Verify the service URL path matches your configuration
+- Verify the service alias or URL path matches your configuration
 - Check that the service is properly registered in your mockserver setup
 
 **Entity not found error:**
 ```
-Error: Entity 'MyEntity' not found in service '/my/service'
+Error: Entity 'MyEntity' not found in service 'service2'
 ```
 - Verify the entity name exists in the target service's metadata
-- Check that the entity set is properly configured with mockdata
-
-**Cross-service access not enabled:**
-```
-Error: Cross-service access is not enabled. ServiceRegistry not available.
-```
-- Ensure you're using the latest version of the mockserver
-- Verify multiple services are configured in your setup
-
-### Debug Tips
-
-1. **Enable debug logging** to see service registration:
-   ```yaml
-   configuration:
-     debug: true
-   ```
-
-2. **List available services** in your action:
-   ```javascript
-   console.log('Available services:', Object.keys(serviceRegistry));
-   ```
-
-3. **Verify entity availability** before operations:
-   ```javascript
-   const entityInterface = await this.base.getOtherServiceEntityInterface(serviceName, entityName);
-   if (entityInterface) {
-       console.log('Entity interface available');
-   } else {
-       console.log('Entity interface not found');
-   }
-   ``` 
+- Check that the entity set is properly configured with **mockdata**

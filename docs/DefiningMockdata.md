@@ -16,7 +16,17 @@ You can then implement some functions defined in the [API](./MockserverAPI.md) t
 
 Starting with the latest version, the mockserver supports cross-service communication, allowing your entity sets to interact with and modify data in other services. This is particularly useful for testing complex business scenarios that involve multiple OData services.
 
-You can access entities from other services using the `base.getOtherServiceEntityInterface()` method. For detailed examples and best practices, see [Cross-Service Communication](./CrossServiceCommunication.md).
+You can access entities from other services using the enhanced `base.getEntityInterface()` method with an optional service parameter. You can use either service aliases (recommended) or full service URLs:
+
+```javascript
+// Using service alias (recommended)
+const otherEntity = await this.base.getEntityInterface('EntityName', 'service2');
+
+// Using full service URL
+const otherEntity = await this.base.getEntityInterface('EntityName', '/other/service');
+```
+
+For detailed examples and best practices, see [Cross-Service Communication](./CrossServiceCommunication.md).
 
 ## Defining unbound actions
 

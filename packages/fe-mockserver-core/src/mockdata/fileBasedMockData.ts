@@ -609,15 +609,17 @@ export class FileBasedMockData {
         return this._mockDataEntitySet.getParentEntityInterface(this._contextId);
     }
 
-    getEntityInterface(entitySetName: string): Promise<FileBasedMockData | undefined> {
+    getEntityInterface(entitySetName: string, serviceNameOrAlias?: string): Promise<FileBasedMockData | undefined> {
+        if (serviceNameOrAlias) {
+            // Cross-service access
+            return this._mockDataEntitySet.dataAccess.getCrossServiceEntityInterface(
+                serviceNameOrAlias,
+                entitySetName,
+                this._contextId
+            );
+        }
+        // Same service access
         return this._mockDataEntitySet.getEntityInterface(entitySetName, this._contextId);
-    }
-
-    async getOtherServiceEntityInterface(
-        serviceName: string,
-        entityName: string
-    ): Promise<FileBasedMockData | undefined> {
-        return await this._mockDataEntitySet.dataAccess.getOtherServiceEntityInterface(serviceName, entityName);
     }
 
     generateMockData() {

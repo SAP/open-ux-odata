@@ -607,15 +607,15 @@ export class DataAccess implements DataAccessInterface {
     }
 
     /**
-     * Get access to an entity interface from another service.
+     * Get access to an entity interface from a different service for cross-service communication.
      *
-     * @param serviceName - The name/path of the service
-     * @param entityName - The name of the entity
+     * @param serviceNameOrAlias - The name/path or alias of the target service
+     * @param entityName - The name of the entity in the target service
      * @param tenantId - The tenant ID to use for cross-service access (defaults to 'tenant-default')
      * @returns The entity interface or undefined if not found
      */
-    public async getOtherServiceEntityInterface(
-        serviceName: string,
+    public async getCrossServiceEntityInterface(
+        serviceNameOrAlias: string,
         entityName: string,
         tenantId: string = 'tenant-default'
     ): Promise<FileBasedMockData | undefined> {
@@ -623,18 +623,16 @@ export class DataAccess implements DataAccessInterface {
             throw new Error('Cross-service access is not enabled. ServiceRegistry not available.');
         }
 
-        const otherService = this.serviceRegistry.getService(serviceName);
+        const otherService = this.serviceRegistry.getService(serviceNameOrAlias);
         if (!otherService) {
             throw new Error(
-                `Service '${serviceName}' not found in registry. Available services: ${this.serviceRegistry
-                    .getServiceNames()
-                    .join(', ')}`
+                `Service '${serviceNameOrAlias}' not found in registry. Available services: ${this.serviceRegistry.getServicesWithAliases()}`
             );
         }
 
         const entitySet = await otherService.getMockEntitySet(entityName);
         if (!entitySet) {
-            throw new Error(`Entity '${entityName}' not found in service '${serviceName}'`);
+            throw new Error(`Entity '${entityName}' not found in service '${serviceNameOrAlias}'`);
         }
 
         return entitySet.getMockData(tenantId); // Use the provided tenant ID for cross-service access

@@ -9,11 +9,13 @@ server:
           configuration:
               services:
                   - urlBasePath: /here/goes/your/firstService
+                    alias: service1
                     name: ''
                     generateMockData: false
                     metadataPath: ./webapp/localService/firstService/metadata.xml
                     mockdataPath: ./webapp/localService/firstService/mockdata
                   - urlBasePath: /here/goes/your/secondService
+                    alias: service2
                     name: ''
                     generateMockData: false
                     metadataPath: ./webapp/localService/secondService/metadata.xml

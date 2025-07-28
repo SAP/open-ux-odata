@@ -4,9 +4,9 @@ module.exports = {
         console.log('Updating the data for ' + JSON.stringify(keys));
         this.base.updateEntry(keys, { description: 'My Custom Description' });
 
-        // Cross-service update - update an entry in the second service
+        // Cross-service update - update an entry in the second service using alias
         this.base
-            .getOtherServiceEntityInterface('/here/goes/your/secondService/', 'RootEntity')
+            .getEntityInterface('RootEntity', 'service2')
             .then(function (secondServiceEntityInterface) {
                 if (secondServiceEntityInterface) {
                     return secondServiceEntityInterface.updateEntry(keys, {

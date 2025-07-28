@@ -5,6 +5,7 @@ export interface Service {
     urlBasePath?: string;
     urlPath?: string;
     name?: string;
+    alias?: string;
     metadataXmlPath?: string;
     mockdataRootPath?: string;
     generateMockData?: boolean;
@@ -87,6 +88,7 @@ export type AnnotationConfig = {
 };
 export type ServiceConfig = {
     urlPath: string;
+    alias?: string;
     logger?: ILogger;
     metadataPath: string;
     mockdataPath: string;

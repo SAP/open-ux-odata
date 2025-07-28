@@ -92,11 +92,7 @@ export type MockDataContributor<T extends object> = {
         getEmptyObject: (odataRequest: ODataRequest) => T;
         getDefaultElement: (odataRequest: ODataRequest) => T;
         getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
-        getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
-        getOtherServiceEntityInterface: (
-            serviceName: string,
-            entityName: string
-        ) => Promise<FileBasedMockData | undefined>;
+        getEntityInterface: (entityName: string, serviceNameOrAlias?: string) => Promise<FileBasedMockData | undefined>;
         checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
         checkFilterValue: (
             comparisonType: string,
@@ -165,30 +161,31 @@ export class FunctionBasedMockData extends FileBasedMockData {
             getEmptyObject: super.getEmptyObject.bind(this),
             getDefaultElement: super.getDefaultElement.bind(this),
             getParentEntityInterface: super.getParentEntityInterface.bind(this),
-            getEntityInterface: super.getEntityInterface.bind(this),
-            getOtherServiceEntityInterface: async (serviceName: string, entityName: string) => {
-                const rawInterface = await mockDataEntitySet.dataAccess.getOtherServiceEntityInterface(
-                    serviceName,
-                    entityName,
-                    contextId
-                );
+            getEntityInterface: async (entitySetName: string, serviceNameOrAlias?: string) => {
+                const rawInterface = await super.getEntityInterface.call(this, entitySetName, serviceNameOrAlias);
 
                 if (!rawInterface) {
                     return rawInterface;
                 }
 
-                // Create a smart updateEntry method using the same logic as this.base.updateEntry
-                const smartUpdateEntry = async (keyValues: KeyDefinitions, patchData: object) => {
-                    const data = (await rawInterface.fetchEntries(keyValues, {} as any))[0];
-                    const updatedData = Object.assign(data, patchData);
-                    return rawInterface.updateEntry(keyValues, updatedData, patchData, {} as any);
-                };
+                // If this is a cross-service call, enhance with smart updateEntry behavior
+                if (serviceNameOrAlias) {
+                    // Create a smart updateEntry method using the same logic as this.base.updateEntry
+                    const smartUpdateEntry = async (keyValues: KeyDefinitions, patchData: object) => {
+                        const data = (await rawInterface.fetchEntries(keyValues, {} as any))[0];
+                        const updatedData = Object.assign(data, patchData);
+                        return rawInterface.updateEntry(keyValues, updatedData, patchData, {} as any);
+                    };
 
-                // Enhance the interface with smart updateEntry behavior
-                const enhancedInterface = Object.create(rawInterface);
-                enhancedInterface.updateEntry = smartUpdateEntry;
+                    // Enhance the interface with smart updateEntry behavior
+                    const enhancedInterface = Object.create(rawInterface);
+                    enhancedInterface.updateEntry = smartUpdateEntry;
 
-                return enhancedInterface;
+                    return enhancedInterface;
+                }
+
+                // Return the raw interface for same-service calls
+                return rawInterface;
             },
             checkFilterValue: super.checkFilterValue.bind(this),
             checkSearchQuery: super.checkSearchQuery.bind(this)

@@ -116,7 +116,7 @@ export async function createMockMiddleware(
             const dataAccess = new DataAccess(mockService, metadata, fileLoader, newConfig.logger, serviceRegistry);
 
             // Register this service for cross-service access
-            serviceRegistry.registerService(mockService.urlPath, dataAccess);
+            serviceRegistry.registerService(mockService.urlPath, dataAccess, mockService.alias);
 
             if (mockService.watch) {
                 const watchPath = [mockService.mockdataPath];

@@ -90,8 +90,8 @@ export interface DataAccessInterface {
     getData(odataRequest: ODataRequest): Promise<any>;
     getDraftRoot(keyValues: KeyDefinitions, _tenantId: string, entitySetDefinition: EntitySet): any;
     getMetadata(): ODataMetadata;
-    getOtherServiceEntityInterface(
-        serviceName: string,
+    getCrossServiceEntityInterface(
+        serviceNameOrAlias: string,
         entityName: string,
         tenantId?: string
     ): Promise<FileBasedMockData | undefined>;

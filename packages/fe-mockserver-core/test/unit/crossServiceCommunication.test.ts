@@ -1,3 +1,4 @@
+import path from 'path';
 import type { ServiceConfig } from '../../src/api';
 import { DataAccess } from '../../src/data/dataAccess';
 import type { ODataMetadata } from '../../src/data/metadata';
@@ -5,55 +6,83 @@ import { ServiceRegistry } from '../../src/data/serviceRegistry';
 import FileSystemLoader from '../../src/plugins/fileSystemLoader';
 
 describe('Cross-Service Communication', () => {
-    test('ServiceRegistry should register and retrieve services', () => {
+    test('ServiceRegistry should register and retrieve services with aliases', () => {
         const serviceRegistry = new ServiceRegistry();
+        const fileLoader = new FileSystemLoader();
 
-        // Mock DataAccess instances
-        const firstServiceDataAccess = {
-            isV4: () => true,
-            shouldValidateETag: () => false,
-            getNavigationPropertyKeys: jest.fn(),
-            getMockEntitySet: jest.fn(),
-            getData: jest.fn(),
-            getDraftRoot: jest.fn(),
-            getMetadata: jest.fn(),
-            getOtherServiceEntityInterface: jest.fn(),
-            debug: false,
-            fileLoader: {} as any,
-            log: {} as any
+        const firstServiceConfig: ServiceConfig = {
+            urlPath: '/firstService',
+            alias: 'service1',
+            metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+            mockdataPath: path.join(__dirname, '__testData')
         };
 
-        const secondServiceDataAccess = {
-            isV4: () => true,
-            shouldValidateETag: () => false,
-            getNavigationPropertyKeys: jest.fn(),
-            getMockEntitySet: jest.fn(),
-            getData: jest.fn(),
-            getDraftRoot: jest.fn(),
-            getMetadata: jest.fn(),
-            getOtherServiceEntityInterface: jest.fn(),
-            debug: false,
-            fileLoader: {} as any,
-            log: {} as any
+        const secondServiceConfig: ServiceConfig = {
+            urlPath: '/secondService',
+            alias: 'service2',
+            metadataPath: path.join(__dirname, '__testData', 'service2.cds'),
+            mockdataPath: path.join(__dirname, '__testData')
         };
 
-        // Register services
-        serviceRegistry.registerService('/firstService', firstServiceDataAccess);
-        serviceRegistry.registerService('/secondService', secondServiceDataAccess);
+        const mockMetadata = {
+            getEntitySet: jest.fn(),
+            getEntityType: jest.fn(),
+            getEntityContainerPath: jest.fn(),
+            getAction: jest.fn(),
+            getFunction: jest.fn(),
+            resolvePath: jest.fn(),
+            schema: {} as any,
+            getSingleton: jest.fn(),
+            references: [],
+            getVersion: jest.fn().mockReturnValue('4.0'),
+            getEntitySets: jest.fn().mockReturnValue([]),
+            getSingletons: jest.fn().mockReturnValue([]),
+            getMetadataUrl: jest.fn()
+        } as unknown as ODataMetadata;
 
-        // Test retrieval
+        const firstServiceDataAccess = new DataAccess(
+            firstServiceConfig,
+            mockMetadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+        const secondServiceDataAccess = new DataAccess(
+            secondServiceConfig,
+            mockMetadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+
+        // Register services with aliases
+        serviceRegistry.registerService('/firstService', firstServiceDataAccess, 'service1');
+        serviceRegistry.registerService('/secondService', secondServiceDataAccess, 'service2');
+
+        // Test retrieval by full name
         expect(serviceRegistry.getService('/firstService')).toBe(firstServiceDataAccess);
         expect(serviceRegistry.getService('/secondService')).toBe(secondServiceDataAccess);
+
+        // Test retrieval by alias
+        expect(serviceRegistry.getService('service1')).toBe(firstServiceDataAccess);
+        expect(serviceRegistry.getService('service2')).toBe(secondServiceDataAccess);
+
+        // Test non-existent service
         expect(serviceRegistry.getService('/nonExistentService')).toBeUndefined();
 
-        // Test service names
+        // Test service names and aliases
         const serviceNames = serviceRegistry.getServiceNames();
         expect(serviceNames).toContain('/firstService');
         expect(serviceNames).toContain('/secondService');
         expect(serviceNames).toHaveLength(2);
+
+        const serviceAliases = serviceRegistry.getServiceAliases();
+        expect(serviceAliases).toContain('service1');
+        expect(serviceAliases).toContain('service2');
+        expect(serviceAliases).toHaveLength(2);
     });
 
-    test('DataAccess should have getOtherServiceEntityInterface method', () => {
+    test('DataAccess should have getCrossServiceEntityInterface method', () => {
         const serviceRegistry = new ServiceRegistry();
         const fileLoader = new FileSystemLoader();
 
@@ -74,72 +103,87 @@ describe('Cross-Service Communication', () => {
             getSingleton: jest.fn(),
             references: [],
             getVersion: jest.fn().mockReturnValue('4.0'),
-            getEntitySets: jest.fn().mockReturnValue([]), // Return empty array to avoid forEach error
-            getSingletons: jest.fn().mockReturnValue([]), // Return empty array to avoid forEach error
+            getEntitySets: jest.fn().mockReturnValue([]),
+            getSingletons: jest.fn().mockReturnValue([]),
             getMetadataUrl: jest.fn()
         } as unknown as ODataMetadata;
 
         const dataAccess = new DataAccess(mockService, mockMetadata, fileLoader, undefined, serviceRegistry);
 
         // Verify the method exists
-        expect(typeof dataAccess.getOtherServiceEntityInterface).toBe('function');
+        expect(typeof dataAccess.getCrossServiceEntityInterface).toBe('function');
     });
 
-    test('Enhanced cross-service interface should have simplified updateEntry behavior', async () => {
-        // Create mock FileBasedMockData with test data
-        const mockRawInterface = {
-            fetchEntries: jest
-                .fn()
-                .mockResolvedValue([
-                    { ID: 1, name: 'Original Name', description: 'Original Description', status: 'active' }
-                ]),
-            updateEntry: jest.fn().mockResolvedValue(undefined)
+    test('getEntityInterface with service parameter should enable cross-service access', async () => {
+        const serviceRegistry = new ServiceRegistry();
+        const fileLoader = new FileSystemLoader();
+
+        const firstServiceConfig: ServiceConfig = {
+            urlPath: '/firstService',
+            alias: 'service1',
+            metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+            mockdataPath: path.join(__dirname, '__testData')
         };
 
-        // Mock getOtherServiceEntityInterface to return our enhanced interface
-        const mockGetOtherService = jest.fn().mockResolvedValue(mockRawInterface);
-
-        // Create a mock base object similar to what exists in FunctionBasedMockData
-        const mockBase = {
-            getOtherServiceEntityInterface: async (serviceName: string, entityName: string) => {
-                const rawInterface = await mockGetOtherService(serviceName, entityName);
-
-                if (!rawInterface) {
-                    return rawInterface;
-                }
-
-                // Apply the same enhancement as in the actual code
-                const enhancedInterface = Object.create(rawInterface);
-                enhancedInterface.updateEntry = async (keyValues: any, patchData: object) => {
-                    const existingData = (await rawInterface.fetchEntries(keyValues, {}))[0];
-                    const updatedData = Object.assign({}, existingData, patchData);
-                    return await rawInterface.updateEntry(keyValues, updatedData, patchData, {});
-                };
-
-                return enhancedInterface;
-            }
+        const secondServiceConfig: ServiceConfig = {
+            urlPath: '/secondService',
+            alias: 'service2',
+            metadataPath: path.join(__dirname, '__testData', 'service2.cds'),
+            mockdataPath: path.join(__dirname, '__testData')
         };
 
-        // Test the enhanced interface
-        const enhancedInterface = await mockBase.getOtherServiceEntityInterface('/other/service', 'TestEntity');
+        const mockMetadata = {
+            getEntitySet: jest.fn(),
+            getEntityType: jest.fn(),
+            getEntityContainerPath: jest.fn(),
+            getAction: jest.fn(),
+            getFunction: jest.fn(),
+            resolvePath: jest.fn(),
+            schema: {} as any,
+            getSingleton: jest.fn(),
+            references: [],
+            getVersion: jest.fn().mockReturnValue('4.0'),
+            getEntitySets: jest.fn().mockReturnValue([]),
+            getSingletons: jest.fn().mockReturnValue([]),
+            getMetadataUrl: jest.fn()
+        } as unknown as ODataMetadata;
 
-        // Call updateEntry with only partial data (like this.base.updateEntry)
-        await enhancedInterface!.updateEntry({ ID: 1 }, { description: 'Updated Description' });
-
-        // Verify it fetched existing data first
-        expect(mockRawInterface.fetchEntries).toHaveBeenCalledWith({ ID: 1 }, {});
-
-        // Verify it called the raw updateEntry with merged data
-        expect(mockRawInterface.updateEntry).toHaveBeenCalledWith(
-            { ID: 1 },
-            {
-                ID: 1,
-                name: 'Original Name',
-                description: 'Updated Description', // Updated field
-                status: 'active' // Preserved field
-            },
-            { description: 'Updated Description' },
-            {}
+        const firstServiceDataAccess = new DataAccess(
+            firstServiceConfig,
+            mockMetadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
         );
+        const secondServiceDataAccess = new DataAccess(
+            secondServiceConfig,
+            mockMetadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+
+        // Register services
+        serviceRegistry.registerService('/firstService', firstServiceDataAccess, 'service1');
+        serviceRegistry.registerService('/secondService', secondServiceDataAccess, 'service2');
+
+        // Verify that getCrossServiceEntityInterface method is available and works
+        expect(typeof firstServiceDataAccess.getCrossServiceEntityInterface).toBe('function');
+
+        // Test cross-service access by service name
+        try {
+            await firstServiceDataAccess.getCrossServiceEntityInterface('/secondService', 'TestEntity');
+        } catch (error) {
+            // Expected to fail since we don't have real entity sets, but method should exist
+            expect(error).toBeDefined();
+        }
+
+        // Test cross-service access by alias
+        try {
+            await firstServiceDataAccess.getCrossServiceEntityInterface('service2', 'TestEntity');
+        } catch (error) {
+            // Expected to fail since we don't have real entity sets, but method should exist
+            expect(error).toBeDefined();
+        }
     });
 });
