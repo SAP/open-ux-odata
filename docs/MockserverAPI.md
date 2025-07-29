@@ -132,22 +132,6 @@ On top of providing ways to override default behavior, you also have access to a
 
 This base API is accessible by calling `this.base.xxx` in any of the mockserver JS file, this object will allow you to manipulate the current or other entities 
 
-#### generateMockData
-
-Generate mock data entries for the entity set.
-
-`generateMockData: () => void;`
-
-#### generateKey
-
-Generate a key value for a specific property, useful when creating new entries.
-
-`generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;`
-
-- `property` - The property definition from the entity type
-- `lineIndex` - Optional line index for generating unique values
-- `mockData` - Optional existing mock data context
-
 #### addEntry
 
 Add a new entry to the data set.
@@ -166,51 +150,6 @@ Remove an entry from the data set
 
 `removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => void;`
 
-#### fetchEntries
-
-Retrieve specific entries from the data set by their key values.
-
-`fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<object[]>;`
-
-- `keyValues` - The key values to identify the entries to fetch
-- Returns array of matching entries
-
-#### hasEntry
-
-Check if an entry with the specified key values exists in the data set.
-
-`hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;`
-
-#### hasEntries
-
-Check if the entity set has any entries.
-
-`hasEntries: (odataRequest: ODataRequest) => boolean;`
-
-#### getAllEntries
-
-Retrieve all entries from the data set.
-
-`getAllEntries: (odataRequest: ODataRequest) => Promise<object[]>;`
-
-#### getEmptyObject
-
-Get an empty object template for the entity type with all properties initialized to default values.
-
-`getEmptyObject: (odataRequest: ODataRequest) => object;`
-
-#### getDefaultElement
-
-Get a default element with generated values for the entity type.
-
-`getDefaultElement: (odataRequest: ODataRequest) => object;`
-
-#### getParentEntityInterface
-
-Retrieve the mockdata entity interface for the parent entity set (useful for draft scenarios).
-
-`getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;`
-
 #### getEntityInterface
 
 Retrieve the mockdata entity interface for a given entity set within the current service, or optionally from another service for cross-service communication.
@@ -228,28 +167,6 @@ When using the optional second parameter for cross-service access, the returned 
 - Service aliases can be used for cleaner, more maintainable code
 
 See [Cross-Service Communication](./CrossServiceCommunication.md) for detailed usage examples and best practices.
-
-#### checkSearchQuery
-
-Check if a mock data entry matches the given search query.
-
-`checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;`
-
-- `mockData` - The mock data entry to check
-- `searchQuery` - The search string to match against
-- Returns true if the entry matches the search criteria
-
-#### checkFilterValue
-
-Check if a mock data value matches a filter expression.
-
-`checkFilterValue: (comparisonType: string, mockValue: any, literal: any, operator: string, odataRequest: ODataRequest) => boolean;`
-
-- `comparisonType` - The type of comparison to perform
-- `mockValue` - The value from the mock data
-- `literal` - The literal value to compare against
-- `operator` - The comparison operator
-- Returns true if the comparison matches
 
 #### example
 
