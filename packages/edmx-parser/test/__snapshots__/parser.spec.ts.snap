@@ -47199,7 +47199,28 @@ RawMetadataInstance {
                     {
                       "name": "Facets",
                       "value": {
-                        "type": "Unknown",
+                        "Collection": [
+                          {
+                            "propertyValues": [
+                              {
+                                "name": "ID",
+                                "value": {
+                                  "String": "PartnersTable",
+                                  "type": "String",
+                                },
+                              },
+                              {
+                                "name": "Target",
+                                "value": {
+                                  "AnnotationPath": "_Partner/@SAP__UI.LineItem#Partners",
+                                  "type": "AnnotationPath",
+                                },
+                              },
+                            ],
+                            "type": "com.sap.vocabularies.UI.v1.ReferenceFacet",
+                          },
+                        ],
+                        "type": "Collection",
                       },
                     },
                   ],
