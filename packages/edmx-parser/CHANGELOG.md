@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.3
+
+### Patch Changes
+
+-   97a8efc: Ensure we ignore the comments inside after parsing
+
 ## 0.9.2
 
 ### Patch Changes
