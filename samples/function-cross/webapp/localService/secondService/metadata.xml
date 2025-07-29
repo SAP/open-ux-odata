@@ -46,6 +46,7 @@
       </EntityType>
       <Action Name="myCustomAction" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="sap.fe.test.TestService.RootEntity"/>
+        <Parameter Name="operation" Type="Edm.String"/>
       </Action>
       <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="sap.fe.test.TestService.RootEntity"/>

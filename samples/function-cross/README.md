@@ -4,7 +4,22 @@ Insert the purpose of this project and some interesting info here...
 
 ## Description
 
-This app demonstrates a setup for developing UI5 applications.
+This app demonstrates a setup for developing UI5 applications with **cross-service communication** using the fe-mockserver.
+
+### Cross-Service Features Demonstrated
+
+This sample showcases the enhanced cross-service communication capabilities:
+
+1. **Cross-Service updateEntry**: Demonstrates partial updates across services using service aliases
+2. **Cross-Service addEntry**: Shows automatic key generation and draft entity handling when adding entries to other services
+3. **Service Aliases**: Uses friendly aliases (`service1`, `service2`) instead of full service URLs
+
+The first service's mockdata includes examples of:
+- Cross-service `updateEntry` with partial data merging
+- Cross-service `addEntry` with automatic key generation (`ID`, `IsActiveEntity`)
+- Error handling for cross-service operations
+
+Both services are draft-enabled with `IsActiveEntity` support, demonstrating how the enhanced cross-service functionality handles draft entities automatically.
 
 ## Requirements
 

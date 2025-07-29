@@ -22,7 +22,11 @@
                                         class="sapUiTinyMarginEnd"/>
                                 <Button text="Execute Action on Second Service" 
                                         type="Emphasized" 
-                                        press="onExecuteSecondServiceAction"/>
+                                        press="onExecuteSecondServiceAction"
+                                        class="sapUiTinyMarginEnd"/>
+                                <Button text="Add Entry via Cross-Service" 
+                                        type="Accept" 
+                                        press="onAddCrossServiceEntry"/>
                             </HBox>
                         </VBox>
                     </content>
