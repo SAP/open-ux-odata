@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.29
+
+### Patch Changes
+
+-   8f2133f: We no longer corrupt the data of embedded navigation properties
+
 ## 1.4.28
 
 ### Patch Changes
