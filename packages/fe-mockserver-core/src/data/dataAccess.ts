@@ -712,7 +712,8 @@ export class DataAccess implements DataAccessInterface {
                 if (
                     (!currentEntitySet &&
                         (!targetContainedEntityType || targetContainedEntityType.name === 'DraftAdministrativeData')) ||
-                    (this.metadata.getVersion() === '2.0' && targetContainedData)
+                    (this.metadata.getVersion() === '2.0' && targetContainedData) ||
+                    (targetContainedData && asArray)
                 ) {
                     if (Array.isArray(innerData)) {
                         return asArray ? [] : null;
