@@ -1,0 +1,17 @@
+[
+    {
+        "ID": 0,
+        "FirstName": "Robert",
+        "LastName": "",
+        "DateOfBirth": "2025-07-30",
+        "EmailAddress": "",
+        "Currency_code": "",
+        "Country": "",
+        "SpecialOne": {
+            "ID": 456,
+            "Name": "My Lovely",
+            "Processed": false
+        },
+        "Processed": false
+    }
+]
