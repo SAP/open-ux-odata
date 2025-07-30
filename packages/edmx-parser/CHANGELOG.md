@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.4
+
+### Patch Changes
+
+-   b937f0b: Fix for maxLength = 'max'
+
 ## 0.9.3
 
 ### Patch Changes
