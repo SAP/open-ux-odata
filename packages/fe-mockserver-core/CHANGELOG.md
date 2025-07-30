@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.30
+
+### Patch Changes
+
+-   78e85d1: Slight changes on the containment when fetching a collection
+
 ## 1.4.29
 
 ### Patch Changes
