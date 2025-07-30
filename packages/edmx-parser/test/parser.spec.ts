@@ -6,6 +6,13 @@ describe('Parser', function () {
     it('can parse an edmx file', async () => {
         const xmlFile = await loadFixture('v4/sdMeta.xml');
         const schema: RawMetadata = parse(xmlFile);
+        expect(
+            (
+                schema.schema.entityTypes
+                    .find((e) => e.name === 'BusinessPartner')
+                    ?.entityProperties.find(((p) => p.name === 'SalesDocument')!) as any
+            ).maxLength
+        ).toBe(5000);
         const annoFile = await loadFixture('v4/sdAnno.xml');
         const annoSchema: RawMetadata = parse(annoFile, 'annoFile');
         const mergeSchema = merge(schema, annoSchema);

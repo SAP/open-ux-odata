@@ -100,7 +100,10 @@ function parseProperties(
                 type: unaliasType(entityProperty._attributes.Type).type
             };
             if (entityProperty._attributes.MaxLength) {
-                edmProperty.maxLength = parseInt(entityProperty._attributes.MaxLength, 10);
+                edmProperty.maxLength =
+                    entityProperty._attributes.MaxLength === 'max'
+                        ? 5000
+                        : parseInt(entityProperty._attributes.MaxLength, 10);
             }
             if (entityProperty._attributes.Precision) {
                 edmProperty.precision = parseInt(entityProperty._attributes.Precision, 10);
@@ -523,7 +526,8 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
                     isCollection
                 };
                 if (param._attributes.MaxLength) {
-                    edmActionParameter.maxLength = parseInt(param._attributes.MaxLength, 10);
+                    edmActionParameter.maxLength =
+                        param._attributes.MaxLength === 'max' ? 5000 : parseInt(param._attributes.MaxLength, 10);
                 }
                 if (param._attributes.Precision) {
                     edmActionParameter.precision = parseInt(param._attributes.Precision, 10);

@@ -66431,7 +66431,7 @@ MergedRawMetadata {
         {
           "_type": "Property",
           "fullyQualifiedName": "com.c_salesordermanage_sd.BusinessPartner/SalesDocument",
-          "maxLength": 10,
+          "maxLength": 5000,
           "name": "SalesDocument",
           "nullable": false,
           "type": "Edm.String",
@@ -66498,7 +66498,7 @@ MergedRawMetadata {
         {
           "_type": "Property",
           "fullyQualifiedName": "com.c_salesordermanage_sd.BusinessPartner/SalesDocument",
-          "maxLength": 10,
+          "maxLength": 5000,
           "name": "SalesDocument",
           "nullable": false,
           "type": "Edm.String",
@@ -87085,7 +87085,7 @@ MergedRawMetadata {
               {
                 "_type": "Property",
                 "fullyQualifiedName": "com.c_salesordermanage_sd.BusinessPartner/SalesDocument",
-                "maxLength": 10,
+                "maxLength": 5000,
                 "name": "SalesDocument",
                 "nullable": false,
                 "type": "Edm.String",
@@ -87152,7 +87152,7 @@ MergedRawMetadata {
               {
                 "_type": "Property",
                 "fullyQualifiedName": "com.c_salesordermanage_sd.BusinessPartner/SalesDocument",
-                "maxLength": 10,
+                "maxLength": 5000,
                 "name": "SalesDocument",
                 "nullable": false,
                 "type": "Edm.String",
