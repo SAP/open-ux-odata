@@ -824,7 +824,15 @@ export class DataAccess implements DataAccessInterface {
                 odataRequest.setETag(data['@odata.etag']);
             }
 
-            this.applySelect(data, odataRequest.selectedProperties, odataRequest.expandProperties, currentEntityType);
+            if (!dontClone) {
+                // Only apply select when clone is performed otherwise we destroy the original data.
+                this.applySelect(
+                    data,
+                    odataRequest.selectedProperties,
+                    odataRequest.expandProperties,
+                    currentEntityType
+                );
+            }
 
             // process $expand options (nested $select, $filter, $orderby, ...)
             await Promise.all(
