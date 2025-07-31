@@ -37166,7 +37166,7 @@ RawMetadataInstance {
             "name": "NetAmount",
             "nullable": false,
             "precision": 15,
-            "scale": NaN,
+            "scale": "variable",
             "type": "Edm.Decimal",
           },
           {
@@ -38234,7 +38234,7 @@ RawMetadataInstance {
             "name": "TotalNetAmount",
             "nullable": false,
             "precision": 15,
-            "scale": NaN,
+            "scale": "variable",
             "type": "Edm.Decimal",
           },
           {
@@ -42136,7 +42136,7 @@ RawMetadataInstance {
             "name": "ConditionAmount",
             "nullable": false,
             "precision": 15,
-            "scale": NaN,
+            "scale": "variable",
             "type": "Edm.Decimal",
           },
           {
@@ -42303,7 +42303,7 @@ RawMetadataInstance {
             "name": "CustomerCreditExposureAmount",
             "nullable": false,
             "precision": 23,
-            "scale": NaN,
+            "scale": "variable",
             "type": "Edm.Decimal",
           },
           {
@@ -42312,7 +42312,7 @@ RawMetadataInstance {
             "name": "CustomerCreditLimitAmount",
             "nullable": false,
             "precision": 23,
-            "scale": NaN,
+            "scale": "variable",
             "type": "Edm.Decimal",
           },
           {
@@ -42328,7 +42328,7 @@ RawMetadataInstance {
             "name": "RemainingCreditAmtInDspCrcy",
             "nullable": false,
             "precision": 23,
-            "scale": NaN,
+            "scale": "variable",
             "type": "Edm.Decimal",
           },
           {
@@ -43594,7 +43594,7 @@ RawMetadataInstance {
             "name": "NetSlsVolumeNetAmtInDC",
             "nullable": false,
             "precision": 19,
-            "scale": NaN,
+            "scale": "variable",
             "type": "Edm.Decimal",
           },
           {
@@ -109036,7 +109036,7 @@ RawMetadataInstance {
           {
             "_type": "Property",
             "fullyQualifiedName": "NorthwindModel.Category/Description",
-            "maxLength": NaN,
+            "maxLength": 5000,
             "name": "Description",
             "nullable": true,
             "type": "Edm.String",
@@ -109044,7 +109044,7 @@ RawMetadataInstance {
           {
             "_type": "Property",
             "fullyQualifiedName": "NorthwindModel.Category/Picture",
-            "maxLength": NaN,
+            "maxLength": 5000,
             "name": "Picture",
             "nullable": true,
             "type": "Edm.Binary",
@@ -109095,7 +109095,7 @@ RawMetadataInstance {
           {
             "_type": "Property",
             "fullyQualifiedName": "NorthwindModel.CustomerDemographic/CustomerDesc",
-            "maxLength": NaN,
+            "maxLength": 5000,
             "name": "CustomerDesc",
             "nullable": true,
             "type": "Edm.String",
@@ -109372,7 +109372,7 @@ RawMetadataInstance {
           {
             "_type": "Property",
             "fullyQualifiedName": "NorthwindModel.Employee/Photo",
-            "maxLength": NaN,
+            "maxLength": 5000,
             "name": "Photo",
             "nullable": true,
             "type": "Edm.Binary",
@@ -109380,7 +109380,7 @@ RawMetadataInstance {
           {
             "_type": "Property",
             "fullyQualifiedName": "NorthwindModel.Employee/Notes",
-            "maxLength": NaN,
+            "maxLength": 5000,
             "name": "Notes",
             "nullable": true,
             "type": "Edm.String",
@@ -110099,7 +110099,7 @@ RawMetadataInstance {
           {
             "_type": "Property",
             "fullyQualifiedName": "NorthwindModel.Supplier/HomePage",
-            "maxLength": NaN,
+            "maxLength": 5000,
             "name": "HomePage",
             "nullable": true,
             "type": "Edm.String",

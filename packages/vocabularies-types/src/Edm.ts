@@ -323,7 +323,7 @@ export type Property = {
     fullyQualifiedName: FullyQualifiedName;
     maxLength?: number;
     precision?: number;
-    scale?: number;
+    scale?: number | string;
     nullable?: boolean;
     defaultValue?: string | boolean | number;
     unicode?: boolean;
@@ -436,7 +436,7 @@ export type ActionParameter = {
     type: string;
     maxLength?: number;
     precision?: number;
-    scale?: number;
+    scale?: number | string;
     nullable?: boolean;
     typeReference?: TypeDefinition | ComplexType | EntityType;
     annotations: ParameterAnnotations;
