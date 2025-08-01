@@ -28,7 +28,11 @@ module.exports = {
             return this.base.updateEntry(keyValues, newData);
         } else if (odataRequest.tenantId === 'tenant-006') {
             const mySecondEntityInterface = await this.base.getEntityInterface('MySecondEntity');
-            mySecondEntityInterface.addEntry({ Name: 'MySecondEntityName' });
+            await mySecondEntityInterface.addEntry({ Name: 'MySecondEntityName' });
+            return this.base.updateEntry(keyValues, newData);
+        } else if (odataRequest.tenantId === 'tenant-007') {
+            const mySecondEntityInterface = await this.base.getEntityInterface('MySecondEntity', 'service2');
+            await mySecondEntityInterface.addEntry({ Name: 'MySecondEntityName' });
             return this.base.updateEntry(keyValues, newData);
         } else {
             return this.base.updateEntry(keyValues, newData);
