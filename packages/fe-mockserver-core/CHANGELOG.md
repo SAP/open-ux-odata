@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.33
+
+### Patch Changes
+
+-   f6a6211: Add support for cross-service communication
+
 ## 1.4.32
 
 ### Patch Changes

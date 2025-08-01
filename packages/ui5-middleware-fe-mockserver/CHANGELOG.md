@@ -1,5 +1,13 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.2.105
+
+### Patch Changes
+
+-   f6a6211: Add support for cross-service communication
+-   Updated dependencies [f6a6211]
+    -   @sap-ux/fe-mockserver-core@1.4.33
+
 ## 2.2.104
 
 ### Patch Changes
