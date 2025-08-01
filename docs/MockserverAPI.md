@@ -152,11 +152,21 @@ Remove an entry from the data set
 
 #### getEntityInterface
 
-Retrieve the mockdata entity interface for a given entity set.
+Retrieve the mockdata entity interface for a given entity set within the current service, or optionally from another service for cross-service communication.
 
-`getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;`
+`getEntityInterface: (entityName: string, serviceNameOrAlias?: string) => Promise<FileBasedMockData | undefined>;`
 
-The entity interface allow you then to access the standard function (`addEntry`, `fetchEntries`, ...) to manipulate the mockdata of the application.
+- `entityName` - The name of the entity set
+- `serviceNameOrAlias` - Optional alias or URL path of the target service for cross-service communication
+
+The entity interface allows you to access the standard functions (`addEntry`, `fetchEntries`, `updateEntry`, etc.) to manipulate the mockdata of the application.
+
+When using the optional second parameter for cross-service access, the returned entity interface includes enhanced behavior:
+- `updateEntry` automatically preserves existing fields (same smart behavior as `this.base.updateEntry`)
+- All standard mockdata operations are available
+- Service aliases can be used for cleaner, more maintainable code
+
+See [Cross-Service Communication](./CrossServiceCommunication.md) for detailed usage examples and best practices.
 
 #### example
 
@@ -179,6 +189,14 @@ The entity interface allow you then to access the standard function (`addEntry`,
         // For tenant-006 we will retrive the EntityInterface for a different entity and add a new entry there using addEntry
         const mySecondEntityInterface = await this.base.getEntityInterface('MySecondEntity');
         mySecondEntityInterface.addEntry({ Name: 'MySecondEntityName' });
+        return this.base.updateEntry(keyValues, newData);
+    } else if (odataRequest.tenantId === 'tenant-007') {
+        // For tenant-007 we will update an entity in a different service using cross-service communication
+        const otherServiceEntity = await this.base.getEntityInterface('RelatedEntity', '/other/service');
+        if (otherServiceEntity) {
+            // Cross-service updateEntry works just like this.base.updateEntry - automatic data merging
+            await otherServiceEntity.updateEntry(keyValues, { status: 'updated_from_main_service' });
+        }
         return this.base.updateEntry(keyValues, newData);
     } else {
         return this.base.updateEntry(keyValues, newData);

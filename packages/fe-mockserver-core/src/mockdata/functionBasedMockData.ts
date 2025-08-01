@@ -92,7 +92,7 @@ export type MockDataContributor<T extends object> = {
         getEmptyObject: (odataRequest: ODataRequest) => T;
         getDefaultElement: (odataRequest: ODataRequest) => T;
         getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
-        getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
+        getEntityInterface: (entityName: string, serviceNameOrAlias?: string) => Promise<FileBasedMockData | undefined>;
         checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
         checkFilterValue: (
             comparisonType: string,
@@ -130,29 +130,44 @@ export class FunctionBasedMockData extends FileBasedMockData {
         );
         this._mockDataFn = targetMock;
 
-        this._mockDataFn.base = {
-            generateMockData: super.generateMockData.bind(this),
-            generateKey: super.generateKey.bind(this),
-            addEntry: (postData: any) => {
-                this._entityType.keys.forEach((keyProp) => {
+        // Helper function to create a partial updateEntry that fetches existing data and merges with patch
+        const createPartialUpdateEntry = (fetchEntries: any, updateEntry: any) => {
+            return async (keyValues: KeyDefinitions, patchData: object, odataRequest = {} as any) => {
+                const data = (await fetchEntries(keyValues, odataRequest))[0];
+                const updatedData = Object.assign(data, patchData);
+                return updateEntry(keyValues, updatedData, patchData, odataRequest);
+            };
+        };
+
+        // Helper function to create an addEntry that automatically generates keys and handles draft entities
+        const createAutoKeyAddEntry = (entityType: any, generateKey: any, getEmptyObject: any, addEntry: any) => {
+            return (postData: any) => {
+                entityType.keys.forEach((keyProp: any) => {
                     if (postData[keyProp.name] === undefined || postData[keyProp.name].length === 0) {
                         // Missing key
                         if (keyProp.name === 'IsActiveEntity') {
                             postData['IsActiveEntity'] = false;
                         } else {
-                            postData[keyProp.name] = super.generateKey(keyProp);
+                            postData[keyProp.name] = generateKey(keyProp);
                         }
                     }
                 });
-                let newObject = super.getEmptyObject({} as any);
+                let newObject = getEmptyObject({} as any);
                 newObject = Object.assign(newObject, postData);
-                return super.addEntry(newObject, {} as any);
-            },
-            updateEntry: async (keyValues: KeyDefinitions, patchData: object, odataRequest) => {
-                const data = (await this.fetchEntries(keyValues, odataRequest))[0];
-                const updatedData = Object.assign(data, patchData);
-                return super.updateEntry(keyValues, updatedData, patchData, odataRequest);
-            },
+                return addEntry(newObject, {} as any);
+            };
+        };
+
+        this._mockDataFn.base = {
+            generateMockData: super.generateMockData.bind(this),
+            generateKey: super.generateKey.bind(this),
+            addEntry: createAutoKeyAddEntry(
+                this._entityType,
+                super.generateKey.bind(this),
+                super.getEmptyObject.bind(this),
+                super.addEntry.bind(this)
+            ),
+            updateEntry: createPartialUpdateEntry(this.fetchEntries.bind(this), super.updateEntry.bind(this)),
             removeEntry: super.removeEntry.bind(this),
             fetchEntries: super.fetchEntries.bind(this),
             hasEntry: super.hasEntry.bind(this),
@@ -161,7 +176,42 @@ export class FunctionBasedMockData extends FileBasedMockData {
             getEmptyObject: super.getEmptyObject.bind(this),
             getDefaultElement: super.getDefaultElement.bind(this),
             getParentEntityInterface: super.getParentEntityInterface.bind(this),
-            getEntityInterface: super.getEntityInterface.bind(this),
+            getEntityInterface: async (entitySetName: string, serviceNameOrAlias?: string) => {
+                const rawInterface = await super.getEntityInterface.call(this, entitySetName, serviceNameOrAlias);
+
+                if (!rawInterface) {
+                    return rawInterface;
+                }
+
+                // If this is a cross-service call, enhance with auto-key and partial update behavior
+                if (serviceNameOrAlias) {
+                    // Enhance the interface with both addEntry and updateEntry behavior using the same helpers
+                    const enhancedInterface = Object.create(rawInterface);
+
+                    // Add auto-key generation for addEntry - access _entityType via type assertion
+                    // since we know cross-service interfaces return FileBasedMockData instances
+                    const fileBasedInterface = rawInterface as any;
+                    if (fileBasedInterface._entityType) {
+                        enhancedInterface.addEntry = createAutoKeyAddEntry(
+                            fileBasedInterface._entityType,
+                            rawInterface.generateKey.bind(rawInterface),
+                            rawInterface.getEmptyObject.bind(rawInterface),
+                            rawInterface.addEntry.bind(rawInterface)
+                        );
+                    }
+
+                    // Add partial update behavior for updateEntry
+                    enhancedInterface.updateEntry = createPartialUpdateEntry(
+                        rawInterface.fetchEntries.bind(rawInterface),
+                        rawInterface.updateEntry.bind(rawInterface)
+                    );
+
+                    return enhancedInterface;
+                }
+
+                // Return the raw interface for same-service calls
+                return rawInterface;
+            },
             checkFilterValue: super.checkFilterValue.bind(this),
             checkSearchQuery: super.checkSearchQuery.bind(this)
         };

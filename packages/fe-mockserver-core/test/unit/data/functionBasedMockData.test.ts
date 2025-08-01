@@ -4,6 +4,7 @@ import type { ServiceConfig } from '../../../src';
 import type { EntitySetInterface } from '../../../src/data/common';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
+import { ServiceRegistry } from '../../../src/data/serviceRegistry';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import ODataRequest from '../../../src/request/odataRequest';
 
@@ -14,14 +15,33 @@ describe('Function Based Mock Data', () => {
     const baseDir = join(__dirname, 'mockdata');
     const metadataProvider = new CDSMetadataProvider(fileLoader);
     let dataAccess: DataAccess;
+    let dataAccess2: DataAccess;
     let myEntitySet: EntitySetInterface;
     let myOtherEntitySet: EntitySetInterface;
+    let myOtherServiceEntitySet: EntitySetInterface;
+    const serviceRegistry: ServiceRegistry = new ServiceRegistry();
     beforeAll(async () => {
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+        dataAccess2 = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+        serviceRegistry.registerService('/firstService', dataAccess, 'service1');
+        serviceRegistry.registerService('/secondService', dataAccess2, 'service2');
         myEntitySet = await dataAccess.getMockEntitySet('MyRootEntity');
         myOtherEntitySet = await dataAccess.getMockEntitySet('MySecondEntity');
+        myOtherServiceEntitySet = await dataAccess2.getMockEntitySet('MySecondEntity');
     });
     it('can GET All Entries', async () => {
         const fakeRequest = new ODataRequest(
@@ -213,6 +233,31 @@ describe('Function Based Mock Data', () => {
         allSecondData = (await secondMock.getAllEntries(fakeRequest)) as any;
         expect(allSecondData.length).toBe(2);
         expect(allSecondData[1]).toStrictEqual({ Name: 'MySecondEntityName' });
+
+        // Fake that in tenant 007 we can also update another entity in another service
+        fakeRequest.tenantId = 'tenant-007';
+        mockData = myEntitySet.getMockData('tenant-007');
+        allData = (await mockData.getAllEntries(fakeRequest)) as any;
+        const secondServiceMock = myOtherServiceEntitySet.getMockData('tenant-007') as any;
+        let allSecondServiceData = (await secondServiceMock.getAllEntries(fakeRequest)) as any;
+        expect(allData.length).toBe(3);
+        expect(allSecondServiceData.length).toBe(1);
+        await mockData.updateEntry(
+            { ID: 1 },
+            {
+                ID: 1,
+                Name: 'My Updated Name',
+                Value: 'My Value'
+            },
+            {
+                Name: 'My Updated Name'
+            },
+            fakeRequest
+        );
+        fakeRequest.getResponseData();
+        allSecondServiceData = (await secondMock.getAllEntries(fakeRequest)) as any;
+        expect(allSecondServiceData.length).toBe(2);
+        expect(allSecondServiceData[1]).toStrictEqual({ Name: 'MySecondEntityName' });
     });
 
     it('can get entries based on filters', async () => {

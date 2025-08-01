@@ -61,7 +61,11 @@ export interface EntitySetInterface {
         _updateParent?: boolean
     ): Promise<void>;
     getParentEntityInterface(tenantId: string): Promise<FileBasedMockData | undefined>;
-    getEntityInterface(entitySetName: string, tenantId: string): Promise<FileBasedMockData | undefined>;
+    getEntityInterface(
+        entitySetName: string,
+        serviceNameOrAlias: string | undefined,
+        tenantId: string
+    ): Promise<FileBasedMockData | undefined>;
     getMockData(tenantId: string): FileBasedMockData;
     isV4(): boolean;
     shouldValidateETag(): boolean;
@@ -89,6 +93,11 @@ export interface DataAccessInterface {
     getData(odataRequest: ODataRequest): Promise<any>;
     getDraftRoot(keyValues: KeyDefinitions, _tenantId: string, entitySetDefinition: EntitySet): any;
     getMetadata(): ODataMetadata;
+    getCrossServiceEntityInterface(
+        serviceNameOrAlias: string,
+        entityName: string,
+        tenantId?: string
+    ): Promise<FileBasedMockData | undefined>;
     debug: boolean;
     fileLoader: IFileLoader;
     log: ILogger;

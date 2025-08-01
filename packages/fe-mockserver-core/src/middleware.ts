@@ -6,6 +6,7 @@ import type { IRouter } from 'router';
 import Router from 'router';
 import { DataAccess } from './data/dataAccess';
 import { ODataMetadata } from './data/metadata';
+import { ServiceRegistry } from './data/serviceRegistry';
 import type { IFileLoader, IMetadataProcessor } from './index';
 import { getLogger } from './logger';
 import { getMetadataProcessor } from './pluginsManager';
@@ -81,6 +82,9 @@ export async function createMockMiddleware(
     if (newConfig.services.length === 0) {
         log.info('No services configured. Skipping mockserver setup.');
     }
+
+    // Create service registry for cross-service communication
+    const serviceRegistry = new ServiceRegistry();
     const oDataHandlerPromises = newConfig.services.map(async (mockServiceIn: ServiceConfig) => {
         const mockService = mockServiceIn as ServiceConfigEx;
         const splittedPath = mockService.urlPath.split('/');
@@ -109,7 +113,10 @@ export async function createMockMiddleware(
             }
 
             let metadata = await loadMetadata(mockService, processor);
-            const dataAccess = new DataAccess(mockService, metadata, fileLoader, newConfig.logger);
+            const dataAccess = new DataAccess(mockService, metadata, fileLoader, newConfig.logger, serviceRegistry);
+
+            // Register this service for cross-service access
+            serviceRegistry.registerService(mockService.urlPath, dataAccess, mockService.alias);
 
             if (mockService.watch) {
                 const watchPath = [mockService.mockdataPath];

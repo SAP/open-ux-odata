@@ -33,6 +33,7 @@ import { DraftMockEntitySet } from './entitySets/draftEntitySet';
 import { MockDataEntitySet } from './entitySets/entitySet';
 import { StickyMockEntitySet } from './entitySets/stickyEntitySet';
 import type { ODataMetadata } from './metadata';
+import type { ServiceRegistry } from './serviceRegistry';
 
 type ApplyToExpandTreeFunction = (
     this: DataAccess,
@@ -65,7 +66,8 @@ export class DataAccess implements DataAccessInterface {
         private service: ServiceConfig,
         private metadata: ODataMetadata,
         public fileLoader: IFileLoader,
-        public logger?: ILogger
+        public logger?: ILogger,
+        private readonly serviceRegistry?: ServiceRegistry
     ) {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
@@ -595,10 +597,54 @@ export class DataAccess implements DataAccessInterface {
         );
     }
 
+    /**
+     * Get the OData metadata for this service.
+     *
+     * @returns The OData metadata
+     */
     public getMetadata(): ODataMetadata {
         return this.metadata;
     }
 
+    /**
+     * Get access to an entity interface from a different service for cross-service communication.
+     *
+     * @param serviceNameOrAlias - The name/path or alias of the target service
+     * @param entityName - The name of the entity in the target service
+     * @param tenantId - The tenant ID to use for cross-service access (defaults to 'tenant-default')
+     * @returns The entity interface or undefined if not found
+     */
+    public async getCrossServiceEntityInterface(
+        serviceNameOrAlias: string,
+        entityName: string,
+        tenantId: string = 'tenant-default'
+    ): Promise<FileBasedMockData | undefined> {
+        if (!this.serviceRegistry) {
+            throw new Error('Cross-service access is not enabled. ServiceRegistry not available.');
+        }
+
+        const otherService = this.serviceRegistry.getService(serviceNameOrAlias);
+        if (!otherService) {
+            throw new Error(
+                `Service '${serviceNameOrAlias}' not found in registry. Available services: ${this.serviceRegistry.getServicesWithAliases()}`
+            );
+        }
+
+        const entitySet = await otherService.getMockEntitySet(entityName);
+        if (!entitySet) {
+            throw new Error(`Entity '${entityName}' not found in service '${serviceNameOrAlias}'`);
+        }
+
+        return entitySet.getMockData(tenantId); // Use the provided tenant ID for cross-service access
+    }
+
+    /**
+     * Get data based on an OData request.
+     *
+     * @param odataRequest - The OData request
+     * @param dontClone - Whether to avoid cloning the data
+     * @returns The requested data
+     */
     public async getData(odataRequest: ODataRequest, dontClone: boolean = false): Promise<any> {
         this.log.info(`Retrieving data for ${JSON.stringify(odataRequest.queryPath)}`);
         let currentEntitySet: EntitySet | Singleton | undefined;

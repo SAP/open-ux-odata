@@ -1,0 +1,124 @@
+{
+    "_version": "1.12.0",
+
+    "sap.app": {
+        "id": "sap.fe.mockserver.functioncross",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "/here/goes/your/firstService/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["annotation"],
+                    "odataVersion": "4.0",
+                    "localUri": "localService/firstService/metadata.xml"
+                }
+            },
+            "secondService": {
+                "uri": "/here/goes/your/secondService/",
+                "type": "OData",
+                "settings": {
+                    "annotations": ["annotation"],
+                    "odataVersion": "4.0",
+                    "localUri": "localService/secondService/metadata.xml"
+                }
+            }
+        },
+        "applicationVersion": {
+            "version": "${version}"
+        },
+        "sourceTemplate": {
+            "id": "generator-ui5-app",
+            "version": "1.1.0"
+        }
+    },
+
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {},
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "sap.fe.mockserver.functioncross.view.App",
+            "type": "XML",
+            "id": "app"
+        },
+
+        "dependencies": {
+            "minUI5Version": "1.138.1",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {}
+            }
+        },
+
+        "handleValidation": true,
+
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+
+        "models": {
+            "": {
+                "dataSource": "mainService",
+                "type": "sap.ui.model.odata.v4.ODataModel",
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "secondService": {
+                "dataSource": "secondService",
+                "type": "sap.ui.model.odata.v4.ODataModel",
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.fe.mockserver.functioncross.i18n.i18n",
+                    "supportedLocales": ["en", "de"],
+                    "fallbackLocale": "en",
+                    "async": true
+                }
+            }
+        },
+
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "sap.fe.mockserver.functioncross.view",
+                "controlId": "app",
+                "controlAggregation": "pages"
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "main",
+                    "target": "main"
+                }
+            ],
+            "targets": {
+                "main": {
+                    "viewId": "main",
+                    "viewName": "Main"
+                }
+            }
+        }
+    }
+}
