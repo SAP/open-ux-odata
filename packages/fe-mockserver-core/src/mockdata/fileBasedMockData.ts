@@ -609,8 +609,8 @@ export class FileBasedMockData {
         return this._mockDataEntitySet.getParentEntityInterface(this._contextId);
     }
 
-    getEntityInterface(entitySetName: string): Promise<FileBasedMockData | undefined> {
-        return this._mockDataEntitySet.getEntityInterface(entitySetName, this._contextId);
+    getEntityInterface(entitySetName: string, serviceNameOrAlias?: string): Promise<FileBasedMockData | undefined> {
+        return this._mockDataEntitySet.getEntityInterface(entitySetName, serviceNameOrAlias, this._contextId);
     }
 
     generateMockData() {

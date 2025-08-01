@@ -1,0 +1,16 @@
+{
+    "name": "sap.fe.mockserver.functioncross",
+    "version": "1.0.0",
+    "description": "UI5 Application: sap.fe.mockserver.functioncross",
+    "author": "„marianfoo“",
+    "license": "Apache-2.0",
+    "scripts": {
+        "start": "ui5 serve --port 8080 -o index-cdn.html",
+        "start:silent": "ui5 serve --port 8080"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@ui5/cli": "3.11.5",
+        "rimraf": "3.0.2"
+    }
+}
