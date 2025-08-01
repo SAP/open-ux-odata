@@ -185,5 +185,9 @@ describe('Cross-Service Communication', () => {
             // Expected to fail since we don't have real entity sets, but method should exist
             expect(error).toBeDefined();
         }
+
+        expect(serviceRegistry.getServicesWithAliases()).toMatchInlineSnapshot(
+            `"/firstService (alias: service1), /secondService (alias: service2)"`
+        );
     });
 });
