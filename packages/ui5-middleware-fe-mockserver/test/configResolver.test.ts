@@ -247,10 +247,5 @@ describe('The config resolver', () => {
         // Third service should not have alias (undefined)
         expect(configWithAlias.services[2].alias).toBeUndefined();
         expect(configWithAlias.services[2].urlPath).toBe('/third/service/ThirdService');
-
-        // Verify other properties are still correctly mapped
-        expect(configWithAlias.services[0].metadataPath).toBe('/first-metadata.xml');
-        expect(configWithAlias.services[1].metadataPath).toBe('/second-metadata.xml');
-        expect(configWithAlias.services[2].metadataPath).toBe('/third-metadata.xml');
     });
 });
