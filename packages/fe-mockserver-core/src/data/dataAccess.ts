@@ -67,7 +67,7 @@ export class DataAccess implements DataAccessInterface {
         private metadata: ODataMetadata,
         public fileLoader: IFileLoader,
         public logger?: ILogger,
-        private serviceRegistry?: ServiceRegistry
+        private readonly serviceRegistry?: ServiceRegistry
     ) {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
