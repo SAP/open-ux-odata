@@ -610,16 +610,7 @@ export class FileBasedMockData {
     }
 
     getEntityInterface(entitySetName: string, serviceNameOrAlias?: string): Promise<FileBasedMockData | undefined> {
-        if (serviceNameOrAlias) {
-            // Cross-service access
-            return this._mockDataEntitySet.dataAccess.getCrossServiceEntityInterface(
-                serviceNameOrAlias,
-                entitySetName,
-                this._contextId
-            );
-        }
-        // Same service access
-        return this._mockDataEntitySet.getEntityInterface(entitySetName, this._contextId);
+        return this._mockDataEntitySet.getEntityInterface(entitySetName, serviceNameOrAlias, this._contextId);
     }
 
     generateMockData() {

@@ -244,7 +244,7 @@ export class MockDataEntitySet implements EntitySetInterface {
     public readyPromise: Promise<EntitySetInterface>;
     protected entitySetDefinition: EntitySet | null;
     protected entityTypeDefinition: EntityType;
-    public dataAccess: DataAccessInterface;
+    protected dataAccess: DataAccessInterface;
     /**
      * @param rootFolder
      * @param entitySetDefinition
@@ -760,11 +760,15 @@ export class MockDataEntitySet implements EntitySetInterface {
 
     public async getParentEntityInterface(tenantId: string) {
         const parentEntitySetName = this.dataAccess.getMetadata().getParentEntitySetName(this.entitySetDefinition!);
-        return this.getEntityInterface(parentEntitySetName!, tenantId);
+        return this.getEntityInterface(parentEntitySetName!, undefined, tenantId);
     }
 
-    public async getEntityInterface(entitySet: string, tenantId: string) {
-        const mockEntitySet = await this.dataAccess.getMockEntitySet(entitySet);
-        return mockEntitySet?.getMockData(tenantId);
+    public async getEntityInterface(entitySet: string, serviceNameOrAlias: string | undefined, tenantId: string) {
+        if (serviceNameOrAlias) {
+            return await this.dataAccess.getCrossServiceEntityInterface(serviceNameOrAlias, entitySet, tenantId);
+        } else {
+            const mockEntitySet = await this.dataAccess.getMockEntitySet(entitySet);
+            return mockEntitySet?.getMockData(tenantId);
+        }
     }
 }

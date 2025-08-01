@@ -61,12 +61,15 @@ export interface EntitySetInterface {
         _updateParent?: boolean
     ): Promise<void>;
     getParentEntityInterface(tenantId: string): Promise<FileBasedMockData | undefined>;
-    getEntityInterface(entitySetName: string, tenantId: string): Promise<FileBasedMockData | undefined>;
+    getEntityInterface(
+        entitySetName: string,
+        serviceNameOrAlias: string | undefined,
+        tenantId: string
+    ): Promise<FileBasedMockData | undefined>;
     getMockData(tenantId: string): FileBasedMockData;
     isV4(): boolean;
     shouldValidateETag(): boolean;
     isDraft(): boolean;
-    dataAccess: DataAccessInterface;
 }
 export interface DataAccessInterface {
     isV4(): boolean;
