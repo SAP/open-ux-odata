@@ -758,7 +758,8 @@ export class DataAccess implements DataAccessInterface {
                 if (
                     (!currentEntitySet &&
                         (!targetContainedEntityType || targetContainedEntityType.name === 'DraftAdministrativeData')) ||
-                    (this.metadata.getVersion() === '2.0' && targetContainedData)
+                    (this.metadata.getVersion() === '2.0' && targetContainedData) ||
+                    (targetContainedData && asArray)
                 ) {
                     if (Array.isArray(innerData)) {
                         return asArray ? [] : null;
@@ -870,7 +871,15 @@ export class DataAccess implements DataAccessInterface {
                 odataRequest.setETag(data['@odata.etag']);
             }
 
-            this.applySelect(data, odataRequest.selectedProperties, odataRequest.expandProperties, currentEntityType);
+            if (!dontClone) {
+                // Only apply select when clone is performed otherwise we destroy the original data.
+                this.applySelect(
+                    data,
+                    odataRequest.selectedProperties,
+                    odataRequest.expandProperties,
+                    currentEntityType
+                );
+            }
 
             // process $expand options (nested $select, $filter, $orderby, ...)
             await Promise.all(

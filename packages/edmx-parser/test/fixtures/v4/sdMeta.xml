@@ -156,7 +156,7 @@
           <PropertyRef Name="SalesDocument"/>
           <PropertyRef Name="PartnerFunction"/>
         </Key>
-        <Property Name="SalesDocument" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="SalesDocument" Type="Edm.String" MaxLength="max" Nullable="false"/>
         <Property Name="PartnerFunction" Type="Edm.String" MaxLength="2" Nullable="false"/>
         <Property Name="BusinessPartner" Type="Edm.String" MaxLength="10"/>
         <Property Name="FullName" Type="Edm.String" MaxLength="80"/>

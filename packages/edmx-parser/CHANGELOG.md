@@ -1,5 +1,17 @@
 # @sap-ux/edmx-parser
 
+## 0.9.5
+
+### Patch Changes
+
+-   b2faf65: We now also support variable scale
+
+## 0.9.4
+
+### Patch Changes
+
+-   b937f0b: Fix for maxLength = 'max'
+
 ## 0.9.3
 
 ### Patch Changes

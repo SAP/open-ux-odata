@@ -100,13 +100,20 @@ function parseProperties(
                 type: unaliasType(entityProperty._attributes.Type).type
             };
             if (entityProperty._attributes.MaxLength) {
-                edmProperty.maxLength = parseInt(entityProperty._attributes.MaxLength, 10);
+                edmProperty.maxLength =
+                    entityProperty._attributes.MaxLength?.toLowerCase?.() === 'max'
+                        ? 5000
+                        : parseInt(entityProperty._attributes.MaxLength, 10);
             }
             if (entityProperty._attributes.Precision) {
                 edmProperty.precision = parseInt(entityProperty._attributes.Precision, 10);
             }
             if (entityProperty._attributes.Scale) {
-                edmProperty.scale = parseInt(entityProperty._attributes.Scale, 10);
+                if (entityProperty._attributes.Scale?.toLowerCase?.() === 'variable') {
+                    edmProperty.scale = 'variable';
+                } else {
+                    edmProperty.scale = parseInt(entityProperty._attributes.Scale, 10);
+                }
             }
             edmProperty.nullable = entityProperty._attributes.Nullable !== 'false';
             if (entityProperty._attributes.DefaultValue) {
@@ -523,13 +530,20 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
                     isCollection
                 };
                 if (param._attributes.MaxLength) {
-                    edmActionParameter.maxLength = parseInt(param._attributes.MaxLength, 10);
+                    edmActionParameter.maxLength =
+                        param._attributes.MaxLength?.toLowerCase?.() === 'max'
+                            ? 5000
+                            : parseInt(param._attributes.MaxLength, 10);
                 }
                 if (param._attributes.Precision) {
                     edmActionParameter.precision = parseInt(param._attributes.Precision, 10);
                 }
                 if (param._attributes.Scale) {
-                    edmActionParameter.scale = parseInt(param._attributes.Scale, 10);
+                    if (param._attributes.Scale?.toLowerCase?.() === 'variable') {
+                        edmActionParameter.scale = 'variable';
+                    } else {
+                        edmActionParameter.scale = parseInt(param._attributes.Scale, 10);
+                    }
                 }
                 edmActionParameter.nullable = param._attributes.Nullable !== 'false';
                 return edmActionParameter;

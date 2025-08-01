@@ -529,12 +529,12 @@ describe('Data Access', () => {
         let formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$expand=DraftAdministrativeData' }, dataAccess)
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].DraftAdministrativeData).not.toBeNull();
+        expect(formData.length).toEqual(2);
+        expect(formData[1].DraftAdministrativeData).not.toBeNull();
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true' }, dataAccess)
         );
-        expect(formData.length).toEqual(0);
+        expect(formData.length).toEqual(1);
         formData = await dataAccess.getData(
             new ODataRequest(
                 { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=DraftAdministrativeData' },
@@ -553,16 +553,16 @@ describe('Data Access', () => {
         expect(actionResult).toBeDefined;
         expect(actionResult.DraftAdministrativeData).toBeNull();
         formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
-        expect(formData.length).toEqual(1);
+        expect(formData.length).toEqual(2);
         formData = await dataAccess.getData(
             new ODataRequest(
                 { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true&$expand=DraftAdministrativeData' },
                 dataAccess
             )
         );
-        expect(formData[0].DraftAdministrativeData).toBeNull();
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Bob');
+        expect(formData[1].DraftAdministrativeData).toBeNull();
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Bob');
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false' }, dataAccess)
         );
@@ -578,12 +578,12 @@ describe('Data Access', () => {
         expect(actionResult).toBeDefined;
 
         formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
-        expect(formData.length).toEqual(2);
+        expect(formData.length).toEqual(3);
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true' }, dataAccess)
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Bob');
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Bob');
         formData = await dataAccess.getData(
             new ODataRequest(
                 { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false?&expand=DraftAdministrativeData' },
@@ -612,13 +612,13 @@ describe('Data Access', () => {
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$expand=_Elements' }, dataAccess)
         );
-        expect(formData.length).toEqual(1);
+        expect(formData.length).toEqual(2);
         expect(formData[0]._Elements.length).toEqual(0);
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true' }, dataAccess)
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Bob');
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Bob');
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false' }, dataAccess)
         );
@@ -634,12 +634,12 @@ describe('Data Access', () => {
         expect(actionResult).toBeDefined;
 
         formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
-        expect(formData.length).toEqual(2);
+        expect(formData.length).toEqual(3);
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true' }, dataAccess)
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Bob');
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Bob');
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false' }, dataAccess)
         );
@@ -660,8 +660,8 @@ describe('Data Access', () => {
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true' }, dataAccess)
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Bob');
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Bob');
 
         subElement = await dataAccess.createData(
             new ODataRequest({ method: 'GET', url: '/FormRoot(ID=1,IsActiveEntity=false)/_Elements' }, dataAccess),
@@ -746,21 +746,21 @@ describe('Data Access', () => {
         `);
 
         formData = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/FormRoot' }, dataAccess));
-        expect(formData.length).toEqual(1);
+        expect(formData.length).toEqual(2);
         formData = await dataAccess.getData(
             new ODataRequest(
                 { method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true&$expand=_Elements,SpecialOne' },
                 dataAccess
             )
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Mark');
-        expect(formData[0]._Elements.length).toEqual(2);
-        expect(formData[0]._Elements[0].Name).toEqual('OtherChild2');
-        expect(formData[0]._Elements[1].Name).toEqual('SecondChild');
-        expect(formData[0].SpecialOne.Name).toEqual('My Favorite');
-        expect(formData[0].SpecialOne.IsActiveEntity).toEqual(true);
-        expect(formData[0].SpecialOne.HasDraftEntity).toEqual(false);
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Mark');
+        expect(formData[1]._Elements.length).toEqual(2);
+        expect(formData[1]._Elements[0].Name).toEqual('OtherChild2');
+        expect(formData[1]._Elements[1].Name).toEqual('SecondChild');
+        expect(formData[1].SpecialOne.Name).toEqual('My Favorite');
+        expect(formData[1].SpecialOne.IsActiveEntity).toEqual(true);
+        expect(formData[1].SpecialOne.HasDraftEntity).toEqual(false);
         formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false' }, dataAccess)
         );
@@ -800,11 +800,11 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Mark');
-        expect(formData[0]._Elements.length).toEqual(2);
-        expect(formData[0]._Elements[0].Name).toEqual('OtherChild2');
-        expect(formData[0]._Elements[1].Name).toEqual('SecondChild');
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Mark');
+        expect(formData[1]._Elements.length).toEqual(2);
+        expect(formData[1]._Elements[0].Name).toEqual('OtherChild2');
+        expect(formData[1]._Elements[1].Name).toEqual('SecondChild');
         // Edit it
         actionResult = await dataAccess.performAction(
             new ODataRequest(
@@ -812,11 +812,12 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
+
         const preDeleteData = await dataAccess.getData(
             new ODataRequest(
                 {
                     method: 'GET',
-                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,DraftAdministrativeData'
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,SpecialOne,DraftAdministrativeData'
                 },
                 dataAccess
             )
@@ -829,7 +830,7 @@ describe('Data Access', () => {
             new ODataRequest(
                 {
                     method: 'GET',
-                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,DraftAdministrativeData'
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,SpecialOne,DraftAdministrativeData'
                 },
                 dataAccess
             )
@@ -852,9 +853,63 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0].FirstName).toEqual('Mark');
-        expect(formData[0]._Elements.length).toEqual(1);
+        expect(formData.length).toEqual(2);
+        expect(formData[1].FirstName).toEqual('Mark');
+        expect(formData[1]._Elements.length).toEqual(1);
+
+        // Edit it
+        actionResult = await dataAccess.performAction(
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=true)/sap.fe.core.Form.draftEdit' },
+                dataAccess
+            )
+        );
+        expect(actionResult).toBeDefined;
+
+        const preDeleteData2 = await dataAccess.getData(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,SpecialOne,DraftAdministrativeData'
+                },
+                dataAccess
+            )
+        );
+        // Add one child
+        subElement = await dataAccess.createData(
+            new ODataRequest({ method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' }, dataAccess),
+            {
+                ID: 888,
+                Name: 'SecondChild',
+                sibling_ID: 1
+            }
+        );
+        expect(subElement).toBeDefined;
+        expect(subElement.IsActiveEntity).toEqual(false);
+        expect(subElement.HasActiveEntity).toEqual(false);
+        expect(subElement.Name).toEqual('SecondChild');
+        subElement = await dataAccess.updateData(
+            new ODataRequest({ method: 'GET', url: '/SubElements(ID=888,IsActiveEntity=false)' }, dataAccess),
+            {
+                Name: 'SecondChild2'
+            }
+        );
+
+        formData = await dataAccess.getData(
+            new ODataRequest(
+                {
+                    method: 'GET',
+                    url: '/FormRoot?$filter=IsActiveEntity eq false&$expand=_Elements,SpecialOne,DraftAdministrativeData'
+                },
+                dataAccess
+            )
+        );
+        expect(preDeleteData2[0].DraftAdministrativeData.LastChangeDateTime).not.toEqual(
+            formData[0].DraftAdministrativeData.LastChangeDateTime
+        );
+
+        expect(preDeleteData2[0].SpecialOne).toEqual(formData[0].SpecialOne);
+        expect(preDeleteData2[0].SpecialOne.ID).toEqual(456);
     });
 
     test('v4 cross draft scenarios', async () => {
@@ -920,7 +975,7 @@ describe('Data Access', () => {
         let formData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/FormRoot', tenantId: 'other' }, dataAccess)
         );
-        expect(formData.length).toEqual(1);
+        expect(formData.length).toEqual(2);
 
         formData = await dataAccess.getData(
             new ODataRequest(
@@ -928,9 +983,9 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0]._Elements.length).toEqual(1);
-        expect(formData[0]._OtherChild.length).toEqual(1);
+        expect(formData.length).toEqual(2);
+        expect(formData[1]._Elements.length).toEqual(1);
+        expect(formData[1]._OtherChild.length).toEqual(1);
         actionResult = await dataAccess.performAction(
             new ODataRequest(
                 {
@@ -985,9 +1040,9 @@ describe('Data Access', () => {
                 dataAccess
             )
         );
-        expect(formData.length).toEqual(1);
-        expect(formData[0]._Elements.length).toEqual(1);
-        expect(formData[0]._OtherChild.length).toEqual(1);
+        expect(formData.length).toEqual(2);
+        expect(formData[1]._Elements.length).toEqual(1);
+        expect(formData[1]._OtherChild.length).toEqual(1);
     });
 
     test('v4metadata - generator', async () => {

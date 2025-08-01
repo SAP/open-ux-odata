@@ -1,5 +1,33 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.4.32
+
+### Patch Changes
+
+-   Updated dependencies [b2faf65]
+    -   @sap-ux/edmx-parser@0.9.5
+    -   @sap-ux/annotation-converter@0.10.4
+
+## 1.4.31
+
+### Patch Changes
+
+-   Updated dependencies [b937f0b]
+    -   @sap-ux/edmx-parser@0.9.4
+    -   @sap-ux/annotation-converter@0.10.4
+
+## 1.4.30
+
+### Patch Changes
+
+-   78e85d1: Slight changes on the containment when fetching a collection
+
+## 1.4.29
+
+### Patch Changes
+
+-   8f2133f: We no longer corrupt the data of embedded navigation properties
+
 ## 1.4.28
 
 ### Patch Changes
