@@ -1,8 +1,10 @@
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
+import Router from 'router';
 import type { ServiceConfig } from '../../../src';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
+import { ServiceRegistry } from '../../../src/data/serviceRegistry';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import ODataRequest from '../../../src/request/odataRequest';
 
@@ -18,7 +20,15 @@ describe('Parametrized Data Access', () => {
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'metadata.xml'));
 
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        const app = new Router();
+        const serviceRegistry = new ServiceRegistry(fileLoader, metadataProvider, app);
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
     });
     test('v4metadata - it can GET data for an entity', async () => {
         let customerData;

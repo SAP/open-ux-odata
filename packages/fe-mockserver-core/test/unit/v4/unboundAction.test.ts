@@ -1,8 +1,10 @@
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
+import Router from 'router';
 import type { ServiceConfig } from '../../../src';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
+import { ServiceRegistry } from '../../../src/data/serviceRegistry';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import ODataRequest from '../../../src/request/odataRequest';
 
@@ -16,7 +18,15 @@ describe('Unbound Action', () => {
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
 
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        const app = new Router();
+        const serviceRegistry = new ServiceRegistry(fileLoader, metadataProvider, app);
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
     });
     test('can be called', async () => {
         const requestUrl = '/unboundAction';

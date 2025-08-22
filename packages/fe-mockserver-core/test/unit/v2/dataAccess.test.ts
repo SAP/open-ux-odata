@@ -20,14 +20,26 @@ describe('Data Access', () => {
 
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'metadata.xml'));
         const edmxNoMock = await metadataProvider.loadMetadata(join(baseDirNoMock, 'metadata.xml'));
-
+        const serviceRegistry = {
+            getService: jest.fn(),
+            registerService: jest.fn(),
+            getServicesWithAliases: jest.fn()
+        } as any;
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
         metadataNoMock = await ODataMetadata.parse(edmxNoMock, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
         dataAccessNoMock = new DataAccess(
             { mockdataPath: baseDirNoMock, generateMockData: true } as ServiceConfig,
             metadata,
-            fileLoader
+            fileLoader,
+            undefined,
+            serviceRegistry
         );
     });
     test('v2metadata - it can GET data for an entity', async () => {

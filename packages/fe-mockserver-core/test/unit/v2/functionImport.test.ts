@@ -21,13 +21,32 @@ describe('Function Import', () => {
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'metadata.xml'));
 
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+        const serviceRegistry = {
+            getService: jest.fn(),
+            registerService: jest.fn(),
+            getServicesWithAliases: jest.fn()
+        } as any;
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
         dataAccessNoOverride = new DataAccess(
             { mockdataPath: baseDirNoOverride } as ServiceConfig,
             metadata,
-            fileLoader
+            fileLoader,
+            undefined,
+            serviceRegistry
         );
-        dataAccessWrongJS = new DataAccess({ mockdataPath: baseDirWrongJS } as ServiceConfig, metadata, fileLoader);
+        dataAccessWrongJS = new DataAccess(
+            { mockdataPath: baseDirWrongJS } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
     });
     test('are parsed properly', async () => {
         const requestUrl = '/DecisionOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';

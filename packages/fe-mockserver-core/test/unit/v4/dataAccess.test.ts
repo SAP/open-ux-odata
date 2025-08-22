@@ -24,8 +24,25 @@ describe('Data Access', () => {
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
 
         stickyMetadata = await ODataMetadata.parse(stickyEdmx, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
-        stickyDataAccess = new DataAccess({ mockdataPath: baseStickyDir } as ServiceConfig, stickyMetadata, fileLoader);
+        const serviceRegistry = {
+            getService: jest.fn(),
+            registerService: jest.fn(),
+            getServicesWithAliases: jest.fn()
+        } as any;
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+        stickyDataAccess = new DataAccess(
+            { mockdataPath: baseStickyDir } as ServiceConfig,
+            stickyMetadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
     });
     test('v4metadata - it can GET data for an entity', async () => {
         let odataRequest = new ODataRequest(
@@ -339,7 +356,18 @@ describe('Data Access', () => {
             const baseDir = join(__dirname, 'services', '$filter-tests');
             const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
             const metadata = await ODataMetadata.parse(edmx, '/FilterTest/$metadata');
-            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            dataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                metadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
         });
 
         const cases = [
@@ -1296,7 +1324,18 @@ describe('Data Access', () => {
 
             const edmx = await metadataProvider.loadMetadata(join(baseDir, '/service.cds'));
             metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
-            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            dataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                metadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
         });
         test('1:1 - key property names are equal', async () => {
             const odataRequest = new ODataRequest({ method: 'GET', url: `/A('1')?$expand=_sameId` }, dataAccess);
@@ -1332,7 +1371,18 @@ describe('Data Access', () => {
             const edmx = readFileSync(join(baseDir, 'metadata.xml'), 'utf8');
 
             metadata = await ODataMetadata.parse(edmx, `/TestService/$metadata`);
-            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            dataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                metadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
         });
 
         test(`can read /A`, async () => {
@@ -1476,7 +1526,18 @@ describe('Data Access', () => {
 
             const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
             const metadata = await ODataMetadata.parse(edmx, '/TestService/$metadata');
-            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            dataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                metadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
         });
 
         test('$search', async () => {
@@ -1550,8 +1611,18 @@ describe('Data Access', () => {
             // const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
             const edmx = readFileSync(join(baseDir, 'metadata.xml'), 'utf8');
             const metadata = await ODataMetadata.parse(edmx, '/TestService/$metadata');
-
-            dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            dataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                metadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
         });
 
         const expectedDraftNode = {

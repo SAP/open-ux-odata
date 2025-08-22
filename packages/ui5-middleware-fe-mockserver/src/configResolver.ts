@@ -165,6 +165,7 @@ export function resolveConfig(inConfig: ServerConfig, basePath: string): Mockser
         annotations: annotations,
         services: services,
         fileLoader: inConfig.fileLoader,
-        metadataProcessor: inConfig.metadataProcessor
+        metadataProcessor: inConfig.metadataProcessor,
+        plugins: inConfig.plugins
     };
 }

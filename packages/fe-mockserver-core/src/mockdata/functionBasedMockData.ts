@@ -1,6 +1,7 @@
 import type { Action, EntityType, NavigationProperty, Property } from '@sap-ux/vocabularies-types';
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import { ExecutionError } from '../data/common';
+import type { ServiceRegistry } from '../data/serviceRegistry';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
@@ -101,6 +102,7 @@ export type MockDataContributor<T extends object> = {
             operator: string,
             odataRequest: ODataRequest
         ) => boolean;
+        getServiceRegistry: () => ServiceRegistry;
     };
 };
 
@@ -176,6 +178,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
             getEmptyObject: super.getEmptyObject.bind(this),
             getDefaultElement: super.getDefaultElement.bind(this),
             getParentEntityInterface: super.getParentEntityInterface.bind(this),
+            getServiceRegistry: super.getServiceRegistry.bind(this),
             getEntityInterface: async (entitySetName: string, serviceNameOrAlias?: string) => {
                 const rawInterface = await super.getEntityInterface.call(this, entitySetName, serviceNameOrAlias);
 

@@ -13,6 +13,7 @@ import type { RecursiveHierarchy } from '@sap-ux/vocabularies-types/vocabularies
 import cloneDeep from 'lodash.clonedeep';
 import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
 import { ExecutionError, generateId, getData, setData, uuidv4, _getDateTimeOffset } from '../data/common';
+import type { ServiceRegistry } from '../data/serviceRegistry';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
@@ -611,6 +612,10 @@ export class FileBasedMockData {
 
     getEntityInterface(entitySetName: string, serviceNameOrAlias?: string): Promise<FileBasedMockData | undefined> {
         return this._mockDataEntitySet.getEntityInterface(entitySetName, serviceNameOrAlias, this._contextId);
+    }
+
+    getServiceRegistry(): ServiceRegistry {
+        return this._mockDataEntitySet.getServiceRegistry();
     }
 
     generateMockData() {

@@ -1,8 +1,8 @@
 import type { IRouter } from 'router';
 import Router from 'router';
-import type { MockserverConfiguration } from './api';
-import { createMockMiddleware } from './middleware';
-import { getMetadataProcessor } from './pluginsManager';
+import type { MockserverConfiguration, ServiceConfig } from './api';
+import { ServiceRegistry } from './data/serviceRegistry';
+import { getMetadataProcessor, getPluginDefinition } from './pluginsManager';
 
 export interface IFileLoader {
     loadFile(filePath: string): Promise<string>;
@@ -16,7 +16,14 @@ export interface IMetadataProcessor {
     loadMetadata(filePath: string): Promise<string>;
     addI18nPath(i18Path?: string[]): void;
 }
+
+export interface IMockserverPlugin {
+    name: string;
+    services: ServiceConfig[];
+}
+
 export * from './api';
+export { ServiceRegistry } from './data/serviceRegistry';
 export { MockDataContributor } from './mockdata/functionBasedMockData';
 
 export default class FEMockserver {
@@ -24,6 +31,8 @@ export default class FEMockserver {
     private fileLoader: IFileLoader;
     private metadataProvider: IMetadataProcessor;
     private readonly mainRouter: IRouter;
+    private serviceRegistry: ServiceRegistry;
+    private plugins: IMockserverPlugin[] = [];
 
     constructor(private configuration: MockserverConfiguration) {
         this.mainRouter = new Router();
@@ -41,8 +50,22 @@ export default class FEMockserver {
             this.configuration.metadataProcessor?.options,
             this.configuration.metadataProcessor?.i18nPath
         );
+        this.serviceRegistry = new ServiceRegistry(this.fileLoader, this.metadataProvider, this.mainRouter);
+        // Load services into the registry
+        await this.serviceRegistry.loadServices(this.configuration);
 
-        await createMockMiddleware(this.configuration, this.mainRouter, this.fileLoader, this.metadataProvider);
+        if (this.configuration.plugins) {
+            this.plugins = await Promise.all(
+                this.configuration.plugins?.map((plugin) => {
+                    return getPluginDefinition(this.fileLoader, plugin);
+                })
+            );
+            for (const plugin of this.plugins) {
+                await this.serviceRegistry.loadService(plugin.services);
+            }
+        }
+        // Open the registry to register all services on the main router
+        this.serviceRegistry.open();
     }
 
     getRouter() {

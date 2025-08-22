@@ -72,6 +72,7 @@ export interface BaseServerConfig {
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
     metadataProcessor?: MetadataProcessorConfig;
+    plugins?: string[];
 }
 export interface FolderBasedServerConfig extends BaseServerConfig {
     mockFolder: string;
@@ -123,6 +124,9 @@ export interface MockserverConfiguration {
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
     metadataProcessor?: MetadataProcessorConfig;
+
+    /** List of plugins to load */
+    plugins?: string[]; // List of plugins to load
 }
 
 export type MockServerMessage = IncomingMessage & {

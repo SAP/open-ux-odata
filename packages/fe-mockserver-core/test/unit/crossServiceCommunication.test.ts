@@ -7,8 +7,8 @@ import FileSystemLoader from '../../src/plugins/fileSystemLoader';
 
 describe('Cross-Service Communication', () => {
     test('ServiceRegistry should register and retrieve services with aliases', () => {
-        const serviceRegistry = new ServiceRegistry();
         const fileLoader = new FileSystemLoader();
+        const serviceRegistry = new ServiceRegistry(fileLoader, undefined as any, undefined as any);
 
         const firstServiceConfig: ServiceConfig = {
             urlPath: '/firstService',
@@ -83,8 +83,8 @@ describe('Cross-Service Communication', () => {
     });
 
     test('DataAccess should have getCrossServiceEntityInterface method', () => {
-        const serviceRegistry = new ServiceRegistry();
         const fileLoader = new FileSystemLoader();
+        const serviceRegistry = new ServiceRegistry(fileLoader, undefined as any, undefined as any);
 
         const mockService: ServiceConfig = {
             urlPath: '/testService',
@@ -115,8 +115,8 @@ describe('Cross-Service Communication', () => {
     });
 
     test('getEntityInterface with service parameter should enable cross-service access', async () => {
-        const serviceRegistry = new ServiceRegistry();
         const fileLoader = new FileSystemLoader();
+        const serviceRegistry = new ServiceRegistry(fileLoader, undefined as any, undefined as any);
 
         const firstServiceConfig: ServiceConfig = {
             urlPath: '/firstService',

@@ -11,6 +11,7 @@ import ODataRequest from '../../request/odataRequest';
 import type { DataAccessInterface, EntitySetInterface } from '../common';
 import { ExecutionError, getData } from '../common';
 import type { DataAccess } from '../dataAccess';
+import type { ServiceRegistry } from '../serviceRegistry';
 
 type PreparedFunction = {
     fn: Function;
@@ -138,6 +139,7 @@ function prepareLiteral(literal: string, propertyType: string) {
  */
 export class MockDataEntitySet implements EntitySetInterface {
     private _resolvedProperties: Record<string, Property> = {};
+    public generateMockData: boolean;
     public static async read(
         mockDataRootFolder: string,
         entity: string,
@@ -263,6 +265,7 @@ export class MockDataEntitySet implements EntitySetInterface {
         initializeMockData = true,
         isDraft = false
     ) {
+        this.generateMockData = generateMockData;
         if (entitySetDefinition._type === 'EntityType') {
             this.entitySetDefinition = null;
             this.entityTypeDefinition = entitySetDefinition;
@@ -770,5 +773,9 @@ export class MockDataEntitySet implements EntitySetInterface {
             const mockEntitySet = await this.dataAccess.getMockEntitySet(entitySet);
             return mockEntitySet?.getMockData(tenantId);
         }
+    }
+
+    public getServiceRegistry(): ServiceRegistry {
+        return this.dataAccess.getServiceRegistry();
     }
 }
