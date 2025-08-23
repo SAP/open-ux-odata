@@ -38,17 +38,14 @@ describe('getPluginDefinition', () => {
 
         // Create a mock plugin file for testing
         const mockPlugin = {
-            // eslint-disable-next-line quote-props
-            default: {
-                name: 'test-plugin',
-                services: [
-                    {
-                        urlPath: '/test',
-                        metadataPath: '/metadata.xml',
-                        mockdataPath: '/mockdata'
-                    }
-                ]
-            }
+            name: 'test-plugin',
+            services: [
+                {
+                    urlPath: '/test',
+                    metadataPath: '/metadata.xml',
+                    mockdataPath: '/mockdata'
+                }
+            ]
         };
 
         // Mock the fileLoader.loadJS method to return our mock plugin
@@ -58,7 +55,7 @@ describe('getPluginDefinition', () => {
         try {
             const plugin = await getPluginDefinition(fileLoader, './test-plugin');
 
-            expect(plugin).toEqual(mockPlugin.default);
+            expect(plugin).toEqual(mockPlugin);
             expect(plugin.name).toBe('test-plugin');
             expect(plugin.services).toHaveLength(1);
             expect(plugin.services[0].urlPath).toBe('/test');
@@ -73,25 +70,22 @@ describe('getPluginDefinition', () => {
         const { getPluginDefinition } = await import('../../src/pluginsManager');
 
         const mockPlugin = {
-            // eslint-disable-next-line quote-props
-            default: {
-                name: 'multi-service-plugin',
-                services: [
-                    {
-                        urlPath: '/service1',
-                        metadataPath: '/service1/metadata.xml',
-                        mockdataPath: '/service1/mockdata',
-                        alias: 'service1'
-                    },
-                    {
-                        urlPath: '/service2',
-                        metadataPath: '/service2/metadata.xml',
-                        mockdataPath: '/service2/mockdata',
-                        generateMockData: true,
-                        debug: false
-                    }
-                ]
-            }
+            name: 'multi-service-plugin',
+            services: [
+                {
+                    urlPath: '/service1',
+                    metadataPath: '/service1/metadata.xml',
+                    mockdataPath: '/service1/mockdata',
+                    alias: 'service1'
+                },
+                {
+                    urlPath: '/service2',
+                    metadataPath: '/service2/metadata.xml',
+                    mockdataPath: '/service2/mockdata',
+                    generateMockData: true,
+                    debug: false
+                }
+            ]
         };
 
         const originalLoadJS = fileLoader.loadJS;
