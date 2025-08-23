@@ -1,26 +1,8 @@
 import type { IRouter } from 'router';
 import Router from 'router';
-import type { MockserverConfiguration, ServiceConfig } from './api';
+import type { IFileLoader, IMetadataProcessor, IMockserverPlugin, MockserverConfiguration } from './api';
 import { ServiceRegistry } from './data/serviceRegistry';
 import { getMetadataProcessor, getPluginDefinition } from './pluginsManager';
-
-export interface IFileLoader {
-    loadFile(filePath: string): Promise<string>;
-    loadFileSync(filePath: string): string;
-    exists(filePath: string): Promise<boolean>;
-    existsSync(filePath: string): boolean;
-    syncSupported(): boolean;
-    loadJS(filePath: string): Promise<any>;
-}
-export interface IMetadataProcessor {
-    loadMetadata(filePath: string): Promise<string>;
-    addI18nPath(i18Path?: string[]): void;
-}
-
-export interface IMockserverPlugin {
-    name: string;
-    services: ServiceConfig[];
-}
 
 export * from './api';
 export { ServiceRegistry } from './data/serviceRegistry';
@@ -52,7 +34,7 @@ export default class FEMockserver {
         );
         this.serviceRegistry = new ServiceRegistry(this.fileLoader, this.metadataProvider, this.mainRouter);
         // Load services into the registry
-        await this.serviceRegistry.loadServices(this.configuration);
+        await this.serviceRegistry.loadDefaultServices(this.configuration);
 
         if (this.configuration.plugins) {
             this.plugins = await Promise.all(
@@ -61,7 +43,7 @@ export default class FEMockserver {
                 })
             );
             for (const plugin of this.plugins) {
-                await this.serviceRegistry.loadService(plugin.services);
+                await this.serviceRegistry.loadServices(plugin.services);
             }
         }
         // Open the registry to register all services on the main router

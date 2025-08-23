@@ -7,7 +7,7 @@ import type {
     Singleton
 } from '@sap-ux/vocabularies-types';
 import type { ILogger } from '@ui5/logger';
-import type { IFileLoader } from '../index';
+import type { IFileLoader, ServiceConfig } from '../index';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
 import type { FilterExpression } from '../request/filterParser';
 import type ODataRequest from '../request/odataRequest';
@@ -67,7 +67,7 @@ export interface EntitySetInterface {
         serviceNameOrAlias: string | undefined,
         tenantId: string
     ): Promise<FileBasedMockData | undefined>;
-    getServiceRegistry(): ServiceRegistry;
+    getServiceRegistry(): ServiceRegistryInterface;
     getMockData(tenantId: string): FileBasedMockData;
     isV4(): boolean;
     shouldValidateETag(): boolean;
@@ -105,6 +105,13 @@ export interface DataAccessInterface {
     debug: boolean;
     fileLoader: IFileLoader;
     log: ILogger;
+}
+export interface ServiceRegistryInterface {
+    loadServices(serviceConfigs: ServiceConfig[]): Promise<void>;
+    getService(serviceNameOrAlias: string): DataAccessInterface | undefined;
+    getServiceNames(): string[];
+    getServiceAliases(): string[];
+    getServices(): ServiceConfig[];
 }
 
 /**

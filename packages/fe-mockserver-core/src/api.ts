@@ -129,6 +129,24 @@ export interface MockserverConfiguration {
     plugins?: string[]; // List of plugins to load
 }
 
+export interface IFileLoader {
+    loadFile(filePath: string): Promise<string>;
+    loadFileSync(filePath: string): string;
+    exists(filePath: string): Promise<boolean>;
+    existsSync(filePath: string): boolean;
+    syncSupported(): boolean;
+    loadJS(filePath: string): Promise<any>;
+}
+export interface IMetadataProcessor {
+    loadMetadata(filePath: string): Promise<string>;
+    addI18nPath(i18Path?: string[]): void;
+}
+
+export interface IMockserverPlugin {
+    name: string;
+    services: ServiceConfig[];
+}
+
 export type MockServerMessage = IncomingMessage & {
     body: string;
 };

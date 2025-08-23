@@ -11,9 +11,17 @@ import type {
 import type { PathAnnotationExpression } from '@sap-ux/vocabularies-types/Edm';
 import type { RecursiveHierarchy } from '@sap-ux/vocabularies-types/vocabularies/Aggregation';
 import cloneDeep from 'lodash.clonedeep';
-import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
-import { ExecutionError, generateId, getData, setData, uuidv4, _getDateTimeOffset } from '../data/common';
-import type { ServiceRegistry } from '../data/serviceRegistry';
+import {
+    EntitySetInterface,
+    ExecutionError,
+    generateId,
+    getData,
+    PartialReferentialConstraint,
+    ServiceRegistryInterface,
+    setData,
+    uuidv4,
+    _getDateTimeOffset
+} from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
@@ -614,7 +622,7 @@ export class FileBasedMockData {
         return this._mockDataEntitySet.getEntityInterface(entitySetName, serviceNameOrAlias, this._contextId);
     }
 
-    getServiceRegistry(): ServiceRegistry {
+    getServiceRegistry(): ServiceRegistryInterface {
         return this._mockDataEntitySet.getServiceRegistry();
     }
 

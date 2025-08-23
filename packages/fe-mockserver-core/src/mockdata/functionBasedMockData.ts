@@ -1,7 +1,6 @@
 import type { Action, EntityType, NavigationProperty, Property } from '@sap-ux/vocabularies-types';
-import type { EntitySetInterface, PartialReferentialConstraint } from '../data/common';
+import type { EntitySetInterface, PartialReferentialConstraint, ServiceRegistryInterface } from '../data/common';
 import { ExecutionError } from '../data/common';
-import type { ServiceRegistry } from '../data/serviceRegistry';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
@@ -102,7 +101,7 @@ export type MockDataContributor<T extends object> = {
             operator: string,
             odataRequest: ODataRequest
         ) => boolean;
-        getServiceRegistry: () => ServiceRegistry;
+        getServiceRegistry: () => ServiceRegistryInterface;
     };
 };
 

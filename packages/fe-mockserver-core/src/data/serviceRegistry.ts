@@ -57,14 +57,18 @@ export class ServiceRegistry {
     private readonly registrations: Map<string, ServiceRegistration> = new Map();
     private config: MockserverConfiguration;
 
-    constructor(private fileLoader: IFileLoader, private metadataProcessor: IMetadataProcessor, private app: IRouter) {}
+    constructor(
+        private readonly fileLoader: IFileLoader,
+        private readonly metadataProcessor: IMetadataProcessor,
+        private readonly app: IRouter
+    ) {}
     /**
      * Load and prepare services from MockserverConfiguration.
      * This replaces the createServiceMiddlewares function logic.
      *
      * @param config the mockserver configuration
      */
-    public async loadServices(config: MockserverConfiguration): Promise<void> {
+    public async loadDefaultServices(config: MockserverConfiguration): Promise<void> {
         this.config = config;
 
         const log = config.logger ?? getLogger('server:ux-fe-mockserver', !!config.debug);
@@ -77,7 +81,7 @@ export class ServiceRegistry {
         await Promise.all(config.services.map((config) => this.createServiceRegistration(config, log)));
     }
 
-    public async loadService(serviceConfigs: ServiceConfig[]): Promise<void> {
+    public async loadServices(serviceConfigs: ServiceConfig[]): Promise<void> {
         const log = this.config.logger ?? getLogger('server:ux-fe-mockserver', !!this.config.debug);
 
         if (serviceConfigs.length === 0) {
@@ -216,7 +220,7 @@ export class ServiceRegistry {
             }
             this.app.get(escapedPath, async (_req: IncomingMessage, res: ServerResponse) => {
                 try {
-                    const data = await this.fileLoader!.loadFile(mockAnnotation.localPath);
+                    const data = await this.fileLoader.loadFile(mockAnnotation.localPath);
                     res.setHeader('Content-Type', 'application/xml');
                     res.write(data);
                     res.end();
@@ -261,6 +265,10 @@ export class ServiceRegistry {
         }
         // Fallback to direct service name lookup
         return this.services.get(serviceNameOrAlias);
+    }
+
+    public getServices(): ServiceConfig[] {
+        return Array.from(this.registrations.values()).map((reg) => reg.service);
     }
 
     /**
