@@ -11,6 +11,7 @@ jest.setTimeout(60000);
 
 describe('V4 Requestor', function () {
     let server: Server;
+    let pluginLoadSpy: jest.SpyInstance<Promise<any>, [filePath: string]>;
     beforeAll(async function () {
         const mockServer = new FEMockserver({
             services: [
@@ -50,6 +51,7 @@ describe('V4 Requestor', function () {
                     localPath: path.join(__dirname, '__testData', 'annotation.xml')
                 }
             ],
+            plugins: [path.resolve(__dirname, './plugins/fake-plugin')],
             contextBasedIsolation: true,
             metadataProcessor: {
                 name: '@sap-ux/fe-mockserver-plugin-cds',
@@ -88,6 +90,15 @@ describe('V4 Requestor', function () {
 
     it('can get some data', async () => {
         const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        const dataRes = await dataRequestor.getList<any>('/RootElement').execute();
+        expect(dataRes.body.length).toBe(4);
+        const dataRes2 = await dataRequestor.getList<any>('/RootElement').executeAsBatch();
+        expect(dataRes2.length).toBe(4);
+        const dataRes3 = await dataRequestor.getList<any>('/RootElement').executeAsJsonBatch();
+        expect(dataRes3.length).toBe(4);
+    });
+    it('can get some data from the plugin', async () => {
+        const dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/plugin');
         const dataRes = await dataRequestor.getList<any>('/RootElement').execute();
         expect(dataRes.body.length).toBe(4);
         const dataRes2 = await dataRequestor.getList<any>('/RootElement').executeAsBatch();

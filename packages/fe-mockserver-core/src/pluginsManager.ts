@@ -28,5 +28,5 @@ export async function getPluginDefinition(
     name: string | undefined
 ): Promise<IMockserverPlugin> {
     const PluginClass = await fileLoader.loadJS(name || path.resolve(__dirname, './plugins/pluginDefinition'));
-    return PluginClass.default;
+    return PluginClass;
 }
