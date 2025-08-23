@@ -3,7 +3,7 @@ import etag from 'etag';
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { IRouter } from 'router';
 import Router from 'router';
-import { MockserverConfiguration, ServiceConfig, ServiceConfigEx } from '../api';
+import type { MockserverConfiguration, ServiceConfig, ServiceConfigEx } from '../api';
 import type { IFileLoader, IMetadataProcessor } from '../index';
 import { getLogger } from '../logger';
 import { getMetadataProcessor } from '../pluginsManager';
