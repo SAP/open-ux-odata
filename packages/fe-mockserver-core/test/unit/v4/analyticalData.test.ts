@@ -21,11 +21,27 @@ describe('Analytical Access', () => {
 
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'metadata.xml'));
         const edmx2 = await metadataProvider.loadMetadata(join(baseDir2, 'metadata.xml'));
-
+        const serviceRegistry = {
+            getService: jest.fn(),
+            registerService: jest.fn(),
+            getServicesWithAliases: jest.fn()
+        } as any;
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
         metadata2 = await ODataMetadata.parse(edmx2, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
-        dataAccess2 = new DataAccess({ mockdataPath: baseDir2 } as ServiceConfig, metadata2, fileLoader);
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+        dataAccess2 = new DataAccess(
+            { mockdataPath: baseDir2 } as ServiceConfig,
+            metadata2,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
     });
     test('1- Request first page of LineItems tree with groupings', async () => {
         const odataRequest = new ODataRequest(

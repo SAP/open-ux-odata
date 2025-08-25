@@ -1,5 +1,6 @@
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
+import Router from 'router';
 import type { ServiceConfig } from '../../../src';
 import type { EntitySetInterface } from '../../../src/data/common';
 import { DataAccess } from '../../../src/data/dataAccess';
@@ -19,7 +20,8 @@ describe('Function Based Mock Data', () => {
     let myEntitySet: EntitySetInterface;
     let myOtherEntitySet: EntitySetInterface;
     let myOtherServiceEntitySet: EntitySetInterface;
-    const serviceRegistry: ServiceRegistry = new ServiceRegistry();
+    const app = new Router();
+    const serviceRegistry: ServiceRegistry = new ServiceRegistry(fileLoader, metadataProvider, app);
     beforeAll(async () => {
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'service.cds'));
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');

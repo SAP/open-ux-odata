@@ -12,10 +12,11 @@ export type MockEntityContainerContributor = {
         actionData: any,
         keys: Record<string, any>,
         odataRequest: ODataRequest
-    ): Promise<object>;
+    ): Promise<unknown>;
+    handleRequest?(odataRequest: ODataRequest): Promise<unknown>;
     throwError?(message: string, statusCode?: number, messageData?: object): any;
-    base: {
-        getEntityInterface: (entityName: string) => Promise<FileBasedMockData | undefined>;
+    base?: {
+        getEntityInterface: (entityName: string, aliasOrService?: string) => Promise<FileBasedMockData | undefined>;
     };
 };
 

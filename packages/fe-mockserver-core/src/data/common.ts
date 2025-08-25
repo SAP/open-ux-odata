@@ -7,12 +7,13 @@ import type {
     Singleton
 } from '@sap-ux/vocabularies-types';
 import type { ILogger } from '@ui5/logger';
-import type { IFileLoader } from '../index';
+import type { IFileLoader, ServiceConfig } from '../index';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
 import type { FilterExpression } from '../request/filterParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
 import type { ODataMetadata } from './metadata';
+import type { ServiceRegistry } from './serviceRegistry';
 
 export type PartialReferentialConstraint = {
     sourceProperty: string;
@@ -66,10 +67,12 @@ export interface EntitySetInterface {
         serviceNameOrAlias: string | undefined,
         tenantId: string
     ): Promise<FileBasedMockData | undefined>;
+    getServiceRegistry(): ServiceRegistryInterface;
     getMockData(tenantId: string): FileBasedMockData;
     isV4(): boolean;
     shouldValidateETag(): boolean;
     isDraft(): boolean;
+    generateMockData: boolean;
 }
 export interface DataAccessInterface {
     isV4(): boolean;
@@ -93,6 +96,7 @@ export interface DataAccessInterface {
     getData(odataRequest: ODataRequest): Promise<any>;
     getDraftRoot(keyValues: KeyDefinitions, _tenantId: string, entitySetDefinition: EntitySet): any;
     getMetadata(): ODataMetadata;
+    getServiceRegistry(): ServiceRegistry;
     getCrossServiceEntityInterface(
         serviceNameOrAlias: string,
         entityName: string,
@@ -101,6 +105,13 @@ export interface DataAccessInterface {
     debug: boolean;
     fileLoader: IFileLoader;
     log: ILogger;
+}
+export interface ServiceRegistryInterface {
+    loadServices(serviceConfigs: ServiceConfig[]): Promise<void>;
+    getService(serviceNameOrAlias: string): DataAccessInterface | undefined;
+    getServiceNames(): string[];
+    getServiceAliases(): string[];
+    getServices(): ServiceConfig[];
 }
 
 /**

@@ -72,6 +72,7 @@ export interface BaseServerConfig {
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
     metadataProcessor?: MetadataProcessorConfig;
+    plugins?: string[];
 }
 export interface FolderBasedServerConfig extends BaseServerConfig {
     mockFolder: string;
@@ -123,6 +124,27 @@ export interface MockserverConfiguration {
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
     metadataProcessor?: MetadataProcessorConfig;
+
+    /** List of plugins to load */
+    plugins?: string[]; // List of plugins to load
+}
+
+export interface IFileLoader {
+    loadFile(filePath: string): Promise<string>;
+    loadFileSync(filePath: string): string;
+    exists(filePath: string): Promise<boolean>;
+    existsSync(filePath: string): boolean;
+    syncSupported(): boolean;
+    loadJS(filePath: string): Promise<any>;
+}
+export interface IMetadataProcessor {
+    loadMetadata(filePath: string): Promise<string>;
+    addI18nPath(i18Path?: string[]): void;
+}
+
+export interface IMockserverPlugin {
+    name: string;
+    services: ServiceConfig[];
 }
 
 export type MockServerMessage = IncomingMessage & {

@@ -1,8 +1,10 @@
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
+import Router from 'router';
 import type { ServiceConfig } from '../../../src';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
+import { ServiceRegistry } from '../../../src/data/serviceRegistry';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
 import ODataRequest from '../../../src/request/odataRequest';
 
@@ -24,8 +26,22 @@ describe('Hierarchy with draft', () => {
 
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
         metadata2 = await ODataMetadata.parse(edmx2, baseUrl + '/$metadata');
-        dataAccess = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata, fileLoader);
-        dataAccess2 = new DataAccess({ mockdataPath: baseDir } as ServiceConfig, metadata2, fileLoader);
+        const app = new Router();
+        const serviceRegistry = new ServiceRegistry(fileLoader, metadataProvider, app);
+        dataAccess = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
+        dataAccess2 = new DataAccess(
+            { mockdataPath: baseDir } as ServiceConfig,
+            metadata2,
+            fileLoader,
+            undefined,
+            serviceRegistry
+        );
     });
 
     test('Request active instances only', async () => {

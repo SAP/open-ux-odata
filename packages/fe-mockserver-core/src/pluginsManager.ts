@@ -1,5 +1,5 @@
 import * as path from 'path';
-import type { IFileLoader, IMetadataProcessor } from './index';
+import type { IFileLoader, IMetadataProcessor, IMockserverPlugin } from './index';
 
 /**
  * Get the metadata processor for the given name.
@@ -21,4 +21,12 @@ export async function getMetadataProcessor(
     ).default;
 
     return new MetadataProcessorClass(fileLoader, options, i18nPath) as IMetadataProcessor;
+}
+
+export async function getPluginDefinition(
+    fileLoader: IFileLoader,
+    name: string | undefined
+): Promise<IMockserverPlugin> {
+    const PluginClass = await fileLoader.loadJS(name || path.resolve(__dirname, './plugins/pluginDefinition'));
+    return PluginClass;
 }

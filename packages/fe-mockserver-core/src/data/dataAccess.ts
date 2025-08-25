@@ -66,8 +66,8 @@ export class DataAccess implements DataAccessInterface {
         private service: ServiceConfig,
         private metadata: ODataMetadata,
         public fileLoader: IFileLoader,
-        public logger?: ILogger,
-        private readonly serviceRegistry?: ServiceRegistry
+        public logger: ILogger | undefined,
+        private readonly serviceRegistry: ServiceRegistry
     ) {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
@@ -291,6 +291,18 @@ export class DataAccess implements DataAccessInterface {
                         odataRequest
                     );
                 }
+            } else {
+                // Not an odata action, try to call some fallback handling
+                return (
+                    (
+                        await MockEntityContainer.read(
+                            this.mockDataRootFolder,
+                            odataRequest.tenantId,
+                            this.fileLoader,
+                            this
+                        )
+                    )?.handleRequest?.(odataRequest) ?? null
+                );
             }
         }
         return null;
@@ -638,6 +650,10 @@ export class DataAccess implements DataAccessInterface {
         return entitySet.getMockData(tenantId); // Use the provided tenant ID for cross-service access
     }
 
+    public getServiceRegistry(): ServiceRegistry {
+        return this.serviceRegistry;
+    }
+
     /**
      * Get data based on an OData request.
      *
@@ -770,7 +786,7 @@ export class DataAccess implements DataAccessInterface {
                 return (
                     await this.getMockEntitySet(
                         currentEntitySet?.name,
-                        undefined,
+                        this.generateMockData,
                         undefined,
                         targetContainedEntityType,
                         targetContainedData
