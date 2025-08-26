@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.5
+
+### Patch Changes
+
+-   99a072e: Allow to access all keys of a given vocabulary annotations
+
 ## 0.10.4
 
 ### Patch Changes
