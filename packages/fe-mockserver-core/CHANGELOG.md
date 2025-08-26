@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.5.0
+
+### Minor Changes
+
+-   36c158b: Change the way the service registry manages services
+
 ## 1.4.33
 
 ### Patch Changes
