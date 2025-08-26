@@ -1171,10 +1171,11 @@ function createAnnotationsObject(converter: Converter, target: any, rawAnnotatio
         const vocTermWithQualifier = `${vocTerm}${annotation.qualifier ? '#' + annotation.qualifier : ''}`;
 
         if (vocabularyAliases[vocAlias] === undefined) {
-            vocabularyAliases[vocAlias] = {};
+            vocabularyAliases[vocAlias] = { _keys: [] };
         }
 
         if (!vocabularyAliases[vocAlias].hasOwnProperty(vocTermWithQualifier)) {
+            vocabularyAliases[vocAlias]._keys.push(vocTermWithQualifier);
             lazy(vocabularyAliases[vocAlias], vocTermWithQualifier, () =>
                 converter.getConvertedElement(
                     (annotation as Annotation).fullyQualifiedName,

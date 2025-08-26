@@ -200,21 +200,23 @@ function revertAnnotationsToRawType(
     Object.keys(currentAnnotations)
         .filter((key) => key !== '_annotations')
         .forEach((key) => {
-            Object.keys(currentAnnotations[key]).forEach((term) => {
-                const parsedAnnotation = revertTermToGenericType(references, currentAnnotations[key][term]);
-                if (!parsedAnnotation.term) {
-                    const unaliasedTerm = unalias(references, `${key}.${term}`);
-                    if (unaliasedTerm) {
-                        const qualifiedSplit = unaliasedTerm.split('#');
-                        parsedAnnotation.term = qualifiedSplit[0];
-                        if (qualifiedSplit.length > 1) {
-                            // Sub Annotation with a qualifier, not sure when that can happen in real scenarios
-                            parsedAnnotation.qualifier = qualifiedSplit[1];
+            Object.keys(currentAnnotations[key])
+                .filter((key) => key !== '_keys')
+                .forEach((term) => {
+                    const parsedAnnotation = revertTermToGenericType(references, currentAnnotations[key][term]);
+                    if (!parsedAnnotation.term) {
+                        const unaliasedTerm = unalias(references, `${key}.${term}`);
+                        if (unaliasedTerm) {
+                            const qualifiedSplit = unaliasedTerm.split('#');
+                            parsedAnnotation.term = qualifiedSplit[0];
+                            if (qualifiedSplit.length > 1) {
+                                // Sub Annotation with a qualifier, not sure when that can happen in real scenarios
+                                parsedAnnotation.qualifier = qualifiedSplit[1];
+                            }
                         }
                     }
-                }
-                targetAnnotations.push(parsedAnnotation);
-            });
+                    targetAnnotations.push(parsedAnnotation);
+                });
         });
 }
 
