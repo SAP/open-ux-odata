@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.5.3
+
+### Patch Changes
+
+-   167bbef: Experimental capture and simulate feature
+
 ## 1.5.2
 
 ### Patch Changes
