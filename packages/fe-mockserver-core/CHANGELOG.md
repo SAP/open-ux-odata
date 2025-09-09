@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.5.2
+
+### Patch Changes
+
+-   49adeb3: fix: calling loadServices should also open the service to be called back
+
 ## 1.5.1
 
 ### Patch Changes
