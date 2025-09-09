@@ -40,6 +40,7 @@ export interface ConfigService {
     watch: boolean;
     i18nPath: string[];
     metadataProcessor?: MetadataProcessorConfig;
+    __captureAndSimulate?: boolean;
 }
 
 export interface ConfigAnnotation {
@@ -104,6 +105,7 @@ export type ServiceConfig = {
     contextBasedIsolation?: boolean;
     validateETag?: boolean;
     metadataProcessor?: MetadataProcessorConfig;
+    __captureAndSimulate?: boolean; // experimental, internal use only
 };
 
 export type ServiceConfigEx = ServiceConfig & {

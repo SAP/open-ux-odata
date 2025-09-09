@@ -86,7 +86,8 @@ function processServicesConfig(
             contextBasedIsolation: inService.contextBasedIsolation,
             forceNullableValuesToNull: inService.forceNullableValuesToNull,
             metadataProcessor: inService.metadataProcessor,
-            i18nPath: inService.i18nPath
+            i18nPath: inService.i18nPath,
+            __captureAndSimulate: inService.__captureAndSimulate
         } as any;
         const metadataPath = inService.metadataPath || inService.metadataXmlPath || inService.metadataCdsPath;
         if (metadataPath) {
@@ -95,7 +96,7 @@ function processServicesConfig(
         const mockDataPath = inService.mockdataPath || inService.mockdataRootPath;
         if (mockDataPath) {
             myServiceConfig.mockdataPath = path.resolve(currentBasePath, mockDataPath);
-        } else {
+        } else if (myServiceConfig.metadataPath) {
             // we default to the folder of the metadata
             myServiceConfig.mockdataPath = path.dirname(myServiceConfig.metadataPath);
         }

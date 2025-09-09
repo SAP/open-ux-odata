@@ -127,8 +127,24 @@ export class ServiceRegistry {
             } else {
                 processor.addI18nPath(mockServiceIn.i18nPath);
             }
-
-            let metadata = await loadMetadata(mockService, processor);
+            let metadata: ODataMetadata;
+            if (!mockService.metadataPath && !mockService.__captureAndSimulate) {
+                throw new Error(`No metadata path provided for service ${mockService.urlPath}`);
+            } else if (mockService.__captureAndSimulate) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                metadata = new ODataMetadata(
+                    {
+                        entitySets: [],
+                        entityTypes: []
+                    },
+                    {},
+                    '',
+                    ''
+                ); // Metadata will be captured at runtime
+            } else {
+                metadata = await loadMetadata(mockService, processor);
+            }
             const dataAccess = new DataAccess(mockService, metadata, this.fileLoader, this.config.logger, this);
 
             // Register this service for cross-service access

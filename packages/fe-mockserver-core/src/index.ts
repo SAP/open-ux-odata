@@ -50,6 +50,10 @@ export default class FEMockserver {
         this.serviceRegistry.open();
     }
 
+    getServiceRegistry() {
+        return this.serviceRegistry;
+    }
+
     getRouter() {
         return this.mainRouter;
     }
