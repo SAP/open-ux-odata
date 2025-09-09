@@ -56,6 +56,7 @@ export class ServiceRegistry {
     private readonly aliases: Map<string, string> = new Map();
     private readonly registrations: Map<string, ServiceRegistration> = new Map();
     private config: MockserverConfiguration;
+    private isOpened: boolean = false;
 
     constructor(
         private readonly fileLoader: IFileLoader,
@@ -161,6 +162,10 @@ export class ServiceRegistry {
             }
 
             const registration = { service: mockService, handler: oDataHandlerInstance } as ServiceRegistration;
+            if (this.isOpened) {
+                this.attachServiceHandler(registration, log);
+            }
+
             this.registrations.set(mockService.urlPath, registration);
         } catch (e) {
             log.error(e as any);
@@ -181,29 +186,7 @@ export class ServiceRegistry {
 
         // Register each service on the app
         for (const registration of this.registrations.values()) {
-            const mockService = registration.service;
-            const oDataHandlerInstance = registration.handler;
-
-            if (mockService.contextBasedIsolation || this.config.contextBasedIsolation) {
-                const subRouter = new Router();
-                try {
-                    subRouter.use(mockService.urlPath, oDataHandlerInstance);
-                } catch {
-                    // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
-                    // be a problem since clients usually call the encoded path.
-                    log.error(`Could not register service path: ${mockService.urlPath}`);
-                }
-                subRouter.use(encode(mockService.urlPath), oDataHandlerInstance);
-                this.app.use(/^\/tenant-(\d{1,3})/, subRouter);
-            }
-            try {
-                this.app.use(mockService.urlPath, oDataHandlerInstance);
-            } catch {
-                // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
-                // be a problem since clients usually call the encoded path.
-                log.error(`Could not register path: ${mockService.urlPath}`);
-            }
-            this.app.use(encode(mockService.urlPath), oDataHandlerInstance);
+            this.attachServiceHandler(registration, log);
         }
 
         // Prepare the catalog service
@@ -229,6 +212,33 @@ export class ServiceRegistry {
                 }
             });
         }
+        this.isOpened = true;
+    }
+
+    private attachServiceHandler(registration: ServiceRegistration, log: ILogger) {
+        const mockService = registration.service;
+        const oDataHandlerInstance = registration.handler;
+
+        if (mockService.contextBasedIsolation || this.config.contextBasedIsolation) {
+            const subRouter = new Router();
+            try {
+                subRouter.use(mockService.urlPath, oDataHandlerInstance);
+            } catch {
+                // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
+                // be a problem since clients usually call the encoded path.
+                log.error(`Could not register service path: ${mockService.urlPath}`);
+            }
+            subRouter.use(encode(mockService.urlPath), oDataHandlerInstance);
+            this.app.use(/^\/tenant-(\d{1,3})/, subRouter);
+        }
+        try {
+            this.app.use(mockService.urlPath, oDataHandlerInstance);
+        } catch {
+            // Can happen if the URL contains asterisks. As the encoded path is registered below, this might not
+            // be a problem since clients usually call the encoded path.
+            log.error(`Could not register path: ${mockService.urlPath}`);
+        }
+        this.app.use(encode(mockService.urlPath), oDataHandlerInstance);
     }
 
     /**
