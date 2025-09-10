@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
-        "@sap/ux-ui5-tooling": "1.15.4",
+        "@sap/ux-ui5-tooling": "1.18.6",
         "@ui5/cli": "3.11.5",
         "rimraf": "3.0.2"
     }
