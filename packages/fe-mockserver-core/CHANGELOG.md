@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.5.4
+
+### Patch Changes
+
+-   7aeedc6: Fix issue with browser caching messed up the capture
+
 ## 1.5.3
 
 ### Patch Changes
