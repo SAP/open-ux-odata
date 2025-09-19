@@ -15,10 +15,6 @@ import type { KeyDefinitions } from '../request/odataRequest';
 import type { ODataMetadata } from './metadata';
 import type { ServiceRegistry } from './serviceRegistry';
 
-export type PartialReferentialConstraint = {
-    sourceProperty: string;
-    targetProperty: string;
-};
 export interface EntitySetInterface {
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
     checkFilter(
@@ -144,7 +140,7 @@ export class ExecutionError extends Error {
 
 export function _getDateTimeOffset(isV4: boolean) {
     const date = new Date();
-    return isV4 ? date.toISOString() : '/Date(' + date.getTime() + '+0000)/';
+    return isV4 ? date.toISOString() : '/Date(' + date.getTime() + '+000)/';
 }
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
