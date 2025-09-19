@@ -559,16 +559,26 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
 function parseV2FunctionImport(
     actions: EDMX.FunctionImportV2[],
     entitySets: RawEntitySet[],
+    entityTypes: RawEntityType[],
     namespace: string
 ): RawAction[] {
     return actions.map((action) => {
         const targetEntitySet = entitySets.find((et) => et.name === action._attributes.EntitySet);
         const actionFQN: string = `${namespace}/${action._attributes.Name}`;
+        let sourceEntityType = targetEntitySet?.entityTypeName;
+        if (action._attributes['sap:action-for']) {
+            const foundEntityType = entityTypes.find(
+                (et) => et.fullyQualifiedName === action._attributes['sap:action-for']
+            );
+            if (foundEntityType) {
+                sourceEntityType = foundEntityType.fullyQualifiedName;
+            }
+        }
         return {
             _type: 'Action',
             name: action._attributes.Name,
             isBound: false,
-            sourceType: targetEntitySet ? targetEntitySet.entityTypeName : '',
+            sourceType: sourceEntityType ?? '',
             fullyQualifiedName: actionFQN,
             isFunction: false,
             parameters: ensureArray(action.Parameter).map((param) => {
@@ -1222,6 +1232,7 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
                 parseV2FunctionImport(
                     ensureArray(edmSchema.EntityContainer.FunctionImport) as EDMX.FunctionImportV2[],
                     entitySets,
+                    entityTypes,
                     entityContainer.fullyQualifiedName
                 )
             );

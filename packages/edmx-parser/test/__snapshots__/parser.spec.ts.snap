@@ -4847,7 +4847,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.DummyFunctionImportResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType",
       },
       {
         "_type": "Action",
@@ -4887,7 +4887,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.ValidationFunctionResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType",
       },
       {
         "_type": "Action",
@@ -4981,7 +4981,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.ValidationFunctionResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductTextType",
       },
       {
         "_type": "Action",
@@ -5111,7 +5111,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.DummyFunctionImportResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_StorageBinTPType",
       },
       {
         "_type": "Action",
@@ -5151,7 +5151,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.DummyFunctionImportResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_StorageBinTPType",
       },
       {
         "_type": "Action",
@@ -5245,7 +5245,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.ValidationFunctionResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_StorageBinTPType",
       },
     ],
     "annotations": {
@@ -21061,7 +21061,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.ValidationFunctionResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType",
       },
       {
         "_type": "Action",
@@ -21155,7 +21155,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.ValidationFunctionResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductTextType",
       },
       {
         "_type": "Action",
@@ -21249,7 +21249,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "SEPMRA_PROD_MAN.ValidationFunctionResult",
-        "sourceType": "",
+        "sourceType": "SEPMRA_PROD_MAN.SEPMRA_C_PD_StorageBinTPType",
       },
     ],
     "annotations": {
@@ -111514,7 +111514,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "STTA_SALES_ORDER_ND_SRV_01.DummyFunctionImportResult",
-        "sourceType": "",
+        "sourceType": "STTA_SALES_ORDER_ND_SRV_01.STTA_C_SO_SalesOrder_NDType",
       },
       {
         "_type": "Action",
@@ -111613,7 +111613,7 @@ RawMetadataInstance {
         ],
         "returnCollection": false,
         "returnType": "STTA_SALES_ORDER_ND_SRV_01.DummyFunctionImportResult",
-        "sourceType": "",
+        "sourceType": "STTA_SALES_ORDER_ND_SRV_01.STTA_C_SO_SalesOrder_NDType",
       },
     ],
     "annotations": {

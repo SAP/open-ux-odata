@@ -112,6 +112,7 @@ declare namespace EDMX {
             Name: string;
             ReturnType: string;
             EntitySet: string;
+            ['sap:action-for']: string;
         };
         Parameter: MaybeArray<FunctionImportParameter>;
     }
