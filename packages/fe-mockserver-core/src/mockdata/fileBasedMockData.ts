@@ -147,14 +147,19 @@ export class FileBasedMockData {
             if (this._mockData.forEach) {
                 this._mockData.forEach((mockLine: any) => {
                     // We need to ensure that complex types are at least partially created
-                    this.validateProperties(mockLine, this._entityType.entityProperties, true);
+                    this.validateProperties(
+                        mockLine,
+                        this._entityType.entityProperties,
+                        true,
+                        !mockDataEntitySet.isV4()
+                    );
                 });
             }
             this.cleanupHierarchies();
         }
     }
 
-    private validateProperties(mockEntry: any, properties: Property[], topLevel: boolean = false) {
+    private validateProperties(mockEntry: any, properties: Property[], topLevel: boolean = false, isV2 = false) {
         properties.forEach((prop) => {
             if (
                 (!this.__forceNullableValuesToNull || prop.nullable === false) &&
@@ -177,6 +182,10 @@ export class FileBasedMockData {
                     mockEntry[prop.name] = ''; // hierarchy root node  case
                 } else {
                     mockEntry[prop.name] = parseInt(mockEntry[prop.name], 10);
+                }
+            } else if (isV2 && mockEntry.hasOwnProperty(prop.name) && ['Edm.DateTime'].includes(prop.type)) {
+                if (mockEntry[prop.name] !== '' && !mockEntry[prop.name].startsWith('/Date(')) {
+                    mockEntry[prop.name] = '/Date(' + new Date(mockEntry[prop.name]).getTime() + '000)/';
                 }
             }
         });
@@ -416,7 +425,7 @@ export class FileBasedMockData {
                 return false;
             case 'Edm.DateTimeOffset': {
                 const date = new Date();
-                return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + '+0000)/';
+                return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + '+000)/';
             }
             case 'Edm.Date':
             case 'Edm.DateTime': {
@@ -427,7 +436,7 @@ export class FileBasedMockData {
                     ('0' + (date.getUTCMonth() + 1)).slice(-2) +
                     '-' +
                     ('0' + date.getUTCDate()).slice(-2);
-                return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + '+0000)/';
+                return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + '+000)/';
             }
             case 'Edm.Time':
             case 'Time': {
@@ -501,9 +510,9 @@ export class FileBasedMockData {
                         ('0' + (date.getUTCMonth() + 1)).slice(-2) +
                         '-' +
                         ('0' + date.getUTCDate()).slice(-2);
-                    return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + '+0000)/';
+                    return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + '+000)/';
                 } else {
-                    return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + '+0000)/';
+                    return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + '+000)/';
                 }
             }
             case 'Edm.Time':
@@ -756,9 +765,17 @@ export class FileBasedMockData {
                         targetDateLiteral = literal.substring(9, literal.length - 1);
                     }
                 }
+                let mockValueDate;
+                if (mockValue) {
+                    if (mockValue.startsWith('/Date(')) {
+                        mockValueDate = parseInt(mockValue.substring(6, mockValue.length - 5), 10); // remove 3 trailing 0 and )/
+                    } else {
+                        mockValueDate = new Date(mockValue).getTime();
+                    }
+                }
 
                 const testValue = new Date(targetDateLiteral).getTime();
-                const mockValueDate = new Date(mockValue).getTime();
+
                 isValid = performSimpleComparison(operator, mockValueDate, testValue);
                 break;
             case 'Edm.String':

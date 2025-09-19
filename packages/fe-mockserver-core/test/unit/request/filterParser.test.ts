@@ -465,4 +465,19 @@ describe('Filter Parser', () => {
             }
         `);
     });
+
+    test('filter on int64 for odata v2', () => {
+        const filterInt64V2 = parseFilter('HierarchyDistanceFromRoot%20eq%200l');
+        expect(filterInt64V2).toMatchInlineSnapshot(`
+            {
+              "expressions": [
+                {
+                  "identifier": "HierarchyDistanceFromRoot",
+                  "literal": "0l",
+                  "operator": "eq",
+                },
+              ],
+            }
+        `);
+    });
 });
