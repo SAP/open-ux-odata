@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.6
+
+### Patch Changes
+
+-   5ab7499: fix: we now properly consider the sap:action-for for v2 services
+
 ## 0.9.5
 
 ### Patch Changes
