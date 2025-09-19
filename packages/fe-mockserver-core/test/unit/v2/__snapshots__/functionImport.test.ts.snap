@@ -4,7 +4,7 @@ exports[`Function Import are parsed properly 1`] = `
 [
   {
     "keys": {},
-    "path": "DecisionOptions",
+    "path": "ReasonOptions",
   },
 ]
 `;
@@ -13,7 +13,7 @@ exports[`Function Import will fail by default 1`] = `
 [
   {
     "keys": {},
-    "path": "DecisionOptions",
+    "path": "ReasonOptions",
   },
 ]
 `;
@@ -24,7 +24,7 @@ exports[`Function Import will fail for wrong JS 1`] = `
 [
   {
     "keys": {},
-    "path": "DecisionOptions",
+    "path": "ReasonOptions",
   },
 ]
 `;

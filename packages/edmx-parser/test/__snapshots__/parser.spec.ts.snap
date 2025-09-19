@@ -28153,6 +28153,18 @@ RawMetadataInstance {
         {
           "annotations": [
             {
+              "term": "com.sap.vocabularies.Common.v1.Label",
+              "value": {
+                "String": "The Product",
+                "type": "String",
+              },
+            },
+          ],
+          "target": "SEPMRA_PROD_MAN.SEPMRA_PROD_MAN_Entities/SEPMRA_C_PD_ProductActivation/Product",
+        },
+        {
+          "annotations": [
+            {
               "qualifier": undefined,
               "term": "com.sap.vocabularies.Common.v1.FieldControl",
               "value": {

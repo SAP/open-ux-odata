@@ -46,7 +46,13 @@ export type V2annotationsSupport = {
     // Leaving out the hiearchy / aggregation relate ones :)
 };
 
-export type ObjectType = 'EntitySet' | 'EntityType' | 'Singleton' | 'Property' | 'NavigationProperty';
+export type ObjectType =
+    | 'EntitySet'
+    | 'EntityType'
+    | 'Singleton'
+    | 'Property'
+    | 'NavigationProperty'
+    | 'ActionParameter';
 
 /**
  * Convert v2 annotation that were defined on the schema as standard v4 annotations.

@@ -49,7 +49,7 @@ describe('Function Import', () => {
         );
     });
     test('are parsed properly', async () => {
-        const requestUrl = '/DecisionOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';
+        const requestUrl = '/ReasonOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';
 
         const request = new ODataRequest({ method: 'POST', url: requestUrl }, dataAccess);
         expect(request.queryPath).toMatchSnapshot();
@@ -58,7 +58,7 @@ describe('Function Import', () => {
     });
 
     test('will fail by default', async () => {
-        const requestUrl = '/DecisionOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';
+        const requestUrl = '/ReasonOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';
 
         const request = new ODataRequest({ method: 'POST', url: requestUrl }, dataAccessNoOverride);
         expect(request.queryPath).toMatchSnapshot();
@@ -72,7 +72,7 @@ describe('Function Import', () => {
         expect(error).toMatchSnapshot();
     });
     test('will fail for wrong JS', async () => {
-        const requestUrl = '/DecisionOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';
+        const requestUrl = '/ReasonOptions?SAP__Origin=%27QM7CLNT910_BWF%27&InstanceID=%27000007298690%27';
 
         const request = new ODataRequest({ method: 'POST', url: requestUrl }, dataAccessWrongJS);
         expect(request.queryPath).toMatchSnapshot();
