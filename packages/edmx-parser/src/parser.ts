@@ -559,27 +559,48 @@ function parseActions(actions: (EDMX.Action | EDMX.Function)[], namespace: strin
 function parseV2FunctionImport(
     actions: EDMX.FunctionImportV2[],
     entitySets: RawEntitySet[],
-    namespace: string
+    entityTypes: RawEntityType[],
+    namespace: string,
+    outAnnotationLists: AnnotationList[]
 ): RawAction[] {
     return actions.map((action) => {
         const targetEntitySet = entitySets.find((et) => et.name === action._attributes.EntitySet);
         const actionFQN: string = `${namespace}/${action._attributes.Name}`;
+        let sourceEntityType = targetEntitySet?.entityTypeName;
+        if (action._attributes['sap:action-for']) {
+            const foundEntityType = entityTypes.find(
+                (et) => et.fullyQualifiedName === action._attributes['sap:action-for']
+            );
+            if (foundEntityType) {
+                sourceEntityType = foundEntityType.fullyQualifiedName;
+            }
+        }
+        const parameters: RawActionParameter[] = ensureArray(action.Parameter).map((param) => {
+            const v2Annotations = convertV2Annotations(
+                param._attributes as V2annotationsSupport,
+                'ActionParameter',
+                param._attributes.Name
+            );
+            const actionParamFQN = `${actionFQN}/${param._attributes.Name}`;
+            if (v2Annotations.length > 0) {
+                outAnnotationLists.push(createAnnotationList(actionParamFQN, v2Annotations));
+            }
+            return {
+                _type: 'ActionParameter',
+                name: param._attributes.Name,
+                fullyQualifiedName: actionParamFQN,
+                type: param._attributes.Type,
+                isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
+            };
+        });
         return {
             _type: 'Action',
             name: action._attributes.Name,
             isBound: false,
-            sourceType: targetEntitySet ? targetEntitySet.entityTypeName : '',
+            sourceType: sourceEntityType ?? '',
             fullyQualifiedName: actionFQN,
             isFunction: false,
-            parameters: ensureArray(action.Parameter).map((param) => {
-                return {
-                    _type: 'ActionParameter',
-                    name: param._attributes.Name,
-                    fullyQualifiedName: `${actionFQN}/${param._attributes.Name}`,
-                    type: param._attributes.Type,
-                    isCollection: param._attributes.Type.match(/^Collection\(.+\)$/) !== null
-                };
-            }),
+            parameters: parameters,
             returnType: action._attributes.ReturnType ? action._attributes.ReturnType : '',
             returnCollection: action._attributes.ReturnType
                 ? action._attributes.ReturnType.match(collectionRegexp) !== null
@@ -1222,7 +1243,9 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
                 parseV2FunctionImport(
                     ensureArray(edmSchema.EntityContainer.FunctionImport) as EDMX.FunctionImportV2[],
                     entitySets,
-                    entityContainer.fullyQualifiedName
+                    entityTypes,
+                    entityContainer.fullyQualifiedName,
+                    annotations
                 )
             );
             // major version 4
