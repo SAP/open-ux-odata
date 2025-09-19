@@ -65,69 +65,74 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
     // Deal with the $metadata support
     router.get('/$metadata', (_req: IncomingMessage, res: ServerResponse, next: NextFunction) => {
         if (service.__captureAndSimulate) {
-            // Apply response capture logic
-            const originalWrite = res.write;
-            const originalEnd = res.end;
+            if (!(service as any).capturing) {
+                (service as any).capturing = true;
+                // Apply response capture logic
+                const originalWrite = res.write;
+                const originalEnd = res.end;
 
-            // Capture as buffers
-            const capturedBuffers: Buffer[] = [];
+                // Capture as buffers
+                const capturedBuffers: Buffer[] = [];
 
-            res.write = function (chunk: any, ...args: any[]) {
-                if (chunk) {
-                    capturedBuffers.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-                }
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                return originalWrite.apply(this, [chunk, ...args]);
-            };
-
-            // In res.end, process the captured data
-            res.end = function (chunk?: any, ...args: any[]) {
-                if (chunk) {
-                    capturedBuffers.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-                }
-
-                // Combine all buffers
-                const fullBuffer = Buffer.concat(capturedBuffers);
-
-                // Decompress based on content-encoding
-                const contentEncoding = this.getHeader('content-encoding');
-                let decompressedData: string;
-
-                try {
-                    switch (contentEncoding) {
-                        case 'gzip':
-                            decompressedData = gunzipSync(fullBuffer).toString();
-                            break;
-                        case 'deflate':
-                            decompressedData = inflateSync(fullBuffer).toString();
-                            break;
-                        case 'br':
-                            decompressedData = brotliDecompressSync(fullBuffer).toString();
-                            break;
-                        default:
-                            decompressedData = fullBuffer.toString();
+                res.write = function (chunk: any, ...args: any[]) {
+                    if (chunk) {
+                        capturedBuffers.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
                     }
-                } catch (error) {
-                    // Fallback for decompression errors
-                    decompressedData = fullBuffer.toString();
-                }
-                if (!service.noETag) {
-                    service.ETag = etag(decompressedData, { weak: true });
-                }
-                // Register a service there
-                ODataMetadata.parse(decompressedData, service.urlPath, service.ETag)
-                    .then((metadata) => {
-                        service.__captureAndSimulate = false;
-                        dataAccess.reloadData(metadata);
-                    })
-                    .catch((err: Error) => {
-                        log.error('Failed to parse captured metadata:' + err.message);
-                    });
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                return originalEnd.apply(this, [chunk, ...args]);
-            };
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    return originalWrite.apply(this, [chunk, ...args]);
+                };
+
+                // In res.end, process the captured data
+                res.end = function (chunk?: any, ...args: any[]) {
+                    if (chunk) {
+                        capturedBuffers.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+                    }
+
+                    // Combine all buffers
+                    const fullBuffer = Buffer.concat(capturedBuffers);
+
+                    // Decompress based on content-encoding
+                    const contentEncoding = this.getHeader('content-encoding');
+                    let decompressedData: string;
+
+                    try {
+                        switch (contentEncoding) {
+                            case 'gzip':
+                                decompressedData = gunzipSync(fullBuffer).toString();
+                                break;
+                            case 'deflate':
+                                decompressedData = inflateSync(fullBuffer).toString();
+                                break;
+                            case 'br':
+                                decompressedData = brotliDecompressSync(fullBuffer).toString();
+                                break;
+                            default:
+                                decompressedData = fullBuffer.toString();
+                        }
+                    } catch (error) {
+                        // Fallback for decompression errors
+                        decompressedData = fullBuffer.toString();
+                    }
+                    if (!service.noETag) {
+                        service.ETag = etag(decompressedData, { weak: true });
+                    }
+                    // Register a service there
+                    ODataMetadata.parse(decompressedData, service.urlPath, service.ETag)
+                        .then((metadata) => {
+                            service.__captureAndSimulate = false;
+                            dataAccess.reloadData(metadata);
+                        })
+                        .catch((err: Error) => {
+                            log.error('Failed to parse captured metadata:' + err.message);
+                        });
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    return originalEnd.apply(this, [chunk, ...args]);
+                };
+            }
+
+            delete _req.headers['if-none-match'];
             next();
         } else {
             res.setHeader('Content-Type', 'application/xml');

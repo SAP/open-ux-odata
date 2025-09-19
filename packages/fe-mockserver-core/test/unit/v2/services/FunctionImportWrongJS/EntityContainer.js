@@ -1,6 +1,6 @@
 module.exports = {
     executeAction(actionDefinition, actionData, keys, odataRequest) {
-        if (actionDefinition.name === 'DecisionOptions') {
+        if (actionDefinition.name === 'ReasonOptions') {
             var instanceID = odataRequest.allParams.get('InstanceID').replace(/''/g, '');
             return [
                 {

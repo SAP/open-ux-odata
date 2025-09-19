@@ -1,5 +1,19 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.5.5
+
+### Patch Changes
+
+-   Updated dependencies [5ab7499]
+    -   @sap-ux/edmx-parser@0.9.6
+    -   @sap-ux/annotation-converter@0.10.5
+
+## 1.5.4
+
+### Patch Changes
+
+-   7aeedc6: Fix issue with browser caching messed up the capture
+
 ## 1.5.3
 
 ### Patch Changes

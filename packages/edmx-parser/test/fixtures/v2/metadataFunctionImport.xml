@@ -902,7 +902,7 @@
                     <End EntitySet="SEPMRA_I_ProductCategory" Role="ToRole_assoc_978BCF89A2211723C1E892F5B9CDB6D3"/>
                 </AssociationSet>
                 <FunctionImport Name="SEPMRA_C_PD_ProductActivation" ReturnType="SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType" EntitySet="SEPMRA_C_PD_Product" m:HttpMethod="POST" sap:action-for="SEPMRA_PROD_MAN.SEPMRA_C_PD_ProductType" sap:applicable-path="Activation_ac">
-                    <Parameter Name="Product" Type="Edm.String" Mode="In" MaxLength="10"/>
+                    <Parameter Name="Product" Type="Edm.String" Mode="In" MaxLength="10" sap:label="The Product"/>
                     <Parameter Name="DraftUUID" Type="Edm.Guid" Mode="In"/>
                     <Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In"/>
                 </FunctionImport>
