@@ -15,6 +15,11 @@ import type { KeyDefinitions } from '../request/odataRequest';
 import type { ODataMetadata } from './metadata';
 import type { ServiceRegistry } from './serviceRegistry';
 
+export type PartialReferentialConstraint = {
+    sourceProperty: string;
+    targetProperty: string;
+};
+
 export interface EntitySetInterface {
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
     checkFilter(
