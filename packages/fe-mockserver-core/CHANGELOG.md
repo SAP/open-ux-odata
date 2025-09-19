@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.5.6
+
+### Patch Changes
+
+-   93f23d0: fix: better support for v2
+
 ## 1.5.5
 
 ### Patch Changes
