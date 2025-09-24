@@ -24,7 +24,14 @@ function prepareFolderBasedConfig(
     inServices: ConfigService[]
 ) {
     let mockConfig;
-    if (require.resolve('ts-node') && fs.existsSync(path.join(currentBasePath, 'config.ts'))) {
+    let isTSNodeThere = false;
+    try {
+        require.resolve('ts-node');
+        isTSNodeThere = true;
+    } catch (e) {
+        isTSNodeThere = false;
+    }
+    if (isTSNodeThere && fs.existsSync(path.join(currentBasePath, 'config.ts'))) {
         // we need to register ts-node to be able to load ts files
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         require('ts-node').register({
