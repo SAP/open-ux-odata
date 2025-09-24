@@ -24,7 +24,19 @@ function prepareFolderBasedConfig(
     inServices: ConfigService[]
 ) {
     let mockConfig;
-    if (fs.existsSync(path.join(currentBasePath, 'config.js'))) {
+    if (require.resolve('ts-node') && fs.existsSync(path.join(currentBasePath, 'config.ts'))) {
+        // we need to register ts-node to be able to load ts files
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        require('ts-node').register({
+            transpileOnly: true,
+            compilerOptions: {
+                module: 'commonjs'
+            }
+        });
+        mockConfig = require(path.join(currentBasePath, 'config.ts'));
+    } else if (fs.existsSync(path.join(currentBasePath, 'config.mjs'))) {
+        mockConfig = require(path.join(currentBasePath, 'config.mjs'));
+    } else if (fs.existsSync(path.join(currentBasePath, 'config.js'))) {
         mockConfig = require(path.join(currentBasePath, 'config.js'));
     } else {
         mockConfig = JSON.parse(fs.readFileSync(path.join(currentBasePath, 'config.json')).toString('utf-8'));
@@ -99,6 +111,9 @@ function processServicesConfig(
         } else if (myServiceConfig.metadataPath) {
             // we default to the folder of the metadata
             myServiceConfig.mockdataPath = path.dirname(myServiceConfig.metadataPath);
+        } else {
+            // defult to the base folder
+            myServiceConfig.mockdataPath = currentBasePath;
         }
 
         if (!inService.urlPath) {
@@ -165,6 +180,7 @@ export function resolveConfig(inConfig: ServerConfig, basePath: string): Mockser
         generateMockData: !!inConfig.generateMockData,
         annotations: annotations,
         services: services,
+        tsConfigPath: inConfig.tsConfigPath ? path.resolve(basePath, inConfig.tsConfigPath) : undefined,
         fileLoader: inConfig.fileLoader,
         metadataProcessor: inConfig.metadataProcessor,
         plugins: inConfig.plugins

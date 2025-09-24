@@ -3,7 +3,15 @@ import FEMockserver from '@sap-ux/fe-mockserver-core';
 import * as path from 'path';
 import type { IRouter } from 'router';
 import { resolveConfig } from './configResolver';
-export type { MockDataContributor } from '@sap-ux/fe-mockserver-core';
+export type {
+    Action,
+    MockDataContributor,
+    MockEntityContainerContributor,
+    NavigationProperty,
+    ODataRequest,
+    PartialReferentialConstraint,
+    ServiceRegistry
+} from '@sap-ux/fe-mockserver-core';
 
 async function FEMiddleware(middlewareConfig: {
     resources?: any;

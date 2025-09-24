@@ -61,6 +61,7 @@ type MetadataProcessorConfig = {
 };
 
 export interface BaseServerConfig {
+    tsConfigPath?: string;
     strictKeyMode?: boolean;
     debug?: boolean;
     watch?: boolean;
@@ -114,6 +115,7 @@ export type ServiceConfigEx = ServiceConfig & {
 };
 
 export interface MockserverConfiguration {
+    tsConfigPath?: string;
     debug?: boolean;
     logger?: ILogger;
     contextBasedIsolation?: boolean;
@@ -132,6 +134,7 @@ export interface MockserverConfiguration {
 }
 
 export interface IFileLoader {
+    isTypescriptEnabled?(): boolean;
     loadFile(filePath: string): Promise<string>;
     loadFileSync(filePath: string): string;
     exists(filePath: string): Promise<boolean>;

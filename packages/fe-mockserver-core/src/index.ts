@@ -3,10 +3,15 @@ import Router from 'router';
 import type { IFileLoader, IMetadataProcessor, IMockserverPlugin, MockserverConfiguration } from './api';
 import { ServiceRegistry } from './data/serviceRegistry';
 import { getMetadataProcessor, getPluginDefinition } from './pluginsManager';
+import ODataRequest from './request/odataRequest';
 
+export type { Action, NavigationProperty } from '@sap-ux/vocabularies-types';
 export * from './api';
+export type { PartialReferentialConstraint } from './data/common';
 export { ServiceRegistry } from './data/serviceRegistry';
 export { MockDataContributor } from './mockdata/functionBasedMockData';
+export { MockEntityContainerContributor } from './mockdata/mockEntityContainer';
+export { ODataRequest };
 
 export default class FEMockserver {
     isReady: Promise<void>;
@@ -18,13 +23,13 @@ export default class FEMockserver {
 
     constructor(private configuration: MockserverConfiguration) {
         this.mainRouter = new Router();
-        this.isReady = this.initialize();
+        this.isReady = this.initialize(configuration.tsConfigPath);
     }
 
-    private async initialize() {
+    private async initialize(tsConfigPath?: string) {
         const FileLoaderClass =
             (this.configuration.fileLoader as any) || (await import('./plugins/fileSystemLoader')).default;
-        this.fileLoader = new FileLoaderClass() as IFileLoader;
+        this.fileLoader = new FileLoaderClass(tsConfigPath) as IFileLoader;
 
         this.metadataProvider = await getMetadataProcessor(
             this.fileLoader,

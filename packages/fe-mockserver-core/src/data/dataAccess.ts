@@ -56,7 +56,7 @@ export class DataAccess implements DataAccessInterface {
     public log: ILogger;
     protected readonly strictKeyMode: boolean;
     protected readonly contextBasedIsolation: boolean;
-    protected readonly validateETag: boolean;
+    protected validateETag: boolean;
     protected entitySets: Record<string, MockDataEntitySet> = {};
     protected stickyEntitySets: StickyMockEntitySet[] = [];
     protected generateMockData: boolean;
@@ -169,7 +169,10 @@ export class DataAccess implements DataAccessInterface {
         return this.entitySets[entityTypeName!].readyPromise;
     }
 
-    public async performAction(odataRequest: ODataRequest, bodyActionData?: object): Promise<any> {
+    public async performAction(
+        odataRequest: ODataRequest,
+        bodyActionData?: Record<string, unknown> & { _type?: string }
+    ): Promise<any> {
         // if it's a bound action we need to look for the action type
         const actionData = bodyActionData ?? odataRequest.queryPath[odataRequest.queryPath.length - 1].keys;
         const rootEntitySet = this.metadata.getEntitySet(odataRequest.queryPath[0].path);
@@ -195,7 +198,21 @@ export class DataAccess implements DataAccessInterface {
                 const fqActionName = `${actionName}(${currentEntityType.fullyQualifiedName})`;
                 const actionDefinition = this.metadata.getActionByFQN(fqActionName);
                 if (actionDefinition) {
-                    return (await this.getMockEntitySet(entitySetName)).executeAction(
+                    const mockEntitySet = await this.getMockEntitySet(entitySetName);
+                    actionData._type = actionDefinition.name;
+                    if (actionDefinition.parameters[0].type === currentEntitySet.entityTypeName) {
+                        const lastQueryPath = odataRequest.queryPath.pop(); // remove last part
+                        const bValidateEtag = this.validateETag;
+                        this.validateETag = false;
+                        const actionDataObj = await this.getData(odataRequest);
+                        this.validateETag = bValidateEtag;
+                        if (lastQueryPath) {
+                            odataRequest.queryPath.push(lastQueryPath);
+                        }
+                        actionData[actionDefinition.parameters[0].name] = actionDataObj;
+                    }
+
+                    return mockEntitySet.executeAction(
                         actionDefinition,
                         actionData,
                         odataRequest,
@@ -205,6 +222,7 @@ export class DataAccess implements DataAccessInterface {
                 const collecfqActionName = `${actionName}(Collection(${currentEntityType.fullyQualifiedName}))`;
                 const collecactionDefinition = this.metadata.getActionByFQN(collecfqActionName);
                 if (collecactionDefinition) {
+                    actionData._type = collecactionDefinition.name;
                     return (await this.getMockEntitySet(entitySetName)).executeAction(
                         collecactionDefinition,
                         actionData,
@@ -215,6 +233,7 @@ export class DataAccess implements DataAccessInterface {
                 // Fallback with local resolving, useful for function where the FQN also include all parameter types
                 const functionDefinition = currentEntityType.resolvePath(actionName);
                 if (functionDefinition?._type === 'Function' || functionDefinition?._type === 'Action') {
+                    actionData._type = functionDefinition.name;
                     return (await this.getMockEntitySet(entitySetName)).executeAction(
                         functionDefinition,
                         actionData,
@@ -236,6 +255,7 @@ export class DataAccess implements DataAccessInterface {
                 if (actionDefinition.sourceType !== '') {
                     const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
                     if (targetEntitySet) {
+                        actionData._type = actionDefinition.name;
                         let outData = await (
                             await this.getMockEntitySet(targetEntitySet.name)
                         ).executeAction(actionDefinition, Object.assign({}, actionData), odataRequest, {});
@@ -266,6 +286,7 @@ export class DataAccess implements DataAccessInterface {
                 ) {
                     // Special case for sticky discard action that might need to be changed
                     for (const entitySet of this.stickyEntitySets) {
+                        actionData._type = actionDefinition.name;
                         await entitySet.executeAction(
                             actionDefinition,
                             actionData,
@@ -277,6 +298,7 @@ export class DataAccess implements DataAccessInterface {
                 } else {
                     // Treat this as a normal unbound action
                     // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
+                    actionData._type = actionDefinition.name;
                     return (
                         await MockEntityContainer.read(
                             this.mockDataRootFolder,

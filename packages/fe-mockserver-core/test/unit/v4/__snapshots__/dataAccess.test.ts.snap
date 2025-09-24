@@ -2,32 +2,32 @@
 
 exports[`Data Access $expand depending on target key property name 1:* - key property names are different 1`] = `
 {
-  "ID": "",
+  "ID": "ID0",
   "_differentIdMany": [],
 }
 `;
 
 exports[`Data Access $expand depending on target key property name 1:* - key property names are equal 1`] = `
 {
-  "ID": "",
+  "ID": "ID0",
   "_sameIdMany": [],
 }
 `;
 
 exports[`Data Access $expand depending on target key property name 1:1 - key property names are different 1`] = `
 {
-  "ID": "",
+  "ID": "ID0",
   "_differentId": {
-    "ID_B": "",
+    "ID_B": "ID_B0",
   },
 }
 `;
 
 exports[`Data Access $expand depending on target key property name 1:1 - key property names are equal 1`] = `
 {
-  "ID": "",
+  "ID": "ID0",
   "_sameId": {
-    "ID": "",
+    "ID": "ID0",
   },
 }
 `;

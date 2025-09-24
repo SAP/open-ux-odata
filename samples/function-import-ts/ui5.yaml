@@ -1,0 +1,14 @@
+specVersion: '2.4'
+metadata:
+    name: 'basic-usage'
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          beforeMiddleware: compression
+          configuration:
+              service:
+                  urlBasePath: /here/goes/your/serviceurl
+                  name: ''
+                  metadataPath: ./webapp/localService/metadata.xml
+                  mockdataPath: ./webapp/localService/mockdata

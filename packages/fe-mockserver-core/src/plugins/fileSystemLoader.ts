@@ -5,8 +5,23 @@ const readFileP = promisify(readFile);
 const accessP = promisify(access);
 
 export default class FileSystemLoader implements IFileLoader {
+    private isTSLoaded = false;
+    constructor(private readonly tsConfigPath?: string) {}
     async loadFile(filePath: string): Promise<string> {
         return readFileP(filePath, 'utf-8');
+    }
+    isTypescriptEnabled(): boolean {
+        if (require.resolve('ts-node') && !this.isTSLoaded) {
+            let options = {};
+            if (this.tsConfigPath) {
+                options = { project: this.tsConfigPath };
+            }
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            require('ts-node').register(options);
+            this.isTSLoaded = true;
+            return true;
+        }
+        return this.isTSLoaded;
     }
     async exists(filePath: string): Promise<boolean> {
         try {
@@ -36,6 +51,10 @@ export default class FileSystemLoader implements IFileLoader {
     async loadJS(filePath: string): Promise<any> {
         delete require.cache[filePath];
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        return Promise.resolve(require(filePath));
+        let requireResult = require(filePath);
+        if (requireResult.default) {
+            requireResult = requireResult.default;
+        }
+        return Promise.resolve(requireResult);
     }
 }

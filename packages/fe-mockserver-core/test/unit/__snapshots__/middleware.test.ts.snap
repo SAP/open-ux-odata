@@ -23,6 +23,7 @@ exports[`V4 Requestor Sticky create, discard, try to update the discarded item: 
     "@odata.metadataEtag": "W/"b33-HKR7/Mrdzt2tAPtxAnMANiNzQLw"",
     "ID": 0,
     "__transient": true,
+    "_type": "Create",
     "data": "",
   },
   "headers": ObjectContaining {

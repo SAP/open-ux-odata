@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "module": "commonjs",
+        "skipLibCheck": true,
+        "allowJs": true,
+        "sourceMap": true,
+        "strict": false,
+        "strictPropertyInitialization": false,
+        "moduleResolution": "node",
+        "rootDir": "./webapp",
+        "noEmitOnError": false,
+        "baseUrl": "./"
+    },
+    "include": ["./webapp/mockserver/**/*.ts"]
+}
