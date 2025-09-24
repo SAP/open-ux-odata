@@ -11,7 +11,14 @@ export default class FileSystemLoader implements IFileLoader {
         return readFileP(filePath, 'utf-8');
     }
     isTypescriptEnabled(): boolean {
-        if (require.resolve('ts-node') && !this.isTSLoaded) {
+        let isTSNodeThere;
+        try {
+            require.resolve('ts-node');
+            isTSNodeThere = true;
+        } catch (e) {
+            isTSNodeThere = false;
+        }
+        if (isTSNodeThere && !this.isTSLoaded) {
             let options = {};
             if (this.tsConfigPath) {
                 options = { project: this.tsConfigPath };
