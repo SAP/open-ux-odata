@@ -1,10 +1,6 @@
 import type { Action, EntityType, NavigationProperty, Property } from '@sap-ux/vocabularies-types';
-import {
-    EntitySetInterface,
-    ExecutionError,
-    PartialReferentialConstraint,
-    ServiceRegistryInterface
-} from '../data/common';
+import type { EntitySetInterface, PartialReferentialConstraint, ServiceRegistryInterface } from '../data/common';
+import { ExecutionError } from '../data/common';
 import type { AncestorDescendantsParameters, TopLevelParameters } from '../request/applyParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
