@@ -156,6 +156,8 @@ describe('Data Access', () => {
         let responseData = odataRequest.getResponseData() || '';
         // remove data
         responseData = responseData.replace(/\/Date\([^)]+\)/g, '/Date()');
+        responseData = responseData.replace(/DraftUUID":"[^"]+"/g, 'DraftUUID":""');
+        responseData = responseData.replace(/guid'[^']+'/g, "guid''");
         expect(responseData).toMatchSnapshot();
         expect(odataRequest.responseHeaders).toMatchSnapshot();
         const odataRequestSolo = new ODataRequest(

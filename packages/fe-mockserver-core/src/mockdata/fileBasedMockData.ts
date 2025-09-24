@@ -445,6 +445,9 @@ export class FileBasedMockData {
                 return 'PT' + date.getHours() + 'H' + date.getMinutes() + 'M' + date.getSeconds() + 'S';
             }
             default:
+                if (property.isKey) {
+                    return this.generateKey(property, this._mockData.length, this._mockData);
+                }
                 return '';
         }
     }

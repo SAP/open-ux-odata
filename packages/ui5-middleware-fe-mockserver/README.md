@@ -62,6 +62,7 @@ If you are running the mockserver embedded in karma you need to change the confi
 
 `beforeMiddleware: csp` instead of `afterMiddleware: compression`
 
+
 ## Service Configuration
 
 Each service must provide at least two things
@@ -96,6 +97,22 @@ You can also define static annotation file using the `annotations` entry, each a
 - urlPath : where will your annotation be accessible from
 - localPath : local path to your annotation file
 
+
+## Typescript support
+
+If your application embed ts-node, the mockserver will use that automatically to load the mockdata files.
+You can also specify a custom tsconfig file to use by adding the `tsConfigPath` entry globally.
+
+```
+        configuration:
+          tsConfigPath: './tsconfig-mockserver.json'
+          services:
+            - urlPath: '/sap/opu/odata/sap/<SERVICE_NAME>'
+              metadataPath: './webapp/localService/metadata.xml'
+              mockdataPath: './webapp/localService/data'
+```
+This is useful if you want to have a different configuration for the mockserver than the one used for your application.
+
 **Documentation**
 
 You can find more details on how to influence the mockserver behavior for mockdata by checking the documentation under [Defining Mockdata](https://github.com/SAP/open-ux-odata/blob/main/docs/DefiningMockdata.md)
@@ -106,6 +123,7 @@ We also have samples available in the [samples folder](https://github.com/SAP/op
 **Sample application**
 
 See the usage in demo apps [SAP Fiori sample apps](https://github.com/SAP-samples/fiori-tools-samples)
+
 
 ## Support
 

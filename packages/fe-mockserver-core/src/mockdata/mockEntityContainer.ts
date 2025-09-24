@@ -28,11 +28,14 @@ export class MockEntityContainer {
         dataAccess: DataAccessInterface
     ): Promise<MockEntityContainerContributor> {
         const jsPath = join(mockDataRootFolder, 'EntityContainer') + '.js';
+        const tsPath = join(mockDataRootFolder, 'EntityContainer') + '.ts';
         let outData: MockEntityContainerContributor = {} as any;
-        if (await fileLoader.exists(jsPath)) {
+        const existJS = await fileLoader.exists(jsPath);
+        const existTS = fileLoader.isTypescriptEnabled?.() === true && (await dataAccess.fileLoader.exists(tsPath));
+        if (existJS || existTS) {
             try {
                 //eslint-disable-next-line
-                outData = await fileLoader.loadJS(jsPath);
+                outData = await fileLoader.loadJS(existTS ? tsPath : jsPath);
             } catch (e) {
                 outData = {} as any;
                 console.error(e);

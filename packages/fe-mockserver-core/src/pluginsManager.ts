@@ -16,9 +16,9 @@ export async function getMetadataProcessor(
     options?: unknown,
     i18nPath?: string[]
 ): Promise<IMetadataProcessor> {
-    const MetadataProcessorClass = (
-        await fileLoader.loadJS(name || path.resolve(__dirname, './plugins/metadataProvider'))
-    ).default;
+    const MetadataProcessorClass = await fileLoader.loadJS(
+        name || path.resolve(__dirname, './plugins/metadataProvider')
+    );
 
     return new MetadataProcessorClass(fileLoader, options, i18nPath) as IMetadataProcessor;
 }

@@ -150,13 +150,17 @@ export class MockDataEntitySet implements EntitySetInterface {
     ): Promise<object[]> {
         const jsonFilePath = join(mockDataRootFolder, entity) + '.json';
         const jsPath = join(mockDataRootFolder, entity) + '.js';
+        const tsPath = join(mockDataRootFolder, entity) + '.ts';
         let outData: any[] | object = [];
         let isInitial = true;
         dataAccess.log.info(`Trying to find ${jsPath} for mockdata`);
-        if (await dataAccess.fileLoader.exists(jsPath)) {
+        const existJS = await dataAccess.fileLoader.exists(jsPath);
+        const existTS =
+            dataAccess.fileLoader.isTypescriptEnabled?.() === true && (await dataAccess.fileLoader.exists(tsPath));
+        if (existJS || existTS) {
             try {
                 //eslint-disable-next-line
-                outData = await dataAccess.fileLoader.loadJS(jsPath);
+                outData = await dataAccess.fileLoader.loadJS(existTS ? tsPath : jsPath);
                 isInitial = false;
                 dataAccess.log.info('JS file found for ' + entity);
             } catch (e) {
