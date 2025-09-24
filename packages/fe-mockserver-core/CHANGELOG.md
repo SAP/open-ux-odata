@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.0
+
+### Minor Changes
+
+-   ca1189b: feat: add TypeScript support for mockserver files and improve loader …
+
 ## 1.5.6
 
 ### Patch Changes

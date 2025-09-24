@@ -1,5 +1,16 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.3.0
+
+### Minor Changes
+
+-   ca1189b: feat: add TypeScript support for mockserver files and improve loader …
+
+### Patch Changes
+
+-   Updated dependencies [ca1189b]
+    -   @sap-ux/fe-mockserver-core@1.6.0
+
 ## 2.2.112
 
 ### Patch Changes
