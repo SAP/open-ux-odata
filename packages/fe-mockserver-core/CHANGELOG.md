@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.1
+
+### Patch Changes
+
+-   ce22efd: ts-node should not be a requirement :D
+
 ## 1.6.0
 
 ### Minor Changes
