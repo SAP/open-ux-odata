@@ -27,7 +27,7 @@ function prepareFolderBasedConfig(
     let isTSNodeThere;
     try {
         require.resolve('ts-node');
-        isTSNodeThere = true;
+        isTSNodeThere = process.env.CDS_TYPESCRIPT !== 'tsx';
     } catch (e) {
         isTSNodeThere = false;
     }
