@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.4
+
+### Patch Changes
+
+-   5300498: We don't wait to unload TS in case it's there
+
 ## 1.6.3
 
 ### Patch Changes
