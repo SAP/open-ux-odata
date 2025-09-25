@@ -115,7 +115,7 @@ ${actionSwitchCases}
     if (getReferentialConstraintsMethod.length) {
         allMethods.push(getReferentialConstraintsMethod);
     }
-    const fileContent = `import type { MockDataContributor, ODataRequest, Action, NavigationProperty, ReferentialConstraint } from "@sap-ux/ui5-middleware-fe-mockserver"
+    const fileContent = `import type { MockDataContributor, ODataRequest, Action, NavigationProperty, PartialReferentialConstraint } from "@sap-ux/ui5-middleware-fe-mockserver"
 ${entityNavPropTypesInterface}
 ${entityNavPropNamesInterface}
 ${entityInterface}
@@ -325,7 +325,7 @@ function generateGetReferentialConstraintsMethod(navPropsWithoutConstraints: Nav
         .join('\n');
 
     return `
-    getReferentialConstraints: (navigationProperty: NavigationProperty):ReferentialConstraint[] | undefined =>  {
+    getReferentialConstraints: (navigationProperty: NavigationProperty):PartialReferentialConstraint[] | undefined =>  {
         // Navigation properties without referential constraints:
         switch(navigationProperty.name) {
              ${allPotentialCases}
