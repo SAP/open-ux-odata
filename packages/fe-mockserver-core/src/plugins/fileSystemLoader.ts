@@ -14,7 +14,8 @@ export default class FileSystemLoader implements IFileLoader {
         let isTSNodeThere;
         try {
             require.resolve('ts-node');
-            isTSNodeThere = true;
+            // Checking CDS_TYPESCRIPT to let CAP do their things
+            isTSNodeThere = process.env.CDS_TYPESCRIPT !== 'tsx';
         } catch (e) {
             isTSNodeThere = false;
         }
