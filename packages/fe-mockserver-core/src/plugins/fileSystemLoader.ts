@@ -14,11 +14,12 @@ export default class FileSystemLoader implements IFileLoader {
         let isTSNodeThere;
         try {
             require.resolve('ts-node');
+            // Checking CDS_TYPESCRIPT to let CAP do their things
             isTSNodeThere = true;
         } catch (e) {
             isTSNodeThere = false;
         }
-        if (isTSNodeThere && !this.isTSLoaded) {
+        if (isTSNodeThere && !this.isTSLoaded && process.env.CDS_TYPESCRIPT !== 'tsx') {
             let options = {};
             if (this.tsConfigPath) {
                 options = { project: this.tsConfigPath };
@@ -27,6 +28,8 @@ export default class FileSystemLoader implements IFileLoader {
             require('ts-node').register(options);
             this.isTSLoaded = true;
             return true;
+        } else {
+            this.isTSLoaded = process.env.CDS_TYPESCRIPT === 'tsx';
         }
         return this.isTSLoaded;
     }

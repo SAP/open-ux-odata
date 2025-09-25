@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.2
+
+### Patch Changes
+
+-   1cf5c8d: When CAP is in control, don't mess with it :)
+
 ## 1.6.1
 
 ### Patch Changes
