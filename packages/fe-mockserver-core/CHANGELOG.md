@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.3
+
+### Patch Changes
+
+-   b671880: More changes to make this work with CAP
+
 ## 1.6.2
 
 ### Patch Changes
