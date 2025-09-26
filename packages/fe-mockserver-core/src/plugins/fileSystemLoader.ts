@@ -28,7 +28,7 @@ export default class FileSystemLoader implements IFileLoader {
             require('ts-node').register(options);
             this.isTSLoaded = true;
             return true;
-        } else {
+        } else if (!this.isTSLoaded) {
             this.isTSLoaded = process.env.CDS_TYPESCRIPT === 'tsx';
         }
         return this.isTSLoaded;
