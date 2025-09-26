@@ -178,7 +178,7 @@ importers:
     devDependencies:
       '@sap/cds-compiler':
         specifier: ^5.4
-        version: 5.5.0
+        version: 5.9.12
 
   packages/ui5-middleware-fe-mockserver:
     dependencies:
@@ -1418,8 +1418,8 @@ packages:
   '@sap/bas-sdk@3.11.6':
     resolution: {integrity: sha512-2IMsL0/cXxN2GFTkmq2m9TbY3lKtnKGjOONalw3WTJRH+yWCog2q5f5V2Xf+P+oem67UQcubkMPlbdqmvVIYDA==}
 
-  '@sap/cds-compiler@5.5.0':
-    resolution: {integrity: sha512-UlNcFjkoBEbknmMCQWvbMETtbIU22heVj+5ZNh3ewZpBo7ClmUGueRWIt5Hlzle9l1JscpPMZUpt/VYgx2Z/KA==}
+  '@sap/cds-compiler@5.9.12':
+    resolution: {integrity: sha512-1KrNgO0aJ0CCtCGdCvgyQycBXMfBk7uWE/D1jQabW8WnYp9e4bsdv+GFPtUpFuXgysADzziUEhXDU82zxgRnnA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -2236,7 +2236,7 @@ packages:
     engines: {node: '>= 0.8.0'}
 
   concat-map@0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   config-chain@1.1.13:
     resolution: {integrity: sha512-qj+f8APARXHrM0hraqXYb2/bOVSV4PvJQlNZ/DVj0QrmNM2q2euizkeuVckQ57J+W0mRH6Hvi+k50M4Jul2VRQ==}
@@ -7063,7 +7063,7 @@ snapshots:
       - debug
       - utf-8-validate
 
-  '@sap/cds-compiler@5.5.0':
+  '@sap/cds-compiler@5.9.12':
     dependencies:
       antlr4: 4.9.3
 
