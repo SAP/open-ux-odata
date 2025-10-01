@@ -55,7 +55,7 @@ jobs:
             - name: 'Prepare output artifact'
               if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
               shell: bash
-              run:  tar --exclude='./node_modules' --exclude='./dist' --exclude='./**/node_modules/**' --exclude='./**/dist/**' --exclude='./.git' --exclude 'output.tar' -czf output.tar .
+              run: touch output.tar && tar --exclude='./node_modules' --exclude='./dist' --exclude='./**/node_modules/**' --exclude='./**/dist/**' --exclude='./.git' --exclude 'output.tar' -czf output.tar .
         
             - name: 'Upload sonar artifact'
               if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
