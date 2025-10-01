@@ -1,0 +1,22 @@
+name: 'Sonar'
+on:
+  workflow_run:
+    workflows: [ Build ]
+    types:
+      - completed
+jobs:
+  sonar:
+    name: 'Sonar analysis'
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      actions: read # Required to download artifacts
+    steps:
+      - name: 'Sonar analysis'
+        uses: evaristegalois11/sonar-fork-analysis@v1
+        with:
+          distribution: temurin
+          java-version: 21
+          github-token: ${{ secrets.ACCESS_PAT }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          project-key: SAP_open-ux-odata
