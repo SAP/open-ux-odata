@@ -1,0 +1,49 @@
+{
+    "name": "@sap-ux/fe-mockserver-admin",
+    "version": "0.0.3",
+    "description": "SAP Fiori OData - Mockserver admin service to list running services",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SAP/open-ux-odata.git",
+        "directory": "packages/fe-mockserver-admin"
+    },
+    "bugs": {
+        "url": "https://github.com/SAP/open-ux-odata/issues?q=is%3Aopen+is%3Aissue+label%3Abug+label%3Afe-mockserver"
+    },
+    "bin": {
+        "fe-mockserver-admin": "dist/cli.js"
+    },
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "pnpm clean && tsc && copyfiles -u 1  src/*.xml dist/",
+        "clean": "rimraf dist build",
+        "dev": "pnpm clean && tsc -project ./tsconfig.dev.json --watch",
+        "format": "prettier **/* --write --ignore-unknown --ignore-path ../../.prettierignore",
+        "lint": "eslint . --ext .ts  --quiet",
+        "lint:fix": "eslint . --ext .ts --fix",
+        "watch": "tsc --watch",
+        "link": "pnpm link --global",
+        "unlink": "pnpm unlink --global",
+        "test": "jest --ci --forceExit --detectOpenHandles --colors --passWithNoTests",
+        "test-u": "jest --ci --forceExit --detectOpenHandles --colors -u --passWithNoTests"
+    },
+    "dependencies": {
+        "@sap-ux/fe-mockserver-core": "workspace:*",
+        "@sap-ux/edmx-parser": "workspace:*",
+        "@sap-ux/annotation-converter": "workspace:*",
+        "@sap-ux/vocabularies-types": "workspace:*",
+        "commander": "^11.1.0",
+        "router": "2.0.0"
+    },
+    "devDependencies": {
+        "@ui5/logger": "^4.0.1",
+        "copyfiles": "2.4.1",
+        "@types/node": "^18.15.0"
+    },
+    "files": [
+        "dist",
+        "LICENSE"
+    ]
+}

@@ -134,6 +134,63 @@ function prepareLiteral(literal: string, propertyType: string) {
             return literal;
     }
 }
+
+/**
+ * Creates a tenant data loader function that handles loading and processing tenant-specific JSON files.
+ *
+ * @param mockDataRootFolder - The root folder for mock data files
+ * @param entity - The entity name to load data for
+ * @param isDraft - Whether the entity is a draft entity
+ * @param dataAccess - The data access interface for file operations
+ * @param fallbackData - The fallback data to return if no tenant file exists
+ * @param generateMockData - Whether to enable mock data generation when no data exists
+ * @returns A function that loads tenant-specific data based on context ID
+ */
+function createTenantDataLoader(
+    mockDataRootFolder: string,
+    entity: string,
+    isDraft: boolean,
+    dataAccess: DataAccessInterface,
+    fallbackData: any[],
+    generateMockData?: boolean
+) {
+    return function (contextId: string) {
+        if (dataAccess.fileLoader.syncSupported()) {
+            const fileNameSuffix = contextId === 'tenant-default' ? '' : `-${contextId.replace('tenant-', '')}`;
+            const targetFile = join(mockDataRootFolder, entity + fileNameSuffix) + '.json';
+            if (dataAccess.fileLoader.existsSync(targetFile)) {
+                const jsonFileContent = dataAccess.fileLoader.loadFileSync(targetFile);
+                let tenantJsonData: any[];
+                if (jsonFileContent.length === 0) {
+                    tenantJsonData = [];
+                } else {
+                    tenantJsonData = JSON.parse(jsonFileContent);
+
+                    tenantJsonData.forEach((jsonLine) => {
+                        if (isDraft) {
+                            const IsActiveEntityValue = jsonLine.IsActiveEntity;
+                            if (IsActiveEntityValue === undefined) {
+                                jsonLine.IsActiveEntity = true;
+                                jsonLine.HasActiveEntity = true;
+                                jsonLine.HasDraftEntity = false;
+                            }
+                        }
+                        delete jsonLine['@odata.etag'];
+                    });
+                }
+                return tenantJsonData;
+            }
+        }
+        // No tenant file found, return fallback data
+        const result = fallbackData.concat();
+        // If fallback data is empty and generateMockData is true, preserve the flag
+        if (result.length === 0 && generateMockData) {
+            (result as any).__generateMockData = generateMockData;
+        }
+        return result;
+    };
+}
+
 /**
  *
  */
@@ -195,41 +252,31 @@ export class MockDataEntitySet implements EntitySetInterface {
                     outData = {}; // set as an object in all case
                 }
                 isInitial = false;
-                (outData as any).getInitialDataSet = function (contextId: string) {
-                    if (dataAccess.fileLoader.syncSupported()) {
-                        const fileNameSuffix =
-                            contextId === 'tenant-default' ? '' : `-${contextId.replace('tenant-', '')}`;
-                        const targetFile = join(mockDataRootFolder, entity + fileNameSuffix) + '.json';
-                        if (dataAccess.fileLoader.existsSync(targetFile)) {
-                            const jsonFileContent = dataAccess.fileLoader.loadFileSync(targetFile);
-                            let tenantJsonData: any[];
-                            if (fileContent.length === 0) {
-                                tenantJsonData = [];
-                            } else {
-                                tenantJsonData = JSON.parse(jsonFileContent);
-
-                                tenantJsonData.forEach((jsonLine) => {
-                                    if (isDraft) {
-                                        const IsActiveEntityValue = jsonLine.IsActiveEntity;
-                                        if (IsActiveEntityValue === undefined) {
-                                            jsonLine.IsActiveEntity = true;
-                                            jsonLine.HasActiveEntity = true;
-                                            jsonLine.HasDraftEntity = false;
-                                        }
-                                    }
-                                    delete jsonLine['@odata.etag'];
-                                });
-                            }
-                            return tenantJsonData;
-                        }
-                    }
-
-                    return outJsonData.concat();
-                };
+                (outData as any).getInitialDataSet = createTenantDataLoader(
+                    mockDataRootFolder,
+                    entity,
+                    isDraft,
+                    dataAccess,
+                    outJsonData,
+                    generateMockData
+                );
                 // }
             } catch (e) {
                 dataAccess.log.info(e as string);
             }
+        }
+        // Create getInitialDataSet for tenant files if not already created
+        if (isInitial && !(outData as any).getInitialDataSet) {
+            outData = {};
+            isInitial = false;
+            (outData as any).getInitialDataSet = createTenantDataLoader(
+                mockDataRootFolder,
+                entity,
+                isDraft,
+                dataAccess,
+                [], // No base data fallback
+                generateMockData
+            );
         }
         if (isInitial) {
             dataAccess.log.info(`No JS or Json file found for ${entity} at  ${jsonFilePath}`);

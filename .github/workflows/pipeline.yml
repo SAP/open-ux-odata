@@ -46,10 +46,31 @@ jobs:
               run: pnpm run test
             - name: Run SonarCloud scan
               if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
-              uses: sonarsource/sonarcloud-github-action@master
-              env:
-                  GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              shell: bash
+              run: |
+                echo ${{ github.event.pull_request.number }} >> pr-event.txt
+                echo ${{ github.event.pull_request.head.ref }} >> pr-event.txt
+                echo ${{ github.event.pull_request.base.ref }} >> pr-event.txt
+        
+            - name: 'Prepare output artifact'
+              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
+              shell: bash
+              run: touch output.tar && tar --exclude='./node_modules' --exclude='./dist' --exclude='./**/node_modules/**' --exclude='./**/dist/**' --exclude='./.git' --exclude 'output.tar' -czf output.tar .
+        
+            - name: 'Upload sonar artifact'
+              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
+              uses: actions/upload-artifact@v4
+              with:
+                name: sonar-artifact
+                path: |
+                  pr-event.txt
+                  output.tar
+                if-no-files-found: error
+                retention-days: 1
+              #uses: sonarsource/sonarcloud-github-action@master
+              #env:
+                  #GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
+                  #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     version:
         # Run version job only on pushes to the main branch. The job depends on completion of the build job.

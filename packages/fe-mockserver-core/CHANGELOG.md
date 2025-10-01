@@ -1,5 +1,23 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.7
+
+### Patch Changes
+
+-   8192225: feat: add tenant-specific data loading functionality
+
+## 1.6.6
+
+### Patch Changes
+
+-   45debfa: fix: date support for v2 - account for nullable dates
+
+## 1.6.5
+
+### Patch Changes
+
+-   70303b6: Actions shouldn't set count
+
 ## 1.6.4
 
 ### Patch Changes

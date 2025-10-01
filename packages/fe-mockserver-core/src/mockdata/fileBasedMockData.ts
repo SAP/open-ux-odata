@@ -184,7 +184,7 @@ export class FileBasedMockData {
                     mockEntry[prop.name] = parseInt(mockEntry[prop.name], 10);
                 }
             } else if (isV2 && mockEntry.hasOwnProperty(prop.name) && ['Edm.DateTime'].includes(prop.type)) {
-                if (mockEntry[prop.name] !== '' && !mockEntry[prop.name].startsWith('/Date(')) {
+                if (mockEntry[prop.name] !== '' && !mockEntry[prop.name]?.startsWith('/Date(')) {
                     mockEntry[prop.name] = '/Date(' + new Date(mockEntry[prop.name]).getTime() + '000)/';
                 }
             }
@@ -821,7 +821,7 @@ export class FileBasedMockData {
         const referentialConstraint = this.getReferentialConstraints(parentNavigationProperty.$target);
         if (!referentialConstraint || referentialConstraint.length === 0) {
             throw new Error(
-                `Referential constraints must be defined for the ParentNavigationProperty: '${parentNavigationProperty.value}'`
+                `Referential constraints must be defined for the ParentNavigationProperty: '${parentNavigationProperty.value}' on entitySet '${this._entityType.name}'`
             );
         }
 

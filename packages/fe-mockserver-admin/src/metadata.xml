@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:DataServices>
+        <Schema Namespace="MockServerAdmin" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityType Name="Service">
+                <Key>
+                    <PropertyRef Name="UrlPath"/>
+                </Key>
+                <Property Name="UrlPath" Type="Edm.String" Nullable="false" MaxLength="255"/>
+                <Property Name="InternalName" Type="Edm.String" Nullable="true" MaxLength="100"/>
+                <Property Name="EncodedPath" Type="Edm.String" Nullable="true" MaxLength="255"/>
+                <Property Name="ContextIsolation" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="Debug" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="Watch" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="HasETag" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="RegisteredAt" Type="Edm.DateTimeOffset" Nullable="false"/>
+            </EntityType>
+            <EntityContainer Name="AdminContainer">
+                <EntitySet Name="Services" EntityType="MockServerAdmin.Service"/>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
