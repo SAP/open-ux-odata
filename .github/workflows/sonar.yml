@@ -19,19 +19,19 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of Sonar analysis
 
-      - name: 'Download sonar artifact'
-        if: github.event_name == 'workflow_run'
-        uses: actions/download-artifact@v5
-        with:
-          name: sonar-artifact
-          run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ inputs.github-token }}
-          merge-multiple: true
+      # - name: 'Download sonar artifact'
+      #   if: github.event_name == 'workflow_run'
+      #   uses: actions/download-artifact@v5
+      #   with:
+      #     name: sonar-artifact
+      #     run-id: ${{ github.event.workflow_run.id }}
+      #     github-token: ${{ inputs.github-token }}
+      #     merge-multiple: true
 
-      - name: 'Extract output artifact'
-        if: github.event_name == 'workflow_run'
-        shell: bash
-        run: tar -xf output.tar
+      # - name: 'Extract output artifact'
+      #   if: github.event_name == 'workflow_run'
+      #   shell: bash
+      #   run: tar -xf output.tar
 
       - name: 'Read pull request event'
         if: github.event_name == 'workflow_run'
@@ -41,7 +41,7 @@ jobs:
           echo "pr_head_ref=$(sed '2q;d' pr-event.txt)" >> "$GITHUB_ENV"
           echo "pr_base_ref=$(sed '3q;d' pr-event.txt)" >> "$GITHUB_ENV"
 
-      - name: 'Cache SonarCloud packages'
+      - name: 'Run SonarCloud scan'
         if: github.event_name == 'workflow_run'
         uses: SonarSource/sonarqube-scan-action@v6.0.0
         with:
