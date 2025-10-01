@@ -5,10 +5,12 @@
     "sapux": true,
     "description": "Function import sample for the mockserver",
     "scripts": {
-        "start": "ui5 serve --open 'index.html#functionImport-tile' --port 8881"
+        "start": "ui5 serve --open 'index.html#functionImport-tile' --port 8881",
+        "create-mock-data": "fe-mockserver-admin generate-entity-files -m ./webapp/localService/metadata.xml --output ./webapp/localService/mockdata"
     },
     "devDependencies": {
         "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@sap-ux/fe-mockserver-admin": "workspace:*",
         "@ui5/cli": "3.11.5",
         "rimraf": "3.0.2",
         "ts-node": "^10.9.2"
