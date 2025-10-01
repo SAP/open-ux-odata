@@ -136,7 +136,15 @@ function prepareLiteral(literal: string, propertyType: string) {
 }
 
 /**
- * Creates a tenant data loader function that handles loading and processing tenant-specific JSON files
+ * Creates a tenant data loader function that handles loading and processing tenant-specific JSON files.
+ *
+ * @param mockDataRootFolder - The root folder for mock data files
+ * @param entity - The entity name to load data for
+ * @param isDraft - Whether the entity is a draft entity
+ * @param dataAccess - The data access interface for file operations
+ * @param fallbackData - The fallback data to return if no tenant file exists
+ * @param generateMockData - Whether to enable mock data generation when no data exists
+ * @returns A function that loads tenant-specific data based on context ID
  */
 function createTenantDataLoader(
     mockDataRootFolder: string,
