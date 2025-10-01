@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.7
+
+### Patch Changes
+
+-   8192225: feat: add tenant-specific data loading functionality
+
 ## 1.6.6
 
 ### Patch Changes
