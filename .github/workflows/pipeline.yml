@@ -57,9 +57,9 @@ jobs:
               shell: bash
               run: find . \
                   \( -iname '*.ts' -o -path '*/test/*' -o -iname 'lcov.info' -o -iname 'sonar-report.xml' \) \
-                  -type f \
                   -not -path '*/node_modules/*' \
                   -not -path '*/.git/*' \
+                  -type f \
                   -exec tar -rf output.tar {} \+
         
             - name: 'Prepare repository artifact'
