@@ -28,4 +28,10 @@ service MultiLevelExpand {
         MyValue: String(17);
         MyValueNotNull: String(17) not null;
     }
+
+    entity TenantOnlyEntity {
+        key ID          : Integer;
+            name        : String(100);
+            description : String(500);
+    }
 }
