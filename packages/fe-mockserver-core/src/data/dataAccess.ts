@@ -202,10 +202,7 @@ export class DataAccess implements DataAccessInterface {
                     actionData._type = actionDefinition.name;
                     if (actionDefinition.parameters[0].type === currentEntitySet.entityTypeName) {
                         const lastQueryPath = odataRequest.queryPath.pop(); // remove last part
-                        const bValidateEtag = this.validateETag;
-                        this.validateETag = false;
-                        const actionDataObj = await this.getData(odataRequest);
-                        this.validateETag = bValidateEtag;
+                        const actionDataObj = await this.getData(odataRequest, false, true);
                         if (lastQueryPath) {
                             odataRequest.queryPath.push(lastQueryPath);
                         }
@@ -681,9 +678,14 @@ export class DataAccess implements DataAccessInterface {
      *
      * @param odataRequest - The OData request
      * @param dontClone - Whether to avoid cloning the data
+     * @param ignoreRequestOperation - Whether we ignore operation on the odataRequest
      * @returns The requested data
      */
-    public async getData(odataRequest: ODataRequest, dontClone: boolean = false): Promise<any> {
+    public async getData(
+        odataRequest: ODataRequest,
+        dontClone: boolean = false,
+        ignoreRequestOperation = false
+    ): Promise<any> {
         this.log.info(`Retrieving data for ${JSON.stringify(odataRequest.queryPath)}`);
         let currentEntitySet: EntitySet | Singleton | undefined;
         let previousEntitySet: EntitySet | Singleton | undefined;
@@ -905,7 +907,7 @@ export class DataAccess implements DataAccessInterface {
             if (!dontClone) {
                 data = cloneDeep(data);
             }
-            if (this.validateETag && !Array.isArray(data) && mockEntitySet.isDraft()) {
+            if (this.validateETag && !Array.isArray(data) && mockEntitySet.isDraft() && !ignoreRequestOperation) {
                 odataRequest.setETag(data['@odata.etag']);
             }
 
@@ -936,7 +938,9 @@ export class DataAccess implements DataAccessInterface {
                 })
             );
             let dataLength = Array.isArray(data) ? data.length : 1;
-            odataRequest.setDataCount(dataLength);
+            if (!ignoreRequestOperation) {
+                odataRequest.setDataCount(dataLength);
+            }
             // Apply $skip / $top
             if (Array.isArray(data) && odataRequest.startIndex !== undefined && odataRequest.maxElements) {
                 data = data.slice(odataRequest.startIndex, odataRequest.startIndex + odataRequest.maxElements);
@@ -1021,7 +1025,9 @@ export class DataAccess implements DataAccessInterface {
             data = await mockEntitySet.getMockData(odataRequest.tenantId).onAfterRead(data, odataRequest);
             if (Array.isArray(data) && data.length !== dataLength && currentDataCount !== data.length) {
                 dataLength = Array.isArray(data) ? data.length : 1;
-                odataRequest.setDataCount(dataLength);
+                if (!ignoreRequestOperation) {
+                    odataRequest.setDataCount(dataLength);
+                }
             }
             if (isCount) {
                 data = dataLength;
