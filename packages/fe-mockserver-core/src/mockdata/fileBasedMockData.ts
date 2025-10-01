@@ -821,7 +821,7 @@ export class FileBasedMockData {
         const referentialConstraint = this.getReferentialConstraints(parentNavigationProperty.$target);
         if (!referentialConstraint || referentialConstraint.length === 0) {
             throw new Error(
-                `Referential constraints must be defined for the ParentNavigationProperty: '${parentNavigationProperty.value}'`
+                `Referential constraints must be defined for the ParentNavigationProperty: '${parentNavigationProperty.value}' on entitySet '${this._entityType.name}'`
             );
         }
 
