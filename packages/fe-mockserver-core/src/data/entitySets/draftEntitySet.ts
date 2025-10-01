@@ -105,9 +105,8 @@ export class DraftMockEntitySet extends MockDataEntitySet {
     private async createInactiveVersionForNavigations(data: any, tenantId: string, odataRequest: ODataRequest) {
         for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
             if (
-                (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
-                    ?.DraftNode &&
-                navPropName !== 'SiblingEntity'
+                !navPropName.endsWith('SiblingEntity') &&
+                (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)?.DraftNode
             ) {
                 // For all the draft node data duplicate them
                 const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(navPropName, data, tenantId);
@@ -173,9 +172,8 @@ export class DraftMockEntitySet extends MockDataEntitySet {
     ) {
         for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
             if (
-                (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
-                    ?.DraftNode &&
-                navPropName !== 'SiblingEntity'
+                !navPropName.endsWith('SiblingEntity') &&
+                (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)?.DraftNode
             ) {
                 // For all the draft node data duplicate them
                 const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(
@@ -238,9 +236,9 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             if (cascadeDiscard) {
                 for (const navPropName in this.entitySetDefinition.navigationPropertyBinding) {
                     if (
+                        !navPropName.endsWith('SiblingEntity') &&
                         (this.entitySetDefinition.navigationPropertyBinding[navPropName].annotations?.Common as any)
-                            ?.DraftNode &&
-                        navPropName !== 'SiblingEntity'
+                            ?.DraftNode
                     ) {
                         // For all the draft node data duplicate them
                         const { navPropEntity, subKeys } = await this.getNavigationPropertyDetails(
