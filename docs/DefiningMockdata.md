@@ -4,6 +4,9 @@
 ## Influencing entity set behavior
 
 By default the mockserver will load JSON files for your entity set and return them as is. If you use context based isolation the mockserver will also try to load a specific file for the tenant you are working on.
+
+**Tenant-specific files**: You can provide only tenant-specific files (e.g., `EntityName-100.json`, `EntityName-200.json`) without requiring a base file (`EntityName.json`). The mockserver will load the appropriate tenant file based on the context. If no tenant-specific file exists for the requested tenant, an empty dataset will be returned.
+
 However if you want to influence the behavior of the mockserver you can do so by defining your own mockdata file
 
 The mockserver allows you to define your mock data as javascript file and function that allow you to influence the behavior of the standard function to match your needs.
