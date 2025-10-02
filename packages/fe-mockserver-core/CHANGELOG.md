@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.8
+
+### Patch Changes
+
+-   ddcc7a1: Fix the sibling entity
+
 ## 1.6.7
 
 ### Patch Changes
