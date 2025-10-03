@@ -714,17 +714,17 @@ export class MockDataEntitySet implements EntitySetInterface {
 
         const currentMockData = this.getMockData(tenantId);
         // Transform Edm.Decimal properties to numbers in patchData (Edm.Decimal are sent as strings in JSON)
-        this.entityTypeDefinition.entityProperties.forEach((property) => {
+        for (const property of this.entityTypeDefinition.entityProperties) {
             if (property.type === 'Edm.Decimal' && patchData[property.name] !== undefined) {
                 const value = patchData[property.name];
                 if (typeof value === 'string') {
-                    const floatValue = parseFloat(value);
-                    if (!isNaN(floatValue)) {
+                    const floatValue = Number.parseFloat(value);
+                    if (!Number.isNaN(floatValue)) {
                         patchData[property.name] = floatValue;
                     }
                 }
             }
-        });
+        }
         const updatedData = Object.assign(data, patchData);
         for (const navigationProperty of this.entityTypeDefinition.navigationProperties) {
             const navigationPropertyBindgOperator = `${navigationProperty.name}@odata.bind`;
