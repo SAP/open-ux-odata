@@ -1,6 +1,6 @@
 import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
-import { ODataRequest, ServiceConfig } from '../../../src';
+import { ODataRequest, type ServiceConfig } from '../../../src';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { ODataMetadata } from '../../../src/data/metadata';
 import FileSystemLoader from '../../../src/plugins/fileSystemLoader';
