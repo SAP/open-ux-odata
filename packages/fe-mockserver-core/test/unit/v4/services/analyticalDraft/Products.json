@@ -1,0 +1,12 @@
+[
+    {
+        "ID": 1,
+        "Title": "Helmet",
+        "Description": "Really a tough one...",
+        "Requester": "Sibylle Haumann",
+        "ProductGroup": "Cycling Parts",
+        "Progress": 75,
+        "Classification": "Clothing",
+        "Rating": 5
+    }
+]
