@@ -1336,7 +1336,8 @@ export class DataAccess implements DataAccessInterface {
         data: object[],
         applyDefinition: GroupByTransformation,
         odataRequest: ODataRequest,
-        mockData: FileBasedMockData
+        mockData: FileBasedMockData,
+        currentEntityType: EntityType
     ): Promise<object[]> {
         const dataByGroup: Record<string, any[]> = {};
 
@@ -1389,6 +1390,13 @@ export class DataAccess implements DataAccessInterface {
                                 odataRequest
                             );
                         } else {
+                            const aggregatedProperty =
+                                subAggregateDefinition.sourceProperty === 'count'
+                                    ? undefined
+                                    : currentEntityType.entityProperties.find(
+                                          (prop) => prop.name === subAggregateDefinition.sourceProperty
+                                      );
+                            const isCurrency = aggregatedProperty?.annotations?.Common?.IsCurrency?.valueOf() === true;
                             dataToAggregate.forEach((dataLine) => {
                                 const currentValue =
                                     subAggregateDefinition.sourceProperty === 'count'
@@ -1396,6 +1404,11 @@ export class DataAccess implements DataAccessInterface {
                                         : dataLine[subAggregateDefinition.sourceProperty];
                                 if (propValue === undefined) {
                                     propValue = currentValue;
+                                } else if (isCurrency) {
+                                    // For currencies aggregation, if all values are the same return this value, otherwise return null
+                                    if (propValue !== currentValue) {
+                                        propValue = null;
+                                    }
                                 } else {
                                     switch (subAggregateDefinition.operator) {
                                         case 'max':
@@ -1480,7 +1493,8 @@ export class DataAccess implements DataAccessInterface {
                         subTransformations: [transformationDef]
                     },
                     odataRequest,
-                    mockData
+                    mockData,
+                    currentEntityType
                 );
                 break;
             case 'ancestors':
@@ -1532,7 +1546,7 @@ export class DataAccess implements DataAccessInterface {
                 );
                 break;
             case 'groupBy':
-                data = await this._applyGroupBy(data, transformationDef, odataRequest, mockData);
+                data = await this._applyGroupBy(data, transformationDef, odataRequest, mockData, currentEntityType);
                 break;
             case 'customFunction':
                 if (transformationDef.name === 'com.sap.vocabularies.Hierarchy.v1.TopLevels') {

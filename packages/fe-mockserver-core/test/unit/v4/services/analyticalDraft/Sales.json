@@ -1,0 +1,92 @@
+[
+    {
+        "ID": 1,
+        "Product_ID": 1,
+        "Country": "USA",
+        "CurrencyCode": "USD",
+        "Year": 2022,
+        "Channel": "Wholesale",
+        "Amount": 150000
+    },
+    {
+        "ID": 2,
+        "Product_ID": 1,
+        "Country": "France",
+        "CurrencyCode": "EUR",
+        "Year": 2023,
+        "Channel": "Internet sales",
+        "Amount": 120000
+    },
+    {
+        "ID": 3,
+        "Product_ID": 1,
+        "Country": "Germany",
+        "CurrencyCode": "EUR",
+        "Year": 2024,
+        "Channel": "Local stores",
+        "Amount": 95000
+    },
+    {
+        "ID": 4,
+        "Product_ID": 1,
+        "Country": "UK",
+        "CurrencyCode": "GBP",
+        "Year": 2022,
+        "Channel": "Internet sales",
+        "Amount": 110000
+    },
+    {
+        "ID": 5,
+        "Product_ID": 1,
+        "Country": "USA",
+        "CurrencyCode": "USD",
+        "Year": 2023,
+        "Channel": "Local stores",
+        "Amount": 130000
+    },
+    {
+        "ID": 6,
+        "Product_ID": 1,
+        "Country": "France",
+        "CurrencyCode": "EUR",
+        "Year": 2024,
+        "Channel": "Wholesale",
+        "Amount": 140000
+    },
+    {
+        "ID": 7,
+        "Product_ID": 1,
+        "Country": "Germany",
+        "CurrencyCode": "EUR",
+        "Year": 2022,
+        "Channel": "Internet sales",
+        "Amount": 125000
+    },
+    {
+        "ID": 8,
+        "Product_ID": 1,
+        "Country": "UK",
+        "CurrencyCode": "GBP",
+        "Year": 2023,
+        "Channel": "Wholesale",
+        "Amount": 105000
+    },
+    {
+        "ID": 9,
+        "Product_ID": 1,
+        "Country": "USA",
+        "CurrencyCode": "USD",
+        "Year": 2024,
+        "Channel": "Internet sales",
+        "Amount": 145000
+    },
+    {
+        "ID": 10,
+        "Product_ID": 1,
+        "Country": "France",
+        "CurrencyCode": "EUR",
+        "Year": 2022,
+        "Channel": "Local stores",
+        "Amount": 115000
+    }
+]
