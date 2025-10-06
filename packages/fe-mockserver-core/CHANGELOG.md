@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.9
+
+### Patch Changes
+
+-   9fa96cd: Fixes for draft + analytics
+
 ## 1.6.8
 
 ### Patch Changes
