@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.6
+
+### Patch Changes
+
+-   1886ab9: We now evaluate the Common.ReferentialConstraints
+
 ## 0.10.5
 
 ### Patch Changes
