@@ -4176,6 +4176,14 @@
       </Annotations>
       <Annotations Target="com.c_salesordermanage_sd.SalesOrderManage/_Item">
         <Annotation Term="Common.Label" String="Item Navigation Property"/>
+          <Annotation Term="Common.ReferentialConstraint">
+              <Collection>
+                  <Record>
+                      <PropertyValue Property="Property" PropertyPath="ID"/>
+                      <PropertyValue Property="ReferencedProperty" PropertyPath="SalesOrder"/>
+                  </Record>
+              </Collection>
+          </Annotation>
       </Annotations>
       <Annotations Target="com.c_salesordermanage_sd.SalesOrderManage">
         <Annotation Term="Common.Label" String="Manage Sales Order"/>

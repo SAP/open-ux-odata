@@ -83,6 +83,7 @@ async function generateEntityFile(
             prop.name !== 'DraftAdministrativeData' &&
             prop.name !== 'SiblingEntity' && // Exclude DraftAdministrativeData and SiblingEntity
             prop.referentialConstraint.length === 0 &&
+            prop.annotations.Common?.ReferentialConstraint?.length === 0 &&
             (!prop.partner ||
                 prop.targetType.navigationProperties.by_name(prop.partner)?.referentialConstraint.length === 0)
     );
@@ -330,7 +331,7 @@ function generateGetReferentialConstraintsMethod(navPropsWithoutConstraints: Nav
         switch(navigationProperty.name) {
              ${allPotentialCases}
              default:
-                return navigationProperty.referentialConstraint;
+                return this.base.getReferentialConstraint(navigationProperty);
         }
     }`;
 }

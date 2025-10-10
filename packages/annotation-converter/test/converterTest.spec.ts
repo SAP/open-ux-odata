@@ -661,7 +661,13 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.entitySets[40]).not.toBeNull();
         expect(convertedTypes.entitySets[40].entityType).not.toBeNull();
         const sdEntityType = convertedTypes.entitySets[40].entityType;
-
+        expect(sdEntityType.navigationProperties.by_name('_Item')?.referentialConstraint).toEqual([
+            {
+                sourceProperty: 'ID',
+                targetProperty: 'SalesOrder',
+                targetTypeName: 'com.c_salesordermanage_sd.SalesOrderItem'
+            }
+        ]);
         const sideEffect = sdEntityType.annotations.Common?.['SideEffects#IncotermsChange'];
         expect(sideEffect?.$Type).toEqual(CommonAnnotationTypes.SideEffectsType);
 
