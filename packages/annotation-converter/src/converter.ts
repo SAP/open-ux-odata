@@ -39,6 +39,7 @@ import type {
     Singleton,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
+import { CommonAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Common';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
 import {
     addGetByValue,
@@ -1346,6 +1347,30 @@ function convertNavigationProperty(
     const convertedNavigationProperty = rawNavigationProperty as NavigationProperty;
 
     convertedNavigationProperty.referentialConstraint = convertedNavigationProperty.referentialConstraint ?? [];
+    if (convertedNavigationProperty.referentialConstraint.length === 0) {
+        const annotations = converter.getAnnotations(rawNavigationProperty.fullyQualifiedName);
+        const refConstraints = annotations.find(
+            (annotation) => annotation.term === CommonAnnotationTerms.ReferentialConstraint
+        );
+        if (refConstraints) {
+            convertedNavigationProperty.referentialConstraint =
+                (refConstraints.collection?.map((record) => {
+                    return {
+                        sourceProperty: (
+                            (record as AnnotationRecord).propertyValues.find((prop) => {
+                                return prop.name === 'Property';
+                            })?.value as { PropertyPath?: string }
+                        ).PropertyPath,
+                        targetTypeName: convertedNavigationProperty.targetTypeName,
+                        targetProperty: (
+                            (record as AnnotationRecord).propertyValues.find((prop) => {
+                                return prop.name === 'ReferencedProperty';
+                            })?.value as { PropertyPath?: string }
+                        ).PropertyPath
+                    };
+                }) as any) ?? [];
+        }
+    }
 
     if (!isV4NavigationProperty(rawNavigationProperty)) {
         const associationEnd = converter.rawSchema.associations
