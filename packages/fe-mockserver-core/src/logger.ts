@@ -1,5 +1,5 @@
 import type { ILogger } from '@ui5/logger';
-import process from 'node:process';
+import process from 'process';
 
 class Logger implements ILogger {
     constructor(private loggerName: string, private debug: boolean) {}
