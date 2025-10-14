@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.11
+
+### Patch Changes
+
+-   5deb872: Fix some dependency
+
 ## 1.6.10
 
 ### Patch Changes
