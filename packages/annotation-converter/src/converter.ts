@@ -1365,7 +1365,7 @@ function convertNavigationProperty(
                         targetProperty: (
                             (record as AnnotationRecord).propertyValues.find((prop) => {
                                 return prop.name === 'ReferencedProperty';
-                            })?.value as { PropertyPath?: string }
+                            })?.value.split("/").pop() as { PropertyPath?: string }
                         ).PropertyPath
                     };
                 }) as any) ?? [];
