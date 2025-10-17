@@ -1355,6 +1355,10 @@ function convertNavigationProperty(
         if (refConstraints) {
             convertedNavigationProperty.referentialConstraint =
                 (refConstraints.collection?.map((record) => {
+                    let targettedProperty = (record as AnnotationRecord).propertyValues.find((prop) => {
+                        return prop.name === 'ReferencedProperty';
+                    })?.value.split("/");
+                    targettedProperty.shift();
                     return {
                         sourceProperty: (
                             (record as AnnotationRecord).propertyValues.find((prop) => {
@@ -1363,9 +1367,7 @@ function convertNavigationProperty(
                         ).PropertyPath,
                         targetTypeName: convertedNavigationProperty.targetTypeName,
                         targetProperty: (
-                            (record as AnnotationRecord).propertyValues.find((prop) => {
-                                return prop.name === 'ReferencedProperty';
-                            })?.value.split("/").pop() as { PropertyPath?: string }
+                            targettedProperty.join("/") as { PropertyPath?: string }
                         ).PropertyPath
                     };
                 }) as any) ?? [];
