@@ -485,7 +485,7 @@ export class FileBasedMockData {
                 return Math.floor(Math.random() * 10000);
             case 'Edm.String':
                 if (property.maxLength) {
-                    const remainingLength = property.maxLength - getNumberLength(lineIndex) - 2;
+                    const remainingLength = property.maxLength - getNumberLength(lineIndex) - 1;
                     return `${propertyName.substring(0, remainingLength)}_${lineIndex}`;
                 }
                 return `${propertyName}_${lineIndex}`;
@@ -582,8 +582,8 @@ export class FileBasedMockData {
                     lineIndex = currentMockData.length + 1;
                 }
                 if (property.maxLength) {
-                    const remainingLength = property.maxLength - getNumberLength(lineIndex);
-                    return `${propertyName.substring(0, remainingLength)}${lineIndex}`;
+                    const remainingLength = property.maxLength - getNumberLength(lineIndex) - 1;
+                    return `${propertyName.substring(0, remainingLength)}_${lineIndex}`;
                 }
                 return `${propertyName}_${lineIndex}`;
             default:
