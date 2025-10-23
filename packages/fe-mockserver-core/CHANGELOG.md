@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.13
+
+### Patch Changes
+
+-   a953dd9: We fixed an issue with non provided actionData
+
 ## 1.6.12
 
 ### Patch Changes
