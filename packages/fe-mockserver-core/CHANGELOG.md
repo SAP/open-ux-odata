@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.14
+
+### Patch Changes
+
+-   3636693: fix: The return data
+
 ## 1.6.13
 
 ### Patch Changes
