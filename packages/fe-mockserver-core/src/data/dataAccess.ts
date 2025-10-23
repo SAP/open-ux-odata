@@ -295,7 +295,9 @@ export class DataAccess implements DataAccessInterface {
                 } else {
                     // Treat this as a normal unbound action
                     // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
-                    actionData._type = actionDefinition.name;
+                    if (actionData) {
+                        actionData._type = actionDefinition.name;
+                    }
                     return (
                         await MockEntityContainer.read(
                             this.mockDataRootFolder,
