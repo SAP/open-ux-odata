@@ -252,7 +252,9 @@ export class DataAccess implements DataAccessInterface {
                 if (actionDefinition.sourceType !== '') {
                     const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
                     if (targetEntitySet) {
-                        actionData._type = actionDefinition.name;
+                        if (actionData) {
+                            actionData._type = actionDefinition.name;
+                        }
                         let outData = await (
                             await this.getMockEntitySet(targetEntitySet.name)
                         ).executeAction(actionDefinition, Object.assign({}, actionData), odataRequest, {});
@@ -262,7 +264,7 @@ export class DataAccess implements DataAccessInterface {
                                 entitySet.entityType.keys.forEach((key) => {
                                     keyValues[key.name] = dataLine[key.name];
                                 });
-                                this.addV2Metadata(entitySet, keyValues, dataLine);
+                                this.addV2Metadata(entitySet, keyValues, dataLine, actionDefinition.returnType);
 
                                 return dataLine;
                             };
@@ -283,7 +285,9 @@ export class DataAccess implements DataAccessInterface {
                 ) {
                     // Special case for sticky discard action that might need to be changed
                     for (const entitySet of this.stickyEntitySets) {
-                        actionData._type = actionDefinition.name;
+                        if (actionData) {
+                            actionData._type = actionDefinition.name;
+                        }
                         await entitySet.executeAction(
                             actionDefinition,
                             actionData,
@@ -964,7 +968,7 @@ export class DataAccess implements DataAccessInterface {
                     });
 
                     if (entitySet) {
-                        this.addV2Metadata(entitySet, keyValues, dataLine);
+                        this.addV2Metadata(entitySet, keyValues, dataLine, entitySet.entityTypeName);
                     }
 
                     entityType.navigationProperties.forEach((navProp) => {
@@ -1127,7 +1131,7 @@ export class DataAccess implements DataAccessInterface {
                         await this.getMockEntitySet(targetEntitySet.name)
                     ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
                     if (!this.isV4()) {
-                        this.addV2Metadata(parentEntitySet, currentKeys, postData);
+                        this.addV2Metadata(parentEntitySet, currentKeys, postData, parentEntitySet.entityTypeName);
                     }
                 } else {
                     if (!data[lastNavPropName]) {
@@ -1168,7 +1172,7 @@ export class DataAccess implements DataAccessInterface {
                         parentEntitySet.entityType.entityProperties
                     )})`
                 );
-                this.addV2Metadata(parentEntitySet, currentKeys, postData);
+                this.addV2Metadata(parentEntitySet, currentKeys, postData, parentEntitySet.entityTypeName);
             } else {
                 odataRequest.addResponseHeader(
                     'Location',
@@ -1187,7 +1191,12 @@ export class DataAccess implements DataAccessInterface {
         }
     }
 
-    private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: KeyDefinitions, postData: any) {
+    private addV2Metadata(
+        entitySet: EntitySet | Singleton,
+        currentKeys: KeyDefinitions,
+        postData: any,
+        dataType: string
+    ) {
         const propertyKeys = entitySet.entityType.keys;
 
         const keyStr = this.getV2KeyString(currentKeys, propertyKeys);
@@ -1195,7 +1204,7 @@ export class DataAccess implements DataAccessInterface {
         postData['__metadata'] = {
             id: uri,
             uri: uri,
-            type: entitySet.entityTypeName
+            type: dataType
         };
     }
 
