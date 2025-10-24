@@ -9,6 +9,25 @@ exports[`Function Import are parsed properly 1`] = `
 ]
 `;
 
+exports[`Function Import are parsed properly 2`] = `
+[
+  {
+    "CommentMandatory": false,
+    "DecisionKey": "Approve",
+    "DecisionText": "Approve",
+    "InstanceID": "'000007298690'",
+    "Nature": "POSITIVE",
+  },
+  {
+    "CommentMandatory": true,
+    "DecisionKey": "Reject",
+    "DecisionText": "Reject",
+    "InstanceID": "'000007298690'",
+    "Nature": "NEGATIVE",
+  },
+]
+`;
+
 exports[`Function Import will fail by default 1`] = `
 [
   {
