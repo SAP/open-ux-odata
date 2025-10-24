@@ -4,9 +4,6 @@ module.exports = {
             var instanceID = odataRequest.allParams.get('InstanceID').replace(/''/g, '');
             return [
                 {
-                    __metadata: {
-                        type: 'TASKPROCESSING.DecisionOption'
-                    },
                     InstanceID: instanceID,
                     DecisionKey: 'Approve',
                     DecisionText: 'Approve',
@@ -14,9 +11,6 @@ module.exports = {
                     Nature: 'POSITIVE'
                 },
                 {
-                    __metadata: {
-                        type: 'TASKPROCESSING.DecisionOption'
-                    },
                     InstanceID: instanceID,
                     DecisionKey: 'Reject',
                     DecisionText: 'Reject',
