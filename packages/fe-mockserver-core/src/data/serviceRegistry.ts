@@ -1,6 +1,7 @@
 import type { ILogger } from '@ui5/logger';
 import etag from 'etag';
 import type { IncomingMessage, ServerResponse } from 'http';
+import { join } from 'node:path/posix';
 import type { IRouter } from 'router';
 import Router from 'router';
 import type { MockserverConfiguration, ServiceConfig, ServiceConfigEx } from '../api';
@@ -39,7 +40,9 @@ function encode(str: string) {
 }
 
 async function loadMetadata(service: ServiceConfigEx, metadataProcessor: IMetadataProcessor) {
-    const edmx = await metadataProcessor.loadMetadata(service.metadataPath);
+    const edmx = service.metadataContent
+        ? service.metadataContent
+        : await metadataProcessor.loadMetadata(service.metadataPath);
     if (!service.noETag) {
         service.ETag = etag(edmx, { weak: true });
     }
@@ -145,7 +148,35 @@ export class ServiceRegistry {
             } else {
                 metadata = await loadMetadata(mockService, processor);
             }
+
             const dataAccess = new DataAccess(mockService, metadata, this.fileLoader, this.config.logger, this);
+            if (metadata && !mockServiceIn.metadataContent) {
+                const path = mockService.metadataPath.replace(/xml$/, 'valuelistreferences');
+                const text = await this.fileLoader.loadFile(path);
+                const lines = text.split(/\r?\n/);
+
+                const promises = [];
+                for (let index = 0; index < lines.length; index += 2) {
+                    const urlPath = lines[index];
+                    const content = lines[index + 1];
+                    if (path && content) {
+                        promises.push(
+                            this.createServiceRegistration(
+                                {
+                                    metadataPath: path,
+                                    metadataContent: content,
+                                    urlPath,
+                                    generateMockData: true,
+                                    mockdataPath: join(path, '..', 'data'),
+                                    watch: false
+                                },
+                                log
+                            )
+                        );
+                    }
+                }
+                await Promise.allSettled(promises);
+            }
 
             // Register this service for cross-service access
             this.registerService(mockService.urlPath, dataAccess, mockService.alias);

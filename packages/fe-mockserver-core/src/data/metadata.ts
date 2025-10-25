@@ -10,6 +10,8 @@ import type {
     RawMetadata,
     Singleton
 } from '@sap-ux/vocabularies-types';
+import { join } from 'node:path';
+import { join as joinPosix } from 'node:path/posix';
 
 type NameAndNav = {
     name: string;
@@ -240,5 +242,50 @@ export class ODataMetadata {
         });
 
         return keyValues;
+    }
+
+    public getValueListReferences(metadataPath: string) {
+        const references = [];
+        for (const entityType of this.metadata.entityTypes) {
+            for (const property of entityType.entityProperties) {
+                const rootPath = this.metadataUrl.replace('/$metadata', '');
+                const target = `${entityType.name}/${property.name}`;
+                for (const reference of property.annotations.Common?.ValueListReferences ?? []) {
+                    const externalServiceMetadataPath = joinPosix(rootPath, reference as string).replace(
+                        '/$metadata',
+                        ''
+                    );
+                    const [valueListServicePath] = externalServiceMetadataPath.split(';');
+                    const segments = valueListServicePath.split('/');
+                    let prefix = '/';
+                    while (segments.length) {
+                        const next = join(prefix, segments.shift()!);
+                        if (!rootPath.startsWith(next)) {
+                            break;
+                        }
+                        prefix = next;
+                    }
+                    const relativeServicePath = valueListServicePath.replace(prefix, '');
+
+                    const localPath = join(
+                        metadataPath,
+                        '..',
+                        'value-list-references',
+                        'mainService',
+                        target,
+                        `${relativeServicePath}.xml`
+                    );
+
+                    references.push({
+                        rootPath,
+                        externalServiceMetadataPath,
+                        localPath: localPath,
+                        target: target,
+                        values: property.annotations.Common?.ValueListReferences ?? []
+                    });
+                }
+            }
+        }
+        return references;
     }
 }

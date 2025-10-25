@@ -95,6 +95,7 @@ export type ServiceConfig = {
     alias?: string;
     logger?: ILogger;
     metadataPath: string;
+    metadataContent?: string;
     mockdataPath: string;
     i18nPath?: string[];
     generateMockData?: boolean;
