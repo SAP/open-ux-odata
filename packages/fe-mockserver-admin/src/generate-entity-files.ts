@@ -2,15 +2,23 @@ import { convert } from '@sap-ux/annotation-converter';
 import { parse } from '@sap-ux/edmx-parser';
 import type {
     Action,
+    ComplexType,
     ConvertedMetadata,
     EntitySet,
     EntityType,
     NavigationProperty,
-    RawMetadata
+    RawMetadata,
+    TypeDefinition
 } from '@sap-ux/vocabularies-types';
 import * as fs from 'fs';
 import * as path from 'path';
+import { generateTypes } from './generate-types';
 
+/**
+ *
+ * @param METADATA_PATH
+ * @param OUTPUT_DIR
+ */
 export async function generateEntityFiles(METADATA_PATH: string, OUTPUT_DIR: string) {
     try {
         console.log('Loading metadata.xml...');
@@ -22,6 +30,7 @@ export async function generateEntityFiles(METADATA_PATH: string, OUTPUT_DIR: str
         console.log('Converting metadata with annotation converter...');
         const convertedMetadata: ConvertedMetadata = convert(parsedMetadata);
 
+        await generateTypes(METADATA_PATH, OUTPUT_DIR);
         // Generate TS files for each entity set
         for (const entitySet of convertedMetadata.entitySets) {
             console.log(`Generating TS file for ${entitySet.name}...`);
@@ -37,35 +46,75 @@ export async function generateEntityFiles(METADATA_PATH: string, OUTPUT_DIR: str
     }
 }
 
+/**
+ *
+ * @param convertedMetadata
+ * @param OUTPUT_DIR
+ */
 async function generateEntityContainerFile(convertedMetadata: ConvertedMetadata, OUTPUT_DIR: string): Promise<void> {
     const actions = convertedMetadata.actionImports;
     if (actions.length > 0) {
-        const actionSwitchCase = actions
+        const actionFunctionCase = actions
             .map((action) => {
-                return `case '${action.name}':
-            break; // TODO: Implement ${action.name} action`;
+                let returnType = 'unknown';
+                const actionDataType = `EntityContainerAction_${action.name}Data`;
+                if (action.action.returnType) {
+                    returnType = mapODataTypeToTypeScript(action.action.returnType, action.action.returnTypeReference);
+                }
+                if (action.action.returnCollection) {
+                    returnType += '[]';
+                }
+                return `    async ${action.name}(_actionDefinition: Action, _actionData: ${actionDataType}, _keys: KeyDefinitions, _odataRequest: ODataRequest): Promise<${returnType}> { 
+                    throw new Error('${action.name} is not implemented');
+                }`;
             })
             .join('\n');
 
-        const mockEntityContainer = `import type {MockEntityContainerContributor, ODataRequest, Action} from "@sap-ux/ui5-middleware-fe-mockserver";
+        const actionSwitchCase = actions
+            .map((action) => {
+                return `case '${action.name}':
+                    return this.${action.name}(actionDefinition, actionData, keys, odataRequest);`;
+            })
+            .join('\n');
+        const importMap = new Set<string>();
+        const entityActionParams = generateEntityActionParams(
+            'EntityContainer',
+            actions.reduce((acc, action) => {
+                acc[action.name] = action.action;
+                return acc;
+            }, {} as Record<string, Action>),
+            importMap
+        );
 
+        const outputPath = path.join(OUTPUT_DIR, `EntityContainer.ts`);
+        const mockEntityContainer = `import type {ODataRequest, Action, KeyDefinitions} from "@sap-ux/ui5-middleware-fe-mockserver";
+import {MockEntityContainerContributorClass} from "@sap-ux/ui5-middleware-fe-mockserver";
+import type { ${Array.from(importMap).join(', ')}} from "./ODataTypes";
+${entityActionParams}
 
-const EntityContainer: MockEntityContainerContributor = {
-    async executeAction(actionDefinition: Action, _actionData: any, _keys: Record<string, unknown>, _odataRequest: ODataRequest): Promise<unknown> {
-        switch(actionDefinition.name) {
+export default class EntityContainer extends MockEntityContainerContributorClass {
+
+     ${actionFunctionCase}
+
+    async executeAction(actionDefinition: Action, actionData: EntityContainerActionData, keys: KeyDefinitions, odataRequest: ODataRequest): Promise<unknown> {
+        switch(actionData._type) {
             ${actionSwitchCase}
-            // Implement action handlers here
             default:
-                return undefined; // No custom action handler, proceed with default handling
+                this.throwError(\`Action \${actionDefinition.name} not implemented\`, 501);
+                return;
         }
     }
-}
-export default EntityContainer;`;
-        const outputPath = path.join(OUTPUT_DIR, `EntityContainer.ts`);
+}`;
         fs.writeFileSync(outputPath, mockEntityContainer);
     }
 }
 
+/**
+ *
+ * @param entitySet
+ * @param metadata
+ * @param OUTPUT_DIR
+ */
 async function generateEntityFile(
     entitySet: EntitySet,
     metadata: ConvertedMetadata,
@@ -89,20 +138,44 @@ async function generateEntityFile(
     );
 
     // Generate TypeScript interface for the entity
-    const entityInterface = generateEntityInterface(entityType);
-    const entityNavPropNamesInterface = generateEntityNavPropNamesInterface(entityType);
-    const entityNavPropTypesInterface = generateEntityNavPropTypesInterface(entityType);
-    const entityActionParams = generateEntityActionParams(entitySet, actions);
+    const importMap = new Set<string>();
+    importMap.add(entityType.name);
+    importMap.add(entityType.name + 'Keys');
+    const entityActionParams = generateEntityActionParams(entitySet.entityType.name, actions, importMap);
     // Generate action switch cases
+    const actionFunctionCase = Object.keys(actions)
+        .filter((actionName) => {
+            return (
+                !actionName.endsWith('draftEdit') &&
+                !actionName.endsWith('draftActivate') &&
+                !actionName.endsWith('draftPrepare') &&
+                !actionName.endsWith('draftDiscard')
+            );
+        })
+        .map((actionName) => {
+            const action = actions[actionName];
+            let returnType = 'unknown';
+            const actionDataType = `${entitySet.entityType.name}Action_${action.name}Data`;
+            if (action.returnType) {
+                returnType = mapODataTypeToTypeScript(action.returnType, action.returnTypeReference);
+            }
+            if (action.returnCollection) {
+                returnType += '[]';
+            }
+            return `    async ${action.name}(_actionDefinition: Action, _actionData: ${actionDataType}, _keys: ${keyName}, _odataRequest: ODataRequest): Promise<${returnType}> { 
+                    throw new Error('${action.name} is not implemented');
+                }`;
+        })
+        .join('\n');
     const actionSwitchCases = generateActionSwitchCases(actions);
     let executeActionMethod = '';
-    if (Object.keys(actions).length > 0) {
-        executeActionMethod = `async executeAction(actionDefinition: Action, actionData: ${actionDataName}, _keys: ${keyName}, _odataRequest: ODataRequest): Promise<object | undefined> {
+    if (entityActionParams.length > 0) {
+        executeActionMethod = `async executeAction(actionDefinition: Action, actionData: ${actionDataName}, keys: ${keyName}, odataRequest: ODataRequest): Promise<object | undefined> {
         switch(actionData._type) {
 ${actionSwitchCases}
             default:
-                console.warn(\`Unhandled action: \${actionDefinition.name}\`);
-                return undefined;
+                this.throwError(\`Action \${actionDefinition.name} not implemented\`, 501);
+                return;
         }
     }`;
     }
@@ -110,24 +183,26 @@ ${actionSwitchCases}
     // Generate getReferentialConstraints method
     const getReferentialConstraintsMethod = generateGetReferentialConstraintsMethod(entityNavPropsWithoutConstraints);
     const allMethods = [];
+    if (actionFunctionCase.length) {
+        allMethods.push(actionFunctionCase);
+    }
     if (executeActionMethod.length) {
         allMethods.push(executeActionMethod);
     }
     if (getReferentialConstraintsMethod.length) {
         allMethods.push(getReferentialConstraintsMethod);
     }
-    const fileContent = `import type { MockDataContributor, ODataRequest, Action, NavigationProperty, PartialReferentialConstraint } from "@sap-ux/ui5-middleware-fe-mockserver"
-${entityNavPropTypesInterface}
-${entityNavPropNamesInterface}
-${entityInterface}
+    const fileContent = `import type { ODataRequest, Action, NavigationProperty, PartialReferentialConstraint } from "@sap-ux/ui5-middleware-fe-mockserver"
+import { MockDataContributorClass } from "@sap-ux/ui5-middleware-fe-mockserver"
+import type { ${Array.from(importMap).join(', ')}} from "./ODataTypes";
 ${entityActionParams}
 
 
-const ${entitySet.name}: MockDataContributor<${entitySet.entityTypeName.split('.').pop()}Type> = {
-    ${allMethods.join(',')}
+export default class ${entitySet.name}Contributor extends MockDataContributorClass<${entitySet.entityTypeName
+        .split('.')
+        .pop()}> {
+    ${allMethods.join('\n\n')}
 }
-
-export default ${entitySet.name};
 `;
 
     //if(allMethods.length > 0) {
@@ -139,106 +214,10 @@ export default ${entitySet.name};
     //}
 }
 
-function generateEntityNavPropNamesInterface(entityType: EntityType): string {
-    const typeName = entityType.name.split('.').pop() + 'NavPropNames';
-
-    const properties: string[] = [];
-
-    for (const prop of entityType.navigationProperties) {
-        if (prop.name !== 'DraftAdministrativeData') {
-            properties.push(`"${prop.name}"`);
-        }
-    }
-    if (!entityType || !entityType.navigationProperties || properties.length === 0) {
-        return `export type ${typeName} = {
-    // Navigation properties not available in metadata
-}`;
-    }
-    return `export type ${typeName} = ${properties.join(' | ')};`;
-}
-function generateEntityNavPropTypesInterface(entityType: EntityType): string {
-    const currentType = entityType.name.split('.').pop() + 'Type';
-    const typeName = entityType.name.split('.').pop() + 'NavPropTypes';
-    const importStatements: Set<string> = new Set();
-    if (!entityType || !entityType.navigationProperties) {
-        return `export type ${typeName} = {
-    // Navigation properties not available in metadata
-}`;
-    }
-
-    const properties: string[] = [];
-
-    for (const prop of entityType.navigationProperties) {
-        const targetTypeName = prop.targetType.name.split('.').pop() + 'Type';
-        if (targetTypeName !== 'DraftAdministrativeDataType' && targetTypeName !== currentType) {
-            importStatements.add(
-                `import type { ${targetTypeName} } from "./${prop.targetType.name.split('.').pop()}";`
-            );
-        }
-        if (targetTypeName !== 'DraftAdministrativeDataType') {
-            if (prop.isCollection) {
-                properties.push(`${prop.name}: ${targetTypeName}[];`);
-            } else {
-                properties.push(`${prop.name}: ${targetTypeName};`);
-            }
-        }
-    }
-
-    return `${Array.from(importStatements).join('\n')}
-export type ${typeName} = {
-${properties.join('\n')}
-}`;
-}
-function generateEntityInterface(entityType: EntityType): string {
-    const typeName = entityType.name.split('.').pop() + 'Type';
-    const keyName = entityType.name.split('.').pop() + 'Keys';
-
-    if (!entityType || !entityType.keys) {
-        return `export type ${typeName} = {
-    // Entity type definition not available in metadata
-};
-export type ${keyName} = {
-    // Entity type definition not available in metadata
-};`;
-    }
-
-    const keys: string[] = [];
-    const properties: string[] = [];
-
-    // Add key properties
-    if (entityType.keys) {
-        for (const key of entityType.keys) {
-            const prop = entityType.entityProperties.by_name(key.name);
-            if (prop) {
-                const tsType = mapODataTypeToTypeScript(prop.type);
-                const nullable = prop.nullable ? '?' : '';
-                properties.push(`    ${key.name}${nullable}: ${tsType};`);
-                keys.push(`    ${key.name}${nullable}: ${tsType};`);
-            }
-        }
-    }
-
-    // Add other entity properties
-    if (entityType.entityProperties) {
-        for (const prop of entityType.entityProperties) {
-            if (!entityType.keys?.some((k: any) => k.name === prop.name)) {
-                const tsType = mapODataTypeToTypeScript((prop as any).type);
-                const nullable = (prop as any).nullable ? '?' : '';
-                properties.push(`    ${prop.name}${nullable}: ${tsType};`);
-            }
-        }
-    }
-
-    return `export type ${typeName} = {
-${properties.join('\n')}
-};
-
-export type ${keyName} = {
-${keys.join('\n')}
-};`;
-}
-
-function mapODataTypeToTypeScript(odataType: string): string {
+function mapODataTypeToTypeScript(
+    odataType: string,
+    typeReference?: ComplexType | EntityType | TypeDefinition
+): string {
     const typeMap: Record<string, string> = {
         'Edm.String': 'string',
         'Edm.Int32': 'number',
@@ -254,14 +233,18 @@ function mapODataTypeToTypeScript(odataType: string): string {
         'Edm.Binary': 'string'
     };
 
-    return typeMap[odataType] || 'any';
+    return typeMap[odataType] || typeReference?.name || 'any';
 }
 
-function generateEntityActionParams(entitySet: EntitySet, actions: Record<string, Action>): string {
+function generateEntityActionParams(
+    entityTypeName: string,
+    actions: Record<string, Action>,
+    importMap: Set<string>
+): string {
     if (Object.keys(actions).length === 0) {
         return '';
     }
-
+    const actionDataTypes: string[] = [];
     const actionParams = Object.keys(actions)
         .filter((actionName) => {
             return (
@@ -273,23 +256,43 @@ function generateEntityActionParams(entitySet: EntitySet, actions: Record<string
         })
         .map((actionName) => {
             const action = actions[actionName];
+            let actionReturnType = mapODataTypeToTypeScript(action.returnType);
+            if (actionReturnType === 'any' && action.returnTypeReference) {
+                actionReturnType = action.returnTypeReference.name;
+                importMap.add(actionReturnType);
+            }
             if (action.parameters && action.parameters.length > 0) {
                 const params = action.parameters
                     .map((param) => {
                         let tsType = mapODataTypeToTypeScript(param.type);
-                        if (tsType === 'any' && param.type === entitySet.entityTypeName) {
-                            tsType = entitySet.entityTypeName.split('.').pop() + 'Type';
+                        if (tsType === 'any' && param.typeReference) {
+                            tsType = param.typeReference.name;
+                            importMap.add(tsType);
+                        }
+                        if (param.isCollection) {
+                            tsType += '[]';
                         }
                         const optional = param.nullable ? '?' : '';
                         return `    ${param.name}${optional}: ${tsType};`;
                     })
                     .join('\n');
-                return `    | {\n    _type: '${action.name}';\n${params}\n}`;
+                const actionDataTypeName = `${entityTypeName}Action_${action.name}Data`;
+                const actionDataType = `type ${actionDataTypeName} = {\n${params}\n}`;
+                actionDataTypes.push(actionDataType);
+                return `    | {\n    _type: '${action.name}';\n} & ${actionDataTypeName}`;
+            } else {
+                const actionDataTypeName = `${entityTypeName}Action_${action.name}Data`;
+                const actionDataType = `type ${actionDataTypeName} = {\n}`;
+                actionDataTypes.push(actionDataType);
+                return `    | {\n    _type: '${action.name}';\n} `;
             }
         })
         .join('\n');
 
-    return `export type ${entitySet.entityType.name}ActionData =\n${actionParams};`;
+    if (actionParams.length > 0) {
+        return `${actionDataTypes.join('\n')}\n;export type ${entityTypeName}ActionData =\n${actionParams};`;
+    }
+    return '';
 }
 
 function generateActionSwitchCases(actions: Record<string, Action>): string {
@@ -303,9 +306,7 @@ function generateActionSwitchCases(actions: Record<string, Action>): string {
         )
         .map(
             (actionName) => `            case '${actions[actionName].name}':
-                // TODO: Implement ${actions[actionName].name} action
-                console.log('Executing action: ${actions[actionName].name}');
-                return {};`
+                  return this.${actions[actionName].name}(actionDefinition, actionData, keys, odataRequest);`
         )
         .join('\n');
 }

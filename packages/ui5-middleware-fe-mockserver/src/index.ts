@@ -3,8 +3,10 @@ import FEMockserver from '@sap-ux/fe-mockserver-core';
 import * as path from 'path';
 import type { IRouter } from 'router';
 import { resolveConfig } from './configResolver';
+export { MockDataContributorClass, MockEntityContainerContributorClass } from '@sap-ux/fe-mockserver-core';
 export type {
     Action,
+    KeyDefinitions,
     MockDataContributor,
     MockEntityContainerContributor,
     NavigationProperty,
