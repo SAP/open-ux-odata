@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.16
+
+### Patch Changes
+
+-   2ede21e: Generated TS types are now much nicer
+
 ## 1.6.15
 
 ### Patch Changes
