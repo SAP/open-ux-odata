@@ -251,6 +251,7 @@ export class DataAccess implements DataAccessInterface {
             if (actionDefinition) {
                 if (actionDefinition.sourceType !== '') {
                     const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
+                    const returnEntitySet = this.metadata.getEntitySetByType(actionDefinition.returnType);
                     if (targetEntitySet) {
                         if (actionData) {
                             actionData._type = actionDefinition.name;
@@ -272,10 +273,10 @@ export class DataAccess implements DataAccessInterface {
                             // Enrich data with __metadata for v2
                             if (Array.isArray(outData)) {
                                 outData = outData.map((element) => {
-                                    return enrichElement(targetEntitySet, element);
+                                    return enrichElement(returnEntitySet ?? targetEntitySet, element);
                                 });
                             } else if (outData != null) {
-                                outData = enrichElement(targetEntitySet, outData);
+                                outData = enrichElement(returnEntitySet ?? targetEntitySet, outData);
                             }
                         }
                         return outData;
