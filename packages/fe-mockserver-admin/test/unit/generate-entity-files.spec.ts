@@ -50,36 +50,7 @@ describe('generate-entity-files with real metadata', () => {
 
         // Read and validate the generated RootEntity.ts content
         const rootEntityContent = fs.readFileSync(rootEntityFile, 'utf8');
-
-        // Check for expected TypeScript interfaces and types
-        expect(rootEntityContent).toContain('export type RootEntityType');
-        expect(rootEntityContent).toContain('export type RootEntityKeys');
-        expect(rootEntityContent).toContain('ID: number;');
-        expect(rootEntityContent).toContain('name?: string;');
-        expect(rootEntityContent).toContain('description?: string;');
-        expect(rootEntityContent).toContain('IsActiveEntity: boolean;');
-        expect(rootEntityContent).toContain('HasActiveEntity: boolean;');
-        expect(rootEntityContent).toContain('HasDraftEntity: boolean;');
-
-        // Check for navigation property types
-        expect(rootEntityContent).toContain('export type RootEntityNavPropNames');
-        expect(rootEntityContent).toContain('export type RootEntityNavPropTypes');
-        expect(rootEntityContent).toContain('"SiblingEntity"');
-
-        // Check for action types (should exclude draft actions)
-        expect(rootEntityContent).toContain('export type RootEntityActionData');
-        expect(rootEntityContent).toContain("_type: 'myCustomAction'");
-
-        // Should NOT contain draft actions in action data
-        expect(rootEntityContent).not.toContain('draftEdit');
-        expect(rootEntityContent).not.toContain('draftActivate');
-        expect(rootEntityContent).not.toContain('draftPrepare');
-
-        // Check for MockDataContributor implementation
-        expect(rootEntityContent).toContain('const RootEntity: MockDataContributor<RootEntityType>');
-        expect(rootEntityContent).toContain('executeAction');
-        expect(rootEntityContent).toContain("case 'myCustomAction':");
-        expect(rootEntityContent).toContain('export default RootEntity;');
+        expect(rootEntityContent).toMatchSnapshot();
 
         // Log the generated content for manual inspection
         console.log('Generated RootEntity.ts content:');
@@ -97,33 +68,9 @@ describe('generate-entity-files with real metadata', () => {
 
         if (fs.existsSync(entityContainerFile)) {
             const entityContainerContent = fs.readFileSync(entityContainerFile, 'utf8');
-            expect(entityContainerContent).toContain('MockEntityContainerContributor');
-            expect(entityContainerContent).toContain('executeAction');
-            expect(entityContainerContent).toContain('export default EntityContainer;');
-
-            console.log('Generated EntityContainer.ts content:');
-            console.log('='.repeat(50));
-            console.log(entityContainerContent);
-            console.log('='.repeat(50));
+            expect(entityContainerContent).toMatchSnapshot();
         } else {
             console.log('No EntityContainer.ts generated (no action imports in metadata)');
-        }
-    });
-
-    it('should handle navigation properties correctly', async () => {
-        await generateEntityFiles(metadataPath, outputDir);
-
-        const rootEntityFile = path.join(outputDir, 'RootEntity.ts');
-        const rootEntityContent = fs.readFileSync(rootEntityFile, 'utf8');
-
-        // Should include SiblingEntity navigation but exclude DraftAdministrativeData
-        expect(rootEntityContent).toContain('SiblingEntity: RootEntityType;');
-        expect(rootEntityContent).not.toContain('DraftAdministrativeData');
-
-        // Should include getReferentialConstraints method if there are nav props without constraints
-        if (rootEntityContent.includes('getReferentialConstraints')) {
-            expect(rootEntityContent).toContain("case 'SiblingEntity':");
-            expect(rootEntityContent).toContain('// TODO add the missing referential constraints');
         }
     });
 

@@ -1,4 +1,5 @@
-import type { MockDataContributor, ServiceConfig } from '@sap-ux/fe-mockserver-core';
+import type { ServiceConfig } from '@sap-ux/fe-mockserver-core';
+import { MockDataContributorClass } from '@sap-ux/fe-mockserver-core';
 import type ODataRequest from '@sap-ux/fe-mockserver-core/dist/request/odataRequest';
 import path from 'node:path';
 
@@ -9,18 +10,16 @@ type ServiceDefinition = {
 /**
  * Mock data contributor for services.
  */
-const Services: MockDataContributor<ServiceDefinition> = {
+export default class Services extends MockDataContributorClass<ServiceDefinition> {
     /**
      * Return all the service definitions.
      * @param __odataRequest
      * @returns A promise that resolves to an array of service definitions.
      */
-    async getAllEntries(
-        this: MockDataContributor<ServiceDefinition>,
-        __odataRequest: ODataRequest
-    ): Promise<ServiceDefinition[]> {
-        const configs: ServiceConfig[] = this.base?.getServiceRegistry().getServices() ?? [];
-        this.base?.getServiceRegistry().loadServices([
+    async getAllEntries(__odataRequest: ODataRequest): Promise<ServiceDefinition[]> {
+        this.doSomething();
+        const configs: ServiceConfig[] = this.base.getServiceRegistry().getServices() ?? [];
+        this.base.getServiceRegistry().loadServices([
             {
                 alias: `AdminService${configs.length}`,
                 urlPath: `/admin-${configs.length}`,
@@ -36,5 +35,8 @@ const Services: MockDataContributor<ServiceDefinition> = {
             };
         });
     }
-};
-export default Services;
+
+    async doSomething(): Promise<void> {
+        await this.base.getServiceRegistry().loadServices([]);
+    }
+}

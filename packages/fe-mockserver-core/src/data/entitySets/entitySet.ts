@@ -2,6 +2,7 @@ import { join } from 'path';
 
 import type { Action, EntitySet, EntityType, Property } from '@sap-ux/vocabularies-types';
 import cloneDeep from 'lodash.clonedeep';
+import type { MockDataContributorClass } from '../../mockdata/baseContributor';
 import { FileBasedMockData } from '../../mockdata/fileBasedMockData';
 import type { MockDataContributor } from '../../mockdata/functionBasedMockData';
 import { FunctionBasedMockData } from '../../mockdata/functionBasedMockData';
@@ -335,7 +336,7 @@ export class MockDataEntitySet implements EntitySetInterface {
                 isDraft,
                 dataAccess
             ).then((mockData) => {
-                if (typeof mockData === 'object' && !Array.isArray(mockData)) {
+                if ((typeof mockData === 'object' || typeof mockData === 'function') && !Array.isArray(mockData)) {
                     this._rootMockDataFn = mockData as MockDataContributor<object>;
                 } else {
                     this._rootMockData = mockData;
@@ -347,9 +348,30 @@ export class MockDataEntitySet implements EntitySetInterface {
 
     public getMockData(contextId: string): FileBasedMockData {
         if (!Object.prototype.hasOwnProperty.apply(this.contextBasedMockData, [contextId])) {
-            this.contextBasedMockData[contextId] = this._rootMockDataFn
-                ? new FunctionBasedMockData(this._rootMockDataFn, this.entityTypeDefinition, this, contextId)
-                : new FileBasedMockData(this._rootMockData, this.entityTypeDefinition, this, contextId);
+            if (this._rootMockDataFn) {
+                let mockDataFn = this._rootMockDataFn;
+                if (typeof this._rootMockDataFn === 'function') {
+                    const MockClass = this._rootMockDataFn as typeof MockDataContributorClass<object>;
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    mockDataFn = new MockClass();
+                } else {
+                    mockDataFn = { ...mockDataFn };
+                }
+                this.contextBasedMockData[contextId] = new FunctionBasedMockData(
+                    mockDataFn,
+                    this.entityTypeDefinition,
+                    this,
+                    contextId
+                );
+            } else {
+                this.contextBasedMockData[contextId] = new FileBasedMockData(
+                    this._rootMockData,
+                    this.entityTypeDefinition,
+                    this,
+                    contextId
+                );
+            }
         } else {
             this.contextBasedMockData[contextId].cleanupHierarchies();
         }

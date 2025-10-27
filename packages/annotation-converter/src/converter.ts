@@ -1445,6 +1445,16 @@ function convertAction(converter: Converter, rawAction: RawAction): Action {
 
     if (convertedAction.returnType) {
         lazy(convertedAction, 'returnEntityType', resolveEntityType(converter, rawAction.returnType));
+        lazy(convertedAction, 'returnTypeReference', () => {
+            const typeName = convertedAction.returnType.startsWith('Collection')
+                ? convertedAction.returnType.substring(11, convertedAction.returnType.length - 1)
+                : convertedAction.returnType;
+            return (
+                converter.getConvertedEntityType(typeName) ??
+                converter.getConvertedComplexType(typeName) ??
+                converter.getConvertedTypeDefinition(typeName)
+            );
+        });
     }
 
     lazy(convertedAction, 'parameters', converter.convert(rawAction.parameters, convertActionParameter));
@@ -1501,14 +1511,17 @@ function convertActionParameter(
 ): ActionParameter {
     const convertedActionParameter = rawActionParameter as ActionParameter;
 
-    lazy(
-        convertedActionParameter,
-        'typeReference',
-        () =>
-            converter.getConvertedEntityType(rawActionParameter.type) ??
-            converter.getConvertedComplexType(rawActionParameter.type) ??
-            converter.getConvertedTypeDefinition(rawActionParameter.type)
-    );
+    lazy(convertedActionParameter, 'typeReference', () => {
+        let targetType = rawActionParameter.type;
+        if (targetType.startsWith('Collection(')) {
+            targetType = targetType.substring(11, targetType.length - 1);
+        }
+        return (
+            converter.getConvertedEntityType(targetType) ??
+            converter.getConvertedComplexType(targetType) ??
+            converter.getConvertedTypeDefinition(targetType)
+        );
+    });
 
     lazy(convertedActionParameter, 'annotations', () => {
         // annotations on action parameters are resolved following the rules for actions
