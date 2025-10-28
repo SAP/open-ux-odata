@@ -1201,7 +1201,11 @@ export class DataAccess implements DataAccessInterface {
         const propertyKeys = entitySet.entityType.keys;
 
         const keyStr = this.getV2KeyString(currentKeys, propertyKeys);
-        const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
+        let urlPath = this.service.urlPath ?? '';
+        if (!urlPath.endsWith('/')) {
+            urlPath += '/';
+        }
+        const uri = `${urlPath}${entitySet.name}(${keyStr})`;
         postData['__metadata'] = {
             id: uri,
             uri: uri,
