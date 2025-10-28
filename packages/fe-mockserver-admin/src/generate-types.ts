@@ -150,7 +150,7 @@ export async function generateTypes(METADATA_PATH: string, OUTPUT_DIR: string) {
         // Build type maps for reference resolution
         const typeMaps = buildTypeMaps(convertedMetadata);
 
-        let typeDefinitions = 'export type NavPropTo<T> = T;';
+        let typeDefinitions = 'export type NavPropTo<T> = T;\n\n';
         // Generate TS files for each entity set
         typeDefinitions += '// ====== Entity Types ======\n\n';
         for (const entityType of convertedMetadata.entityTypes) {
