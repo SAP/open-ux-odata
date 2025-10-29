@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.18
+
+### Patch Changes
+
+-   bf2320d: Fix the type export
+
 ## 1.6.17
 
 ### Patch Changes
