@@ -756,9 +756,10 @@ Group ID: $auto`
 
 describe('services from ValueListReferences', () => {
     let server: Server;
+    let loadFileSpy: jest.SpyInstance;
     beforeAll(async function () {
         const loadFile = FileSystemLoader.prototype.loadFile;
-        jest.spyOn(FileSystemLoader.prototype, 'loadFile').mockImplementation((path): Promise<string> => {
+        loadFileSpy = jest.spyOn(FileSystemLoader.prototype, 'loadFile').mockImplementation((path): Promise<string> => {
             if (path.includes('0001') && path.includes('metadata.xml')) {
                 return Promise.resolve(`<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
     <edmx:DataServices>
@@ -800,6 +801,22 @@ describe('services from ValueListReferences', () => {
         );
 
         expect(response.status).toEqual(200);
+        expect(loadFileSpy).toHaveBeenNthCalledWith(
+            2,
+            path.join(
+                __dirname,
+                'v4',
+                'services',
+                'parametrizedSample',
+                'srvd_f4',
+                'sap',
+                'i_companycodestdvh',
+                '0001',
+                'CustomerParameters',
+                'P_CompanyCode',
+                'metadata.xml'
+            )
+        );
     });
 });
 
