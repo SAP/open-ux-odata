@@ -10,8 +10,8 @@ import type {
     RawMetadata,
     Singleton
 } from '@sap-ux/vocabularies-types';
-import { join } from 'node:path';
-import { join as joinPosix } from 'node:path/posix';
+import { join } from 'path';
+import { join as joinPosix } from 'path/posix';
 
 type NameAndNav = {
     name: string;
@@ -258,28 +258,25 @@ export class ODataMetadata {
                     const [valueListServicePath] = externalServiceMetadataPath.split(';');
                     const segments = valueListServicePath.split('/');
                     let prefix = '/';
-                    while (segments.length) {
-                        const next = join(prefix, segments.shift()!);
+                    let currentSegment = segments.shift();
+                    while (currentSegment) {
+                        const next = join(prefix, currentSegment);
                         if (!rootPath.startsWith(next)) {
                             break;
                         }
                         prefix = next;
+                        currentSegment = segments.shift();
                     }
                     const relativeServicePath = valueListServicePath.replace(prefix, '');
 
-                    const localPath = join(
-                        metadataPath,
-                        '..',
-                        'value-list-references',
-                        'mainService',
-                        target,
-                        `${relativeServicePath}.xml`
-                    );
+                    const serviceRoot = join(metadataPath, '..', relativeServicePath, target);
+                    const localPath = join(serviceRoot, `metadata.xml`);
 
                     references.push({
                         rootPath,
-                        externalServiceMetadataPath,
+                        externalServiceMetadataPath: encode(externalServiceMetadataPath),
                         localPath: localPath,
+                        dataPath: serviceRoot,
                         target: target,
                         values: property.annotations.Common?.ValueListReferences ?? []
                     });
@@ -288,4 +285,8 @@ export class ODataMetadata {
         }
         return references;
     }
+}
+
+function encode(str: string): string {
+    return str.replaceAll("'", '%27').replaceAll('*', '%2A');
 }
