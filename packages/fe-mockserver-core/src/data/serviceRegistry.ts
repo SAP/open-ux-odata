@@ -145,7 +145,32 @@ export class ServiceRegistry {
             } else {
                 metadata = await loadMetadata(mockService, processor);
             }
+
             const dataAccess = new DataAccess(mockService, metadata, this.fileLoader, this.config.logger, this);
+            if (metadata) {
+                const references = metadata.getValueListReferences(mockService.metadataPath);
+                await Promise.allSettled(
+                    references.map(async (reference) => {
+                        const exists = await this.fileLoader.exists(reference.localPath);
+                        if (!exists) {
+                            log.info(
+                                `ValueList reference metadata file not found at "${reference.localPath}". Service "${reference.externalServiceMetadataPath}" will not be provided.`
+                            );
+                            return undefined;
+                        }
+                        return this.createServiceRegistration(
+                            {
+                                metadataPath: reference.localPath,
+                                urlPath: reference.externalServiceMetadataPath,
+                                generateMockData: true,
+                                mockdataPath: reference.dataPath,
+                                watch: false
+                            },
+                            log
+                        );
+                    })
+                );
+            }
 
             // Register this service for cross-service access
             this.registerService(mockService.urlPath, dataAccess, mockService.alias);
