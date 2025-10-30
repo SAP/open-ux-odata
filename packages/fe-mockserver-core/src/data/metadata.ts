@@ -259,7 +259,7 @@ export class ODataMetadata {
                     const segments = valueListServicePath.split('/');
                     let prefix = '/';
                     let currentSegment = segments.shift();
-                    while (currentSegment) {
+                    while (currentSegment !== undefined) {
                         const next = join(prefix, currentSegment);
                         if (!rootPath.startsWith(next)) {
                             break;
@@ -276,9 +276,7 @@ export class ODataMetadata {
                         rootPath,
                         externalServiceMetadataPath: encode(externalServiceMetadataPath),
                         localPath: localPath,
-                        dataPath: serviceRoot,
-                        target: target,
-                        values: property.annotations.Common?.ValueListReferences ?? []
+                        dataPath: serviceRoot
                     });
                 }
             }

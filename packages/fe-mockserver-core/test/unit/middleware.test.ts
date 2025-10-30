@@ -4,6 +4,7 @@ import type { Server } from 'http';
 import * as http from 'http';
 import * as path from 'path';
 import FEMockserver, { type MockserverConfiguration } from '../../src';
+import FileSystemLoader from '../../src/plugins/fileSystemLoader';
 import { getJsonFromMultipartContent, getStatusAndHeadersFromMultipartContent } from '../../test/unit/__testData/utils';
 import { ODataV4Requestor } from './__testData/Requestor';
 
@@ -750,6 +751,55 @@ Group ID: $auto`
         );
         myJSON[0].Prop1 = 'First Prop';
         fs.writeFileSync(path.join(__dirname, '__testData', 'RootElement.json'), JSON.stringify(myJSON, null, 4));
+    });
+});
+
+describe('services from ValueListReferences', () => {
+    let server: Server;
+    beforeAll(async function () {
+        const loadFile = FileSystemLoader.prototype.loadFile;
+        jest.spyOn(FileSystemLoader.prototype, 'loadFile').mockImplementation((path): Promise<string> => {
+            if (path.includes('0001') && path.includes('metadata.xml')) {
+                return Promise.resolve(`<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>`);
+            } else {
+                return loadFile(path);
+            }
+        });
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample', 'metadata.xml'),
+                    mockdataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample'),
+                    urlPath: '/sap/fe/core/mock/sticky',
+                    watch: false,
+                    generateMockData: true
+                }
+            ],
+            annotations: [],
+            plugins: [],
+            contextBasedIsolation: true
+        });
+        await mockServer.isReady;
+        server = http.createServer(function onRequest(req, res) {
+            mockServer.getRouter()(req, res, finalHandler(req, res));
+        });
+        server.listen(33332);
+    });
+    afterAll((done) => {
+        server.close(done);
+    });
+
+    it('call service from ValueListReferences', async () => {
+        const response = await fetch(
+            `http://localhost:33332/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
+        );
+
+        expect(response.status).toEqual(200);
     });
 });
 
