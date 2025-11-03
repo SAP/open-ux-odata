@@ -755,9 +755,6 @@ Group ID: $auto`
 });
 
 describe('services from ValueListReferences', () => {
-    let server: Server;
-    let serverWithoutAutoLoading: Server;
-    let loadFileSpy: jest.SpyInstance;
     async function createServer(resolveValueListReferences: boolean, port: number): Promise<Server> {
         const mockServer = new FEMockserver({
             services: [
@@ -781,81 +778,93 @@ describe('services from ValueListReferences', () => {
         server.listen(port);
         return server;
     }
-    beforeAll(async function () {
-        const loadFile = FileSystemLoader.prototype.loadFile;
-        const exists = FileSystemLoader.prototype.exists;
-        jest.spyOn(FileSystemLoader.prototype, 'exists').mockImplementation((path): Promise<boolean> => {
-            if (path.includes('i_companycodestdvh') && path.includes('metadata.xml')) {
-                return Promise.resolve(true);
-            } else {
-                return exists(path);
-            }
+    describe('resolveValueListReferences = true', () => {
+        let server: Server;
+        let loadFileSpy: jest.SpyInstance;
+        beforeAll(async function () {
+            const loadFile = FileSystemLoader.prototype.loadFile;
+            const exists = FileSystemLoader.prototype.exists;
+            jest.spyOn(FileSystemLoader.prototype, 'exists').mockImplementation((path): Promise<boolean> => {
+                if (path.includes('i_companycodestdvh') && path.includes('metadata.xml')) {
+                    return Promise.resolve(true);
+                } else {
+                    return exists(path);
+                }
+            });
+            loadFileSpy = jest
+                .spyOn(FileSystemLoader.prototype, 'loadFile')
+                .mockImplementation((path): Promise<string> => {
+                    if (path.includes('i_companycodestdvh') && path.includes('metadata.xml')) {
+                        return Promise.resolve(`<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+        <edmx:DataServices>
+            <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            </Schema>
+        </edmx:DataServices>
+    </edmx:Edmx>`);
+                    } else {
+                        return loadFile(path);
+                    }
+                });
+            server = await createServer(true, 33332);
         });
-        loadFileSpy = jest.spyOn(FileSystemLoader.prototype, 'loadFile').mockImplementation((path): Promise<string> => {
-            if (path.includes('i_companycodestdvh') && path.includes('metadata.xml')) {
-                return Promise.resolve(`<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
-    <edmx:DataServices>
-        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
-        </Schema>
-    </edmx:DataServices>
-</edmx:Edmx>`);
-            } else {
-                return loadFile(path);
-            }
+        afterAll((done) => {
+            server.close(done);
         });
-        server = await createServer(true, 33332);
-        serverWithoutAutoLoading = await createServer(false, 33333);
-    });
-    afterAll((done) => {
-        server.close(() => {
-            serverWithoutAutoLoading.close(done);
+
+        it('call service from ValueListReferences', async () => {
+            const response = await fetch(
+                `http://localhost:33332/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
+            );
+
+            expect(response.status).toEqual(200);
+            expect(loadFileSpy).toHaveBeenNthCalledWith(
+                2,
+                path.join(
+                    __dirname,
+                    'v4',
+                    'services',
+                    'parametrizedSample',
+                    'srvd_f4',
+                    'sap',
+                    'i_companycodestdvh',
+                    '0001',
+                    'CustomerParameters',
+                    'P_CompanyCode',
+                    'metadata.xml'
+                )
+            );
+            expect(loadFileSpy).not.toHaveBeenCalledWith(
+                path.join(
+                    __dirname,
+                    'v4',
+                    'services',
+                    'parametrizedSample',
+                    'srvd_f4',
+                    'sap',
+                    'i_customer_vh',
+                    '0001',
+                    'CustomerType',
+                    'Customer',
+                    'metadata.xml'
+                )
+            );
         });
     });
+    describe('resolveValueListReferences = false', () => {
+        let server: Server;
+        beforeAll(async function () {
+            server = await createServer(false, 33333);
+        });
+        afterAll((done) => {
+            server.close(done);
+        });
+        it('call service from ValueListReferences', async () => {
+            const response = await fetch(
+                `http://localhost:33333/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
+            );
 
-    it('call service from ValueListReferences', async () => {
-        const response = await fetch(
-            `http://localhost:33332/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
-        );
-
-        expect(response.status).toEqual(200);
-        expect(loadFileSpy).toHaveBeenNthCalledWith(
-            2,
-            path.join(
-                __dirname,
-                'v4',
-                'services',
-                'parametrizedSample',
-                'srvd_f4',
-                'sap',
-                'i_companycodestdvh',
-                '0001',
-                'CustomerParameters',
-                'P_CompanyCode',
-                'metadata.xml'
-            )
-        );
-        expect(loadFileSpy).not.toHaveBeenCalledWith(
-            path.join(
-                __dirname,
-                'v4',
-                'services',
-                'parametrizedSample',
-                'srvd_f4',
-                'sap',
-                'i_customer_vh',
-                '0001',
-                'CustomerType',
-                'Customer',
-                'metadata.xml'
-            )
-        );
-    });
-    it('call service from ValueListReferences with auto loading disabled', async () => {
-        const response = await fetch(
-            `http://localhost:33333/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
-        );
-
-        expect(response.status).toEqual(404);
+            expect(response.status).toEqual(404);
+        });
     });
 });
 
