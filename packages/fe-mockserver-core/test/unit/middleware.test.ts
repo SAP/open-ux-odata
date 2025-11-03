@@ -480,19 +480,13 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
         );
         myJSON[0].Prop1 = 'SomethingElse';
         fs.writeFileSync(path.join(__dirname, '__testData', 'RootElement.json'), JSON.stringify(myJSON, null, 4));
-        let resolveFn: Function;
-        const myPromise = new Promise((resolve) => {
-            resolveFn = resolve;
-        });
-        setTimeout(async function () {
-            dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
-            dataRes = await dataRequestor.getList<any>('/RootElement').execute();
-            expect(dataRes.body.length).toBe(4);
-            expect(dataRes.body[0].Prop1).toBe('SomethingElse');
-            resolveFn();
-        }, 1000);
-        return myPromise;
-    });
+        const sleep = new Promise((resolve) => setTimeout(resolve, 1000));
+        await sleep;
+        dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        dataRes = await dataRequestor.getList<any>('/RootElement').execute();
+        expect(dataRes.body.length).toBe(4);
+        expect(dataRes.body[0].Prop1).toBe('SomethingElse');
+    }, 10000);
 
     it('ChangeSet failure with single error', async () => {
         const response = await fetch('http://localhost:33331/sap/fe/core/mock/action/$batch', {
@@ -781,7 +775,16 @@ describe('services from ValueListReferences', () => {
     describe('resolveValueListReferences = true', () => {
         let server: Server;
         let loadFileSpy: jest.SpyInstance;
-        beforeAll(async function () {
+
+        afterAll((done) => {
+            if (server) {
+                server.close(done);
+            } else {
+                done();
+            }
+        });
+
+        it('call service from ValueListReferences', async () => {
             const loadFile = FileSystemLoader.prototype.loadFile;
             const exists = FileSystemLoader.prototype.exists;
             jest.spyOn(FileSystemLoader.prototype, 'exists').mockImplementation((path): Promise<boolean> => {
@@ -806,12 +809,6 @@ describe('services from ValueListReferences', () => {
                     }
                 });
             server = await createServer(true, 33332);
-        });
-        afterAll((done) => {
-            server.close(done);
-        });
-
-        it('call service from ValueListReferences', async () => {
             const response = await fetch(
                 `http://localhost:33332/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
             );
