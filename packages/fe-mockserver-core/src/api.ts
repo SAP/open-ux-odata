@@ -99,6 +99,7 @@ export type ServiceConfig = {
     i18nPath?: string[];
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
+    resolveValueListReferences?: boolean;
     debug?: boolean;
     strictKeyMode?: boolean;
     watch?: boolean; // should be forced to false in browser

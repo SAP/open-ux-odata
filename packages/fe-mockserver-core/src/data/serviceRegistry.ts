@@ -147,7 +147,7 @@ export class ServiceRegistry {
             }
 
             const dataAccess = new DataAccess(mockService, metadata, this.fileLoader, this.config.logger, this);
-            if (metadata) {
+            if (mockServiceIn.resolveValueListReferences === true && metadata) {
                 const references = metadata.getValueListReferences(mockService.metadataPath);
                 await Promise.allSettled(
                     references.map(async (reference) => {
@@ -162,7 +162,7 @@ export class ServiceRegistry {
                             {
                                 metadataPath: reference.localPath,
                                 urlPath: reference.externalServiceMetadataPath,
-                                generateMockData: true,
+                                generateMockData: false,
                                 mockdataPath: reference.dataPath,
                                 watch: false
                             },

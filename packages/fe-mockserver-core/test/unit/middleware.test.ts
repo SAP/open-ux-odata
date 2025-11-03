@@ -756,7 +756,31 @@ Group ID: $auto`
 
 describe('services from ValueListReferences', () => {
     let server: Server;
+    let serverWithoutAutoLoading: Server;
     let loadFileSpy: jest.SpyInstance;
+    async function createServer(resolveValueListReferences: boolean, port: number): Promise<Server> {
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample', 'metadata.xml'),
+                    mockdataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample'),
+                    urlPath: '/sap/fe/core/mock/sticky',
+                    watch: false,
+                    generateMockData: true,
+                    resolveValueListReferences
+                }
+            ],
+            annotations: [],
+            plugins: [],
+            contextBasedIsolation: true
+        });
+        await mockServer.isReady;
+        const server = http.createServer(function onRequest(req, res) {
+            mockServer.getRouter()(req, res, finalHandler(req, res));
+        });
+        server.listen(port);
+        return server;
+    }
     beforeAll(async function () {
         const loadFile = FileSystemLoader.prototype.loadFile;
         const exists = FileSystemLoader.prototype.exists;
@@ -779,31 +803,16 @@ describe('services from ValueListReferences', () => {
                 return loadFile(path);
             }
         });
-        const mockServer = new FEMockserver({
-            services: [
-                {
-                    metadataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample', 'metadata.xml'),
-                    mockdataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample'),
-                    urlPath: '/sap/fe/core/mock/sticky',
-                    watch: false,
-                    generateMockData: true
-                }
-            ],
-            annotations: [],
-            plugins: [],
-            contextBasedIsolation: true
-        });
-        await mockServer.isReady;
-        server = http.createServer(function onRequest(req, res) {
-            mockServer.getRouter()(req, res, finalHandler(req, res));
-        });
-        server.listen(33332);
+        server = await createServer(true, 33332);
+        serverWithoutAutoLoading = await createServer(false, 33333);
     });
     afterAll((done) => {
-        server.close(done);
+        server.close(() => {
+            serverWithoutAutoLoading.close(done);
+        });
     });
 
-    it.only('call service from ValueListReferences', async () => {
+    it('call service from ValueListReferences', async () => {
         const response = await fetch(
             `http://localhost:33332/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
         );
@@ -840,6 +849,13 @@ describe('services from ValueListReferences', () => {
                 'metadata.xml'
             )
         );
+    });
+    it('call service from ValueListReferences with auto loading disabled', async () => {
+        const response = await fetch(
+            `http://localhost:33333/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
+        );
+
+        expect(response.status).toEqual(404);
     });
 });
 
