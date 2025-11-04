@@ -4,6 +4,7 @@ import type { Server } from 'http';
 import * as http from 'http';
 import * as path from 'path';
 import FEMockserver, { type MockserverConfiguration } from '../../src';
+import FileSystemLoader from '../../src/plugins/fileSystemLoader';
 import { getJsonFromMultipartContent, getStatusAndHeadersFromMultipartContent } from '../../test/unit/__testData/utils';
 import { ODataV4Requestor } from './__testData/Requestor';
 
@@ -61,6 +62,9 @@ describe('V4 Requestor', function () {
         await mockServer.isReady;
         server = http.createServer(function onRequest(req, res) {
             mockServer.getRouter()(req, res, finalHandler(req, res));
+        });
+        server.on('close', async () => {
+            await mockServer.dispose();
         });
         server.listen(33331);
     });
@@ -479,19 +483,13 @@ Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
         );
         myJSON[0].Prop1 = 'SomethingElse';
         fs.writeFileSync(path.join(__dirname, '__testData', 'RootElement.json'), JSON.stringify(myJSON, null, 4));
-        let resolveFn: Function;
-        const myPromise = new Promise((resolve) => {
-            resolveFn = resolve;
-        });
-        setTimeout(async function () {
-            dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
-            dataRes = await dataRequestor.getList<any>('/RootElement').execute();
-            expect(dataRes.body.length).toBe(4);
-            expect(dataRes.body[0].Prop1).toBe('SomethingElse');
-            resolveFn();
-        }, 1000);
-        return myPromise;
-    });
+        const sleep = new Promise((resolve) => setTimeout(resolve, 1000));
+        await sleep;
+        dataRequestor = new ODataV4Requestor('http://localhost:33331/sap/fe/core/mock/action');
+        dataRes = await dataRequestor.getList<any>('/RootElement').execute();
+        expect(dataRes.body.length).toBe(4);
+        expect(dataRes.body[0].Prop1).toBe('SomethingElse');
+    }, 10000);
 
     it('ChangeSet failure with single error', async () => {
         const response = await fetch('http://localhost:33331/sap/fe/core/mock/action/$batch', {
@@ -753,6 +751,126 @@ Group ID: $auto`
     });
 });
 
+describe('services from ValueListReferences', () => {
+    async function createServer(resolveValueListReferences: boolean, port: number): Promise<Server> {
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample', 'metadata.xml'),
+                    mockdataPath: path.join(__dirname, 'v4', 'services', 'parametrizedSample'),
+                    urlPath: '/sap/fe/core/mock/sticky',
+                    watch: false,
+                    generateMockData: true,
+                    resolveValueListReferences
+                }
+            ],
+            annotations: [],
+            plugins: [],
+            contextBasedIsolation: true
+        });
+        await mockServer.isReady;
+        const server = http.createServer(function onRequest(req, res) {
+            mockServer.getRouter()(req, res, finalHandler(req, res));
+        });
+        server.listen(port);
+        server.on('close', async () => {
+            await mockServer.dispose();
+        });
+        return server;
+    }
+    describe('resolveValueListReferences = true', () => {
+        let server: Server;
+        let loadFileSpy: jest.SpyInstance;
+
+        afterAll((done) => {
+            if (server) {
+                server.close(done);
+            } else {
+                done();
+            }
+        });
+
+        it('call service from ValueListReferences', async () => {
+            const loadFile = FileSystemLoader.prototype.loadFile;
+            const exists = FileSystemLoader.prototype.exists;
+            jest.spyOn(FileSystemLoader.prototype, 'exists').mockImplementation((path): Promise<boolean> => {
+                if (path.includes('i_companycodestdvh') && path.includes('metadata.xml')) {
+                    return Promise.resolve(true);
+                } else {
+                    return exists(path);
+                }
+            });
+            loadFileSpy = jest
+                .spyOn(FileSystemLoader.prototype, 'loadFile')
+                .mockImplementation((path): Promise<string> => {
+                    if (path.includes('i_companycodestdvh') && path.includes('metadata.xml')) {
+                        return Promise.resolve(`<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+        <edmx:DataServices>
+            <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            </Schema>
+        </edmx:DataServices>
+    </edmx:Edmx>`);
+                    } else {
+                        return loadFile(path);
+                    }
+                });
+            server = await createServer(true, 33332);
+            const response = await fetch(
+                `http://localhost:33332/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
+            );
+
+            expect(response.status).toEqual(200);
+            expect(loadFileSpy).toHaveBeenNthCalledWith(
+                2,
+                path.join(
+                    __dirname,
+                    'v4',
+                    'services',
+                    'parametrizedSample',
+                    'srvd_f4',
+                    'sap',
+                    'i_companycodestdvh',
+                    '0001',
+                    'CustomerParameters',
+                    'P_CompanyCode',
+                    'metadata.xml'
+                )
+            );
+            expect(loadFileSpy).not.toHaveBeenCalledWith(
+                path.join(
+                    __dirname,
+                    'v4',
+                    'services',
+                    'parametrizedSample',
+                    'srvd_f4',
+                    'sap',
+                    'i_customer_vh',
+                    '0001',
+                    'CustomerType',
+                    'Customer',
+                    'metadata.xml'
+                )
+            );
+        });
+    });
+    describe('resolveValueListReferences = false', () => {
+        let server: Server;
+        beforeAll(async function () {
+            server = await createServer(false, 33333);
+        });
+        afterAll((done) => {
+            server.close(done);
+        });
+        it('call service from ValueListReferences', async () => {
+            const response = await fetch(
+                `http://localhost:33333/sap/srvd_f4/sap/i_companycodestdvh/0001;ps=%27srvd-zrc_arcustomer_definition-0001%27;va=%27com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.et-parameterz_arcustomer2.p_companycode%27/$metadata`
+            );
+
+            expect(response.status).toEqual(404);
+        });
+    });
+});
+
 describe('V2', function () {
     let server: Server;
     beforeAll(async function () {
@@ -778,6 +896,9 @@ describe('V2', function () {
             mockServer.getRouter()(req, res, finalHandler(req, res));
         });
         server.listen(33331);
+        server.on('close', async () => {
+            await mockServer.dispose();
+        });
     });
 
     afterAll((done) => {

@@ -104,6 +104,7 @@ function processServicesConfig(
             generateMockData: inService.generateMockData,
             contextBasedIsolation: inService.contextBasedIsolation,
             forceNullableValuesToNull: inService.forceNullableValuesToNull,
+            resolveValueListReferences: inService.resolveValueListReferences,
             metadataProcessor: inService.metadataProcessor,
             i18nPath: inService.i18nPath,
             __captureAndSimulate: inService.__captureAndSimulate

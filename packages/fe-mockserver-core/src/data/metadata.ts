@@ -10,6 +10,8 @@ import type {
     RawMetadata,
     Singleton
 } from '@sap-ux/vocabularies-types';
+import { join } from 'path';
+import { join as joinPosix } from 'path/posix';
 
 type NameAndNav = {
     name: string;
@@ -241,4 +243,48 @@ export class ODataMetadata {
 
         return keyValues;
     }
+
+    public getValueListReferences(metadataPath: string) {
+        const references = [];
+        for (const entityType of this.metadata.entityTypes) {
+            for (const property of entityType.entityProperties) {
+                const rootPath = this.metadataUrl.replace('/$metadata', '');
+                const target = `${entityType.name}/${property.name}`;
+                for (const reference of property.annotations.Common?.ValueListReferences ?? []) {
+                    const externalServiceMetadataPath = joinPosix(rootPath, reference as string).replace(
+                        '/$metadata',
+                        ''
+                    );
+                    const [valueListServicePath] = externalServiceMetadataPath.split(';');
+                    const segments = valueListServicePath.split('/');
+                    let prefix = '/';
+                    let currentSegment = segments.shift();
+                    while (currentSegment !== undefined) {
+                        const next = joinPosix(prefix, currentSegment);
+                        if (!rootPath.startsWith(next)) {
+                            break;
+                        }
+                        prefix = next;
+                        currentSegment = segments.shift();
+                    }
+                    const relativeServicePath = valueListServicePath.replace(prefix, '');
+
+                    const serviceRoot = join(metadataPath, '..', relativeServicePath, target);
+                    const localPath = join(serviceRoot, `metadata.xml`);
+
+                    references.push({
+                        rootPath,
+                        externalServiceMetadataPath: encode(externalServiceMetadataPath),
+                        localPath: localPath,
+                        dataPath: serviceRoot
+                    });
+                }
+            }
+        }
+        return references;
+    }
+}
+
+function encode(str: string): string {
+    return str.replaceAll("'", '%27').replaceAll('*', '%2A');
 }
