@@ -452,6 +452,7 @@ export type Action = {
     isFunction: boolean;
     sourceEntityType?: EntityType;
     returnEntityType?: EntityType;
+    returnTypeReference?: TypeDefinition | ComplexType | EntityType;
     annotations: ActionAnnotations;
     parameters: ArrayWithIndex<ActionParameter, 'name' | 'fullyQualifiedName'>;
 };

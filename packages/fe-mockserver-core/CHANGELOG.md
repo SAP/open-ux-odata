@@ -1,5 +1,48 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.18
+
+### Patch Changes
+
+-   bf2320d: Fix the type export
+
+## 1.6.17
+
+### Patch Changes
+
+-   e3538f5: Action return doesn't include double /
+
+## 1.6.16
+
+### Patch Changes
+
+-   2ede21e: Generated TS types are now much nicer
+
+## 1.6.15
+
+### Patch Changes
+
+-   85ce46a: Proper return type for v2 unbound action
+
+## 1.6.14
+
+### Patch Changes
+
+-   3636693: fix: The return data
+
+## 1.6.13
+
+### Patch Changes
+
+-   a953dd9: We fixed an issue with non provided actionData
+
+## 1.6.12
+
+### Patch Changes
+
+-   Updated dependencies [eb7176f]
+    -   @sap-ux/annotation-converter@0.10.7
+
 ## 1.6.11
 
 ### Patch Changes

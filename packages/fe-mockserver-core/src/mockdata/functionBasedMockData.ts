@@ -6,6 +6,31 @@ import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
 import { FileBasedMockData } from './fileBasedMockData';
 
+export type MockDataContributorBase<T> = {
+    generateMockData: () => void;
+    generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
+    addEntry: (mockEntry: T, odataRequest: ODataRequest) => Promise<void>;
+    updateEntry: (keyValues: KeyDefinitions, newData: Partial<T>, odataRequest: ODataRequest) => Promise<void>;
+    removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<void>;
+    hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
+    fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<T[]>;
+    hasEntries: (odataRequest: ODataRequest) => boolean;
+    getAllEntries: (odataRequest: ODataRequest) => Promise<T[]>;
+    getEmptyObject: (odataRequest: ODataRequest) => T;
+    getDefaultElement: (odataRequest: ODataRequest) => T;
+    getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
+    getEntityInterface: (entityName: string, serviceNameOrAlias?: string) => Promise<FileBasedMockData | undefined>;
+    checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
+    checkFilterValue: (
+        comparisonType: string,
+        mockValue: any,
+        literal: any,
+        operator: string,
+        odataRequest: ODataRequest
+    ) => boolean;
+    getServiceRegistry: () => ServiceRegistryInterface;
+};
+
 export type MockDataContributor<T extends object> = {
     getInitialDataSet?: (contextId: string) => T[];
     addEntry?: (mockEntry: T, odataRequest: ODataRequest) => void;
@@ -79,30 +104,7 @@ export type MockDataContributor<T extends object> = {
         headers?: Record<string, string>,
         isGlobalRequestError?: boolean
     ): any;
-    base?: {
-        generateMockData: () => void;
-        generateKey: (property: Property, lineIndex?: number, mockData?: any) => any;
-        addEntry: (mockEntry: T, odataRequest: ODataRequest) => Promise<void>;
-        updateEntry: (keyValues: KeyDefinitions, newData: T, odataRequest: ODataRequest) => Promise<void>;
-        removeEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<void>;
-        hasEntry: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => boolean;
-        fetchEntries: (keyValues: KeyDefinitions, odataRequest: ODataRequest) => Promise<T[]>;
-        hasEntries: (odataRequest: ODataRequest) => boolean;
-        getAllEntries: (odataRequest: ODataRequest) => Promise<T[]>;
-        getEmptyObject: (odataRequest: ODataRequest) => T;
-        getDefaultElement: (odataRequest: ODataRequest) => T;
-        getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
-        getEntityInterface: (entityName: string, serviceNameOrAlias?: string) => Promise<FileBasedMockData | undefined>;
-        checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
-        checkFilterValue: (
-            comparisonType: string,
-            mockValue: any,
-            literal: any,
-            operator: string,
-            odataRequest: ODataRequest
-        ) => boolean;
-        getServiceRegistry: () => ServiceRegistryInterface;
-    };
+    base?: MockDataContributorBase<T>;
 };
 
 /**
@@ -119,17 +121,13 @@ export class FunctionBasedMockData extends FileBasedMockData {
     ) {
         const noMock: any = [];
         noMock.__generateMockData = true;
-        const targetMock: any = {};
-        for (const targetMockKey in mockDataFn) {
-            targetMock[targetMockKey] = mockDataFn[targetMockKey as keyof typeof mockDataFn];
-        }
         super(
             (mockDataFn?.getInitialDataSet ? mockDataFn.getInitialDataSet(contextId) : noMock) || noMock,
             entityType,
             mockDataEntitySet,
             contextId
         );
-        this._mockDataFn = targetMock;
+        this._mockDataFn = mockDataFn;
 
         // Helper function to create a partial updateEntry that fetches existing data and merges with patch
         const createPartialUpdateEntry = (fetchEntries: any, updateEntry: any) => {

@@ -4180,7 +4180,7 @@
               <Collection>
                   <Record>
                       <PropertyValue Property="Property" PropertyPath="ID"/>
-                      <PropertyValue Property="ReferencedProperty" PropertyPath="SalesOrder"/>
+                      <PropertyValue Property="ReferencedProperty" PropertyPath="_Item/SalesOrder"/>
                   </Record>
               </Collection>
           </Annotation>

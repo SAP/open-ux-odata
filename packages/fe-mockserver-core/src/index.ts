@@ -9,8 +9,10 @@ export type { Action, NavigationProperty } from '@sap-ux/vocabularies-types';
 export * from './api';
 export type { PartialReferentialConstraint } from './data/common';
 export { ServiceRegistry } from './data/serviceRegistry';
+export { MockDataContributorClass, MockEntityContainerContributorClass } from './mockdata/baseContributor';
 export { MockDataContributor } from './mockdata/functionBasedMockData';
 export { MockEntityContainerContributor } from './mockdata/mockEntityContainer';
+export { KeyDefinitions } from './request/odataRequest';
 export { ODataRequest };
 
 export default class FEMockserver {

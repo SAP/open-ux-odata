@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate-entity-files with real metadata should generate entity files from real metadata.xml 1`] = `
+"import type { ODataRequest, Action, NavigationProperty, PartialReferentialConstraint } from "@sap-ux/ui5-middleware-fe-mockserver"
+import { MockDataContributorClass } from "@sap-ux/ui5-middleware-fe-mockserver"
+import type { RootEntity, RootEntityKeys} from "./ODataTypes";
+type RootEntityAction_myCustomActionData = {
+    in?: RootEntity;
+}
+;export type RootEntityActionData =
+    | {
+    _type: 'myCustomAction';
+} & RootEntityAction_myCustomActionData;
+
+
+export default class RootEntityContributor extends MockDataContributorClass<RootEntity> {
+        async myCustomAction(_actionDefinition: Action, _actionData: RootEntityAction_myCustomActionData, _keys: RootEntityKeys, _odataRequest: ODataRequest): Promise<unknown> { 
+                    throw new Error('myCustomAction is not implemented');
+                }
+
+async executeAction(actionDefinition: Action, actionData: RootEntityActionData, keys: RootEntityKeys, odataRequest: ODataRequest): Promise<object | undefined> {
+        switch(actionData._type) {
+            case 'myCustomAction':
+                  return this.myCustomAction(actionDefinition, actionData, keys, odataRequest);
+            default:
+                this.throwError(\`Action \${actionDefinition.name} not implemented\`, 501);
+                return;
+        }
+    }
+}
+"
+`;

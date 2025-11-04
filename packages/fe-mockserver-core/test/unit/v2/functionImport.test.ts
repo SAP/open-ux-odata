@@ -55,6 +55,7 @@ describe('Function Import', () => {
         expect(request.queryPath).toMatchSnapshot();
         const actionData = await dataAccess.performAction(request);
         expect(actionData).toBeTruthy();
+        expect(actionData).toMatchSnapshot();
     });
 
     test('will fail by default', async () => {

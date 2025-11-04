@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.7
+
+### Patch Changes
+
+-   eb7176f: Referential Constraints annotations are properly evaluated
+
 ## 0.10.6
 
 ### Patch Changes

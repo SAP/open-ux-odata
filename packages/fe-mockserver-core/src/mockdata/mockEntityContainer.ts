@@ -4,7 +4,11 @@ import type { DataAccessInterface } from '../data/common';
 import { ExecutionError } from '../data/common';
 import type { IFileLoader } from '../index';
 import type ODataRequest from '../request/odataRequest';
+import type { MockEntityContainerContributorClass } from './baseContributor';
 import type { FileBasedMockData } from './fileBasedMockData';
+export type MockEntityContainerBase = {
+    getEntityInterface: (entityName: string, aliasOrService?: string) => Promise<FileBasedMockData | undefined>;
+};
 
 export type MockEntityContainerContributor = {
     executeAction?(
@@ -15,9 +19,7 @@ export type MockEntityContainerContributor = {
     ): Promise<unknown>;
     handleRequest?(odataRequest: ODataRequest): Promise<unknown>;
     throwError?(message: string, statusCode?: number, messageData?: object): any;
-    base?: {
-        getEntityInterface: (entityName: string, aliasOrService?: string) => Promise<FileBasedMockData | undefined>;
-    };
+    base?: MockEntityContainerBase;
 };
 
 export class MockEntityContainer {
@@ -39,6 +41,14 @@ export class MockEntityContainer {
             } catch (e) {
                 outData = {} as any;
                 console.error(e);
+            }
+        }
+        if (typeof outData === 'function') {
+            if (typeof outData === 'function') {
+                const MockClass = outData as typeof MockEntityContainerContributorClass;
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                outData = new MockClass();
             }
         }
         if (!outData.executeAction) {

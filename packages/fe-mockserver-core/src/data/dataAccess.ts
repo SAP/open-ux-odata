@@ -251,8 +251,11 @@ export class DataAccess implements DataAccessInterface {
             if (actionDefinition) {
                 if (actionDefinition.sourceType !== '') {
                     const targetEntitySet = this.metadata.getEntitySetByType(actionDefinition.sourceType);
+                    const returnEntitySet = this.metadata.getEntitySetByType(actionDefinition.returnType);
                     if (targetEntitySet) {
-                        actionData._type = actionDefinition.name;
+                        if (actionData) {
+                            actionData._type = actionDefinition.name;
+                        }
                         let outData = await (
                             await this.getMockEntitySet(targetEntitySet.name)
                         ).executeAction(actionDefinition, Object.assign({}, actionData), odataRequest, {});
@@ -262,7 +265,7 @@ export class DataAccess implements DataAccessInterface {
                                 entitySet.entityType.keys.forEach((key) => {
                                     keyValues[key.name] = dataLine[key.name];
                                 });
-                                this.addV2Metadata(entitySet, keyValues, dataLine);
+                                this.addV2Metadata(entitySet, keyValues, dataLine, actionDefinition.returnType);
 
                                 return dataLine;
                             };
@@ -270,10 +273,10 @@ export class DataAccess implements DataAccessInterface {
                             // Enrich data with __metadata for v2
                             if (Array.isArray(outData)) {
                                 outData = outData.map((element) => {
-                                    return enrichElement(targetEntitySet, element);
+                                    return enrichElement(returnEntitySet ?? targetEntitySet, element);
                                 });
                             } else if (outData != null) {
-                                outData = enrichElement(targetEntitySet, outData);
+                                outData = enrichElement(returnEntitySet ?? targetEntitySet, outData);
                             }
                         }
                         return outData;
@@ -283,7 +286,9 @@ export class DataAccess implements DataAccessInterface {
                 ) {
                     // Special case for sticky discard action that might need to be changed
                     for (const entitySet of this.stickyEntitySets) {
-                        actionData._type = actionDefinition.name;
+                        if (actionData) {
+                            actionData._type = actionDefinition.name;
+                        }
                         await entitySet.executeAction(
                             actionDefinition,
                             actionData,
@@ -295,7 +300,9 @@ export class DataAccess implements DataAccessInterface {
                 } else {
                     // Treat this as a normal unbound action
                     // There is no entitySet linked to it, handle it in the EntityContainer.js potentially as executeAction
-                    actionData._type = actionDefinition.name;
+                    if (actionData) {
+                        actionData._type = actionDefinition.name;
+                    }
                     return (
                         await MockEntityContainer.read(
                             this.mockDataRootFolder,
@@ -962,7 +969,7 @@ export class DataAccess implements DataAccessInterface {
                     });
 
                     if (entitySet) {
-                        this.addV2Metadata(entitySet, keyValues, dataLine);
+                        this.addV2Metadata(entitySet, keyValues, dataLine, entitySet.entityTypeName);
                     }
 
                     entityType.navigationProperties.forEach((navProp) => {
@@ -1125,7 +1132,7 @@ export class DataAccess implements DataAccessInterface {
                         await this.getMockEntitySet(targetEntitySet.name)
                     ).performPOST(currentKeys, postData, odataRequest.tenantId, odataRequest, true);
                     if (!this.isV4()) {
-                        this.addV2Metadata(parentEntitySet, currentKeys, postData);
+                        this.addV2Metadata(parentEntitySet, currentKeys, postData, parentEntitySet.entityTypeName);
                     }
                 } else {
                     if (!data[lastNavPropName]) {
@@ -1166,7 +1173,7 @@ export class DataAccess implements DataAccessInterface {
                         parentEntitySet.entityType.entityProperties
                     )})`
                 );
-                this.addV2Metadata(parentEntitySet, currentKeys, postData);
+                this.addV2Metadata(parentEntitySet, currentKeys, postData, parentEntitySet.entityTypeName);
             } else {
                 odataRequest.addResponseHeader(
                     'Location',
@@ -1185,15 +1192,24 @@ export class DataAccess implements DataAccessInterface {
         }
     }
 
-    private addV2Metadata(entitySet: EntitySet | Singleton, currentKeys: KeyDefinitions, postData: any) {
+    private addV2Metadata(
+        entitySet: EntitySet | Singleton,
+        currentKeys: KeyDefinitions,
+        postData: any,
+        dataType: string
+    ) {
         const propertyKeys = entitySet.entityType.keys;
 
         const keyStr = this.getV2KeyString(currentKeys, propertyKeys);
-        const uri = `${this.service.urlPath}/${entitySet.name}(${keyStr})`;
+        let urlPath = this.service.urlPath ?? '';
+        if (!urlPath.endsWith('/')) {
+            urlPath += '/';
+        }
+        const uri = `${urlPath}${entitySet.name}(${keyStr})`;
         postData['__metadata'] = {
             id: uri,
             uri: uri,
-            type: entitySet.entityTypeName
+            type: dataType
         };
     }
 

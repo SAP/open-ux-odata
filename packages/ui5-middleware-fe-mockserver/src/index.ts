@@ -1,10 +1,14 @@
 import type { ServerConfig } from '@sap-ux/fe-mockserver-core';
-import FEMockserver from '@sap-ux/fe-mockserver-core';
+import FEMockserver, {
+    MockDataContributorClass,
+    MockEntityContainerContributorClass
+} from '@sap-ux/fe-mockserver-core';
 import * as path from 'path';
 import type { IRouter } from 'router';
 import { resolveConfig } from './configResolver';
 export type {
     Action,
+    KeyDefinitions,
     MockDataContributor,
     MockEntityContainerContributor,
     NavigationProperty,
@@ -30,6 +34,8 @@ async function FEMiddleware(middlewareConfig: {
     await mockserverInstance.isReady;
     return mockserverInstance.getRouter();
 }
+FEMiddleware.MockDataContributorClass = MockDataContributorClass;
+FEMiddleware.MockEntityContainerContributorClass = MockEntityContainerContributorClass;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export = FEMiddleware;

@@ -1,4 +1,5 @@
-import type { Action, MockDataContributor, ODataRequest } from '@sap-ux/ui5-middleware-fe-mockserver';
+import type { Action, ODataRequest } from '@sap-ux/ui5-middleware-fe-mockserver';
+import { MockDataContributorClass } from '@sap-ux/ui5-middleware-fe-mockserver';
 
 export type RootEntityNavPropTypes = {
     SiblingEntity: RootEntityType;
@@ -22,7 +23,7 @@ export type RootEntityActionData = {
     in?: RootEntityType;
 };
 
-const RootEntity: MockDataContributor<RootEntityType> = {
+export default class RootEntity extends MockDataContributorClass<RootEntityType> {
     async executeAction(
         actionDefinition: Action,
         actionData: RootEntityActionData,
@@ -39,6 +40,4 @@ const RootEntity: MockDataContributor<RootEntityType> = {
                 return undefined;
         }
     }
-};
-
-export default RootEntity;
+}
