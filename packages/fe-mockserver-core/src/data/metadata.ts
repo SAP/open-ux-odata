@@ -260,7 +260,7 @@ export class ODataMetadata {
                     let prefix = '/';
                     let currentSegment = segments.shift();
                     while (currentSegment !== undefined) {
-                        const next = join(prefix, currentSegment);
+                        const next = joinPosix(prefix, currentSegment);
                         if (!rootPath.startsWith(next)) {
                             break;
                         }
