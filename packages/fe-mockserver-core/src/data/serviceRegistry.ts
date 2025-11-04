@@ -1,4 +1,5 @@
 import type { ILogger } from '@ui5/logger';
+import type { FSWatcher } from 'chokidar';
 import etag from 'etag';
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { IRouter } from 'router';
@@ -55,6 +56,7 @@ export class ServiceRegistry {
     private readonly services: Map<string, DataAccessInterface> = new Map();
     private readonly aliases: Map<string, string> = new Map();
     private readonly registrations: Map<string, ServiceRegistration> = new Map();
+    private readonly watchers: FSWatcher[] = [];
     private config: MockserverConfiguration;
     private isOpened: boolean = false;
 
@@ -181,7 +183,7 @@ export class ServiceRegistry {
                     watchPath.push(mockService.metadataPath);
                 }
                 const chokidar = await import('chokidar');
-                chokidar
+                const watcher = chokidar
                     .watch(watchPath, {
                         ignoreInitial: true
                     })
@@ -194,6 +196,7 @@ export class ServiceRegistry {
                         dataAccess.reloadData(metadata);
                         log.info(`Service ${mockService.urlPath} restarted`);
                     });
+                this.watchers.push(watcher);
             }
 
             const oDataHandlerInstance = await serviceRouter(mockService, dataAccess);
@@ -351,5 +354,10 @@ export class ServiceRegistry {
                 return alias ? `${serviceName} (alias: ${alias})` : serviceName;
             })
             .join(', ');
+    }
+    public async dispose(): Promise<void> {
+        for (const watcher of this.watchers) {
+            await watcher.close();
+        }
     }
 }

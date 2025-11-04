@@ -62,4 +62,8 @@ export default class FEMockserver {
     getRouter() {
         return this.mainRouter;
     }
+
+    async dispose(): Promise<void> {
+        await this.serviceRegistry.dispose();
+    }
 }

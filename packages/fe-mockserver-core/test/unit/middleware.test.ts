@@ -63,6 +63,9 @@ describe('V4 Requestor', function () {
         server = http.createServer(function onRequest(req, res) {
             mockServer.getRouter()(req, res, finalHandler(req, res));
         });
+        server.on('close', async () => {
+            await mockServer.dispose();
+        });
         server.listen(33331);
     });
     afterAll((done) => {
@@ -770,6 +773,9 @@ describe('services from ValueListReferences', () => {
             mockServer.getRouter()(req, res, finalHandler(req, res));
         });
         server.listen(port);
+        server.on('close', async () => {
+            await mockServer.dispose();
+        });
         return server;
     }
     describe('resolveValueListReferences = true', () => {
@@ -890,6 +896,9 @@ describe('V2', function () {
             mockServer.getRouter()(req, res, finalHandler(req, res));
         });
         server.listen(33331);
+        server.on('close', async () => {
+            await mockServer.dispose();
+        });
     });
 
     afterAll((done) => {
