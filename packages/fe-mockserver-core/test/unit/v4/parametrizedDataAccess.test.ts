@@ -210,7 +210,6 @@ describe('Parametrized Data Access', () => {
         expect(customerData[1].UI5__count).toBe(0);
     });
     test('can execute a bound action', async () => {
-        debugger;
         const actionResult = await dataAccess.performAction(
             new ODataRequest(
                 {
