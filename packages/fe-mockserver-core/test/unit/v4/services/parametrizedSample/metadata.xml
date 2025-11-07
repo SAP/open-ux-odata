@@ -223,7 +223,7 @@
 			</Action>
 			<Action Name="UnBlockBusinessPartner" IsBound="true" EntitySetPath="_it">
 				<Parameter Name="_it" Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType" />
-				<Parameter Name="BusinessPartnerName" Type="Edm.String" Nullable="false" MaxLength="80" />
+				<Parameter Name="PaymentBlockingReason" Type="Edm.String" Nullable="false" MaxLength="1" />
 				<ReturnType Type="com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.CustomerType" />
 			</Action>
 			<Action Name="DummyStaticAction" IsBound="true" EntitySetPath="_it">

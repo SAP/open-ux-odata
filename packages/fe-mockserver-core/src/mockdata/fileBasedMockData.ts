@@ -390,7 +390,8 @@ export class FileBasedMockData {
         property: Property,
         type: string,
         complexType: ComplexType | TypeDefinition | undefined,
-        defaultValue?: any
+        defaultValue?: any,
+        allowEmptyKeys = false
     ): any {
         if (this.__forceNullableValuesToNull && property.nullable) {
             return null;
@@ -445,7 +446,7 @@ export class FileBasedMockData {
                 return 'PT' + date.getHours() + 'H' + date.getMinutes() + 'M' + date.getSeconds() + 'S';
             }
             default:
-                if (property.isKey) {
+                if (property.isKey && !allowEmptyKeys) {
                     return this.generateKey(property, this._mockData.length, this._mockData);
                 }
                 return '';
@@ -537,14 +538,15 @@ export class FileBasedMockData {
         }
     }
 
-    getEmptyObject(_odataRequest: ODataRequest): object {
+    getEmptyObject(_odataRequest: ODataRequest, allowEmptyKeys = false): object {
         const outObj: any = {};
         this._entityType.entityProperties.forEach((property: Property) => {
             outObj[property.name] = this.getDefaultValueFromType(
                 property,
                 property.type,
                 property.targetType,
-                property.defaultValue
+                property.defaultValue,
+                allowEmptyKeys
             );
         });
 
