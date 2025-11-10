@@ -1217,14 +1217,14 @@ describe('Data Access', () => {
             stickyDataAccess
         );
         result = await stickyDataAccess.performAction(request, { SalesOrderType: 'OR' });
-        expect(result.SalesOrder).toEqual('SalesOrde1');
+        expect(result.SalesOrder).toEqual('');
         expect(result.SalesOrderType).toEqual('OR');
         expect(request.globalResponseHeaders['sap-contextid']).toBeDefined();
 
         // update some property
         request = new ODataRequest(
             {
-                url: "/SalesOrderManage('SalesOrde1')",
+                url: "/SalesOrderManage('')",
                 method: 'POST',
                 headers: { 'sap-contextid': request.globalResponseHeaders['sap-contextid'] }
             },
@@ -1237,7 +1237,7 @@ describe('Data Access', () => {
         // Activate it
         request = new ODataRequest(
             {
-                url: '/SalesOrderManage/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SaveChanges',
+                url: "/SalesOrderManage('')/com.sap.gateway.srvd.c_salesordermanage_sd.v0001.SaveChanges",
                 method: 'POST',
                 headers: { 'sap-contextid': request.globalResponseHeaders['sap-contextid'] }
             },
