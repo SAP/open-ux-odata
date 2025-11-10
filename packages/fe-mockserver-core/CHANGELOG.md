@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.20
+
+### Patch Changes
+
+-   b333838: Misc fixes
+
 ## 1.6.19
 
 ### Patch Changes
