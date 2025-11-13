@@ -7,7 +7,9 @@ import type {
     RawMetadata,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
+
 import fs from 'fs';
+import { compileCDS } from './utils';
 
 // Helper to build lookup maps for types
 function buildTypeMaps(metadata: ConvertedMetadata) {
@@ -139,7 +141,11 @@ function generateTypeDefinition(typeDefinition: TypeDefinition, typeMaps: any): 
 export async function generateTypes(METADATA_PATH: string, OUTPUT_DIR: string) {
     try {
         console.log('Loading metadata.xml...');
-        const metadataContent = fs.readFileSync(METADATA_PATH, 'utf8');
+        let metadataContent = fs.readFileSync(METADATA_PATH, 'utf8');
+
+        if (METADATA_PATH.endsWith('.cds')) {
+            metadataContent = compileCDS(metadataContent);
+        }
 
         console.log('Parsing EDMX...');
         const parsedMetadata: RawMetadata = parse(metadataContent);
