@@ -200,7 +200,7 @@ export class DataAccess implements DataAccessInterface {
                 if (actionDefinition) {
                     const mockEntitySet = await this.getMockEntitySet(entitySetName);
                     actionData._type = actionDefinition.name;
-                    if (actionDefinition.parameters[0].type === currentEntitySet.entityTypeName) {
+                    if (actionDefinition.parameters[0].type === currentEntityType.fullyQualifiedName) {
                         const lastQueryPath = odataRequest.queryPath.pop(); // remove last part
                         const actionDataObj = await this.getData(odataRequest, false, true);
                         if (lastQueryPath) {

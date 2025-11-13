@@ -209,4 +209,32 @@ describe('Parametrized Data Access', () => {
         expect(customerData[0].CreditScore).toBe(0);
         expect(customerData[1].UI5__count).toBe(0);
     });
+    test('can execute a bound action', async () => {
+        const actionResult = await dataAccess.performAction(
+            new ODataRequest(
+                {
+                    method: 'POST',
+                    url: "/Customer(P_CompanyCode='0001')/Set(Customer='1',CompanyCode='0001',SalesOrganization='',DistributionChannel='',Division='',PartnerCounter='',IBAN='',CardNumber='2922870',PaymentCardType='')/com.sap.gateway.srvd.zrc_arcustomer_definition.v0001.UnBlockBusinessPartner"
+                },
+                dataAccess
+            ),
+            { PaymentBlockingReason: 'A' }
+        );
+
+        expect(actionResult).toMatchInlineSnapshot(`
+            {
+              "BusinessPartnerIsBlocked": false,
+              "CardNumber": "2922870",
+              "CompanyCode": "0001",
+              "Customer": "1",
+              "DistributionChannel": "",
+              "Division": "",
+              "IBAN": "",
+              "PartnerCounter": "",
+              "PaymentBlockingReason": "A",
+              "PaymentCardType": "",
+              "SalesOrganization": "",
+            }
+        `);
+    });
 });

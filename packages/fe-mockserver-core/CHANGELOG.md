@@ -1,5 +1,23 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.20
+
+### Patch Changes
+
+-   b333838: Misc fixes
+
+## 1.6.19
+
+### Patch Changes
+
+-   a8b7cfc: feat: dynamically register services defined in `Common.ValueListReferences` annotation
+
+## 1.6.18
+
+### Patch Changes
+
+-   bf2320d: Fix the type export
+
 ## 1.6.17
 
 ### Patch Changes
