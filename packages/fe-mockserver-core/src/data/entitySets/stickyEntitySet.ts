@@ -38,9 +38,12 @@ class Session {
         return this.data;
     }
 
-    public discard() {
+    public discard(odataRequest?: ODataRequest) {
         clearTimeout(this.timeoutId);
         this.discardSession();
+        // Remove the response headers in case they've already been set
+        odataRequest?.removeResponseHeader('sap-contextid', true);
+        odataRequest?.removeResponseHeader('sap-http-session-timeout', true);
     }
 }
 
@@ -145,7 +148,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
 
             case `${this.entitySetDefinition?.annotations?.Session?.StickySessionSupported?.NewAction}(${actionDefinition.sourceType})`: {
                 // New
-                let newObject = currentMockData.getEmptyObject(odataRequest) as any;
+                let newObject = currentMockData.getEmptyObject(odataRequest, true) as any; // For new sticky objects, allow empty keys
                 newObject = Object.assign(newObject, actionData);
 
                 this.createSession(newObject).addSessionToken(odataRequest);
@@ -157,7 +160,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
 
             case this.discardAction?.fullyQualifiedName:
                 // Discard
-                this.getSession(odataRequest)?.discard();
+                this.getSession(odataRequest)?.discard(odataRequest);
                 responseObject = null;
                 break;
 
@@ -174,7 +177,7 @@ export class StickyMockEntitySet extends MockDataEntitySet {
                     await this.performPOST({}, newData, odataRequest.tenantId, odataRequest);
                 }
 
-                session.discard();
+                session.discard(odataRequest);
 
                 responseObject = newData;
                 break;

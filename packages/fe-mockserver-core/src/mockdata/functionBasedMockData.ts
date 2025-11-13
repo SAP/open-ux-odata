@@ -275,11 +275,11 @@ export class FunctionBasedMockData extends FileBasedMockData {
         return super.hasEntries(odataRequest);
     }
 
-    getEmptyObject(odataRequest: ODataRequest): object {
+    getEmptyObject(odataRequest: ODataRequest, allowEmptyKeys = false): object {
         if (this._mockDataFn?.getEmptyObject) {
             return this._mockDataFn.getEmptyObject(odataRequest);
         } else {
-            return super.getEmptyObject(odataRequest);
+            return super.getEmptyObject(odataRequest, allowEmptyKeys);
         }
     }
 

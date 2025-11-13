@@ -631,6 +631,14 @@ export default class ODataRequest {
         }
     }
 
+    public removeResponseHeader(headerName: string, globalHeader: boolean = false) {
+        if (globalHeader) {
+            delete this.globalResponseHeaders[headerName];
+        } else {
+            delete this.responseHeaders[headerName];
+        }
+    }
+
     public addResponseAnnotation(annotationName: string, annotationValue: any) {
         this.responseAnnotations[annotationName] = annotationValue;
     }
