@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-admin
 
+## 0.0.17
+
+### Patch Changes
+
+-   cd808b4: Add support for cds based service
+
 ## 0.0.16
 
 ### Patch Changes
