@@ -297,7 +297,6 @@ export class ODataMetadata {
                 dataPath: serviceRoot
             });
         }
-        console.log(references)
         return references;
     }
 }
