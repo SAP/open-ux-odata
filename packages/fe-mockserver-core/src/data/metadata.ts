@@ -244,47 +244,82 @@ export class ODataMetadata {
         return keyValues;
     }
 
-    public getValueListReferences(metadataPath: string) {
+    public getExternalServices(metadataPath: string) {
+        const uris = new Set<string>();
         const references = [];
+        const rootPath = this.metadataUrl.replace('/$metadata', '');
         for (const entityType of this.metadata.entityTypes) {
             for (const property of entityType.entityProperties) {
-                const rootPath = this.metadataUrl.replace('/$metadata', '');
                 const target = `${entityType.name}/${property.name}`;
                 for (const reference of property.annotations.Common?.ValueListReferences ?? []) {
-                    const externalServiceMetadataPath = joinPosix(rootPath, reference as string).replace(
-                        '/$metadata',
-                        ''
-                    );
-                    const [valueListServicePath] = externalServiceMetadataPath.split(';');
-                    const segments = valueListServicePath.split('/');
-                    let prefix = '/';
-                    let currentSegment = segments.shift();
-                    while (currentSegment !== undefined) {
-                        const next = joinPosix(prefix, currentSegment);
-                        if (!rootPath.startsWith(next)) {
-                            break;
-                        }
-                        prefix = next;
-                        currentSegment = segments.shift();
-                    }
-                    const relativeServicePath = valueListServicePath.replace(prefix, '');
+                    const externalServicePath = joinPosix(rootPath, reference as string).replace('/$metadata', '');
 
-                    const serviceRoot = join(metadataPath, '..', relativeServicePath, target);
-                    const localPath = join(serviceRoot, `metadata.xml`);
+                    const serviceRoot = getServiceRoot(metadataPath, externalServicePath, rootPath);
+
+                    const localPath = join(serviceRoot, target, `metadata.xml`);
+                    if (uris.has(externalServicePath)) {
+                        continue;
+                    }
+                    uris.add(externalServicePath);
 
                     references.push({
                         rootPath,
-                        externalServiceMetadataPath: encode(externalServiceMetadataPath),
+                        externalServiceMetadataPath: encode(externalServicePath),
                         localPath: localPath,
                         dataPath: serviceRoot
                     });
                 }
             }
         }
+        const codeLists = [
+            this.metadata.entityContainer.annotations.CodeList?.CurrencyCodes,
+            this.metadata.entityContainer.annotations.CodeList?.UnitsOfMeasure
+        ];
+        for (const annotation of codeLists) {
+            if (!annotation) {
+                continue;
+            }
+            const externalServicePath = joinPosix(rootPath, annotation.Url.toString()).replace('/$metadata', '');
+
+            if (uris.has(externalServicePath)) {
+                continue;
+            }
+            uris.add(externalServicePath);
+
+            const serviceRoot = getServiceRoot(metadataPath, externalServicePath, rootPath);
+
+            const localPath = join(serviceRoot, `metadata.xml`);
+
+            references.push({
+                rootPath,
+                externalServiceMetadataPath: encode(externalServicePath),
+                localPath: localPath,
+                dataPath: serviceRoot
+            });
+        }
+        console.log(references)
         return references;
     }
 }
 
 function encode(str: string): string {
     return str.replaceAll("'", '%27').replaceAll('*', '%2A');
+}
+
+function getServiceRoot(metadataPath: string, pathWithParameters: string, rootPath: string): string {
+    const [relativePath] = pathWithParameters.split(';');
+    const segments = relativePath.split('/');
+    let prefix = '/';
+    let currentSegment = segments.shift();
+    while (currentSegment !== undefined) {
+        const next = joinPosix(prefix, currentSegment);
+        if (!rootPath.startsWith(next)) {
+            break;
+        }
+        prefix = next;
+        currentSegment = segments.shift();
+    }
+    const relativeServicePath = relativePath.replace(prefix, '');
+
+    return join(metadataPath, '..', relativeServicePath);
 }

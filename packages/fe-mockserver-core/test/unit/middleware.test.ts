@@ -751,8 +751,8 @@ Group ID: $auto`
     });
 });
 
-describe('services from ValueListReferences', () => {
-    async function createServer(resolveValueListReferences: boolean, port: number): Promise<Server> {
+describe('external services from metadata ', () => {
+    async function createServer(resolveExternalServiceReferences: boolean, port: number): Promise<Server> {
         const mockServer = new FEMockserver({
             services: [
                 {
@@ -761,7 +761,7 @@ describe('services from ValueListReferences', () => {
                     urlPath: '/sap/fe/core/mock/sticky',
                     watch: false,
                     generateMockData: true,
-                    resolveValueListReferences
+                    resolveExternalServiceReferences
                 }
             ],
             annotations: [],
@@ -778,7 +778,7 @@ describe('services from ValueListReferences', () => {
         });
         return server;
     }
-    describe('resolveValueListReferences = true', () => {
+    describe('resolveExternalServiceReferences = true', () => {
         let server: Server;
         let loadFileSpy: jest.SpyInstance;
 
@@ -790,6 +790,49 @@ describe('services from ValueListReferences', () => {
             }
         });
 
+        it('call service from CodeList', async () => {
+            const loadFile = FileSystemLoader.prototype.loadFile;
+            const exists = FileSystemLoader.prototype.exists;
+            jest.spyOn(FileSystemLoader.prototype, 'exists').mockImplementation((path): Promise<boolean> => {
+                if (path.includes('iwbep') && path.includes('metadata.xml')) {
+                    return Promise.resolve(true);
+                } else {
+                    return exists(path);
+                }
+            });
+            loadFileSpy = jest
+                .spyOn(FileSystemLoader.prototype, 'loadFile')
+                .mockImplementation((path): Promise<string> => {
+                    if (path.includes('iwbep') && path.includes('metadata.xml')) {
+                        return Promise.resolve(`<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+        <edmx:DataServices>
+            <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            </Schema>
+        </edmx:DataServices>
+    </edmx:Edmx>`);
+                    } else {
+                        return loadFile(path);
+                    }
+                });
+            server = await createServer(true, 33332);
+            const response = await fetch(`http://localhost:33332/sap/default/iwbep/common/0001/$metadata`);
+
+            expect(response.status).toEqual(200);
+            expect(loadFileSpy).toHaveBeenNthCalledWith(
+                2,
+                path.join(
+                    __dirname,
+                    'v4',
+                    'services',
+                    'parametrizedSample',
+                    'default',
+                    'iwbep',
+                    'common',
+                    '0001',
+                    'metadata.xml'
+                )
+            );
+        });
         it('call service from ValueListReferences', async () => {
             const loadFile = FileSystemLoader.prototype.loadFile;
             const exists = FileSystemLoader.prototype.exists;
@@ -853,7 +896,7 @@ describe('services from ValueListReferences', () => {
             );
         });
     });
-    describe('resolveValueListReferences = false', () => {
+    describe('resolveExternalServiceReferences = false', () => {
         let server: Server;
         beforeAll(async function () {
             server = await createServer(false, 33333);

@@ -128,7 +128,7 @@ describe('The config resolver', () => {
         expect(myBaseResolvedConfig2.services.length).toBe(0);
     });
 
-    it('can also resolve resolveValueListReferences', () => {
+    it('can also resolve resolveExternalServiceReferences', () => {
         const myBaseResolvedConfig = resolveConfig(
             {
                 annotations: {
@@ -140,13 +140,13 @@ describe('The config resolver', () => {
                     name: 'URL',
                     metadataCdsPath: 'metadata.cds',
                     mockdataRootPath: 'mockData',
-                    resolveValueListReferences: true
+                    resolveExternalServiceReferences: true
                 }
             },
             '/'
         );
 
-        expect(myBaseResolvedConfig.services[0].resolveValueListReferences).toBe(true);
+        expect(myBaseResolvedConfig.services[0].resolveExternalServiceReferences).toBe(true);
     });
 
     it('can also apply overrides per service', () => {
