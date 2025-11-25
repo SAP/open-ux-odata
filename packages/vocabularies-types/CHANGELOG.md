@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.13.1
+
+### Patch Changes
+
+-   1446b13: Allow to resolve from a sub starting element
+
 ## 0.13.0
 
 ### Minor Changes

@@ -1,5 +1,28 @@
 # @sap-ux/fe-mockserver-admin
 
+## 0.0.19
+
+### Patch Changes
+
+-   Updated dependencies [1446b13]
+    -   @sap-ux/annotation-converter@0.10.8
+    -   @sap-ux/vocabularies-types@0.13.1
+    -   @sap-ux/fe-mockserver-core@1.6.22
+    -   @sap-ux/edmx-parser@0.9.6
+
+## 0.0.18
+
+### Patch Changes
+
+-   Updated dependencies [6458c84]
+    -   @sap-ux/fe-mockserver-core@1.6.21
+
+## 0.0.17
+
+### Patch Changes
+
+-   cd808b4: Add support for cds based service
+
 ## 0.0.16
 
 ### Patch Changes

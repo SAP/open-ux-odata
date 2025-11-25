@@ -1,5 +1,19 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.22
+
+### Patch Changes
+
+-   Updated dependencies [1446b13]
+    -   @sap-ux/annotation-converter@0.10.8
+    -   @sap-ux/edmx-parser@0.9.6
+
+## 1.6.21
+
+### Patch Changes
+
+-   6458c84: feat: dynamically register services defined in CodeList annotations. Renamed `resolveValueListReferences` configuration parameter to `resolveExternalServiceReferences`.
+
 ## 1.6.20
 
 ### Patch Changes
