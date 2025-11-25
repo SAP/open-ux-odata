@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.10.8
+
+### Patch Changes
+
+-   1446b13: Allow to resolve from a sub starting element
+-   Updated dependencies [1446b13]
+    -   @sap-ux/vocabularies-types@0.13.1
+
 ## 0.10.7
 
 ### Patch Changes
