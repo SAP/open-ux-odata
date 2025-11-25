@@ -743,7 +743,18 @@ export class FileBasedMockData {
             case 'Edm.Int16':
             case 'Edm.Int32':
             case 'Edm.Int64': {
-                const intTestValue = parseInt(literal, 10);
+                let intTestValue;
+                if (typeof literal === 'string') {
+                    if (literal.startsWith("'")) {
+                        intTestValue = parseInt(literal.substring(1, literal.length - 1), 10);
+                    } else {
+                        intTestValue = parseInt(literal, 10);
+                    }
+                } else {
+                    intTestValue = parseInt(literal, 10);
+                }
+                mockValue = parseInt(mockValue, 10);
+
                 isValid = performSimpleComparison(operator, mockValue, intTestValue);
                 break;
             }

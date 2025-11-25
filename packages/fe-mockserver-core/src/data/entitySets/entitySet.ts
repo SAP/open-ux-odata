@@ -460,7 +460,11 @@ export class MockDataEntitySet implements EntitySetInterface {
         if (typeof identifier === 'string') {
             const property = this.getProperty(identifier);
             if (property) {
-                return { fn: transformationFn('getData', identifier), type: property.type };
+                let type = property.type;
+                if (type === 'Edm.String' && property.annotations.Common?.IsDigitSequence?.valueOf() === true) {
+                    type = 'Edm.Int64';
+                }
+                return { fn: transformationFn('getData', identifier), type: type };
             } else if (isProperty) {
                 return { fn: transformationFn('getData', identifier), type: 'Edm.String' };
             }
@@ -500,7 +504,11 @@ export class MockDataEntitySet implements EntitySetInterface {
         if (filterExpression.propertyPath) {
             // We're possibly in a lambda operation so let's try to see if the first part is a real property
             property = this.getProperty(filterExpression.propertyPath);
-            identifierFn = { fn: transformationFn('getData', identifier), type: property.type };
+            let type = property.type;
+            if (type === 'Edm.String' && property.annotations.Common?.IsDigitSequence?.valueOf() === true) {
+                type = 'Edm.Int64';
+            }
+            identifierFn = { fn: transformationFn('getData', identifier), type: type };
         }
 
         const currentMockData = this.getMockData(tenantId);

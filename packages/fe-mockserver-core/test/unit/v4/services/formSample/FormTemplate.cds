@@ -125,6 +125,7 @@ entity Countries                         @(cds.autoexpose) {
         SpokenLanguages : many String;
         MainLanguage : String;
         PeopleCount     :      Integer;
+        PeopleCountStr  :      String(6) @Common.IsDigitSequence: true ;
         SuperHeroCount  :      Integer;
         IsHot           :      Boolean;
 }
