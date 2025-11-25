@@ -1,5 +1,13 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.23
+
+### Patch Changes
+
+-   2f9aac0: We now support IsDigitSequence
+    -   @sap-ux/annotation-converter@0.10.9
+    -   @sap-ux/edmx-parser@0.9.6
+
 ## 1.6.22
 
 ### Patch Changes

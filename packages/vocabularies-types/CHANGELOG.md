@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.13.2
+
+### Patch Changes
+
+-   2f9aac0: We now support IsDigitSequence
+
 ## 0.13.1
 
 ### Patch Changes
