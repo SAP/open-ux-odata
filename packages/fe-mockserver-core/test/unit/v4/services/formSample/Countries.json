@@ -3,6 +3,7 @@
         "Country_Code": "DE",
         "Name": "Germany",
         "PeopleCount": 70,
+        "PeopleCountStr": "70",
         "SpokenLanguages": ["German", "English"],
         "MainLanguage": "German",
         "IsHot": false
@@ -11,6 +12,7 @@
         "Country_Code": "FR",
         "Name": "France",
         "PeopleCount": 30,
+        "PeopleCountStr": "30",
         "SpokenLanguages": ["French", "Engrish"],
         "MainLanguage": "French",
         "IsHot": false
@@ -19,6 +21,7 @@
         "Country_Code": "IN",
         "Name": "India",
         "PeopleCount": 700,
+        "PeopleCountStr": "700",
         "SpokenLanguages": ["Indian Dialects", "English"],
         "MainLanguage": "Indian Dialects",
         "IsHot": true
@@ -27,6 +30,7 @@
         "Country_Code": "IR",
         "Name": "Ireland",
         "PeopleCount": 3,
+        "PeopleCountStr": "3",
         "SpokenLanguages": ["Irish", "English"],
         "MainLanguage": "English",
         "IsHot": false
@@ -35,6 +39,7 @@
         "Country_Code": "US",
         "Name": "U S A",
         "PeopleCount": 70,
+        "PeopleCountStr": "70",
         "SpokenLanguages": ["English"],
         "MainLanguage": "English",
         "IsHot": false
@@ -43,6 +48,7 @@
         "Country_Code": "LV",
         "Name": "Latvia",
         "PeopleCount": 2,
+        "PeopleCountStr": "2",
         "SpokenLanguages": ["Lettish"],
         "MainLanguage": "Lettish",
         "IsHot": false
@@ -51,6 +57,7 @@
         "Country_Code": null,
         "Name": "Null",
         "PeopleCount": 2,
+        "PeopleCountStr": "2",
         "SpokenLanguages": ["Nullish"],
         "MainLanguage": "Nullish",
         "IsHot": false

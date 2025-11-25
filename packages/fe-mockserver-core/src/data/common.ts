@@ -21,6 +21,7 @@ export type PartialReferentialConstraint = {
 };
 
 export interface EntitySetInterface {
+    getProperty(propertyName: string): Property | undefined;
     checkKeyValue(mockData: object, keyValues: object, keyName: string, keyProp?: Property): boolean;
     checkFilter(
         mockData: object,

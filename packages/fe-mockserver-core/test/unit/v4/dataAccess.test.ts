@@ -210,6 +210,17 @@ describe('Data Access', () => {
         expect(countryData[1].Country_Code).toEqual('DE');
         expect(countryData[0].Country_Code).toEqual('IN');
         countryData = await dataAccess.getData(
+            new ODataRequest({ method: 'GET', url: '/Countries?$orderby=PeopleCountStr desc,Country_Code' }, dataAccess)
+        );
+        expect(countryData.length).toEqual(7);
+        expect(countryData[6].Country_Code).toEqual('LV');
+        expect(countryData[5].Country_Code).toEqual(null);
+        expect(countryData[4].Country_Code).toEqual('IR');
+        expect(countryData[3].Country_Code).toEqual('FR');
+        expect(countryData[2].Country_Code).toEqual('US');
+        expect(countryData[1].Country_Code).toEqual('DE');
+        expect(countryData[0].Country_Code).toEqual('IN');
+        countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$search=Fra' }, dataAccess)
         );
         expect(countryData.length).toEqual(1);
@@ -510,6 +521,10 @@ describe('Data Access', () => {
         // EQ
         countryData = await dataAccess.getData(
             new ODataRequest({ method: 'GET', url: '/Countries?$filter=PeopleCount eq 3' }, dataAccess)
+        );
+        expect(countryData.length).toEqual(1);
+        countryData = await dataAccess.getData(
+            new ODataRequest({ method: 'GET', url: "/Countries?$filter=PeopleCountStr eq '00003'" }, dataAccess)
         );
         expect(countryData.length).toEqual(1);
         // NE
