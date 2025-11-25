@@ -351,7 +351,7 @@ describe('Annotation Converter', () => {
 
         it('can resolve Property from a starting point', () => {
             const sdManageProperty: ResolutionTarget<Property> = convertedTypes.resolvePath(
-                '/ImageUrl',
+                'ImageUrl',
                 convertedTypes.entitySets[40]
             );
             expect(sdManageProperty.target).not.toBeNull();
