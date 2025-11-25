@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/fe-mockserver-admin",
-    "version": "0.0.16",
+    "version": "0.0.18",
     "description": "SAP Fiori OData - Mockserver admin service to list running services",
     "repository": {
         "type": "git",
@@ -37,7 +37,11 @@
         "commander": "^11.1.0",
         "router": "2.0.0"
     },
+    "peerDependencies": {
+        "@sap/cds-compiler": "^4.8 || ^5.4"
+    },
     "devDependencies": {
+        "@sap/cds-compiler": "^5.4",
         "@ui5/logger": "^4.0.1",
         "copyfiles": "2.4.1",
         "@types/node": "^18.15.0"

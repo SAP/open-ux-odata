@@ -1,5 +1,18 @@
 # @sap-ux/fe-mockserver-admin
 
+## 0.0.18
+
+### Patch Changes
+
+-   Updated dependencies [6458c84]
+    -   @sap-ux/fe-mockserver-core@1.6.21
+
+## 0.0.17
+
+### Patch Changes
+
+-   cd808b4: Add support for cds based service
+
 ## 0.0.16
 
 ### Patch Changes
