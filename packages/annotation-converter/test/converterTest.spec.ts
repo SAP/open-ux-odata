@@ -349,6 +349,17 @@ describe('Annotation Converter', () => {
             expect(sdManageProperty.objectPath.length).toEqual(4); // EntityContainer / EntitySet / EntityType
         });
 
+        it('can resolve Property from a starting point', () => {
+            const sdManageProperty: ResolutionTarget<Property> = convertedTypes.resolvePath(
+                '/ImageUrl',
+                convertedTypes.entitySets[40]
+            );
+            expect(sdManageProperty.target).not.toBeNull();
+            expect(sdManageProperty.target).not.toBeUndefined();
+            expect(sdManageProperty.target?._type).toEqual('Property');
+            expect(sdManageProperty.objectPath.length).toEqual(3); // EntitySet / EntityType
+        });
+
         it('can resolve Property with annotations', () => {
             const sdRatingProperty: ResolutionTarget<Property> = convertedTypes.resolvePath('/SalesOrderManage/Rating');
             expect(sdRatingProperty.target).not.toBeNull();
