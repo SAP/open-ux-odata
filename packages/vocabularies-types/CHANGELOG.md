@@ -1,5 +1,23 @@
 # @sap-ux/vocabularies-types
 
+## 0.14.0
+
+### Minor Changes
+
+-   c314ac1: OData v4.01 operators for dynamic expressions
+
+## 0.13.2
+
+### Patch Changes
+
+-   2f9aac0: We now support IsDigitSequence
+
+## 0.13.1
+
+### Patch Changes
+
+-   1446b13: Allow to resolve from a sub starting element
+
 ## 0.13.0
 
 ### Minor Changes

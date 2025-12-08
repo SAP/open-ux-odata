@@ -36,6 +36,7 @@ import type {
     RawV4NavigationProperty,
     RemoveAnnotationAndType,
     ResolutionTarget,
+    ServiceObjectAndAnnotation,
     Singleton,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
@@ -1623,8 +1624,11 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         converter.convert(converter.rawSchema.typeDefinitions, convertTypeDefinition)
     );
 
-    convertedOutput.resolvePath = function resolvePath<T>(path: string): ResolutionTarget<T> {
-        const targetResolution = resolveTarget<T>(converter, undefined, path);
+    convertedOutput.resolvePath = function resolvePath<T>(
+        path: string,
+        startingPoint?: ServiceObjectAndAnnotation
+    ): ResolutionTarget<T> {
+        const targetResolution = resolveTarget<T>(converter, startingPoint, path);
         if (targetResolution.target) {
             appendObjectPath(targetResolution.objectPath, targetResolution.target);
         }
