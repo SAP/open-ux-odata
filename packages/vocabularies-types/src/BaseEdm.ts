@@ -19,6 +19,15 @@ export type Ge = any;
 export type Gt = any;
 export type Ne = any;
 export type Eq = any;
+export type Has = any;
+export type In = any;
+export type Add = any;
+export type Sub = any;
+export type Neg = any;
+export type Mul = any;
+export type Div = any;
+export type DivBy = any;
+export type Mod = any;
 
 export type StringExpression = GenericExpression<'String', string>;
 export type LabeledElementExpression = {
@@ -85,6 +94,42 @@ export type NotExpression = {
     type: 'Not';
     $Not: Expression;
 };
+export type NegExpression = {
+    type: 'Neg';
+    $Neg: Expression;
+};
+export type HasExpression = {
+    type: 'Has';
+    $Has: [Expression, Expression];
+};
+export type InExpression = {
+    type: 'In';
+    $In: [Expression, Expression];
+};
+export type AddExpression = {
+    type: 'Add';
+    $Add: [Expression, Expression];
+};
+export type SubExpression = {
+    type: 'Sub';
+    $Sub: [Expression, Expression];
+};
+export type MulExpression = {
+    type: 'Mul';
+    $Mul: [Expression, Expression];
+};
+export type DivExpression = {
+    type: 'Div';
+    $Div: [Expression, Expression];
+};
+export type DivByExpression = {
+    type: 'DivBy';
+    DivBy: [Expression, Expression];
+};
+export type ModExpression = {
+    type: 'Mod';
+    $Mod: [Expression, Expression];
+};
 export type UnknownExpression = {
     type: 'Unknown';
 };
@@ -119,7 +164,16 @@ export type Expression =
     | GtExpression
     | GeExpression
     | LtExpression
-    | LeExpression;
+    | LeExpression
+    | HasExpression
+    | InExpression
+    | AddExpression
+    | SubExpression
+    | MulExpression
+    | DivExpression
+    | DivByExpression
+    | ModExpression
+    | NegExpression;
 
 export type Collection =
     | ArrayWithType<AnnotationRecord, 'Record'>
@@ -146,7 +200,16 @@ export type Collection =
     | ArrayWithType<GtExpression, 'Gt'>
     | ArrayWithType<GeExpression, 'Ge'>
     | ArrayWithType<LtExpression, 'Lt'>
-    | ArrayWithType<LeExpression, 'Le'>;
+    | ArrayWithType<LeExpression, 'Le'>
+    | ArrayWithType<HasExpression, 'Has'>
+    | ArrayWithType<InExpression, 'In'>
+    | ArrayWithType<AddExpression, 'Add'>
+    | ArrayWithType<SubExpression, 'Sub'>
+    | ArrayWithType<MulExpression, 'Mul'>
+    | ArrayWithType<DivExpression, 'Div'>
+    | ArrayWithType<DivByExpression, 'DivBy'>
+    | ArrayWithType<ModExpression, 'Mod'>
+    | ArrayWithType<NegExpression, 'Neg'>;
 
 export type AnnotationList = {
     target: FullyQualifiedName;
