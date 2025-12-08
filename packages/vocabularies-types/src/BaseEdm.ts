@@ -124,7 +124,7 @@ export type DivExpression = {
 };
 export type DivByExpression = {
     type: 'DivBy';
-    DivBy: [Expression, Expression];
+    $DivBy: [Expression, Expression];
 };
 export type ModExpression = {
     type: 'Mod';
