@@ -1,5 +1,41 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.25
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.10.11
+-   @sap-ux/edmx-parser@0.9.6
+
+## 1.6.24
+
+### Patch Changes
+
+-   @sap-ux/annotation-converter@0.10.10
+-   @sap-ux/edmx-parser@0.9.6
+
+## 1.6.23
+
+### Patch Changes
+
+-   2f9aac0: We now support IsDigitSequence
+    -   @sap-ux/annotation-converter@0.10.9
+    -   @sap-ux/edmx-parser@0.9.6
+
+## 1.6.22
+
+### Patch Changes
+
+-   Updated dependencies [1446b13]
+    -   @sap-ux/annotation-converter@0.10.8
+    -   @sap-ux/edmx-parser@0.9.6
+
+## 1.6.21
+
+### Patch Changes
+
+-   6458c84: feat: dynamically register services defined in CodeList annotations. Renamed `resolveValueListReferences` configuration parameter to `resolveExternalServiceReferences`.
+
 ## 1.6.20
 
 ### Patch Changes

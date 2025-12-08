@@ -907,7 +907,7 @@ export class DataAccess implements DataAccessInterface {
 
             // Apply $orderby
             if (odataRequest.orderBy && odataRequest.orderBy.length > 0) {
-                data = this._applyOrderBy(data, odataRequest.orderBy);
+                data = this._applyOrderBy(data, odataRequest.orderBy, mockEntitySet);
             }
             // Apply $select
             const originalData = data;
@@ -1319,7 +1319,11 @@ export class DataAccess implements DataAccessInterface {
         }
     }
 
-    private _applyOrderBy(data: object[], orderByDefinition: OrderByProp[]): object[] {
+    private _applyOrderBy(
+        data: object[],
+        orderByDefinition: OrderByProp[],
+        entitySetDefinition?: EntitySetInterface
+    ): object[] {
         data.sort(function (firstElement: any, secondElement: any) {
             let isDecisive = false;
             let outValue = 0;
@@ -1327,8 +1331,16 @@ export class DataAccess implements DataAccessInterface {
                 if (isDecisive) {
                     return;
                 }
-                const firstElementData = getData(firstElement, orderByDef.name);
-                const secondElementData = getData(secondElement, orderByDef.name);
+                const propertyDef = entitySetDefinition?.getProperty(orderByDef.name);
+                let firstElementData = getData(firstElement, orderByDef.name);
+                let secondElementData = getData(secondElement, orderByDef.name);
+                if (propertyDef) {
+                    if (propertyDef.type === 'Edm.String' && propertyDef.annotations.Common?.IsDigitSequence) {
+                        firstElementData = parseInt(firstElementData, 10);
+                        secondElementData = parseInt(secondElementData, 10);
+                    }
+                }
+
                 if (firstElementData === null) {
                     isDecisive = true;
                     outValue = -1;
@@ -1494,7 +1506,7 @@ export class DataAccess implements DataAccessInterface {
                 data = concatData;
                 break;
             case 'orderBy':
-                data = this._applyOrderBy(data, transformationDef.orderBy);
+                data = this._applyOrderBy(data, transformationDef.orderBy, mockEntitySet);
                 break;
             case 'filter':
                 data = await this._applyFilter(data, transformationDef.filterExpr, odataRequest, mockEntitySet);
