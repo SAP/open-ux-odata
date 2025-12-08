@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.14.0
+
+### Minor Changes
+
+-   c314ac1: OData v4.01 operators for dynamic expressions
+
 ## 0.13.2
 
 ### Patch Changes
