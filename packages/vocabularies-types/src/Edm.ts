@@ -132,6 +132,41 @@ export type NotConditionalExpression = {
     $Not: ConditionalCheckOrValue;
 };
 
+export type InConditionalExpression = {
+    $In: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
+
+export type HasConditionalExpression = {
+    $Has: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
+
+export type NegConditionalExpression = {
+    $Neg: ConditionalCheckOrValue;
+};
+
+export type AddConditionalExpression = {
+    $Add: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
+
+export type SubConditionalExpression = {
+    $Sub: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
+
+export type MulConditionalExpression = {
+    $Mul: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
+
+export type DivConditionalExpression = {
+    $Div: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
+
+export type DivByConditionalExpression = {
+    $DivBy: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
+
+export type ModConditionalExpression = {
+    $Mod: [ConditionalCheckOrValue, ConditionalCheckOrValue];
+};
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type PathConditionExpression<T> = {
     $Path: string;
@@ -210,6 +245,51 @@ export type LeAnnotationExpression<P> = {
     type: 'Le';
     $Le: LeConditionalExpression[];
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type InAnnotationExpression<P> = {
+    type: 'In';
+    $In: InConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type HasAnnotationExpression<P> = {
+    type: 'Has';
+    $Has: HasConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type NegAnnotationExpression<P> = {
+    type: 'Neg';
+    $Neg: NegConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type AddAnnotationExpression<P> = {
+    type: 'Add';
+    $Add: AddConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type SubAnnotationExpression<P> = {
+    type: 'Sub';
+    $Sub: SubConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type MulAnnotationExpression<P> = {
+    type: 'Mul';
+    $Mul: MulConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type DivAnnotationExpression<P> = {
+    type: 'Div';
+    $Div: DivConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type DivByAnnotationExpression<P> = {
+    type: 'DivBy';
+    $DivBy: DivByConditionalExpression[];
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type ModAnnotationExpression<P> = {
+    type: 'Mod';
+    $Mod: ModConditionalExpression[];
+};
 
 export type PropertyAnnotationValue<P> = DynamicAnnotationExpression<P>;
 
@@ -226,6 +306,15 @@ export type DynamicAnnotationExpression<P> =
     | LtAnnotationExpression<P>
     | LeAnnotationExpression<P>
     | IfAnnotationExpression<P>
+    | InAnnotationExpression<P>
+    | HasAnnotationExpression<P>
+    | NegAnnotationExpression<P>
+    | AddAnnotationExpression<P>
+    | SubAnnotationExpression<P>
+    | MulAnnotationExpression<P>
+    | DivAnnotationExpression<P>
+    | DivByAnnotationExpression<P>
+    | ModAnnotationExpression<P>
     | ConstantExpression<P>;
 
 export type IDecimal = {
