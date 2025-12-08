@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.14.2
+
+### Patch Changes
+
+-   5ef7671: Tiny type error
+
 ## 0.14.1
 
 ### Patch Changes
