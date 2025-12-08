@@ -107,6 +107,9 @@ importers:
         specifier: 2.0.0
         version: 2.0.0
     devDependencies:
+      '@sap/cds-compiler':
+        specifier: ^5.4
+        version: 5.5.0
       '@types/node':
         specifier: ^18.15.0
         version: 18.19.127

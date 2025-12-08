@@ -13,7 +13,7 @@ export interface Service {
     cdsServiceName?: string;
     debug?: boolean;
     contextBasedIsolation?: boolean;
-    resolveValueListReferences?: boolean;
+    resolveExternalServiceReferences?: boolean;
     strictKeyMode?: boolean;
     watch?: boolean;
     noETag?: boolean;
@@ -28,7 +28,7 @@ export interface ConfigService {
     mockdataRootPath?: string;
     mockdataPath?: string;
     generateMockData?: boolean;
-    resolveValueListReferences?: boolean;
+    resolveExternalServiceReferences?: boolean;
     metadataCdsPath?: string;
     metadataPath?: string;
     cdsServiceName?: string;
@@ -71,7 +71,7 @@ export interface BaseServerConfig {
     logger?: ILogger;
     validateETag?: boolean;
     contextBasedIsolation?: boolean;
-    resolveValueListReferences?: boolean;
+    resolveExternalServiceReferences?: boolean;
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
     fileLoader?: string;
@@ -102,7 +102,7 @@ export type ServiceConfig = {
     i18nPath?: string[];
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
-    resolveValueListReferences?: boolean;
+    resolveExternalServiceReferences?: boolean;
     debug?: boolean;
     strictKeyMode?: boolean;
     watch?: boolean; // should be forced to false in browser

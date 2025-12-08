@@ -13,6 +13,7 @@ import type {
 import * as fs from 'fs';
 import * as path from 'path';
 import { generateTypes } from './generate-types';
+import { compileCDS } from './utils';
 
 /**
  *
@@ -22,7 +23,11 @@ import { generateTypes } from './generate-types';
 export async function generateEntityFiles(METADATA_PATH: string, OUTPUT_DIR: string) {
     try {
         console.log('Loading metadata.xml...');
-        const metadataContent = fs.readFileSync(METADATA_PATH, 'utf8');
+        let metadataContent = fs.readFileSync(METADATA_PATH, 'utf8');
+
+        if (METADATA_PATH.endsWith('.cds')) {
+            metadataContent = compileCDS(metadataContent);
+        }
 
         console.log('Parsing EDMX...');
         const parsedMetadata: RawMetadata = parse(metadataContent);

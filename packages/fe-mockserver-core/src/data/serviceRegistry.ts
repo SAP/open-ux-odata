@@ -149,14 +149,14 @@ export class ServiceRegistry {
             }
 
             const dataAccess = new DataAccess(mockService, metadata, this.fileLoader, this.config.logger, this);
-            if (mockServiceIn.resolveValueListReferences === true && metadata) {
-                const references = metadata.getValueListReferences(mockService.metadataPath);
+            if (mockServiceIn.resolveExternalServiceReferences === true && metadata) {
+                const references = metadata.getExternalServices(mockService.metadataPath);
                 await Promise.allSettled(
                     references.map(async (reference) => {
                         const exists = await this.fileLoader.exists(reference.localPath);
                         if (!exists) {
                             log.info(
-                                `ValueList reference metadata file not found at "${reference.localPath}". Service "${reference.externalServiceMetadataPath}" will not be provided.`
+                                `External service metadata file not found at "${reference.localPath}". Service "${reference.externalServiceMetadataPath}" will not be provided.`
                             );
                             return undefined;
                         }

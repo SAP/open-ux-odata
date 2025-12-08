@@ -1,5 +1,26 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.3.23
+
+### Patch Changes
+
+-   Updated dependencies [2f9aac0]
+    -   @sap-ux/fe-mockserver-core@1.6.23
+
+## 2.3.22
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.6.22
+
+## 2.3.21
+
+### Patch Changes
+
+-   6458c84: feat: dynamically register services defined in CodeList annotations. Renamed `resolveValueListReferences` configuration parameter to `resolveExternalServiceReferences`.
+-   Updated dependencies [6458c84]
+    -   @sap-ux/fe-mockserver-core@1.6.21
+
 ## 2.3.20
 
 ### Patch Changes
