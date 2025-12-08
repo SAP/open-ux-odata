@@ -180,7 +180,16 @@ export type ConditionalCheck =
     | GtConditionalExpression
     | GeConditionalExpression
     | LtConditionalExpression
-    | LeConditionalExpression;
+    | LeConditionalExpression
+    | InConditionalExpression
+    | HasConditionalExpression
+    | NegConditionalExpression
+    | AddConditionalExpression
+    | SubConditionalExpression
+    | MulConditionalExpression
+    | DivConditionalExpression
+    | DivByConditionalExpression
+    | ModConditionalExpression;
 export type ConditionalCheckOrValue =
     | null
     | string
