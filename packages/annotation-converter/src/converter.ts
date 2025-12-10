@@ -1581,6 +1581,7 @@ function convertComplexType(converter: Converter, rawComplexType: RawComplexType
  * Convers an EnumMember.
  * @param converter
  * @param rawEnumMember
+ * @returns The converted EnumMember
  */
 function convertEnumMember(converter: Converter, rawEnumMember: RawEnumMember): EnumMember {
     const convertedEnumMember = rawEnumMember as EnumMember;
