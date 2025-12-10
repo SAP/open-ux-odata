@@ -28,6 +28,24 @@ declare namespace EDMX {
         };
     };
 
+    type EnumType = {
+        Member: MaybeArray<EnumMember>;
+        _attributes: {
+            Name: string;
+            UnderlyingType?: string;
+            IsFlags?: boolean;
+        };
+        Annotation?: MaybeArray<Annotation>;
+    };
+
+    type EnumMember = {
+        _attributes: {
+            Name: string;
+            Value?: string;
+        };
+        Annotation?: MaybeArray<Annotation>;
+    };
+
     type TypeDefinition = {
         _attributes: {
             Name: string;
@@ -163,6 +181,7 @@ declare namespace EDMX {
         Annotations?: MaybeArray<AnnotationList>;
         EntityType?: MaybeArray<EntityType>;
         ComplexType?: MaybeArray<ComplexType>;
+        EnumType?: MaybeArray<EnumType>;
         TypeDefinition?: MaybeArray<TypeDefinition>;
         EntityContainer: EntityContainer;
         Action?: MaybeArray<Action>;

@@ -35,7 +35,7 @@ import type {
     ReferentialConstraint,
     SimpleIdentifier
 } from '@sap-ux/vocabularies-types';
-import type { StringExpression } from '@sap-ux/vocabularies-types/src';
+import type { RawEnumMember, RawEnumType, StringExpression } from '@sap-ux/vocabularies-types/src';
 import { xml2js } from 'xml-js';
 import { ensureArray, RawMetadataInstance } from './utils';
 import type { V2annotationsSupport } from './v2annotationsSupport';
@@ -400,6 +400,69 @@ function parseComplexTypes(
             fullyQualifiedName: complexTypeFQN,
             properties: entityProperties,
             navigationProperties
+        });
+        return outArray;
+    }, []);
+}
+
+function parseEnumMembers(
+    enumMembers: EDMX.EnumMember[],
+    annotationLists: AnnotationList[],
+    namespace: string,
+    isFlags: boolean
+): RawEnumMember[] {
+    const allHaveValue = enumMembers.every((enumMember) => enumMember._attributes.Value !== undefined);
+
+    return enumMembers.reduce((outObject: RawEnumMember[], enumMember) => {
+        const enumMemberFQN = `${namespace}/${enumMember._attributes.Name}`;
+        const enumMemberAnnotations = parseAnnotations(
+            ensureArray(enumMember.Annotation),
+            enumMemberFQN,
+            annotationLists
+        );
+        if (enumMemberAnnotations && enumMemberAnnotations.length > 0) {
+            annotationLists.push(createAnnotationList(enumMemberFQN, enumMemberAnnotations));
+        }
+        let value: number | undefined;
+        if (allHaveValue) {
+            value = parseInt(enumMember._attributes.Value!.toString(), 10);
+        } else {
+            if (isFlags) {
+                value = 1 << outObject.length;
+            } else {
+                value = outObject.length;
+            }
+        }
+        outObject.push({
+            _type: 'EnumMember',
+            fullyQualifiedName: enumMemberFQN,
+            name: enumMember._attributes.Name,
+            value: value
+        });
+        return outObject;
+    }, [] as RawEnumMember[]);
+}
+
+function parseEnumTypes(
+    enumTypes: EDMX.EnumType[],
+    annotationLists: AnnotationList[],
+    namespace: string
+): RawEnumType[] {
+    return enumTypes.reduce((outArray: RawEnumType[], enumType) => {
+        const enumTypeFQN = `${namespace}.${enumType._attributes.Name}`;
+        const members = parseEnumMembers(
+            ensureArray(enumType.Member),
+            annotationLists,
+            enumTypeFQN,
+            enumType._attributes.IsFlags === true
+        );
+        outArray.push({
+            _type: 'EnumType',
+            name: enumType._attributes.Name,
+            underlyingType: enumType._attributes.UnderlyingType ?? 'Edm.Int32',
+            isFlags: enumType._attributes.IsFlags === true,
+            fullyQualifiedName: enumTypeFQN,
+            members: members
         });
         return outArray;
     }, []);
@@ -935,6 +998,7 @@ function parseInlineExpression(
             };
     }
 }
+
 function parseExpression(
     expression: EDMX.Expression<{}>,
     currentTarget: string,
@@ -1202,6 +1266,7 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
     const annotations: AnnotationList[] = [];
     const entityTypes = parseEntityTypes(ensureArray(edmSchema.EntityType), annotations, namespace);
     const complexTypes = parseComplexTypes(ensureArray(edmSchema.ComplexType), annotations, namespace);
+    const enumTypes = parseEnumTypes(ensureArray(edmSchema.EnumType), annotations, namespace);
     const typeDefinitions = parseTypeDefinitions(ensureArray(edmSchema.TypeDefinition), namespace);
     let entitySets: RawEntitySet[] = [];
     let singletons: RawSingleton[] = [];
@@ -1288,6 +1353,7 @@ function parseSchema(edmSchema: EDMX.Schema, edmVersion: string, identification:
         entitySets,
         singletons,
         complexTypes,
+        enumTypes,
         typeDefinitions,
         actions,
         actionImports,
@@ -1375,6 +1441,9 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
     const complexTypes = schemas.reduce((complexTypesToReduces: RawComplexType[], schema) => {
         return complexTypesToReduces.concat(schema.complexTypes);
     }, []);
+    const enumTypes = schemas.reduce((enumTypeToReduces: RawEnumType[], schema) => {
+        return enumTypeToReduces.concat(schema.enumTypes);
+    }, []);
     const typeDefinitions = schemas.reduce((typeDefinitionsToReduce: RawTypeDefinition[], schema) => {
         return typeDefinitionsToReduce.concat(schema.typeDefinitions);
     }, []);
@@ -1439,6 +1508,7 @@ function mergeSchemas(schemas: RawSchema[]): RawSchema {
         entitySets,
         singletons,
         complexTypes,
+        enumTypes,
         typeDefinitions,
         actions,
         actionImports,

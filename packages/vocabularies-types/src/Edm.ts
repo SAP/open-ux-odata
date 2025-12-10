@@ -430,6 +430,14 @@ export type Property = {
     isKey: boolean;
 };
 
+export type EnumMember = {
+    _type: 'EnumMember';
+    name: SimpleIdentifier;
+    fullyQualifiedName: FullyQualifiedName;
+    value?: number;
+    annotations: EnumTypeAnnotations;
+};
+
 export type RecordComplexType = {
     annotations?: RecordAnnotations;
     fullyQualifiedName: string;
@@ -442,6 +450,15 @@ export type ComplexType = {
     properties: ArrayWithIndex<Property, 'name'>;
     navigationProperties: ArrayWithIndex<NavigationProperty, 'name'>;
     annotations: ComplexTypeAnnotations;
+};
+export type EnumType = {
+    _type: 'EnumType';
+    name: SimpleIdentifier;
+    fullyQualifiedName: FullyQualifiedName;
+    isFlags: boolean;
+    underlyingType: string;
+    members: ArrayWithIndex<EnumMember, 'name'>;
+    annotations: EnumTypeAnnotations;
 };
 
 export type TypeDefinition = {
@@ -604,6 +621,7 @@ export type ConvertedMetadata = {
     actionImports: ArrayWithIndex<ActionImport, 'name' | 'fullyQualifiedName'>;
     entityContainer: EntityContainer;
     complexTypes: ArrayWithIndex<ComplexType, 'name' | 'fullyQualifiedName'>;
+    enumTypes: ArrayWithIndex<EnumType, 'name' | 'fullyQualifiedName'>;
     typeDefinitions: ArrayWithIndex<TypeDefinition, 'name' | 'fullyQualifiedName'>;
     entitySets: ArrayWithIndex<EntitySet, 'name' | 'fullyQualifiedName'>;
     singletons: ArrayWithIndex<Singleton, 'name' | 'fullyQualifiedName'>;
@@ -674,6 +692,7 @@ export type RawSchema = {
     entitySets: RawEntitySet[];
     singletons: RawSingleton[];
     complexTypes: RawComplexType[];
+    enumTypes: RawEnumType[];
     typeDefinitions: RawTypeDefinition[];
     entityContainer: RawEntityContainer;
     actions: RawAction[];
@@ -690,6 +709,7 @@ export type RawEntityType = RemoveAnnotationAndType<EntityType> & {
     navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
 };
 export type RawProperty = RemoveAnnotationAndType<Property>;
+export type RawEnumMember = RemoveAnnotationAndType<EnumMember>;
 export type RawNavigationPropertyBinding = Record<string, FullyQualifiedName>;
 
 export type RawEntitySet = RemoveAnnotationAndType<EntitySet> & {
@@ -705,6 +725,10 @@ export type RawTypeDefinition = RemoveAnnotationAndType<TypeDefinition>;
 export type RawComplexType = RemoveAnnotationAndType<ComplexType> & {
     navigationProperties: (RawV2NavigationProperty | RawV4NavigationProperty)[];
 };
+export type RawEnumType = RemoveAnnotationAndType<EnumType> & {
+    members: RawEnumMember[];
+};
+
 export type RawV2NavigationProperty = {
     _type: 'NavigationProperty';
     name: SimpleIdentifier;

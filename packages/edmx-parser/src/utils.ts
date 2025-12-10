@@ -14,6 +14,7 @@ import type {
     RawEntityContainer,
     RawEntitySet,
     RawEntityType,
+    RawEnumType,
     RawMetadata,
     RawSchema,
     RawSingleton,
@@ -79,6 +80,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
             entitySets: this._entitySets,
             singletons: this._singletons,
             complexTypes: this._complexTypes,
+            enumTypes: this._enumTypes,
             typeDefinitions: this._typeDefinitions,
             actions: this._actions,
             actionImports: this._actionImports,
@@ -104,6 +106,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
     };
     _entityTypes: RawEntityType[] = [];
     _complexTypes: RawComplexType[] = [];
+    _enumTypes: RawEnumType[] = [];
     _typeDefinitions: RawTypeDefinition[] = [];
 
     /**
@@ -130,6 +133,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
         this._actionImports = this._actionImports.concat(parserOutput.schema.actionImports);
         this._entityTypes = this._entityTypes.concat(parserOutput.schema.entityTypes);
         this._complexTypes = this._complexTypes.concat(parserOutput.schema.complexTypes);
+        this._enumTypes = this._enumTypes.concat(parserOutput.schema.enumTypes);
         this._typeDefinitions = this._typeDefinitions.concat(parserOutput.schema.typeDefinitions);
         if (parserOutput.schema.entityContainer.fullyQualifiedName.length > 0) {
             this._entityContainer = Object.assign(this._entityContainer, parserOutput.schema.entityContainer);

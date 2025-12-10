@@ -2232,6 +2232,7 @@ MergedRawMetadata {
       "navigationProperties": [],
     },
   ],
+  "_enumTypes": [],
   "_namespace": "sap.fe.core.ActionVisibility",
   "_parserOutput": [
     RawMetadataInstance {
@@ -4257,6 +4258,7 @@ MergedRawMetadata {
             "navigationProperties": [],
           },
         ],
+        "enumTypes": [],
         "namespace": "sap.fe.core.ActionVisibility",
         "singletons": [],
         "typeDefinitions": [],
@@ -4533,6 +4535,7 @@ MergedRawMetadata {
         },
         "entitySets": [],
         "entityTypes": [],
+        "enumTypes": [],
         "namespace": "sap.fe.core.ActionVisibility.LocalService",
         "singletons": [],
         "typeDefinitions": [],

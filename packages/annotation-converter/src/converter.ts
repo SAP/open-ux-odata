@@ -12,6 +12,8 @@ import type {
     EntityContainer,
     EntitySet,
     EntityType,
+    EnumMember,
+    EnumType,
     Expression,
     FullyQualifiedName,
     NavigationProperty,
@@ -26,6 +28,8 @@ import type {
     RawEntityContainer,
     RawEntitySet,
     RawEntityType,
+    RawEnumMember,
+    RawEnumType,
     RawMetadata,
     RawNavigationPropertyBinding,
     RawProperty,
@@ -1574,6 +1578,34 @@ function convertComplexType(converter: Converter, rawComplexType: RawComplexType
 }
 
 /**
+ * Convers an EnumMember.
+ * @param converter
+ * @param rawEnumMember
+ */
+function convertEnumMember(converter: Converter, rawEnumMember: RawEnumMember): EnumMember {
+    const convertedEnumMember = rawEnumMember as EnumMember;
+
+    lazy(convertedEnumMember, 'annotations', resolveAnnotations(converter, rawEnumMember));
+
+    return convertedEnumMember;
+}
+
+/**
+ * Converts an EnumType.
+ * @param converter   Converter
+ * @param rawEnumType  Unconverted EnumType
+ * @returns The converted EnumType
+ */
+function convertEnumType(converter: Converter, rawEnumType: RawEnumType): EnumType {
+    const convertedEnumType = rawEnumType as EnumType;
+
+    lazy(convertedEnumType, 'members', converter.convert(rawEnumType.members, convertEnumMember));
+    lazy(convertedEnumType, 'annotations', resolveAnnotations(converter, rawEnumType));
+
+    return convertedEnumType;
+}
+
+/**
  * Converts a TypeDefinition.
  *
  * @param converter   Converter
@@ -1617,6 +1649,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     lazy(convertedOutput, 'entityTypes', converter.convert(converter.rawSchema.entityTypes, convertEntityType));
     lazy(convertedOutput, 'actions', converter.convert(converter.rawSchema.actions, convertAction));
     lazy(convertedOutput, 'complexTypes', converter.convert(converter.rawSchema.complexTypes, convertComplexType));
+    lazy(convertedOutput, 'enumTypes', converter.convert(converter.rawSchema.enumTypes, convertEnumType));
     lazy(convertedOutput, 'actionImports', converter.convert(converter.rawSchema.actionImports, convertActionImport));
     lazy(
         convertedOutput,
