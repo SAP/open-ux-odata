@@ -103,6 +103,16 @@
                 <Member Name="Female" Value="1" />
                 <Member Name="Unknown" Value="2" />
             </EnumType>
+            <EnumType Name="PersonGender2">
+                <Member Name="Male" />
+                <Member Name="Female" />
+                <Member Name="Unknown" />
+            </EnumType>
+            <EnumType Name="PersonGenderFlags" IsFlags="true">
+                <Member Name="Male" />
+                <Member Name="Female" />
+                <Member Name="Unknown" />
+            </EnumType>
             <EnumType Name="Feature">
                 <Member Name="Feature1" Value="0" />
                 <Member Name="Feature2" Value="1" />

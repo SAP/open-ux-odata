@@ -28,6 +28,24 @@ declare namespace EDMX {
         };
     };
 
+    type EnumType = {
+        Member: MaybeArray<EnumMember>;
+        _attributes: {
+            Name: string;
+            UnderlyingType?: string;
+            IsFlags?: boolean;
+        };
+        Annotation?: MaybeArray<Annotation>;
+    };
+
+    type EnumMember = {
+        _attributes: {
+            Name: string;
+            Value?: string;
+        };
+        Annotation?: MaybeArray<Annotation>;
+    };
+
     type TypeDefinition = {
         _attributes: {
             Name: string;
@@ -163,6 +181,7 @@ declare namespace EDMX {
         Annotations?: MaybeArray<AnnotationList>;
         EntityType?: MaybeArray<EntityType>;
         ComplexType?: MaybeArray<ComplexType>;
+        EnumType?: MaybeArray<EnumType>;
         TypeDefinition?: MaybeArray<TypeDefinition>;
         EntityContainer: EntityContainer;
         Action?: MaybeArray<Action>;
@@ -362,6 +381,15 @@ declare namespace EDMX {
     export type LeWrapper = Record<'Le', IfExpression>;
     export type GeWrapper = Record<'Ge', IfExpression>;
     export type GtWrapper = Record<'Gt', IfExpression>;
+    export type InWrapper = Record<'In', IfExpression>;
+    export type HasWrapper = Record<'Has', IfExpression>;
+    export type AddWrapper = Record<'Add', IfExpression>;
+    export type SubWrapper = Record<'Sub', IfExpression>;
+    export type MulWrapper = Record<'Mul', IfExpression>;
+    export type DivWrapper = Record<'Div', IfExpression>;
+    export type DivByWrapper = Record<'DivBy', IfExpression>;
+    export type ModWrapper = Record<'Mod', IfExpression>;
+    export type NegWrapper = Record<'Neg', IfExpression>;
 
     // <Apply Function="odata.fillUriTemplate">
     // 	<String>#SupplierActivity-change?SupplierActivity={RSP}</String>
@@ -403,6 +431,15 @@ declare namespace EDMX {
             GtWrapper &
             LeWrapper &
             LtWrapper &
+            HasWrapper &
+            InWrapper &
+            AddWrapper &
+            SubWrapper &
+            MulWrapper &
+            DivWrapper &
+            DivByWrapper &
+            ModWrapper &
+            NegWrapper &
             CollectionWrapper
     >;
 
@@ -439,6 +476,15 @@ declare namespace EDMX {
             GtWrapper &
             LeWrapper &
             LtWrapper &
+            HasWrapper &
+            InWrapper &
+            AddWrapper &
+            SubWrapper &
+            MulWrapper &
+            DivWrapper &
+            DivByWrapper &
+            ModWrapper &
+            NegWrapper &
             CollectionWrapper
     > &
         T;

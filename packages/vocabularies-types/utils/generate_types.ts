@@ -138,7 +138,7 @@ const KNOWN_DYNAMIC_EXPRESSIONS: Record<string, Record<string, boolean | Record<
         SemanticObject: true,
         Text: true,
         FieldControl: true,
-        //QuickInfo: true,
+        QuickInfo: true,
         IsNaturalPerson: true,
         //Label: true,
         Timezone: true,
