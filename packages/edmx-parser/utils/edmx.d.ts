@@ -381,6 +381,15 @@ declare namespace EDMX {
     export type LeWrapper = Record<'Le', IfExpression>;
     export type GeWrapper = Record<'Ge', IfExpression>;
     export type GtWrapper = Record<'Gt', IfExpression>;
+    export type InWrapper = Record<'In', IfExpression>;
+    export type HasWrapper = Record<'Has', IfExpression>;
+    export type AddWrapper = Record<'Add', IfExpression>;
+    export type SubWrapper = Record<'Sub', IfExpression>;
+    export type MulWrapper = Record<'Mul', IfExpression>;
+    export type DivWrapper = Record<'Div', IfExpression>;
+    export type DivByWrapper = Record<'DivBy', IfExpression>;
+    export type ModWrapper = Record<'Mod', IfExpression>;
+    export type NegWrapper = Record<'Neg', IfExpression>;
 
     // <Apply Function="odata.fillUriTemplate">
     // 	<String>#SupplierActivity-change?SupplierActivity={RSP}</String>
@@ -422,6 +431,15 @@ declare namespace EDMX {
             GtWrapper &
             LeWrapper &
             LtWrapper &
+            HasWrapper &
+            InWrapper &
+            AddWrapper &
+            SubWrapper &
+            MulWrapper &
+            DivWrapper &
+            DivByWrapper &
+            ModWrapper &
+            NegWrapper &
             CollectionWrapper
     >;
 
@@ -458,6 +476,15 @@ declare namespace EDMX {
             GtWrapper &
             LeWrapper &
             LtWrapper &
+            HasWrapper &
+            InWrapper &
+            AddWrapper &
+            SubWrapper &
+            MulWrapper &
+            DivWrapper &
+            DivByWrapper &
+            ModWrapper &
+            NegWrapper &
             CollectionWrapper
     > &
         T;

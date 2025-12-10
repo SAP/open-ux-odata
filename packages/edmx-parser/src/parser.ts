@@ -425,13 +425,11 @@ function parseEnumMembers(
         }
         let value: number | undefined;
         if (allHaveValue) {
-            value = parseInt(enumMember._attributes.Value!.toString(), 10);
+            value = Number.parseInt(enumMember._attributes.Value!.toString(), 10);
+        } else if (isFlags) {
+            value = 1 << outObject.length;
         } else {
-            if (isFlags) {
-                value = 1 << outObject.length;
-            } else {
-                value = outObject.length;
-            }
+            value = outObject.length;
         }
         outObject.push({
             _type: 'EnumMember',
@@ -987,6 +985,52 @@ function parseInlineExpression(
                 type: 'If',
                 $If: parseChildren(expression.If)
             };
+        case 'Has':
+            return {
+                type: 'Has',
+                $Has: parseChildren(expression.Has)
+            };
+        case 'In':
+            return {
+                type: 'In',
+                $In: parseChildren(expression.In)
+            };
+        case 'Add':
+            return {
+                type: 'Add',
+                $Add: parseChildren(expression.Add)
+            };
+        case 'Sub':
+            return {
+                type: 'Sub',
+                $Sub: parseChildren(expression.Sub)
+            };
+        case 'Div':
+            return {
+                type: 'Div',
+                $Div: parseChildren(expression.Div)
+            };
+
+        case 'DivBy':
+            return {
+                type: 'DivBy',
+                $DivBy: parseChildren(expression.DivBy)
+            };
+        case 'Mul':
+            return {
+                type: 'Mul',
+                $Mul: parseChildren(expression.Mul)
+            };
+        case 'Mod':
+            return {
+                type: 'Mod',
+                $Mod: parseChildren(expression.Mod)
+            };
+        case 'Neg':
+            return {
+                type: 'Neg',
+                $Neg: parseChildren(expression.Neg)
+            };
         case 'Null':
             return {
                 type: 'Null'
@@ -1170,6 +1214,52 @@ function parseExpression(
             return {
                 type: 'Le',
                 $Le: parseChildren(expression.Le)
+            };
+        case 'Has':
+            return {
+                type: 'Has',
+                $Has: parseChildren(expression.Has)
+            };
+        case 'In':
+            return {
+                type: 'In',
+                $In: parseChildren(expression.In)
+            };
+        case 'Add':
+            return {
+                type: 'Add',
+                $Add: parseChildren(expression.Add)
+            };
+        case 'Sub':
+            return {
+                type: 'Sub',
+                $Sub: parseChildren(expression.Sub)
+            };
+        case 'Div':
+            return {
+                type: 'Div',
+                $Div: parseChildren(expression.Div)
+            };
+
+        case 'DivBy':
+            return {
+                type: 'DivBy',
+                $DivBy: parseChildren(expression.DivBy)
+            };
+        case 'Mul':
+            return {
+                type: 'Mul',
+                $Mul: parseChildren(expression.Mul)
+            };
+        case 'Mod':
+            return {
+                type: 'Mod',
+                $Mod: parseChildren(expression.Mod)
+            };
+        case 'Neg':
+            return {
+                type: 'Neg',
+                $Neg: parseChildren(expression.Neg)
             };
         default:
             console.error('Unsupported expression type ' + expressionKey);
