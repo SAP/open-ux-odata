@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.7
+
+### Patch Changes
+
+-   487761e: Add support for enumTypes
+
 ## 0.9.6
 
 ### Patch Changes
