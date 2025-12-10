@@ -343,6 +343,68 @@ exports[`Annotation Converter can convert tripping stuff 1`] = `
   {
     "_type": "EnumType",
     "annotations": {},
+    "fullyQualifiedName": "Trippin.PersonGender2",
+    "isFlags": false,
+    "members": [
+      {
+        "_type": "EnumMember",
+        "annotations": {},
+        "fullyQualifiedName": "Trippin.PersonGender2/Male",
+        "name": "Male",
+        "value": 0,
+      },
+      {
+        "_type": "EnumMember",
+        "annotations": {},
+        "fullyQualifiedName": "Trippin.PersonGender2/Female",
+        "name": "Female",
+        "value": 1,
+      },
+      {
+        "_type": "EnumMember",
+        "annotations": {},
+        "fullyQualifiedName": "Trippin.PersonGender2/Unknown",
+        "name": "Unknown",
+        "value": 2,
+      },
+    ],
+    "name": "PersonGender2",
+    "underlyingType": "Edm.Int32",
+  },
+  {
+    "_type": "EnumType",
+    "annotations": {},
+    "fullyQualifiedName": "Trippin.PersonGenderFlags",
+    "isFlags": false,
+    "members": [
+      {
+        "_type": "EnumMember",
+        "annotations": {},
+        "fullyQualifiedName": "Trippin.PersonGenderFlags/Male",
+        "name": "Male",
+        "value": 0,
+      },
+      {
+        "_type": "EnumMember",
+        "annotations": {},
+        "fullyQualifiedName": "Trippin.PersonGenderFlags/Female",
+        "name": "Female",
+        "value": 1,
+      },
+      {
+        "_type": "EnumMember",
+        "annotations": {},
+        "fullyQualifiedName": "Trippin.PersonGenderFlags/Unknown",
+        "name": "Unknown",
+        "value": 2,
+      },
+    ],
+    "name": "PersonGenderFlags",
+    "underlyingType": "Edm.Int32",
+  },
+  {
+    "_type": "EnumType",
+    "annotations": {},
     "fullyQualifiedName": "Trippin.Feature",
     "isFlags": false,
     "members": [
