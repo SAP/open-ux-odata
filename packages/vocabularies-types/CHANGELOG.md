@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.14.3
+
+### Patch Changes
+
+-   487761e: Add support for enumTypes
+
 ## 0.14.2
 
 ### Patch Changes

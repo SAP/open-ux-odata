@@ -269,6 +269,7 @@ describe('Annotation Converter', () => {
         const annoSchema: RawMetadata = parse(annoFile, 'annoFile');
         const mergeSchema = merge(parsedEDMX, annoSchema);
         const convertedTypes = convert(mergeSchema);
+        expect(convertedTypes.enumTypes).toMatchSnapshot();
     });
 
     describe('can support resolvePath syntax', () => {
@@ -1185,6 +1186,7 @@ describe('Annotation Converter', () => {
                 annotations: {},
                 entityTypes: [],
                 entitySets: [],
+                enumTypes: [],
                 associations: [],
                 actionImports: [],
                 complexTypes: [],

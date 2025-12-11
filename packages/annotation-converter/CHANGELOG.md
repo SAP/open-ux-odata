@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.10.13
+
+### Patch Changes
+
+-   487761e: Add support for enumTypes
+-   Updated dependencies [487761e]
+    -   @sap-ux/vocabularies-types@0.14.3
+
 ## 0.10.12
 
 ### Patch Changes
