@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.28
+
+### Patch Changes
+
+-   5683c69: Improve Date in v2
+
 ## 1.6.27
 
 ### Patch Changes
