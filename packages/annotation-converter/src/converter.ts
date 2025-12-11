@@ -707,6 +707,10 @@ function parseRecord(
         __source: currentSource
     };
 
+    lazy(record as AnnotationValue<PathAnnotationExpression<any>>, CONVERTER_ROOT, () =>
+        converter.getConvertedOutput()
+    );
+
     for (const propertyValue of annotationRecord.propertyValues) {
         lazy(record, propertyValue.name, () =>
             parseValue(
@@ -946,6 +950,9 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
 
     annotation.fullyQualifiedName = (rawAnnotation as any).fullyQualifiedName;
     annotation[ANNOTATION_TARGET] = target;
+    if (!annotation[CONVERTER_ROOT]) {
+        lazy(annotation, CONVERTER_ROOT, () => converter.getConvertedOutput());
+    }
 
     const [vocAlias, vocTerm] = converter.splitTerm(rawAnnotation.term);
 
@@ -1176,6 +1183,7 @@ function resolveAnnotationsOnAnnotation(
             annotation.target = currentFQN;
             annotation.__source = annotationTerm.__source;
             annotation[ANNOTATION_TARGET] = annotationTerm[ANNOTATION_TARGET];
+            lazy(annotation, CONVERTER_ROOT, () => converter.getConvertedOutput());
             annotation.fullyQualifiedName = `${currentFQN}@${annotation.term}`;
         });
 
