@@ -950,7 +950,10 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
 
     annotation.fullyQualifiedName = (rawAnnotation as any).fullyQualifiedName;
     annotation[ANNOTATION_TARGET] = target;
-    lazy(annotation, CONVERTER_ROOT, () => converter.getConvertedOutput());
+    if (!annotation[CONVERTER_ROOT]) {
+        lazy(annotation, CONVERTER_ROOT, () => converter.getConvertedOutput());
+    }
+
     const [vocAlias, vocTerm] = converter.splitTerm(rawAnnotation.term);
 
     annotation.term = converter.unalias(`${vocAlias}.${vocTerm}`, VocabularyReferences);
