@@ -53,7 +53,13 @@
                 <Property Name="ifOrCriticality" Type="Edm.String" />
                 <Property Name="NeCriticality" Type="Edm.String" />
                 <Property Name="Progress" Type="Edm.String" />
-
+                <Property Name="InAnnotation" Type="Edm.String" MaxLength="100"/>
+                <Property Name="AddAnnotation" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SubAnnotation" Type="Edm.String" MaxLength="100"/>
+                <Property Name="MulAnnotation" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DivAnnotation" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DivByAnnotation" Type="Edm.String" MaxLength="100"/>
+                <Property Name="NegAnnotation" Type="Edm.String" MaxLength="100"/>
             </EntityType>
             <Annotations Target="sap.fe.test.JestService.Items/Progress">
                 <Annotation Term="UI.DataPoint">
@@ -321,6 +327,95 @@
                         <Bool>true</Bool>
                         <Bool>false</Bool>
                     </If>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/hasExprValue">
+                <Annotation Term="UI.Hidden">
+                    <Has>
+                        <Path>Fabric</Path>
+                        <EnumMember>sap.fe.test.JestService.Pattern/Red</EnumMember>
+                    </Has>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/InAnnotation">
+                <Annotation Term="UI.Hidden">
+                    <And>
+                        <Ne>
+                            <Path>status/code</Path>
+                            <String>M</String>
+                        </Ne>
+                        <In>
+                            <Path>status/code</Path>
+                            <Collection>
+                                <String>H</String>
+                            </Collection>
+                        </In>
+                    </And>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/AddAnnotation">
+                <Annotation Term="UI.Hidden">
+                    <Gt>
+                        <Add>
+                            <Path>IntValue</Path>
+                            <Int>5</Int>
+                        </Add>
+                        <Int>10</Int>
+                    </Gt>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/SubAnnotation">
+                <Annotation Term="UI.Hidden">
+                    <Gt>
+                        <Sub>
+                            <Path>IntValue</Path>
+                            <Int>5</Int>
+                        </Sub>
+                        <Int>10</Int>
+                    </Gt>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/MulAnnotation">
+                <Annotation Term="UI.Hidden">
+                    <Gt>
+                        <Mul>
+                            <Path>IntValue</Path>
+                            <Int>5</Int>
+                        </Mul>
+                        <Int>10</Int>
+                    </Gt>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/DivAnnotation">
+                <Annotation Term="UI.Hidden">
+                    <Gt>
+                        <Div>
+                            <Path>IntValue</Path>
+                            <Int>5</Int>
+                        </Div>
+                        <Int>1</Int>
+                    </Gt>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/DivByAnnotation">
+                <Annotation Term="UI.Hidden">
+                    <Gt>
+                        <DivBy>
+                            <Path>IntValue</Path>
+                            <Int>5</Int>
+                        </DivBy>
+                        <Int>1</Int>
+                    </Gt>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="sap.fe.test.JestService.Items/NegAnnotation">
+                <Annotation Term="UI.Hidden">
+                    <Gt>
+                        <Neg>
+                            <Path>IntValue</Path>
+                        </Neg>
+                        <Int>1</Int>
+                    </Gt>
                 </Annotation>
             </Annotations>
         </Schema>
