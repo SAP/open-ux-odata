@@ -66,6 +66,7 @@ import {
  * Symbol to extend an annotation with the reference to its target.
  */
 const ANNOTATION_TARGET = Symbol('Annotation Target');
+export const CONVERTER_ROOT = Symbol('Converter Root');
 
 /**
  * Append an object to the list of visited objects if it is different from the last object in the list.
@@ -429,7 +430,7 @@ function isAnnotationPath(pathStr: string): boolean {
     return pathStr.includes('@');
 }
 
-type AnnotationValue<T> = T & { [ANNOTATION_TARGET]: any };
+type AnnotationValue<T> = T & { [ANNOTATION_TARGET]: any; [CONVERTER_ROOT]: ConvertedMetadata };
 
 function mapPropertyPath(
     converter: Converter,
@@ -438,12 +439,14 @@ function mapPropertyPath(
     currentTarget: any,
     currentTerm: string
 ) {
-    const result: Omit<AnnotationValue<PropertyPath>, '$target'> = {
+    const result: Omit<AnnotationValue<PropertyPath>, '$target' | typeof CONVERTER_ROOT> = {
         type: 'PropertyPath',
         value: propertyPath.PropertyPath,
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
     };
+
+    lazy(result as AnnotationValue<PropertyPath>, CONVERTER_ROOT, () => converter.getConvertedOutput());
 
     lazy(
         result as AnnotationValue<PropertyPath>,
@@ -461,12 +464,14 @@ function mapAnnotationPath(
     currentTarget: any,
     currentTerm: string
 ) {
-    const result: Omit<AnnotationValue<AnnotationPath<any>>, '$target'> = {
+    const result: Omit<AnnotationValue<AnnotationPath<any>>, '$target' | typeof CONVERTER_ROOT> = {
         type: 'AnnotationPath',
         value: converter.unalias(annotationPath.AnnotationPath),
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
     };
+
+    lazy(result as AnnotationValue<AnnotationPath<any>>, CONVERTER_ROOT, () => converter.getConvertedOutput());
 
     lazy(
         result as AnnotationValue<AnnotationPath<any>>,
@@ -484,13 +489,14 @@ function mapNavigationPropertyPath(
     currentTarget: any,
     currentTerm: string
 ) {
-    const result: Omit<AnnotationValue<NavigationPropertyPath>, '$target'> = {
+    const result: Omit<AnnotationValue<NavigationPropertyPath>, '$target' | typeof CONVERTER_ROOT> = {
         type: 'NavigationPropertyPath',
         value: navigationPropertyPath.NavigationPropertyPath ?? '',
         fullyQualifiedName: fullyQualifiedName,
         [ANNOTATION_TARGET]: currentTarget
     };
 
+    lazy(result as AnnotationValue<NavigationPropertyPath>, CONVERTER_ROOT, () => converter.getConvertedOutput());
     lazy(
         result as AnnotationValue<NavigationPropertyPath>,
         '$target',
@@ -513,7 +519,7 @@ function mapPath(
     currentTarget: any,
     currentTerm: string
 ) {
-    const result: Omit<AnnotationValue<PathAnnotationExpression<any>>, '$target'> = {
+    const result: Omit<AnnotationValue<PathAnnotationExpression<any>>, '$target' | typeof CONVERTER_ROOT> = {
         type: 'Path',
         path: path.Path,
         fullyQualifiedName: fullyQualifiedName,
@@ -523,6 +529,9 @@ function mapPath(
         [ANNOTATION_TARGET]: currentTarget
     };
 
+    lazy(result as AnnotationValue<PathAnnotationExpression<any>>, CONVERTER_ROOT, () =>
+        converter.getConvertedOutput()
+    );
     lazy(
         result as AnnotationValue<PathAnnotationExpression<any>>,
         '$target',
@@ -956,6 +965,9 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
 class Converter {
     private annotationsByTarget: Record<FullyQualifiedName, Annotation[]>;
 
+    getConvertedOutput(): ConvertedMetadata {
+        return this.convertedOutput;
+    }
     /**
      * Get preprocessed annotations on the specified target.
      *

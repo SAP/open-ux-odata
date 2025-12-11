@@ -33,7 +33,7 @@ import {
     UIAnnotationTypes
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
-import { convert, defaultReferences, revertTermToGenericType } from '../src';
+import { convert, CONVERTER_ROOT, defaultReferences, revertTermToGenericType } from '../src';
 import { loadFixture } from './fixturesHelper';
 
 describe('Annotation Converter', () => {
@@ -783,6 +783,7 @@ describe('Annotation Converter', () => {
             'com.c_salesordermanage_sd.DummyBoundAction(com.c_salesordermanage_sd.SalesOrderManage)'
         );
         expect((boundActions[1].annotations.UI as any)?.Hidden.path).toEqual('_it/Delivered');
+        expect((boundActions[1].annotations.UI as any)?.Hidden[CONVERTER_ROOT]).toBe(convertedTypes);
         expect((boundActions[1].annotations.Core?.OperationAvailable as any).path).toEqual('Yolo');
     });
 
