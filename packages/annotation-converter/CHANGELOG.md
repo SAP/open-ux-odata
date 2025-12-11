@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.14
+
+### Patch Changes
+
+-   b03f479: Add a way back to the converter root from the annotations
+
 ## 0.10.13
 
 ### Patch Changes
