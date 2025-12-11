@@ -146,7 +146,7 @@ export class ExecutionError extends Error {
 
 export function _getDateTimeOffset(isV4: boolean) {
     const date = new Date();
-    return isV4 ? date.toISOString() : '/Date(' + date.getTime() + '+000)/';
+    return isV4 ? date.toISOString() : '/Date(' + date.getTime() + '/';
 }
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

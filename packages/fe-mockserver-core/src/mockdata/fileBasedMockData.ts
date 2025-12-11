@@ -185,7 +185,7 @@ export class FileBasedMockData {
                 }
             } else if (isV2 && mockEntry.hasOwnProperty(prop.name) && ['Edm.DateTime'].includes(prop.type)) {
                 if (mockEntry[prop.name] !== '' && !mockEntry[prop.name]?.startsWith('/Date(')) {
-                    mockEntry[prop.name] = '/Date(' + new Date(mockEntry[prop.name]).getTime() + '000)/';
+                    mockEntry[prop.name] = '/Date(' + new Date(mockEntry[prop.name]).getTime() + ')/';
                 }
             }
         });
@@ -426,7 +426,7 @@ export class FileBasedMockData {
                 return false;
             case 'Edm.DateTimeOffset': {
                 const date = new Date();
-                return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + '+000)/';
+                return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + ')/';
             }
             case 'Edm.Date':
             case 'Edm.DateTime': {
@@ -437,7 +437,7 @@ export class FileBasedMockData {
                     ('0' + (date.getUTCMonth() + 1)).slice(-2) +
                     '-' +
                     ('0' + date.getUTCDate()).slice(-2);
-                return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + '+000)/';
+                return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + ')/';
             }
             case 'Edm.Time':
             case 'Time': {
@@ -514,9 +514,9 @@ export class FileBasedMockData {
                         ('0' + (date.getUTCMonth() + 1)).slice(-2) +
                         '-' +
                         ('0' + date.getUTCDate()).slice(-2);
-                    return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + '+000)/';
+                    return this._mockDataEntitySet.isV4() ? dateOut : '/Date(' + date.getTime() + ')/';
                 } else {
-                    return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + '+000)/';
+                    return this._mockDataEntitySet.isV4() ? date.toISOString() : '/Date(' + date.getTime() + ')/';
                 }
             }
             case 'Edm.Time':
@@ -784,7 +784,7 @@ export class FileBasedMockData {
                 let mockValueDate;
                 if (mockValue) {
                     if (mockValue.startsWith('/Date(')) {
-                        mockValueDate = parseInt(mockValue.substring(6, mockValue.length - 5), 10); // remove 3 trailing 0 and )/
+                        mockValueDate = parseInt(mockValue.substring(6, mockValue.length - 2), 10); // remove 3 trailing 0 and )/
                     } else {
                         mockValueDate = new Date(mockValue).getTime();
                     }
