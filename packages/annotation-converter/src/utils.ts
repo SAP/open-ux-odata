@@ -208,7 +208,6 @@ export function Decimal(value: number) {
 export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, init: () => Type[Key]) {
     const initial = Symbol('initial');
     let _value: Type[Key] | typeof initial = initial;
-
     Object.defineProperty(object, property, {
         enumerable: true,
 
