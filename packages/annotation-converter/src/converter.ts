@@ -430,7 +430,7 @@ function isAnnotationPath(pathStr: string): boolean {
     return pathStr.includes('@');
 }
 
-type AnnotationValue<T> = T & { [ANNOTATION_TARGET]: any; [CONVERTER_ROOT]: ConvertedMetadata };
+type AnnotationValue<T> = T & { [ANNOTATION_TARGET]: any; [CONVERTER_ROOT]: () => ConvertedMetadata };
 
 function mapPropertyPath(
     converter: Converter,
@@ -446,8 +446,7 @@ function mapPropertyPath(
         [ANNOTATION_TARGET]: currentTarget
     };
 
-    lazy(result as AnnotationValue<PropertyPath>, CONVERTER_ROOT, () => converter.getConvertedOutput());
-
+    (result as AnnotationValue<PropertyPath>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
     lazy(
         result as AnnotationValue<PropertyPath>,
         '$target',
@@ -471,7 +470,7 @@ function mapAnnotationPath(
         [ANNOTATION_TARGET]: currentTarget
     };
 
-    lazy(result as AnnotationValue<AnnotationPath<any>>, CONVERTER_ROOT, () => converter.getConvertedOutput());
+    (result as AnnotationValue<AnnotationPath<any>>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
 
     lazy(
         result as AnnotationValue<AnnotationPath<any>>,
@@ -496,7 +495,8 @@ function mapNavigationPropertyPath(
         [ANNOTATION_TARGET]: currentTarget
     };
 
-    lazy(result as AnnotationValue<NavigationPropertyPath>, CONVERTER_ROOT, () => converter.getConvertedOutput());
+    (result as AnnotationValue<NavigationPropertyPath>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
+
     lazy(
         result as AnnotationValue<NavigationPropertyPath>,
         '$target',
@@ -529,9 +529,7 @@ function mapPath(
         [ANNOTATION_TARGET]: currentTarget
     };
 
-    lazy(result as AnnotationValue<PathAnnotationExpression<any>>, CONVERTER_ROOT, () =>
-        converter.getConvertedOutput()
-    );
+    (result as AnnotationValue<PathAnnotationExpression<any>>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
     lazy(
         result as AnnotationValue<PathAnnotationExpression<any>>,
         '$target',
@@ -706,6 +704,8 @@ function parseRecord(
         [ANNOTATION_TARGET]: currentTarget,
         __source: currentSource
     };
+
+    (record as AnnotationValue<PathAnnotationExpression<any>>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
 
     for (const propertyValue of annotationRecord.propertyValues) {
         lazy(record, propertyValue.name, () =>
@@ -946,6 +946,9 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
 
     annotation.fullyQualifiedName = (rawAnnotation as any).fullyQualifiedName;
     annotation[ANNOTATION_TARGET] = target;
+    if (!annotation[CONVERTER_ROOT]) {
+        annotation[CONVERTER_ROOT] = () => converter.getConvertedOutput();
+    }
 
     const [vocAlias, vocTerm] = converter.splitTerm(rawAnnotation.term);
 
@@ -1176,6 +1179,7 @@ function resolveAnnotationsOnAnnotation(
             annotation.target = currentFQN;
             annotation.__source = annotationTerm.__source;
             annotation[ANNOTATION_TARGET] = annotationTerm[ANNOTATION_TARGET];
+            annotation[CONVERTER_ROOT] = () => converter.getConvertedOutput();
             annotation.fullyQualifiedName = `${currentFQN}@${annotation.term}`;
         });
 
