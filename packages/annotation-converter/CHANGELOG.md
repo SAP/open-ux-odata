@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.16
+
+### Patch Changes
+
+-   f9e84a4: Root as function
+
 ## 0.10.15
 
 ### Patch Changes
