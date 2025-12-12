@@ -783,7 +783,7 @@ describe('Annotation Converter', () => {
             'com.c_salesordermanage_sd.DummyBoundAction(com.c_salesordermanage_sd.SalesOrderManage)'
         );
         expect((boundActions[1].annotations.UI as any)?.Hidden.path).toEqual('_it/Delivered');
-        expect((boundActions[1].annotations.UI as any)?.Hidden[CONVERTER_ROOT]).toBe(convertedTypes);
+        expect((boundActions[1].annotations.UI as any)?.Hidden[CONVERTER_ROOT]()).toBe(convertedTypes);
         expect((boundActions[1].annotations.Core?.OperationAvailable as any).path).toEqual('Yolo');
     });
 
