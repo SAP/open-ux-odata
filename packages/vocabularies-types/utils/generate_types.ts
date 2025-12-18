@@ -566,6 +566,10 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
                                 ) {
                                     vocabularyDef += `\n    ActionTarget?: Edm.Action;\n`;
                                 }
+                                if (vocabularyTermKey === 'CollectionPath') {
+                                    vocabularyDef += `\n    /** Path to the collection target **/`;
+                                    vocabularyDef += `\n    CollectionPathTarget?: Edm.EntitySet;\n`;
+                                }
                             }
                         });
                         vocabularyDef += `}\n`;

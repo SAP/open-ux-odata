@@ -4,6 +4,7 @@ import type {
     ArrayWithIndex,
     ComplexType,
     Index,
+    RawMetadata,
     Reference,
     TypeDefinition
 } from '@sap-ux/vocabularies-types';
@@ -195,7 +196,7 @@ export function Decimal(value: number) {
         }
     };
 }
-
+export const initialSymbol = Symbol('initial');
 /**
  * Defines a lazy property.
  *
@@ -206,13 +207,11 @@ export function Decimal(value: number) {
  * @param init      The function that initializes the property's value
  */
 export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, init: () => Type[Key]) {
-    const initial = Symbol('initial');
-    let _value: Type[Key] | typeof initial = initial;
+    let _value: Type[Key] | typeof initialSymbol = initialSymbol;
     Object.defineProperty(object, property, {
         enumerable: true,
-
         get() {
-            if (_value === initial) {
+            if (_value === initialSymbol) {
                 _value = init();
             }
             return _value;
@@ -274,6 +273,27 @@ export function addGetByValue<T, P extends Extract<keyof T, string>>(array: Arra
     return array as ArrayWithIndex<T, P>;
 }
 
+/**
+ * Copy of the one from edmx-parser because we don't want a dependency.
+ * @param baseMetadata
+ * @param parserOutput
+ */
+export function mergeRawMetadata(baseMetadata: RawMetadata, parserOutput: RawMetadata): void {
+    baseMetadata.references.splice(0, 0, ...parserOutput.references);
+    baseMetadata.schema.annotations = Object.assign(baseMetadata.schema.annotations, parserOutput.schema.annotations);
+    baseMetadata.schema.associationSets.splice(0, 0, ...parserOutput.schema.associationSets);
+    baseMetadata.schema.associations.splice(0, 0, ...parserOutput.schema.associations);
+    baseMetadata.schema.entitySets.splice(0, 0, ...parserOutput.schema.entitySets);
+    baseMetadata.schema.singletons.splice(0, 0, ...parserOutput.schema.singletons);
+    baseMetadata.schema.actions.splice(0, 0, ...parserOutput.schema.actions);
+    baseMetadata.schema.actionImports.splice(0, 0, ...parserOutput.schema.actionImports);
+    baseMetadata.schema.entityTypes.splice(0, 0, ...parserOutput.schema.entityTypes);
+    baseMetadata.schema.complexTypes.splice(0, 0, ...parserOutput.schema.complexTypes);
+    baseMetadata.schema.enumTypes.splice(0, 0, ...parserOutput.schema.enumTypes);
+    baseMetadata.schema.typeDefinitions.splice(0, 0, ...parserOutput.schema.typeDefinitions);
+    baseMetadata.schema.entityContainers ??= {};
+    baseMetadata.schema.entityContainers[parserOutput.identification] = parserOutput.schema.entityContainer;
+}
 /**
  * Merge annotations from different sources together by overwriting at the term level.
  *

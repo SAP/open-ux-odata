@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<edmx:Edmx
+		Version="4.0"
+		xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		xmlns="http://docs.oasis-open.org/odata/ns/edm"
+><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList" /></edmx:Reference><edmx:Reference
+		Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value"
+><edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI" /></edmx:Reference><edmx:Reference
+		Uri="../../../../srvd/sap/c_salesordermanage_sd/0001/$metadata"
+><edmx:Include
+		Namespace="com.sap.gateway.srvd.c_salesordermanage_sd.v0001"
+		Alias="SAP__ParentService"
+/></edmx:Reference><edmx:DataServices><Schema
+		Namespace="com.sap.gateway.srvd_f4.i_billingblockreason.v0001"
+		Alias="SAP__self"
+><EntityType Name="I_BillingBlockReasonType"><Key><PropertyRef Name="BillingBlockReason" /></Key><Property
+		Name="BillingBlockReason"
+		Type="Edm.String"
+		Nullable="false"
+		MaxLength="2"
+/><Property Name="BillingBlockReason_Text" Type="Edm.String" Nullable="false" MaxLength="20" /></EntityType><EntityContainer
+		Name="Container"
+><EntitySet
+		Name="I_BillingBlockReason"
+		EntityType="com.sap.gateway.srvd_f4.i_billingblockreason.v0001.I_BillingBlockReasonType"
+/></EntityContainer><Annotations Target="SAP__self.I_BillingBlockReasonType/BillingBlockReason"><Annotation
+		Term="SAP__common.Text"
+		Path="BillingBlockReason_Text"
+/><Annotation Term="SAP__common.IsUpperCase" /><Annotation Term="SAP__common.Label" String="Billing Block" /><Annotation
+		Term="SAP__common.Heading"
+		String="Block"
+/></Annotations><Annotations Target="SAP__self.I_BillingBlockReasonType/BillingBlockReason_Text"><Annotation
+		Term="SAP__core.Computed"
+/><Annotation Term="SAP__common.Label" String="Billing Block Desc." /><Annotation
+		Term="SAP__common.Heading"
+		String="Billing Block Description"
+/><Annotation Term="SAP__common.QuickInfo" String="Billing Block Description" /></Annotations><Annotations
+		Target="SAP__ParentService.SalesOrderManageType/HeaderBillingBlockReason"
+><Annotation Term="SAP__common.ValueListMapping"><Record><PropertyValue
+		Property="Label"
+		String="Value Help for Billing Block Reason"
+/><PropertyValue Property="CollectionPath" String="I_BillingBlockReason" /><PropertyValue
+		Property="Parameters"
+><Collection><Record Type="SAP__common.ValueListParameterInOut"><PropertyValue
+		Property="LocalDataProperty"
+		PropertyPath="HeaderBillingBlockReason"
+/><PropertyValue Property="ValueListProperty" String="BillingBlockReason" /></Record><Record
+		Type="SAP__common.ValueListParameterDisplayOnly"
+><PropertyValue
+		Property="ValueListProperty"
+		String="BillingBlockReason_Text"
+/></Record></Collection></PropertyValue></Record></Annotation></Annotations><Annotations
+		Target="SAP__self.I_BillingBlockReasonType"
+><Annotation Term="SAP__common.Label" String="Value Help for Billing Block Reason" /></Annotations><Annotations
+		Target="SAP__self.Container/I_BillingBlockReason"
+><Annotation Term="SAP__capabilities.SearchRestrictions"><Record><PropertyValue
+		Property="Searchable"
+		Bool="true"
+/><PropertyValue
+		Property="UnsupportedExpressions"
+		EnumMember="SAP__capabilities.SearchExpressions/AND SAP__capabilities.SearchExpressions/OR SAP__capabilities.SearchExpressions/NOT SAP__capabilities.SearchExpressions/group SAP__capabilities.SearchExpressions/phrase"
+/></Record></Annotation><Annotation Term="SAP__capabilities.InsertRestrictions"><Record><PropertyValue
+		Property="Insertable"
+		Bool="false"
+/></Record></Annotation><Annotation Term="SAP__capabilities.DeleteRestrictions"><Record><PropertyValue
+		Property="Deletable"
+		Bool="false"
+/></Record></Annotation><Annotation Term="SAP__capabilities.UpdateRestrictions"><Record><PropertyValue
+		Property="Updatable"
+		Bool="false"
+/><PropertyValue Property="QueryOptions"><Record><PropertyValue
+		Property="SelectSupported"
+		Bool="true"
+/></Record></PropertyValue></Record></Annotation><Annotation
+		Term="SAP__capabilities.FilterRestrictions"
+><Record><PropertyValue Property="FilterExpressionRestrictions"><Collection><Record><PropertyValue
+		Property="Property"
+		PropertyPath="BillingBlockReason"
+/><PropertyValue
+		Property="AllowedExpressions"
+		String="MultiValue"
+/></Record></Collection></PropertyValue></Record></Annotation></Annotations><Annotations
+		Target="SAP__self.Container"
+><Annotation Term="SAP__aggregation.ApplySupported"><Record><PropertyValue Property="Transformations"><Collection><String
+>aggregate</String><String>groupby</String><String
+>filter</String></Collection></PropertyValue><PropertyValue
+		Property="Rollup"
+		EnumMember="None"
+/></Record></Annotation><Annotation
+		Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering"
+		Bool="true"
+/><Annotation Term="SAP__capabilities.FilterFunctions"><Collection><String>eq</String><String>ne</String><String
+>gt</String><String>ge</String><String>lt</String><String>le</String><String>and</String><String>or</String><String
+>contains</String><String>startswith</String><String>endswith</String><String>any</String><String
+>all</String></Collection></Annotation></Annotations></Schema></edmx:DataServices></edmx:Edmx>

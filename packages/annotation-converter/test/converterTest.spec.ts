@@ -33,7 +33,13 @@ import {
     UIAnnotationTypes
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
-import { convert, CONVERTER_ROOT, defaultReferences, revertTermToGenericType } from '../src';
+import {
+    addValueListWithReferences,
+    convert,
+    CONVERTER_ROOT,
+    defaultReferences,
+    revertTermToGenericType
+} from '../src';
 import { loadFixture } from './fixturesHelper';
 
 describe('Annotation Converter', () => {
@@ -753,6 +759,33 @@ describe('Annotation Converter', () => {
         expect(convertedTypes.diagnostics).not.toBeNull();
         expect(convertedTypes.diagnostics[0].message).toMatchInlineSnapshot(
             `"Annotation 'com.sap.vocabularies.UI.v1.Facets' not found on EntitySet 'IncidentService.EntityContainer/Incidents'"`
+        );
+    });
+
+    it('can find CollectionPath', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/v4Meta.xml'));
+        const convertedTypes = convert(parsedEDMX);
+        const entityType = convertedTypes.entityTypes.by_name('MaterialDetails');
+        const collectionPath =
+            entityType?.entityProperties.by_name('BrandCategory')?.annotations.Common?.ValueList?.CollectionPathTarget;
+        expect(collectionPath).not.toBeNull();
+        expect(collectionPath?._type).toBe('EntitySet');
+        expect(collectionPath?.fullyQualifiedName).toBe('com.c_salesordermanage_sd.EntityContainer/MaterialCategory');
+    });
+    it('can find CollectionPath when going through value list references', async () => {
+        const parsedEDMX = parse(await loadFixture('v4/otherSD.xml'));
+        const parsedVHReferences = parse(await loadFixture('v4/vhReference.xml'), 'vhReferences');
+        const convertedTypes = convert(parsedEDMX);
+        const entitySet = convertedTypes.entitySets.by_name('SalesOrderManage');
+        addValueListWithReferences(convertedTypes, parsedVHReferences);
+        const entityType = convertedTypes.entityTypes.by_name('SalesOrderManageType');
+        const collectionPath =
+            entityType?.entityProperties.by_name('HeaderBillingBlockReason')?.annotations.Common?.ValueListMapping
+                ?.CollectionPathTarget;
+        expect(collectionPath).not.toBeNull();
+        expect(collectionPath?._type).toBe('EntitySet');
+        expect(collectionPath?.fullyQualifiedName).toBe(
+            'com.sap.gateway.srvd_f4.i_billingblockreason.v0001.Container/I_BillingBlockReason'
         );
     });
 

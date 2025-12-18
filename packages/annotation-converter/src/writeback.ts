@@ -183,7 +183,16 @@ function revertValueToRawType(references: Reference[], value: any): Expression |
     return result;
 }
 
-const restrictedKeys = ['$Type', 'term', '__source', 'qualifier', 'ActionTarget', 'fullyQualifiedName', 'annotations'];
+const restrictedKeys = [
+    '$Type',
+    'term',
+    '__source',
+    'qualifier',
+    'ActionTarget',
+    'CollectionPathTarget',
+    'fullyQualifiedName',
+    'annotations'
+];
 
 /**
  * Revert the current embedded annotations to their raw type.
