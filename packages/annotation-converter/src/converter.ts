@@ -52,6 +52,7 @@ import {
     Decimal,
     Double,
     EnumIsFlag,
+    initialSymbol,
     lazy,
     mergeAnnotations,
     mergeRawMetadata,
@@ -1711,4 +1712,13 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
 export function addValueListWithReferences(convertedMetadata: ConvertedMetadata, rawVHMetadata: RawMetadata): void {
     const converter = (convertedMetadata as ConvertedMetadataInternal).getConverter();
     converter.addExtraMetadata(rawVHMetadata);
+    // Force reset the converted data
+    convertedMetadata.entitySets = initialSymbol as any;
+    convertedMetadata.entityTypes = initialSymbol as any;
+    convertedMetadata.complexTypes = initialSymbol as any;
+    convertedMetadata.enumTypes = initialSymbol as any;
+    convertedMetadata.actionImports = initialSymbol as any;
+    convertedMetadata.typeDefinitions = initialSymbol as any;
+    convertedMetadata.actions = initialSymbol as any;
+    convertedMetadata.singletons = initialSymbol as any;
 }

@@ -196,7 +196,7 @@ export function Decimal(value: number) {
         }
     };
 }
-
+export const initialSymbol = Symbol('initial');
 /**
  * Defines a lazy property.
  *
@@ -207,13 +207,11 @@ export function Decimal(value: number) {
  * @param init      The function that initializes the property's value
  */
 export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, init: () => Type[Key]) {
-    const initial = Symbol('initial');
-    let _value: Type[Key] | typeof initial = initial;
+    let _value: Type[Key] | typeof initialSymbol = initialSymbol;
     Object.defineProperty(object, property, {
         enumerable: true,
-
         get() {
-            if (_value === initial) {
+            if (_value === initialSymbol) {
                 _value = init();
             }
             return _value;
