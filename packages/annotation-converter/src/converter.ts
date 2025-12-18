@@ -54,6 +54,7 @@ import {
     EnumIsFlag,
     lazy,
     mergeAnnotations,
+    mergeRawMetadata,
     splitAtFirst,
     splitAtLast,
     substringBeforeFirst,
@@ -724,6 +725,14 @@ function parseRecord(
     // annotations on the record
     lazy(record, 'annotations', resolveAnnotationsOnAnnotation(converter, annotationRecord, record));
 
+    if (record.hasOwnProperty('CollectionPath')) {
+        lazy(record, 'CollectionPathTarget', () => {
+            const entityContainerFQN: string =
+                converter.rawSchema.entityContainers?.[currentSource].fullyQualifiedName ??
+                converter.rawSchema.entityContainer.fullyQualifiedName;
+            return converter.getConvertedEntitySet(entityContainerFQN + '/' + record.CollectionPath);
+        });
+    }
     if (isDataFieldWithForAction(record)) {
         lazy(record, 'ActionTarget', () => {
             const actionName = converter.unalias(record.Action?.toString());
@@ -1074,6 +1083,10 @@ class Converter {
         this.rawMetadata = rawMetadata;
         this.rawSchema = rawMetadata.schema;
         this.convertedOutput = convertedOutput;
+    }
+
+    addExtraMetadata(extraMetadata: RawMetadata): void {
+        mergeRawMetadata(this.rawMetadata, extraMetadata);
     }
 
     getConvertedElement<ConvertedType, RawType extends RemoveAnnotationAndType<ConvertedType>>(
@@ -1637,6 +1650,10 @@ function convertTypeDefinition(converter: Converter, rawTypeDefinition: RawTypeD
     return convertedTypeDefinition;
 }
 
+type ConvertedMetadataInternal = ConvertedMetadata & {
+    getConverter: () => Converter;
+};
+
 /**
  * Convert a RawMetadata into an object representation to be used to easily navigate a metadata object and its annotation.
  *
@@ -1645,7 +1662,7 @@ function convertTypeDefinition(converter: Converter, rawTypeDefinition: RawTypeD
  */
 export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     // Converter Output
-    const convertedOutput: ConvertedMetadata = {
+    const convertedOutput: ConvertedMetadataInternal = {
         version: rawMetadata.version,
         namespace: rawMetadata.schema.namespace,
         annotations: rawMetadata.schema.annotations,
@@ -1655,7 +1672,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
 
     // Converter
     const converter = new Converter(rawMetadata, convertedOutput);
-
+    convertedOutput.getConverter = () => converter;
     lazy(
         convertedOutput,
         'entityContainer',
@@ -1686,4 +1703,12 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     };
 
     return convertedOutput;
+}
+
+// In some case we need to extend a converted metadata after the initial conversion.
+// This is usually the case for
+
+export function addValueListWithReferences(convertedMetadata: ConvertedMetadata, rawVHMetadata: RawMetadata): void {
+    const converter = (convertedMetadata as ConvertedMetadataInternal).getConverter();
+    converter.addExtraMetadata(rawVHMetadata);
 }

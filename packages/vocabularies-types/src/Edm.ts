@@ -695,6 +695,7 @@ export type RawSchema = {
     enumTypes: RawEnumType[];
     typeDefinitions: RawTypeDefinition[];
     entityContainer: RawEntityContainer;
+    entityContainers?: Record<string, RawEntityContainer>;
     actions: RawAction[];
     actionImports: RawActionImport[];
     entityTypes: RawEntityType[];
