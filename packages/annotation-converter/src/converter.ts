@@ -46,6 +46,7 @@ import type {
 } from '@sap-ux/vocabularies-types';
 import { CommonAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Common';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
+import type { IResettable } from './utils';
 import {
     addGetByValue,
     alias,
@@ -53,7 +54,6 @@ import {
     Double,
     EnumIsFlag,
     initialSymbol,
-    IResettable,
     lazy,
     mergeAnnotations,
     mergeRawMetadata,
