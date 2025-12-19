@@ -1,4 +1,5 @@
 import type { AnnotationList, Reference } from '@sap-ux/vocabularies-types';
+import type { IResettable } from '../src';
 import {
     addGetByValue,
     lazy,
@@ -80,8 +81,11 @@ describe('utils', () => {
         it('should not initialize if the property is not accessed', () => {
             const testObject: any = {};
             const initialize = jest.fn().mockReturnValue('abc');
-
-            lazy(testObject, 'myProperty', initialize);
+            const converter: IResettable = {
+                reset: jest.fn(),
+                collectDynamic: jest.fn()
+            };
+            lazy(converter, testObject, 'myProperty', initialize);
             expect(testObject.hasOwnProperty('myProperty')).toBeTruthy(); // cannot use expect(testObject).toHaveProperty('myProperty') here!
             expect(initialize).toBeCalledTimes(0);
         });
@@ -89,8 +93,11 @@ describe('utils', () => {
         it('should initialize the property on first access', () => {
             const testObject: any = {};
             const initialize = jest.fn().mockReturnValue('abc');
-
-            lazy(testObject, 'myProperty', initialize);
+            const converter: IResettable = {
+                reset: jest.fn(),
+                collectDynamic: jest.fn()
+            };
+            lazy(converter, testObject, 'myProperty', initialize);
             const value = testObject.myProperty;
             expect(value).toEqual('abc');
             expect(initialize).toBeCalledTimes(1);
@@ -99,8 +106,11 @@ describe('utils', () => {
         it('should initialize only once', () => {
             const testObject: any = {};
             const initialize = jest.fn().mockReturnValue('abc');
-
-            lazy(testObject, 'myProperty', initialize);
+            const converter: IResettable = {
+                reset: jest.fn(),
+                collectDynamic: jest.fn()
+            };
+            lazy(converter, testObject, 'myProperty', initialize);
             const value1 = testObject.myProperty;
             const value2 = testObject.myProperty;
             expect(initialize).toBeCalledTimes(1);
@@ -110,18 +120,24 @@ describe('utils', () => {
         it('should fail if the property is defined already', () => {
             const testObject: any = {};
             const initialize = jest.fn().mockReturnValue('abc');
-
-            lazy(testObject, 'myProperty', initialize);
+            const converter: IResettable = {
+                reset: jest.fn(),
+                collectDynamic: jest.fn()
+            };
+            lazy(converter, testObject, 'myProperty', initialize);
             expect(() => {
-                lazy(testObject, 'myProperty', initialize);
+                lazy(converter, testObject, 'myProperty', initialize);
             }).toThrowError();
         });
 
         it('allows to assign a value', () => {
             const testObject: any = {};
             const initialize = jest.fn().mockReturnValue('abc');
-
-            lazy(testObject, 'myProperty', initialize);
+            const converter: IResettable = {
+                reset: jest.fn(),
+                collectDynamic: jest.fn()
+            };
+            lazy(converter, testObject, 'myProperty', initialize);
             testObject.myProperty = 'xyz';
 
             expect(testObject.myProperty).toEqual('xyz');

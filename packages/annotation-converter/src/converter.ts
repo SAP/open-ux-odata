@@ -46,6 +46,7 @@ import type {
 } from '@sap-ux/vocabularies-types';
 import { CommonAnnotationTerms } from '@sap-ux/vocabularies-types/vocabularies/Common';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
+import type { IResettable } from './utils';
 import {
     addGetByValue,
     alias,
@@ -450,6 +451,7 @@ function mapPropertyPath(
 
     (result as AnnotationValue<PropertyPath>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
     lazy(
+        converter,
         result as AnnotationValue<PropertyPath>,
         '$target',
         () => resolveTarget<Property>(converter, currentTarget, propertyPath.PropertyPath, currentTerm).target
@@ -475,6 +477,7 @@ function mapAnnotationPath(
     (result as AnnotationValue<AnnotationPath<any>>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
 
     lazy(
+        converter,
         result as AnnotationValue<AnnotationPath<any>>,
         '$target',
         () => resolveTarget(converter, currentTarget, result.value, currentTerm).target
@@ -500,6 +503,7 @@ function mapNavigationPropertyPath(
     (result as AnnotationValue<NavigationPropertyPath>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
 
     lazy(
+        converter,
         result as AnnotationValue<NavigationPropertyPath>,
         '$target',
         () =>
@@ -533,6 +537,7 @@ function mapPath(
 
     (result as AnnotationValue<PathAnnotationExpression<any>>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
     lazy(
+        converter,
         result as AnnotationValue<PathAnnotationExpression<any>>,
         '$target',
         () => resolveTarget<Property>(converter, currentTarget, path.Path, currentTerm).target
@@ -710,7 +715,7 @@ function parseRecord(
     (record as AnnotationValue<PathAnnotationExpression<any>>)[CONVERTER_ROOT] = () => converter.getConvertedOutput();
 
     for (const propertyValue of annotationRecord.propertyValues) {
-        lazy(record, propertyValue.name, () =>
+        lazy(converter, record, propertyValue.name, () =>
             parseValue(
                 converter,
                 currentTarget,
@@ -724,10 +729,10 @@ function parseRecord(
     }
 
     // annotations on the record
-    lazy(record, 'annotations', resolveAnnotationsOnAnnotation(converter, annotationRecord, record));
+    lazy(converter, record, 'annotations', resolveAnnotationsOnAnnotation(converter, annotationRecord, record));
 
     if (record.hasOwnProperty('CollectionPath')) {
-        lazy(record, 'CollectionPathTarget', () => {
+        lazy(converter, record, 'CollectionPathTarget', () => {
             const entityContainerFQN: string =
                 converter.rawSchema.entityContainers?.[currentSource].fullyQualifiedName ??
                 converter.rawSchema.entityContainer.fullyQualifiedName;
@@ -735,7 +740,7 @@ function parseRecord(
         });
     }
     if (isDataFieldWithForAction(record)) {
-        lazy(record, 'ActionTarget', () => {
+        lazy(converter, record, 'ActionTarget', () => {
             const actionName = converter.unalias(record.Action?.toString());
 
             // (1) Bound action of the annotation target?
@@ -967,7 +972,12 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
     annotation.__source = (rawAnnotation as any).__source;
 
     try {
-        lazy(annotation, 'annotations', resolveAnnotationsOnAnnotation(converter, rawAnnotation, annotation));
+        lazy(
+            converter,
+            annotation,
+            'annotations',
+            resolveAnnotationsOnAnnotation(converter, rawAnnotation, annotation)
+        );
     } catch (e) {
         // not an error: parseRecord() already adds annotations, but the other parseXXX functions don't, so this can happen
     }
@@ -975,8 +985,8 @@ function convertAnnotation(converter: Converter, target: any, rawAnnotation: Raw
     return annotation as Annotation;
 }
 
-class Converter {
-    private annotationsByTarget: Record<FullyQualifiedName, Annotation[]>;
+class Converter implements IResettable {
+    private annotationsByTarget?: Record<FullyQualifiedName, Annotation[]>;
 
     getConvertedOutput(): ConvertedMetadata {
         return this.convertedOutput;
@@ -1074,8 +1084,29 @@ class Converter {
         }
     }
 
+    reset(): void {
+        for (const dynamicElementsKey in this.dynamicElements) {
+            const keys = this.dynamicElements[dynamicElementsKey].keys;
+            const targetObject = this.dynamicElements[dynamicElementsKey].target as any;
+            for (const key of keys) {
+                targetObject[key] = initialSymbol;
+            }
+        }
+        this.annotationsByTarget = undefined;
+    }
+    private unknownCount = 0;
+    collectDynamic(object: any, property: string) {
+        let objectName = object.fullyQualifiedName;
+        if (objectName === undefined) {
+            objectName = `Unknown` + this.unknownCount++;
+        }
+        this.dynamicElements[objectName] ??= { target: object, keys: [] };
+        this.dynamicElements[objectName].keys.push(property);
+    }
+
     private rawMetadata: RawMetadata;
     private convertedElements: Map<FullyQualifiedName, any> = new Map();
+    private dynamicElements: Record<string, { target: object; keys: string[] }> = {};
     private convertedOutput: ConvertedMetadata;
 
     rawSchema: RawSchema;
@@ -1150,6 +1181,7 @@ function resolveNavigationPropertyBindings(
             const rawBindingTarget = rawNavigationPropertyBindings[bindingPath];
 
             lazy(
+                converter,
                 navigationPropertyBindings,
                 bindingPath,
                 () =>
@@ -1212,7 +1244,7 @@ function createAnnotationsObject(converter: Converter, target: any, rawAnnotatio
 
         if (!vocabularyAliases[vocAlias].hasOwnProperty(vocTermWithQualifier)) {
             vocabularyAliases[vocAlias]._keys.push(vocTermWithQualifier);
-            lazy(vocabularyAliases[vocAlias], vocTermWithQualifier, () =>
+            lazy(converter, vocabularyAliases[vocAlias], vocTermWithQualifier, () =>
                 converter.getConvertedElement(
                     (annotation as Annotation).fullyQualifiedName,
                     annotation,
@@ -1234,13 +1266,24 @@ function createAnnotationsObject(converter: Converter, target: any, rawAnnotatio
 function convertEntityContainer(converter: Converter, rawEntityContainer: RawEntityContainer): EntityContainer {
     const convertedEntityContainer = rawEntityContainer as EntityContainer;
 
-    lazy(convertedEntityContainer, 'annotations', resolveAnnotations(converter, rawEntityContainer));
-
-    lazy(convertedEntityContainer, 'entitySets', converter.convert(converter.rawSchema.entitySets, convertEntitySet));
-
-    lazy(convertedEntityContainer, 'singletons', converter.convert(converter.rawSchema.singletons, convertSingleton));
+    lazy(converter, convertedEntityContainer, 'annotations', resolveAnnotations(converter, rawEntityContainer));
 
     lazy(
+        converter,
+        convertedEntityContainer,
+        'entitySets',
+        converter.convert(converter.rawSchema.entitySets, convertEntitySet)
+    );
+
+    lazy(
+        converter,
+        convertedEntityContainer,
+        'singletons',
+        converter.convert(converter.rawSchema.singletons, convertSingleton)
+    );
+
+    lazy(
+        converter,
         convertedEntityContainer,
         'actionImports',
         converter.convert(converter.rawSchema.actionImports, convertActionImport)
@@ -1259,11 +1302,12 @@ function convertEntityContainer(converter: Converter, rawEntityContainer: RawEnt
 function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Singleton {
     const convertedSingleton = rawSingleton as unknown as Singleton;
 
-    lazy(convertedSingleton, 'entityType', resolveEntityType(converter, rawSingleton.entityTypeName));
-    lazy(convertedSingleton, 'annotations', resolveAnnotations(converter, convertedSingleton));
+    lazy(converter, convertedSingleton, 'entityType', resolveEntityType(converter, rawSingleton.entityTypeName));
+    lazy(converter, convertedSingleton, 'annotations', resolveAnnotations(converter, convertedSingleton));
 
     const _rawNavigationPropertyBindings = rawSingleton.navigationPropertyBinding;
     lazy(
+        converter,
         convertedSingleton,
         'navigationPropertyBinding',
         resolveNavigationPropertyBindings(converter, _rawNavigationPropertyBindings)
@@ -1282,11 +1326,12 @@ function convertSingleton(converter: Converter, rawSingleton: RawSingleton): Sin
 function convertEntitySet(converter: Converter, rawEntitySet: RawEntitySet): EntitySet {
     const convertedEntitySet = rawEntitySet as unknown as EntitySet;
 
-    lazy(convertedEntitySet, 'entityType', resolveEntityType(converter, rawEntitySet.entityTypeName));
-    lazy(convertedEntitySet, 'annotations', resolveAnnotations(converter, convertedEntitySet));
+    lazy(converter, convertedEntitySet, 'entityType', resolveEntityType(converter, rawEntitySet.entityTypeName));
+    lazy(converter, convertedEntitySet, 'annotations', resolveAnnotations(converter, convertedEntitySet));
 
     const _rawNavigationPropertyBindings = rawEntitySet.navigationPropertyBinding;
     lazy(
+        converter,
         convertedEntitySet,
         'navigationPropertyBinding',
         resolveNavigationPropertyBindings(converter, _rawNavigationPropertyBindings)
@@ -1309,17 +1354,23 @@ function convertEntityType(converter: Converter, rawEntityType: RawEntityType): 
         keyProp.isKey = true;
     });
 
-    lazy(convertedEntityType, 'annotations', resolveAnnotations(converter, rawEntityType));
+    lazy(converter, convertedEntityType, 'annotations', resolveAnnotations(converter, rawEntityType));
 
-    lazy(convertedEntityType, 'keys', converter.convert(rawEntityType.keys, convertProperty));
-    lazy(convertedEntityType, 'entityProperties', converter.convert(rawEntityType.entityProperties, convertProperty));
+    lazy(converter, convertedEntityType, 'keys', converter.convert(rawEntityType.keys, convertProperty));
     lazy(
+        converter,
+        convertedEntityType,
+        'entityProperties',
+        converter.convert(rawEntityType.entityProperties, convertProperty)
+    );
+    lazy(
+        converter,
         convertedEntityType,
         'navigationProperties',
         converter.convert(rawEntityType.navigationProperties as any[], convertNavigationProperty)
     );
 
-    lazy(convertedEntityType, 'actions', () =>
+    lazy(converter, convertedEntityType, 'actions', () =>
         converter.rawSchema.actions
             .filter(
                 (rawAction) =>
@@ -1356,9 +1407,9 @@ function convertEntityType(converter: Converter, rawEntityType: RawEntityType): 
 function convertProperty(converter: Converter, rawProperty: RawProperty): Property {
     const convertedProperty = rawProperty as Property;
 
-    lazy(convertedProperty, 'annotations', resolveAnnotations(converter, rawProperty));
+    lazy(converter, convertedProperty, 'annotations', resolveAnnotations(converter, rawProperty));
 
-    lazy(convertedProperty, 'targetType', () => {
+    lazy(converter, convertedProperty, 'targetType', () => {
         const type = rawProperty.type;
         const typeName = type.startsWith('Collection') ? type.substring(11, type.length - 1) : type;
 
@@ -1423,12 +1474,13 @@ function convertNavigationProperty(
     }
 
     lazy(
+        converter,
         convertedNavigationProperty,
         'targetType',
         resolveEntityType(converter, (rawNavigationProperty as NavigationProperty).targetTypeName)
     );
 
-    lazy(convertedNavigationProperty, 'annotations', resolveAnnotations(converter, rawNavigationProperty));
+    lazy(converter, convertedNavigationProperty, 'annotations', resolveAnnotations(converter, rawNavigationProperty));
 
     return convertedNavigationProperty;
 }
@@ -1443,9 +1495,9 @@ function convertNavigationProperty(
 function convertActionImport(converter: Converter, rawActionImport: RawActionImport): ActionImport {
     const convertedActionImport = rawActionImport as ActionImport;
 
-    lazy(convertedActionImport, 'annotations', resolveAnnotations(converter, rawActionImport));
+    lazy(converter, convertedActionImport, 'annotations', resolveAnnotations(converter, rawActionImport));
 
-    lazy(convertedActionImport, 'action', () => {
+    lazy(converter, convertedActionImport, 'action', () => {
         const rawActions = converter.rawSchema.actions.filter(
             (rawAction) =>
                 !rawAction.isBound && rawAction.fullyQualifiedName.startsWith(rawActionImport.actionName + '(')
@@ -1475,12 +1527,12 @@ function convertAction(converter: Converter, rawAction: RawAction): Action {
     const convertedAction = rawAction as Action;
 
     if (convertedAction.sourceType) {
-        lazy(convertedAction, 'sourceEntityType', resolveEntityType(converter, rawAction.sourceType));
+        lazy(converter, convertedAction, 'sourceEntityType', resolveEntityType(converter, rawAction.sourceType));
     }
 
     if (convertedAction.returnType) {
-        lazy(convertedAction, 'returnEntityType', resolveEntityType(converter, rawAction.returnType));
-        lazy(convertedAction, 'returnTypeReference', () => {
+        lazy(converter, convertedAction, 'returnEntityType', resolveEntityType(converter, rawAction.returnType));
+        lazy(converter, convertedAction, 'returnTypeReference', () => {
             const typeName = convertedAction.returnType.startsWith('Collection')
                 ? convertedAction.returnType.substring(11, convertedAction.returnType.length - 1)
                 : convertedAction.returnType;
@@ -1492,9 +1544,9 @@ function convertAction(converter: Converter, rawAction: RawAction): Action {
         });
     }
 
-    lazy(convertedAction, 'parameters', converter.convert(rawAction.parameters, convertActionParameter));
+    lazy(converter, convertedAction, 'parameters', converter.convert(rawAction.parameters, convertActionParameter));
 
-    lazy(convertedAction, 'annotations', () => {
+    lazy(converter, convertedAction, 'annotations', () => {
         /*
             Annotation resolution rule for actions:
 
@@ -1546,7 +1598,7 @@ function convertActionParameter(
 ): ActionParameter {
     const convertedActionParameter = rawActionParameter as ActionParameter;
 
-    lazy(convertedActionParameter, 'typeReference', () => {
+    lazy(converter, convertedActionParameter, 'typeReference', () => {
         let targetType = rawActionParameter.type;
         if (targetType.startsWith('Collection(')) {
             targetType = targetType.substring(11, targetType.length - 1);
@@ -1558,7 +1610,7 @@ function convertActionParameter(
         );
     });
 
-    lazy(convertedActionParameter, 'annotations', () => {
+    lazy(converter, convertedActionParameter, 'annotations', () => {
         // annotations on action parameters are resolved following the rules for actions
         const unspecificOverloadTarget =
             rawActionParameter.fullyQualifiedName.substring(0, rawActionParameter.fullyQualifiedName.indexOf('(')) +
@@ -1596,13 +1648,14 @@ function convertActionParameter(
 function convertComplexType(converter: Converter, rawComplexType: RawComplexType): ComplexType {
     const convertedComplexType = rawComplexType as ComplexType;
 
-    lazy(convertedComplexType, 'properties', converter.convert(rawComplexType.properties, convertProperty));
+    lazy(converter, convertedComplexType, 'properties', converter.convert(rawComplexType.properties, convertProperty));
     lazy(
+        converter,
         convertedComplexType,
         'navigationProperties',
         converter.convert(rawComplexType.navigationProperties as any[], convertNavigationProperty)
     );
-    lazy(convertedComplexType, 'annotations', resolveAnnotations(converter, rawComplexType));
+    lazy(converter, convertedComplexType, 'annotations', resolveAnnotations(converter, rawComplexType));
 
     return convertedComplexType;
 }
@@ -1616,7 +1669,7 @@ function convertComplexType(converter: Converter, rawComplexType: RawComplexType
 function convertEnumMember(converter: Converter, rawEnumMember: RawEnumMember): EnumMember {
     const convertedEnumMember = rawEnumMember as EnumMember;
 
-    lazy(convertedEnumMember, 'annotations', resolveAnnotations(converter, rawEnumMember));
+    lazy(converter, convertedEnumMember, 'annotations', resolveAnnotations(converter, rawEnumMember));
 
     return convertedEnumMember;
 }
@@ -1630,8 +1683,8 @@ function convertEnumMember(converter: Converter, rawEnumMember: RawEnumMember): 
 function convertEnumType(converter: Converter, rawEnumType: RawEnumType): EnumType {
     const convertedEnumType = rawEnumType as EnumType;
 
-    lazy(convertedEnumType, 'members', converter.convert(rawEnumType.members, convertEnumMember));
-    lazy(convertedEnumType, 'annotations', resolveAnnotations(converter, rawEnumType));
+    lazy(converter, convertedEnumType, 'members', converter.convert(rawEnumType.members, convertEnumMember));
+    lazy(converter, convertedEnumType, 'annotations', resolveAnnotations(converter, rawEnumType));
 
     return convertedEnumType;
 }
@@ -1646,7 +1699,7 @@ function convertEnumType(converter: Converter, rawEnumType: RawEnumType): EnumTy
 function convertTypeDefinition(converter: Converter, rawTypeDefinition: RawTypeDefinition): TypeDefinition {
     const convertedTypeDefinition = rawTypeDefinition as TypeDefinition;
 
-    lazy(convertedTypeDefinition, 'annotations', resolveAnnotations(converter, rawTypeDefinition));
+    lazy(converter, convertedTypeDefinition, 'annotations', resolveAnnotations(converter, rawTypeDefinition));
 
     return convertedTypeDefinition;
 }
@@ -1675,18 +1728,35 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     const converter = new Converter(rawMetadata, convertedOutput);
     convertedOutput.getConverter = () => converter;
     lazy(
+        converter,
         convertedOutput,
         'entityContainer',
         converter.convert(converter.rawSchema.entityContainer, convertEntityContainer)
     );
-    lazy(convertedOutput, 'entitySets', converter.convert(converter.rawSchema.entitySets, convertEntitySet));
-    lazy(convertedOutput, 'singletons', converter.convert(converter.rawSchema.singletons, convertSingleton));
-    lazy(convertedOutput, 'entityTypes', converter.convert(converter.rawSchema.entityTypes, convertEntityType));
-    lazy(convertedOutput, 'actions', converter.convert(converter.rawSchema.actions, convertAction));
-    lazy(convertedOutput, 'complexTypes', converter.convert(converter.rawSchema.complexTypes, convertComplexType));
-    lazy(convertedOutput, 'enumTypes', converter.convert(converter.rawSchema.enumTypes, convertEnumType));
-    lazy(convertedOutput, 'actionImports', converter.convert(converter.rawSchema.actionImports, convertActionImport));
+    lazy(converter, convertedOutput, 'entitySets', converter.convert(converter.rawSchema.entitySets, convertEntitySet));
+    lazy(converter, convertedOutput, 'singletons', converter.convert(converter.rawSchema.singletons, convertSingleton));
     lazy(
+        converter,
+        convertedOutput,
+        'entityTypes',
+        converter.convert(converter.rawSchema.entityTypes, convertEntityType)
+    );
+    lazy(converter, convertedOutput, 'actions', converter.convert(converter.rawSchema.actions, convertAction));
+    lazy(
+        converter,
+        convertedOutput,
+        'complexTypes',
+        converter.convert(converter.rawSchema.complexTypes, convertComplexType)
+    );
+    lazy(converter, convertedOutput, 'enumTypes', converter.convert(converter.rawSchema.enumTypes, convertEnumType));
+    lazy(
+        converter,
+        convertedOutput,
+        'actionImports',
+        converter.convert(converter.rawSchema.actionImports, convertActionImport)
+    );
+    lazy(
+        converter,
         convertedOutput,
         'typeDefinitions',
         converter.convert(converter.rawSchema.typeDefinitions, convertTypeDefinition)
@@ -1713,12 +1783,5 @@ export function addValueListWithReferences(convertedMetadata: ConvertedMetadata,
     const converter = (convertedMetadata as ConvertedMetadataInternal).getConverter();
     converter.addExtraMetadata(rawVHMetadata);
     // Force reset the converted data
-    convertedMetadata.entitySets = initialSymbol as any;
-    convertedMetadata.entityTypes = initialSymbol as any;
-    convertedMetadata.complexTypes = initialSymbol as any;
-    convertedMetadata.enumTypes = initialSymbol as any;
-    convertedMetadata.actionImports = initialSymbol as any;
-    convertedMetadata.typeDefinitions = initialSymbol as any;
-    convertedMetadata.actions = initialSymbol as any;
-    convertedMetadata.singletons = initialSymbol as any;
+    converter.reset();
 }
