@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.14.4
+
+### Patch Changes
+
+-   ec213b0: Add support for a CollectionPathTarget to identify the target
+
 ## 0.14.3
 
 ### Patch Changes

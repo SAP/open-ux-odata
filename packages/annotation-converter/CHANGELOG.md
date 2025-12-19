@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.10.17
+
+### Patch Changes
+
+-   ec213b0: Add support for a CollectionPathTarget to identify the target
+-   Updated dependencies [ec213b0]
+    -   @sap-ux/vocabularies-types@0.14.4
+
 ## 0.10.16
 
 ### Patch Changes
