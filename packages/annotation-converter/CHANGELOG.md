@@ -1,5 +1,11 @@
 # @sap-ux/annotation-converter
 
+## 0.10.18
+
+### Patch Changes
+
+-   0625019: Fix reset of anntoations when merging value list references
+
 ## 0.10.17
 
 ### Patch Changes
