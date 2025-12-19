@@ -109,7 +109,7 @@ importers:
     devDependencies:
       '@sap/cds-compiler':
         specifier: ^5.4
-        version: 5.5.0
+        version: 5.9.14
       '@types/node':
         specifier: ^18.15.0
         version: 18.19.127
@@ -212,7 +212,7 @@ importers:
     devDependencies:
       '@sap/cds-compiler':
         specifier: ^5.4
-        version: 5.5.0
+        version: 5.9.14
 
   packages/ui5-middleware-fe-mockserver:
     dependencies:
@@ -1455,8 +1455,8 @@ packages:
   '@sap/bas-sdk@3.11.6':
     resolution: {integrity: sha512-2IMsL0/cXxN2GFTkmq2m9TbY3lKtnKGjOONalw3WTJRH+yWCog2q5f5V2Xf+P+oem67UQcubkMPlbdqmvVIYDA==}
 
-  '@sap/cds-compiler@5.5.0':
-    resolution: {integrity: sha512-UlNcFjkoBEbknmMCQWvbMETtbIU22heVj+5ZNh3ewZpBo7ClmUGueRWIt5Hlzle9l1JscpPMZUpt/VYgx2Z/KA==}
+  '@sap/cds-compiler@5.9.14':
+    resolution: {integrity: sha512-QPVwtpVesBnocdhJBm/GLRi66Ar5miA1lqXAHD/naHxBdRW2YI7GGPG9Uu7pfWh0qW6i6qz5DEzlXIEHoQ/uVA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1720,23 +1720,28 @@ packages:
   '@ui5/builder@3.5.1':
     resolution: {integrity: sha512-RpiWIarR876+CILtbzCM0hAjMA0oYkS6N/UIocnwPIOKCfZKrDJnpBoAnzgyq/fOF+jm9XXhSnJrkXnyvPPysw==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
   '@ui5/cli@3.11.5':
     resolution: {integrity: sha512-FoV8k943sPfz895ImVOULDp/CUjGAxhUPX6iPzF/9vItKTKCopelwSk6NMt2kfErSTjEUjajLe1mh2bhhJRHcg==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
     hasBin: true
 
   '@ui5/fs@3.0.4':
     resolution: {integrity: sha512-0JnlsSvqOGlo+15+mP1E2HXOuRERBYWREVG45emDMRq7fNAsi7lgbKHTMA5GogJMRHI8/QaCV9vU1u370Bv1jg==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
   '@ui5/fs@3.0.5':
     resolution: {integrity: sha512-SpDoMvOGYeBR8xOTDb1cu0uxJNsC1FxrENsZiRMd6R2PfUAiR0fiWQHn4dVBspoLx+jFemAfLfTMv1DEn0m1qQ==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
   '@ui5/logger@3.0.0':
     resolution: {integrity: sha512-Np9pHhr+dnyL2gDFwIx6c6Xy0yhtpBIqUQM9An8uLX/wIcRjIjBSQ/r16o3YgS9roY59I/uj5ZEbIa1cdS3Dzg==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
   '@ui5/logger@4.0.1':
     resolution: {integrity: sha512-M6ftnWiUXq3SVLLQ5XTBoJNdxzDvu71FoGh4iIR2kpaDCgpQ5DbHuBRhKAlrUB6EmIFzOxKepgYN95z09xbCbA==}
@@ -1745,10 +1750,12 @@ packages:
   '@ui5/project@3.9.2':
     resolution: {integrity: sha512-IkpDXWWiTE7eZibcQoWi09zbXAn+FJJN3boXNpZBVUxzqiqZRVatRLWdKD4TvyLZ7FvAikkufGkl+z/h2r20cQ==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
   '@ui5/server@3.3.0':
     resolution: {integrity: sha512-AsqYgr3rTXwsnoaSX3tm78QeiKoKSOMDKR/s60lyTmANIuheECDK9JBLv6NIzp6chCp8Cbbdp/mMScnVlLy7QA==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
@@ -7141,7 +7148,7 @@ snapshots:
       - debug
       - utf-8-validate
 
-  '@sap/cds-compiler@5.5.0':
+  '@sap/cds-compiler@5.9.14':
     dependencies:
       antlr4: 4.9.3
 
