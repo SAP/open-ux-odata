@@ -777,8 +777,11 @@ describe('Annotation Converter', () => {
         const parsedVHReferences = parse(await loadFixture('v4/vhReference.xml'), 'vhReferences');
         const convertedTypes = convert(parsedEDMX);
         const entitySet = convertedTypes.entitySets.by_name('SalesOrderManage');
-        addValueListWithReferences(convertedTypes, parsedVHReferences);
         const entityType = convertedTypes.entityTypes.by_name('SalesOrderManageType');
+        const vhReferences =
+            entityType?.entityProperties.by_name('HeaderBillingBlockReason')?.annotations.Common?.ValueListReferences;
+        expect(vhReferences).not.toBeNull();
+        addValueListWithReferences(convertedTypes, parsedVHReferences);
         const collectionPath =
             entityType?.entityProperties.by_name('HeaderBillingBlockReason')?.annotations.Common?.ValueListMapping
                 ?.CollectionPathTarget;

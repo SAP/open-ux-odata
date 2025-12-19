@@ -197,16 +197,27 @@ export function Decimal(value: number) {
     };
 }
 export const initialSymbol = Symbol('initial');
+export interface IResettable {
+    reset(): void;
+    collectDynamic(object: any, property: string | number | symbol): void;
+}
+
 /**
  * Defines a lazy property.
  *
  * The property is initialized by calling the init function on the first read access, or by directly assigning a value.
  *
+ * @param converter   The converter instance
  * @param object    The host object
  * @param property  The lazy property to add
  * @param init      The function that initializes the property's value
  */
-export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, init: () => Type[Key]) {
+export function lazy<Type, Key extends keyof Type>(
+    converter: IResettable,
+    object: Type,
+    property: Key,
+    init: () => Type[Key]
+) {
     let _value: Type[Key] | typeof initialSymbol = initialSymbol;
     Object.defineProperty(object, property, {
         enumerable: true,
@@ -221,6 +232,7 @@ export function lazy<Type, Key extends keyof Type>(object: Type, property: Key, 
             _value = value;
         }
     });
+    converter.collectDynamic(object, property);
 }
 
 /**
