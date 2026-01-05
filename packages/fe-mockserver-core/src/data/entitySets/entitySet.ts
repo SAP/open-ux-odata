@@ -355,6 +355,12 @@ export class MockDataEntitySet implements EntitySetInterface {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     mockDataFn = new MockClass();
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    const initialDataSetFn = this._rootMockDataFn.getInitialDataSet;
+                    if (initialDataSetFn) {
+                        mockDataFn.getInitialDataSet ??= initialDataSetFn; // It would exist in that case
+                    }
                 } else {
                     mockDataFn = { ...mockDataFn };
                 }
