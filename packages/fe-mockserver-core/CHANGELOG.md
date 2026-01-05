@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.34
+
+### Patch Changes
+
+-   08abba2: Fix an issue when the TS code is used with fallback mockdata loading
+
 ## 1.6.33
 
 ### Patch Changes
