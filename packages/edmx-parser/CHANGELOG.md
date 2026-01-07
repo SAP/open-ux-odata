@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.9.8
+
+### Patch Changes
+
+-   ea74132: Fix an issue with merging already merged raw data
+
 ## 0.9.7
 
 ### Patch Changes
