@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.14.5
+
+### Patch Changes
+
+-   bc95996: Make the addValueListWithReferences an option on the converter output
+
 ## 0.14.4
 
 ### Patch Changes

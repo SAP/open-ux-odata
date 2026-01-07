@@ -1,5 +1,13 @@
 # @sap-ux/annotation-converter
 
+## 0.10.19
+
+### Patch Changes
+
+-   bc95996: Make the addValueListWithReferences an option on the converter output
+-   Updated dependencies [bc95996]
+    -   @sap-ux/vocabularies-types@0.14.5
+
 ## 0.10.18
 
 ### Patch Changes
