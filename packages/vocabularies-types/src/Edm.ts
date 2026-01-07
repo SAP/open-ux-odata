@@ -629,6 +629,7 @@ export type ConvertedMetadata = {
     references: Reference[];
     diagnostics: { message: string }[];
     resolvePath: <T>(path: string, startingPoint?: any) => ResolutionTarget<T>;
+    addValueListWithReferences: (rawVHMetadata: RawMetadata) => void;
 };
 
 // All the Raw types are meant for usage when providing data to the converter

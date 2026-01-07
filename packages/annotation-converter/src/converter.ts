@@ -1773,15 +1773,18 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
         return targetResolution;
     };
 
+    /**
+     * Adds an additional metadata file referencing value list information into the main converted data.
+     *
+     * @param {Array} rawVHMetadata - The list of values to be added to the converted output
+     * @returns {void}
+     */
+    convertedOutput.addValueListWithReferences = function (rawVHMetadata: RawMetadata): void {
+        const converter = (convertedOutput as ConvertedMetadataInternal).getConverter();
+        converter.addExtraMetadata(rawVHMetadata);
+        // Force reset the converted data
+        converter.reset();
+    };
+
     return convertedOutput;
-}
-
-// In some case we need to extend a converted metadata after the initial conversion.
-// This is usually the case for
-
-export function addValueListWithReferences(convertedMetadata: ConvertedMetadata, rawVHMetadata: RawMetadata): void {
-    const converter = (convertedMetadata as ConvertedMetadataInternal).getConverter();
-    converter.addExtraMetadata(rawVHMetadata);
-    // Force reset the converted data
-    converter.reset();
 }
