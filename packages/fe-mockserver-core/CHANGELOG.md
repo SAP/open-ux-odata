@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.35
+
+### Patch Changes
+
+-   5b72d17: fix(deps): update dependency body-parser to v1.20.4
+
 ## 1.6.34
 
 ### Patch Changes
