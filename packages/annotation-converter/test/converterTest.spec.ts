@@ -33,13 +33,7 @@ import {
     UIAnnotationTypes
 } from '@sap-ux/vocabularies-types/vocabularies/UI';
 import { VocabularyReferences } from '@sap-ux/vocabularies-types/vocabularies/VocabularyReferences';
-import {
-    addValueListWithReferences,
-    convert,
-    CONVERTER_ROOT,
-    defaultReferences,
-    revertTermToGenericType
-} from '../src';
+import { convert, CONVERTER_ROOT, defaultReferences, revertTermToGenericType } from '../src';
 import { loadFixture } from './fixturesHelper';
 
 describe('Annotation Converter', () => {
@@ -781,7 +775,7 @@ describe('Annotation Converter', () => {
         const vhReferences =
             entityType?.entityProperties.by_name('HeaderBillingBlockReason')?.annotations.Common?.ValueListReferences;
         expect(vhReferences).not.toBeNull();
-        addValueListWithReferences(convertedTypes, parsedVHReferences);
+        convertedTypes.addValueListWithReferences(parsedVHReferences);
         const collectionPath =
             entityType?.entityProperties.by_name('HeaderBillingBlockReason')?.annotations.Common?.ValueListMapping
                 ?.CollectionPathTarget;
