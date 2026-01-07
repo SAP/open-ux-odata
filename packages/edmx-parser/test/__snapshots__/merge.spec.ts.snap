@@ -1812,6 +1812,7 @@ MergedRawMetadata {
     "fullyQualifiedName": "sap.fe.core.ActionVisibility.EntityContainer",
     "name": "EntityContainer",
   },
+  "_entityContainers": {},
   "_entitySets": [
     {
       "_type": "EntitySet",
