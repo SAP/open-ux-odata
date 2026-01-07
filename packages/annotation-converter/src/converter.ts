@@ -1774,7 +1774,7 @@ export function convert(rawMetadata: RawMetadata): ConvertedMetadata {
     };
 
     /**
-     * Adds an additional metadata file referencing value list information into the main converted data
+     * Adds an additional metadata file referencing value list information into the main converted data.
      *
      * @param {Array} rawVHMetadata - The list of values to be added to the converted output
      * @returns {void}
