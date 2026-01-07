@@ -84,7 +84,8 @@ export class MergedRawMetadata implements RawMetadataInstance {
             typeDefinitions: this._typeDefinitions,
             actions: this._actions,
             actionImports: this._actionImports,
-            entityTypes: this._entityTypes
+            entityTypes: this._entityTypes,
+            entityContainers: this._entityContainers
         };
     }
 
@@ -108,6 +109,7 @@ export class MergedRawMetadata implements RawMetadataInstance {
     _complexTypes: RawComplexType[] = [];
     _enumTypes: RawEnumType[] = [];
     _typeDefinitions: RawTypeDefinition[] = [];
+    _entityContainers: Record<string, RawEntityContainer> = {};
 
     /**
      * @param initialParserOutput
