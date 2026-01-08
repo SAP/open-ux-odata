@@ -1,5 +1,12 @@
 # @sap-ux/fe-mockserver-admin
 
+## 0.0.35
+
+### Patch Changes
+
+-   Updated dependencies [fbc3964]
+    -   @sap-ux/fe-mockserver-core@1.6.38
+
 ## 0.0.34
 
 ### Patch Changes

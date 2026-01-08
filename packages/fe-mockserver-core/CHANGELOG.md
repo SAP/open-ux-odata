@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.6.38
+
+### Patch Changes
+
+-   fbc3964: Fix tiny issue on the v2 support
+
 ## 1.6.37
 
 ### Patch Changes
