@@ -183,7 +183,11 @@ export class FileBasedMockData {
                 } else {
                     mockEntry[prop.name] = parseInt(mockEntry[prop.name], 10);
                 }
-            } else if (isV2 && mockEntry.hasOwnProperty(prop.name) && ['Edm.DateTime'].includes(prop.type)) {
+            } else if (
+                isV2 &&
+                mockEntry.hasOwnProperty(prop.name) &&
+                ['Edm.DateTime', 'Edm.DateTimeOffset'].includes(prop.type)
+            ) {
                 if (mockEntry[prop.name] !== '' && !mockEntry[prop.name]?.startsWith('/Date(')) {
                     mockEntry[prop.name] = '/Date(' + new Date(mockEntry[prop.name]).getTime() + ')/';
                 }
