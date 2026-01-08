@@ -340,7 +340,13 @@ async function standardBatchHandler(req: IncomingMessageWithTenant, res: ServerR
         }
     }
     res.setHeader('Content-Type', `multipart/mixed; boundary=${batchData.boundary}`);
-    res.setHeader('odata-version', dataAccess.getMetadata().getVersion());
+    const version = dataAccess.getMetadata().getVersion();
+    if (version === '2.0') {
+        res.setHeader('dataserviceversion', version);
+    } else {
+        res.setHeader('odata-version', version);
+    }
+
     res.write(batchResponse);
     res.end();
 }
