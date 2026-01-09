@@ -1,5 +1,16 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.4.0
+
+### Minor Changes
+
+-   e03ed6a: Add an option to logRequests and logResponses to debug
+
+### Patch Changes
+
+-   Updated dependencies [e03ed6a]
+    -   @sap-ux/fe-mockserver-core@1.7.0
+
 ## 2.3.38
 
 ### Patch Changes
