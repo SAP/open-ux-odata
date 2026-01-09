@@ -1,4 +1,5 @@
 import type {
+    BaseServerConfig,
     ConfigAnnotation,
     ConfigService,
     FileBasedServerConfig,
@@ -91,6 +92,19 @@ function processServicesConfig(
     currentBasePath: string,
     inConfig: FileBasedServerConfig | FolderBasedServerConfig
 ) {
+    const propertiesToOverride: (keyof BaseServerConfig)[] = [
+        'watch',
+        'noETag',
+        'debug',
+        'logger',
+        'logRequests',
+        'logResponses',
+        'strictKeyMode',
+        'contextBasedIsolation',
+        'generateMockData',
+        'forceNullableValuesToNull',
+        'validateETag'
+    ];
     return inServices.map((inService) => {
         const myServiceConfig: ServiceConfig = {
             watch: inService.watch,
@@ -99,6 +113,8 @@ function processServicesConfig(
             noETag: inService.noETag,
             validateETag: inService.validateETag,
             logger: inService.logger,
+            logRequests: inService.logRequests,
+            logResponses: inService.logResponses,
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
             generateMockData: inService.generateMockData,
@@ -128,33 +144,11 @@ function processServicesConfig(
             myServiceConfig.urlPath = inService.urlBasePath + '/' + inService.name;
         }
 
-        if (inConfig.watch && !inService.hasOwnProperty('watch')) {
-            myServiceConfig.watch = inConfig.watch;
-        }
-        if (inConfig.noETag && !inService.hasOwnProperty('noETag')) {
-            myServiceConfig.noETag = inConfig.noETag;
-        }
-        if (inConfig.debug && !inService.hasOwnProperty('debug')) {
-            myServiceConfig.debug = inConfig.debug;
-        }
-        if (inConfig.logger && !inService.hasOwnProperty('logger')) {
-            myServiceConfig.logger = inConfig.logger;
-        }
-        if (inConfig.strictKeyMode && !inService.hasOwnProperty('strictKeyMode')) {
-            myServiceConfig.strictKeyMode = inConfig.strictKeyMode;
-        }
-        if (inConfig.contextBasedIsolation && !inService.hasOwnProperty('contextBasedIsolation')) {
-            myServiceConfig.contextBasedIsolation = inConfig.contextBasedIsolation;
-        }
-        if (inConfig.generateMockData && !inService.hasOwnProperty('generateMockData')) {
-            myServiceConfig.generateMockData = inConfig.generateMockData;
-        }
-        if (inConfig.forceNullableValuesToNull && !inService.hasOwnProperty('forceNullableValuesToNull')) {
-            myServiceConfig.forceNullableValuesToNull = inConfig.forceNullableValuesToNull;
-        }
-        if (inConfig.validateETag && !inService.hasOwnProperty('validateETag')) {
-            myServiceConfig.validateETag = inConfig.validateETag;
-        }
+        propertiesToOverride.forEach((property) => {
+            if (inConfig[property] !== undefined && !inService.hasOwnProperty(property)) {
+                (myServiceConfig as any)[property] = inConfig[property];
+            }
+        });
 
         return myServiceConfig;
     });
@@ -185,6 +179,8 @@ export function resolveConfig(inConfig: ServerConfig, basePath: string): Mockser
         strictKeyMode: !!inConfig.strictKeyMode,
         debug: !!inConfig.debug,
         logger: inConfig.logger,
+        logRequests: !!inConfig.logRequests,
+        logResponses: !!inConfig.logResponses,
         generateMockData: !!inConfig.generateMockData,
         annotations: annotations,
         services: services,

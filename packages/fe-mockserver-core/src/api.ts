@@ -12,6 +12,8 @@ export interface Service {
     metadataCdsPath?: string;
     cdsServiceName?: string;
     debug?: boolean;
+    logRequests?: boolean;
+    logResponses?: boolean;
     contextBasedIsolation?: boolean;
     resolveExternalServiceReferences?: boolean;
     strictKeyMode?: boolean;
@@ -33,6 +35,8 @@ export interface ConfigService {
     metadataPath?: string;
     cdsServiceName?: string;
     debug: boolean;
+    logRequests?: boolean;
+    logResponses?: boolean;
     logger?: ILogger;
     noETag: boolean;
     validateETag: boolean;
@@ -66,6 +70,8 @@ export interface BaseServerConfig {
     tsConfigPath?: string;
     strictKeyMode?: boolean;
     debug?: boolean;
+    logRequests?: boolean;
+    logResponses?: boolean;
     watch?: boolean;
     noETag?: boolean;
     logger?: ILogger;
@@ -104,6 +110,8 @@ export type ServiceConfig = {
     forceNullableValuesToNull?: boolean;
     resolveExternalServiceReferences?: boolean;
     debug?: boolean;
+    logRequests?: boolean;
+    logResponses?: boolean;
     strictKeyMode?: boolean;
     watch?: boolean; // should be forced to false in browser
     noETag?: boolean; // should be forced to true in browser
@@ -121,6 +129,8 @@ export type ServiceConfigEx = ServiceConfig & {
 export interface MockserverConfiguration {
     tsConfigPath?: string;
     debug?: boolean;
+    logRequests?: boolean;
+    logResponses?: boolean;
     logger?: ILogger;
     contextBasedIsolation?: boolean;
     generateMockData?: boolean;

@@ -89,6 +89,7 @@ function addPathToExpandParameters(
 export default class ODataRequest {
     private isMinimalRepresentation: boolean;
     public isStrictMode: boolean;
+    public forceLog: boolean;
     public etagReference?: string;
     public tenantId: string;
     public queryPath: QueryPath[];
@@ -116,6 +117,14 @@ export default class ODataRequest {
     private messages: any[] = [];
     private elementETag: string | undefined;
     private contentId?: string;
+
+    public get url(): string {
+        return this.requestContent.url;
+    }
+
+    public get method(): string {
+        return this.requestContent.method;
+    }
 
     constructor(private requestContent: ODataRequestContent, private dataAccess: DataAccess) {
         const parsedUrl = new URL(`http://dummy${requestContent.url}`);
@@ -148,6 +157,7 @@ export default class ODataRequest {
 
     private parseParameters(searchParams: URLSearchParams) {
         this.allParams = searchParams;
+        this.forceLog = searchParams.has('logs');
         this.searchQuery = parseSearch(searchParams.get('$search'));
         if (this.dataAccess.getMetadata().getVersion() === '2.0' && this.searchQuery.length === 0) {
             // In v2, there is no official $search support but sometimes `search` without dollar is used

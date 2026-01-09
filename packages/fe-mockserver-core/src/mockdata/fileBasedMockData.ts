@@ -1453,6 +1453,7 @@ export class FileBasedMockData {
                 this.buildTree(rootNode, hierarchyNodes, nodeProperty, 0, undefined);
             });
             const ancestors: any[] = [];
+            this._mockDataEntitySet.logRequest('Trying to find ancestors comparing ' + nodeProperty, _odataRequest);
             limitedHierarchy.forEach((item: any) => {
                 const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
                 const currentNode = parentNodeChildren.find((node: any) =>

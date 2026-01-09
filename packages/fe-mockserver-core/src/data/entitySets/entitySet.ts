@@ -877,4 +877,8 @@ export class MockDataEntitySet implements EntitySetInterface {
     public getServiceRegistry(): ServiceRegistry {
         return this.dataAccess.getServiceRegistry();
     }
+
+    public logRequest(message: string, odataRequest: ODataRequest) {
+        return this.dataAccess.logRequest(message, odataRequest);
+    }
 }

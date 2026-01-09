@@ -75,6 +75,7 @@ export interface EntitySetInterface {
     shouldValidateETag(): boolean;
     isDraft(): boolean;
     generateMockData: boolean;
+    logRequest(message: string, odataRequest: ODataRequest): void;
 }
 export interface DataAccessInterface {
     isV4(): boolean;
@@ -107,6 +108,7 @@ export interface DataAccessInterface {
     debug: boolean;
     fileLoader: IFileLoader;
     log: ILogger;
+    logRequest(message: string, odataRequest: ODataRequest): void;
 }
 export interface ServiceRegistryInterface {
     loadServices(serviceConfigs: ServiceConfig[]): Promise<void>;
