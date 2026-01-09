@@ -103,6 +103,10 @@ export class ServiceRegistry {
      */
     private async createServiceRegistration(mockServiceIn: ServiceConfig, log: ILogger): Promise<void> {
         const mockService = mockServiceIn as ServiceConfigEx;
+        if (mockService.logRequests === undefined && this.config.logRequests !== undefined) {
+            mockService.logRequests = this.config.logRequests;
+            mockService.logResponses = this.config.logResponses;
+        }
         const splittedPath = mockService.urlPath.split('/');
         mockService._internalName = splittedPath[splittedPath.length - 1];
 

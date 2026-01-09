@@ -10,6 +10,7 @@ import type {
 } from '@sap-ux/vocabularies-types';
 import type { ILogger } from '@ui5/logger';
 import cloneDeep from 'lodash.clonedeep';
+import { inspect } from 'util';
 import type { ServiceConfig } from '../api';
 import type { IFileLoader } from '../index';
 import { getLogger } from '../logger';
@@ -53,6 +54,8 @@ type Data = Record<string, any> | undefined | null;
 export class DataAccess implements DataAccessInterface {
     protected readonly mockDataRootFolder: string;
     public debug: boolean;
+    public logRequests: boolean;
+    public logResponses: boolean;
     public log: ILogger;
     protected readonly strictKeyMode: boolean;
     protected readonly contextBasedIsolation: boolean;
@@ -72,6 +75,8 @@ export class DataAccess implements DataAccessInterface {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
         this.debug = !!service.debug;
+        this.logRequests = !!service.logRequests;
+        this.logResponses = !!service.logResponses;
         this.log = this.logger ?? getLogger('server:ux-fe-mockserver', this.debug);
 
         this.strictKeyMode = !!service.strictKeyMode;
@@ -118,6 +123,26 @@ export class DataAccess implements DataAccessInterface {
         }
         this.entitySets = {};
         this.initializeMockData();
+    }
+
+    public logRequest(message: string, odataRequest: ODataRequest): void {
+        if (this.logRequests || odataRequest.forceLog) {
+            if (this.debug) {
+                this.log.info(message);
+            } else {
+                process.stdout.write(`info server:ux-fe-mockserver :: ${message}\n`);
+            }
+        }
+    }
+
+    private logResponse(message: string, odataRequest: ODataRequest) {
+        if (this.logResponses || odataRequest.forceLog) {
+            if (this.debug) {
+                this.log.info(message);
+            } else {
+                process.stdout.write(`info server:ux-fe-mockserver :: ${message}\n`);
+            }
+        }
     }
 
     public async getMockEntitySet(
@@ -208,35 +233,49 @@ export class DataAccess implements DataAccessInterface {
                         }
                         actionData[actionDefinition.parameters[0].name] = actionDataObj;
                     }
-
-                    return mockEntitySet.executeAction(
+                    this.logRequest(`Handling action request for: ${odataRequest.url}`, odataRequest);
+                    this.logRequest(`Running action: ` + actionDefinition.fullyQualifiedName, odataRequest);
+                    this.logRequest(`Action data: ${JSON.stringify(bodyActionData, null, 2)}`, odataRequest);
+                    const result = await mockEntitySet.executeAction(
                         actionDefinition,
                         actionData,
                         odataRequest,
                         odataRequest.queryPath[i - 1].keys
                     );
+                    this.logResponse(`Response Data: ${JSON.stringify(result, null, 2)}`, odataRequest);
+                    return result;
                 }
                 const collecfqActionName = `${actionName}(Collection(${currentEntityType.fullyQualifiedName}))`;
                 const collecactionDefinition = this.metadata.getActionByFQN(collecfqActionName);
                 if (collecactionDefinition) {
                     actionData._type = collecactionDefinition.name;
-                    return (await this.getMockEntitySet(entitySetName)).executeAction(
+                    this.logRequest(`Handling action request for: ${odataRequest.url}`, odataRequest);
+                    this.logRequest(`Running action: ` + collecactionDefinition.fullyQualifiedName, odataRequest);
+                    this.logRequest(`Action data: ${JSON.stringify(bodyActionData, null, 2)}`, odataRequest);
+
+                    const result = await (
+                        await this.getMockEntitySet(entitySetName)
+                    ).executeAction(
                         collecactionDefinition,
                         actionData,
                         odataRequest,
                         odataRequest.queryPath[i - 1].keys
                     );
+                    this.logResponse(`Response Data: ${JSON.stringify(result, null, 2)}`, odataRequest);
+                    return result;
                 }
                 // Fallback with local resolving, useful for function where the FQN also include all parameter types
                 const functionDefinition = currentEntityType.resolvePath(actionName);
                 if (functionDefinition?._type === 'Function' || functionDefinition?._type === 'Action') {
                     actionData._type = functionDefinition.name;
-                    return (await this.getMockEntitySet(entitySetName)).executeAction(
-                        functionDefinition,
-                        actionData,
-                        odataRequest,
-                        odataRequest.queryPath[i - 1].keys
-                    );
+                    this.logRequest(`Handling action request for: ${odataRequest.url}`, odataRequest);
+                    this.logRequest(`Running action: ` + functionDefinition.fullyQualifiedName, odataRequest);
+                    this.logRequest(`Action data: ${JSON.stringify(bodyActionData, null, 2)}`, odataRequest);
+                    const result = await (
+                        await this.getMockEntitySet(entitySetName)
+                    ).executeAction(functionDefinition, actionData, odataRequest, odataRequest.queryPath[i - 1].keys);
+                    this.logResponse(`Response Data: ${JSON.stringify(result, null, 2)}`, odataRequest);
+                    return result;
                 }
             }
         } else {
@@ -256,6 +295,9 @@ export class DataAccess implements DataAccessInterface {
                         if (actionData) {
                             actionData._type = actionDefinition.name;
                         }
+                        this.logRequest(`Handling action request for: ${odataRequest.url}`, odataRequest);
+                        this.logRequest(`Running action: ` + actionDefinition.fullyQualifiedName, odataRequest);
+                        this.logRequest(`Action data: ${JSON.stringify(bodyActionData, null, 2)}`, odataRequest);
                         let outData = await (
                             await this.getMockEntitySet(targetEntitySet.name)
                         ).executeAction(actionDefinition, Object.assign({}, actionData), odataRequest, {});
@@ -279,6 +321,8 @@ export class DataAccess implements DataAccessInterface {
                                 outData = enrichElement(returnEntitySet ?? targetEntitySet, outData);
                             }
                         }
+                        this.logResponse(`Response Data: ${JSON.stringify(outData, null, 2)}`, odataRequest);
+
                         return outData;
                     }
                 } else if (
@@ -289,6 +333,9 @@ export class DataAccess implements DataAccessInterface {
                         if (actionData) {
                             actionData._type = actionDefinition.name;
                         }
+                        this.logRequest(`Handling action request for: ${odataRequest.url}`, odataRequest);
+                        this.logRequest(`Running action: ` + actionDefinition.fullyQualifiedName, odataRequest);
+                        this.logRequest(`Action data: ${JSON.stringify(bodyActionData, null, 2)}`, odataRequest);
                         await entitySet.executeAction(
                             actionDefinition,
                             actionData,
@@ -303,7 +350,10 @@ export class DataAccess implements DataAccessInterface {
                     if (actionData) {
                         actionData._type = actionDefinition.name;
                     }
-                    return (
+                    this.logRequest(`Handling action request for: ${odataRequest.url}`, odataRequest);
+                    this.logRequest(`Running action: ` + actionDefinition.fullyQualifiedName, odataRequest);
+                    this.logRequest(`Action data: ${JSON.stringify(bodyActionData, null, 2)}`, odataRequest);
+                    const result = await (
                         await MockEntityContainer.read(
                             this.mockDataRootFolder,
                             odataRequest.tenantId,
@@ -316,10 +366,12 @@ export class DataAccess implements DataAccessInterface {
                         odataRequest.queryPath[0].keys || {},
                         odataRequest
                     );
+                    this.logResponse(`Response Data: ${JSON.stringify(result, null, 2)}`, odataRequest);
+                    return result;
                 }
             } else {
                 // Not an odata action, try to call some fallback handling
-                return (
+                const result =
                     (
                         await MockEntityContainer.read(
                             this.mockDataRootFolder,
@@ -327,8 +379,8 @@ export class DataAccess implements DataAccessInterface {
                             this.fileLoader,
                             this
                         )
-                    )?.handleRequest?.(odataRequest) ?? null
-                );
+                    )?.handleRequest?.(odataRequest) ?? null;
+                return result;
             }
         }
         return null;
@@ -537,15 +589,17 @@ export class DataAccess implements DataAccessInterface {
      * @param selectDefinition  Selected properties
      * @param expandDefinitions Expanded properties
      * @param entityType        Entity type of the data
+     * @param odataRequest      The odata request
      */
     private applySelect(
         data: Data | Data[],
         selectDefinition: SelectDefinition,
         expandDefinitions: Record<string, ExpandDefinition>,
-        entityType: EntityType
+        entityType: EntityType,
+        odataRequest: ODataRequest
     ): void {
         const dataArray: Record<string, any>[] = Array.isArray(data) ? data : [data].filter((record) => !!record);
-
+        this.logRequest(`Applying Select: ${JSON.stringify(selectDefinition)}`, odataRequest);
         if (selectDefinition['*']) {
             // $select=*: all properties + expanded navigation properties
             const selectedNavigationProperties = new Set<string>(
@@ -631,7 +685,8 @@ export class DataAccess implements DataAccessInterface {
             data[navigationProperty.name],
             expandDefinition.properties,
             expandDefinition.expand,
-            navigationProperty.targetType
+            navigationProperty.targetType,
+            odataRequest
         );
     }
 
@@ -693,6 +748,7 @@ export class DataAccess implements DataAccessInterface {
         dontClone: boolean = false,
         ignoreRequestOperation = false
     ): Promise<any> {
+        this.logRequest(`Handling GET request for: ${odataRequest.url}`, odataRequest);
         this.log.info(`Retrieving data for ${JSON.stringify(odataRequest.queryPath)}`);
         let currentEntitySet: EntitySet | Singleton | undefined;
         let previousEntitySet: EntitySet | Singleton | undefined;
@@ -754,6 +810,12 @@ export class DataAccess implements DataAccessInterface {
                                     currentEntitySet,
                                     currentKeys,
                                     odataRequest.tenantId
+                                );
+                                this.logRequest(
+                                    `Lookup on navigation property: ${navPropDetail.name} with keys ${JSON.stringify(
+                                        currentKeys
+                                    )}`,
+                                    odataRequest
                                 );
                             }
                             const hasOnlyDraftKeyOrNoKeys =
@@ -892,6 +954,7 @@ export class DataAccess implements DataAccessInterface {
             }
             // Apply $filter
             if (odataRequest.filterDefinition && Array.isArray(data)) {
+                this.logRequest(`Filter Definition: ${JSON.stringify(odataRequest.filterDefinition)}`, odataRequest);
                 const filterDef = odataRequest.filterDefinition;
 
                 data = data.filter((dataLine) => {
@@ -899,7 +962,8 @@ export class DataAccess implements DataAccessInterface {
                 });
             }
             // Apply $search
-            if (odataRequest.searchQuery && Array.isArray(data)) {
+            if (odataRequest.searchQuery && odataRequest.searchQuery.length > 0 && Array.isArray(data)) {
+                this.logRequest(`Applying Search: ${odataRequest.searchQuery}`, odataRequest);
                 data = data.filter((dataLine) => {
                     return mockEntitySet.checkSearch(dataLine, odataRequest.searchQuery, odataRequest);
                 });
@@ -907,6 +971,7 @@ export class DataAccess implements DataAccessInterface {
 
             // Apply $orderby
             if (odataRequest.orderBy && odataRequest.orderBy.length > 0) {
+                this.logRequest(`Applying Order By: ${JSON.stringify(odataRequest.orderBy)}`, odataRequest);
                 data = this._applyOrderBy(data, odataRequest.orderBy, mockEntitySet);
             }
             // Apply $select
@@ -924,7 +989,8 @@ export class DataAccess implements DataAccessInterface {
                     data,
                     odataRequest.selectedProperties,
                     odataRequest.expandProperties,
-                    currentEntityType
+                    currentEntityType,
+                    odataRequest
                 );
             }
 
@@ -1041,6 +1107,7 @@ export class DataAccess implements DataAccessInterface {
             }
         }
 
+        this.logResponse(`Response Data: ${JSON.stringify(data, null, 2)}`, odataRequest);
         return data;
     }
 
@@ -1060,7 +1127,13 @@ export class DataAccess implements DataAccessInterface {
             patchData = finalPatchObject;
         }
         const mockEntitySet = await this.getMockEntitySet(entitySetName);
-
+        this.logRequest(`Handling PATCH request for entity set: ${entitySetName}`, odataRequest);
+        this.logRequest(
+            `PATCH details - Keys: ${JSON.stringify(odataRequest.queryPath[0].keys)}, Tenant: ${
+                odataRequest.tenantId
+            }, Data: ${JSON.stringify(patchData, null, 2)}`,
+            odataRequest
+        );
         const resultData = await mockEntitySet.performPATCH(
             odataRequest.queryPath[0].keys,
             patchData,
@@ -1068,6 +1141,7 @@ export class DataAccess implements DataAccessInterface {
             odataRequest,
             true
         );
+        this.logResponse(`Response Data: ${JSON.stringify(resultData, null, 2)}`, odataRequest);
         if (this.validateETag && !Array.isArray(resultData) && mockEntitySet.isDraft()) {
             odataRequest.setETag(resultData['@odata.etag']);
         }
@@ -1076,7 +1150,8 @@ export class DataAccess implements DataAccessInterface {
 
     public async createData(odataRequest: ODataRequest, postData: any) {
         const entitySetName = odataRequest.queryPath[0].path;
-
+        this.logRequest(`Handling POST request for: ${odataRequest.url}`, odataRequest);
+        this.logRequest(`POST data: ${JSON.stringify(postData, null, 2)}`, odataRequest);
         let parentEntitySet = this.metadata.getEntitySet(entitySetName);
         if (odataRequest.queryPath.length > 1 && parentEntitySet) {
             // Creating a sub object
@@ -1140,6 +1215,7 @@ export class DataAccess implements DataAccessInterface {
                     }
                     data[lastNavPropName].push(postData);
                 }
+                this.logResponse(`Response Data: ${JSON.stringify(postData, null, 2)}`, odataRequest);
                 return postData;
             }
         } else if (parentEntitySet) {
@@ -1186,6 +1262,7 @@ export class DataAccess implements DataAccessInterface {
             if (this.validateETag && !Array.isArray(postData) && mockEntitySet.isDraft()) {
                 odataRequest.setETag(postData['@odata.etag']);
             }
+            this.logResponse(`Response Data: ${JSON.stringify(postData, null, 2)}`, odataRequest);
             return postData;
         } else {
             throw new Error('Unknown Entity Set' + entitySetName);
@@ -1262,6 +1339,7 @@ export class DataAccess implements DataAccessInterface {
 
     public async deleteData(odataRequest: ODataRequest) {
         const entitySetName = odataRequest.queryPath[0].path;
+        this.logRequest(`Handling DELETE request for: ${odataRequest.url}`, odataRequest);
         const mockEntitySet = await this.getMockEntitySet(entitySetName);
         return mockEntitySet.performDELETE(odataRequest.queryPath[0].keys, odataRequest.tenantId, odataRequest, true);
     }
@@ -1487,8 +1565,10 @@ export class DataAccess implements DataAccessInterface {
     ): Promise<object[]> {
         switch (transformationDef.type) {
             case 'concat':
+                this.logRequest('Applying concat transformation', odataRequest);
                 const concatData: object[] = [];
                 const startingData = cloneDeep(data);
+                this.logRequest(`Starting data ${startingData}`, odataRequest);
                 for (const concatExpressions of transformationDef.concatExpr) {
                     let transformedData = startingData;
                     for (const concatExpression of concatExpressions) {
@@ -1503,6 +1583,7 @@ export class DataAccess implements DataAccessInterface {
                     }
                     concatData.push(...transformedData);
                 }
+                this.logRequest(`Concatenated data ${concatData}`, odataRequest);
                 data = concatData;
                 break;
             case 'orderBy':
@@ -1526,6 +1607,11 @@ export class DataAccess implements DataAccessInterface {
                 );
                 break;
             case 'ancestors':
+                this.logRequest(
+                    'Applying ancestors transformation ' +
+                        JSON.stringify(transformationDef.parameters.inputSetTransformations[0]),
+                    odataRequest
+                );
                 const limitedHierarchyForAncestors = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
                     await mockData.getAllEntries(odataRequest),
@@ -1533,6 +1619,10 @@ export class DataAccess implements DataAccessInterface {
                     mockEntitySet,
                     mockData,
                     currentEntityType
+                );
+                this.logRequest(
+                    `Limited hierarchy for ancestors ${inspect(limitedHierarchyForAncestors)}`,
+                    odataRequest
                 );
                 data = await mockData.getAncestors(
                     data,
@@ -1542,6 +1632,7 @@ export class DataAccess implements DataAccessInterface {
                     transformationDef.parameters,
                     odataRequest
                 );
+                this.logRequest(`Ancestors data ${inspect(data)}`, odataRequest);
                 break;
             case 'skip':
                 data = [];
@@ -1556,6 +1647,7 @@ export class DataAccess implements DataAccessInterface {
                 this.lastFilterTransformationResult = data;
                 break;
             case 'descendants':
+                this.logRequest('Applying descendants transformation', odataRequest);
                 const limitedHierarchyData = await this.applyTransformation(
                     transformationDef.parameters.inputSetTransformations[0],
                     await mockData.getAllEntries(odataRequest),
@@ -1564,6 +1656,7 @@ export class DataAccess implements DataAccessInterface {
                     mockData,
                     currentEntityType
                 );
+                this.logRequest(`Limited hierarchy data ${inspect(limitedHierarchyData)}`, odataRequest);
                 data = await mockData.getDescendants(
                     data,
                     this.lastFilterTransformationResult,
@@ -1572,17 +1665,24 @@ export class DataAccess implements DataAccessInterface {
                     transformationDef.parameters,
                     odataRequest
                 );
+                this.logRequest(`Descendants data ${inspect(data)}`, odataRequest);
                 break;
             case 'groupBy':
                 data = await this._applyGroupBy(data, transformationDef, odataRequest, mockData, currentEntityType);
                 break;
             case 'customFunction':
                 if (transformationDef.name === 'com.sap.vocabularies.Hierarchy.v1.TopLevels') {
+                    this.logRequest(
+                        `Applying custom function 'com.sap.vocabularies.Hierarchy.v1.TopLevels'`,
+                        odataRequest
+                    );
+                    this.logRequest(`Parameters: ${inspect(transformationDef.parameters)}`, odataRequest);
                     data = await mockData.getTopLevels(
                         data,
                         transformationDef.parameters as TopLevelParameters,
                         odataRequest
                     );
+                    this.logRequest(`Top Level response: ${inspect(data)}`, odataRequest);
                 }
                 break;
         }
