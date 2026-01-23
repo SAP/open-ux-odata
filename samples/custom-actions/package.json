@@ -1,0 +1,16 @@
+{
+    "name": "custom-actions",
+    "version": "0.0.1",
+    "private": true,
+    "sapux": true,
+    "description": "Implement various action types for business operations",
+    "scripts": {
+        "start": "ui5 serve --open 'index.html#functionImport-tile'"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@sap-ux/fe-mockserver-plugin-cds": "workspace:*",
+        "@ui5/cli": "3.11.5",
+        "rimraf": "3.0.2"
+    }
+}

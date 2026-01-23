@@ -1,0 +1,47 @@
+[
+    {
+        "ProductID": "HT-1000",
+        "Name": "Notebook Basic 15",
+        "Description": "Notebook Basic 15 with 2,80 GHz quad core, 15\" LCD, 4 GB DDR3 RAM",
+        "Price": "956.00",
+        "CurrencyCode": "EUR",
+        "CategoryID": "NB",
+        "StockQuantity": 25
+    },
+    {
+        "ProductID": "HT-1001",
+        "Name": "Notebook Basic 17",
+        "Description": "Notebook Basic 17 with 2,80 GHz quad core, 17\" LCD, 4 GB DDR3 RAM",
+        "Price": "1249.00",
+        "CurrencyCode": "EUR",
+        "CategoryID": "NB",
+        "StockQuantity": 18
+    },
+    {
+        "ProductID": "HT-1002",
+        "Name": "Notebook Professional 15",
+        "Description": "Notebook Professional 15 with 3,2 GHz quad core, 15\" LCD, 8 GB DDR3 RAM",
+        "Price": "1399.00",
+        "CurrencyCode": "EUR",
+        "CategoryID": "NB",
+        "StockQuantity": 12
+    },
+    {
+        "ProductID": "HT-2000",
+        "Name": "Wireless Mouse",
+        "Description": "Ergonomic wireless mouse with USB receiver",
+        "Price": "29.99",
+        "CurrencyCode": "EUR",
+        "CategoryID": "AC",
+        "StockQuantity": 150
+    },
+    {
+        "ProductID": "HT-2001",
+        "Name": "USB-C Hub",
+        "Description": "7-port USB-C hub with HDMI and Ethernet",
+        "Price": "79.99",
+        "CurrencyCode": "EUR",
+        "CategoryID": "AC",
+        "StockQuantity": 45
+    }
+]

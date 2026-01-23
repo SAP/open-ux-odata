@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="SalesService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+
+      <!-- Sales Order Entity -->
+      <EntityType Name="SalesOrder">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false"/>
+        <Property Name="CustomerID" Type="Edm.String"/>
+        <Property Name="OrderDate" Type="Edm.Date"/>
+        <Property Name="TotalAmount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="CurrencyCode" Type="Edm.String" MaxLength="3"/>
+        <Property Name="Status" Type="Edm.String"/>
+
+        <NavigationProperty Name="Items" Type="Collection(SalesService.SalesOrderItem)" Partner="SalesOrder"/>
+        <NavigationProperty Name="Customer" Type="SalesService.Customer">
+          <ReferentialConstraint Property="CustomerID" ReferencedProperty="CustomerID"/>
+        </NavigationProperty>
+      </EntityType>
+
+      <!-- Sales Order Item Entity -->
+      <EntityType Name="SalesOrderItem">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+          <PropertyRef Name="ItemNo"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false"/>
+        <Property Name="ItemNo" Type="Edm.String" Nullable="false"/>
+        <Property Name="ProductID" Type="Edm.String"/>
+        <Property Name="Quantity" Type="Edm.Int32"/>
+        <Property Name="UnitPrice" Type="Edm.Decimal" Scale="2" Precision="10"/>
+        <Property Name="Amount" Type="Edm.Decimal" Scale="2" Precision="10"/>
+        <Property Name="CurrencyCode" Type="Edm.String" MaxLength="3"/>
+
+        <NavigationProperty Name="SalesOrder" Type="SalesService.SalesOrder" Partner="Items">
+          <ReferentialConstraint Property="OrderID" ReferencedProperty="OrderID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Product" Type="SalesService.Product">
+          <ReferentialConstraint Property="ProductID" ReferencedProperty="ProductID"/>
+        </NavigationProperty>
+      </EntityType>
+
+      <!-- Product Entity -->
+      <EntityType Name="Product">
+        <Key>
+          <PropertyRef Name="ProductID"/>
+        </Key>
+        <Property Name="ProductID" Type="Edm.String" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Price" Type="Edm.Decimal" Scale="2" Precision="10"/>
+      </EntityType>
+
+      <!-- Customer Entity -->
+      <EntityType Name="Customer">
+        <Key>
+          <PropertyRef Name="CustomerID"/>
+        </Key>
+        <Property Name="CustomerID" Type="Edm.String" Nullable="false"/>
+        <Property Name="CustomerName" Type="Edm.String"/>
+        <Property Name="City" Type="Edm.String"/>
+        <Property Name="Country" Type="Edm.String"/>
+      </EntityType>
+
+      <!-- Entity Container -->
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="SalesOrders" EntityType="SalesService.SalesOrder">
+          <NavigationPropertyBinding Path="Items" Target="SalesOrderItems"/>
+          <NavigationPropertyBinding Path="Customer" Target="Customers"/>
+        </EntitySet>
+        <EntitySet Name="SalesOrderItems" EntityType="SalesService.SalesOrderItem">
+          <NavigationPropertyBinding Path="SalesOrder" Target="SalesOrders"/>
+          <NavigationPropertyBinding Path="Product" Target="Products"/>
+        </EntitySet>
+        <EntitySet Name="Products" EntityType="SalesService.Product"/>
+        <EntitySet Name="Customers" EntityType="SalesService.Customer"/>
+      </EntityContainer>
+
+      <Annotations Target="SalesService.SalesOrder">
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>OrderID</PropertyPath>
+            <PropertyPath>CustomerID</PropertyPath>
+            <PropertyPath>Status</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CustomerID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderDate"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="TotalAmount"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Status"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneralInfoFacet"/>
+              <PropertyValue Property="Label" String="General Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneralInfo"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="SalesItemsFacet"/>
+              <PropertyValue Property="Label" String="Order Items"/>
+              <PropertyValue Property="Target" AnnotationPath="Items/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneralInfo">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="OrderID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CustomerID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="OrderDate"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="TotalAmount"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Status"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="SalesService.SalesOrderItem">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ItemNo"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ProductID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Quantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="UnitPrice"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Amount"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="ItemGeneralInfoFacet"/>
+              <PropertyValue Property="Label" String="Item Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#ItemGeneralInfo"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="ItemGeneralInfo">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ItemNo"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ProductID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Quantity"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="UnitPrice"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="Amount"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CurrencyCode"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
+

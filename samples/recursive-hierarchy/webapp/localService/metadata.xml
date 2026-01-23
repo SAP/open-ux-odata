@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Aggregation.V1.xml">
+    <edmx:Include Alias="Aggregation" Namespace="Org.OData.Aggregation.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Hierarchy.xml">
+    <edmx:Include Alias="Hierarchy" Namespace="com.sap.vocabularies.Hierarchy.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="EmployeeService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Employee">
+        <Key>
+          <PropertyRef Name="EmployeeID"/>
+        </Key>
+        <Property Name="EmployeeID" Type="Edm.String" Nullable="false"/>
+        <Property Name="ManagerID" Type="Edm.String"/>
+        <Property Name="FullName" Type="Edm.String"/>
+        <Property Name="JobTitle" Type="Edm.String"/>
+        <Property Name="DistanceFromRoot" Type="Edm.Int64"/>
+        <Property Name="DrillState" Type="Edm.String"/>
+        <Property Name="LimitedDescendantCount" Type="Edm.Int64"/>
+        <Property Name="Matched" Type="Edm.Boolean"/>
+        <Property Name="MatchedDescendantCount" Type="Edm.Int64"/>
+        <Property Name="LimitedRank" Type="Edm.Int64"/>
+
+        <NavigationProperty Name="Manager" Type="EmployeeService.Employee">
+          <ReferentialConstraint Property="ManagerID" ReferencedProperty="EmployeeID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Subordinates" Type="Collection(EmployeeService.Employee)" Partner="Manager"/>
+      </EntityType>
+
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Employees" EntityType="EmployeeService.Employee">
+          <NavigationPropertyBinding Path="Manager" Target="Employees"/>
+          <NavigationPropertyBinding Path="Subordinates" Target="Employees"/>
+        </EntitySet>
+      </EntityContainer>
+
+      <Annotations Target="EmployeeService.Employee">
+        <Annotation Term="UI.HeaderInfo">
+          <Record>
+            <PropertyValue Property="TypeName" String="Employee"/>
+            <PropertyValue Property="TypeNamePlural" String="Employees"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="FullName"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="JobTitle"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="EmployeeID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="FullName"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="JobTitle"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ManagerID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="DistanceFromRoot"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="DrillState"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="LimitedDescendantCount"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Matched"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="MatchedDescendantCount"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="LimitedRank"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneralInfo"/>
+              <PropertyValue Property="Label" String="General Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneralInfo"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="Subordinates"/>
+              <PropertyValue Property="Label" String="Subordinates"/>
+              <PropertyValue Property="Target" AnnotationPath="Subordinates/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneralInfo">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="EmployeeID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="FullName"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="JobTitle"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ManagerID"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Aggregation.RecursiveHierarchy" Qualifier="EmployeeHierarchy">
+          <Record>
+            <PropertyValue Property="NodeProperty" PropertyPath="EmployeeID"/>
+            <PropertyValue Property="ParentNavigationProperty" NavigationPropertyPath="Manager"/>
+            <PropertyValue Property="DistanceFromRootProperty" PropertyPath="DistanceFromRoot"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Hierarchy.RecursiveHierarchy" Qualifier="EmployeeHierarchy">
+          <Record>
+            <PropertyValue Property="ExternalKeyProperty" PropertyPath="EmployeeID"/>
+            <PropertyValue Property="LimitedDescendantCountProperty" PropertyPath="LimitedDescendantCount"/>
+            <PropertyValue Property="DistanceFromRootProperty" PropertyPath="DistanceFromRoot"/>
+            <PropertyValue Property="DrillStateProperty" PropertyPath="DrillState"/>
+            <PropertyValue Property="MatchedProperty" PropertyPath="Matched"/>
+            <PropertyValue Property="MatchedDescendantCountProperty" PropertyPath="MatchedDescendantCount"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.FilterRestrictions">
+          <Record>
+            <PropertyValue Property="NonFilterableProperties">
+              <Collection>
+                <PropertyPath>LimitedDescendantCount</PropertyPath>
+                <PropertyPath>DistanceFromRoot</PropertyPath>
+                <PropertyPath>DrillState</PropertyPath>
+                <PropertyPath>Matched</PropertyPath>
+                <PropertyPath>MatchedDescendantCount</PropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.SortRestrictions">
+          <Record>
+            <PropertyValue Property="NonSortableProperties">
+              <Collection>
+                <PropertyPath>LimitedDescendantCount</PropertyPath>
+                <PropertyPath>DistanceFromRoot</PropertyPath>
+                <PropertyPath>DrillState</PropertyPath>
+                <PropertyPath>Matched</PropertyPath>
+                <PropertyPath>MatchedDescendantCount</PropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

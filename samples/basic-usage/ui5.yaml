@@ -1,17 +1,14 @@
-specVersion: '2.4'
+specVersion: '3.0'
 metadata:
-    name: 'basic-usage'
+    name: basic-usage
 type: application
 server:
     customMiddleware:
         - name: sap-fe-mockserver
-          beforeMiddleware: compression
+          afterMiddleware: compression
           configuration:
-              plugins:
-                  - '@sap-ux/fe-mockserver-admin'
-              service:
-                  urlBasePath: /here/goes/your/serviceurl
-                  name: ''
-                  metadataPath: ./webapp/localService/metadata.xml
-                  mockdataPath: ./webapp/localService/mockdata
-                  generateMockData: true
+              services:
+                  - urlPath: /here/goes/your/serviceurl
+                    metadataPath: ./webapp/localService/metadata.xml
+                    mockdataPath: ./webapp/localService
+                    generateMockData: true

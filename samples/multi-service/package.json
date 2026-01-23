@@ -1,0 +1,13 @@
+{
+    "name": "multi-service-app",
+    "version": "1.0.0",
+    "description": "Multiple Services with Cross-References Sample",
+    "main": "webapp/index.html",
+    "scripts": {
+        "start": "ui5 serve --port 8080"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@ui5/cli": "^3"
+    }
+}

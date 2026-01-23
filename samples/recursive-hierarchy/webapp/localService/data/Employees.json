@@ -1,0 +1,38 @@
+[
+    {
+        "EmployeeID": "1",
+        "FullName": "CEO",
+        "ManagerID": null,
+        "JobTitle": "Chief Executive Officer"
+    },
+    {
+        "EmployeeID": "2",
+        "FullName": "Manager A",
+        "ManagerID": "1",
+        "JobTitle": "Department Manager"
+    },
+    {
+        "EmployeeID": "3",
+        "FullName": "Employee A1",
+        "ManagerID": "2",
+        "JobTitle": "Senior Developer"
+    },
+    {
+        "EmployeeID": "4",
+        "FullName": "Employee A2",
+        "ManagerID": "2",
+        "JobTitle": "Junior Developer"
+    },
+    {
+        "EmployeeID": "5",
+        "FullName": "Manager B",
+        "ManagerID": "1",
+        "JobTitle": "Sales Manager"
+    },
+    {
+        "EmployeeID": "6",
+        "FullName": "Employee B1",
+        "ManagerID": "5",
+        "JobTitle": "Sales Representative"
+    }
+]

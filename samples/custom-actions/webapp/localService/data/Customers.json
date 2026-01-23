@@ -1,0 +1,20 @@
+[
+    {
+        "CustomerID": "CUST001",
+        "CustomerName": "ACME Corporation",
+        "City": "San Francisco",
+        "Country": "USA"
+    },
+    {
+        "CustomerID": "CUST002",
+        "CustomerName": "Global Tech Inc",
+        "City": "New York",
+        "Country": "USA"
+    },
+    {
+        "CustomerID": "CUST003",
+        "CustomerName": "European Enterprises",
+        "City": "Berlin",
+        "Country": "Germany"
+    }
+]

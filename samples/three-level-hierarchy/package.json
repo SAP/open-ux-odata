@@ -1,0 +1,19 @@
+{
+    "name": "three-level-hierarchy",
+    "version": "0.0.1",
+    "private": true,
+    "sapux": true,
+    "description": "Sales Orders → Items → Schedule Lines with full navigation support",
+    "scripts": {
+        "start": "ui5 serve --open 'index.html#threelevelhierarchy-tile'"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@ui5/cli": "3.11.5"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap-ux/ui5-middleware-fe-mockserver"
+        ]
+    }
+}

@@ -1,0 +1,22 @@
+specVersion: '3.0'
+metadata:
+    name: vh-filter-bar
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          afterMiddleware: compression
+          configuration:
+              services:
+                  - urlPath: /sap/opu/odata/sap/SALES_ANALYTICS
+                    metadataPath: ./webapp/localService/analytics/metadata.xml
+                    mockdataPath: ./webapp/localService/analytics/data
+                    alias: analytics
+                  - urlPath: /sap/opu/odata/sap/VH_COMPANY_CODE
+                    metadataPath: ./webapp/localService/vh/companycode/metadata.xml
+                    mockdataPath: ./webapp/localService/vh/companycode/data
+                    alias: vh-company
+                  - urlPath: /sap/opu/odata/sap/VH_SALES_ORG
+                    metadataPath: ./webapp/localService/vh/salesorg/metadata.xml
+                    mockdataPath: ./webapp/localService/vh/salesorg/data
+                    alias: vh-salesorg

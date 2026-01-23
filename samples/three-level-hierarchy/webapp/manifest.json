@@ -1,0 +1,128 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "sap.fe.mockserver.threeLevelHierarchy",
+        "type": "application",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "Three-Level Hierarchy Sample",
+        "description": "A sample showing a three-level hierarchy (Sales Order -> Item -> Schedule Line)",
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata4/sap/sales_order_hierarchy/0001/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.fiorielements.v4.lrop",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.76.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "SalesOrdersListReport",
+                    "target": "SalesOrdersListReport"
+                },
+                {
+                    "pattern": "SalesOrders({key}):?query:",
+                    "name": "SalesOrdersObjectPage",
+                    "target": "SalesOrdersObjectPage"
+                },
+                {
+                    "pattern": "SalesOrders({key})/Items({key2}):?query:",
+                    "name": "SalesOrderItemsObjectPage",
+                    "target": "SalesOrderItemsObjectPage"
+                }
+            ],
+            "targets": {
+                "SalesOrdersListReport": {
+                    "type": "Component",
+                    "id": "SalesOrdersListReport",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "SalesOrders",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "SalesOrders": {
+                                    "detail": {
+                                        "route": "SalesOrdersObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "SalesOrdersObjectPage": {
+                    "type": "Component",
+                    "id": "SalesOrdersObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "SalesOrders",
+                            "navigation": {
+                                "Items": {
+                                    "detail": {
+                                        "route": "SalesOrderItemsObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "SalesOrderItemsObjectPage": {
+                    "type": "Component",
+                    "id": "SalesOrderItemsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "SalesOrderItems"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    }
+}

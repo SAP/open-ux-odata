@@ -1,0 +1,44 @@
+theme: jekyll-theme-cayman
+title: FE Mockserver Documentation
+description: Comprehensive guide for SAP Fiori Elements Mockserver
+show_downloads: false
+
+# Navigation
+navigation:
+    - title: Home
+      url: /
+    - title: Getting Started
+      url: /getting-started/
+    - title: Core Concepts
+      url: /core-concepts/
+    - title: Configuration
+      url: /configuration-reference/
+    - title: Examples
+      url: /examples/
+    - title: API Reference
+      url: /MockserverAPI
+
+# Plugins
+plugins:
+    - jekyll-relative-links
+
+# Relative links settings
+relative_links:
+    enabled: true
+    collections: false
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+    input: GFM
+    syntax_highlighter: rouge
+    syntax_highlighter_opts:
+        block:
+            line_numbers: false
+
+# Exclude from processing
+exclude:
+    - node_modules
+    - package.json
+    - pnpm-lock.yaml
+    - '*.log'

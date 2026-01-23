@@ -1,0 +1,12 @@
+[
+    {
+        "OrderID": "SO-000001",
+        "ItemNo": "000010",
+        "ScheduleLineNo": "0001",
+        "DeliveryDate": "2024-02-01",
+        "Quantity": "1.000",
+        "ConfirmedQuantity": "1.000",
+        "Plant": "1000",
+        "StorageLocation": "0001"
+    }
+]

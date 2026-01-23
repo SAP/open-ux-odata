@@ -1,0 +1,17 @@
+[
+    {
+        "ProductID": "HT-1000",
+        "Name": "Notebook Basic 15",
+        "Price": "956.00"
+    },
+    {
+        "ProductID": "HT-1001",
+        "Name": "Notebook Basic 17",
+        "Price": "1249.00"
+    },
+    {
+        "ProductID": "HT-2000",
+        "Name": "Wireless Mouse",
+        "Price": "29.99"
+    }
+]

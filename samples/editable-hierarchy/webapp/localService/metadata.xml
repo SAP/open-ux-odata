@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="SalesOrderHierarchy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="SalesOrder">
+        <Key><PropertyRef Name="OrderID"/></Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="TotalAmount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <NavigationProperty Name="Items" Type="Collection(SalesOrderHierarchy.SalesOrderItem)" Partner="SalesOrder"/>
+      </EntityType>
+      <EntityType Name="SalesOrderItem">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+          <PropertyRef Name="ItemNo"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="ItemNo" Type="Edm.String" Nullable="false" MaxLength="6"/>
+        <Property Name="Amount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <NavigationProperty Name="SalesOrder" Type="SalesOrderHierarchy.SalesOrder" Partner="Items">
+          <ReferentialConstraint Property="OrderID" ReferencedProperty="OrderID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="ScheduleLines" Type="Collection(SalesOrderHierarchy.ScheduleLine)" Partner="Item"/>
+      </EntityType>
+      <EntityType Name="ScheduleLine">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+          <PropertyRef Name="ItemNo"/>
+          <PropertyRef Name="ScheduleLineNo"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="ItemNo" Type="Edm.String" Nullable="false" MaxLength="6"/>
+        <Property Name="ScheduleLineNo" Type="Edm.String" Nullable="false" MaxLength="4"/>
+        <NavigationProperty Name="Item" Type="SalesOrderHierarchy.SalesOrderItem" Partner="ScheduleLines">
+          <ReferentialConstraint Property="OrderID" ReferencedProperty="OrderID"/>
+          <ReferentialConstraint Property="ItemNo" ReferencedProperty="ItemNo"/>
+        </NavigationProperty>
+      </EntityType>
+      <Action Name="MoveToAnotherOrder" IsBound="true">
+        <Parameter Name="in" Type="SalesOrderHierarchy.SalesOrderItem"/>
+        <Parameter Name="NewOrderID" Type="Edm.String"/>
+        <ReturnType Type="SalesOrderHierarchy.SalesOrderItem"/>
+      </Action>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="SalesOrders" EntityType="SalesOrderHierarchy.SalesOrder">
+          <NavigationPropertyBinding Path="Items" Target="SalesOrderItems"/>
+        </EntitySet>
+        <EntitySet Name="SalesOrderItems" EntityType="SalesOrderHierarchy.SalesOrderItem">
+          <NavigationPropertyBinding Path="SalesOrder" Target="SalesOrders"/>
+          <NavigationPropertyBinding Path="ScheduleLines" Target="ScheduleLines"/>
+        </EntitySet>
+        <EntitySet Name="ScheduleLines" EntityType="SalesOrderHierarchy.ScheduleLine">
+          <NavigationPropertyBinding Path="Item" Target="SalesOrderItems"/>
+        </EntitySet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

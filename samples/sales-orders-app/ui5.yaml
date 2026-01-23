@@ -1,0 +1,13 @@
+specVersion: '3.0'
+metadata:
+    name: sales-orders-app
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          afterMiddleware: compression
+          configuration:
+              services:
+                  - urlPath: /sap/opu/odata/sap/SALES_ORDER_SRV
+                    metadataPath: ./webapp/localService/metadata.xml
+                    mockdataPath: ./webapp/localService/data

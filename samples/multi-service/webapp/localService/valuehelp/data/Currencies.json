@@ -1,0 +1,20 @@
+[
+    {
+        "CurrencyCode": "USD",
+        "CurrencyName": "US Dollar",
+        "Symbol": "$",
+        "IsDefault": true
+    },
+    {
+        "CurrencyCode": "EUR",
+        "CurrencyName": "Euro",
+        "Symbol": "€",
+        "IsDefault": false
+    },
+    {
+        "CurrencyCode": "GBP",
+        "CurrencyName": "British Pound",
+        "Symbol": "£",
+        "IsDefault": false
+    }
+]

@@ -1,0 +1,12 @@
+{
+    "name": "cds-parameters-app",
+    "version": "1.0.0",
+    "description": "CDS View with Parameters Sample Application",
+    "scripts": {
+        "start": "ui5 serve --port 8080"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "^2",
+        "@ui5/cli": "^3"
+    }
+}

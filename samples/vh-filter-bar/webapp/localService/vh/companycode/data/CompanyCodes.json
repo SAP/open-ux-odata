@@ -1,0 +1,16 @@
+[
+    {
+        "CompanyCode": "1000",
+        "CompanyName": "SAP AG",
+        "Country": "DE",
+        "Currency": "EUR",
+        "City": "Walldorf"
+    },
+    {
+        "CompanyCode": "2000",
+        "CompanyName": "SAP America",
+        "Country": "US",
+        "Currency": "USD",
+        "City": "Newtown Square"
+    }
+]

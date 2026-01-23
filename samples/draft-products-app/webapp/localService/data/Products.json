@@ -1,0 +1,38 @@
+[
+    {
+        "ProductID": "HT-1000",
+        "IsActiveEntity": true,
+        "Name": "Notebook Basic 15",
+        "Description": "Notebook Basic 15 with 2,80 GHz quad core, 15\" LCD, 4 GB DDR3 RAM",
+        "Price": "956.00",
+        "CurrencyCode": "EUR",
+        "StockQuantity": 25
+    },
+    {
+        "ProductID": "HT-1001",
+        "IsActiveEntity": true,
+        "Name": "Notebook Basic 17",
+        "Description": "Notebook Basic 17 with 2,80 GHz quad core, 17\" LCD, 4 GB DDR3 RAM",
+        "Price": "1249.00",
+        "CurrencyCode": "EUR",
+        "StockQuantity": 18
+    },
+    {
+        "ProductID": "HT-1003",
+        "IsActiveEntity": true,
+        "Name": "Notebook Professional 17",
+        "Description": "Notebook Professional 17 with 3,2 GHz quad core, 17\" LCD, 8 GB DDR3 RAM",
+        "Price": "1349.00",
+        "CurrencyCode": "EUR",
+        "StockQuantity": 20
+    },
+    {
+        "ProductID": "HT-1002",
+        "IsActiveEntity": true,
+        "Name": "Notebook Professional 15",
+        "Description": "Notebook Professional 15 with 3,2 GHz quad core, 15\" LCD, 8 GB DDR3 RAM",
+        "Price": "1399.00",
+        "CurrencyCode": "EUR",
+        "StockQuantity": 12
+    }
+]

@@ -1,0 +1,31 @@
+{
+    "name": "draft-products-app",
+    "version": "0.0.1",
+    "private": true,
+    "sapux": true,
+    "description": "Draft-enabled products with custom validation logic",
+    "keywords": [
+        "ui5",
+        "openui5",
+        "sapui5",
+        "odata",
+        "mockserver",
+        "draft",
+        "flexible-programming-model"
+    ],
+    "main": "webapp/index.html",
+    "scripts": {
+        "start": "ui5 serve"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@sap-ux/fe-mockserver-plugin-cds": "workspace:*",
+        "@sap/cds-compiler": "5.5.0",
+        "@ui5/cli": "3.11.5"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap-ux/ui5-middleware-fe-mockserver"
+        ]
+    }
+}

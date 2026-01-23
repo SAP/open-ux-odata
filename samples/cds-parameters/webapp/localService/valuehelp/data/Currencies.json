@@ -1,0 +1,32 @@
+[
+    {
+        "CurrencyCode": "EUR",
+        "CurrencyName": "Euro",
+        "Symbol": "€",
+        "IsDefault": true
+    },
+    {
+        "CurrencyCode": "USD",
+        "CurrencyName": "US Dollar",
+        "Symbol": "$",
+        "IsDefault": false
+    },
+    {
+        "CurrencyCode": "GBP",
+        "CurrencyName": "British Pound Sterling",
+        "Symbol": "£",
+        "IsDefault": false
+    },
+    {
+        "CurrencyCode": "JPY",
+        "CurrencyName": "Japanese Yen",
+        "Symbol": "¥",
+        "IsDefault": false
+    },
+    {
+        "CurrencyCode": "CHF",
+        "CurrencyName": "Swiss Franc",
+        "Symbol": "CHF",
+        "IsDefault": false
+    }
+]

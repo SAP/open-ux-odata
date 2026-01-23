@@ -1,0 +1,16 @@
+specVersion: '3.0'
+metadata:
+    name: draft-products-app
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          afterMiddleware: compression
+          configuration:
+              metadataProcessor:
+                  name: '@sap-ux/fe-mockserver-plugin-cds'
+              services:
+                  - urlPath: /sap/opu/odata4/sap/PRODUCTS_DRAFT/0001
+                    metadataPath: ./webapp/localService/service.cds
+                    mockdataPath: ./webapp/localService/data
+                    flexibleProgrammingModel: true
