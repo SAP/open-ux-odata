@@ -1550,7 +1550,7 @@ packages:
     resolution: {integrity: sha512-2IMsL0/cXxN2GFTkmq2m9TbY3lKtnKGjOONalw3WTJRH+yWCog2q5f5V2Xf+P+oem67UQcubkMPlbdqmvVIYDA==}
 
   '@sap/cds-compiler@5.5.0':
-    resolution: {integrity: sha512-UlNcFjkoBEbknmMCQWvbMETtbIU22heVj+5ZNh3ewZpBo7ClmUGueRWIt5Hlzle9l1JscpPMZUpt/VYgx2Z/KA==, tarball: https://int.repositories.cloud.sap/artifactory/api/npm/build-milestones-npm/@sap/cds-compiler/-/@sap/cds-compiler-5.5.0.tgz}
+    resolution: {integrity: sha512-UlNcFjkoBEbknmMCQWvbMETtbIU22heVj+5ZNh3ewZpBo7ClmUGueRWIt5Hlzle9l1JscpPMZUpt/VYgx2Z/KA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1717,7 +1717,7 @@ packages:
     resolution: {integrity: sha512-d64f00982fS9YoOgJkAMolK7MN8Iq3TDdVjchbYHdEmjth/DHowx82GnoA+tVUAN+7vxfYUgAzi+JXbKNd2SDQ==}
 
   '@types/node@22.1.0':
-    resolution: {integrity: sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==, tarball: https://int.repositories.cloud.sap/artifactory/api/npm/build-releases-npm/@types/node/-/node-22.1.0.tgz}
+    resolution: {integrity: sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
