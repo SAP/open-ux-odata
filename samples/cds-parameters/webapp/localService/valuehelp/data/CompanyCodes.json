@@ -1,0 +1,30 @@
+[
+    {
+        "CompanyCode": "1000",
+        "CompanyName": "SAP AG",
+        "Country": "DE",
+        "Currency": "EUR",
+        "City": "Walldorf"
+    },
+    {
+        "CompanyCode": "2000",
+        "CompanyName": "SAP America",
+        "Country": "US",
+        "Currency": "USD",
+        "City": "Newtown Square"
+    },
+    {
+        "CompanyCode": "3000",
+        "CompanyName": "SAP UK",
+        "Country": "GB",
+        "Currency": "GBP",
+        "City": "London"
+    },
+    {
+        "CompanyCode": "4000",
+        "CompanyName": "SAP France",
+        "Country": "FR",
+        "Currency": "EUR",
+        "City": "Paris"
+    }
+]

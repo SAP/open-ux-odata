@@ -1,0 +1,26 @@
+[
+    {
+        "OrderID": "5000001",
+        "CustomerID": "CUST001",
+        "OrderDate": "2024-01-15",
+        "TotalAmount": "1205.99",
+        "CurrencyCode": "EUR",
+        "Status": "DELIVERED"
+    },
+    {
+        "OrderID": "5000002",
+        "CustomerID": "CUST002",
+        "OrderDate": "2024-01-18",
+        "TotalAmount": "2498.00",
+        "CurrencyCode": "USD",
+        "Status": "IN_TRANSIT"
+    },
+    {
+        "OrderID": "5000003",
+        "CustomerID": "CUST003",
+        "OrderDate": "2024-01-20",
+        "TotalAmount": "986.99",
+        "CurrencyCode": "EUR",
+        "Status": "PROCESSING"
+    }
+]

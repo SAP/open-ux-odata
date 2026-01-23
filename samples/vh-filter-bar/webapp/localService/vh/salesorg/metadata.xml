@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="SalesOrganizationService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="SalesOrganization">
+        <Key>
+          <PropertyRef Name="SalesOrganization"/>
+        </Key>
+        <Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4"/>
+        <Property Name="SalesOrgName" Type="Edm.String"/>
+        <Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
+        <Property Name="Country" Type="Edm.String" MaxLength="2"/>
+      </EntityType>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="SalesOrganizations" EntityType="SalesOrganizationService.SalesOrganization"/>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

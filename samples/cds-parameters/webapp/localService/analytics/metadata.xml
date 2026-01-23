@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="AnalyticsService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+
+      <!-- Parameter Entity -->
+      <EntityType Name="P_SalesAnalyticsParameters">
+        <Key>
+          <PropertyRef Name="ParameterID"/>
+        </Key>
+        <Property Name="ParameterID" Type="Edm.String" Nullable="false"/>
+        <Property Name="P_CompanyCode" Type="Edm.String" MaxLength="4"/>
+
+        <NavigationProperty Name="Results" Type="Collection(AnalyticsService.P_SalesAnalytics)" Partner="Parameters" ContainsTarget="true"/>
+      </EntityType>
+
+      <!-- Result Entity -->
+      <EntityType Name="P_SalesAnalytics">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false"/>
+        <Property Name="OrderID" Type="Edm.String"/>
+        <Property Name="CustomerID" Type="Edm.String"/>
+        <Property Name="CustomerName" Type="Edm.String"/>
+        <Property Name="OrderDate" Type="Edm.Date"/>
+        <Property Name="TotalAmount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="CurrencyCode" Type="Edm.String" MaxLength="3"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
+        <Property Name="SalesOrganization" Type="Edm.String" MaxLength="4"/>
+        <NavigationProperty Name="Parameters" Type="AnalyticsService.P_SalesAnalyticsParameters" Nullable="false" Partner="Results" />
+      </EntityType>
+
+      <!-- Entity Container -->
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="P_SalesAnalyticsParameters" EntityType="AnalyticsService.P_SalesAnalyticsParameters">
+          <NavigationPropertyBinding Path="Results/Parameters" Target="P_SalesAnalyticsParameters"/>
+        </EntitySet>
+        <EntitySet Name="P_SalesAnalytics" EntityType="AnalyticsService.P_SalesAnalytics"/>
+      </EntityContainer>
+
+    </Schema>
+
+    <!-- Annotations for Value Helps -->
+    <Schema Namespace="Annotations" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotations Target="AnalyticsService.P_SalesAnalyticsParameters/P_CompanyCode">
+        <Annotation Term="Common.ValueListReferences">
+          <Collection>
+            <String>../valuehelp/metadata.xml</String>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AnalyticsService.P_SalesAnalytics/CompanyCode">
+        <Annotation Term="Common.ValueListReferences">
+          <Collection>
+            <String>../valuehelp/metadata.xml</String>
+          </Collection>
+        </Annotation>
+      </Annotations>
+
+
+      <Annotations Target="AnalyticsService.P_SalesAnalyticsParameters">
+        <Annotation Term="Common.ResultContext" />
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>P_CompanyCode</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="P_CompanyCode"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneralInfoFacet"/>
+              <PropertyValue Property="Label" String="General Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneralInfo"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="ResultsFacet"/>
+              <PropertyValue Property="Label" String="Analysis Results"/>
+              <PropertyValue Property="Target" AnnotationPath="Results/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneralInfo">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ParameterID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="P_CompanyCode"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AnalyticsService.P_SalesAnalytics">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CustomerName"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderDate"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="TotalAmount"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Status"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
+

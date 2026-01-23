@@ -1,0 +1,112 @@
+[
+    {
+        "OrderID": "SO-000001",
+        "CustomerID": "CUST-001",
+        "CustomerName": "ACME Corp",
+        "OrderDate": "2024-01-15",
+        "TotalAmount": "5000.00",
+        "CurrencyCode": "USD",
+        "Status": "CONFIRMED",
+        "CompanyCode": "1000",
+        "SalesOrganization": "1000"
+    },
+    {
+        "OrderID": "SO-000002",
+        "CustomerID": "CUST-002",
+        "CustomerName": "Global Tech Industries",
+        "OrderDate": "2024-02-20",
+        "TotalAmount": "3500.00",
+        "CurrencyCode": "USD",
+        "Status": "DELIVERED",
+        "CompanyCode": "1000",
+        "SalesOrganization": "1010"
+    },
+    {
+        "OrderID": "SO-000003",
+        "CustomerID": "CUST-003",
+        "CustomerName": "European Enterprises",
+        "OrderDate": "2024-03-10",
+        "TotalAmount": "8900.00",
+        "CurrencyCode": "EUR",
+        "Status": "CONFIRMED",
+        "CompanyCode": "2000",
+        "SalesOrganization": "2000"
+    },
+    {
+        "OrderID": "SO-000004",
+        "CustomerID": "CUST-001",
+        "CustomerName": "ACME Corp",
+        "OrderDate": "2024-04-05",
+        "TotalAmount": "1200.00",
+        "CurrencyCode": "USD",
+        "Status": "NEW",
+        "CompanyCode": "1000",
+        "SalesOrganization": "1000"
+    },
+    {
+        "OrderID": "SO-000005",
+        "CustomerID": "CUST-004",
+        "CustomerName": "British Solutions Ltd",
+        "OrderDate": "2024-05-12",
+        "TotalAmount": "6500.00",
+        "CurrencyCode": "GBP",
+        "Status": "CONFIRMED",
+        "CompanyCode": "3000",
+        "SalesOrganization": "3000"
+    },
+    {
+        "OrderID": "SO-000006",
+        "CustomerID": "CUST-005",
+        "CustomerName": "French Enterprises SA",
+        "OrderDate": "2024-06-18",
+        "TotalAmount": "4200.00",
+        "CurrencyCode": "EUR",
+        "Status": "IN_TRANSIT",
+        "CompanyCode": "4000",
+        "SalesOrganization": "4000"
+    },
+    {
+        "OrderID": "SO-000007",
+        "CustomerID": "CUST-002",
+        "CustomerName": "Global Tech Industries",
+        "OrderDate": "2024-07-22",
+        "TotalAmount": "950.00",
+        "CurrencyCode": "USD",
+        "Status": "NEW",
+        "CompanyCode": "1000",
+        "SalesOrganization": "1010"
+    },
+    {
+        "OrderID": "SO-000008",
+        "CustomerID": "CUST-006",
+        "CustomerName": "TechStart GmbH",
+        "OrderDate": "2024-08-30",
+        "TotalAmount": "12500.00",
+        "CurrencyCode": "EUR",
+        "Status": "CONFIRMED",
+        "CompanyCode": "1000",
+        "SalesOrganization": "1020"
+    },
+    {
+        "OrderID": "SO-000009",
+        "CustomerID": "CUST-007",
+        "CustomerName": "West Coast Partners",
+        "OrderDate": "2024-09-15",
+        "TotalAmount": "7800.00",
+        "CurrencyCode": "USD",
+        "Status": "DELIVERED",
+        "CompanyCode": "2000",
+        "SalesOrganization": "2010"
+    },
+    {
+        "OrderID": "SO-000010",
+        "CustomerID": "CUST-001",
+        "CustomerName": "ACME Corp",
+        "OrderDate": "2024-10-05",
+        "TotalAmount": "2100.00",
+        "CurrencyCode": "USD",
+        "Status": "CONFIRMED",
+        "CompanyCode": "1000",
+        "SalesOrganization": "1000"
+    }
+]

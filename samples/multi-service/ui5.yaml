@@ -1,0 +1,25 @@
+specVersion: '3.0'
+metadata:
+    name: multi-service
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          afterMiddleware: compression
+          configuration:
+              metadataProcessor:
+                  name: '@sap-ux/fe-mockserver-plugin-cds'
+              services:
+                  - urlPath: /sap/opu/odata/sap/PRODUCTS_SRV
+                    metadataPath: ./webapp/localService/products/metadata.xml
+                    mockdataPath: ./webapp/localService/products/data
+                    alias: products
+                  - urlPath: /sap/opu/odata/sap/SALES_ORDER_SRV
+                    metadataPath: ./webapp/localService/sales/service.cds
+                    mockdataPath: ./webapp/localService/sales/data
+                    logRequests: true
+                    alias: sales
+                  - urlPath: /sap/opu/odata/sap/VALUE_HELP_SRV
+                    metadataPath: ./webapp/localService/valuehelp/metadata.xml
+                    mockdataPath: ./webapp/localService/valuehelp/data
+                    alias: valuehelp

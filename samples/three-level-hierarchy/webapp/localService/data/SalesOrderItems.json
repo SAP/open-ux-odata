@@ -1,0 +1,14 @@
+[
+    {
+        "OrderID": "SO-000001",
+        "ItemNo": "000010",
+        "ProductID": "MAT-001",
+        "Description": "Laptop Professional 15\"",
+        "Quantity": "2.000",
+        "UnitOfMeasure": "EA",
+        "UnitPrice": "1299.00",
+        "Amount": "2598.00",
+        "CurrencyCode": "USD",
+        "DeliveryDate": "2024-02-01"
+    }
+]

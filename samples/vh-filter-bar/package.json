@@ -1,0 +1,19 @@
+{
+    "name": "vh-filter-bar",
+    "version": "0.0.1",
+    "private": true,
+    "sapux": true,
+    "description": "Filter bar integration with multiple value help services",
+    "scripts": {
+        "start": "ui5 serve"
+    },
+    "devDependencies": {
+        "@sap-ux/ui5-middleware-fe-mockserver": "workspace:*",
+        "@ui5/cli": "3.11.5"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap-ux/ui5-middleware-fe-mockserver"
+        ]
+    }
+}

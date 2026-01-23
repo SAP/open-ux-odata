@@ -1,0 +1,104 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "cds.parameters.app",
+        "type": "application",
+        "title": "CDS View with Parameters Sample",
+        "description": "Sample application demonstrating CDS views with parameters and value helps",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "analyticsService": {
+                "uri": "/sap/opu/odata/sap/ANALYTICS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            },
+            "valueHelpService": {
+                "uri": "/sap/opu/odata/sap/VALUE_HELP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            },
+            "sourceService": {
+                "uri": "/sap/opu/odata/sap/SALES_ORDER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "": {
+                "dataSource": "analyticsService",
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "P_SalesAnalyticsParametersList",
+                    "target": "P_SalesAnalyticsParametersList"
+                },
+                {
+                    "pattern": "P_SalesAnalyticsParameters({key}):?query:",
+                    "name": "P_SalesAnalyticsParametersObjectPage",
+                    "target": "P_SalesAnalyticsParametersObjectPage"
+                }
+            ],
+            "targets": {
+                "P_SalesAnalyticsParametersList": {
+                    "type": "Component",
+                    "id": "P_SalesAnalyticsParametersList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/P_SalesAnalyticsParameters/Results",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "P_SalesAnalyticsParameters": {
+                                    "detail": {
+                                        "route": "P_SalesAnalyticsParametersObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "P_SalesAnalyticsParametersObjectPage": {
+                    "type": "Component",
+                    "id": "P_SalesAnalyticsParametersObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "P_SalesAnalyticsParameters"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    }
+}

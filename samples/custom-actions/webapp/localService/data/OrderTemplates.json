@@ -1,0 +1,33 @@
+[
+    {
+        "TemplateID": "TMPL-001",
+        "Description": "Standard Laptop Order",
+        "DefaultAmount": "1299.00",
+        "Currency": "USD",
+        "Items": [
+            {
+                "ProductID": "MAT-1000",
+                "Quantity": "1.000",
+                "UnitPrice": "1299.00"
+            }
+        ]
+    },
+    {
+        "TemplateID": "TMPL-002",
+        "Description": "Accessories Bundle",
+        "DefaultAmount": "119.98",
+        "Currency": "USD",
+        "Items": [
+            {
+                "ProductID": "MAT-1001",
+                "Quantity": "1.000",
+                "UnitPrice": "29.99"
+            },
+            {
+                "ProductID": "MAT-1003",
+                "Quantity": "1.000",
+                "UnitPrice": "89.99"
+            }
+        ]
+    }
+]

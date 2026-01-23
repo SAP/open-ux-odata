@@ -1,0 +1,110 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "multi.service.app",
+        "type": "application",
+        "title": "Multi Service Sample",
+        "description": "Sample application demonstrating multiple OData services",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "productService": {
+                "uri": "/sap/opu/odata/sap/PRODUCTS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            },
+            "salesService": {
+                "uri": "/sap/opu/odata/sap/SALES_ORDER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            },
+            "valueHelpService": {
+                "uri": "/sap/opu/odata/sap/VALUE_HELP_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.142.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "": {
+                "dataSource": "salesService",
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "products": {
+                "dataSource": "productService",
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "name": "SalesOrdersList",
+                    "pattern": ":?query:",
+                    "target": "SalesOrdersList"
+                },
+                {
+                    "name": "SalesOrdersObjectPage",
+                    "pattern": "SalesOrders({key}):?query:",
+                    "target": "SalesOrdersObjectPage"
+                }
+            ],
+            "targets": {
+                "SalesOrdersList": {
+                    "type": "Component",
+                    "id": "SalesOrdersList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/SalesOrders",
+                            "navigation": {
+                                "SalesOrders": {
+                                    "detail": {
+                                        "route": "SalesOrdersObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "SalesOrdersObjectPage": {
+                    "type": "Component",
+                    "id": "SalesOrdersObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/SalesOrders"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "cozy": true,
+            "compact": true
+        }
+    }
+}

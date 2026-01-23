@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="CompanyCodeService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="CompanyCode">
+        <Key>
+          <PropertyRef Name="CompanyCode"/>
+        </Key>
+        <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4"/>
+        <Property Name="CompanyName" Type="Edm.String"/>
+        <Property Name="Country" Type="Edm.String" MaxLength="2"/>
+        <Property Name="Currency" Type="Edm.String" MaxLength="3"/>
+        <Property Name="City" Type="Edm.String"/>
+      </EntityType>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="CompanyCodes" EntityType="CompanyCodeService.CompanyCode"/>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

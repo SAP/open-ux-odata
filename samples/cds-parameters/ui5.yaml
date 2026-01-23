@@ -1,0 +1,21 @@
+specVersion: '3.0'
+metadata:
+    name: cds-parameters
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          afterMiddleware: compression
+          configuration:
+              services:
+                  - urlPath: /sap/opu/odata/sap/SALES_ORDER_SRV
+                    metadataPath: ./webapp/localService/source/metadata.xml
+                    mockdataPath: ./webapp/localService/source/data
+                    alias: source
+                  - urlPath: /sap/opu/odata/sap/ANALYTICS_SRV
+                    metadataPath: ./webapp/localService/analytics/metadata.xml
+                    mockdataPath: ./webapp/localService/analytics/data
+                    alias: analytics
+                  - urlPath: /sap/opu/odata/sap/VALUE_HELP_SRV
+                    metadataPath: ./webapp/localService/valuehelp/metadata.xml
+                    mockdataPath: ./webapp/localService/valuehelp/data

@@ -1,0 +1,44 @@
+[
+    {
+        "SalesOrganization": "1000",
+        "SalesOrgName": "Germany Sales",
+        "CompanyCode": "1000",
+        "Country": "DE"
+    },
+    {
+        "SalesOrganization": "1010",
+        "SalesOrgName": "Germany Direct Sales",
+        "CompanyCode": "1000",
+        "Country": "DE"
+    },
+    {
+        "SalesOrganization": "1020",
+        "SalesOrgName": "Germany Partner Sales",
+        "CompanyCode": "1000",
+        "Country": "DE"
+    },
+    {
+        "SalesOrganization": "2000",
+        "SalesOrgName": "US East Coast",
+        "CompanyCode": "2000",
+        "Country": "US"
+    },
+    {
+        "SalesOrganization": "2010",
+        "SalesOrgName": "US West Coast",
+        "CompanyCode": "2000",
+        "Country": "US"
+    },
+    {
+        "SalesOrganization": "3000",
+        "SalesOrgName": "UK Sales",
+        "CompanyCode": "3000",
+        "Country": "GB"
+    },
+    {
+        "SalesOrganization": "4000",
+        "SalesOrgName": "France Sales",
+        "CompanyCode": "4000",
+        "Country": "FR"
+    }
+]

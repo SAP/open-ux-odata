@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="ValueHelpService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+
+      <EntityType Name="Currency">
+        <Key>
+          <PropertyRef Name="CurrencyCode"/>
+        </Key>
+        <Property Name="CurrencyCode" Type="Edm.String" Nullable="false" MaxLength="3"/>
+        <Property Name="CurrencyName" Type="Edm.String"/>
+        <Property Name="Symbol" Type="Edm.String" MaxLength="5"/>
+        <Property Name="IsDefault" Type="Edm.Boolean"/>
+      </EntityType>
+
+      <EntityType Name="Country">
+        <Key>
+          <PropertyRef Name="CountryCode"/>
+        </Key>
+        <Property Name="CountryCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
+        <Property Name="CountryName" Type="Edm.String"/>
+        <Property Name="Region" Type="Edm.String"/>
+      </EntityType>
+
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Currencies" EntityType="ValueHelpService.Currency"/>
+        <EntitySet Name="Countries" EntityType="ValueHelpService.Country"/>
+      </EntityContainer>
+
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
+

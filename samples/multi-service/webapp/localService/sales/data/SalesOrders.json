@@ -1,0 +1,18 @@
+[
+    {
+        "OrderID": "SO-001",
+        "CustomerID": "CUST-001",
+        "OrderDate": "2024-01-16T00:00:00Z",
+        "TotalAmount": "100.00",
+        "CurrencyCode": "USD",
+        "Status": "NEW"
+    },
+    {
+        "OrderID": "SO-002",
+        "CustomerID": "CUST-002",
+        "OrderDate": "2024-01-17T00:00:00Z",
+        "TotalAmount": "200.00",
+        "CurrencyCode": "USD",
+        "Status": "NEW"
+    }
+]

@@ -1,0 +1,105 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "recursive.hierarchy.app",
+        "type": "application",
+        "title": "Recursive Hierarchy Sample",
+        "description": "Sample application demonstrating recursive hierarchy",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata4/sap/employee_hierarchy/0001/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "name": "EmployeesList",
+                    "pattern": ":?query:",
+                    "target": "EmployeesList"
+                },
+                {
+                    "name": "EmployeesObjectPage",
+                    "pattern": "Employees({key}):?query:",
+                    "target": "EmployeesObjectPage"
+                }
+            ],
+            "targets": {
+                "EmployeesList": {
+                    "type": "Component",
+                    "id": "EmployeesList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Employees",
+                            "views": {
+                                "paths": [
+                                    {
+                                        "key": "EmployeeHierarchy",
+                                        "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                                    }
+                                ]
+                            },
+                            "navigation": {
+                                "Employees": {
+                                    "detail": {
+                                        "route": "EmployeesObjectPage"
+                                    }
+                                }
+                            },
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "TreeTable",
+                                        "hierarchyQualifier": "EmployeeHierarchy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "EmployeesObjectPage": {
+                    "type": "Component",
+                    "id": "EmployeesObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Employees"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "cozy": true,
+            "compact": true
+        }
+    }
+}

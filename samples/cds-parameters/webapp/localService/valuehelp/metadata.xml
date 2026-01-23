@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices m:DataServiceVersion="2.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="ValueHelpService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+
+      <!-- Company Code Entity -->
+      <EntityType Name="CompanyCode">
+        <Key>
+          <PropertyRef Name="CompanyCode"/>
+        </Key>
+        <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4"/>
+        <Property Name="CompanyName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="Country" Type="Edm.String" MaxLength="2"/>
+        <Property Name="Currency" Type="Edm.String" MaxLength="3"/>
+        <Property Name="City" Type="Edm.String" MaxLength="50"/>
+      </EntityType>
+
+      <!-- Sales Organization Entity -->
+      <EntityType Name="SalesOrganization">
+        <Key>
+          <PropertyRef Name="SalesOrganization"/>
+        </Key>
+        <Property Name="SalesOrganization" Type="Edm.String" Nullable="false" MaxLength="4"/>
+        <Property Name="SalesOrgName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
+        <Property Name="Country" Type="Edm.String" MaxLength="2"/>
+      </EntityType>
+
+      <!-- Currency Entity -->
+      <EntityType Name="Currency">
+        <Key>
+          <PropertyRef Name="CurrencyCode"/>
+        </Key>
+        <Property Name="CurrencyCode" Type="Edm.String" Nullable="false" MaxLength="3"/>
+        <Property Name="CurrencyName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="Symbol" Type="Edm.String" MaxLength="5"/>
+        <Property Name="IsDefault" Type="Edm.Boolean"/>
+      </EntityType>
+
+      <!-- Entity Container -->
+      <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="CompanyCodes" EntityType="ValueHelpService.CompanyCode"/>
+        <EntitySet Name="SalesOrganizations" EntityType="ValueHelpService.SalesOrganization"/>
+        <EntitySet Name="Currencies" EntityType="ValueHelpService.Currency"/>
+      </EntityContainer>
+
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
+

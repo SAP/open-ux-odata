@@ -22,7 +22,7 @@
           <PropertyRef Name="IsActiveEntity"/>
         </Key>
         <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
-        <Property Name="name" Type="Edm.String"/>
+        <Property Name="name" Type="Edm.String" MaxLength="6"/>
         <Property Name="description" Type="Edm.String"/>
         <Property Name="currentDate" Type="Edm.Date"/>
         <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
@@ -90,6 +90,7 @@
       </Annotations>
       <Annotations Target="sap.fe.test.TestService.RootEntity/name">
         <Annotation Term="Common.Label" String="Name"/>
+        <Annotation Term="Common.IsDigitSequence" Bool="true"/>
       </Annotations>
       <Annotations Target="sap.fe.test.TestService.RootEntity/description">
         <Annotation Term="Common.Label" String="Description"/>

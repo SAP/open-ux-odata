@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="SalesOrderHierarchy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+
+      <!-- Sales Order (Level 1) -->
+      <EntityType Name="SalesOrder">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="CustomerID" Type="Edm.String" MaxLength="10"/>
+        <Property Name="OrderDate" Type="Edm.Date"/>
+        <Property Name="TotalAmount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="CurrencyCode" Type="Edm.String" MaxLength="3"/>
+        <Property Name="Status" Type="Edm.String" MaxLength="20"/>
+        <Property Name="CreatedBy" Type="Edm.String"/>
+        <Property Name="CreatedAt" Type="Edm.DateTimeOffset"/>
+
+        <NavigationProperty Name="Customer" Type="SalesOrderHierarchy.Customer">
+          <ReferentialConstraint Property="CustomerID" ReferencedProperty="CustomerID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Items" Type="Collection(SalesOrderHierarchy.SalesOrderItem)" Partner="SalesOrder"/>
+      </EntityType>
+
+      <!-- Sales Order Item (Level 2) -->
+      <EntityType Name="SalesOrderItem">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+          <PropertyRef Name="ItemNo"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="ItemNo" Type="Edm.String" Nullable="false" MaxLength="6"/>
+        <Property Name="ProductID" Type="Edm.String" MaxLength="18"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Quantity" Type="Edm.Decimal" Scale="3" Precision="13"/>
+        <Property Name="UnitOfMeasure" Type="Edm.String" MaxLength="3"/>
+        <Property Name="UnitPrice" Type="Edm.Decimal" Scale="2" Precision="10"/>
+        <Property Name="Amount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="CurrencyCode" Type="Edm.String" MaxLength="3"/>
+        <Property Name="DeliveryDate" Type="Edm.Date"/>
+
+        <NavigationProperty Name="SalesOrder" Type="SalesOrderHierarchy.SalesOrder" Partner="Items">
+          <ReferentialConstraint Property="OrderID" ReferencedProperty="OrderID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="Product" Type="SalesOrderHierarchy.Product">
+          <ReferentialConstraint Property="ProductID" ReferencedProperty="ProductID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="ScheduleLines" Type="Collection(SalesOrderHierarchy.ScheduleLine)" Partner="Item"/>
+      </EntityType>
+
+      <!-- Schedule Line (Level 3) -->
+      <EntityType Name="ScheduleLine">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+          <PropertyRef Name="ItemNo"/>
+          <PropertyRef Name="ScheduleLineNo"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="ItemNo" Type="Edm.String" Nullable="false" MaxLength="6"/>
+        <Property Name="ScheduleLineNo" Type="Edm.String" Nullable="false" MaxLength="4"/>
+        <Property Name="DeliveryDate" Type="Edm.Date"/>
+        <Property Name="Quantity" Type="Edm.Decimal" Scale="3" Precision="13"/>
+        <Property Name="ConfirmedQuantity" Type="Edm.Decimal" Scale="3" Precision="13"/>
+        <Property Name="Plant" Type="Edm.String" MaxLength="4"/>
+        <Property Name="StorageLocation" Type="Edm.String" MaxLength="4"/>
+
+        <NavigationProperty Name="Item" Type="SalesOrderHierarchy.SalesOrderItem" Partner="ScheduleLines">
+          <ReferentialConstraint Property="OrderID" ReferencedProperty="OrderID"/>
+          <ReferentialConstraint Property="ItemNo" ReferencedProperty="ItemNo"/>
+        </NavigationProperty>
+      </EntityType>
+
+      <!-- Product -->
+      <EntityType Name="Product">
+        <Key>
+          <PropertyRef Name="ProductID"/>
+        </Key>
+        <Property Name="ProductID" Type="Edm.String" Nullable="false" MaxLength="18"/>
+        <Property Name="ProductName" Type="Edm.String"/>
+        <Property Name="Category" Type="Edm.String"/>
+        <Property Name="Price" Type="Edm.Decimal" Scale="2" Precision="10"/>
+      </EntityType>
+
+      <!-- Customer -->
+      <EntityType Name="Customer">
+        <Key>
+          <PropertyRef Name="CustomerID"/>
+        </Key>
+        <Property Name="CustomerID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="CustomerName" Type="Edm.String"/>
+        <Property Name="City" Type="Edm.String"/>
+        <Property Name="Country" Type="Edm.String" MaxLength="2"/>
+      </EntityType>
+
+      <!-- Entity Container -->
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="SalesOrders" EntityType="SalesOrderHierarchy.SalesOrder">
+          <NavigationPropertyBinding Path="Customer" Target="Customers"/>
+          <NavigationPropertyBinding Path="Items" Target="SalesOrderItems"/>
+        </EntitySet>
+        <EntitySet Name="SalesOrderItems" EntityType="SalesOrderHierarchy.SalesOrderItem">
+          <NavigationPropertyBinding Path="SalesOrder" Target="SalesOrders"/>
+          <NavigationPropertyBinding Path="Product" Target="Products"/>
+          <NavigationPropertyBinding Path="ScheduleLines" Target="ScheduleLines"/>
+        </EntitySet>
+        <EntitySet Name="ScheduleLines" EntityType="SalesOrderHierarchy.ScheduleLine">
+          <NavigationPropertyBinding Path="Item" Target="SalesOrderItems"/>
+        </EntitySet>
+        <EntitySet Name="Products" EntityType="SalesOrderHierarchy.Product"/>
+        <EntitySet Name="Customers" EntityType="SalesOrderHierarchy.Customer"/>
+      </EntityContainer>
+      <Annotations Target="SalesOrderHierarchy.SalesOrder">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CustomerID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderDate"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="TotalAmount"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record>
+            <PropertyValue Property="TypeName" String="Sales Order"/>
+            <PropertyValue Property="TypeNamePlural" String="Sales Orders"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <Property Name="Value" Path="OrderID"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="General Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#General"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Items"/>
+              <PropertyValue Property="Target" AnnotationPath="Items/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="General">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="OrderID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="CustomerID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="OrderDate"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+
+      <Annotations Target="SalesOrderHierarchy.SalesOrderItem">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ItemNo"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ProductID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Quantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Amount"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record>
+            <PropertyValue Property="TypeName" String="Item"/>
+            <PropertyValue Property="TypeNamePlural" String="Items"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="ItemNo"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Item Details"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#ItemDetails"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Schedule Lines"/>
+              <PropertyValue Property="Target" AnnotationPath="ScheduleLines/@UI.LineItem"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="ItemDetails">
+          <Record>
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ItemNo"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="ProductID"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+
+      <Annotations Target="SalesOrderHierarchy.ScheduleLine">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ScheduleLineNo"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="DeliveryDate"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Quantity"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ConfirmedQuantity"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

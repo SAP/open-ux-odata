@@ -1,0 +1,17 @@
+[
+    {
+        "CategoryID": "NB",
+        "CategoryName": "Notebooks",
+        "Description": "Portable computers for mobile professionals"
+    },
+    {
+        "CategoryID": "AC",
+        "CategoryName": "Accessories",
+        "Description": "Computer accessories and peripherals"
+    },
+    {
+        "CategoryID": "SW",
+        "CategoryName": "Software",
+        "Description": "Software applications and licenses"
+    }
+]

@@ -1,0 +1,38 @@
+[
+    {
+        "ProductID": "MAT-1000",
+        "ProductName": "Laptop Pro 15",
+        "Category": "Electronics",
+        "Price": "1299.00",
+        "StockQuantity": 50,
+        "IsActive": true,
+        "LastModified": "2024-01-16T00:00:00Z"
+    },
+    {
+        "ProductID": "MAT-1001",
+        "ProductName": "Wireless Mouse",
+        "Category": "Accessories",
+        "Price": "29.99",
+        "StockQuantity": 200,
+        "IsActive": true,
+        "LastModified": "2024-01-16T00:00:00Z"
+    },
+    {
+        "ProductID": "MAT-1002",
+        "ProductName": "Monitor 27\"",
+        "Category": "Electronics",
+        "Price": "449.00",
+        "StockQuantity": 10,
+        "IsActive": true,
+        "LastModified": "2024-01-16T00:00:00Z"
+    },
+    {
+        "ProductID": "MAT-1003",
+        "ProductName": "Keyboard Mechanical",
+        "Category": "Accessories",
+        "Price": "89.99",
+        "StockQuantity": 0,
+        "IsActive": false,
+        "LastModified": "2024-01-16T00:00:00Z"
+    }
+]

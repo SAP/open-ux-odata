@@ -1,0 +1,115 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "sales.orders.app",
+        "type": "application",
+        "title": "Sales Orders Sample",
+        "description": "Sample application demonstrating sales orders",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/SALES_ORDER_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "SalesOrdersList",
+                    "target": "SalesOrdersList"
+                },
+                {
+                    "pattern": "SalesOrders({key}):?query:",
+                    "name": "SalesOrdersObjectPage",
+                    "target": "SalesOrdersObjectPage"
+                },
+                {
+                    "pattern": "SalesOrders({key})/Items({key2}):?query:",
+                    "name": "SalesOrderItemsObjectPage",
+                    "target": "SalesOrderItemsObjectPage"
+                }
+            ],
+            "targets": {
+                "SalesOrdersList": {
+                    "type": "Component",
+                    "id": "SalesOrdersList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "SalesOrders",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "SalesOrders": {
+                                    "detail": {
+                                        "route": "SalesOrdersObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "SalesOrdersObjectPage": {
+                    "type": "Component",
+                    "id": "SalesOrdersObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "SalesOrders",
+                            "navigation": {
+                                "Items": {
+                                    "detail": {
+                                        "route": "SalesOrderItemsObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "SalesOrderItemsObjectPage": {
+                    "type": "Component",
+                    "id": "SalesOrderItemsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "SalesOrderItems"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    }
+}

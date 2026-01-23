@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Three-Level Hierarchy Sample</title>
+
+        <script type="text/javascript">
+            window['sap-ushell-config'] = {
+                defaultRenderer: 'fiori2',
+                bootstrapPlugins: {
+                    RuntimeAuthoringPlugin: {
+                        component: 'sap.ushell.plugins.rta',
+                        config: {
+                            validateAppVersion: false
+                        }
+                    }
+                },
+                renderers: {
+                    fiori2: {
+                        componentData: {
+                            config: {
+                                search: 'hidden'
+                            }
+                        }
+                    }
+                },
+                applications: {
+                    'threelevelhierarchy-tile': {
+                        title: 'Three-Level Hierarchy',
+                        description: 'Sales Order -> Item -> Schedule Line',
+                        additionalInformation: 'SAPUI5.Component=sap.fe.mockserver.threeLevelHierarchy',
+                        applicationType: 'URL',
+                        url: './'
+                    }
+                }
+            };
+        </script>
+
+        <script
+            src="https://ui5.sap.com/test-resources/sap/ushell/bootstrap/sandbox.js"
+            id="sap-ushell-bootstrap"></script>
+        <script
+            id="sap-ui-bootstrap"
+            src="https://ui5.sap.com/resources/sap-ui-core.js"
+            data-sap-ui-libs="sap.m, sap.ushell, sap.fe.templates"
+            data-sap-ui-async="true"
+            data-sap-ui-preload="async"
+            data-sap-ui-theme="sap_horizon"
+            data-sap-ui-compatVersion="edge"
+            data-sap-ui-language="en"
+            data-sap-ui-resourceroots='{"sap.fe.mockserver.threeLevelHierarchy": "./"}'
+            data-sap-ui-frameOptions="allow"></script>
+        <script type="text/javascript">
+            sap.ui.getCore().attachInit(function () {
+                sap.ushell.Container.createRenderer().placeAt('content');
+            });
+        </script>
+    </head>
+    <body class="sapUiBody" id="content"></body>
+</html>

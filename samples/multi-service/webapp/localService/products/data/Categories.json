@@ -1,0 +1,12 @@
+[
+    {
+        "CategoryID": "Electronics",
+        "CategoryName": "Electronics",
+        "Description": "Electronic devices and equipment"
+    },
+    {
+        "CategoryID": "Accessories",
+        "CategoryName": "Accessories",
+        "Description": "Computer accessories and peripherals"
+    }
+]

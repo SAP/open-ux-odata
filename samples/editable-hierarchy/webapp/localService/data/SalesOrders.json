@@ -1,0 +1,4 @@
+[
+    { "OrderID": "SO-000001", "TotalAmount": "100.00" },
+    { "OrderID": "SO-000002", "TotalAmount": "0.00" }
+]

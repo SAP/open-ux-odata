@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="SalesService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+
+      <EntityType Name="SalesOrder">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="CustomerID" Type="Edm.String" MaxLength="10"/>
+        <Property Name="OrderDate" Type="Edm.DateTimeOffset"/>
+        <Property Name="TotalAmount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="CurrencyCode" Type="Edm.String" MaxLength="3"/>
+        <Property Name="Status" Type="Edm.String" MaxLength="20"/>
+        <NavigationProperty Name="Items" Type="Collection(SalesService.SalesOrderItem)" Partner="SalesOrder"/>
+      </EntityType>
+
+      <EntityType Name="SalesOrderItem">
+        <Key>
+          <PropertyRef Name="OrderID"/>
+          <PropertyRef Name="ItemNo"/>
+        </Key>
+        <Property Name="OrderID" Type="Edm.String" Nullable="false" MaxLength="10"/>
+        <Property Name="ItemNo" Type="Edm.String" Nullable="false" MaxLength="6"/>
+        <Property Name="ProductID" Type="Edm.String" MaxLength="18"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Quantity" Type="Edm.Decimal" Scale="3" Precision="13"/>
+        <Property Name="UnitPrice" Type="Edm.Decimal" Scale="2" Precision="10"/>
+        <Property Name="Amount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="CurrencyCode" Type="Edm.String" MaxLength="3"/>
+        <NavigationProperty Name="SalesOrder" Type="SalesService.SalesOrder" Partner="Items">
+          <ReferentialConstraint Property="OrderID" ReferencedProperty="OrderID"/>
+        </NavigationProperty>
+      </EntityType>
+
+      <EntityType Name="OrderTemplate">
+        <Key>
+          <PropertyRef Name="TemplateID"/>
+        </Key>
+        <Property Name="TemplateID" Type="Edm.String" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="DefaultAmount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="Currency" Type="Edm.String" MaxLength="3"/>
+      </EntityType>
+
+      <ComplexType Name="OrderStatistics">
+        <Property Name="TotalOrders" Type="Edm.Int32"/>
+        <Property Name="TotalRevenue" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="AverageOrderValue" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="TopCustomer" Type="Edm.String"/>
+      </ComplexType>
+
+      <!-- Factory Action - Create new order -->
+      <Action Name="CreateOrderFromTemplate" IsBound="false">
+        <Parameter Name="TemplateID" Type="Edm.String"/>
+        <Parameter Name="CustomerID" Type="Edm.String"/>
+        <ReturnType Type="SalesService.SalesOrder"/>
+      </Action>
+
+      <!-- Bound Action - Apply discount -->
+      <Action Name="ApplyDiscount" IsBound="true">
+        <Parameter Name="in" Type="SalesService.SalesOrder"/>
+        <Parameter Name="DiscountPercent" Type="Edm.Decimal"/>
+        <ReturnType Type="SalesService.SalesOrder"/>
+      </Action>
+
+      <!-- Bound Action - Confirm order -->
+      <Action Name="ConfirmOrder" IsBound="true">
+        <Parameter Name="in" Type="SalesService.SalesOrder"/>
+        <ReturnType Type="SalesService.SalesOrder"/>
+      </Action>
+
+      <!-- Static Function - Get statistics -->
+      <Function Name="GetOrderStatistics" IsBound="false">
+        <ReturnType Type="SalesService.OrderStatistics"/>
+      </Function>
+
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="SalesOrders" EntityType="SalesService.SalesOrder">
+          <NavigationPropertyBinding Path="Items" Target="SalesOrderItems"/>
+        </EntitySet>
+        <EntitySet Name="SalesOrderItems" EntityType="SalesService.SalesOrderItem">
+          <NavigationPropertyBinding Path="SalesOrder" Target="SalesOrders"/>
+        </EntitySet>
+        <EntitySet Name="OrderTemplates" EntityType="SalesService.OrderTemplate"/>
+        <ActionImport Name="CreateOrderFromTemplate" Action="SalesService.CreateOrderFromTemplate"/>
+        <FunctionImport Name="GetOrderStatistics" Function="SalesService.GetOrderStatistics"/>
+      </EntityContainer>
+
+      <Annotations Target="SalesService.SalesOrder">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderID"/>
+              <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CustomerID"/>
+              <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="OrderDate"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="TotalAmount"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="CurrencyCode"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="Status"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="SalesService.ApplyDiscount"/>
+              <PropertyValue Property="Label" String="Apply Discount"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="SalesService.ConfirmOrder"/>
+              <PropertyValue Property="Label" String="Confirm Order"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="CreateOrderFromTemplate"/>
+              <PropertyValue Property="Label" String="Create from Template"/>
+              <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <Property Path="OrderID"/>
+            <Property Path="CustomerID"/>
+            <Property Path="Status"/>
+          </Collection>
+        </Annotation>
+      </Annotations>
+
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

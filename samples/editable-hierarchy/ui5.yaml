@@ -1,0 +1,13 @@
+specVersion: '3.0'
+metadata:
+    name: editable-hierarchy
+type: application
+server:
+    customMiddleware:
+        - name: sap-fe-mockserver
+          afterMiddleware: compression
+          configuration:
+              services:
+                  - urlPath: /sap/opu/odata4/sap/sales_order_hierarchy/0001
+                    metadataPath: ./webapp/localService/metadata.xml
+                    mockdataPath: ./webapp/localService/data

@@ -1,0 +1,17 @@
+[
+    {
+        "CountryCode": "US",
+        "CountryName": "United States",
+        "Region": "Americas"
+    },
+    {
+        "CountryCode": "DE",
+        "CountryName": "Germany",
+        "Region": "Europe"
+    },
+    {
+        "CountryCode": "GB",
+        "CountryName": "United Kingdom",
+        "Region": "Europe"
+    }
+]
