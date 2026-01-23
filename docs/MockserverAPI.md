@@ -51,18 +51,20 @@ Following is an example implementation just returning different response based o
 }
 ```
 
-### onBeforeAction / onAfterAction
+### onBeforeAction / onAfterAction / onDraftPrepare
 
 Provides hook before and after an action is executed, this is mostly used to provide additional handling on top of the standard draft workflow.
 
 - `onBeforeAction(actionDefinition: Action, actionData: any, keys: Record<string, any>): object;`
 - `onAfterAction(actionDefinition: Action, actionData: any, keys: Record<string, any>, responseData: any): any;`
+- `onDraftPrepare(actionDefinition: Action, responseData: any, keys: Record<string, any>, odataRequest: ODataRequest): Promise<void>;`
 
 In most case you will end up implementing the action directly in the `executeAction` hook, but there are also a few prebuilt actions around Draft handling where you might want to interrupt or tweak the data coming in. Those hooks are there for that purpose
 
+`onDraftPrepare` is specifically called during the draft preparation action, allowing you to modify the data or add messages to the response.
+
 ```
-async onAfterAction(actionDefinition, actionData, keys, responseData, odataRequest) {
-  if (actionDefinition.name === "draftPrepare") {
+async onDraftPrepare(actionDefinition, responseData, keys, odataRequest) {
     responseData["SAP_Message"] = [
       {
         code: "xxxx",
@@ -73,8 +75,6 @@ async onAfterAction(actionDefinition, actionData, keys, responseData, odataReque
         transition: true
       }
     ];
-  }
-  return responseData;
 }
 ```
 
@@ -130,7 +130,9 @@ getReferentialConstraints(navigationDetail) {
 
 On top of providing ways to override default behavior, you also have access to a `base` API that comprises of the basic functionality offered by the mockdata API.
 
-This base API is accessible by calling `this.base.xxx` in any of the mockserver JS file, this object will allow you to manipulate the current or other entities 
+This base API is accessible by calling `this.base.xxx` in any of the mockserver JS file, this object will allow you to manipulate the current or other entities. It also includes the default implementation of the hooks if you want to call them.
+
+- `this.base.onDraftPrepare(actionDefinition: Action, responseData: any, keys: Record<string, any>, odataRequest: ODataRequest): Promise<void>;`
 
 #### addEntry
 

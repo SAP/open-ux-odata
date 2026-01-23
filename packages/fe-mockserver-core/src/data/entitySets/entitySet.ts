@@ -731,7 +731,9 @@ export class MockDataEntitySet implements EntitySetInterface {
             }
         }
         newObject = Object.assign(newObject, postData);
+        await currentMockData.onBeforeAddEntry(keyValues, newObject, odataRequest);
         await currentMockData.addEntry(newObject, odataRequest);
+        await currentMockData.onAfterAddEntry(keyValues, newObject, odataRequest);
         return newObject;
     }
 

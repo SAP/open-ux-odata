@@ -21,6 +21,12 @@ export type MockDataContributorBase<T> = {
     getParentEntityInterface: () => Promise<FileBasedMockData | undefined>;
     getEntityInterface: (entityName: string, serviceNameOrAlias?: string) => Promise<FileBasedMockData | undefined>;
     checkSearchQuery: (mockData: any, searchQuery: string, odataRequest: ODataRequest) => boolean;
+    onDraftPrepare: (
+        actionDefinition: Action,
+        responseData: any,
+        keys: Record<string, any>,
+        odataRequest: ODataRequest
+    ) => Promise<void>;
     checkFilterValue: (
         comparisonType: string,
         mockValue: any,
@@ -91,9 +97,17 @@ export type MockDataContributor<T extends object> = {
         responseData: any,
         odataRequest: ODataRequest
     ): Promise<any>;
+    onDraftPrepare?(
+        actionDefinition: Action,
+        responseData: any,
+        keys: Record<string, any>,
+        odataRequest: ODataRequest
+    ): Promise<void>;
     onAfterRead?(data: T | T[], odataRequest: ODataRequest): Promise<T | T[]>;
     onAfterUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
     onBeforeUpdateEntry?(keyValues: KeyDefinitions, updatedData: T, odataRequest: ODataRequest): Promise<void>;
+    onAfterAddEntry?(keyValues: KeyDefinitions, data: T, odataRequest: ODataRequest): Promise<void>;
+    onBeforeAddEntry?(keyValues: KeyDefinitions, data: T, odataRequest: ODataRequest): Promise<void>;
     hasCustomAggregate?(customAggregateName: string, odataRequest: ODataRequest): boolean;
     performCustomAggregate?(customAggregateName: string, dataToAggregate: any[], odataRequest: ODataRequest): any;
     throwError?(
@@ -212,6 +226,7 @@ export class FunctionBasedMockData extends FileBasedMockData {
                 // Return the raw interface for same-service calls
                 return rawInterface;
             },
+            onDraftPrepare: super.onDraftPrepare.bind(this),
             checkFilterValue: super.checkFilterValue.bind(this),
             checkSearchQuery: super.checkSearchQuery.bind(this)
         };
@@ -355,6 +370,19 @@ export class FunctionBasedMockData extends FileBasedMockData {
         }
     }
 
+    async onDraftPrepare(
+        actionDefinition: Action,
+        responseData: any,
+        keys: Record<string, any>,
+        odataRequest: ODataRequest
+    ): Promise<void> {
+        if (this._mockDataFn?.onDraftPrepare) {
+            return this._mockDataFn.onDraftPrepare(actionDefinition, responseData, keys, odataRequest);
+        } else {
+            return super.onDraftPrepare(actionDefinition, responseData, keys, odataRequest);
+        }
+    }
+
     async onAfterUpdateEntry(
         keyValues: KeyDefinitions,
         updatedData: object,
@@ -378,6 +406,23 @@ export class FunctionBasedMockData extends FileBasedMockData {
             return super.onBeforeUpdateEntry(keyValues, updatedData, odataRequest);
         }
     }
+
+    async onAfterAddEntry(keyValues: KeyDefinitions, data: any, odataRequest: ODataRequest): Promise<void> {
+        if (this._mockDataFn?.onAfterAddEntry) {
+            return this._mockDataFn.onAfterAddEntry(keyValues, data, odataRequest);
+        } else {
+            return super.onAfterAddEntry(keyValues, data, odataRequest);
+        }
+    }
+
+    async onBeforeAddEntry(keyValues: KeyDefinitions, data: any, odataRequest: ODataRequest): Promise<void> {
+        if (this._mockDataFn?.onBeforeAddEntry) {
+            return this._mockDataFn.onBeforeAddEntry(keyValues, data, odataRequest);
+        } else {
+            return super.onBeforeAddEntry(keyValues, data, odataRequest);
+        }
+    }
+
     hasCustomAggregate(customAggregateName: string, odataRequest: ODataRequest): boolean {
         if (this._mockDataFn?.hasCustomAggregate) {
             return this._mockDataFn.hasCustomAggregate(customAggregateName, odataRequest);

@@ -683,8 +683,8 @@ describe('Annotation Converter', () => {
         const sideEffect = sdEntityType.annotations.Common?.['SideEffects#IncotermsChange'];
         expect(sideEffect?.$Type).toEqual(CommonAnnotationTypes.SideEffectsType);
 
-        expect(sideEffect?.SourceEntities[0]?.value).toEqual('');
-        expect(sideEffect?.SourceEntities[0]?.$target).toBeUndefined();
+        expect(sideEffect?.SourceEntities?.[0]?.value).toEqual('');
+        expect(sideEffect?.SourceEntities?.[0]?.$target).toBeUndefined();
         expect(sideEffect?.TargetProperties).toEqual(['IncotermsLocation1']);
     });
 
