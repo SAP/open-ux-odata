@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.1
+
+### Patch Changes
+
+-   eb2cc60: Add onDraftPrepare and onBeforeAdd / onAdterAdd
+
 ## 1.7.0
 
 ### Minor Changes
