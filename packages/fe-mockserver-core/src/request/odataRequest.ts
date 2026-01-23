@@ -489,6 +489,8 @@ export default class ODataRequest {
                 }
             }
         } catch (errorInfo: any) {
+            this.dataAccess.log.error(`Error executing OData request: ${errorInfo.message}`);
+            this.dataAccess.log.error(`${errorInfo.stack}`);
             const errorInformation: ExecutionError = errorInfo as ExecutionError;
             if (errorInformation.isCustomError) {
                 if (errorInformation.isGlobalRequestError) {

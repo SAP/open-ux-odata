@@ -302,6 +302,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.PreparationAction}()`:
                 // Prepare
                 responseObject = await this.performGET(keys, false, odataRequest.tenantId, odataRequest);
+                await currentMockData.onDraftPrepare(actionDefinition, responseObject, keys, odataRequest);
                 break;
 
             case `${this.entitySetDefinition.annotations.Common?.DraftRoot?.DiscardAction}(${this.entitySetDefinition.entityTypeName})`:

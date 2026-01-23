@@ -698,6 +698,23 @@ export class FileBasedMockData {
         return responseData;
     }
 
+    /**
+     * Allow to modify the draft preparation.
+     *
+     * @param _actionDefinition
+     * @param _responseData
+     * @param _keys
+     * @param _odataRequest
+     */
+    async onDraftPrepare(
+        _actionDefinition: Action,
+        _responseData: any,
+        _keys: Record<string, any>,
+        _odataRequest: ODataRequest
+    ): Promise<void> {
+        // Do nothing
+    }
+
     //eslint-disable-next-line
     async onAfterUpdateEntry(
         _keyValues: KeyDefinitions,
@@ -712,6 +729,16 @@ export class FileBasedMockData {
         _updatedData: object,
         _odataRequest: ODataRequest
     ): Promise<void> {
+        // DO Nothing
+    }
+
+    //eslint-disable-next-line
+    async onAfterAddEntry(_keyValues: KeyDefinitions, _data: object, _odataRequest: ODataRequest): Promise<void> {
+        // DO Nothing
+    }
+
+    //eslint-disable-next-line
+    async onBeforeAddEntry(_keyValues: KeyDefinitions, _data: object, _odataRequest: ODataRequest): Promise<void> {
         // DO Nothing
     }
 
