@@ -56,12 +56,12 @@ type PrimitiveTypeCast<P, G> =
     | (P extends string ? string | (String & G) : never)
     | (P & G);
 
-export type AnnotationTerm<P> = PrimitiveTypeCast<
+export type AnnotationTerm<P, A = TermAnnotations & AnnotationAnnotations> = PrimitiveTypeCast<
     P,
     {
         fullyQualifiedName: string;
         qualifier: string;
-        annotations?: TermAnnotations & AnnotationAnnotations;
+        annotations?: A;
     }
 >;
 
