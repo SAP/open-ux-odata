@@ -213,6 +213,7 @@ declare namespace CSDL {
     export interface CSDLAnnotations {
         '@Core.Description': string;
         '@Validation.AllowedTerms': string[];
+        '@Validation.ApplicableTerms': string[];
     }
     /**
      * Entity Type

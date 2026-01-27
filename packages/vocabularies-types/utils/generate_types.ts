@@ -416,6 +416,39 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
                         }
                         let renamedTermType = `${termType}`;
                         const targetTerm = vocabularyDefinition[termName];
+
+                        let applicableTermsType = '';
+                        if (vocabularyTermInfo['@Validation.ApplicableTerms']) {
+                            const applicableTermsGrouped: Record<string, string[]> = {};
+                            (vocabularyTermInfo['@Validation.ApplicableTerms'] as any).forEach((type: string) => {
+                                const [alias, name] = formatType(type, vocabularyAlias).split('.');
+                                if (name !== undefined) {
+                                    if (!applicableTermsGrouped[alias]) {
+                                        applicableTermsGrouped[alias] = [];
+                                    }
+                                    applicableTermsGrouped[alias].push(name);
+                                } else {
+                                    // Local term
+                                    if (!applicableTermsGrouped[vocabularyAlias]) {
+                                        applicableTermsGrouped[vocabularyAlias] = [];
+                                    }
+                                    applicableTermsGrouped[vocabularyAlias].push(alias);
+                                }
+                            });
+                            applicableTermsType =
+                                '{' +
+                                Object.keys(applicableTermsGrouped)
+                                    .map((alias) => {
+                                        const isLocalAlias = alias === vocabularyAlias;
+                                        const aliasPrefix = isLocalAlias ? '' : `${alias}.`;
+                                        return `${alias}?: { [key: string]: any } & { ${applicableTermsGrouped[alias]
+                                            .map((name) => `'${name}': ${aliasPrefix}${name}`)
+                                            .join(', ')} }`;
+                                    })
+                                    .join(', ') +
+                                '}';
+                        }
+
                         if (
                             termAlias === vocabularyAlias &&
                             (!isSchemaElement(termName, targetTerm) ||
@@ -447,7 +480,9 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
 
                             //needNewLine = true;
                         } else {
-                            vocabularyDef += `export type ${vocabularyTerm} = { term : ${vocabularyAlias}AnnotationTerms.${vocabularyTerm} } & AnnotationTerm<${renamedTermType}>`;
+                            vocabularyDef += `export type ${vocabularyTerm} = { term : ${vocabularyAlias}AnnotationTerms.${vocabularyTerm} } & AnnotationTerm<${renamedTermType}${
+                                applicableTermsType ? `, ${applicableTermsType}` : ''
+                            }>`;
                         }
 
                         // if (vocabularyTermInfo.$Nullable) {
@@ -539,6 +574,18 @@ async function generateTypes(vocabularyConfig: VocabularyConfig, targetFolder: s
                                         if (vocabularyTermInfo[vocabularyTermKey]['@Validation.AllowedTerms']) {
                                             keyType = `Edm.AnnotationPath<${(
                                                 vocabularyTermInfo[vocabularyTermKey]['@Validation.AllowedTerms'] as any
+                                            )
+                                                .map((type: string) => {
+                                                    return formatType(type, vocabularyAlias);
+                                                })
+                                                .join('|')}>`;
+                                        } else if (
+                                            vocabularyTermInfo[vocabularyTermKey]['@Validation.ApplicableTerms']
+                                        ) {
+                                            keyType = `Edm.AnnotationPath<${(
+                                                vocabularyTermInfo[vocabularyTermKey][
+                                                    '@Validation.ApplicableTerms'
+                                                ] as any
                                             )
                                                 .map((type: string) => {
                                                     return formatType(type, vocabularyAlias);
