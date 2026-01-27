@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.14.6
+
+### Patch Changes
+
+-   b01e9f4: Consider AllowedTerms
+
 ## 0.14.5
 
 ### Patch Changes

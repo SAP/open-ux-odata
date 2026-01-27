@@ -1,6 +1,6 @@
 {
     "name": "@sap-ux/ui5-middleware-fe-mockserver",
-    "version": "2.4.1",
+    "version": "2.4.2",
     "description": "SAP Fiori tools - UI5 middleware for the Fiori elements mock server",
     "repository": {
         "type": "git",
