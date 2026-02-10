@@ -40,6 +40,10 @@ export default class FEMockserver {
             this.configuration.metadataProcessor?.i18nPath
         );
         this.serviceRegistry = new ServiceRegistry(this.fileLoader, this.metadataProvider, this.mainRouter);
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        global.serviceRegistry = this.serviceRegistry;
         // Load services into the registry
         await this.serviceRegistry.loadDefaultServices(this.configuration);
 
