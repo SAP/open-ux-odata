@@ -1,5 +1,11 @@
 # @sap-ux/vocabularies-types
 
+## 0.15.0
+
+### Minor Changes
+
+-   03c6eec: Update vocabularies types to include latest UI.Placeholder vocabulary change
+
 ## 0.14.6
 
 ### Patch Changes
