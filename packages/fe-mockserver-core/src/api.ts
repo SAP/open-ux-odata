@@ -42,6 +42,7 @@ export interface ConfigService {
     validateETag: boolean;
     contextBasedIsolation: boolean;
     forceNullableValuesToNull: boolean;
+    allowInlineNull: boolean;
     strictKeyMode: boolean;
     watch: boolean;
     i18nPath: string[];
@@ -80,6 +81,7 @@ export interface BaseServerConfig {
     resolveExternalServiceReferences?: boolean;
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
+    allowInlineNull?: boolean;
     fileLoader?: string;
     /** Name of the package to use for the metadata provider **/
     metadataProcessor?: MetadataProcessorConfig;
@@ -108,6 +110,7 @@ export type ServiceConfig = {
     i18nPath?: string[];
     generateMockData?: boolean;
     forceNullableValuesToNull?: boolean;
+    allowInlineNull?: boolean;
     resolveExternalServiceReferences?: boolean;
     debug?: boolean;
     logRequests?: boolean;
