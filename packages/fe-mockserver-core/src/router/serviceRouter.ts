@@ -215,7 +215,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
             ) {
                 (req as any).body = '{}';
             } else {
-                (req as any).body = (req as any).body.toString('utf-8');
+                (req as any).body = (req as any).body?.toString('utf-8');
             }
 
             if (

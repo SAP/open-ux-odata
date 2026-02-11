@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.5
+
+### Patch Changes
+
+-   1e8f5f8: Allow calling OData Functions (where the request body is undefined)
+
 ## 1.7.4
 
 ### Patch Changes
