@@ -64,6 +64,7 @@ export class DataAccess implements DataAccessInterface {
     protected stickyEntitySets: StickyMockEntitySet[] = [];
     protected generateMockData: boolean;
     protected forceNullableValuesToNull: boolean;
+    private allowInlineNull: boolean;
 
     public constructor(
         private service: ServiceConfig,
@@ -82,6 +83,7 @@ export class DataAccess implements DataAccessInterface {
         this.strictKeyMode = !!service.strictKeyMode;
         this.generateMockData = !!service.generateMockData;
         this.forceNullableValuesToNull = !!service.forceNullableValuesToNull;
+        this.allowInlineNull = !!service.allowInlineNull;
         this.contextBasedIsolation = !!service.contextBasedIsolation;
         this.validateETag = !!service.validateETag;
         this.fileLoader = fileLoader;
@@ -560,7 +562,10 @@ export class DataAccess implements DataAccessInterface {
         _expandDefinition: ExpandDefinition,
         odataRequest: ODataRequest
     ): Promise<void> {
-        if (targetEntitySet && !navigationProperty.containsTarget && !data[navigationProperty.name]) {
+        const isFalsy = this.allowInlineNull
+            ? data[navigationProperty.name] === undefined
+            : !data[navigationProperty.name];
+        if (targetEntitySet && !navigationProperty.containsTarget && isFalsy) {
             const currentKeys = await this.getNavigationPropertyKeys(
                 data,
                 navigationProperty,

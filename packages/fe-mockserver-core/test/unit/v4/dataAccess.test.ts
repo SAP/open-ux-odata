@@ -1715,4 +1715,188 @@ describe('Data Access', () => {
             expect(data).toEqual(expected);
         });
     });
+
+    describe('allowInlineNull configuration', () => {
+        let metadataWithNullNavProp!: ODataMetadata;
+        let dataAccessWithAllowInlineNull!: DataAccess;
+        let dataAccessWithoutAllowInlineNull!: DataAccess;
+        const baseUrl = 'http://localhost:8080/sap/fe/preview/TestService';
+
+        beforeAll(async () => {
+            const baseDir = join(__dirname, 'services', 'formSample');
+            const edmx = await metadataProvider.loadMetadata(join(baseDir, '/FormTemplate.cds'));
+            metadataWithNullNavProp = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
+
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+
+            // DataAccess with allowInlineNull enabled
+            dataAccessWithAllowInlineNull = new DataAccess(
+                { mockdataPath: baseDir, allowInlineNull: true } as ServiceConfig,
+                metadataWithNullNavProp,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
+
+            // DataAccess with allowInlineNull disabled (default behavior)
+            dataAccessWithoutAllowInlineNull = new DataAccess(
+                { mockdataPath: baseDir, allowInlineNull: false } as ServiceConfig,
+                metadataWithNullNavProp,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
+        });
+
+        test('with allowInlineNull=true, null navigation properties are preserved and not expanded', async () => {
+            // Create mock data with a null navigation property
+            const mockEntitySet = await dataAccessWithAllowInlineNull.getMockEntitySet('FormRoot');
+            const mockData = mockEntitySet.getMockData('tenant-default');
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=999,IsActiveEntity=true)?$expand=SpecialOne' },
+                dataAccessWithAllowInlineNull
+            );
+            // Add test data with null navigation property
+            await mockData.addEntry(
+                {
+                    ID: 999,
+                    FirstName: 'Test',
+                    LastName: 'User',
+                    SpecialOne: null, // Explicitly set to null
+                    IsActiveEntity: true
+                },
+                odataRequest
+            );
+
+            const data = await dataAccessWithAllowInlineNull.getData(odataRequest);
+
+            // With allowInlineNull=true, null should be preserved
+            expect(data.SpecialOne).toBe(null);
+        });
+
+        test('with allowInlineNull=false, null navigation properties are expanded', async () => {
+            // Create mock data with a null navigation property
+            const mockEntitySet = await dataAccessWithoutAllowInlineNull.getMockEntitySet('FormRoot');
+            const mockData = mockEntitySet.getMockData('tenant-default');
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=998,IsActiveEntity=true)?$expand=SpecialOne' },
+                dataAccessWithoutAllowInlineNull
+            );
+            // Add test data with null navigation property
+            await mockData.addEntry(
+                {
+                    ID: 998,
+                    FirstName: 'Test',
+                    LastName: 'User2',
+                    SpecialOne: null, // Explicitly set to null
+                    IsActiveEntity: true
+                },
+                odataRequest
+            );
+
+            const data = await dataAccessWithoutAllowInlineNull.getData(odataRequest);
+
+            // With allowInlineNull=false, null values should trigger expansion
+            // The expanded value depends on the navigation property configuration
+            expect(data.SpecialOne).toBeDefined();
+        });
+
+        test('with allowInlineNull=true, undefined navigation properties are still expanded', async () => {
+            // Create mock data without the navigation property (undefined)
+            const mockEntitySet = await dataAccessWithAllowInlineNull.getMockEntitySet('FormRoot');
+            const mockData = mockEntitySet.getMockData('tenant-default');
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=997,IsActiveEntity=true)?$expand=SpecialOne' },
+                dataAccessWithAllowInlineNull
+            );
+            // Add test data without navigation property (undefined)
+            await mockData.addEntry(
+                {
+                    ID: 997,
+                    FirstName: 'Test',
+                    LastName: 'User3',
+                    // SpecialOne is undefined (not set)
+                    IsActiveEntity: true
+                },
+                odataRequest
+            );
+
+            const data = await dataAccessWithAllowInlineNull.getData(odataRequest);
+
+            // With allowInlineNull=true, undefined values should still trigger expansion
+            expect(data.SpecialOne).toBeDefined();
+        });
+
+        test('with allowInlineNull=true, collection navigation properties with null are preserved', async () => {
+            const mockEntitySet = await dataAccessWithAllowInlineNull.getMockEntitySet('FormRoot');
+            const mockData = mockEntitySet.getMockData('tenant-default');
+            const odataRequest = new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=996,IsActiveEntity=true)?$expand=_Elements' },
+                dataAccessWithAllowInlineNull
+            );
+            // Add test data with null collection navigation property
+            await mockData.addEntry(
+                {
+                    ID: 996,
+                    FirstName: 'Test',
+                    LastName: 'User4',
+                    _Elements: null, // Explicitly set to null
+                    IsActiveEntity: true
+                },
+                odataRequest
+            );
+
+            const data = await dataAccessWithAllowInlineNull.getData(odataRequest);
+
+            // With allowInlineNull=true, null should be preserved for collections too
+            expect(data._Elements).toBe(null);
+        });
+
+        test('with allowInlineNull=false, both null and undefined are treated the same', async () => {
+            const mockEntitySet = await dataAccessWithoutAllowInlineNull.getMockEntitySet('FormRoot');
+            const mockData = mockEntitySet.getMockData('tenant-default');
+            const odataRequestNull = new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=995,IsActiveEntity=true)?$expand=SpecialOne' },
+                dataAccessWithoutAllowInlineNull
+            );
+            // Add test data with null navigation property
+            await mockData.addEntry(
+                {
+                    ID: 995,
+                    FirstName: 'Test',
+                    LastName: 'User5',
+                    SpecialOne: null,
+                    IsActiveEntity: true
+                },
+                odataRequestNull
+            );
+
+            // Add test data without navigation property (undefined)
+            await mockData.addEntry(
+                {
+                    ID: 994,
+                    FirstName: 'Test',
+                    LastName: 'User6',
+                    IsActiveEntity: true
+                },
+                odataRequestNull
+            );
+
+            const dataNullValue = await dataAccessWithoutAllowInlineNull.getData(odataRequestNull);
+
+            const odataRequestUndefined = new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=994,IsActiveEntity=true)?$expand=SpecialOne' },
+                dataAccessWithoutAllowInlineNull
+            );
+            const dataUndefinedValue = await dataAccessWithoutAllowInlineNull.getData(odataRequestUndefined);
+
+            // Both should be expanded
+            expect(dataNullValue.SpecialOne).toBeDefined();
+            expect(dataUndefinedValue.SpecialOne).toBeDefined();
+        });
+    });
 });

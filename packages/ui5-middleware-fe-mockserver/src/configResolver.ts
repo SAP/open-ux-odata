@@ -103,6 +103,7 @@ function processServicesConfig(
         'contextBasedIsolation',
         'generateMockData',
         'forceNullableValuesToNull',
+        'allowInlineNull',
         'validateETag'
     ];
     return inServices.map((inService) => {
