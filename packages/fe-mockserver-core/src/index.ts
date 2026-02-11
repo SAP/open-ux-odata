@@ -40,6 +40,8 @@ export default class FEMockserver {
             this.configuration.metadataProcessor?.i18nPath
         );
         this.serviceRegistry = new ServiceRegistry(this.fileLoader, this.metadataProvider, this.mainRouter);
+
+        (globalThis as { serviceRegistry?: ServiceRegistry }).serviceRegistry = this.serviceRegistry;
         // Load services into the registry
         await this.serviceRegistry.loadDefaultServices(this.configuration);
 

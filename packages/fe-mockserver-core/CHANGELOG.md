@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.4
+
+### Patch Changes
+
+-   86b9595: expose the service registry globally
+
 ## 1.7.3
 
 ### Patch Changes
