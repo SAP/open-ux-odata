@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.6
+
+### Patch Changes
+
+-   a75c19c: Introduce a new property `allowInlineNull` to force respect null values defined in the parent mock value before expanding
+
 ## 1.7.5
 
 ### Patch Changes
