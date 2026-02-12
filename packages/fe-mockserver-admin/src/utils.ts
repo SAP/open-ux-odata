@@ -1,32 +1,71 @@
-import compiler from '@sap/cds-compiler';
+import { compileSources, compileSync, to } from '@sap/cds-compiler';
 import fs from 'fs';
+import path from 'path';
+import { commonCds } from './CommonCds';
 
-export function cds2edmx(cds: string, service = 'sap.fe.test.JestService', options: compiler.ODataOptions = {}) {
-    const sources: Record<string, string> = { 'source.cds': cds };
-
-    // allow to include stuff from @sap/cds/common
-    if (cds.includes("'@sap/cds/common'")) {
-        sources['common.cds'] = fs.readFileSync(require.resolve('@sap/cds/common.cds'), 'utf-8');
+/**
+ * Compile CDS source to EDMX metadata.
+ * @param filePathOrContent - File path to CDS file, or CDS content string if mode is 'inline'
+ * @param targetModeOrInline - EDMX format ('flat' | 'structured') or 'inline' for inline CDS content
+ * @returns EDMX metadata string
+ */
+export const compileCDS = function (
+    filePathOrContent: string,
+    targetModeOrInline: 'flat' | 'structured' | 'inline' = 'flat'
+): string | undefined {
+    // Handle inline CDS content (for tests with embedded CDS)
+    if (targetModeOrInline === 'inline') {
+        const csn = compileSources({ 'string.cds': filePathOrContent, 'common.cds': commonCds }, {});
+        const targetEdmx = to.edmx.all(csn, {
+            odataVersion: 'v4',
+            odataFormat: 'flat',
+            odataForeignKeys: true,
+            odataContainment: false
+        });
+        return targetEdmx[Object.keys(targetEdmx)[0]!];
     }
 
-    const csn = compiler.compileSources(sources, {});
+    // Handle file-based compilation
+    const filePath = filePathOrContent;
+    const targetMode = targetModeOrInline;
 
-    const edmxOptions: compiler.ODataOptions = {
+    const cdsContent = fs.readFileSync(filePath, 'utf-8');
+    if (filePath.endsWith('.xml')) {
+        return cdsContent;
+    }
+    const usingReg = new RegExp(/from '([^']+)/g);
+    const matches = cdsContent.match(usingReg);
+    const fileCache: Record<string, string> = {};
+    fileCache[filePath] = cdsContent;
+    fileCache[path.resolve('./dummyHomme/common.cds')] = commonCds;
+    fileCache['@sap/cds/common'] = commonCds;
+    if (matches) {
+        let additionalFiles: string[] = matches.map((match) => /from '([^']+)/.exec(match)![1]) as string[];
+        additionalFiles = additionalFiles.filter((fileName) => fileName !== '@sap/cds/common');
+
+        for (const additionalFilesKey of additionalFiles) {
+            let additionalFilePath = path.resolve(path.dirname(filePath), additionalFilesKey);
+            if (!additionalFilePath.endsWith('.cds')) {
+                additionalFilePath += '.cds';
+            }
+            fileCache[additionalFilePath] = fs.readFileSync(additionalFilePath, 'utf-8');
+        }
+    }
+
+    const dirName = path.dirname(filePath);
+    const csn = compileSync([filePath], dirName, { cdsHome: path.resolve('./dummyHomme') }, fileCache);
+
+    const targetEdmx = to.edmx.all(csn, {
+        odataVersion: 'v4',
+        odataFormat: targetMode,
         odataForeignKeys: true,
-        odataFormat: 'structured',
-        odataContainment: true,
-        ...options,
-        service: service
-    };
+        odataContainment: false
+    });
 
-    const edmx = compiler.to.edmx(csn, edmxOptions);
-    if (!edmx) {
-        throw new Error(`Compilation failed. Hint: Make sure that the CDS model defines service ${service}.`);
+    if (Object.keys(targetEdmx).length > 1) {
+        throw new Error(
+            `Compilation failed, you can only define one service, found ${Object.keys(targetEdmx).length.toString()}`
+        );
     }
-    return edmx;
-}
-
-export const compileCDS = function (cdsUrl: string, options: compiler.ODataOptions = {}) {
-    const cdsString = fs.readFileSync(cdsUrl, 'utf-8');
-    return cds2edmx(cdsString, 'sap.fe.test.JestService', options);
+    return targetEdmx[Object.keys(targetEdmx)[0]!];
 };

@@ -565,7 +565,12 @@ export class DataAccess implements DataAccessInterface {
         const isFalsy = this.allowInlineNull
             ? data[navigationProperty.name] === undefined
             : !data[navigationProperty.name];
-        if (targetEntitySet && !navigationProperty.containsTarget && isFalsy) {
+        if (
+            targetEntitySet &&
+            !navigationProperty.containsTarget &&
+            isFalsy &&
+            navigationProperty.name !== 'DraftAdministrativeData' // never do this for DraftAdministrativeData
+        ) {
             const currentKeys = await this.getNavigationPropertyKeys(
                 data,
                 navigationProperty,

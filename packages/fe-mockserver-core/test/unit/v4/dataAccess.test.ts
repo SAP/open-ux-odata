@@ -1899,4 +1899,85 @@ describe('Data Access', () => {
             expect(dataUndefinedValue.SpecialOne).toBeDefined();
         });
     });
+
+    describe('DraftAdministrativeData inline handling', () => {
+        test('DraftAdministrativeData should always be defined inline and never fetched from target entity set', async () => {
+            // Create a new draft entity to test with
+            const newDraft = await dataAccess.createData(
+                new ODataRequest({ method: 'POST', url: '/FormRoot' }, dataAccess),
+                {
+                    FirstName: 'TestUser',
+                    LastName: 'ForDraftAdminData'
+                }
+            );
+            expect(newDraft).toBeDefined();
+            expect(newDraft.IsActiveEntity).toEqual(false);
+            const draftId = newDraft.ID;
+
+            // Get the draft with DraftAdministrativeData expanded
+            const formData = await dataAccess.getData(
+                new ODataRequest(
+                    {
+                        method: 'GET',
+                        url: `/FormRoot(ID=${draftId},IsActiveEntity=false)?$expand=DraftAdministrativeData`
+                    },
+                    dataAccess
+                )
+            );
+
+            expect(formData).not.toBeNull();
+            expect(formData.DraftAdministrativeData).toBeDefined();
+            expect(formData.DraftAdministrativeData).not.toBeNull();
+
+            // Verify that DraftAdministrativeData is an inline object (not a reference)
+            expect(typeof formData.DraftAdministrativeData).toBe('object');
+            expect(formData.DraftAdministrativeData.LastChangeDateTime).toBeDefined();
+        });
+
+        test('DraftAdministrativeData should be included with $select=* even without explicit $expand', async () => {
+            // Find any existing draft entity
+            const drafts = await dataAccess.getData(
+                new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq false&$top=1' }, dataAccess)
+            );
+
+            expect(drafts.length).toBeGreaterThan(0);
+            const draftId = drafts[0].ID;
+
+            // Get draft data with $select=*
+            const formData = await dataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: `/FormRoot(ID=${draftId},IsActiveEntity=false)?$select=*` },
+                    dataAccess
+                )
+            );
+
+            expect(formData).not.toBeNull();
+            // DraftAdministrativeData should be present even without explicit expand when using $select=*
+            expect(formData.DraftAdministrativeData).toBeDefined();
+        });
+
+        test('DraftAdministrativeData for active entity should be null', async () => {
+            // Find any active entity
+            const activeEntities = await dataAccess.getData(
+                new ODataRequest({ method: 'GET', url: '/FormRoot?$filter=IsActiveEntity eq true&$top=1' }, dataAccess)
+            );
+
+            expect(activeEntities.length).toBeGreaterThan(0);
+            const activeId = activeEntities[0].ID;
+
+            const formData = await dataAccess.getData(
+                new ODataRequest(
+                    {
+                        method: 'GET',
+                        url: `/FormRoot(ID=${activeId},IsActiveEntity=true)?$expand=DraftAdministrativeData`
+                    },
+                    dataAccess
+                )
+            );
+
+            expect(formData).not.toBeNull();
+            // Active entities should have null DraftAdministrativeData
+            expect(formData.DraftAdministrativeData).toBeNull();
+        });
+    });
 });

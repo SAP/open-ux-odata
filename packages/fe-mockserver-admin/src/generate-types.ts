@@ -144,7 +144,7 @@ export async function generateTypes(METADATA_PATH: string, OUTPUT_DIR: string) {
         let metadataContent = fs.readFileSync(METADATA_PATH, 'utf8');
 
         if (METADATA_PATH.endsWith('.cds')) {
-            metadataContent = compileCDS(metadataContent);
+            metadataContent = compileCDS(METADATA_PATH) ?? '';
         }
 
         console.log('Parsing EDMX...');
