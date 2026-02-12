@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.7
+
+### Patch Changes
+
+-   c1c1137: Be more restrictive on draft admin data
+
 ## 1.7.6
 
 ### Patch Changes

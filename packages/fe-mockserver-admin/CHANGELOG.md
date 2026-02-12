@@ -1,5 +1,13 @@
 # @sap-ux/fe-mockserver-admin
 
+## 0.0.43
+
+### Patch Changes
+
+-   c1c1137: Be more restrictive on draft admin data
+-   Updated dependencies [c1c1137]
+    -   @sap-ux/fe-mockserver-core@1.7.7
+
 ## 0.0.42
 
 ### Patch Changes
