@@ -1096,10 +1096,6 @@ describe('OData Request', () => {
                 [
                   {
                     "keys": {},
-                    "matrixParameters": {
-                      "ps": "srvd-m2_sd_travel_mduu-0001",
-                      "va": "com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid",
-                    },
                     "path": "srvd_f4",
                   },
                   {
@@ -1140,10 +1136,6 @@ describe('OData Request', () => {
                 [
                   {
                     "keys": {},
-                    "matrixParameters": {
-                      "ps": "srvd-m2_sd_travel_mduu-0001",
-                      "va": "com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid",
-                    },
                     "path": "srvd_f4",
                   },
                   {
