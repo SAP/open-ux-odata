@@ -325,6 +325,14 @@ export function convertGenericAnnotations(
         }
     });
 
+    pushToAnnotations(attributes['sap:display-format'] === 'Date', {
+        term: CommonAnnotationTerms.IsCalendarDate,
+        value: {
+            type: 'Bool',
+            Bool: true
+        }
+    });
+
     if (attributes['sap:lower-boundary'] || attributes['sap:upper-boundary']) {
         const pv: PropertyValue[] = [];
         if (attributes['sap:lower-boundary']) {
