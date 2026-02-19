@@ -83,7 +83,7 @@ export interface BaseServerConfig {
     forceNullableValuesToNull?: boolean;
     allowInlineNull?: boolean;
     fileLoader?: string;
-    /** Name of the package to use for the metadata provider **/
+    /** Name of the package to use for the metadata provider */
     metadataProcessor?: MetadataProcessorConfig;
     plugins?: string[];
 }
@@ -141,9 +141,9 @@ export interface MockserverConfiguration {
     strictKeyMode?: boolean;
     annotations?: AnnotationConfig[];
     services: ServiceConfig[];
-    /** Name of the package to use for the file loader **/
+    /** Name of the package to use for the file loader */
     fileLoader?: string;
-    /** Name of the package to use for the metadata provider **/
+    /** Name of the package to use for the metadata provider */
     metadataProcessor?: MetadataProcessorConfig;
 
     /** List of plugins to load */

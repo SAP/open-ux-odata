@@ -1087,7 +1087,7 @@ describe('OData Request', () => {
             const request = new ODataRequest(
                 {
                     method: 'GET',
-                    url: "/srvd_f4/dmo/i_agency/0001;ps=%27srvd-m2_sd_travel_mduu-0001%27;va=%27com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid%27/$metadata"
+                    url: '/srvd_f4/dmo/i_agency/0001;ps=%27srvd-m2_sd_travel_mduu-0001%27;va=%27com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid%27/$metadata'
                 },
                 fakeDataAccess
             );
