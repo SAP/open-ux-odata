@@ -1050,6 +1050,7 @@ describe('OData Request', () => {
             expect(defaultKey.queryPath[0].keys).toEqual({ '': parsedValue });
         });
     });
+
     test('It can consider POST queries with x-http-method as their correct equivalent', async () => {
         const myRequest = new ODataRequest(
             {
@@ -1076,5 +1077,127 @@ describe('OData Request', () => {
         );
         await myOtherRequest.handleRequest();
         expect(fakeDataAccess.deleteData).toHaveBeenCalled();
+    });
+
+    describe('It can parse matrix parameters', () => {
+        // Matrix parameters are used for external service references in OData V4
+        // See: https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_MatrixParameters
+
+        test('It can parse encoded matrix parameters (UI5 1.142 format)', () => {
+            const request = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: "/srvd_f4/dmo/i_agency/0001;ps=%27srvd-m2_sd_travel_mduu-0001%27;va=%27com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid%27/$metadata"
+                },
+                fakeDataAccess
+            );
+
+            expect(request.queryPath).toMatchInlineSnapshot(`
+                [
+                  {
+                    "keys": {},
+                    "matrixParameters": {
+                      "ps": "srvd-m2_sd_travel_mduu-0001",
+                      "va": "com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid",
+                    },
+                    "path": "srvd_f4",
+                  },
+                  {
+                    "keys": {},
+                    "path": "dmo",
+                  },
+                  {
+                    "keys": {},
+                    "path": "i_agency",
+                  },
+                  {
+                    "keys": {},
+                    "matrixParameters": {
+                      "ps": "srvd-m2_sd_travel_mduu-0001",
+                      "va": "com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid",
+                    },
+                    "path": "0001",
+                  },
+                  {
+                    "keys": {},
+                    "path": "$metadata",
+                  },
+                ]
+            `);
+        });
+
+        test('It can parse unencoded matrix parameters (UI5 1.144+ format)', () => {
+            const request = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: "/srvd_f4/dmo/i_agency/0001;ps='srvd-m2_sd_travel_mduu-0001';va='com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid'/$metadata"
+                },
+                fakeDataAccess
+            );
+
+            // Should parse the same as encoded version
+            expect(request.queryPath).toMatchInlineSnapshot(`
+                [
+                  {
+                    "keys": {},
+                    "matrixParameters": {
+                      "ps": "srvd-m2_sd_travel_mduu-0001",
+                      "va": "com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid",
+                    },
+                    "path": "srvd_f4",
+                  },
+                  {
+                    "keys": {},
+                    "path": "dmo",
+                  },
+                  {
+                    "keys": {},
+                    "path": "i_agency",
+                  },
+                  {
+                    "keys": {},
+                    "matrixParameters": {
+                      "ps": "srvd-m2_sd_travel_mduu-0001",
+                      "va": "com.sap.gateway.srvd.m2_sd_travel_mduu.v0001.et-m2_c_travel_mduu.agencyid",
+                    },
+                    "path": "0001",
+                  },
+                  {
+                    "keys": {},
+                    "path": "$metadata",
+                  },
+                ]
+            `);
+        });
+
+        test('It can parse matrix parameters with keys', () => {
+            const request = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: "/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL');v=2/$value"
+                },
+                fakeDataAccess
+            );
+
+            expect(request.queryPath).toMatchInlineSnapshot(`
+                [
+                  {
+                    "keys": {
+                      "SAP__Origin": "LOCAL",
+                      "TechnicalName": "/IWBEP/VOC_COMMON",
+                      "Version": "0001",
+                    },
+                    "matrixParameters": {
+                      "v": "2",
+                    },
+                    "path": "Vocabularies",
+                  },
+                  {
+                    "keys": {},
+                    "path": "$value",
+                  },
+                ]
+            `);
+        });
     });
 });
