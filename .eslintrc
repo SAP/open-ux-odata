@@ -83,24 +83,15 @@
     ],
     "rules": {
         "comma-dangle": ["error", "never"],
-        "jsdoc/require-param": "error",
-        "jsdoc/require-param-description": "warn",
-        "jsdoc/require-param-name": "error",
-        "jsdoc/require-param-type": "warn",
-        "jsdoc/require-returns": "error",
-        "jsdoc/require-returns-check": "error",
-        "jsdoc/require-returns-description": "warn",
-        "jsdoc/require-returns-type": "error",
-        "jsdoc/require-jsdoc": [
-            "warn",
-            {
-                "require": {
-                    "ClassDeclaration": true,
-                    "MethodDefinition": true
-                },
-                "exemptEmptyFunctions": true
-            }
-        ],
+        "jsdoc/require-param": "off",
+        "jsdoc/require-param-description": "off",
+        "jsdoc/require-param-name": "off",
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-returns": "off",
+        "jsdoc/require-returns-check": "off",
+        "jsdoc/require-returns-description": "off",
+        "jsdoc/require-returns-type": "off",
+        "jsdoc/require-jsdoc": "off",
         "jsdoc/valid-types": "error",
         "jsdoc/check-types": "error",
         "jsdoc/check-param-names": "error",

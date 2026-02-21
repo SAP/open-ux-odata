@@ -98,6 +98,7 @@ export class ServiceRegistry {
     /**
      * Create a service registration for a given service configuration.
      * This includes loading metadata, setting up data access, and registering the service handler.
+     *
      * @param mockServiceIn the service configuration to register
      * @param log the logger instance to use for logging
      */
@@ -291,6 +292,7 @@ export class ServiceRegistry {
 
     /**
      * Get all service registrations for backward compatibility.
+     *
      * @returns Array of service registrations
      */
     public getRegistrations(): ServiceRegistration[] {
@@ -299,6 +301,7 @@ export class ServiceRegistry {
 
     /**
      * Register a service with its DataAccess instance.
+     *
      * @param serviceName - The name/path of the service
      * @param dataAccess - The DataAccess instance for this service
      * @param alias - Optional alias for easier reference
@@ -312,6 +315,7 @@ export class ServiceRegistry {
 
     /**
      * Get a DataAccess instance for a specific service.
+     *
      * @param serviceNameOrAlias - The name/path or alias of the service
      * @returns The DataAccess instance or undefined if not found
      */
@@ -331,6 +335,7 @@ export class ServiceRegistry {
 
     /**
      * Get all registered service names.
+     *
      * @returns Array of service names
      */
     public getServiceNames(): string[] {
@@ -339,6 +344,7 @@ export class ServiceRegistry {
 
     /**
      * Get all registered service aliases.
+     *
      * @returns Array of service aliases
      */
     public getServiceAliases(): string[] {
@@ -347,6 +353,7 @@ export class ServiceRegistry {
 
     /**
      * Get a formatted list of all services with their aliases (if any).
+     *
      * @returns String showing all services and their aliases
      */
     public getServicesWithAliases(): string {
