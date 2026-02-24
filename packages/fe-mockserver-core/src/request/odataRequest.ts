@@ -56,6 +56,7 @@ export type KeyDefinitions = Record<string, number | boolean | string>;
 export type QueryPath = {
     path: string;
     keys: KeyDefinitions;
+    matrixParameters?: Record<string, string>;
 };
 
 function addPathToExpandParameters(
@@ -384,10 +385,41 @@ export default class ODataRequest {
     private parsePath(path: string): QueryPath[] {
         const pathSplit = path.split('/');
         return pathSplit.reduce((pathArr: QueryPath[], pathPart) => {
-            const keysStart = pathPart.indexOf('(');
-            const keysEnd = pathPart.lastIndexOf(')');
+            // Check for matrix parameters first (e.g., "0001;ps='value';va='value'")
+            const matrixParamStart = pathPart.indexOf(';');
             let entity!: string;
             let keys: KeyDefinitions = {};
+            let matrixParameters: Record<string, string> | undefined;
+
+            // Extract matrix parameters if present
+            if (matrixParamStart > -1) {
+                const beforeMatrix = pathPart.substring(0, matrixParamStart);
+                const matrixString = pathPart.substring(matrixParamStart + 1);
+
+                // Parse matrix parameters: ;key1=value1;key2=value2
+                matrixParameters = {};
+                const matrixPairs = matrixString.split(';');
+                for (const pair of matrixPairs) {
+                    const [key, value] = pair.split('=');
+                    if (key && value) {
+                        // Decode and remove quotes (both encoded %27 and unencoded ')
+                        let decodedValue = decodeURIComponent(value);
+                        // Remove surrounding single quotes if present
+                        if (decodedValue.startsWith("'") && decodedValue.endsWith("'")) {
+                            decodedValue = decodedValue.substring(1, decodedValue.length - 1);
+                        }
+                        matrixParameters[key] = decodedValue;
+                    }
+                }
+
+                // Continue processing with the part before matrix parameters
+                pathPart = beforeMatrix;
+            }
+
+            // Now handle keys (e.g., "Entity(key='value')")
+            const keysStart = pathPart.indexOf('(');
+            const keysEnd = pathPart.lastIndexOf(')');
+
             if (keysStart > -1) {
                 entity = pathPart.substring(0, keysStart) + pathPart.substring(keysEnd + 1);
                 const keysList = pathPart.substring(keysStart + 1, keysEnd).split(',');
@@ -406,7 +438,12 @@ export default class ODataRequest {
             } else {
                 entity = pathPart;
             }
-            pathArr.push({ path: entity, keys: keys });
+
+            const queryPath: QueryPath = { path: entity, keys: keys };
+            if (matrixParameters && Object.keys(matrixParameters).length > 0) {
+                queryPath.matrixParameters = matrixParameters;
+            }
+            pathArr.push(queryPath);
             return pathArr;
         }, []);
     }

@@ -17,6 +17,7 @@ type ErrorInfo = {
 
 /**
  * Returns the result whether isRequest part of changeset or not.
+ *
  * @param part
  * @returns {boolean}
  */
@@ -28,6 +29,7 @@ const NL = '\r\n';
 
 /**
  * Returns if the request status code is error (4xx or 5xx).
+ *
  * @param partRequest
  * @returns {boolean}
  */
@@ -38,6 +40,7 @@ function hasErrorStatusCode(partRequest: ODataRequest) {
 
 /**
  * Get the part request.
+ *
  * @param partDefinition
  * @param dataAccess
  * @param tenantId
@@ -55,6 +58,7 @@ async function getPartRequest(
 
 /**
  * Get the header of the part response.
+ *
  * @param partRequest
  * @param partDefinition
  * @param globalHeaders
@@ -78,6 +82,7 @@ function getPartResponseHeaderAsObject(
 
 /**
  * Get the header of the part response.
+ *
  * @param partRequest
  * @param partDefinition
  * @param globalHeaders
@@ -133,6 +138,7 @@ function getPartResponseAsObject(
 
 /**
  * Get the part response.
+ *
  * @param partRequest
  * @param partDefinition
  * @param globalHeaders
@@ -159,6 +165,7 @@ function getPartResponse(
 
 /**
  * Get the single error containing all 412 responses.
+ *
  * @param errors412
  * @returns {string} Response string containing single error holding all 412 responses.
  */
@@ -210,6 +217,7 @@ function getCombined412ErrorResponse(errors412: ErrorInfo[]) {
 
 /**
  * Get 412 error information from the request's response.
+ *
  * @param partResponseIs412
  * @param partRequest
  * @param changeSetPart
@@ -236,6 +244,7 @@ function get412ErrorInfo(
 
 /**
  * Get the change set response.
+ *
  * @param changeSet
  * @param dataAccess
  * @param tenantId
@@ -352,6 +361,7 @@ async function standardBatchHandler(req: IncomingMessageWithTenant, res: ServerR
 }
 /**
  * Creates a router dedicated to batch request handling.
+ *
  * @param dataAccess the current DataAccess object
  * @returns a router function for batch handling
  */
