@@ -1,5 +1,11 @@
 # @sap-ux/edmx-parser
 
+## 0.10.0
+
+### Minor Changes
+
+-   285c922: Add support for sap:display-format='Date' converting to Common.IsCalendarDate annotation
+
 ## 0.9.8
 
 ### Patch Changes

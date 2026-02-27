@@ -1,5 +1,14 @@
 # @sap-ux/fe-mockserver-admin
 
+## 0.0.45
+
+### Patch Changes
+
+-   Updated dependencies [285c922]
+    -   @sap-ux/edmx-parser@0.10.0
+    -   @sap-ux/annotation-converter@0.10.21
+    -   @sap-ux/fe-mockserver-core@1.7.9
+
 ## 0.0.44
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.4.9
+
+### Patch Changes
+
+-   @sap-ux/fe-mockserver-core@1.7.9
+
 ## 2.4.8
 
 ### Patch Changes
