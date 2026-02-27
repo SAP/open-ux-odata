@@ -239,8 +239,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
   samples/cds-parameters:
     devDependencies:
@@ -260,8 +260,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -278,8 +278,8 @@ importers:
         specifier: 5.5.0
         version: 5.5.0
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
   samples/editable-hierarchy:
     devDependencies:
@@ -287,8 +287,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
   samples/error-handling:
     devDependencies:
@@ -296,8 +296,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -308,8 +308,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -323,8 +323,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -347,8 +347,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
   samples/recursive-hierarchy:
     devDependencies:
@@ -356,8 +356,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
   samples/sales-orders-app:
     devDependencies:
@@ -365,8 +365,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
   samples/tenants:
     devDependencies:
@@ -377,8 +377,8 @@ importers:
         specifier: 1.18.6
         version: 1.18.6(encoding@0.1.13)(typescript@4.9.5)
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
       rimraf:
         specifier: 3.0.2
         version: 3.0.2
@@ -389,8 +389,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
   samples/vh-filter-bar:
     devDependencies:
@@ -398,8 +398,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui5-middleware-fe-mockserver
       '@ui5/cli':
-        specifier: 3.11.5
-        version: 3.11.5
+        specifier: 3.11.13
+        version: 3.11.13
 
 packages:
 
@@ -1268,6 +1268,9 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
 
+  '@jridgewell/sourcemap-codec@1.5.5':
+    resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
+
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
@@ -1816,9 +1819,21 @@ packages:
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
+  '@ui5/builder@3.7.1':
+    resolution: {integrity: sha512-AxlnNpE5NHM9YDZx9HVlP1wMGM7UWWn/Jsx4jT5qGrPcidok3NFFbIuNuV+l5HLJw4O/BCDGoaXihlulPgKZTQ==}
+    engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
+
+  '@ui5/cli@3.11.13':
+    resolution: {integrity: sha512-L4PtJh+TisdikOLQiB8h3QRYd81m8NRCKIsUEqYTfIJariCOgv6ecBpvhrEaYPZiTFQRhG3iaKzijK2nNMsUrQ==}
+    engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
+    hasBin: true
+
   '@ui5/cli@3.11.5':
     resolution: {integrity: sha512-FoV8k943sPfz895ImVOULDp/CUjGAxhUPX6iPzF/9vItKTKCopelwSk6NMt2kfErSTjEUjajLe1mh2bhhJRHcg==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
     hasBin: true
 
   '@ui5/fs@3.0.4':
@@ -1831,8 +1846,18 @@ packages:
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
+  '@ui5/fs@3.0.6':
+    resolution: {integrity: sha512-q1jf7k3cUP3bbYizpjzwxh8WX7AQ1e4d03Ye9S0gvT3S3YuDBfhJ9g+53lkR0fUTCnyvUuilQ9n0cjJYQo7rCg==}
+    engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
+
   '@ui5/logger@3.0.0':
     resolution: {integrity: sha512-Np9pHhr+dnyL2gDFwIx6c6Xy0yhtpBIqUQM9An8uLX/wIcRjIjBSQ/r16o3YgS9roY59I/uj5ZEbIa1cdS3Dzg==}
+    engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
+
+  '@ui5/logger@3.0.1':
+    resolution: {integrity: sha512-XiTK38qx7p6v3IagKS1khbqMwQ1qe0IfZ88VQTJ5M/1mG3vaZ97KrDuP7JEEI/XuRJVQDXuCexJJAU4+e6drqw==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
@@ -1845,8 +1870,18 @@ packages:
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
+  '@ui5/project@3.9.5':
+    resolution: {integrity: sha512-sXdn5DScFieH0p7hTLA+UT+cvvy389JwoklsruToDRmTvd9ymjuqR0Q1SkAxNIHePkh8zrZKPzxHrzbARK0uHg==}
+    engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
+
   '@ui5/server@3.3.0':
     resolution: {integrity: sha512-AsqYgr3rTXwsnoaSX3tm78QeiKoKSOMDKR/s60lyTmANIuheECDK9JBLv6NIzp6chCp8Cbbdp/mMScnVlLy7QA==}
+    engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
+    deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
+
+  '@ui5/server@3.6.1':
+    resolution: {integrity: sha512-Se4oYSY8eTv/wshiVN0Cvlh7ukJ2Ko8Bxq9Wpv35SCHPRiIVfimXMCVvcI5vaGwagnDleDG7QmUW1VdP9AVcPA==}
     engines: {node: ^16.18.0 || >=18.12.0, npm: '>= 8'}
     deprecated: 'UI5 CLI version 3 is out of maintenance. Migrate your project to the latest version: https://ui5.github.io/cli/stable/'
 
@@ -2124,6 +2159,9 @@ packages:
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
 
+  brace-expansion@2.0.2:
+    resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
+
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
@@ -2226,6 +2264,10 @@ packages:
 
   chalk@5.3.0:
     resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+
+  chalk@5.6.2:
+    resolution: {integrity: sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
   char-regex@1.0.2:
@@ -2386,6 +2428,10 @@ packages:
     resolution: {integrity: sha512-jaSIDzP9pZVS4ZfQ+TzvtiWhdpFhE2RDHz8QJkpX9SIpLq88VueF5jJw6t+6CUQcAoA6t+x89MLrWAqpfDE8iQ==}
     engines: {node: '>= 0.8.0'}
 
+  compression@1.8.1:
+    resolution: {integrity: sha512-9mAqGPHLakhCLeNyxPkK4xVo746zQ/czLH1Ky+vkitMnWfWZps8r0qXuwhwizagCRttsL4lfG4pIOvaWLpAP0w==}
+    engines: {node: '>= 0.8.0'}
+
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
@@ -2499,6 +2545,15 @@ packages:
 
   debug@4.3.7:
     resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.4.3:
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -3090,11 +3145,12 @@ packages:
   glob@10.3.10:
     resolution: {integrity: sha512-fa46+tv1Ak0UPK1TOy/pZrIybNNt4HCv7SDzwyfiOZkvZLEbjsZkJBPtDHVshZjbecAoAGSC20MjLDG/qr679g==}
     engines: {node: '>=16 || 14 >=14.17'}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-dirs@3.0.0:
     resolution: {integrity: sha512-v8ho2DS5RiCjftj1nD9NmnfaOzTdud7RRnVd9kFNOjqZbISlx5DQ+OrTkywgd0dIt7oFCvKetZSHoHcP3sDdiA==}
@@ -3356,6 +3412,10 @@ packages:
 
   is-core-module@2.13.0:
     resolution: {integrity: sha512-Z7dk6Qo8pOCp3l4tsX2C5ZVas4V+UxwQodwZhLopL91TX8UyyHEXafPcyoeeWuLrwzHcr3igO78wNLwHJHsMCQ==}
+
+  is-core-module@2.16.1:
+    resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
+    engines: {node: '>= 0.4'}
 
   is-docker@2.2.1:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
@@ -3666,6 +3726,10 @@ packages:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
 
+  js-yaml@4.1.1:
+    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
+    hasBin: true
+
   js2xmlparser@4.0.2:
     resolution: {integrity: sha512-6n4D8gLlLf1n5mNLQPRfViYzu9RATblzPEtm1SthMX1Pjao0r9YI9nw7ZIfRxQMERS87mcswrg+r/OYrPRX6jA==}
 
@@ -3675,6 +3739,11 @@ packages:
 
   jsdoc@4.0.3:
     resolution: {integrity: sha512-Nu7Sf35kXJ1MWDZIMAuATRQTg1iIPdzh7tqJ6jjvaU/GfDf+qi5UV8zJR3Mo+/pYFvm8mzay4+6O5EWigaQBQw==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+
+  jsdoc@4.0.5:
+    resolution: {integrity: sha512-P4C6MWP9yIlMiK8nwoZvxN84vb6MsnXcHuy7XzVOvQoCizWX5JFCBsWIIWKXBltpoRZXddUOVQmCTOZt9yDj9g==}
     engines: {node: '>=12.0.0'}
     hasBin: true
 
@@ -3964,6 +4033,10 @@ packages:
     resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
     engines: {node: '>=16 || 14 >=14.17'}
 
+  minimatch@9.0.9:
+    resolution: {integrity: sha512-OBwBN9AL4dqmETlpS2zasx+vTeWclWzkblfZk7KTA5j3jeOONz/tRCnZomUyvNg83wL5Zv9Ss6HMJXAgL8R2Yg==}
+    engines: {node: '>=16 || 14 >=14.17'}
+
   minimist@1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
 
@@ -4043,6 +4116,10 @@ packages:
 
   negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
+    engines: {node: '>= 0.6'}
+
+  negotiator@0.6.4:
+    resolution: {integrity: sha512-myRT3DiWPHqho5PrJaIRyaMv2kgYf0mUVgBNOYMuCH5Ki1yEiQaf/ZJuQ62nvpc44wL5WDbTX7yGJi1Neevw8w==}
     engines: {node: '>= 0.6'}
 
   node-fetch@2.7.0:
@@ -4152,6 +4229,10 @@ packages:
 
   on-headers@1.0.2:
     resolution: {integrity: sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==}
+    engines: {node: '>= 0.8'}
+
+  on-headers@1.1.0:
+    resolution: {integrity: sha512-737ZY3yNnXy37FHkQxPzt4UZ2UWPWiCZWLvFZ4fu5cueciegX0zGPnrlY6bwRg4FdQOe9YU8MkmJwGhoMybl8A==}
     engines: {node: '>= 0.8'}
 
   once@1.4.0:
@@ -4642,6 +4723,11 @@ packages:
     resolution: {integrity: sha512-X2UW6Nw3n/aMgDVy+0rSqgHlv39WZAlZrXCdnbyEiKm17DSqHX4MmQMaST3FbeWR5FTuRcUwYAziZajji0Y7mg==}
     engines: {node: '>=10'}
 
+  resolve@1.22.11:
+    resolution: {integrity: sha512-RfqAvLnMl313r7c9oclB1HhUEAezcpLjz95wFH4LVuhk9JF/r22qmVP9AMmOU4vMX7Q8pN8jwNg/CSpdFnMjTQ==}
+    engines: {node: '>= 0.4'}
+    hasBin: true
+
   resolve@1.22.8:
     resolution: {integrity: sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==}
     hasBin: true
@@ -4679,6 +4765,10 @@ packages:
   router@2.0.0:
     resolution: {integrity: sha512-dIM5zVoG8xhC6rnSN8uoAgFARwTE7BQs8YwHEvK0VCmfxQXMaOuA1uiR1IPwsW7JyK5iTt7Od/TC9StasS2NPQ==}
     engines: {node: '>= 0.10'}
+
+  router@2.2.0:
+    resolution: {integrity: sha512-nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ==}
+    engines: {node: '>= 18'}
 
   run-applescript@5.0.0:
     resolution: {integrity: sha512-XcT5rBksx1QdIhlFOCtgZkB99ZEouFZ1E2Kc2LHqNW13U3/74YGdkQRmThTwxy4QIyookibDKYZOPqX//6BlAg==}
@@ -4739,6 +4829,11 @@ packages:
 
   semver@7.6.3:
     resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.4:
+    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -4993,7 +5088,7 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
-    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
@@ -5001,6 +5096,11 @@ packages:
 
   terser@5.31.3:
     resolution: {integrity: sha512-pAfYn3NIZLyZpa83ZKigvj6Rn9c/vd5KfYGX7cN1mnzqgDcxWvrU5ZtAfIKhEXz9nRecw4z3LXkjaq96/qZqAA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  terser@5.46.0:
+    resolution: {integrity: sha512-jTwoImyr/QbOWFFso3YoU3ik0jBBDJ6JTOQiy/J2YxVJdZCc+5u7skhNwiOR3FQIygFqVUPHl7qbbxtjW2K3Qg==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -6759,6 +6859,8 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
+  '@jridgewell/sourcemap-codec@1.5.5': {}
+
   '@jridgewell/trace-mapping@0.3.25':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
@@ -7659,6 +7761,45 @@ snapshots:
       workerpool: 6.5.1
       xml2js: 0.6.2
 
+  '@ui5/builder@3.7.1':
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.5
+      '@ui5/fs': 3.0.6
+      '@ui5/logger': 3.0.1
+      cheerio: 1.0.0-rc.12
+      escape-unicode: 0.2.0
+      escope: 4.0.0
+      espree: 9.6.1
+      graceful-fs: 4.2.11
+      jsdoc: 4.0.5
+      less-openui5: 0.11.6
+      pretty-data: 0.40.0
+      rimraf: 5.0.10
+      semver: 7.7.4
+      terser: 5.46.0
+      workerpool: 6.5.1
+      xml2js: 0.6.2
+
+  '@ui5/cli@3.11.13':
+    dependencies:
+      '@ui5/builder': 3.7.1
+      '@ui5/fs': 3.0.6
+      '@ui5/logger': 3.0.1
+      '@ui5/project': 3.9.5
+      '@ui5/server': 3.6.1
+      chalk: 5.6.2
+      data-with-position: 0.5.0
+      import-local: 3.2.0
+      js-yaml: 4.1.1
+      open: 9.1.0
+      pretty-hrtime: 1.0.3
+      semver: 7.7.4
+      update-notifier: 6.0.2
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - bluebird
+      - supports-color
+
   '@ui5/cli@3.11.5':
     dependencies:
       '@ui5/builder': 3.5.1
@@ -7703,9 +7844,27 @@ snapshots:
       pretty-hrtime: 1.0.3
       random-int: 3.0.0
 
+  '@ui5/fs@3.0.6':
+    dependencies:
+      '@ui5/logger': 3.0.1
+      clone: 2.1.2
+      escape-string-regexp: 5.0.0
+      globby: 13.2.2
+      graceful-fs: 4.2.11
+      micromatch: 4.0.8
+      minimatch: 9.0.9
+      pretty-hrtime: 1.0.3
+      random-int: 3.0.0
+
   '@ui5/logger@3.0.0':
     dependencies:
       chalk: 5.3.0
+      cli-progress: 3.12.0
+      figures: 5.0.0
+
+  '@ui5/logger@3.0.1':
+    dependencies:
+      chalk: 5.6.2
       cli-progress: 3.12.0
       figures: 5.0.0
 
@@ -7744,6 +7903,35 @@ snapshots:
       - bluebird
       - supports-color
 
+  '@ui5/project@3.9.5':
+    dependencies:
+      '@npmcli/config': 8.3.4
+      '@ui5/builder': 3.7.1
+      '@ui5/fs': 3.0.6
+      '@ui5/logger': 3.0.1
+      ajv: 6.12.6
+      ajv-errors: 1.0.1(ajv@6.12.6)
+      chalk: 5.6.2
+      escape-string-regexp: 5.0.0
+      globby: 13.2.2
+      graceful-fs: 4.2.11
+      js-yaml: 4.1.1
+      lockfile: 1.0.4
+      make-fetch-happen: 13.0.1
+      node-stream-zip: 1.15.0
+      pacote: 18.0.6
+      pretty-hrtime: 1.0.3
+      read-pkg: 8.1.0
+      read-pkg-up: 10.1.0
+      resolve: 1.22.11
+      rimraf: 5.0.10
+      semver: 7.7.4
+      xml2js: 0.6.2
+      yesno: 0.4.0
+    transitivePeerDependencies:
+      - bluebird
+      - supports-color
+
   '@ui5/server@3.3.0':
     dependencies:
       '@ui5/builder': 3.5.1
@@ -7763,6 +7951,30 @@ snapshots:
       portscanner: 2.2.0
       replacestream: 4.0.3
       router: 2.0.0
+      spdy: 4.0.2
+      yesno: 0.4.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@ui5/server@3.6.1':
+    dependencies:
+      '@ui5/builder': 3.7.1
+      '@ui5/fs': 3.0.6
+      '@ui5/logger': 3.0.1
+      body-parser: 1.20.4
+      compression: 1.8.1
+      cors: 2.8.5
+      devcert-sanscache: 0.4.8
+      escape-html: 1.0.3
+      etag: 1.8.1
+      express: 4.21.2
+      fresh: 0.5.2
+      graceful-fs: 4.2.11
+      mime-types: 2.1.35
+      parseurl: 1.3.3
+      portscanner: 2.2.0
+      replacestream: 4.0.3
+      router: 2.2.0
       spdy: 4.0.2
       yesno: 0.4.0
     transitivePeerDependencies:
@@ -8097,7 +8309,7 @@ snapshots:
     dependencies:
       ansi-align: 3.0.1
       camelcase: 7.0.1
-      chalk: 5.3.0
+      chalk: 5.6.2
       cli-boxes: 3.0.0
       string-width: 5.1.2
       type-fest: 2.19.0
@@ -8114,6 +8326,10 @@ snapshots:
       concat-map: 0.0.1
 
   brace-expansion@2.0.1:
+    dependencies:
+      balanced-match: 1.0.2
+
+  brace-expansion@2.0.2:
     dependencies:
       balanced-match: 1.0.2
 
@@ -8231,6 +8447,8 @@ snapshots:
       supports-color: 7.2.0
 
   chalk@5.3.0: {}
+
+  chalk@5.6.2: {}
 
   char-regex@1.0.2: {}
 
@@ -8402,6 +8620,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  compression@1.8.1:
+    dependencies:
+      bytes: 3.1.2
+      compressible: 2.0.18
+      debug: 2.6.9
+      negotiator: 0.6.4
+      on-headers: 1.1.0
+      safe-buffer: 5.2.1
+      vary: 1.1.2
+    transitivePeerDependencies:
+      - supports-color
+
   concat-map@0.0.1: {}
 
   config-chain@1.1.13:
@@ -8532,6 +8762,10 @@ snapshots:
       ms: 2.1.2
 
   debug@4.3.7:
+    dependencies:
+      ms: 2.1.3
+
+  debug@4.4.3:
     dependencies:
       ms: 2.1.3
 
@@ -9463,6 +9697,10 @@ snapshots:
     dependencies:
       has: 1.0.3
 
+  is-core-module@2.16.1:
+    dependencies:
+      hasown: 2.0.2
+
   is-docker@2.2.1: {}
 
   is-docker@3.0.0: {}
@@ -9930,6 +10168,10 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
+  js-yaml@4.1.1:
+    dependencies:
+      argparse: 2.0.1
+
   js2xmlparser@4.0.2:
     dependencies:
       xmlcreate: 2.0.4
@@ -9937,6 +10179,24 @@ snapshots:
   jsdoc-type-pratt-parser@4.0.0: {}
 
   jsdoc@4.0.3:
+    dependencies:
+      '@babel/parser': 7.26.2
+      '@jsdoc/salty': 0.2.5
+      '@types/markdown-it': 14.1.2
+      bluebird: 3.7.2
+      catharsis: 0.9.0
+      escape-string-regexp: 2.0.0
+      js2xmlparser: 4.0.2
+      klaw: 3.0.0
+      markdown-it: 14.1.0
+      markdown-it-anchor: 8.6.7(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+      marked: 4.0.18
+      mkdirp: 1.0.4
+      requizzle: 0.2.3
+      strip-json-comments: 3.1.1
+      underscore: 1.13.4
+
+  jsdoc@4.0.5:
     dependencies:
       '@babel/parser': 7.26.2
       '@jsdoc/salty': 0.2.5
@@ -10221,6 +10481,10 @@ snapshots:
     dependencies:
       brace-expansion: 2.0.1
 
+  minimatch@9.0.9:
+    dependencies:
+      brace-expansion: 2.0.2
+
   minimist@1.2.6: {}
 
   minipass-collect@1.0.2:
@@ -10291,6 +10555,8 @@ snapshots:
   natural-compare@1.4.0: {}
 
   negotiator@0.6.3: {}
+
+  negotiator@0.6.4: {}
 
   node-fetch@2.7.0(encoding@0.1.13):
     dependencies:
@@ -10413,6 +10679,8 @@ snapshots:
 
   on-headers@1.0.2: {}
 
+  on-headers@1.1.0: {}
+
   once@1.4.0:
     dependencies:
       wrappy: 1.0.2
@@ -10516,7 +10784,7 @@ snapshots:
       got: 12.5.3
       registry-auth-token: 5.0.1
       registry-url: 6.0.1
-      semver: 7.6.3
+      semver: 7.7.4
 
   package-manager-detector@0.2.4: {}
 
@@ -10909,6 +11177,12 @@ snapshots:
 
   resolve.exports@2.0.2: {}
 
+  resolve@1.22.11:
+    dependencies:
+      is-core-module: 2.16.1
+      path-parse: 1.0.7
+      supports-preserve-symlinks-flag: 1.0.0
+
   resolve@1.22.8:
     dependencies:
       is-core-module: 2.13.0
@@ -10950,6 +11224,16 @@ snapshots:
       setprototypeof: 1.2.0
       utils-merge: 1.0.1
 
+  router@2.2.0:
+    dependencies:
+      debug: 4.4.3
+      depd: 2.0.0
+      is-promise: 4.0.0
+      parseurl: 1.3.3
+      path-to-regexp: 8.2.0
+    transitivePeerDependencies:
+      - supports-color
+
   run-applescript@5.0.0:
     dependencies:
       execa: 5.1.1
@@ -10986,7 +11270,7 @@ snapshots:
 
   semver-diff@4.0.0:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.4
 
   semver@5.7.2: {}
 
@@ -10997,6 +11281,8 @@ snapshots:
       lru-cache: 6.0.0
 
   semver@7.6.3: {}
+
+  semver@7.7.4: {}
 
   send@0.19.0:
     dependencies:
@@ -11311,6 +11597,13 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
+  terser@5.46.0:
+    dependencies:
+      '@jridgewell/source-map': 0.3.3
+      acorn: 8.15.0
+      commander: 2.20.3
+      source-map-support: 0.5.21
+
   test-exclude@6.0.0:
     dependencies:
       '@istanbuljs/schema': 0.1.3
@@ -11537,7 +11830,7 @@ snapshots:
   update-notifier@6.0.2:
     dependencies:
       boxen: 7.0.0
-      chalk: 5.3.0
+      chalk: 5.6.2
       configstore: 6.0.0
       has-yarn: 3.0.0
       import-lazy: 4.0.0
@@ -11547,7 +11840,7 @@ snapshots:
       is-yarn-global: 0.4.1
       latest-version: 7.0.0
       pupa: 3.1.0
-      semver: 7.6.3
+      semver: 7.7.4
       semver-diff: 4.0.0
       xdg-basedir: 5.1.0
 
