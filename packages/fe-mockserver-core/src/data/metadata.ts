@@ -264,7 +264,7 @@ export class ODataMetadata {
 
                     references.push({
                         rootPath,
-                        externalServiceMetadataPath: encode(externalServicePath),
+                        externalServiceMetadataPath: externalServicePath,
                         localPath: localPath,
                         dataPath: serviceRoot
                     });
@@ -292,17 +292,13 @@ export class ODataMetadata {
 
             references.push({
                 rootPath,
-                externalServiceMetadataPath: encode(externalServicePath),
+                externalServiceMetadataPath: externalServicePath,
                 localPath: localPath,
                 dataPath: serviceRoot
             });
         }
         return references;
     }
-}
-
-function encode(str: string): string {
-    return str.replaceAll("'", '%27').replaceAll('*', '%2A');
 }
 
 function getServiceRoot(metadataPath: string, pathWithParameters: string, rootPath: string): string {
