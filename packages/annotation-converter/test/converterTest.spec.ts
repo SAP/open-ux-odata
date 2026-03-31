@@ -88,7 +88,6 @@ describe('Annotation Converter', () => {
     it('can convert properly side effects enum', async () => {
         const parsedEDMX = parse(await loadFixture('v2/sideEffects.xml'));
         const convertedTypes = convert(parsedEDMX);
-        expect(convertedTypes.entityTypes[9].annotations.Common?.SideEffects?.EffectTypes).not.toBeNull();
         expect(
             revertTermToGenericType(defaultReferences, convertedTypes.entityTypes[9].annotations.Common?.SideEffects)
         ).toMatchInlineSnapshot(`

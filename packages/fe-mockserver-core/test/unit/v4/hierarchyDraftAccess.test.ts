@@ -232,6 +232,16 @@ describe('Hierarchy with draft', () => {
               },
             ]
         `);
+
+        // Delete the draft instance (cleanup)
+        const draftDeleteRequest = new ODataRequest(
+            {
+                method: 'DELETE',
+                url: "/SalesOrganizations(ID='Sales',IsActiveEntity=false)"
+            },
+            dataAccess
+        );
+        await dataAccess.deleteData(draftDeleteRequest);
     });
 
     test('Hierarchy of sub-objects', async () => {
@@ -283,9 +293,19 @@ describe('Hierarchy with draft', () => {
               },
             ]
         `);
+
+        // Delete the draft instance (cleanup)
+        const draftDeleteRequest = new ODataRequest(
+            {
+                method: 'DELETE',
+                url: "/SalesOrganizations(ID='US',IsActiveEntity=false)"
+            },
+            dataAccess
+        );
+        await dataAccess.deleteData(draftDeleteRequest);
     });
 
-    test('16 - Expand a node completely (OP)', async () => {
+    test('Expand a node completely (OP)', async () => {
         const expandRequest = new ODataRequest(
             {
                 method: 'GET',
@@ -365,5 +385,81 @@ describe('Hierarchy with draft', () => {
               },
             ]
         `);
+    });
+
+    test('Move a node to a different parent', async () => {
+        // Create a draft for US
+        const draftCreateRequest = new ODataRequest(
+            {
+                method: 'POST',
+                url: "/SalesOrganizations(ID='US',IsActiveEntity=true)/v4treedraft.draftEdit?$select=HasActiveEntity,HasDraftEntity,ID,IsActiveEntity&$expand=DraftAdministrativeData($select=DraftIsCreatedByMe,DraftUUID,InProcessByUser)'",
+                tenantId: 'update'
+            },
+            dataAccess
+        );
+        await dataAccess.performAction(draftCreateRequest);
+
+        // Move Juices under Sodas
+        const patchRequest = new ODataRequest(
+            {
+                method: 'PATCH',
+                url: `/Products(ID='92',IsActiveEntity=false)`,
+                tenantId: 'update'
+            },
+            dataAccess
+        );
+        await dataAccess.updateData(patchRequest, {
+            'Superordinate@odata.bind': "Products(ID='91',IsActiveEntity=false)"
+        });
+
+        // Load the new hierarchy structure
+        const readRequest = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations(ID='US',IsActiveEntity=false)/_Products?$select=ID,DistanceFromRoot,DrillState,Name,IsActiveEntity,LimitedDescendantCount&$apply=com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations(ID='US',IsActiveEntity=false)/_Products,HierarchyQualifier='ProductsHierarchy',NodeProperty='ID',Levels=3)&$skip=0&$top=10",
+                tenantId: 'update'
+            },
+            dataAccess
+        );
+
+        const data = await dataAccess.getData(readRequest);
+        expect(data).toMatchInlineSnapshot(`
+            [
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "9",
+                "IsActiveEntity": false,
+                "LimitedDescendantCount": 2,
+                "Name": "Beverages",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "expanded",
+                "ID": "91",
+                "IsActiveEntity": false,
+                "LimitedDescendantCount": 1,
+                "Name": "Sodas",
+              },
+              {
+                "DistanceFromRoot": 2,
+                "DrillState": "leaf",
+                "ID": "92",
+                "IsActiveEntity": false,
+                "LimitedDescendantCount": 0,
+                "Name": "Juices",
+              },
+            ]
+        `);
+
+        // Delete the draft instance (cleanup)
+        const draftDeleteRequest = new ODataRequest(
+            {
+                method: 'DELETE',
+                url: "/SalesOrganizations(ID='US',IsActiveEntity=false)"
+            },
+            dataAccess
+        );
+        await dataAccess.deleteData(draftDeleteRequest);
     });
 });
