@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.11
+
+### Patch Changes
+
+-   336a496: Manage tenant properly when moving a subnode in a hierarchy within a draft
+
 ## 1.7.10
 
 ### Patch Changes
