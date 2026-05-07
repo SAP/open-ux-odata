@@ -1148,7 +1148,11 @@ export class FileBasedMockData {
                 );
                 return !parent || !parent.$inResultSet;
             });
-            allRootNodes.sort((a) => {
+            allRootNodes.sort((a, b) => {
+                if (a.$rootDistance === undefined && b.$rootDistance === undefined) {
+                    // Preserve original order if '$rootDistance' is undefined for both entries
+                    return 0;
+                }
                 if (a.$rootDistance === undefined) {
                     return -1;
                 }

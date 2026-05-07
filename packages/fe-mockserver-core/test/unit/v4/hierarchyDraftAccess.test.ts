@@ -319,6 +319,17 @@ describe('Hierarchy with draft', () => {
             [
               {
                 "DistanceFromRoot": 0,
+                "DrillState": "collapsed",
+                "HasActiveEntity": true,
+                "ID": "FUNC1",
+                "IsActiveEntity": true,
+                "LimitedDescendantCount": 0,
+                "employeeCount": 274,
+                "name": "Operations",
+                "nodeType": "Zone",
+              },
+              {
+                "DistanceFromRoot": 0,
                 "DrillState": "expanded",
                 "HasActiveEntity": true,
                 "ID": "FUNC2",
@@ -371,17 +382,6 @@ describe('Hierarchy with draft', () => {
                 "employeeCount": 8,
                 "name": "Insurance",
                 "nodeType": "Line",
-              },
-              {
-                "DistanceFromRoot": 0,
-                "DrillState": "collapsed",
-                "HasActiveEntity": true,
-                "ID": "FUNC1",
-                "IsActiveEntity": true,
-                "LimitedDescendantCount": 0,
-                "employeeCount": 274,
-                "name": "Operations",
-                "nodeType": "Zone",
               },
             ]
         `);
