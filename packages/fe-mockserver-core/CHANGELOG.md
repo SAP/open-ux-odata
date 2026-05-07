@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.12
+
+### Patch Changes
+
+-   b883330: `getData` throws `Error: Cannot read properties of undefined (reading 'forEach')` when the entity is a draft and `IsActiveEntity` is set to `false` for all mock data entries.
+
 ## 1.7.11
 
 ### Patch Changes
