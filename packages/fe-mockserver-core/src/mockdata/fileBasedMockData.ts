@@ -1304,7 +1304,7 @@ export class FileBasedMockData {
                 applyToActiveEntity
             );
             const sourceReference = this.getSourceReference(aggregationAnnotation);
-            const rootNodes = hierarchyNodes[''];
+            const rootNodes = hierarchyNodes[''] ?? [];
             rootNodes.forEach((rootNode: any) => {
                 this.buildTree(rootNode, hierarchyNodes, nodeProperty, 0, undefined);
             });
@@ -1475,7 +1475,7 @@ export class FileBasedMockData {
                 hierarchyDefinition,
                 applyToActiveEntity
             );
-            const rootNodes = hierarchyNodes[''];
+            const rootNodes = hierarchyNodes[''] ?? [];
             rootNodes.forEach((rootNode: any) => {
                 this.buildTree(rootNode, hierarchyNodes, nodeProperty, 0, undefined);
             });
@@ -1483,7 +1483,7 @@ export class FileBasedMockData {
             this._mockDataEntitySet.logRequest('Trying to find ancestors comparing ' + nodeProperty, _odataRequest);
             limitedHierarchy.forEach((item: any) => {
                 const parentNodeChildren = hierarchyNodes[getData(item, sourceReference) ?? ''];
-                const currentNode = parentNodeChildren.find((node: any) =>
+                const currentNode = parentNodeChildren?.find((node: any) =>
                     compareRowData(
                         node,
                         item,

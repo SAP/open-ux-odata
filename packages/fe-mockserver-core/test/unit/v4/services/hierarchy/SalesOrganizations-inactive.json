@@ -1,0 +1,49 @@
+[
+    {
+        "ID": "Sales",
+        "Name": "Corporate Sales",
+        "IsActiveEntity": false
+    },
+    {
+        "ID": "EMEA",
+        "Parent": "Sales",
+        "Name": "EMEA",
+        "IsActiveEntity": false
+    },
+    {
+        "ID": "EMEA Central",
+        "Parent": "EMEA",
+        "Name": "EMEA Central",
+        "IsActiveEntity": false
+    },
+    {
+        "ID": "US",
+        "Parent": "Sales",
+        "Name": "US",
+        "IsActiveEntity": false
+    },
+    {
+        "ID": "US West",
+        "Parent": "US",
+        "Name": "US West",
+        "IsActiveEntity": false
+    },
+    {
+        "ID": "US East",
+        "Parent": "US",
+        "Name": "US East",
+        "IsActiveEntity": false
+    },
+    {
+        "ID": "NY",
+        "Parent": "US East",
+        "Name": "New York State",
+        "IsActiveEntity": false
+    },
+    {
+        "ID": "NYC",
+        "Parent": "NY",
+        "Name": "New York City",
+        "IsActiveEntity": false
+    }
+]

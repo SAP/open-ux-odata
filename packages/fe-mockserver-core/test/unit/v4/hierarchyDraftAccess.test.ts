@@ -462,4 +462,29 @@ describe('Hierarchy with draft', () => {
         );
         await dataAccess.deleteData(draftDeleteRequest);
     });
+
+    test('Draft entity and IsActiveEntity=false', async () => {
+        // Request the hierarchy - ancestors
+        const odataRequestAncestors = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=ancestors($root/SalesOrganizations,SalesOrgHierarchy,ID,filter(IsActiveEntity eq false),keep start)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2)&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=10",
+                tenantId: 'inactive'
+            },
+            dataAccess
+        );
+        const dataAncestors = await dataAccess.getData(odataRequestAncestors);
+        expect(dataAncestors).toEqual([]);
+        // Request the hierarchy - descendants
+        const odataRequestDescendants = new ODataRequest(
+            {
+                method: 'GET',
+                url: "/SalesOrganizations?$apply=descendants($root/SalesOrganizations,SalesOrgHierarchy,ID,filter(IsActiveEntity eq false),keep start)/com.sap.vocabularies.Hierarchy.v1.TopLevels(HierarchyNodes=$root/SalesOrganizations,HierarchyQualifier='SalesOrgHierarchy',NodeProperty='ID',Levels=2)&$count=true&$select=LimitedDescendantCount,DistanceFromRoot,DrillState,ID,Name&$skip=0&$top=10",
+                tenantId: 'inactive'
+            },
+            dataAccess
+        );
+        const dataDescendants = await dataAccess.getData(odataRequestDescendants);
+        expect(dataDescendants).toEqual([]);
+    });
 });
