@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.7.13
+
+### Patch Changes
+
+-   1c40a43: ixed reverse ordering in tree list data returned by `getData`
+
 ## 1.7.12
 
 ### Patch Changes
