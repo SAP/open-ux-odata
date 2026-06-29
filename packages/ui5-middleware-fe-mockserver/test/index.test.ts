@@ -1,13 +1,33 @@
 import FEMiddleware = require('../src');
 
+const mockMiddlewareUtil = {
+    getProject: () => ({
+        getRootPath: () => __dirname,
+        getSourcePath: () => __dirname,
+        getName: () => 'test',
+        getNamespace: () => 'test'
+    })
+};
+
+const mockResources = {
+    all: {} as any,
+    dependencies: {} as any,
+    rootProject: {} as any
+};
+
 describe('The middleware', () => {
     it('can create middleware', async () => {
-        const myMiddleware = await FEMiddleware({ options: { configuration: {} } });
+        const myMiddleware = await FEMiddleware({
+            resources: mockResources,
+            options: { configuration: {} },
+            middlewareUtil: mockMiddlewareUtil
+        });
         expect(myMiddleware).toBeDefined();
     });
     it('can create middleware with a custom logic', async () => {
         const logFn = jest.fn();
         const myMiddleware = await FEMiddleware({
+            resources: mockResources,
             options: {
                 configuration: {
                     logger: {
@@ -19,7 +39,8 @@ describe('The middleware', () => {
                         }
                     }
                 }
-            }
+            },
+            middlewareUtil: mockMiddlewareUtil
         });
         expect(myMiddleware).toBeDefined();
         expect(logFn).toHaveBeenCalled();
