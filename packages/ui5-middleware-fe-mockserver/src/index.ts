@@ -3,7 +3,8 @@ import FEMockserver, {
     MockDataContributorClass,
     MockEntityContainerContributorClass
 } from '@sap-ux/fe-mockserver-core';
-import * as path from 'path';
+import type { MiddlewareParameters } from '@ui5/server';
+import * as path from 'node:path';
 import type { IRouter } from 'router';
 import { resolveConfig } from './configResolver';
 export type {
@@ -17,20 +18,24 @@ export type {
     ServiceRegistry
 } from '@sap-ux/fe-mockserver-core';
 
-async function FEMiddleware(middlewareConfig: {
-    resources?: any;
-    options: {
-        configuration: ServerConfig;
-    };
-}): Promise<IRouter> {
-    // basepath will be the webapp folder so we have to go up a level to retrieve the config
-    let basePath = middlewareConfig?.resources?.rootProject?._readers[0]?._fsBasePath;
+async function FEMiddleware({
+    resources,
+    options,
+    middlewareUtil
+}: MiddlewareParameters<ServerConfig>): Promise<IRouter> {
+    let basePath = middlewareUtil?.getProject?.()?.getSourcePath();
     if (basePath) {
-        basePath = path.resolve(middlewareConfig.resources.rootProject._readers[0]._fsBasePath, '..');
+        basePath = path.resolve(basePath, '..');
     } else {
-        basePath = middlewareConfig?.resources?.rootProject?._readers[1]?._project?._modulePath ?? '';
+        // Fallback for older @ui5/cli versions that don't provide middlewareUtil.getProject()
+        basePath = (resources?.rootProject as any)?._readers?.[0]?._fsBasePath;
+        if (basePath) {
+            basePath = path.resolve(basePath, '..');
+        } else {
+            basePath = (resources?.rootProject as any)?._readers?.[1]?._project?._modulePath ?? '';
+        }
     }
-    const mockserverInstance = new FEMockserver(resolveConfig(middlewareConfig.options.configuration, basePath));
+    const mockserverInstance = new FEMockserver(resolveConfig(options.configuration ?? {}, basePath));
     await mockserverInstance.isReady;
     return mockserverInstance.getRouter();
 }
