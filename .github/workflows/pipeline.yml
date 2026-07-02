@@ -139,6 +139,7 @@ jobs:
         if: github.repository == 'SAP/open-ux-odata' && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.version.outputs.changes == 'false'
         runs-on: ubuntu-latest
         needs: version
+        environment: npm-release
         timeout-minutes: 15
         permissions:
             contents: write
@@ -168,8 +169,6 @@ jobs:
               run: pnpm install --frozen-lockfile
             - name: Run build
               run: pnpm run build
-            - name: Setup npmrc with npmjs.com token
-              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPMJS_TOKEN }}" > .npmrc
             - name: 'Publish to npmjs'
               uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
               with:
