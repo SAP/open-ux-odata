@@ -1,3 +1,11 @@
 packages:
-    - 'packages/**'
-    - 'samples/**'
+  - 'packages/**'
+  - 'samples/**'
+
+allowBuilds:
+  '@zowe/secrets-for-zowe-sdk': true
+
+pnpm:
+  saveExact: true
+  engineStrict: true
+  linkWorkspacePackages: true
