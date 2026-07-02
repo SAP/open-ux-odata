@@ -67,10 +67,6 @@ jobs:
                       output.tar
                   if-no-files-found: error
                   retention-days: 1
-              #uses: sonarsource/sonarcloud-github-action@master
-              #env:
-              #GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
-              #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     version:
         # Run version job only on pushes to the main branch. The job depends on completion of the build job.
