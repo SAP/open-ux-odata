@@ -5,6 +5,7 @@ on:
 jobs:
     lockfiles:
         runs-on: ubuntu-latest
+        environment: release
         timeout-minutes: 15
         steps:
             - name: Generate app token
