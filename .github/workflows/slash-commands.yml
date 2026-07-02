@@ -7,16 +7,24 @@ jobs:
     slashCommandDispatch:
         runs-on: ubuntu-latest
         steps:
-            - uses: xt0rted/pull-request-comment-branch@v1
+            - uses: xt0rted/pull-request-comment-branch@653a7d5ca8bd91d3c5cb83286063314d0b063b8e # v1
               id: comment-branch
               continue-on-error: true
 
+            - name: Generate app token
+              id: app-token
+              if: success() && steps.comment-branch.outputs.head_ref
+              uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+              with:
+                  app-id: ${{ secrets.APP_ID }}
+                  private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
             - name: Slash Command Dispatch
-              uses: peter-evans/slash-command-dispatch@v3
+              uses: peter-evans/slash-command-dispatch@f996d7b7aae9059759ac55e978cff76d91853301 # v3
               if: success() && steps.comment-branch.outputs.head_ref
               id: slash-command
               with:
-                  token: ${{ secrets.ACCESS_PAT }}
+                  token: ${{ steps.app-token.outputs.token }}
                   commands: |
                       lockfiles
                   permission: write
