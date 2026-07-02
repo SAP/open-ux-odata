@@ -6,7 +6,7 @@ on:
 jobs:
     slashCommandDispatch:
         runs-on: ubuntu-latest
-        environment: release
+        environment: automation
         steps:
             - uses: xt0rted/pull-request-comment-branch@653a7d5ca8bd91d3c5cb83286063314d0b063b8e # v1
               id: comment-branch
