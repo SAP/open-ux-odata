@@ -1,5 +1,11 @@
 # @sap-ux/ui5-middleware-fe-mockserver
 
+## 2.4.14
+
+### Patch Changes
+
+-   0874769: fix: no longer use private params of ui5 cli
+
 ## 2.4.13
 
 ### Patch Changes
