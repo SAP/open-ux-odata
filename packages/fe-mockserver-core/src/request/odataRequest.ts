@@ -611,6 +611,9 @@ export default class ODataRequest {
             if (this.isMinimalRepresentation) {
                 this.statusCode = 204;
                 this.addResponseHeader('preference-applied', 'return=minimal');
+                if (this.elementETag) {
+                    this.addResponseHeader('ETag', this.elementETag);
+                }
                 return null;
             } else {
                 this.addResponseHeader(

@@ -1051,6 +1051,39 @@ describe('OData Request', () => {
         });
     });
 
+    test('It includes ETag header in 204 minimal representation response', () => {
+        const request = new ODataRequest(
+            {
+                method: 'PATCH',
+                url: '/Countries(1)',
+                headers: { prefer: 'return=minimal' }
+            },
+            fakeDataAccess
+        );
+        request.setETag('"W/abc123"');
+        request.getResponseData();
+
+        expect(request.statusCode).toBe(204);
+        expect(request.responseHeaders['preference-applied']).toBe('return=minimal');
+        expect(request.responseHeaders['ETag']).toBe('"W/abc123"');
+    });
+
+    test('It does not include ETag header in 204 minimal representation response when no ETag is set', () => {
+        const request = new ODataRequest(
+            {
+                method: 'PATCH',
+                url: '/Countries(1)',
+                headers: { prefer: 'return=minimal' }
+            },
+            fakeDataAccess
+        );
+        request.getResponseData();
+
+        expect(request.statusCode).toBe(204);
+        expect(request.responseHeaders['preference-applied']).toBe('return=minimal');
+        expect(request.responseHeaders['ETag']).toBeUndefined();
+    });
+
     test('It can consider POST queries with x-http-method as their correct equivalent', async () => {
         const myRequest = new ODataRequest(
             {
