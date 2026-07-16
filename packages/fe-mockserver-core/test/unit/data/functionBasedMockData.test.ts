@@ -65,7 +65,7 @@ describe('Function Based Mock Data', () => {
         expect(mockData.length).toBe(1);
         // Fake that in tenant 002 we throw an error
         fakeRequest.tenantId = 'tenant-002';
-        expect(() => {
+        await expect(() => {
             return myEntitySet.getMockData('tenant-002').getAllEntries(fakeRequest) as any;
         }).rejects.toThrow('This tenant is not allowed for you');
         await fakeRequest.handleRequest();
