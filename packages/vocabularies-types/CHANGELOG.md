@@ -1,5 +1,17 @@
 # @sap-ux/vocabularies-types
 
+## 0.16.0
+
+### Minor Changes
+
+-   bd3f6f5: Update vocabularies types to the latest published vocabularies. Notable changes:
+
+    -   **UI**: add `UI.CardItem` term and `CardItemType` (card structure for Grid List visualization)
+    -   **Capabilities**: add `ExpandCollectionRestrictionsType`, `ExpandByKeyRestrictionsBase` and `ExpandByKeyRestrictionsType`
+    -   **PersonalData**: add `RelatedDataCategoryID` term
+    -   **Common**: rework revision info (`SourceEntitiesInserted`/`SourceEntitiesUpdated`/`SourceEntitiesDeleted`)
+    -   **Core**: documentation wording fixes
+
 ## 0.15.0
 
 ### Minor Changes
