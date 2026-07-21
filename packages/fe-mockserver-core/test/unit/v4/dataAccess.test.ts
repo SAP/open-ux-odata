@@ -1088,6 +1088,64 @@ describe('Data Access', () => {
         expect(formData[1]._OtherChild.length).toEqual(1);
     });
 
+    test('v4 PATCH via keyed collection navigation', async () => {
+        // Create FormRoot draft
+        const formRoot = await dataAccess.createData(
+            new ODataRequest({ method: 'POST', url: '/FormRoot', tenantId: 'patch-keyed-nav' }, dataAccess),
+            {
+                ID: 2,
+                FirstName: 'Bob'
+            }
+        );
+
+        // Create two child elements
+        await dataAccess.createData(
+            new ODataRequest(
+                { method: 'POST', url: '/FormRoot(ID=2,IsActiveEntity=false)/_Elements', tenantId: 'patch-keyed-nav' },
+                dataAccess
+            ),
+            {
+                ID: 10,
+                Name: 'ChildA'
+            }
+        );
+        await dataAccess.createData(
+            new ODataRequest(
+                { method: 'POST', url: '/FormRoot(ID=2,IsActiveEntity=false)/_Elements', tenantId: 'patch-keyed-nav' },
+                dataAccess
+            ),
+            {
+                ID: 20,
+                Name: 'ChildB'
+            }
+        );
+
+        // PATCH the specific child through the navigation, addressing it by its key:
+        await dataAccess.updateData(
+            new ODataRequest(
+                {
+                    method: 'PATCH',
+                    url: '/FormRoot(ID=2,IsActiveEntity=false)/_Elements(ID=10,IsActiveEntity=false)',
+                    tenantId: 'patch-keyed-nav'
+                },
+                dataAccess
+            ),
+            {
+                Name: 'ChildA-PATCHED'
+            }
+        );
+
+        const elements = await dataAccess.getData(
+            new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=2,IsActiveEntity=false)/_Elements', tenantId: 'patch-keyed-nav' },
+                dataAccess
+            )
+        );
+        expect(elements.length).toEqual(2);
+        expect(elements.find((element: any) => element.ID === 20)?.Name).toEqual('ChildB');
+        expect(elements.find((element: any) => element.ID === 10)?.Name).toEqual('ChildA-PATCHED');
+    });
+
     test('v4metadata - generator', async () => {
         let part3Data = await dataAccess.getData(new ODataRequest({ method: 'GET', url: '/Part3' }, dataAccess));
         expect(part3Data.length).toEqual(150);
