@@ -2,7 +2,7 @@
 
 Defines Typescript types based on the OData vocabularies.
 
-The types are meant to be used in conjuction with the annotation-converter in order to get an object structure that provide those them.
+The types are meant to be used in conjuction with the annotation-converter in order to get an object structure that provides them.
 
 
 
