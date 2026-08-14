@@ -218,6 +218,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
                     LastChangedByUserDescription: 'nobody',
                     InProcessByUserDescription: 'nobody'
                 };
+                data.DraftAdministrativeData = duplicate.DraftAdministrativeData;
                 await currentMockData.addEntry(duplicate, odataRequest);
                 await this.createInactiveVersionForNavigations(data, tenantId, odataRequest);
             }
@@ -264,6 +265,7 @@ export class DraftMockEntitySet extends MockDataEntitySet {
             )) as DraftElement;
             if (newActiveData) {
                 newActiveData.HasDraftEntity = false;
+                newActiveData.DraftAdministrativeData = null;
             }
         }
         const activeVersionOfDeletedKeys: any = Object.assign({}, keyValues);
