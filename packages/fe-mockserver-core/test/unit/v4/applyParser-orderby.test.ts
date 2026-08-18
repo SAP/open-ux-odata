@@ -113,14 +113,14 @@ describe('applyParser — orderby direction (regression)', () => {
     // FAILS on 1.7.15 — the v4 hierarchical-fold URL shape.
     test('orderby(<prop> asc)/TopLevels(...) — v4 hierarchical fold parses', () => {
         const applyStr =
-            "orderby(compositionItemPosition asc)/" +
-            "com.sap.vocabularies.Hierarchy.v1.TopLevels(" +
-            "HierarchyNodes=$root/PropertyCompositionItems," +
+            'orderby(compositionItemPosition asc)/' +
+            'com.sap.vocabularies.Hierarchy.v1.TopLevels(' +
+            'HierarchyNodes=$root/PropertyCompositionItems,' +
             "HierarchyQualifier='PropertyCompositionItemHierarchy'," +
             "NodeProperty='id',Levels=2)";
         const result = parseApply(applyStr);
         expect(result).toBeDefined();
-        expect(result![0]).toEqual({
+        expect(result?.[0]).toEqual({
             type: 'orderBy',
             orderBy: [{ name: 'compositionItemPosition', direction: 'asc' }]
         });
