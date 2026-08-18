@@ -43,6 +43,37 @@ import { parseApply } from '../../../src/request/applyParser';
  * `$$aggregation.hierarchyQualifier` set. Any UI5 hierarchical table that
  * sorts siblings crashes the mockserver with a 500.
  *
+ * The original request that first surfaced this bug (500 from the mockserver):
+ *
+ *   GET SpecificationVersion(id=2a69f794-bbd4-444f-af2c-ebd865272375,IsActiveEntity=false)
+ *       /propertyInstanceAssignments(
+ *           specificationVersion_id=2a69f794-bbd4-444f-af2c-ebd865272375,
+ *           property_id=d1234567-89ab-4def-0123-456789abcdef,
+ *           instanceAssignmentPosition=0,
+ *           IsActiveEntity=false)
+ *       /propertyInstance/propertyCompositionItems
+ *       ?$select=DistanceFromRoot,DrillState,IsActiveEntity,LimitedDescendantCount,
+ *                allReleasedSpecCompositionVersion,baselineSpecCompositionVersion,
+ *                comment,compositionItemPosition,compositionVersionBusinessStatusDescription,
+ *                compositionVersionDisplayId,compositionVersionDisplayName,
+ *                compositionVersionId,compositionVersionSpecificationTypeDisplayId,
+ *                compositionVersionSpecificationTypeName,id,instanceAssignmentPosition,
+ *                isMaximumBoundaryExclusive,isMinimumBoundaryExclusive,
+ *                isSpecVersionEditable,maximumValue,minimumValue,parent_id,property_id,
+ *                specVersionStatusType,specificationVersion_id,specification_id,
+ *                targetValue,unitOfMeasure_code,value,version
+ *       &$apply=orderby(compositionItemPosition%20asc)
+ *              /com.sap.vocabularies.Hierarchy.v1.TopLevels(
+ *                   HierarchyNodes=$root/SpecificationVersion(...)/propertyInstance
+ *                                        /propertyCompositionItems,
+ *                   HierarchyQualifier='PropertyCompositionItemHierarchy',
+ *                   NodeProperty='id',
+ *                   Levels=2)
+ *       &$count=true&$skip=0&$top=84
+ *
+ * The `orderby(compositionItemPosition%20asc)` fragment is what parseApply
+ * rejects — everything after it in the $apply chain is never reached.
+ *
  * # Suggested fix
  *
  * Either move `ASCDESC` above `AS_TOKEN` in `applyTokens`, or drop
