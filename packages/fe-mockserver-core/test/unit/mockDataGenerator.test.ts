@@ -311,6 +311,12 @@ describe('mock data generator host contract', () => {
     });
 
     it('generates missing service rows before the service becomes ready', async () => {
+        const hostLogger = {
+            info: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn()
+        };
         const generate = jest.fn().mockResolvedValue({
             resources: {
                 RootElement: [
@@ -344,6 +350,7 @@ describe('mock data generator host contract', () => {
                 }
             ],
             annotations: [],
+            logger: hostLogger as never,
             metadataProcessor: {
                 name: '@sap-ux/fe-mockserver-plugin-cds'
             },
@@ -377,6 +384,11 @@ describe('mock data generator host contract', () => {
                     Prop1: 'Realistic product'
                 })
             ]);
+            expect(hostLogger.info).toHaveBeenCalledWith(
+                expect.stringMatching(
+                    /^mock-data-generator:complete service=\/sap\/fe\/mock-data-generator durationMs=\d+\.\d{3}$/u
+                )
+            );
         } finally {
             await mockServer.dispose();
         }

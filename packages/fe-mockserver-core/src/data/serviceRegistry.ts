@@ -219,6 +219,7 @@ export class ServiceRegistry {
                     }
                     provider ??= await getMockDataGenerator(this.fileLoader, mockDataGenerator);
                     this.mockDataGenerators.add(provider);
+                    const providerStartedAt = performance.now();
                     const result = await runMockDataGenerator(
                         provider,
                         {
@@ -256,6 +257,15 @@ export class ServiceRegistry {
                             log.info(message);
                         }
                     });
+                    log.info(
+                        mockDataGeneratorLog(
+                            'complete',
+                            `service=${mockService.urlPath} durationMs=${Math.max(
+                                0,
+                                performance.now() - providerStartedAt
+                            ).toFixed(3)}`
+                        )
+                    );
                     return { resources: result.resources, preparedSources: inspection.preparedSources };
                 } catch (error) {
                     log.error(
