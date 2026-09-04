@@ -9,6 +9,7 @@ import type {
 import type { ILogger } from '@ui5/logger';
 import type { IFileLoader, ServiceConfig } from '../index';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
+import type { PreparedMockDataSource } from '../mockDataGenerator';
 import type { FilterExpression } from '../request/filterParser';
 import type ODataRequest from '../request/odataRequest';
 import type { KeyDefinitions } from '../request/odataRequest';
@@ -100,6 +101,9 @@ export interface DataAccessInterface {
     getDraftRoot(keyValues: KeyDefinitions, _tenantId: string, entitySetDefinition: EntitySet): any;
     getMetadata(): ODataMetadata;
     getServiceRegistry(): ServiceRegistry;
+    getGeneratedMockData?(entityName: string): object[] | undefined;
+    getPreparedMockDataSource?(entityName: string): PreparedMockDataSource | undefined;
+    dispose?(): Promise<void>;
     getCrossServiceEntityInterface(
         serviceNameOrAlias: string,
         entityName: string,

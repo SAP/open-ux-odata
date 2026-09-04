@@ -1307,7 +1307,7 @@ describe('Data Access', () => {
         const cdsContent = readFileSync(join(baseDir, 'FormTemplate2.cds'), 'utf8');
         const edmx = await metadataProvider.loadMetadata(join(baseDir, 'FormTemplate2.cds'));
         metadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
-        dataAccess.reloadData(metadata);
+        await dataAccess.reloadData(metadata);
 
         // JSON mockData
         odataRequest = new ODataRequest({ method: 'GET', url: '/Countries2?$skip=0&$top=3' }, dataAccess);

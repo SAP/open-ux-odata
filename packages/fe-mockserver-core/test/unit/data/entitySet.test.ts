@@ -2,6 +2,7 @@ import CDSMetadataProvider from '@sap-ux/fe-mockserver-plugin-cds';
 import { join } from 'path';
 import Router from 'router';
 import type { ServiceConfig } from '../../../src';
+import type { DataAccessInterface } from '../../../src/data/common';
 import { DataAccess } from '../../../src/data/dataAccess';
 import { MockDataEntitySet } from '../../../src/data/entitySets/entitySet';
 import { ODataMetadata } from '../../../src/data/metadata';
@@ -136,6 +137,68 @@ describe('EntitySet', () => {
             expect(filteredData).toBe(true);
             filteredData = myEntitySet.checkFilter(mockData[3], v4InFilter, 'default', fakeRequest);
             expect(filteredData).toBe(false);
+        });
+    });
+
+    describe('initial data source precedence', () => {
+        const logger = {
+            debug: jest.fn(),
+            info: jest.fn(),
+            warn: jest.fn(),
+            error: jest.fn()
+        };
+
+        it('uses provider rows before built-in generation when no authored source exists', async () => {
+            const generatedRows = [{ ID: 42, Name: 'Generated product' }];
+            const sourceDataAccess = {
+                log: logger,
+                fileLoader: {
+                    exists: jest.fn().mockResolvedValue(false),
+                    syncSupported: jest.fn().mockReturnValue(false)
+                },
+                getGeneratedMockData: jest.fn().mockReturnValue(generatedRows)
+            } as unknown as DataAccessInterface;
+
+            const source = (await MockDataEntitySet.read(
+                '/mock-data',
+                'Products',
+                true,
+                false,
+                false,
+                sourceDataAccess
+            )) as unknown as { getInitialDataSet(contextId: string): object[] };
+
+            const rows = source.getInitialDataSet('tenant-default');
+            expect(rows).toEqual(generatedRows);
+            expect(rows).not.toBe(generatedRows);
+            expect(Object.prototype.hasOwnProperty.call(rows, '__generateMockData')).toBe(false);
+        });
+
+        it('keeps an intentionally empty JSON file authoritative over provider and built-in rows', async () => {
+            const sourceDataAccess = {
+                log: logger,
+                fileLoader: {
+                    exists: jest
+                        .fn()
+                        .mockImplementation((filePath: string) => Promise.resolve(filePath.endsWith('.json'))),
+                    loadFile: jest.fn().mockResolvedValue('[]'),
+                    syncSupported: jest.fn().mockReturnValue(false)
+                },
+                getGeneratedMockData: jest.fn().mockReturnValue([{ ID: 42 }])
+            } as unknown as DataAccessInterface;
+
+            const source = (await MockDataEntitySet.read(
+                '/mock-data',
+                'Products',
+                true,
+                false,
+                false,
+                sourceDataAccess
+            )) as unknown as { getInitialDataSet(contextId: string): object[] };
+
+            const rows = source.getInitialDataSet('tenant-default');
+            expect(rows).toEqual([]);
+            expect(Object.prototype.hasOwnProperty.call(rows, '__generateMockData')).toBe(false);
         });
     });
 });

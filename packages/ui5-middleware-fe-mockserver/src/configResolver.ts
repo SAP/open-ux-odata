@@ -4,11 +4,13 @@ import type {
     ConfigService,
     FileBasedServerConfig,
     FolderBasedServerConfig,
+    MockDataGeneratorSetting,
     MockserverConfiguration,
     ServerConfig,
     ServiceConfig
 } from '@sap-ux/fe-mockserver-core';
 import fs from 'fs';
+import { isBuiltin } from 'module';
 import path from 'path';
 
 function isFolderBasedConfig(serverConfig: ServerConfig): serverConfig is FolderBasedServerConfig {
@@ -17,6 +19,56 @@ function isFolderBasedConfig(serverConfig: ServerConfig): serverConfig is Folder
 
 function isAnnotationConfig(serverConfig: ConfigAnnotation | ConfigService): serverConfig is ConfigAnnotation {
     return (serverConfig as ConfigAnnotation).type?.toLowerCase() === 'annotation';
+}
+
+const MAX_MOCK_DATA_GENERATOR_TIMEOUT_MS = 60_000;
+
+function isSafePackageExportSpecifier(name: string): boolean {
+    const segments = name.split('/');
+    const packageSegments = name.startsWith('@') ? 2 : 1;
+    if (
+        segments.length < packageSegments ||
+        segments.some((segment) => segment === '' || segment === '.' || segment === '..') ||
+        (packageSegments === 2 && (!segments[0]?.startsWith('@') || segments[0].length === 1)) ||
+        isBuiltin(name)
+    ) {
+        return false;
+    }
+    return true;
+}
+
+function normalizeMockDataGenerator(
+    setting: MockDataGeneratorSetting | undefined
+): MockDataGeneratorSetting | undefined {
+    if (setting === undefined || setting === false) {
+        return setting;
+    }
+    const name = setting.name;
+    const isPathOrUrl =
+        name.startsWith('.') ||
+        path.isAbsolute(name) ||
+        path.win32.isAbsolute(name) ||
+        name.includes('\\') ||
+        /^[a-z][a-z\d+.-]*:/i.test(name);
+    if (
+        name.length === 0 ||
+        name.trim() !== name ||
+        /\s/.test(name) ||
+        isPathOrUrl ||
+        !isSafePackageExportSpecifier(name)
+    ) {
+        throw new TypeError('mockDataGenerator.name must be a package export specifier');
+    }
+    if (setting.timeoutMs !== undefined && (!Number.isSafeInteger(setting.timeoutMs) || setting.timeoutMs <= 0)) {
+        throw new TypeError('mockDataGenerator.timeoutMs must be a positive integer');
+    }
+    return {
+        ...setting,
+        timeoutMs:
+            setting.timeoutMs === undefined
+                ? undefined
+                : Math.min(setting.timeoutMs, MAX_MOCK_DATA_GENERATOR_TIMEOUT_MS)
+    };
 }
 
 function prepareFolderBasedConfig(
@@ -119,6 +171,9 @@ function processServicesConfig(
             debug: inService.debug,
             strictKeyMode: inService.strictKeyMode,
             generateMockData: inService.generateMockData,
+            mockDataGenerator: inService.hasOwnProperty('mockDataGenerator')
+                ? normalizeMockDataGenerator(inService.mockDataGenerator)
+                : normalizeMockDataGenerator(inConfig.mockDataGenerator),
             contextBasedIsolation: inService.contextBasedIsolation,
             forceNullableValuesToNull: inService.forceNullableValuesToNull,
             resolveExternalServiceReferences: inService.resolveExternalServiceReferences,
@@ -183,6 +238,7 @@ export function resolveConfig(inConfig: ServerConfig, basePath: string): Mockser
         logRequests: !!inConfig.logRequests,
         logResponses: !!inConfig.logResponses,
         generateMockData: !!inConfig.generateMockData,
+        mockDataGenerator: normalizeMockDataGenerator(inConfig.mockDataGenerator),
         annotations: annotations,
         services: services,
         tsConfigPath: inConfig.tsConfigPath ? path.resolve(basePath, inConfig.tsConfigPath) : undefined,

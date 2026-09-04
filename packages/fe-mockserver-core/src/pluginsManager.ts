@@ -1,5 +1,13 @@
 import * as path from 'path';
-import type { IFileLoader, IMetadataProcessor, IMockserverPlugin } from './index';
+import type {
+    IFileLoader,
+    IMetadataProcessor,
+    IMockDataGenerator,
+    IMockserverPlugin,
+    MockDataGeneratorConfig,
+    MockDataGeneratorJsonValue
+} from './index';
+import { copyAndFreezeOptions } from './mockDataGenerator';
 
 /**
  * Get the metadata processor for the given name.
@@ -29,4 +37,34 @@ export async function getPluginDefinition(
 ): Promise<IMockserverPlugin> {
     const PluginClass = await fileLoader.loadJS(name || path.resolve(__dirname, './plugins/pluginDefinition'));
     return PluginClass;
+}
+
+/**
+ * Load and instantiate a mock data generator provider.
+ *
+ * @param fileLoader Module loader used by the host
+ * @param config Provider configuration
+ * @returns A validated provider instance
+ */
+export async function getMockDataGenerator(
+    fileLoader: IFileLoader,
+    config: MockDataGeneratorConfig
+): Promise<IMockDataGenerator> {
+    const Provider = (await fileLoader.loadJS(config.name)) as new (
+        options?: Readonly<Record<string, MockDataGeneratorJsonValue>>
+    ) => { readonly apiVersion?: unknown; generate?: unknown; dispose?: unknown };
+    if (typeof Provider !== 'function') {
+        throw new TypeError(`Mock data generator "${config.name}" does not export a constructor`);
+    }
+    const provider = new Provider(copyAndFreezeOptions(config.options));
+    if (provider.apiVersion !== 1) {
+        throw new Error(`Unsupported mock data generator API version from "${config.name}"`);
+    }
+    if (typeof provider.generate !== 'function') {
+        throw new TypeError(`Mock data generator "${config.name}" does not implement generate`);
+    }
+    if (provider.dispose !== undefined && typeof provider.dispose !== 'function') {
+        throw new TypeError(`Mock data generator "${config.name}" has an invalid dispose member`);
+    }
+    return provider as IMockDataGenerator;
 }

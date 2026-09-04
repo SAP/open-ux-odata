@@ -4,10 +4,19 @@ import etag from 'etag';
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { IRouter } from 'router';
 import Router from 'router';
-import type { MockserverConfiguration, ServiceConfig, ServiceConfigEx } from '../api';
+import type {
+    IMockDataGenerator,
+    MockDataGenerationTarget,
+    MockDataGeneratorSetting,
+    MockserverConfiguration,
+    ServiceConfig,
+    ServiceConfigEx
+} from '../api';
 import type { IFileLoader, IMetadataProcessor } from '../index';
 import { getLogger } from '../logger';
-import { getMetadataProcessor } from '../pluginsManager';
+import type { PreparedMockDataGeneration } from '../mockDataGenerator';
+import { inspectMockDataSources, runMockDataGenerator } from '../mockDataGenerator';
+import { getMetadataProcessor, getMockDataGenerator } from '../pluginsManager';
 import { catalogServiceRouter } from '../router/catalogServiceRouter';
 import { serviceRouter } from '../router/serviceRouter';
 import type { DataAccessInterface } from './common';
@@ -39,12 +48,26 @@ function encode(str: string) {
     return str.replaceAll("'", '%27').replaceAll('*', '%2A');
 }
 
+function boundedLogText(value: string): string {
+    let result = '';
+    for (const character of value) {
+        if (result.length >= 1_024) {
+            break;
+        }
+        const code = character.charCodeAt(0);
+        result += code <= 0x1f || (code >= 0x7f && code <= 0x9f) ? ' ' : character;
+    }
+    return result.slice(0, 1_024);
+}
+
+function mockDataGeneratorLog(event: string, message: string): string {
+    return boundedLogText(`mock-data-generator:${event} ${message}`);
+}
+
 async function loadMetadata(service: ServiceConfigEx, metadataProcessor: IMetadataProcessor) {
     const edmx = await metadataProcessor.loadMetadata(service.metadataPath);
-    if (!service.noETag) {
-        service.ETag = etag(edmx, { weak: true });
-    }
-    return ODataMetadata.parse(edmx, service.urlPath + '/$metadata', service.ETag);
+    const metadataETag = service.noETag ? undefined : etag(edmx, { weak: true });
+    return ODataMetadata.parse(edmx, service.urlPath + '/$metadata', metadataETag);
 }
 
 /**
@@ -57,6 +80,7 @@ export class ServiceRegistry {
     private readonly aliases: Map<string, string> = new Map();
     private readonly registrations: Map<string, ServiceRegistration> = new Map();
     private readonly watchers: FSWatcher[] = [];
+    private readonly mockDataGenerators: Set<IMockDataGenerator> = new Set();
     private config: MockserverConfiguration;
     private isOpened: boolean = false;
 
@@ -102,8 +126,18 @@ export class ServiceRegistry {
      * @param mockServiceIn the service configuration to register
      * @param log the logger instance to use for logging
      */
-    private async createServiceRegistration(mockServiceIn: ServiceConfig, log: ILogger): Promise<void> {
+    private async createServiceRegistration(
+        mockServiceIn: ServiceConfig,
+        log: ILogger,
+        inheritGlobalMockDataGenerator = true
+    ): Promise<void> {
         const mockService = mockServiceIn as ServiceConfigEx;
+        let mockDataGenerator: MockDataGeneratorSetting | undefined;
+        if (Object.prototype.hasOwnProperty.call(mockServiceIn, 'mockDataGenerator')) {
+            mockDataGenerator = mockServiceIn.mockDataGenerator;
+        } else if (inheritGlobalMockDataGenerator) {
+            mockDataGenerator = this.config.mockDataGenerator;
+        }
         if (mockService.logRequests === undefined && this.config.logRequests !== undefined) {
             mockService.logRequests = this.config.logRequests;
             mockService.logResponses = this.config.logResponses;
@@ -153,7 +187,103 @@ export class ServiceRegistry {
                 metadata = await loadMetadata(mockService, processor);
             }
 
-            const dataAccess = new DataAccess(mockService, metadata, this.fileLoader, this.config.logger, this);
+            let provider: IMockDataGenerator | undefined;
+            const prepareMockDataGeneration = async (
+                currentMetadata: ODataMetadata,
+                signal = new AbortController().signal
+            ): Promise<PreparedMockDataGeneration> => {
+                if (!mockDataGenerator) {
+                    return {};
+                }
+                const candidateTargets: MockDataGenerationTarget[] = [
+                    ...currentMetadata.getEntitySets().map((entitySet) => ({
+                        name: entitySet.name,
+                        kind: 'entity-set' as const
+                    })),
+                    ...currentMetadata.getSingletons().map((singleton) => ({
+                        name: singleton.name,
+                        kind: 'singleton' as const
+                    }))
+                ];
+                if (candidateTargets.length === 0) {
+                    return {};
+                }
+                try {
+                    const inspection = await inspectMockDataSources(
+                        this.fileLoader,
+                        mockService.mockdataPath,
+                        candidateTargets
+                    );
+                    if (inspection.targets.length === 0) {
+                        return { preparedSources: inspection.preparedSources };
+                    }
+                    provider ??= await getMockDataGenerator(this.fileLoader, mockDataGenerator);
+                    this.mockDataGenerators.add(provider);
+                    const result = await runMockDataGenerator(
+                        provider,
+                        {
+                            service: {
+                                urlPath: mockService.urlPath,
+                                alias: mockService.alias,
+                                odataVersion: currentMetadata.getVersion() === '2.0' ? '2.0' : '4.0'
+                            },
+                            metadata: currentMetadata.getEdmx(),
+                            targets: inspection.targets,
+                            existingData: inspection.existingData,
+                            signal,
+                            logger: {
+                                debug: (message) => {
+                                    if (mockService.debug) {
+                                        log.info(mockDataGeneratorLog('debug', message));
+                                    }
+                                },
+                                info: (message) => log.info(mockDataGeneratorLog('info', message)),
+                                warn: (message) => log.error(mockDataGeneratorLog('warning', message))
+                            }
+                        },
+                        mockDataGenerator.timeoutMs ?? 60_000
+                    );
+                    result.diagnostics?.forEach((diagnostic) => {
+                        const message = mockDataGeneratorLog(
+                            'diagnostic',
+                            `code=${diagnostic.code} severity=${diagnostic.severity}${
+                                diagnostic.target === undefined ? '' : ` target=${diagnostic.target}`
+                            } message=${diagnostic.message}`
+                        );
+                        if (diagnostic.severity === 'error' || diagnostic.severity === 'warning') {
+                            log.error(message);
+                        } else {
+                            log.info(message);
+                        }
+                    });
+                    return { resources: result.resources, preparedSources: inspection.preparedSources };
+                } catch (error) {
+                    log.error(
+                        mockDataGeneratorLog(
+                            'fallback',
+                            `service=${mockService.urlPath} code=GENERATION_FAILED deterministicFallback=true`
+                        )
+                    );
+                    throw error;
+                }
+            };
+            let initialMockDataGeneration: PreparedMockDataGeneration;
+            try {
+                initialMockDataGeneration = await prepareMockDataGeneration(metadata);
+            } catch {
+                initialMockDataGeneration = {};
+            }
+
+            const dataAccess = new DataAccess(
+                mockService,
+                metadata,
+                this.fileLoader,
+                this.config.logger,
+                this,
+                initialMockDataGeneration.resources,
+                initialMockDataGeneration.preparedSources,
+                prepareMockDataGeneration
+            );
             if (mockServiceIn.resolveExternalServiceReferences === true && metadata) {
                 const references = metadata.getExternalServices(mockService.metadataPath);
                 await Promise.allSettled(
@@ -173,11 +303,13 @@ export class ServiceRegistry {
                                 mockdataPath: reference.dataPath,
                                 watch: false
                             },
-                            log
+                            log,
+                            false
                         );
                     })
                 );
             }
+            await dataAccess.readyPromise;
 
             // Register this service for cross-service access
             this.registerService(mockService.urlPath, dataAccess, mockService.alias);
@@ -193,13 +325,20 @@ export class ServiceRegistry {
                         ignoreInitial: true
                     })
                     .on('all', async function (event, path) {
-                        log.info(`Change detected for service ${mockService.urlPath}... restarting`);
-                        if (mockService.debug) {
-                            log.info(`${event} on ${path}`);
+                        try {
+                            log.info(`Change detected for service ${mockService.urlPath}... restarting`);
+                            if (mockService.debug) {
+                                log.info(`${event} on ${path}`);
+                            }
+                            const nextMetadata = await loadMetadata(mockService, processor);
+                            await dataAccess.reloadData(nextMetadata);
+                            metadata = nextMetadata;
+                            log.info(`Service ${mockService.urlPath} restarted`);
+                        } catch {
+                            log.error(
+                                `Service ${mockService.urlPath} reload failed; retaining the active metadata and data snapshot`
+                            );
                         }
-                        metadata = await loadMetadata(mockService, processor);
-                        dataAccess.reloadData(metadata);
-                        log.info(`Service ${mockService.urlPath} restarted`);
                     });
                 this.watchers.push(watcher);
             }
@@ -370,5 +509,10 @@ export class ServiceRegistry {
         for (const watcher of this.watchers) {
             await watcher.close();
         }
+        await Promise.allSettled(Array.from(this.services.values()).map((dataAccess) => dataAccess.dispose?.()));
+        await Promise.allSettled(
+            Array.from(this.mockDataGenerators).map((provider) => Promise.resolve(provider.dispose?.()))
+        );
+        this.mockDataGenerators.clear();
     }
 }

@@ -114,17 +114,15 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
                         // Fallback for decompression errors
                         decompressedData = fullBuffer.toString();
                     }
-                    if (!service.noETag) {
-                        service.ETag = etag(decompressedData, { weak: true });
-                    }
+                    const metadataETag = service.noETag ? undefined : etag(decompressedData, { weak: true });
                     // Register a service there
-                    ODataMetadata.parse(decompressedData, service.urlPath, service.ETag)
-                        .then((metadata) => {
+                    ODataMetadata.parse(decompressedData, service.urlPath, metadataETag)
+                        .then(async (metadata) => {
+                            await dataAccess.reloadData(metadata);
                             service.__captureAndSimulate = false;
-                            dataAccess.reloadData(metadata);
                         })
-                        .catch((err: Error) => {
-                            log.error('Failed to parse captured metadata:' + err.message);
+                        .catch(() => {
+                            log.error('Failed to apply captured metadata; retaining the active snapshot');
                         });
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
@@ -136,18 +134,24 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
             next();
         } else {
             res.setHeader('Content-Type', 'application/xml');
-            if (service.ETag) {
-                res.setHeader('ETag', service.ETag);
+            const metadataETag = dataAccess.getMetadata().getETag();
+            if (metadataETag) {
+                res.setHeader('ETag', metadataETag);
             }
 
             res.write(dataAccess.getMetadata().getEdmx());
             res.end();
         }
     });
-    router.post('/$metadata/reload', (_req: IncomingMessage, res: ServerResponse) => {
-        dataAccess.reloadData();
+    router.post('/$metadata/reload', async (_req: IncomingMessage, res: ServerResponse) => {
         res.setHeader('Content-Type', 'application/json');
-        res.write(JSON.stringify({ message: 'Reload success' }));
+        try {
+            await dataAccess.reloadData();
+            res.write(JSON.stringify({ message: 'Reload success' }));
+        } catch {
+            res.statusCode = 500;
+            res.write(JSON.stringify({ message: 'Reload failed; active snapshot retained' }));
+        }
         res.end();
     });
     router.get('/', (_req: IncomingMessage, res: ServerResponse) => {
@@ -158,7 +162,7 @@ export async function serviceRouter(service: ServiceConfigEx, dataAccess: DataAc
             if (dataAccess.isV4()) {
                 data = JSON.stringify({
                     '@odata.context': '$metadata',
-                    '@odata.metadataEtag': service.ETag,
+                    '@odata.metadataEtag': dataAccess.getMetadata().getETag(),
                     value: allEntitySets.map((entitySet) => {
                         return {
                             name: entitySet.name,

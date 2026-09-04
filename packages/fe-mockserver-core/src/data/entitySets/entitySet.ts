@@ -183,7 +183,7 @@ function createTenantDataLoader(
             }
         }
         // No tenant file found, return fallback data
-        const result = fallbackData.concat();
+        const result = cloneDeep(fallbackData);
         // If fallback data is empty and generateMockData is true, preserve the flag
         if (result.length === 0 && generateMockData) {
             (result as any).__generateMockData = generateMockData;
@@ -211,14 +211,25 @@ export class MockDataEntitySet implements EntitySetInterface {
         const tsPath = join(mockDataRootFolder, entity) + '.ts';
         let outData: any[] | object = [];
         let isInitial = true;
-        dataAccess.log.info(`Trying to find ${jsPath} for mockdata`);
-        const existJS = await dataAccess.fileLoader.exists(jsPath);
-        const existTS =
-            dataAccess.fileLoader.isTypescriptEnabled?.() === true && (await dataAccess.fileLoader.exists(tsPath));
-        if (existJS || existTS) {
+        const preparedSource = dataAccess.getPreparedMockDataSource?.(entity);
+        let contributor = preparedSource?.contributor;
+        if (contributor === undefined) {
+            dataAccess.log.info(`Trying to find ${jsPath} for mockdata`);
+            const existJS = await dataAccess.fileLoader.exists(jsPath);
+            const existTS =
+                dataAccess.fileLoader.isTypescriptEnabled?.() === true && (await dataAccess.fileLoader.exists(tsPath));
+            if (existJS || existTS) {
+                try {
+                    contributor = await dataAccess.fileLoader.loadJS(existTS ? tsPath : jsPath);
+                } catch (e) {
+                    console.error(e);
+                    return Promise.resolve([]);
+                }
+            }
+        }
+        if (contributor !== undefined) {
             try {
-                //eslint-disable-next-line
-                outData = await dataAccess.fileLoader.loadJS(existTS ? tsPath : jsPath);
+                outData = contributor as any[] | object;
                 isInitial = false;
                 dataAccess.log.info('JS file found for ' + entity);
             } catch (e) {
@@ -226,28 +237,33 @@ export class MockDataEntitySet implements EntitySetInterface {
                 return Promise.resolve([]);
             }
         }
-        if ((isInitial || !(outData as any).getInitialDataSet) && (await dataAccess.fileLoader.exists(jsonFilePath))) {
+        const preparedJsonRows = preparedSource?.jsonRows;
+        const jsonExists = preparedJsonRows !== undefined || (await dataAccess.fileLoader.exists(jsonFilePath));
+        if ((isInitial || !(outData as any).getInitialDataSet) && jsonExists) {
             dataAccess.log.info(`Trying to find ${jsonFilePath} for mockdata`);
             try {
-                const fileContent = await dataAccess.fileLoader.loadFile(jsonFilePath);
+                const fileContent =
+                    preparedJsonRows === undefined ? await dataAccess.fileLoader.loadFile(jsonFilePath) : undefined;
                 let outJsonData: any[];
-                if (fileContent.length === 0) {
+                if (preparedJsonRows !== undefined) {
+                    outJsonData = preparedJsonRows.map((row) => cloneDeep(row));
+                } else if (fileContent?.length === 0) {
                     outJsonData = [];
                 } else {
-                    outJsonData = JSON.parse(fileContent);
-
-                    outJsonData.forEach((jsonLine) => {
-                        if (isDraft) {
-                            const IsActiveEntityValue = jsonLine.IsActiveEntity;
-                            if (IsActiveEntityValue === undefined) {
-                                jsonLine.IsActiveEntity = true;
-                                jsonLine.HasActiveEntity = true;
-                                jsonLine.HasDraftEntity = false;
-                            }
-                        }
-                        delete jsonLine['@odata.etag'];
-                    });
+                    outJsonData = JSON.parse(fileContent as string);
                 }
+
+                outJsonData.forEach((jsonLine) => {
+                    if (isDraft) {
+                        const IsActiveEntityValue = jsonLine.IsActiveEntity;
+                        if (IsActiveEntityValue === undefined) {
+                            jsonLine.IsActiveEntity = true;
+                            jsonLine.HasActiveEntity = true;
+                            jsonLine.HasDraftEntity = false;
+                        }
+                    }
+                    delete jsonLine['@odata.etag'];
+                });
                 dataAccess.log.info(`JSON file found for ${entity}`);
                 if (isInitial) {
                     outData = {}; // set as an object in all case
@@ -259,11 +275,29 @@ export class MockDataEntitySet implements EntitySetInterface {
                     isDraft,
                     dataAccess,
                     outJsonData,
-                    generateMockData
+                    false
                 );
                 // }
             } catch (e) {
                 dataAccess.log.info(e as string);
+            }
+        }
+        if (!(outData as any).getInitialDataSet) {
+            const generatedData = dataAccess.getGeneratedMockData?.(entity);
+            if (generatedData !== undefined) {
+                dataAccess.log.info(`Provider mockdata found for ${entity}`);
+                if (isInitial) {
+                    outData = {};
+                }
+                isInitial = false;
+                (outData as any).getInitialDataSet = createTenantDataLoader(
+                    mockDataRootFolder,
+                    entity,
+                    isDraft,
+                    dataAccess,
+                    generatedData,
+                    false
+                );
             }
         }
         // Create getInitialDataSet for tenant files if not already created

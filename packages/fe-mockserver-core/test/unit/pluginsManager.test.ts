@@ -1,6 +1,6 @@
 import FileSystemLoader from '../../src/plugins/fileSystemLoader';
 import MetadataProvider from '../../src/plugins/metadataProvider';
-import { getMetadataProcessor } from '../../src/pluginsManager';
+import { getMetadataProcessor, getMockDataGenerator } from '../../src/pluginsManager';
 
 describe('getMetadataProcessor', () => {
     const fileLoader = new FileSystemLoader();
@@ -102,5 +102,60 @@ describe('getPluginDefinition', () => {
         } finally {
             fileLoader.loadJS = originalLoadJS;
         }
+    });
+});
+
+describe('getMockDataGenerator', () => {
+    it('loads a provider package and passes it an immutable copy of its options', async () => {
+        const options = {
+            profile: 'realistic',
+            runtime: {
+                quantization: 'q4'
+            }
+        };
+        let receivedOptions: unknown;
+        const provider = {
+            apiVersion: 1 as const,
+            generate: jest.fn()
+        };
+        const Provider = class {
+            readonly apiVersion = provider.apiVersion;
+            readonly generate = provider.generate;
+
+            constructor(providerOptions?: unknown) {
+                receivedOptions = providerOptions;
+            }
+        };
+        const fileLoader = {
+            loadJS: jest.fn().mockResolvedValue(Provider)
+        } as unknown as FileSystemLoader;
+
+        const loadedProvider = await getMockDataGenerator(fileLoader, {
+            name: '@sap-ux/mock-data-generator',
+            options
+        });
+
+        expect(fileLoader.loadJS).toHaveBeenCalledWith('@sap-ux/mock-data-generator');
+        expect(loadedProvider).toMatchObject(provider);
+        expect(receivedOptions).toEqual(options);
+        expect(receivedOptions).not.toBe(options);
+        expect(Object.isFrozen(receivedOptions)).toBe(true);
+        expect(Object.isFrozen((receivedOptions as { runtime: object }).runtime)).toBe(true);
+    });
+
+    it('rejects a provider with an unsupported API version', async () => {
+        const Provider = class {
+            readonly apiVersion = 2;
+            readonly generate = jest.fn();
+        };
+        const fileLoader = {
+            loadJS: jest.fn().mockResolvedValue(Provider)
+        } as unknown as FileSystemLoader;
+
+        await expect(
+            getMockDataGenerator(fileLoader, {
+                name: '@sap-ux/future-mock-data-generator'
+            })
+        ).rejects.toThrow('Unsupported mock data generator API version');
     });
 });

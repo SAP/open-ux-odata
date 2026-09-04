@@ -11,11 +11,12 @@ import type {
 import type { ILogger } from '@ui5/logger';
 import cloneDeep from 'lodash.clonedeep';
 import { inspect } from 'util';
-import type { ServiceConfig } from '../api';
+import type { MockDataRow, ServiceConfig } from '../api';
 import type { IFileLoader } from '../index';
 import { getLogger } from '../logger';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
 import { MockEntityContainer } from '../mockdata/mockEntityContainer';
+import type { PreparedMockDataGeneration, PreparedMockDataSource } from '../mockDataGenerator';
 import type {
     AggregatesTransformation,
     GroupByTransformation,
@@ -52,6 +53,7 @@ type Data = Record<string, any> | undefined | null;
  *
  */
 export class DataAccess implements DataAccessInterface {
+    public readyPromise: Promise<void>;
     protected readonly mockDataRootFolder: string;
     public debug: boolean;
     public logRequests: boolean;
@@ -65,13 +67,24 @@ export class DataAccess implements DataAccessInterface {
     protected generateMockData: boolean;
     protected forceNullableValuesToNull: boolean;
     private allowInlineNull: boolean;
+    private reloadQueue?: Promise<void>;
+    private reloadEpoch = 0;
+    private activeReloadController?: AbortController;
+    private disposed = false;
 
     public constructor(
         private service: ServiceConfig,
         private metadata: ODataMetadata,
         public fileLoader: IFileLoader,
         public logger: ILogger | undefined,
-        private readonly serviceRegistry: ServiceRegistry
+        private readonly serviceRegistry: ServiceRegistry,
+        private generatedMockData?: Readonly<Record<string, ReadonlyArray<MockDataRow>>>,
+        private preparedMockDataSources?: Readonly<Record<string, PreparedMockDataSource>>,
+        private readonly prepareMockDataGeneration?: (
+            metadata: ODataMetadata,
+            signal?: AbortSignal
+        ) => Promise<PreparedMockDataGeneration>,
+        private readonly failOnInitializationError = false
     ) {
         this.mockDataRootFolder = service.mockdataPath;
         this.metadata = metadata;
@@ -90,7 +103,16 @@ export class DataAccess implements DataAccessInterface {
         if (this.generateMockData) {
             this.log.info('Missing mockdata will be generated');
         }
-        this.initializeMockData();
+        this.readyPromise = this.initializeMockData();
+    }
+
+    public getGeneratedMockData(entityName: string): object[] | undefined {
+        const rows = this.generatedMockData?.[entityName];
+        return rows === undefined ? undefined : rows.map((row) => cloneDeep(row));
+    }
+
+    public getPreparedMockDataSource(entityName: string): PreparedMockDataSource | undefined {
+        return this.preparedMockDataSources?.[entityName];
     }
 
     public isV4(): boolean {
@@ -101,30 +123,99 @@ export class DataAccess implements DataAccessInterface {
         return this.validateETag;
     }
 
-    private initializeMockData() {
-        // Preload the mock entityset asynchronously
-        this.metadata.getEntitySets().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData, this.forceNullableValuesToNull).catch(
-                (error) => {
-                    this.log.info(`Error while loading mockdata for entityset ${entitySet.name}: ${error}`);
+    private async initializeMockData(): Promise<void> {
+        const entitySetLoads = this.metadata.getEntitySets().map(async (entitySet) => {
+            try {
+                await this.getMockEntitySet(entitySet.name, this.generateMockData, this.forceNullableValuesToNull);
+            } catch (error) {
+                if (this.failOnInitializationError) {
+                    throw error;
                 }
-            );
+                this.log.info(`Error while loading mockdata for entityset ${entitySet.name}: ${error}`);
+            }
         });
-        this.metadata.getSingletons().forEach((entitySet) => {
-            this.getMockEntitySet(entitySet.name, this.generateMockData, this.forceNullableValuesToNull).catch(
-                (error) => {
-                    this.log.info(`Error while loading mockdata for singleton ${entitySet.name}: ${error}`);
+        const singletonLoads = this.metadata.getSingletons().map(async (singleton) => {
+            try {
+                await this.getMockEntitySet(singleton.name, this.generateMockData, this.forceNullableValuesToNull);
+            } catch (error) {
+                if (this.failOnInitializationError) {
+                    throw error;
                 }
-            );
+                this.log.info(`Error while loading mockdata for singleton ${singleton.name}: ${error}`);
+            }
         });
+        await Promise.all([...entitySetLoads, ...singletonLoads]);
     }
 
-    public reloadData(newMetadata?: ODataMetadata) {
-        if (newMetadata) {
-            this.metadata = newMetadata;
+    public reloadData(newMetadata?: ODataMetadata): Promise<void> {
+        if (this.disposed) {
+            return Promise.reject(new Error('Data access has been disposed'));
         }
-        this.entitySets = {};
-        this.initializeMockData();
+        const epoch = ++this.reloadEpoch;
+        this.activeReloadController?.abort(new Error('Reload superseded'));
+        const controller = new AbortController();
+        this.activeReloadController = controller;
+        const run = (): Promise<void> => this.reloadDataInternal(newMetadata, epoch, controller.signal);
+        const reload = this.reloadQueue ? this.reloadQueue.catch(() => undefined).then(run) : run();
+        this.reloadQueue = reload;
+        const clear = (): void => {
+            if (this.reloadQueue === reload) {
+                this.reloadQueue = undefined;
+            }
+            if (this.activeReloadController === controller) {
+                this.activeReloadController = undefined;
+            }
+        };
+        reload.then(clear, clear).catch(() => undefined);
+        return reload;
+    }
+
+    private async reloadDataInternal(
+        newMetadata: ODataMetadata | undefined,
+        epoch: number,
+        signal: AbortSignal
+    ): Promise<void> {
+        if (signal.aborted || this.disposed) {
+            return;
+        }
+        const nextMetadata = newMetadata ?? this.metadata;
+        let nextGeneratedMockData = this.generatedMockData;
+        let nextPreparedMockDataSources = this.preparedMockDataSources;
+        if (this.prepareMockDataGeneration) {
+            const generation = await this.prepareMockDataGeneration(nextMetadata, signal);
+            nextGeneratedMockData = generation.resources;
+            nextPreparedMockDataSources = generation.preparedSources;
+        }
+        if (signal.aborted || this.disposed || epoch !== this.reloadEpoch) {
+            return;
+        }
+        const staged = new DataAccess(
+            this.service,
+            nextMetadata,
+            this.fileLoader,
+            this.logger,
+            this.serviceRegistry,
+            nextGeneratedMockData,
+            nextPreparedMockDataSources,
+            undefined,
+            true
+        );
+        await staged.readyPromise;
+        if (signal.aborted || this.disposed || epoch !== this.reloadEpoch) {
+            return;
+        }
+        this.metadata = nextMetadata;
+        this.generatedMockData = nextGeneratedMockData;
+        this.preparedMockDataSources = nextPreparedMockDataSources;
+        this.entitySets = staged.entitySets;
+        this.stickyEntitySets = staged.stickyEntitySets;
+        this.readyPromise = Promise.resolve();
+    }
+
+    public async dispose(): Promise<void> {
+        this.disposed = true;
+        this.activeReloadController?.abort(new Error('Data access disposed'));
+        await this.reloadQueue?.catch(() => undefined);
     }
 
     public logRequest(message: string, odataRequest: ODataRequest): void {

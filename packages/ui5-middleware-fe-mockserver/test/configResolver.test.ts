@@ -218,6 +218,124 @@ describe('The config resolver', () => {
         });
     });
 
+    it('inherits, replaces, and disables the mock data generator per service', () => {
+        const resolvedConfig = resolveConfig(
+            {
+                services: [
+                    {
+                        urlPath: '/inherited',
+                        metadataXmlPath: 'inherited.xml'
+                    },
+                    {
+                        urlPath: '/replaced',
+                        metadataXmlPath: 'replaced.xml',
+                        mockDataGenerator: {
+                            name: '@sap-ux/service-specific-generator',
+                            options: {
+                                strategy: 'service-specific'
+                            }
+                        }
+                    },
+                    {
+                        urlPath: '/disabled',
+                        metadataXmlPath: 'disabled.xml',
+                        mockDataGenerator: false
+                    }
+                ],
+                mockDataGenerator: {
+                    name: '@sap-ux/default-mock-data-generator',
+                    timeoutMs: 15_000,
+                    options: {
+                        strategy: 'global'
+                    }
+                }
+            },
+            '/project'
+        );
+
+        expect(resolvedConfig.mockDataGenerator).toEqual({
+            name: '@sap-ux/default-mock-data-generator',
+            timeoutMs: 15_000,
+            options: {
+                strategy: 'global'
+            }
+        });
+        expect(resolvedConfig.services[0].mockDataGenerator).toEqual(resolvedConfig.mockDataGenerator);
+        expect(resolvedConfig.services[1].mockDataGenerator).toEqual({
+            name: '@sap-ux/service-specific-generator',
+            options: {
+                strategy: 'service-specific'
+            }
+        });
+        expect(resolvedConfig.services[2].mockDataGenerator).toBe(false);
+    });
+
+    it('validates provider package names and bounds the host timeout', () => {
+        const resolvedConfig = resolveConfig(
+            {
+                services: [
+                    {
+                        urlPath: '/bounded',
+                        metadataXmlPath: 'metadata.xml'
+                    }
+                ],
+                mockDataGenerator: {
+                    name: '@sap-ux/mockserver-data-generator/fe-mockserver',
+                    timeoutMs: 90_000
+                }
+            },
+            '/project'
+        );
+
+        expect(resolvedConfig.mockDataGenerator).toEqual({
+            name: '@sap-ux/mockserver-data-generator/fe-mockserver',
+            timeoutMs: 60_000
+        });
+        expect(resolvedConfig.services[0].mockDataGenerator).toEqual(resolvedConfig.mockDataGenerator);
+
+        for (const invalidName of [
+            '',
+            './provider.js',
+            '../provider.js',
+            '/tmp/provider.js',
+            'https://example.test/p',
+            'node:fs',
+            'fs',
+            '@sap-ux/fe-mockserver-core/../../../provider.js',
+            '@sap-ux/fe-mockserver-core/./provider.js',
+            '@sap-ux/fe-mockserver-core//provider.js',
+            '@scope',
+            'package/../provider.js'
+        ]) {
+            expect(() =>
+                resolveConfig(
+                    {
+                        services: [],
+                        mockDataGenerator: {
+                            name: invalidName
+                        }
+                    },
+                    '/project'
+                )
+            ).toThrow('package export specifier');
+        }
+
+        for (const invalidTimeout of [0, -1, 1.5, Number.NaN]) {
+            expect(() =>
+                resolveConfig(
+                    {
+                        services: [],
+                        mockDataGenerator: {
+                            name: '@sap-ux/mockserver-data-generator/fe-mockserver',
+                            timeoutMs: invalidTimeout
+                        }
+                    },
+                    '/project'
+                )
+            ).toThrow('positive integer');
+        }
+    });
+
     it('can resolve service alias configuration', () => {
         const configWithAlias = resolveConfig(
             {
