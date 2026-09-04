@@ -481,6 +481,71 @@ describe('mock data generator host contract', () => {
         }
     });
 
+    it('starts with built-in generated data when the configured provider package cannot load', async () => {
+        const hostLogger = {
+            info: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn()
+        };
+        class TestFileLoader extends FileSystemLoader {
+            async loadJS(filePath: string): Promise<unknown> {
+                if (filePath === '@sap-ux/test-missing-generator') {
+                    throw new Error('private provider loader details');
+                }
+                return super.loadJS(filePath);
+            }
+        }
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+                    mockdataPath: path.join(__dirname, '__testData', 'missing-provider-package-data'),
+                    urlPath: '/sap/fe/missing-generator',
+                    generateMockData: true,
+                    mockDataGenerator: {
+                        name: '@sap-ux/test-missing-generator',
+                        timeoutMs: 1_000
+                    }
+                }
+            ],
+            annotations: [],
+            logger: hostLogger as never,
+            metadataProcessor: {
+                name: '@sap-ux/fe-mockserver-plugin-cds'
+            },
+            fileLoader: TestFileLoader as unknown as string
+        });
+
+        try {
+            await expect(mockServer.isReady).resolves.toBeUndefined();
+            const dataAccess = mockServer.getServiceRegistry().getService('/sap/fe/missing-generator');
+            expect(dataAccess).toBeDefined();
+            if (!dataAccess) {
+                throw new Error('Expected fallback service data access');
+            }
+            const rootEntitySet = await dataAccess.getMockEntitySet('RootElement');
+            const request = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'RootElement'
+                },
+                dataAccess as DataAccess
+            );
+            const rows = await rootEntitySet.getMockData('tenant-default').getAllEntries(request);
+
+            expect(rows.length).toBeGreaterThan(0);
+            expect(hostLogger.error).toHaveBeenCalledWith(
+                'mock-data-generator:fallback service=/sap/fe/missing-generator code=GENERATION_FAILED deterministicFallback=true'
+            );
+            expect(hostLogger.error).not.toHaveBeenCalledWith(
+                expect.stringContaining('private provider loader details')
+            );
+        } finally {
+            await mockServer.dispose();
+        }
+    });
+
     it('sanitizes and bounds provider failures before logging them', async () => {
         const hostLogger = {
             info: jest.fn(),
