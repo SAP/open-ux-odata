@@ -8,7 +8,11 @@ import type {
 } from '../../src/api';
 import type { DataAccess } from '../../src/data/dataAccess';
 import FEMockserver from '../../src/index';
-import { createMockDataGenerationContext, runMockDataGenerator } from '../../src/mockDataGenerator';
+import {
+    createMockDataGenerationContext,
+    disposeMockDataGenerator,
+    runMockDataGenerator
+} from '../../src/mockDataGenerator';
 import FileSystemLoader from '../../src/plugins/fileSystemLoader';
 import ODataRequest from '../../src/request/odataRequest';
 
@@ -308,6 +312,90 @@ describe('mock data generator host contract', () => {
         } finally {
             jest.useRealTimers();
         }
+    });
+
+    it('bounds provider disposal and contains synchronous disposal failures', async () => {
+        const failedProvider: IMockDataGenerator = {
+            apiVersion: 1,
+            generate: jest.fn(),
+            dispose: () => {
+                throw new Error('private disposal failure');
+            }
+        };
+        const pendingProvider: IMockDataGenerator = {
+            apiVersion: 1,
+            generate: jest.fn(),
+            dispose: () => new Promise<void>(() => undefined)
+        };
+
+        await expect(disposeMockDataGenerator(failedProvider, 10)).resolves.toBe('failed');
+        await expect(disposeMockDataGenerator(pendingProvider, 10)).resolves.toBe('timed-out');
+    });
+
+    it('allows immediate disposal while asynchronous initialization is still pending', async () => {
+        const mockServer = new FEMockserver({ services: [], annotations: [] });
+        const disposal = mockServer.dispose();
+
+        expect(mockServer.dispose()).toBe(disposal);
+        await expect(disposal).resolves.toBeUndefined();
+        await expect(mockServer.isReady).resolves.toBeUndefined();
+    });
+
+    it('aborts an active initial generation and never registers its late service', async () => {
+        let activeSignal: AbortSignal | undefined;
+        let resolveGeneration!: (value: { resources: Record<string, never[]> }) => void;
+        const generation = new Promise<{ resources: Record<string, never[]> }>((resolve) => {
+            resolveGeneration = resolve;
+        });
+        const disposeProvider = jest.fn();
+        const Provider = class implements IMockDataGenerator {
+            readonly apiVersion = 1 as const;
+            readonly dispose = disposeProvider;
+
+            generate(context: { signal: AbortSignal }) {
+                activeSignal = context.signal;
+                return generation;
+            }
+        };
+        class TestFileLoader extends FileSystemLoader {
+            async loadJS(filePath: string): Promise<unknown> {
+                return filePath === '@sap-ux/test-initial-dispose-generator' ? Provider : super.loadJS(filePath);
+            }
+        }
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+                    mockdataPath: path.join(__dirname, '__testData', 'missing-initial-dispose-data'),
+                    urlPath: '/sap/fe/initial-dispose-generator',
+                    mockDataGenerator: {
+                        name: '@sap-ux/test-initial-dispose-generator',
+                        timeoutMs: 10_000
+                    }
+                }
+            ],
+            annotations: [],
+            metadataProcessor: { name: '@sap-ux/fe-mockserver-plugin-cds' },
+            fileLoader: TestFileLoader as unknown as string
+        });
+
+        let disposing: Promise<void> | undefined;
+        try {
+            while (!activeSignal) {
+                await new Promise((resolve) => setImmediate(resolve));
+            }
+            disposing = mockServer.dispose();
+            await new Promise((resolve) => setImmediate(resolve));
+
+            expect(activeSignal.aborted).toBe(true);
+        } finally {
+            resolveGeneration?.({ resources: {} });
+            await disposing;
+            await mockServer.isReady;
+        }
+
+        expect(disposeProvider).toHaveBeenCalledTimes(1);
+        expect(mockServer.getServiceRegistry().getService('/sap/fe/initial-dispose-generator')).toBeUndefined();
     });
 
     it('generates missing service rows before the service becomes ready', async () => {
@@ -622,8 +710,9 @@ describe('mock data generator host contract', () => {
         }
     });
 
-    it('regenerates an atomic provider snapshot on every service reload without recreating the provider', async () => {
+    it('uses and disposes a fresh provider for every service generation epoch', async () => {
         const construct = jest.fn();
+        const disposeProvider = jest.fn();
         const generate = jest
             .fn()
             .mockResolvedValueOnce({ resources: { RootElement: [{ ID: 77, Prop1: 'First snapshot' }] } })
@@ -631,6 +720,7 @@ describe('mock data generator host contract', () => {
         const Provider = class implements IMockDataGenerator {
             readonly apiVersion = 1 as const;
             readonly generate = generate;
+            readonly dispose = disposeProvider;
 
             constructor() {
                 construct();
@@ -669,8 +759,9 @@ describe('mock data generator host contract', () => {
                 .getMockData('tenant-default')
                 .getAllEntries(new ODataRequest({ method: 'GET', url: 'RootElement' }, dataAccess));
 
-            expect(construct).toHaveBeenCalledTimes(1);
+            expect(construct).toHaveBeenCalledTimes(2);
             expect(generate).toHaveBeenCalledTimes(2);
+            expect(disposeProvider).toHaveBeenCalledTimes(2);
             expect(rows).toEqual([expect.objectContaining({ ID: 88, Prop1: 'Reloaded snapshot' })]);
         } finally {
             await mockServer.dispose();
@@ -853,11 +944,11 @@ describe('mock data generator host contract', () => {
             await new Promise((resolve) => setImmediate(resolve));
 
             expect(activeSignal?.aborted).toBe(true);
-            expect(disposeProvider).not.toHaveBeenCalled();
+            expect(disposeProvider).toHaveBeenCalledTimes(1);
 
             resolveReload({ resources: { RootElement: [{ ID: 88, Prop1: 'Discarded snapshot' }] } });
             await Promise.all([reload, disposing]);
-            expect(disposeProvider).toHaveBeenCalledTimes(1);
+            expect(disposeProvider).toHaveBeenCalledTimes(2);
         } finally {
             resolveReload?.({ resources: { RootElement: [{ ID: 88, Prop1: 'Discarded snapshot' }] } });
             await disposing?.catch(() => undefined);

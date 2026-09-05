@@ -22,6 +22,8 @@ export default class FEMockserver {
     private readonly mainRouter: IRouter;
     private serviceRegistry: ServiceRegistry;
     private plugins: IMockserverPlugin[] = [];
+    private disposed = false;
+    private disposePromise?: Promise<void>;
 
     constructor(private configuration: MockserverConfiguration) {
         this.mainRouter = new Router();
@@ -31,6 +33,9 @@ export default class FEMockserver {
     private async initialize(tsConfigPath?: string) {
         const FileLoaderClass =
             (this.configuration.fileLoader as any) || (await import('./plugins/fileSystemLoader')).default;
+        if (this.disposed) {
+            return;
+        }
         this.fileLoader = new FileLoaderClass(tsConfigPath) as IFileLoader;
 
         this.metadataProvider = await getMetadataProcessor(
@@ -39,11 +44,22 @@ export default class FEMockserver {
             this.configuration.metadataProcessor?.options,
             this.configuration.metadataProcessor?.i18nPath
         );
+        if (this.disposed) {
+            return;
+        }
         this.serviceRegistry = new ServiceRegistry(this.fileLoader, this.metadataProvider, this.mainRouter);
+        if (this.disposed) {
+            await this.serviceRegistry.dispose();
+            return;
+        }
 
         (globalThis as { serviceRegistry?: ServiceRegistry }).serviceRegistry = this.serviceRegistry;
         // Load services into the registry
         await this.serviceRegistry.loadDefaultServices(this.configuration);
+        if (this.disposed) {
+            await this.serviceRegistry.dispose();
+            return;
+        }
 
         if (this.configuration.plugins) {
             this.plugins = await Promise.all(
@@ -53,6 +69,10 @@ export default class FEMockserver {
             );
             for (const plugin of this.plugins) {
                 await this.serviceRegistry.loadServices(plugin.services);
+                if (this.disposed) {
+                    await this.serviceRegistry.dispose();
+                    return;
+                }
             }
         }
         // Open the registry to register all services on the main router
@@ -67,7 +87,18 @@ export default class FEMockserver {
         return this.mainRouter;
     }
 
-    async dispose(): Promise<void> {
-        await this.serviceRegistry.dispose();
+    dispose(): Promise<void> {
+        this.disposePromise ??= this.disposeInternal();
+        return this.disposePromise;
+    }
+
+    private async disposeInternal(): Promise<void> {
+        this.disposed = true;
+        const registry = this.serviceRegistry;
+        await registry?.dispose();
+        await this.isReady.catch(() => undefined);
+        if (this.serviceRegistry && this.serviceRegistry !== registry) {
+            await this.serviceRegistry.dispose();
+        }
     }
 }

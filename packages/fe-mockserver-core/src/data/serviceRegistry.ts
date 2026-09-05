@@ -15,7 +15,7 @@ import type {
 import type { IFileLoader, IMetadataProcessor } from '../index';
 import { getLogger } from '../logger';
 import type { PreparedMockDataGeneration } from '../mockDataGenerator';
-import { inspectMockDataSources, runMockDataGenerator } from '../mockDataGenerator';
+import { disposeMockDataGenerator, inspectMockDataSources, runMockDataGenerator } from '../mockDataGenerator';
 import { getMetadataProcessor, getMockDataGenerator } from '../pluginsManager';
 import { catalogServiceRouter } from '../router/catalogServiceRouter';
 import { serviceRouter } from '../router/serviceRouter';
@@ -64,6 +64,8 @@ function mockDataGeneratorLog(event: string, message: string): string {
     return boundedLogText(`mock-data-generator:${event} ${message}`);
 }
 
+const MOCK_DATA_GENERATOR_DISPOSAL_TIMEOUT_MS = 5_000;
+
 async function loadMetadata(service: ServiceConfigEx, metadataProcessor: IMetadataProcessor) {
     const edmx = await metadataProcessor.loadMetadata(service.metadataPath);
     const metadataETag = service.noETag ? undefined : etag(edmx, { weak: true });
@@ -81,14 +83,41 @@ export class ServiceRegistry {
     private readonly registrations: Map<string, ServiceRegistration> = new Map();
     private readonly watchers: FSWatcher[] = [];
     private readonly mockDataGenerators: Set<IMockDataGenerator> = new Set();
+    private readonly mockDataGenerationControllers: Set<AbortController> = new Set();
+    private readonly activeMockDataGenerations: Set<Promise<unknown>> = new Set();
+    private readonly mockDataGeneratorDisposals: Map<IMockDataGenerator, Promise<void>> = new Map();
     private config: MockserverConfiguration;
     private isOpened: boolean = false;
+    private disposed: boolean = false;
+    private disposePromise?: Promise<void>;
 
     constructor(
         private readonly fileLoader: IFileLoader,
         private readonly metadataProcessor: IMetadataProcessor,
         private readonly app: IRouter
     ) {}
+
+    private disposeProvider(provider: IMockDataGenerator, log?: ILogger, servicePath?: string): Promise<void> {
+        const activeDisposal = this.mockDataGeneratorDisposals.get(provider);
+        if (activeDisposal) {
+            return activeDisposal;
+        }
+        this.mockDataGenerators.delete(provider);
+        const disposal = disposeMockDataGenerator(provider, MOCK_DATA_GENERATOR_DISPOSAL_TIMEOUT_MS)
+            .then((status) => {
+                if (status !== 'disposed' && log && servicePath) {
+                    log.error(mockDataGeneratorLog('dispose', `service=${servicePath} status=${status}`));
+                }
+            })
+            .finally(() => {
+                if (this.mockDataGeneratorDisposals.get(provider) === disposal) {
+                    this.mockDataGeneratorDisposals.delete(provider);
+                }
+            });
+        this.mockDataGeneratorDisposals.set(provider, disposal);
+        return disposal;
+    }
+
     /**
      * Load and prepare services from MockserverConfiguration.
      * This replaces the createServiceMiddlewares function logic.
@@ -97,6 +126,10 @@ export class ServiceRegistry {
      */
     public async loadDefaultServices(config: MockserverConfiguration): Promise<void> {
         this.config = config;
+
+        if (this.disposed) {
+            return;
+        }
 
         const log = config.logger ?? getLogger('server:ux-fe-mockserver', !!config.debug);
 
@@ -109,6 +142,9 @@ export class ServiceRegistry {
     }
 
     public async loadServices(serviceConfigs: ServiceConfig[]): Promise<void> {
+        if (this.disposed) {
+            return;
+        }
         const log = this.config.logger ?? getLogger('server:ux-fe-mockserver', !!this.config.debug);
 
         if (serviceConfigs.length === 0) {
@@ -131,6 +167,9 @@ export class ServiceRegistry {
         log: ILogger,
         inheritGlobalMockDataGenerator = true
     ): Promise<void> {
+        if (this.disposed) {
+            return;
+        }
         const mockService = mockServiceIn as ServiceConfigEx;
         let mockDataGenerator: MockDataGeneratorSetting | undefined;
         if (Object.prototype.hasOwnProperty.call(mockServiceIn, 'mockDataGenerator')) {
@@ -187,87 +226,114 @@ export class ServiceRegistry {
                 metadata = await loadMetadata(mockService, processor);
             }
 
-            let provider: IMockDataGenerator | undefined;
+            if (this.disposed) {
+                return;
+            }
+
             const prepareMockDataGeneration = async (
                 currentMetadata: ODataMetadata,
-                signal = new AbortController().signal
+                signal?: AbortSignal
             ): Promise<PreparedMockDataGeneration> => {
-                if (!mockDataGenerator) {
+                if (!mockDataGenerator || this.disposed) {
                     return {};
                 }
-                const candidateTargets: MockDataGenerationTarget[] = [
-                    ...currentMetadata.getEntitySets().map((entitySet) => ({
-                        name: entitySet.name,
-                        kind: 'entity-set' as const
-                    })),
-                    ...currentMetadata.getSingletons().map((singleton) => ({
-                        name: singleton.name,
-                        kind: 'singleton' as const
-                    }))
-                ];
-                if (candidateTargets.length === 0) {
-                    return {};
+                const epochController = new AbortController();
+                const abortFromParent = (): void => epochController.abort(signal?.reason);
+                signal?.addEventListener('abort', abortFromParent, { once: true });
+                if (signal?.aborted || this.disposed) {
+                    abortFromParent();
                 }
+                this.mockDataGenerationControllers.add(epochController);
                 try {
+                    const candidateTargets: MockDataGenerationTarget[] = [
+                        ...currentMetadata.getEntitySets().map((entitySet) => ({
+                            name: entitySet.name,
+                            kind: 'entity-set' as const
+                        })),
+                        ...currentMetadata.getSingletons().map((singleton) => ({
+                            name: singleton.name,
+                            kind: 'singleton' as const
+                        }))
+                    ];
+                    if (candidateTargets.length === 0 || epochController.signal.aborted) {
+                        return {};
+                    }
                     const inspection = await inspectMockDataSources(
                         this.fileLoader,
                         mockService.mockdataPath,
                         candidateTargets
                     );
+                    if (epochController.signal.aborted) {
+                        return {};
+                    }
                     if (inspection.targets.length === 0) {
                         return { preparedSources: inspection.preparedSources };
                     }
-                    provider ??= await getMockDataGenerator(this.fileLoader, mockDataGenerator);
+                    const provider = await getMockDataGenerator(this.fileLoader, mockDataGenerator);
                     this.mockDataGenerators.add(provider);
-                    const providerStartedAt = performance.now();
-                    const result = await runMockDataGenerator(
-                        provider,
-                        {
-                            service: {
-                                urlPath: mockService.urlPath,
-                                alias: mockService.alias,
-                                odataVersion: currentMetadata.getVersion() === '2.0' ? '2.0' : '4.0'
-                            },
-                            metadata: currentMetadata.getEdmx(),
-                            targets: inspection.targets,
-                            existingData: inspection.existingData,
-                            signal,
-                            logger: {
-                                debug: (message) => {
-                                    if (mockService.debug) {
-                                        log.info(mockDataGeneratorLog('debug', message));
-                                    }
-                                },
-                                info: (message) => log.info(mockDataGeneratorLog('info', message)),
-                                warn: (message) => log.error(mockDataGeneratorLog('warning', message))
-                            }
-                        },
-                        mockDataGenerator.timeoutMs ?? 60_000
-                    );
-                    result.diagnostics?.forEach((diagnostic) => {
-                        const message = mockDataGeneratorLog(
-                            'diagnostic',
-                            `code=${diagnostic.code} severity=${diagnostic.severity}${
-                                diagnostic.target === undefined ? '' : ` target=${diagnostic.target}`
-                            } message=${diagnostic.message}`
-                        );
-                        if (diagnostic.severity === 'error' || diagnostic.severity === 'warning') {
-                            log.error(message);
-                        } else {
-                            log.info(message);
+                    try {
+                        if (epochController.signal.aborted) {
+                            return {};
                         }
-                    });
-                    log.info(
-                        mockDataGeneratorLog(
-                            'complete',
-                            `service=${mockService.urlPath} durationMs=${Math.max(
-                                0,
-                                performance.now() - providerStartedAt
-                            ).toFixed(3)}`
-                        )
-                    );
-                    return { resources: result.resources, preparedSources: inspection.preparedSources };
+                        const providerStartedAt = performance.now();
+                        const generation = runMockDataGenerator(
+                            provider,
+                            {
+                                service: {
+                                    urlPath: mockService.urlPath,
+                                    alias: mockService.alias,
+                                    odataVersion: currentMetadata.getVersion() === '2.0' ? '2.0' : '4.0'
+                                },
+                                metadata: currentMetadata.getEdmx(),
+                                targets: inspection.targets,
+                                existingData: inspection.existingData,
+                                signal: epochController.signal,
+                                logger: {
+                                    debug: (message) => {
+                                        if (mockService.debug) {
+                                            log.info(mockDataGeneratorLog('debug', message));
+                                        }
+                                    },
+                                    info: (message) => log.info(mockDataGeneratorLog('info', message)),
+                                    warn: (message) => log.error(mockDataGeneratorLog('warning', message))
+                                }
+                            },
+                            mockDataGenerator.timeoutMs ?? 60_000
+                        );
+                        this.activeMockDataGenerations.add(generation);
+                        const result = await generation.finally(() => {
+                            this.activeMockDataGenerations.delete(generation);
+                        });
+                        result.diagnostics?.forEach((diagnostic) => {
+                            const message = mockDataGeneratorLog(
+                                'diagnostic',
+                                `code=${diagnostic.code} severity=${diagnostic.severity}${
+                                    diagnostic.target === undefined ? '' : ` target=${diagnostic.target}`
+                                } message=${diagnostic.message}`
+                            );
+                            if (diagnostic.severity === 'error' || diagnostic.severity === 'warning') {
+                                log.error(message);
+                            } else {
+                                log.info(message);
+                            }
+                        });
+                        log.info(
+                            mockDataGeneratorLog(
+                                'complete',
+                                `service=${mockService.urlPath} durationMs=${Math.max(
+                                    0,
+                                    performance.now() - providerStartedAt
+                                ).toFixed(3)}`
+                            )
+                        );
+                        return { resources: result.resources, preparedSources: inspection.preparedSources };
+                    } finally {
+                        await this.disposeProvider(provider, log, mockService.urlPath);
+                    }
                 } catch (error) {
+                    if (epochController.signal.aborted) {
+                        return {};
+                    }
                     log.error(
                         mockDataGeneratorLog(
                             'fallback',
@@ -275,6 +341,9 @@ export class ServiceRegistry {
                         )
                     );
                     throw error;
+                } finally {
+                    signal?.removeEventListener('abort', abortFromParent);
+                    this.mockDataGenerationControllers.delete(epochController);
                 }
             };
             let initialMockDataGeneration: PreparedMockDataGeneration;
@@ -282,6 +351,10 @@ export class ServiceRegistry {
                 initialMockDataGeneration = await prepareMockDataGeneration(metadata);
             } catch {
                 initialMockDataGeneration = {};
+            }
+
+            if (this.disposed) {
+                return;
             }
 
             const dataAccess = new DataAccess(
@@ -294,6 +367,10 @@ export class ServiceRegistry {
                 initialMockDataGeneration.preparedSources,
                 prepareMockDataGeneration
             );
+            if (this.disposed) {
+                await dataAccess.dispose();
+                return;
+            }
             if (mockServiceIn.resolveExternalServiceReferences === true && metadata) {
                 const references = metadata.getExternalServices(mockService.metadataPath);
                 await Promise.allSettled(
@@ -321,6 +398,11 @@ export class ServiceRegistry {
             }
             await dataAccess.readyPromise;
 
+            if (this.disposed) {
+                await dataAccess.dispose();
+                return;
+            }
+
             // Register this service for cross-service access
             this.registerService(mockService.urlPath, dataAccess, mockService.alias);
 
@@ -330,17 +412,27 @@ export class ServiceRegistry {
                     watchPath.push(mockService.metadataPath);
                 }
                 const chokidar = await import('chokidar');
+                if (this.disposed) {
+                    await dataAccess.dispose();
+                    return;
+                }
                 const watcher = chokidar
                     .watch(watchPath, {
                         ignoreInitial: true
                     })
-                    .on('all', async function (event, path) {
+                    .on('all', async (event, path) => {
+                        if (this.disposed) {
+                            return;
+                        }
                         try {
                             log.info(`Change detected for service ${mockService.urlPath}... restarting`);
                             if (mockService.debug) {
                                 log.info(`${event} on ${path}`);
                             }
                             const nextMetadata = await loadMetadata(mockService, processor);
+                            if (this.disposed) {
+                                return;
+                            }
                             await dataAccess.reloadData(nextMetadata);
                             metadata = nextMetadata;
                             log.info(`Service ${mockService.urlPath} restarted`);
@@ -354,6 +446,10 @@ export class ServiceRegistry {
             }
 
             const oDataHandlerInstance = await serviceRouter(mockService, dataAccess);
+            if (this.disposed) {
+                await dataAccess.dispose();
+                return;
+            }
             if (mockService.debug) {
                 log.info(`Mockdata location: ${mockService.mockdataPath}`);
                 log.info(`Service path: ${mockService.urlPath}`);
@@ -376,6 +472,9 @@ export class ServiceRegistry {
      * This replaces the registerServiceMiddlewares and prepareCatalogAndAnnotation function logic.
      */
     public open(): void {
+        if (this.disposed) {
+            return;
+        }
         if (!this.config || !this.fileLoader) {
             throw new Error('ServiceRegistry must be loaded with services before opening');
         }
@@ -515,14 +614,26 @@ export class ServiceRegistry {
             })
             .join(', ');
     }
-    public async dispose(): Promise<void> {
-        for (const watcher of this.watchers) {
-            await watcher.close();
+    public dispose(): Promise<void> {
+        this.disposePromise ??= this.disposeInternal();
+        return this.disposePromise;
+    }
+
+    private async disposeInternal(): Promise<void> {
+        this.disposed = true;
+        for (const controller of this.mockDataGenerationControllers) {
+            controller.abort(new Error('Service registry disposed'));
         }
+        await Promise.allSettled(this.watchers.splice(0).map((watcher) => watcher.close()));
         await Promise.allSettled(Array.from(this.services.values()).map((dataAccess) => dataAccess.dispose?.()));
-        await Promise.allSettled(
-            Array.from(this.mockDataGenerators).map((provider) => Promise.resolve(provider.dispose?.()))
-        );
+        await Promise.allSettled(Array.from(this.activeMockDataGenerations));
+        await Promise.allSettled(Array.from(this.mockDataGenerators).map((provider) => this.disposeProvider(provider)));
+        await Promise.allSettled(Array.from(this.mockDataGeneratorDisposals.values()));
+        this.mockDataGenerationControllers.clear();
+        this.activeMockDataGenerations.clear();
         this.mockDataGenerators.clear();
+        this.services.clear();
+        this.aliases.clear();
+        this.registrations.clear();
     }
 }

@@ -240,6 +240,41 @@ export interface PreparedMockDataGeneration {
     preparedSources?: Readonly<Record<string, PreparedMockDataSource>>;
 }
 
+export type MockDataGeneratorDisposalStatus = 'disposed' | 'failed' | 'timed-out';
+
+/**
+ * Dispose a provider behind a host-owned deadline without exposing provider failures.
+ *
+ * @param provider provider instance to dispose
+ * @param timeoutMs maximum cleanup duration
+ * @returns bounded disposal status
+ */
+export async function disposeMockDataGenerator(
+    provider: IMockDataGenerator,
+    timeoutMs: number
+): Promise<MockDataGeneratorDisposalStatus> {
+    if (!Number.isSafeInteger(timeoutMs) || timeoutMs <= 0 || timeoutMs > 60_000) {
+        throw new TypeError('Mock data generator disposal timeout must be a positive integer no greater than 60000');
+    }
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const disposal = Promise.resolve()
+        .then(() => provider.dispose?.())
+        .then(
+            () => 'disposed' as const,
+            () => 'failed' as const
+        );
+    const deadline = new Promise<'timed-out'>((resolve) => {
+        timeout = setTimeout(() => resolve('timed-out'), timeoutMs);
+    });
+    try {
+        return await Promise.race([disposal, deadline]);
+    } finally {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+    }
+}
+
 function contributorHasInitialData(contributor: unknown): boolean {
     if (typeof contributor !== 'object' && typeof contributor !== 'function') {
         return false;

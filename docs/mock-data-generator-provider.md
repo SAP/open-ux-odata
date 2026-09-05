@@ -78,10 +78,10 @@ provider promise resolves.
 ## Provider module and instance scope
 
 The module named by `MockDataGeneratorConfig.name` exports a constructable
-provider as its default or CommonJS export. The host creates a distinct
-instance for each configured service registration, passes the validated,
-deeply copied options object to its constructor, and reuses that instance for
-serialized reload epochs until service-registry disposal. A global setting
+provider as its default or CommonJS export. The host creates a fresh instance
+for each eligible service generation epoch and passes the validated, deeply
+copied options object to its constructor. Initial generation and every
+serialized reload therefore start with clean provider state. A global setting
 shares configuration, never a mutable provider instance. Module import and
 construction must be fast and side-effect-free; downloads, model loading, and
 generation begin only inside `generate`.
@@ -188,7 +188,7 @@ unknown values.
 The host recursively validates, copies, and freezes the data-bearing `service`,
 `targets`, `existingData`, and `options` values, then freezes the outer context
 object. The metadata string is immutable. The host passes a narrow logger
-wrapper and the original live `AbortSignal` by reference so logging and
+wrapper and a live host-owned `AbortSignal` by reference so logging and
 cancellation keep working during generation. It exposes no metadata path,
 mock-data path, metadata-processor options, internal flags, or host logger
 object. Tenant-specific sources are not flattened into the initialization
@@ -240,6 +240,13 @@ again immediately before publication. A provider that resolves before the
 deadline does not succeed if host processing crosses it; the stale epoch is
 aborted, rejected as a whole, and cannot publish.
 
+Providers are trusted in-process development packages, like other mockserver
+middleware. A JavaScript timer cannot interrupt `generate()` or `dispose()` if
+it blocks the Node.js event loop with synchronous CPU work. The monotonic check
+still rejects a late generation result once control returns, but it cannot keep
+the process responsive while that work is running. Providers must yield during
+long work or move CPU-heavy work to a worker thread or subprocess.
+
 Diagnostics may contain stable codes, counts, timings, and fingerprints. They
 must not contain raw metadata, generated values, prompts, credentials, or
 model inputs. The host emits sanitized diagnostics and fingerprints through its
@@ -277,13 +284,16 @@ For each service initialization or reload epoch, the host:
 
 1. Resolves and parses metadata.
 2. Determines authoritative existing-data presence.
-3. Acquires the service-scoped provider instance and creates one
+3. Creates a fresh provider instance and one
    `AbortController` when at least one resource is eligible.
 4. Starts the configured monotonic deadline and calls `generate` at most once
    for the whole service epoch.
 5. Validates and stages the result while the same deadline remains active.
 6. Checks the deadline again and publishes one complete service snapshot only
    after initialization completes.
+7. Calls that epoch provider's `dispose()` exactly once, containing synchronous
+   exceptions and applying a five-second deadline to asynchronous cleanup,
+   whether generation succeeded or failed.
 
 A single serialized reload coordinator owns file-watch reload,
 `POST /$metadata/reload`, and capture-and-simulate metadata arrival. It
@@ -293,11 +303,12 @@ swaps metadata, ETag, resolved initial sources, and provider rows. The router
 remains stable. Supersession marks the old epoch stale, aborts its signal, and
 prevents a late result from publishing.
 
-Final `FEMockserver.dispose()` closes file watchers, aborts and drains active
-generation epochs under their configured generation deadlines, then awaits
-each service-scoped provider's `dispose()` once. A provider implementation must
-therefore keep its own disposal bounded and handle partially initialized
-state. Host cleanup is idempotent and safe after partial initialization.
+Final `FEMockserver.dispose()` is idempotent. It closes file watchers, aborts
+active initial or reload generation, drains each active call under its
+configured generation deadline, and boundedly disposes any remaining epoch
+provider. Provider cleanup failures are contained. No service, watcher, or
+router registration is added after disposal begins, including during partial
+asynchronous initialization.
 
 ## Failure behavior
 
