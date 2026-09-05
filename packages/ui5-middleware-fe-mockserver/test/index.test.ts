@@ -34,6 +34,10 @@ const mockResourcesWithReader1 = {
 const noMiddlewareUtil = undefined as any;
 
 describe('The middleware', () => {
+    it('advertises mock data generator API version 1', () => {
+        expect(FEMiddleware.MOCK_DATA_GENERATOR_API_VERSION).toBe(1);
+    });
+
     it('can create middleware', async () => {
         const myMiddleware = await FEMiddleware({
             resources: mockResources,

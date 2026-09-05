@@ -1,7 +1,8 @@
 import type { ServerConfig } from '@sap-ux/fe-mockserver-core';
 import FEMockserver, {
     MockDataContributorClass,
-    MockEntityContainerContributorClass
+    MockEntityContainerContributorClass,
+    MOCK_DATA_GENERATOR_API_VERSION
 } from '@sap-ux/fe-mockserver-core';
 import type { MiddlewareParameters } from '@ui5/server';
 import * as path from 'node:path';
@@ -41,6 +42,9 @@ async function FEMiddleware({
 }
 FEMiddleware.MockDataContributorClass = MockDataContributorClass;
 FEMiddleware.MockEntityContainerContributorClass = MockEntityContainerContributorClass;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+FEMiddleware.MOCK_DATA_GENERATOR_API_VERSION = MOCK_DATA_GENERATOR_API_VERSION;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export = FEMiddleware;

@@ -1,6 +1,9 @@
 import type { ILogger } from '@ui5/logger';
 import type { IncomingMessage } from 'http';
 
+/** Runtime capability marker for the mock data generator provider contract. */
+export const MOCK_DATA_GENERATOR_API_VERSION = 1 as const;
+
 export type MockDataGeneratorJsonPrimitive = string | number | boolean | null;
 export type MockDataGeneratorJsonValue =
     | MockDataGeneratorJsonPrimitive
