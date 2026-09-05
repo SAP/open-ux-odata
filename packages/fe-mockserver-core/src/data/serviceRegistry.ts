@@ -15,7 +15,14 @@ import type {
 import type { IFileLoader, IMetadataProcessor } from '../index';
 import { getLogger } from '../logger';
 import type { PreparedMockDataGeneration } from '../mockDataGenerator';
-import { disposeMockDataGenerator, inspectMockDataSources, runMockDataGenerator } from '../mockDataGenerator';
+import {
+    assertMockDataGenerationDeadline,
+    disposeMockDataGenerator,
+    inspectMockDataSources,
+    MockDataGenerationTimeoutError,
+    runMockDataGenerator,
+    waitForMockDataGenerationDeadline
+} from '../mockDataGenerator';
 import { getMetadataProcessor, getMockDataGenerator } from '../pluginsManager';
 import { catalogServiceRouter } from '../router/catalogServiceRouter';
 import { serviceRouter } from '../router/serviceRouter';
@@ -271,11 +278,18 @@ export class ServiceRegistry {
                     }
                     const provider = await getMockDataGenerator(this.fileLoader, mockDataGenerator);
                     this.mockDataGenerators.add(provider);
+                    const providerStartedAt = performance.now();
+                    const timeoutMs = mockDataGenerator.timeoutMs ?? 60_000;
+                    const publicationDeadline = {
+                        expiresAt: providerStartedAt + timeoutMs,
+                        timeoutMs,
+                        abort: () => epochController.abort(new MockDataGenerationTimeoutError(timeoutMs))
+                    };
+                    let preparedGeneration: PreparedMockDataGeneration;
                     try {
                         if (epochController.signal.aborted) {
                             return {};
                         }
-                        const providerStartedAt = performance.now();
                         const generation = runMockDataGenerator(
                             provider,
                             {
@@ -298,7 +312,8 @@ export class ServiceRegistry {
                                     warn: (message) => log.error(mockDataGeneratorLog('warning', message))
                                 }
                             },
-                            mockDataGenerator.timeoutMs ?? 60_000
+                            timeoutMs,
+                            publicationDeadline.expiresAt
                         );
                         this.activeMockDataGenerations.add(generation);
                         const result = await generation.finally(() => {
@@ -317,27 +332,39 @@ export class ServiceRegistry {
                                 log.info(message);
                             }
                         });
-                        log.info(
-                            mockDataGeneratorLog(
-                                'complete',
-                                `service=${mockService.urlPath} durationMs=${Math.max(
-                                    0,
-                                    performance.now() - providerStartedAt
-                                ).toFixed(3)}`
-                            )
-                        );
-                        return { resources: result.resources, preparedSources: inspection.preparedSources };
+                        assertMockDataGenerationDeadline(publicationDeadline);
+                        preparedGeneration = {
+                            resources: result.resources,
+                            preparedSources: inspection.preparedSources,
+                            publicationDeadline
+                        };
                     } finally {
-                        await this.disposeProvider(provider, log, mockService.urlPath);
+                        await waitForMockDataGenerationDeadline(
+                            this.disposeProvider(provider, log, mockService.urlPath),
+                            publicationDeadline
+                        );
                     }
+                    assertMockDataGenerationDeadline(preparedGeneration.publicationDeadline);
+                    log.info(
+                        mockDataGeneratorLog(
+                            'complete',
+                            `service=${mockService.urlPath} durationMs=${Math.max(
+                                0,
+                                performance.now() - providerStartedAt
+                            ).toFixed(3)}`
+                        )
+                    );
+                    return preparedGeneration;
                 } catch (error) {
-                    if (epochController.signal.aborted) {
+                    if (epochController.signal.aborted && !(error instanceof MockDataGenerationTimeoutError)) {
                         return {};
                     }
+                    const code =
+                        error instanceof MockDataGenerationTimeoutError ? 'GENERATION_TIMEOUT' : 'GENERATION_FAILED';
                     log.error(
                         mockDataGeneratorLog(
                             'fallback',
-                            `service=${mockService.urlPath} code=GENERATION_FAILED deterministicFallback=true`
+                            `service=${mockService.urlPath} code=${code} deterministicFallback=true`
                         )
                     );
                     throw error;
@@ -357,7 +384,7 @@ export class ServiceRegistry {
                 return;
             }
 
-            const dataAccess = new DataAccess(
+            let dataAccess = new DataAccess(
                 mockService,
                 metadata,
                 this.fileLoader,
@@ -396,7 +423,35 @@ export class ServiceRegistry {
                     })
                 );
             }
-            await dataAccess.readyPromise;
+            try {
+                await waitForMockDataGenerationDeadline(
+                    dataAccess.readyPromise,
+                    initialMockDataGeneration.publicationDeadline
+                );
+                assertMockDataGenerationDeadline(initialMockDataGeneration.publicationDeadline);
+            } catch (error) {
+                if (!(error instanceof MockDataGenerationTimeoutError)) {
+                    throw error;
+                }
+                await dataAccess.dispose();
+                log.error(
+                    mockDataGeneratorLog(
+                        'fallback',
+                        `service=${mockService.urlPath} code=GENERATION_TIMEOUT deterministicFallback=true`
+                    )
+                );
+                dataAccess = new DataAccess(
+                    mockService,
+                    metadata,
+                    this.fileLoader,
+                    this.config.logger,
+                    this,
+                    undefined,
+                    undefined,
+                    prepareMockDataGeneration
+                );
+                await dataAccess.readyPromise;
+            }
 
             if (this.disposed) {
                 await dataAccess.dispose();

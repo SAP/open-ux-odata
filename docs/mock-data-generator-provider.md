@@ -288,12 +288,14 @@ For each service initialization or reload epoch, the host:
    `AbortController` when at least one resource is eligible.
 4. Starts the configured monotonic deadline and calls `generate` at most once
    for the whole service epoch.
-5. Validates and stages the result while the same deadline remains active.
-6. Checks the deadline again and publishes one complete service snapshot only
-   after initialization completes.
-7. Calls that epoch provider's `dispose()` exactly once, containing synchronous
+5. Validates and defensively copies the complete result while the same deadline
+   remains active.
+6. Calls that epoch provider's `dispose()` exactly once, containing synchronous
    exceptions and applying a five-second deadline to asynchronous cleanup,
    whether generation succeeded or failed.
+7. Stages the complete service snapshot, checks the original deadline again,
+   and publishes atomically only after initialization completes. Provider
+   cleanup does not reset or extend the publication deadline.
 
 A single serialized reload coordinator owns file-watch reload,
 `POST /$metadata/reload`, and capture-and-simulate metadata arrival. It
@@ -304,10 +306,11 @@ remains stable. Supersession marks the old epoch stale, aborts its signal, and
 prevents a late result from publishing.
 
 Final `FEMockserver.dispose()` is idempotent. It closes file watchers, aborts
-active initial or reload generation, drains each active call under its
-configured generation deadline, and boundedly disposes any remaining epoch
-provider. Provider cleanup failures are contained. No service, watcher, or
-router registration is added after disposal begins, including during partial
+active initial or reload generation, promptly settles the host-owned epoch even
+when a provider ignores its signal, and boundedly disposes any remaining epoch
+provider. Rejection handling remains attached to late provider promises and
+provider cleanup failures are contained. No service, watcher, or router
+registration is added after disposal begins, including during partial
 asynchronous initialization.
 
 ## Failure behavior

@@ -43,9 +43,24 @@ interface ValidationState {
     abort?: () => void;
 }
 
+/** Host-owned monotonic deadline retained until a generated snapshot is published. */
+export interface MockDataGenerationDeadline {
+    expiresAt: number;
+    timeoutMs: number;
+    abort: () => void;
+}
+
+/** Stable timeout used across generation, staging, and publication. */
+export class MockDataGenerationTimeoutError extends Error {
+    constructor(timeoutMs: number) {
+        super(`Mock data generator timed out after ${timeoutMs} ms`);
+        this.name = 'MockDataGenerationTimeoutError';
+    }
+}
+
 function timeoutError(state: ValidationState): Error {
     state.abort?.();
-    return new Error(`Mock data generator timed out after ${state.timeoutMs} ms`);
+    return new MockDataGenerationTimeoutError(state.timeoutMs ?? 0);
 }
 
 function checkLimits(state: ValidationState, depth: number): void {
@@ -238,9 +253,45 @@ export interface MockDataSourceInspection {
 export interface PreparedMockDataGeneration {
     resources?: Readonly<Record<string, ReadonlyArray<MockDataRow>>>;
     preparedSources?: Readonly<Record<string, PreparedMockDataSource>>;
+    publicationDeadline?: MockDataGenerationDeadline;
 }
 
 export type MockDataGeneratorDisposalStatus = 'disposed' | 'failed' | 'timed-out';
+
+/** Reject a generated snapshot once its monotonic publication deadline has elapsed. */
+export function assertMockDataGenerationDeadline(deadline?: MockDataGenerationDeadline): void {
+    if (deadline && performance.now() >= deadline.expiresAt) {
+        deadline.abort();
+        throw new MockDataGenerationTimeoutError(deadline.timeoutMs);
+    }
+}
+
+/** Bound asynchronous snapshot staging by the same generation deadline. */
+export async function waitForMockDataGenerationDeadline<T>(
+    operation: Promise<T>,
+    deadline?: MockDataGenerationDeadline
+): Promise<T> {
+    if (!deadline) {
+        return operation;
+    }
+    assertMockDataGenerationDeadline(deadline);
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const timeoutPromise = new Promise<never>((_resolve, reject) => {
+        timeout = setTimeout(() => {
+            deadline.abort();
+            reject(new MockDataGenerationTimeoutError(deadline.timeoutMs));
+        }, Math.max(0, deadline.expiresAt - performance.now()));
+    });
+    try {
+        const result = await Promise.race([operation, timeoutPromise]);
+        assertMockDataGenerationDeadline(deadline);
+        return result;
+    } finally {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+    }
+}
 
 /**
  * Dispose a provider behind a host-owned deadline without exposing provider failures.
@@ -516,19 +567,27 @@ function validateResult(
 export async function runMockDataGenerator(
     provider: IMockDataGenerator,
     input: MockDataGenerationRunInput,
-    timeoutMs: number
+    timeoutMs: number,
+    deadline = performance.now() + timeoutMs
 ): Promise<MockDataGenerationResult> {
     if (!Number.isSafeInteger(timeoutMs) || timeoutMs <= 0 || timeoutMs > 60_000) {
         throw new TypeError('Mock data generator timeout must be a positive integer no greater than 60000');
     }
     const abortController = new AbortController();
-    const abortFromParent = (): void => abortController.abort(input.signal?.reason);
+    let rejectCancellation!: (reason: Error) => void;
+    const cancellationPromise = new Promise<never>((_resolve, reject) => {
+        rejectCancellation = reject;
+    });
+    const abortFromParent = (): void => {
+        const reason = input.signal?.reason;
+        abortController.abort(reason);
+        rejectCancellation(reason instanceof Error ? reason : new Error('Mock data generator generation cancelled'));
+    };
     input.signal?.addEventListener('abort', abortFromParent, { once: true });
     if (input.signal?.aborted) {
         abortFromParent();
     }
     const context = createMockDataGenerationContext({ ...input, signal: abortController.signal });
-    const deadline = performance.now() + timeoutMs;
     const state = validationState({
         deadline,
         timeoutMs,
@@ -538,8 +597,8 @@ export async function runMockDataGenerator(
     const timeoutPromise = new Promise<never>((_resolve, reject) => {
         timeout = setTimeout(() => {
             abortController.abort();
-            reject(new Error(`Mock data generator timed out after ${timeoutMs} ms`));
-        }, timeoutMs);
+            reject(new MockDataGenerationTimeoutError(timeoutMs));
+        }, Math.max(0, deadline - performance.now()));
     });
     const generationPromise = Promise.resolve()
         .then(() => provider.generate(context))
@@ -547,7 +606,7 @@ export async function runMockDataGenerator(
             validateResult(result, new Set(context.targets.map((target) => target.name)), context.logger, state)
         );
     try {
-        return await Promise.race([generationPromise, timeoutPromise]);
+        return await Promise.race([generationPromise, timeoutPromise, cancellationPromise]);
     } finally {
         if (timeout) {
             clearTimeout(timeout);

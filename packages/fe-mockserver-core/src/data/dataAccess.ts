@@ -16,7 +16,12 @@ import type { IFileLoader } from '../index';
 import { getLogger } from '../logger';
 import type { FileBasedMockData } from '../mockdata/fileBasedMockData';
 import { MockEntityContainer } from '../mockdata/mockEntityContainer';
-import type { PreparedMockDataGeneration, PreparedMockDataSource } from '../mockDataGenerator';
+import type {
+    MockDataGenerationDeadline,
+    PreparedMockDataGeneration,
+    PreparedMockDataSource
+} from '../mockDataGenerator';
+import { assertMockDataGenerationDeadline, waitForMockDataGenerationDeadline } from '../mockDataGenerator';
 import type {
     AggregatesTransformation,
     GroupByTransformation,
@@ -181,14 +186,17 @@ export class DataAccess implements DataAccessInterface {
         const nextMetadata = newMetadata ?? this.metadata;
         let nextGeneratedMockData = this.generatedMockData;
         let nextPreparedMockDataSources = this.preparedMockDataSources;
+        let publicationDeadline: MockDataGenerationDeadline | undefined;
         if (this.prepareMockDataGeneration) {
             const generation = await this.prepareMockDataGeneration(nextMetadata, signal);
             nextGeneratedMockData = generation.resources;
             nextPreparedMockDataSources = generation.preparedSources;
+            publicationDeadline = generation.publicationDeadline;
         }
         if (signal.aborted || this.disposed || epoch !== this.reloadEpoch) {
             return;
         }
+        assertMockDataGenerationDeadline(publicationDeadline);
         const staged = new DataAccess(
             this.service,
             nextMetadata,
@@ -200,10 +208,11 @@ export class DataAccess implements DataAccessInterface {
             undefined,
             true
         );
-        await staged.readyPromise;
+        await waitForMockDataGenerationDeadline(staged.readyPromise, publicationDeadline);
         if (signal.aborted || this.disposed || epoch !== this.reloadEpoch) {
             return;
         }
+        assertMockDataGenerationDeadline(publicationDeadline);
         this.metadata = nextMetadata;
         this.generatedMockData = nextGeneratedMockData;
         this.preparedMockDataSources = nextPreparedMockDataSources;

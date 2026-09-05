@@ -6,7 +6,7 @@ import type {
     MockDataGenerationTarget,
     MockDataGeneratorLogger
 } from '../../src/api';
-import type { DataAccess } from '../../src/data/dataAccess';
+import { DataAccess } from '../../src/data/dataAccess';
 import FEMockserver from '../../src/index';
 import {
     createMockDataGenerationContext,
@@ -483,6 +483,80 @@ describe('mock data generator host contract', () => {
                 )
             );
         } finally {
+            await mockServer.dispose();
+        }
+    });
+
+    it('opens with deterministic fallback when initial snapshot staging crosses the deadline', async () => {
+        const hostLogger = {
+            info: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn()
+        };
+        const Provider = class implements IMockDataGenerator {
+            readonly apiVersion = 1 as const;
+            readonly generate = jest.fn().mockResolvedValue({
+                resources: { RootElement: [{ ID: 88, Prop1: PROVIDER_SENTINEL }] }
+            });
+        };
+        class TestFileLoader extends FileSystemLoader {
+            async loadJS(filePath: string): Promise<unknown> {
+                return filePath === '@sap-ux/test-initial-staging-deadline-generator'
+                    ? Provider
+                    : super.loadJS(filePath);
+            }
+        }
+        const originalGetMockEntitySet = DataAccess.prototype.getMockEntitySet;
+        const stagingSpy = jest
+            .spyOn(DataAccess.prototype, 'getMockEntitySet')
+            .mockImplementation(function (this: DataAccess, ...args: Parameters<DataAccess['getMockEntitySet']>) {
+                if (
+                    (this.getGeneratedMockData('RootElement')?.[0] as { Prop1?: string } | undefined)?.Prop1 ===
+                    PROVIDER_SENTINEL
+                ) {
+                    const stagingEndsAt = performance.now() + 125;
+                    while (performance.now() < stagingEndsAt) {
+                        // Deliberately cross the provider epoch deadline during initial staging.
+                    }
+                }
+                return originalGetMockEntitySet.apply(this, args);
+            });
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+                    mockdataPath: path.join(__dirname, '__testData', 'missing-initial-staging-deadline-data'),
+                    urlPath: '/sap/fe/initial-staging-deadline-generator',
+                    generateMockData: true,
+                    mockDataGenerator: {
+                        name: '@sap-ux/test-initial-staging-deadline-generator',
+                        timeoutMs: 100
+                    }
+                }
+            ],
+            annotations: [],
+            logger: hostLogger as never,
+            metadataProcessor: { name: '@sap-ux/fe-mockserver-plugin-cds' },
+            fileLoader: TestFileLoader as unknown as string
+        });
+
+        try {
+            await expect(mockServer.isReady).resolves.toBeUndefined();
+            const dataAccess = mockServer
+                .getServiceRegistry()
+                .getService('/sap/fe/initial-staging-deadline-generator') as DataAccess;
+            const entitySet = await dataAccess.getMockEntitySet('RootElement');
+            const rows = await entitySet
+                .getMockData('tenant-default')
+                .getAllEntries(new ODataRequest({ method: 'GET', url: 'RootElement' }, dataAccess));
+
+            expect(rows).not.toEqual([expect.objectContaining({ Prop1: PROVIDER_SENTINEL })]);
+            expect(hostLogger.error).toHaveBeenCalledWith(
+                expect.stringContaining('code=GENERATION_TIMEOUT deterministicFallback=true')
+            );
+        } finally {
+            stagingSpy.mockRestore();
             await mockServer.dispose();
         }
     });
@@ -970,7 +1044,72 @@ describe('mock data generator host contract', () => {
         }
     });
 
-    it('serializes concurrent reloads and keeps the active snapshot available while generation is pending', async () => {
+    it('keeps the active snapshot when staging crosses the generation deadline', async () => {
+        const generate = jest
+            .fn()
+            .mockResolvedValueOnce({ resources: { RootElement: [{ ID: 77, Prop1: 'Initial snapshot' }] } })
+            .mockResolvedValueOnce({ resources: { RootElement: [{ ID: 88, Prop1: 'Late staged snapshot' }] } });
+        const Provider = class implements IMockDataGenerator {
+            readonly apiVersion = 1 as const;
+            readonly generate = generate;
+        };
+        class TestFileLoader extends FileSystemLoader {
+            async loadJS(filePath: string): Promise<unknown> {
+                return filePath === '@sap-ux/test-staging-deadline-generator' ? Provider : super.loadJS(filePath);
+            }
+        }
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+                    mockdataPath: path.join(__dirname, '__testData', 'missing-staging-deadline-data'),
+                    urlPath: '/sap/fe/staging-deadline-generator',
+                    mockDataGenerator: {
+                        name: '@sap-ux/test-staging-deadline-generator',
+                        timeoutMs: 100
+                    }
+                }
+            ],
+            annotations: [],
+            metadataProcessor: { name: '@sap-ux/fe-mockserver-plugin-cds' },
+            fileLoader: TestFileLoader as unknown as string
+        });
+
+        try {
+            await mockServer.isReady;
+            const dataAccess = mockServer
+                .getServiceRegistry()
+                .getService('/sap/fe/staging-deadline-generator') as DataAccess;
+            const originalGetMockEntitySet = DataAccess.prototype.getMockEntitySet;
+            const stagingSpy = jest
+                .spyOn(DataAccess.prototype, 'getMockEntitySet')
+                .mockImplementation(function (this: DataAccess, ...args: Parameters<DataAccess['getMockEntitySet']>) {
+                    if (this !== dataAccess) {
+                        const stagingEndsAt = performance.now() + 125;
+                        while (performance.now() < stagingEndsAt) {
+                            // Deliberately cross the provider epoch deadline during staging.
+                        }
+                    }
+                    return originalGetMockEntitySet.apply(this, args);
+                });
+
+            try {
+                await expect(dataAccess.reloadData()).rejects.toThrow('timed out after 100 ms');
+            } finally {
+                stagingSpy.mockRestore();
+            }
+
+            const entitySet = await dataAccess.getMockEntitySet('RootElement');
+            const rows = await entitySet
+                .getMockData('tenant-default')
+                .getAllEntries(new ODataRequest({ method: 'GET', url: 'RootElement' }, dataAccess));
+            expect(rows).toEqual([expect.objectContaining({ ID: 77, Prop1: 'Initial snapshot' })]);
+        } finally {
+            await mockServer.dispose();
+        }
+    });
+
+    it('starts the latest reload without waiting for a superseded provider that ignores cancellation', async () => {
         let resolveFirstReload!: (value: { resources: { RootElement: { ID: number; Prop1: string }[] } }) => void;
         const firstReloadResult = new Promise<{ resources: { RootElement: { ID: number; Prop1: string }[] } }>(
             (resolve) => {
@@ -1020,12 +1159,12 @@ describe('mock data generator host contract', () => {
             const secondReload = dataAccess.reloadData();
             await new Promise((resolve) => setTimeout(resolve, 25));
 
-            expect(generate).toHaveBeenCalledTimes(2);
+            expect(generate).toHaveBeenCalledTimes(3);
             const activeEntitySet = await dataAccess.getMockEntitySet('RootElement');
             const activeRows = await activeEntitySet
                 .getMockData('tenant-default')
                 .getAllEntries(new ODataRequest({ method: 'GET', url: 'RootElement' }, dataAccess));
-            expect(activeRows).toEqual([expect.objectContaining({ ID: 77, Prop1: 'Initial snapshot' })]);
+            expect(activeRows).toEqual([expect.objectContaining({ ID: 99, Prop1: 'Latest snapshot' })]);
 
             resolveFirstReload({ resources: { RootElement: [{ ID: 88, Prop1: 'Intermediate snapshot' }] } });
             await Promise.all([firstReload, secondReload]);
@@ -1042,7 +1181,86 @@ describe('mock data generator host contract', () => {
         }
     });
 
-    it('aborts and drains active generation before disposing the provider', async () => {
+    it('bounds slow provider cleanup by the generation epoch deadline', async () => {
+        let resolveDisposal!: () => void;
+        const disposal = new Promise<void>((resolve) => {
+            resolveDisposal = resolve;
+        });
+        const disposeProvider = jest.fn(() => disposal);
+        const Provider = class implements IMockDataGenerator {
+            readonly apiVersion = 1 as const;
+            readonly generate = jest.fn().mockResolvedValue({
+                resources: { RootElement: [{ ID: 77, Prop1: PROVIDER_SENTINEL }] }
+            });
+            readonly dispose = disposeProvider;
+        };
+        class TestFileLoader extends FileSystemLoader {
+            async loadJS(filePath: string): Promise<unknown> {
+                return filePath === '@sap-ux/test-slow-dispose-generator' ? Provider : super.loadJS(filePath);
+            }
+        }
+        const hostLogger = {
+            info: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn()
+        };
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+                    mockdataPath: path.join(__dirname, '__testData', 'missing-slow-dispose-data'),
+                    urlPath: '/sap/fe/slow-dispose-generator',
+                    generateMockData: true,
+                    mockDataGenerator: {
+                        name: '@sap-ux/test-slow-dispose-generator',
+                        timeoutMs: 50
+                    }
+                }
+            ],
+            annotations: [],
+            logger: hostLogger as never,
+            metadataProcessor: { name: '@sap-ux/fe-mockserver-plugin-cds' },
+            fileLoader: TestFileLoader as unknown as string
+        });
+
+        try {
+            let readinessTimer: ReturnType<typeof setTimeout> | undefined;
+            const late = new Promise<'late'>((resolve) => {
+                readinessTimer = setTimeout(() => resolve('late'), 750);
+            });
+            const readiness = await Promise.race([mockServer.isReady.then(() => 'ready' as const), late]).finally(
+                () => {
+                    if (readinessTimer) {
+                        clearTimeout(readinessTimer);
+                    }
+                }
+            );
+            expect(readiness).toBe('ready');
+            const dataAccess = mockServer
+                .getServiceRegistry()
+                .getService('/sap/fe/slow-dispose-generator') as DataAccess;
+            const entitySet = await dataAccess.getMockEntitySet('RootElement');
+            const rows = await entitySet
+                .getMockData('tenant-default')
+                .getAllEntries(new ODataRequest({ method: 'GET', url: 'RootElement' }, dataAccess));
+
+            expect(rows).not.toEqual([expect.objectContaining({ Prop1: PROVIDER_SENTINEL })]);
+            expect(disposeProvider).toHaveBeenCalledTimes(1);
+            expect(hostLogger.info).not.toHaveBeenCalledWith(
+                expect.stringContaining('mock-data-generator:complete service=/sap/fe/slow-dispose-generator')
+            );
+            expect(hostLogger.error).toHaveBeenCalledWith(
+                expect.stringContaining('code=GENERATION_TIMEOUT deterministicFallback=true')
+            );
+        } finally {
+            resolveDisposal();
+            await mockServer.isReady.catch(() => undefined);
+            await mockServer.dispose();
+        }
+    });
+
+    it('aborts the host epoch and disposes the provider without waiting for ignored cancellation', async () => {
         let activeSignal: AbortSignal | undefined;
         let resolveReload!: (value: { resources: { RootElement: { ID: number; Prop1: string }[] } }) => void;
         const reloadResult = new Promise<{ resources: { RootElement: { ID: number; Prop1: string }[] } }>((resolve) => {
@@ -1096,7 +1314,7 @@ describe('mock data generator host contract', () => {
             await new Promise((resolve) => setImmediate(resolve));
 
             expect(activeSignal?.aborted).toBe(true);
-            expect(disposeProvider).toHaveBeenCalledTimes(1);
+            expect(disposeProvider).toHaveBeenCalledTimes(2);
 
             resolveReload({ resources: { RootElement: [{ ID: 88, Prop1: 'Discarded snapshot' }] } });
             await Promise.all([reload, disposing]);
