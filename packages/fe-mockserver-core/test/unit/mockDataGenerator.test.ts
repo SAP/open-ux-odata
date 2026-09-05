@@ -650,6 +650,73 @@ describe('mock data generator host contract', () => {
         }
     });
 
+    it('starts with built-in generated data when the provider result exceeds the host size limit', async () => {
+        const hostLogger = {
+            info: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn()
+        };
+        const generate = jest.fn().mockResolvedValue({
+            resources: {
+                RootElement: [{ ID: 77, Prop1: 'x'.repeat(64 * 1024 * 1024) }]
+            }
+        });
+        const Provider = class implements IMockDataGenerator {
+            readonly apiVersion = 1 as const;
+            readonly generate = generate;
+        };
+        class TestFileLoader extends FileSystemLoader {
+            async loadJS(filePath: string): Promise<unknown> {
+                return filePath === '@sap-ux/test-oversized-generator' ? Provider : super.loadJS(filePath);
+            }
+        }
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath: path.join(__dirname, '__testData', 'service.cds'),
+                    mockdataPath: path.join(__dirname, '__testData', 'missing-oversized-provider-data'),
+                    urlPath: '/sap/fe/oversized-generator',
+                    generateMockData: true,
+                    mockDataGenerator: {
+                        name: '@sap-ux/test-oversized-generator',
+                        timeoutMs: 5_000
+                    }
+                }
+            ],
+            annotations: [],
+            logger: hostLogger as never,
+            metadataProcessor: {
+                name: '@sap-ux/fe-mockserver-plugin-cds'
+            },
+            fileLoader: TestFileLoader as unknown as string
+        });
+
+        try {
+            await expect(mockServer.isReady).resolves.toBeUndefined();
+            const dataAccess = mockServer.getServiceRegistry().getService('/sap/fe/oversized-generator');
+            expect(dataAccess).toBeDefined();
+            if (!dataAccess) {
+                throw new Error('Expected standard fallback service data access');
+            }
+            const rootEntitySet = await dataAccess.getMockEntitySet('RootElement');
+            const rows = await rootEntitySet
+                .getMockData('tenant-default')
+                .getAllEntries(new ODataRequest({ method: 'GET', url: 'RootElement' }, dataAccess as DataAccess));
+
+            expect(generate).toHaveBeenCalledTimes(1);
+            expect(rows.length).toBeGreaterThan(0);
+            expect(rows.every((row) => typeof row.Prop1 !== 'string' || row.Prop1.length < 64 * 1024 * 1024)).toBe(
+                true
+            );
+            expect(hostLogger.error).toHaveBeenCalledWith(
+                'mock-data-generator:fallback service=/sap/fe/oversized-generator code=GENERATION_FAILED deterministicFallback=true'
+            );
+        } finally {
+            await mockServer.dispose();
+        }
+    });
+
     it('sanitizes and bounds provider failures before logging them', async () => {
         const hostLogger = {
             info: jest.fn(),
