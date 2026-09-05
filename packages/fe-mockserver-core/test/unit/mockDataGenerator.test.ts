@@ -394,7 +394,7 @@ describe('mock data generator host contract', () => {
         }
     });
 
-    it('inherits a global provider, honors a service opt-out, and disposes the created instance', async () => {
+    it('falls back to standard generation for empty provider resources, honors opt-out, and disposes', async () => {
         const generate = jest.fn().mockResolvedValue({ resources: {} });
         const dispose = jest.fn();
         const Provider = class implements IMockDataGenerator {
@@ -412,7 +412,8 @@ describe('mock data generator host contract', () => {
                 {
                     metadataPath: path.join(__dirname, '__testData', 'service.cds'),
                     mockdataPath: path.join(__dirname, '__testData', 'missing-inherited-data'),
-                    urlPath: '/sap/fe/inherited-generator'
+                    urlPath: '/sap/fe/inherited-generator',
+                    generateMockData: true
                 },
                 {
                     metadataPath: path.join(__dirname, '__testData', 'service.cds'),
@@ -436,6 +437,21 @@ describe('mock data generator host contract', () => {
             await mockServer.isReady;
             expect(generate).toHaveBeenCalledTimes(1);
             expect(generate.mock.calls[0][0].service.urlPath).toBe('/sap/fe/inherited-generator');
+            const dataAccess = mockServer.getServiceRegistry().getService('/sap/fe/inherited-generator');
+            expect(dataAccess).toBeDefined();
+            if (!dataAccess) {
+                throw new Error('Expected standard fallback service data access');
+            }
+            const rootEntitySet = await dataAccess.getMockEntitySet('RootElement');
+            const request = new ODataRequest(
+                {
+                    method: 'GET',
+                    url: 'RootElement'
+                },
+                dataAccess as DataAccess
+            );
+            const rows = await rootEntitySet.getMockData('tenant-default').getAllEntries(request);
+            expect(rows.length).toBeGreaterThan(0);
         } finally {
             await mockServer.dispose();
         }
