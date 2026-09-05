@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs';
 import path from 'path';
 import type {
     ExistingMockData,
@@ -711,6 +712,99 @@ describe('mock data generator host contract', () => {
             );
             expect(hostLogger.error).toHaveBeenCalledWith(
                 'mock-data-generator:fallback service=/sap/fe/oversized-generator code=GENERATION_FAILED deterministicFallback=true'
+            );
+        } finally {
+            await mockServer.dispose();
+        }
+    });
+
+    it('starts with built-in generated data when the provider rejects oversized metadata', async () => {
+        const hostLogger = {
+            info: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn()
+        };
+        const metadataPath = path.join(__dirname, 'plugins', 'fixtures', 'valid.xml');
+        const baseMetadata = readFileSync(metadataPath, 'utf8');
+        const oversizedMetadata = baseMetadata.replace(
+            '</edmx:Edmx>',
+            `<!--${'x'.repeat(32 * 1024 * 1024)}--></edmx:Edmx>`
+        );
+        const generatedMetadataBytes = Buffer.byteLength(oversizedMetadata, 'utf8');
+        const generate = jest.fn(async (context: Parameters<IMockDataGenerator['generate']>[0]) => {
+            const actualBytes = Buffer.byteLength(context.metadata, 'utf8');
+            if (actualBytes > 32 * 1024 * 1024) {
+                throw Object.assign(new Error('Metadata input exceeds the 33554432-byte limit.'), {
+                    code: 'METADATA_INPUT_TOO_LARGE'
+                });
+            }
+            return { resources: { RootElement: [{ ID: 77, Prop1: 'Must not be published' }] } };
+        });
+        const Provider = class implements IMockDataGenerator {
+            readonly apiVersion = 1 as const;
+            readonly generate = generate;
+        };
+        const MetadataProcessor = class {
+            async loadMetadata(): Promise<string> {
+                return oversizedMetadata;
+            }
+
+            addI18nPath(): void {
+                // No i18n is needed for this metadata boundary fixture.
+            }
+        };
+        class TestFileLoader extends FileSystemLoader {
+            async loadJS(filePath: string): Promise<unknown> {
+                if (filePath === '@sap-ux/test-metadata-limit-generator') {
+                    return Provider;
+                }
+                if (filePath === '@sap-ux/test-oversized-metadata-processor') {
+                    return MetadataProcessor;
+                }
+                return super.loadJS(filePath);
+            }
+        }
+        const mockServer = new FEMockserver({
+            services: [
+                {
+                    metadataPath,
+                    mockdataPath: path.join(__dirname, '__testData', 'missing-oversized-metadata-data'),
+                    urlPath: '/sap/fe/oversized-metadata',
+                    generateMockData: true,
+                    mockDataGenerator: {
+                        name: '@sap-ux/test-metadata-limit-generator',
+                        timeoutMs: 5_000
+                    }
+                }
+            ],
+            annotations: [],
+            logger: hostLogger as never,
+            metadataProcessor: {
+                name: '@sap-ux/test-oversized-metadata-processor'
+            },
+            fileLoader: TestFileLoader as unknown as string
+        });
+
+        try {
+            expect(generatedMetadataBytes).toBeGreaterThan(32 * 1024 * 1024);
+            await expect(mockServer.isReady).resolves.toBeUndefined();
+            const dataAccess = mockServer.getServiceRegistry().getService('/sap/fe/oversized-metadata');
+            expect(dataAccess).toBeDefined();
+            if (!dataAccess) {
+                throw new Error('Expected standard fallback service data access');
+            }
+            const rootEntitySet = await dataAccess.getMockEntitySet('RootElement');
+            const rows = await rootEntitySet
+                .getMockData('tenant-default')
+                .getAllEntries(new ODataRequest({ method: 'GET', url: 'RootElement' }, dataAccess as DataAccess));
+
+            expect(generate).toHaveBeenCalledTimes(1);
+            expect(Buffer.byteLength(generate.mock.calls[0][0].metadata, 'utf8')).toBe(generatedMetadataBytes);
+            expect(rows.length).toBeGreaterThan(0);
+            expect(rows).not.toContainEqual(expect.objectContaining({ Prop1: 'Must not be published' }));
+            expect(hostLogger.error).toHaveBeenCalledWith(
+                'mock-data-generator:fallback service=/sap/fe/oversized-metadata code=GENERATION_FAILED deterministicFallback=true'
             );
         } finally {
             await mockServer.dispose();
