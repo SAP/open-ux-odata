@@ -1980,4 +1980,83 @@ describe('Data Access', () => {
             expect(formData.DraftAdministrativeData).toBeNull();
         });
     });
+
+    describe('draftEdit DraftAdministrativeData propagation', () => {
+        let freshDataAccess: DataAccess;
+
+        beforeAll(async () => {
+            const baseDir = join(__dirname, 'services', 'formSample');
+            const edmx = await metadataProvider.loadMetadata(join(baseDir, '/FormTemplate.cds'));
+            const freshMetadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            freshDataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                freshMetadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
+        });
+
+        test('draftEdit sets DraftAdministrativeData on the active entity', async () => {
+            await freshDataAccess.performAction(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=true)/sap.fe.core.Form.draftEdit' },
+                    freshDataAccess
+                )
+            );
+
+            const activeEntity = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=true)?$expand=DraftAdministrativeData' },
+                    freshDataAccess
+                )
+            );
+            expect(activeEntity.DraftAdministrativeData).not.toBeNull();
+            expect(activeEntity.DraftAdministrativeData.DraftUUID).toBeDefined();
+        });
+
+        test('navigating to a null DraftAdministrativeData nav property returns 200, not 404', async () => {
+            // Entity ID=0 already has a draft from the previous test; activate it so DraftAdministrativeData resets to null
+            await freshDataAccess.performAction(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)/sap.fe.core.Form.draftActivate' },
+                    freshDataAccess
+                )
+            );
+
+            // Active entity now has DraftAdministrativeData = null
+            const request = new ODataRequest(
+                { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=true)/DraftAdministrativeData' },
+                freshDataAccess
+            );
+            await request.handleRequest();
+            expect(request.statusCode).toEqual(200);
+        });
+
+        test('draftDiscard resets DraftAdministrativeData to null on the active entity', async () => {
+            await freshDataAccess.performAction(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=true)/sap.fe.core.Form.draftEdit' },
+                    freshDataAccess
+                )
+            );
+
+            await freshDataAccess.deleteData(
+                new ODataRequest({ method: 'DELETE', url: '/FormRoot(ID=0,IsActiveEntity=false)' }, freshDataAccess)
+            );
+
+            const activeEntity = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=true)?$expand=DraftAdministrativeData' },
+                    freshDataAccess
+                )
+            );
+            expect(activeEntity.DraftAdministrativeData).toBeNull();
+        });
+    });
 });

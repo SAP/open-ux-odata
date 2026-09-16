@@ -513,7 +513,7 @@ export default class ODataRequest {
                     const actionResponse = await this.dataAccess.performAction(this);
                     if (actionResponse === null) {
                         const retrievedData = await this.dataAccess.getData(this);
-                        if (retrievedData === undefined || retrievedData === null) {
+                        if (retrievedData === undefined || (retrievedData === null && this.queryPath.length === 1)) {
                             this.statusCode = 404;
                             this.setResponseData('');
                         } else {
