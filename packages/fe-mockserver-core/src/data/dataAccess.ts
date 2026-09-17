@@ -1122,12 +1122,33 @@ export class DataAccess implements DataAccessInterface {
     }
 
     public async updateData(odataRequest: ODataRequest, patchData: any) {
-        const entitySetName = odataRequest.queryPath[0].path;
-        if (odataRequest.queryPath.length > 1) {
+        let targetEntitySetName = odataRequest.queryPath[0].path;
+
+        // Re-base to the trailing entity that actually needs to be patched. For a path that addresses an
+        // entity through keyed navigation (e.g. RootEntity(key)/_Child(childKey)) the PATCH must
+        // target the child entity in its own entity set using the child key.
+        let targetEntitySet = this.metadata.getEntitySet(targetEntitySetName);
+        let targetKeys = odataRequest.queryPath[0].keys;
+        let lastResolvedIndex = 0;
+        for (let i = 1; i < odataRequest.queryPath.length; i++) {
+            const segment = odataRequest.queryPath[i];
+            targetEntitySet = targetEntitySet?.navigationPropertyBinding[segment.path] as EntitySet | undefined;
+            if (targetEntitySet && segment.keys && Object.keys(segment.keys).length > 0) {
+                targetEntitySetName = targetEntitySet.name;
+                targetKeys = segment.keys;
+                lastResolvedIndex = i;
+            } else {
+                // Keyless navigation/property segment: it (and everything after it) is patched
+                // as a sub-object of the entity resolved so far.
+                break;
+            }
+        }
+
+        if (odataRequest.queryPath.length - 1 > lastResolvedIndex) {
             // In this case we are updating a property or a sub object so let's create the appropriate structure
             let updateObject: any = {};
             const finalPatchObject = updateObject;
-            for (let i = 1; i < odataRequest.queryPath.length; i++) {
+            for (let i = lastResolvedIndex + 1; i < odataRequest.queryPath.length; i++) {
                 updateObject[odataRequest.queryPath[i].path] = {};
                 if (i === odataRequest.queryPath.length - 1) {
                     updateObject[odataRequest.queryPath[i].path] = patchData;
@@ -1136,16 +1157,16 @@ export class DataAccess implements DataAccessInterface {
             }
             patchData = finalPatchObject;
         }
-        const mockEntitySet = await this.getMockEntitySet(entitySetName);
-        this.logRequest(`Handling PATCH request for entity set: ${entitySetName}`, odataRequest);
+        const mockEntitySet = await this.getMockEntitySet(targetEntitySetName);
+        this.logRequest(`Handling PATCH request for entity set: ${targetEntitySetName}`, odataRequest);
         this.logRequest(
-            `PATCH details - Keys: ${JSON.stringify(odataRequest.queryPath[0].keys)}, Tenant: ${
+            `PATCH details - Keys: ${JSON.stringify(targetKeys)}, Tenant: ${
                 odataRequest.tenantId
             }, Data: ${JSON.stringify(patchData, null, 2)}`,
             odataRequest
         );
         const resultData = await mockEntitySet.performPATCH(
-            odataRequest.queryPath[0].keys,
+            targetKeys,
             patchData,
             odataRequest.tenantId,
             odataRequest,
