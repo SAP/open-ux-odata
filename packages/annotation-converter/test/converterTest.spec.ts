@@ -986,6 +986,27 @@ describe('Annotation Converter', () => {
         checkAnnotationObject(convertedTypes);
     });
 
+    it('should resolve Capabilities annotations placed on container-path nav property', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/containment-capabilities.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        // Find the RootType entity type
+        const rootType = convertedTypes.entityTypes.find((et) => et.fullyQualifiedName === 'test.service.RootType');
+        expect(rootType).toBeDefined();
+
+        // Find the _Child navigation property
+        const childNavProp = rootType!.navigationProperties.find((np) => np.name === '_Child');
+        expect(childNavProp).toBeDefined();
+
+        // annotationsByTarget stores the annotation under "test.service.Container/Root/_Child"
+        // but getAnnotations() looks up "test.service.RootType/_Child" -> returns [] -> Capabilities is undefined.
+        const caps = childNavProp!.annotations.Capabilities as any;
+        expect(caps).toBeDefined();
+        expect(caps!.DeleteRestrictions).toBeDefined();
+        expect(caps!.UpdateRestrictions).toBeDefined();
+        expect((caps!.UpdateRestrictions as any).Updatable).toBe(false);
+    });
+
     it('should resolve the ActionTarget of a static action', async () => {
         const parsedMetadata = parse(await loadFixture('v4/static-action.xml'));
         const convertedTypes = convert(parsedMetadata);

@@ -1007,7 +1007,37 @@ class Converter implements IResettable {
             this.annotationsByTarget = mergeAnnotations(this.rawMetadata.references, ...annotationSources);
         }
 
-        return this.annotationsByTarget[target] ?? [];
+        const result = this.annotationsByTarget[target];
+        if (result !== undefined && result.length > 0) {
+            return result;
+        }
+        // For navigation properties, annotations may be stored under the container-path form
+        // "Namespace.Container/EntitySet/NavProp" rather than the entity-type-path form
+        // "Namespace.EntityType/NavProp". Try the container-path form as a fallback.
+        const slashIdx = target.lastIndexOf('/');
+        if (slashIdx > 0) {
+            const typeFQN = target.substring(0, slashIdx);
+            const navPropName = target.substring(slashIdx + 1);
+            for (const entitySet of this.rawSchema.entitySets) {
+                if (entitySet.entityTypeName === typeFQN) {
+                    const containerAnnotations =
+                        this.annotationsByTarget[`${entitySet.fullyQualifiedName}/${navPropName}`];
+                    if (containerAnnotations !== undefined && containerAnnotations.length > 0) {
+                        return containerAnnotations;
+                    }
+                }
+            }
+            for (const singleton of this.rawSchema.singletons) {
+                if (singleton.entityTypeName === typeFQN) {
+                    const containerAnnotations =
+                        this.annotationsByTarget[`${singleton.fullyQualifiedName}/${navPropName}`];
+                    if (containerAnnotations !== undefined && containerAnnotations.length > 0) {
+                        return containerAnnotations;
+                    }
+                }
+            }
+        }
+        return result ?? [];
     }
 
     getConvertedEntityContainer() {
