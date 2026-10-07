@@ -69,6 +69,25 @@ describe('Annotation Converter', () => {
         ).not.toBeUndefined();
     });
 
+    it('should resolve Capabilities annotations placed on container-path nav property', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/containment-capabilities.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const rootType = convertedTypes.entityTypes.find((et) => et.fullyQualifiedName === 'test.service.RootType');
+        expect(rootType).toBeDefined();
+
+        const childNavProp = rootType!.navigationProperties.find((np) => np.name === '_Child');
+        expect(childNavProp).toBeDefined();
+
+        const caps = childNavProp!.annotations.Capabilities as any;
+        expect(caps).toBeDefined();
+        expect(caps.DeleteRestrictions).toBeDefined();
+        expect(caps.UpdateRestrictions).toBeDefined();
+        // check resolved content, not just presence
+        expect(caps.UpdateRestrictions.Updatable).toBe(false);
+        expect(caps.DeleteRestrictions.Deletable).toBeDefined(); // resolved path target
+    });
+
     it('can convert EDMX with multiple schemas', async () => {
         const parsedEDMX = parse(await loadFixture('northwind.metadata.xml'));
         const convertedTypes = convert(parsedEDMX);

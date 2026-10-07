@@ -1007,7 +1007,8 @@ class Converter implements IResettable {
             this.annotationsByTarget = mergeAnnotations(this.rawMetadata.references, ...annotationSources);
         }
 
-        return this.annotationsByTarget[target] ?? [];
+        const result = this.annotationsByTarget[target];
+        return result ?? [];
     }
 
     getConvertedEntityContainer() {
@@ -1480,7 +1481,47 @@ function convertNavigationProperty(
         resolveEntityType(converter, (rawNavigationProperty as NavigationProperty).targetTypeName)
     );
 
-    lazy(converter, convertedNavigationProperty, 'annotations', resolveAnnotations(converter, rawNavigationProperty));
+    lazy(converter, convertedNavigationProperty, 'annotations', () => {
+        const directAnnotations = converter.getAnnotations(rawNavigationProperty.fullyQualifiedName);
+        if (
+            directAnnotations.length > 0 ||
+            !isV4NavigationProperty(rawNavigationProperty) ||
+            !rawNavigationProperty.containsTarget
+        ) {
+            return createAnnotationsObject(converter, rawNavigationProperty, directAnnotations);
+        }
+
+        // Containment navigation-property annotations may be stored under the container-path form
+        // "Namespace.Container/EntitySet/NavProp" rather than the entity-type-path form
+        // "Namespace.EntityType/NavProp". Fall back to the container-path form. The owning entity type
+        // is the prefix of the nav prop FQN, so the entity set / singleton lookup is unambiguous.
+        //
+        // Known limitation: only single-level containment is handled. For deeper nesting
+        // (e.g. "Container/Root/_Child/_GrandChild") the owning type of "_GrandChild" is itself a
+        // contained entity type that is not exposed by any entity set or singleton, so the lookup below
+        // finds no match and the container-path annotations are not resolved.
+        const owningTypeFQN = substringBeforeFirst(rawNavigationProperty.fullyQualifiedName, '/');
+        const navPropName = rawNavigationProperty.name;
+
+        for (const entitySet of converter.rawSchema.entitySets) {
+            if (entitySet.entityTypeName === owningTypeFQN) {
+                const containerAnnotations = converter.getAnnotations(`${entitySet.fullyQualifiedName}/${navPropName}`);
+                if (containerAnnotations.length > 0) {
+                    return createAnnotationsObject(converter, rawNavigationProperty, containerAnnotations);
+                }
+            }
+        }
+        for (const singleton of converter.rawSchema.singletons) {
+            if (singleton.entityTypeName === owningTypeFQN) {
+                const containerAnnotations = converter.getAnnotations(`${singleton.fullyQualifiedName}/${navPropName}`);
+                if (containerAnnotations.length > 0) {
+                    return createAnnotationsObject(converter, rawNavigationProperty, containerAnnotations);
+                }
+            }
+        }
+
+        return createAnnotationsObject(converter, rawNavigationProperty, directAnnotations);
+    });
 
     return convertedNavigationProperty;
 }
@@ -1662,6 +1703,7 @@ function convertComplexType(converter: Converter, rawComplexType: RawComplexType
 
 /**
  * Convers an EnumMember.
+ *
  * @param converter
  * @param rawEnumMember
  * @returns The converted EnumMember
@@ -1676,6 +1718,7 @@ function convertEnumMember(converter: Converter, rawEnumMember: RawEnumMember): 
 
 /**
  * Converts an EnumType.
+ *
  * @param converter   Converter
  * @param rawEnumType  Unconverted EnumType
  * @returns The converted EnumType
