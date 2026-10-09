@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="test.service" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="Container">
+        <!-- Owning type is exposed only via a Singleton, so container-path resolution
+             must go through the singleton loop (not the entity-set loop). -->
+        <Singleton Name="RootSingleton" Type="test.service.SingletonType"/>
+      </EntityContainer>
+      <EntityType Name="SingletonType">
+        <Key><PropertyRef Name="ID"/></Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="_SingletonChild"
+          Type="Collection(test.service.ChildType)"
+          ContainsTarget="true"/>
+        <!-- containsTarget nav prop with NO container-path annotation: exercises the
+             final fallback that returns the (empty) direct annotations. -->
+        <NavigationProperty Name="_Unannotated"
+          Type="Collection(test.service.ChildType)"
+          ContainsTarget="true"/>
+      </EntityType>
+      <EntityType Name="ChildType">
+        <Key><PropertyRef Name="ID"/></Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+      </EntityType>
+      <!-- Container-path annotation reached via the Singleton. -->
+      <Annotations Target="test.service.Container/RootSingleton/_SingletonChild">
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record>
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

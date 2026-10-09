@@ -88,6 +88,27 @@ describe('Annotation Converter', () => {
         expect(caps.DeleteRestrictions.Deletable).toBeDefined(); // resolved path target
     });
 
+    it('should resolve container-path annotations on a singleton-owned nav property and leave unannotated nav props empty', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/containment-capabilities-singleton.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const singletonType = convertedTypes.entityTypes.find(
+            (et) => et.fullyQualifiedName === 'test.service.SingletonType'
+        );
+        expect(singletonType).toBeDefined();
+
+        // owning type is exposed only via a Singleton: resolution goes through the singleton loop
+        const singletonChild = singletonType!.navigationProperties.find((np) => np.name === '_SingletonChild');
+        expect(singletonChild).toBeDefined();
+        const caps = singletonChild!.annotations.Capabilities as any;
+        expect(caps?.UpdateRestrictions?.Updatable).toBe(false);
+
+        // containsTarget nav prop with no container-path annotation: falls back to (empty) direct annotations
+        const unannotated = singletonType!.navigationProperties.find((np) => np.name === '_Unannotated');
+        expect(unannotated).toBeDefined();
+        expect(unannotated!.annotations.Capabilities).toBeUndefined();
+    });
+
     it('can convert EDMX with multiple schemas', async () => {
         const parsedEDMX = parse(await loadFixture('northwind.metadata.xml'));
         const convertedTypes = convert(parsedEDMX);
