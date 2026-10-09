@@ -69,6 +69,46 @@ describe('Annotation Converter', () => {
         ).not.toBeUndefined();
     });
 
+    it('should resolve Capabilities annotations placed on container-path nav property', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/containment-capabilities.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const rootType = convertedTypes.entityTypes.find((et) => et.fullyQualifiedName === 'test.service.RootType');
+        expect(rootType).toBeDefined();
+
+        const childNavProp = rootType!.navigationProperties.find((np) => np.name === '_Child');
+        expect(childNavProp).toBeDefined();
+
+        const caps = childNavProp!.annotations.Capabilities as any;
+        expect(caps).toBeDefined();
+        expect(caps.DeleteRestrictions).toBeDefined();
+        expect(caps.UpdateRestrictions).toBeDefined();
+        // check resolved content, not just presence
+        expect(caps.UpdateRestrictions.Updatable).toBe(false);
+        expect(caps.DeleteRestrictions.Deletable).toBeDefined(); // resolved path target
+    });
+
+    it('should resolve container-path annotations on a singleton-owned nav property and leave unannotated nav props empty', async () => {
+        const parsedMetadata = parse(await loadFixture('v4/containment-capabilities-singleton.xml'));
+        const convertedTypes = convert(parsedMetadata);
+
+        const singletonType = convertedTypes.entityTypes.find(
+            (et) => et.fullyQualifiedName === 'test.service.SingletonType'
+        );
+        expect(singletonType).toBeDefined();
+
+        // owning type is exposed only via a Singleton: resolution goes through the singleton loop
+        const singletonChild = singletonType!.navigationProperties.find((np) => np.name === '_SingletonChild');
+        expect(singletonChild).toBeDefined();
+        const caps = singletonChild!.annotations.Capabilities as any;
+        expect(caps?.UpdateRestrictions?.Updatable).toBe(false);
+
+        // containsTarget nav prop with no container-path annotation: falls back to (empty) direct annotations
+        const unannotated = singletonType!.navigationProperties.find((np) => np.name === '_Unannotated');
+        expect(unannotated).toBeDefined();
+        expect(unannotated!.annotations.Capabilities).toBeUndefined();
+    });
+
     it('can convert EDMX with multiple schemas', async () => {
         const parsedEDMX = parse(await loadFixture('northwind.metadata.xml'));
         const convertedTypes = convert(parsedEDMX);
