@@ -1,5 +1,17 @@
 # @sap-ux/annotation-converter
 
+## 0.10.23
+
+### Patch Changes
+
+-   ee45851: fix: resolve annotations on container-path navigation properties
+
+    `convertNavigationProperty()` now falls back to the container-path target form
+    (`Namespace.Container/EntitySet/NavProp` and the singleton equivalent) for containment
+    nav properties when the entity-type-path lookup returns no annotations. This ensures
+    `Capabilities` restrictions (e.g. `DeleteRestrictions`/`UpdateRestrictions`) placed on
+    containment navigation properties are correctly resolved.
+
 ## 0.10.22
 
 ### Patch Changes
