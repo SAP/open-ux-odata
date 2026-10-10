@@ -1339,27 +1339,6 @@ describe('Hierarchy Access', () => {
               {
                 "DistanceFromRoot": 0,
                 "DrillState": "expanded",
-                "ID": "1",
-                "LimitedDescendantCount": 2,
-                "Name": "Waters",
-              },
-              {
-                "DistanceFromRoot": 1,
-                "DrillState": "leaf",
-                "ID": "10",
-                "LimitedDescendantCount": 0,
-                "Name": "Still water",
-              },
-              {
-                "DistanceFromRoot": 1,
-                "DrillState": "leaf",
-                "ID": "11",
-                "LimitedDescendantCount": 0,
-                "Name": "Sparkling water",
-              },
-              {
-                "DistanceFromRoot": 0,
-                "DrillState": "expanded",
                 "ID": "2",
                 "LimitedDescendantCount": 3,
                 "Name": "Wines",
@@ -1384,6 +1363,27 @@ describe('Hierarchy Access', () => {
                 "ID": "22",
                 "LimitedDescendantCount": 0,
                 "Name": "Sparkling wines",
+              },
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
+                "ID": "1",
+                "LimitedDescendantCount": 2,
+                "Name": "Waters",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "10",
+                "LimitedDescendantCount": 0,
+                "Name": "Still water",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "11",
+                "LimitedDescendantCount": 0,
+                "Name": "Sparkling water",
               },
             ]
         `);
@@ -1818,6 +1818,13 @@ describe('Hierarchy Access', () => {
             [
               {
                 "DistanceFromRoot": 0,
+                "DrillState": "leaf",
+                "ID": "NZL",
+                "LimitedDescendantCount": 0,
+                "Name": "NZL",
+              },
+              {
+                "DistanceFromRoot": 0,
                 "DrillState": "expanded",
                 "ID": "Sales",
                 "LimitedDescendantCount": 2,
@@ -1836,13 +1843,6 @@ describe('Hierarchy Access', () => {
                 "ID": "US",
                 "LimitedDescendantCount": 0,
                 "Name": "US",
-              },
-              {
-                "DistanceFromRoot": 0,
-                "DrillState": "leaf",
-                "ID": "NZL",
-                "LimitedDescendantCount": 0,
-                "Name": "NZL",
               },
             ]
         `);
@@ -1866,6 +1866,20 @@ describe('Hierarchy Access', () => {
               {
                 "DistanceFromRoot": 0,
                 "DrillState": "expanded",
+                "ID": "NZL",
+                "LimitedDescendantCount": 1,
+                "Name": "NZL",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "NZL_C",
+                "LimitedDescendantCount": 0,
+                "Name": "NZL_C",
+              },
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
                 "ID": "Sales",
                 "LimitedDescendantCount": 2,
                 "Name": "Corporate Sales",
@@ -1883,20 +1897,6 @@ describe('Hierarchy Access', () => {
                 "ID": "US",
                 "LimitedDescendantCount": 0,
                 "Name": "US",
-              },
-              {
-                "DistanceFromRoot": 0,
-                "DrillState": "expanded",
-                "ID": "NZL",
-                "LimitedDescendantCount": 1,
-                "Name": "NZL",
-              },
-              {
-                "DistanceFromRoot": 1,
-                "DrillState": "leaf",
-                "ID": "NZL_C",
-                "LimitedDescendantCount": 0,
-                "Name": "NZL_C",
               },
             ]
         `);
@@ -2047,6 +2047,20 @@ describe('Hierarchy Access', () => {
               {
                 "DistanceFromRoot": 0,
                 "DrillState": "expanded",
+                "ID": "NY",
+                "LimitedDescendantCount": 1,
+                "Name": "New York State",
+              },
+              {
+                "DistanceFromRoot": 1,
+                "DrillState": "leaf",
+                "ID": "NYC",
+                "LimitedDescendantCount": 0,
+                "Name": "New York City",
+              },
+              {
+                "DistanceFromRoot": 0,
+                "DrillState": "expanded",
                 "ID": "Sales",
                 "LimitedDescendantCount": 2,
                 "Name": "Corporate Sales",
@@ -2064,20 +2078,6 @@ describe('Hierarchy Access', () => {
                 "ID": "US",
                 "LimitedDescendantCount": 0,
                 "Name": "US",
-              },
-              {
-                "DistanceFromRoot": 0,
-                "DrillState": "expanded",
-                "ID": "NY",
-                "LimitedDescendantCount": 1,
-                "Name": "New York State",
-              },
-              {
-                "DistanceFromRoot": 1,
-                "DrillState": "leaf",
-                "ID": "NYC",
-                "LimitedDescendantCount": 0,
-                "Name": "New York City",
               },
             ]
         `);
