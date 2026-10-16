@@ -1124,7 +1124,44 @@ export class DataAccess implements DataAccessInterface {
     public async updateData(odataRequest: ODataRequest, patchData: any) {
         const entitySetName = odataRequest.queryPath[0].path;
         if (odataRequest.queryPath.length > 1) {
-            // In this case we are updating a property or a sub object so let's create the appropriate structure
+            // Check if this is a navigation-based path (e.g. Parents(p1)/Children(c1)).
+            // If so, route the PATCH to the target entity set directly instead of wrapping
+            // the payload as a nested property on the root entity.
+            let parentEntitySet = this.metadata.getEntitySet(entitySetName);
+            if (parentEntitySet) {
+                let lastNavPropName = '';
+                for (let i = 0; i < odataRequest.queryPath.length; i++) {
+                    if (lastNavPropName && parentEntitySet.navigationPropertyBinding[lastNavPropName]) {
+                        parentEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName] as EntitySet;
+                    }
+                    lastNavPropName = odataRequest.queryPath[i].path;
+                }
+                const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName];
+                if (targetEntitySet) {
+                    const targetKeys = odataRequest.queryPath[odataRequest.queryPath.length - 1].keys;
+                    const mockEntitySet = await this.getMockEntitySet(targetEntitySet.name);
+                    this.logRequest(`Handling PATCH request for entity set: ${targetEntitySet.name}`, odataRequest);
+                    this.logRequest(
+                        `PATCH details - Keys: ${JSON.stringify(targetKeys)}, Tenant: ${
+                            odataRequest.tenantId
+                        }, Data: ${JSON.stringify(patchData, null, 2)}`,
+                        odataRequest
+                    );
+                    const resultData = await mockEntitySet.performPATCH(
+                        targetKeys,
+                        patchData,
+                        odataRequest.tenantId,
+                        odataRequest,
+                        true
+                    );
+                    this.logResponse(`Response Data: ${JSON.stringify(resultData, null, 2)}`, odataRequest);
+                    if (this.validateETag && !Array.isArray(resultData) && mockEntitySet.isDraft()) {
+                        odataRequest.setETag(resultData['@odata.etag']);
+                    }
+                    return resultData;
+                }
+            }
+            // Fallback: property/complex-type path within an entity (e.g. Entity(id)/ComplexProp)
             let updateObject: any = {};
             const finalPatchObject = updateObject;
             for (let i = 1; i < odataRequest.queryPath.length; i++) {
@@ -1350,6 +1387,27 @@ export class DataAccess implements DataAccessInterface {
     public async deleteData(odataRequest: ODataRequest) {
         const entitySetName = odataRequest.queryPath[0].path;
         this.logRequest(`Handling DELETE request for: ${odataRequest.url}`, odataRequest);
+        if (odataRequest.queryPath.length > 1) {
+            // Navigate to the target entity set for paths like Parents(p1)/Children(c1).
+            // Without this, deleting a draft child would route to the DraftRoot and
+            // trigger draftDiscard, wiping the entire draft instead of just the child.
+            let parentEntitySet = this.metadata.getEntitySet(entitySetName);
+            if (parentEntitySet) {
+                let lastNavPropName = '';
+                for (let i = 0; i < odataRequest.queryPath.length; i++) {
+                    if (lastNavPropName && parentEntitySet.navigationPropertyBinding[lastNavPropName]) {
+                        parentEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName] as EntitySet;
+                    }
+                    lastNavPropName = odataRequest.queryPath[i].path;
+                }
+                const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName];
+                if (targetEntitySet) {
+                    const targetKeys = odataRequest.queryPath[odataRequest.queryPath.length - 1].keys;
+                    const mockEntitySet = await this.getMockEntitySet(targetEntitySet.name);
+                    return mockEntitySet.performDELETE(targetKeys, odataRequest.tenantId, odataRequest, true);
+                }
+            }
+        }
         const mockEntitySet = await this.getMockEntitySet(entitySetName);
         return mockEntitySet.performDELETE(odataRequest.queryPath[0].keys, odataRequest.tenantId, odataRequest, true);
     }
