@@ -2122,10 +2122,7 @@ describe('Data Access', () => {
 
             // Draft root must still exist
             const draftRoot = await freshDataAccess.getData(
-                new ODataRequest(
-                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' },
-                    freshDataAccess
-                )
+                new ODataRequest({ method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' }, freshDataAccess)
             );
             expect(draftRoot).toBeDefined();
             expect(draftRoot.IsActiveEntity).toEqual(false);
@@ -2168,10 +2165,7 @@ describe('Data Access', () => {
 
             // Root FirstName must be untouched
             const draftRoot = await freshDataAccess.getData(
-                new ODataRequest(
-                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' },
-                    freshDataAccess
-                )
+                new ODataRequest({ method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' }, freshDataAccess)
             );
             expect(draftRoot.FirstName).not.toEqual('UpdatedName');
         });
