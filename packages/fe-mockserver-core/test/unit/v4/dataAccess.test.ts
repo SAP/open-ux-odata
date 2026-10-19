@@ -2059,4 +2059,121 @@ describe('Data Access', () => {
             expect(activeEntity.DraftAdministrativeData).toBeNull();
         });
     });
+
+    describe('navigation-path routing for deleteData and updateData (CAP v4 DraftMessages paths)', () => {
+        // CAP v4 adds DraftMessages to all draft entity types, which causes the SAPUI5 OData v4
+        // model to retain the full navigation path for child operations:
+        //   DELETE FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=X,IsActiveEntity=false)
+        //   PATCH  FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=X,IsActiveEntity=false)
+        // Both methods must route to the child entity set, not the draft root.
+
+        let freshDataAccess: DataAccess;
+
+        beforeEach(async () => {
+            const baseDir = join(__dirname, 'services', 'formSample');
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            freshDataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                metadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
+            // Create a draft of FormRoot(ID=0)
+            await freshDataAccess.performAction(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=true)/sap.fe.core.Form.draftEdit' },
+                    freshDataAccess
+                )
+            );
+        });
+
+        test('deleteData via navigation path deletes only the targeted child, not the draft root', async () => {
+            // Create two child elements under the draft
+            const child1 = await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { Name: 'Child1' }
+            );
+            const child2 = await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { Name: 'Child2' }
+            );
+
+            // DELETE via navigation path (the CAP v4 pattern)
+            await freshDataAccess.deleteData(
+                new ODataRequest(
+                    {
+                        method: 'DELETE',
+                        url: `/FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=${child1.ID},IsActiveEntity=false)`
+                    },
+                    freshDataAccess
+                )
+            );
+
+            // Draft root must still exist
+            const draftRoot = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' },
+                    freshDataAccess
+                )
+            );
+            expect(draftRoot).toBeDefined();
+            expect(draftRoot.IsActiveEntity).toEqual(false);
+
+            // Only child2 should remain
+            const remaining = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                )
+            );
+            expect(remaining.length).toEqual(1);
+            expect(remaining[0].ID).toEqual(child2.ID);
+            expect(remaining[0].Name).toEqual('Child2');
+        });
+
+        test('updateData via navigation path patches the targeted child, not the draft root', async () => {
+            const child = await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { Name: 'OriginalName' }
+            );
+
+            // PATCH via navigation path (the CAP v4 pattern)
+            const updated = await freshDataAccess.updateData(
+                new ODataRequest(
+                    {
+                        method: 'PATCH',
+                        url: `/FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=${child.ID},IsActiveEntity=false)`
+                    },
+                    freshDataAccess
+                ),
+                { Name: 'UpdatedName' }
+            );
+
+            expect(updated.ID).toEqual(child.ID);
+            expect(updated.Name).toEqual('UpdatedName');
+
+            // Root FirstName must be untouched
+            const draftRoot = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' },
+                    freshDataAccess
+                )
+            );
+            expect(draftRoot.FirstName).not.toEqual('UpdatedName');
+        });
+    });
 });
