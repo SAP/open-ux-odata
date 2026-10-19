@@ -1122,96 +1122,84 @@ export class DataAccess implements DataAccessInterface {
     }
 
     /**
-     * Resolves a multi-segment OData path to its navigation-property target entity set.
+     * Resolve the entity addressed by a mutation and retain its structural-property suffix.
+     * Unknown navigation paths must never fall back to mutating the root entity.
      *
-     * For a path like `Parents(p1)/Children(c1)` the method walks the
-     * `navigationPropertyBinding` chain and returns the entity set that owns the
-     * final segment together with the keys for that segment.
-     *
-     * Returns `undefined` when the path has only one segment, when the root entity
-     * set is unknown, or when the final segment does not resolve to a navigation
-     * property binding (e.g. a primitive/complex-type property path).
-     *
-     * @param entitySetName Name of the root entity set (first path segment).
-     * @param queryPath     Parsed query path from the OData request.
+     * @param odataRequest The incoming mutation request.
+     * @returns The target entity set, its keys and the remaining property path.
      */
-    private resolveNavigationTarget(
-        entitySetName: string,
-        queryPath: QueryPath[]
-    ): { targetEntitySet: EntitySet; targetKeys: KeyDefinitions } | undefined {
-        if (queryPath.length <= 1) {
-            return undefined;
-        }
-        let parentEntitySet = this.metadata.getEntitySet(entitySetName);
-        if (!parentEntitySet) {
-            return undefined;
-        }
-        let lastNavPropName = '';
-        for (const queryPathElement of queryPath) {
-            if (lastNavPropName && parentEntitySet.navigationPropertyBinding[lastNavPropName]) {
-                parentEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName] as EntitySet;
-            }
-            lastNavPropName = queryPathElement.path;
-        }
-        const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName] as EntitySet | undefined;
+    private async resolveNavigationTarget(odataRequest: ODataRequest): Promise<{
+        targetEntitySet: EntitySet | Singleton;
+        targetKeys: KeyDefinitions;
+        propertyPath: QueryPath[];
+    }> {
+        const { queryPath } = odataRequest;
+        let targetEntitySet: EntitySet | Singleton =
+            this.metadata.getEntitySet(queryPath[0].path) ?? this.metadata.getSingleton(queryPath[0].path);
         if (!targetEntitySet) {
-            return undefined;
+            throw new ExecutionError('Unknown entity set', 404, undefined, false);
         }
-        return { targetEntitySet, targetKeys: queryPath[queryPath.length - 1].keys };
+        let targetKeys = queryPath[0].keys;
+        let index = 1;
+        for (; index < queryPath.length; index++) {
+            const segment = queryPath[index];
+            const navigation = targetEntitySet.entityType.navigationProperties.find((nav) => nav.name === segment.path);
+            if (!navigation) {
+                break;
+            }
+            const binding: EntitySet | Singleton | undefined = targetEntitySet.navigationPropertyBinding[segment.path];
+            if (!binding) {
+                throw new ExecutionError('Unresolved navigation property', 404, undefined, false);
+            }
+            targetEntitySet = binding;
+            targetKeys = segment.keys;
+            if (Object.keys(targetKeys).length === 0) {
+                if (navigation.isCollection) {
+                    throw new ExecutionError('A navigation collection requires a key', 400, undefined, false);
+                }
+                const lookupRequest = new ODataRequest(
+                    { method: 'GET', url: odataRequest.url.split('?')[0], tenantId: odataRequest.tenantId },
+                    this
+                );
+                lookupRequest.queryPath = queryPath.slice(0, index + 1);
+                const targetData = await this.getData(lookupRequest);
+                if (!targetData || Array.isArray(targetData)) {
+                    throw new ExecutionError('Not found', 404, undefined, false);
+                }
+                targetKeys = this.metadata.getKeys(targetData, targetEntitySet.entityType);
+                if (Object.values(targetKeys).some((value) => value === undefined || value === null)) {
+                    throw new ExecutionError('Not found', 404, undefined, false);
+                }
+            }
+        }
+        const propertyPath = queryPath.slice(index);
+        let properties: Property[] = targetEntitySet.entityType.entityProperties;
+        for (const segment of propertyPath) {
+            const property = properties.find((candidate) => candidate.name === segment.path);
+            if (!property || Object.keys(segment.keys).length > 0) {
+                throw new ExecutionError('Unknown property', 404, undefined, false);
+            }
+            properties = property.targetType?._type === 'ComplexType' ? property.targetType.properties : [];
+        }
+        return { targetEntitySet, targetKeys, propertyPath };
     }
 
     public async updateData(odataRequest: ODataRequest, patchData: any) {
-        const entitySetName = odataRequest.queryPath[0].path;
-        if (odataRequest.queryPath.length > 1) {
-            // Check if this is a navigation-based path (e.g. Parents(p1)/Children(c1)).
-            // If so, route the PATCH to the target entity set directly instead of wrapping
-            // the payload as a nested property on the root entity.
-            const navTarget = this.resolveNavigationTarget(entitySetName, odataRequest.queryPath);
-            if (navTarget) {
-                const { targetEntitySet, targetKeys } = navTarget;
-                const mockEntitySet = await this.getMockEntitySet(targetEntitySet.name);
-                this.logRequest(`Handling PATCH request for entity set: ${targetEntitySet.name}`, odataRequest);
-                this.logRequest(
-                    `PATCH details - Keys: ${JSON.stringify(targetKeys)}, Tenant: ${
-                        odataRequest.tenantId
-                    }, Data: ${JSON.stringify(patchData, null, 2)}`,
-                    odataRequest
-                );
-                const resultData = await mockEntitySet.performPATCH(
-                    targetKeys,
-                    patchData,
-                    odataRequest.tenantId,
-                    odataRequest,
-                    true
-                );
-                this.logResponse(`Response Data: ${JSON.stringify(resultData, null, 2)}`, odataRequest);
-                if (this.validateETag && !Array.isArray(resultData) && mockEntitySet.isDraft()) {
-                    odataRequest.setETag(resultData['@odata.etag']);
-                }
-                return resultData;
-            }
-            // Fallback: property/complex-type path within an entity (e.g. Entity(id)/ComplexProp)
-            let updateObject: any = {};
-            const finalPatchObject = updateObject;
-            for (let i = 1; i < odataRequest.queryPath.length; i++) {
-                updateObject[odataRequest.queryPath[i].path] = {};
-                if (i === odataRequest.queryPath.length - 1) {
-                    updateObject[odataRequest.queryPath[i].path] = patchData;
-                }
-                updateObject = updateObject[odataRequest.queryPath[i].path];
-            }
-            patchData = finalPatchObject;
+        const { targetEntitySet, targetKeys, propertyPath } = await this.resolveNavigationTarget(odataRequest);
+        // Only structural properties are wrapped, relative to the resolved entity rather than the root.
+        for (let index = propertyPath.length - 1; index >= 0; index--) {
+            patchData = { [propertyPath[index].path]: patchData };
         }
-        const mockEntitySet = await this.getMockEntitySet(entitySetName);
-        this.logRequest(`Handling PATCH request for entity set: ${entitySetName}`, odataRequest);
+        const mockEntitySet = await this.getMockEntitySet(targetEntitySet.name);
+        this.logRequest(`Handling PATCH request for entity set: ${targetEntitySet.name}`, odataRequest);
         this.logRequest(
-            `PATCH details - Keys: ${JSON.stringify(odataRequest.queryPath[0].keys)}, Tenant: ${
+            `PATCH details - Keys: ${JSON.stringify(targetKeys)}, Tenant: ${
                 odataRequest.tenantId
             }, Data: ${JSON.stringify(patchData, null, 2)}`,
             odataRequest
         );
         const resultData = await mockEntitySet.performPATCH(
-            odataRequest.queryPath[0].keys,
+            targetKeys,
             patchData,
             odataRequest.tenantId,
             odataRequest,
@@ -1414,16 +1402,13 @@ export class DataAccess implements DataAccessInterface {
     }
 
     public async deleteData(odataRequest: ODataRequest) {
-        const entitySetName = odataRequest.queryPath[0].path;
         this.logRequest(`Handling DELETE request for: ${odataRequest.url}`, odataRequest);
-        const navTarget = this.resolveNavigationTarget(entitySetName, odataRequest.queryPath);
-        if (navTarget) {
-            const { targetEntitySet, targetKeys } = navTarget;
-            const mockEntitySet = await this.getMockEntitySet(targetEntitySet.name);
-            return mockEntitySet.performDELETE(targetKeys, odataRequest.tenantId, odataRequest, true);
+        const { targetEntitySet, targetKeys, propertyPath } = await this.resolveNavigationTarget(odataRequest);
+        if (propertyPath.length > 0) {
+            throw new ExecutionError('DELETE requires an entity target', 400, undefined, false);
         }
-        const mockEntitySet = await this.getMockEntitySet(entitySetName);
-        return mockEntitySet.performDELETE(odataRequest.queryPath[0].keys, odataRequest.tenantId, odataRequest, true);
+        const mockEntitySet = await this.getMockEntitySet(targetEntitySet.name);
+        return mockEntitySet.performDELETE(targetKeys, odataRequest.tenantId, odataRequest, true);
     }
     public async getDraftRoot(keyValues: KeyDefinitions, _tenantId: string, entitySetDefinition: EntitySet) {
         let data = {};
