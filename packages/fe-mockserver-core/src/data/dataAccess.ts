@@ -1157,12 +1157,17 @@ export class DataAccess implements DataAccessInterface {
                 if (navigation.isCollection) {
                     throw new ExecutionError('A navigation collection requires a key', 400, undefined, false);
                 }
+                // Keep the original key encoding and parse only the navigation prefix being read.
+                const lookupUrl = odataRequest.url
+                    .split('?')[0]
+                    .split('/')
+                    .slice(0, index + 2)
+                    .join('/');
                 const lookupRequest = new ODataRequest(
-                    { method: 'GET', url: odataRequest.url.split('?')[0], tenantId: odataRequest.tenantId },
+                    { method: 'GET', url: lookupUrl, tenantId: odataRequest.tenantId },
                     this
                 );
-                lookupRequest.queryPath = queryPath.slice(0, index + 1);
-                const targetData = await this.getData(lookupRequest);
+                const targetData = await this.getData(lookupRequest, true);
                 if (!targetData || Array.isArray(targetData)) {
                     throw new ExecutionError('Not found', 404, undefined, false);
                 }

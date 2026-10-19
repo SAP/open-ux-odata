@@ -1714,6 +1714,62 @@ describe('Data Access', () => {
             const data = await dataAccess.getData(odataRequest);
             expect(data).toEqual(expected);
         });
+
+        test.each(['001', 'A/B C'])(
+            'key lookup preserves string key %s without cloning or property suffixes',
+            async (id) => {
+                const baseDir = join(__dirname, 'services', 'navigation');
+                const metadata = await ODataMetadata.parse(
+                    readFileSync(join(baseDir, 'metadata.xml'), 'utf8'),
+                    '/TestService/$metadata'
+                );
+                const lookupAccess = new DataAccess(
+                    { mockdataPath: baseDir } as ServiceConfig,
+                    metadata,
+                    fileLoader,
+                    undefined,
+                    { getService: jest.fn(), registerService: jest.fn(), getServicesWithAliases: jest.fn() } as any
+                );
+                await lookupAccess.createData(new ODataRequest({ method: 'POST', url: '/DraftRoot' }, lookupAccess), {
+                    ID: id,
+                    IsActiveEntity: true,
+                    _toOther_ID: 'OtherEntity1'
+                });
+                const prefix = `/DraftRoot(ID='${encodeURIComponent(id)}',IsActiveEntity=true)/_toOther`;
+                const url = `${prefix}/_up_ID?$select=ID`;
+                const request = new ODataRequest({ method: 'PATCH', url }, lookupAccess);
+                const originalPath = request.queryPath;
+                const getDataSpy = jest.spyOn(lookupAccess, 'getData');
+                try {
+                    await lookupAccess.updateData(request, 'UpdatedParent');
+
+                    expect(getDataSpy).toHaveBeenCalledWith(
+                        expect.objectContaining({
+                            url: prefix,
+                            tenantId: request.tenantId
+                        }),
+                        true
+                    );
+                    expect(request.url).toEqual(url);
+                    expect(request.queryPath).toBe(originalPath);
+                    expect(request.queryPath[1].keys).toEqual({});
+                    const stored = await lookupAccess.getData(
+                        new ODataRequest({ method: 'GET', url: "/OtherEntity('OtherEntity1')" }, lookupAccess)
+                    );
+                    expect(stored._up_ID).toEqual('UpdatedParent');
+                    const parent = await lookupAccess.getData(
+                        new ODataRequest(
+                            { method: 'GET', url: `/DraftRoot(ID='${encodeURIComponent(id)}',IsActiveEntity=true)` },
+                            lookupAccess
+                        )
+                    );
+                    expect(parent.ID).toEqual(id);
+                    expect(parent._toOther_ID).toEqual('OtherEntity1');
+                } finally {
+                    getDataSpy.mockRestore();
+                }
+            }
+        );
     });
 
     describe('allowInlineNull configuration', () => {
