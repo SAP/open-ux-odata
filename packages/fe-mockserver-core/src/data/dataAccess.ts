@@ -1141,11 +1141,14 @@ export class DataAccess implements DataAccessInterface {
         }
         let targetKeys = queryPath[0].keys;
         let index = 1;
-        for (; index < queryPath.length; index++) {
-            const segment = queryPath[index];
+        await queryPath.slice(1).reduce(async (previous, segment, offset) => {
+            await previous;
+            if (index !== offset + 1) {
+                return;
+            }
             const navigation = targetEntitySet.entityType.navigationProperties.find((nav) => nav.name === segment.path);
             if (!navigation) {
-                break;
+                return;
             }
             const binding: EntitySet | Singleton | undefined = targetEntitySet.navigationPropertyBinding[segment.path];
             if (!binding) {
@@ -1176,7 +1179,8 @@ export class DataAccess implements DataAccessInterface {
                     throw new ExecutionError('Not found', 404, undefined, false);
                 }
             }
-        }
+            index++;
+        }, Promise.resolve());
         const propertyPath = queryPath.slice(index);
         let properties: Property[] = targetEntitySet.entityType.entityProperties;
         for (const segment of propertyPath) {
