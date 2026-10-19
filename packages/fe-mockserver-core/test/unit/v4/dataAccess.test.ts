@@ -2134,7 +2134,7 @@ describe('Data Access', () => {
                     freshDataAccess
                 )
             );
-            expect(remaining.length).toEqual(1);
+            expect(remaining).toHaveLength(1)"
             expect(remaining[0].ID).toEqual(child2.ID);
             expect(remaining[0].Name).toEqual('Child2');
         });

@@ -1147,11 +1147,11 @@ export class DataAccess implements DataAccessInterface {
             return undefined;
         }
         let lastNavPropName = '';
-        for (let i = 0; i < queryPath.length; i++) {
+        for (const queryPathElement of queryPath) {
             if (lastNavPropName && parentEntitySet.navigationPropertyBinding[lastNavPropName]) {
                 parentEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName] as EntitySet;
             }
-            lastNavPropName = queryPath[i].path;
+            lastNavPropName = queryPathElement.path;
         }
         const targetEntitySet = parentEntitySet.navigationPropertyBinding[lastNavPropName] as EntitySet | undefined;
         if (!targetEntitySet) {
