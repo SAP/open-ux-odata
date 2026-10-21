@@ -1,5 +1,11 @@
 # @sap-ux/fe-mockserver-core
 
+## 1.8.0
+
+### Minor Changes
+
+-   5eb8ebb: route navigation-path DELETE and PATCH to the target child entity set- #1039
+
 ## 1.7.17
 
 ### Patch Changes
