@@ -1714,6 +1714,62 @@ describe('Data Access', () => {
             const data = await dataAccess.getData(odataRequest);
             expect(data).toEqual(expected);
         });
+
+        test.each(['001', 'A/B C'])(
+            'key lookup preserves string key %s without cloning or property suffixes',
+            async (id) => {
+                const baseDir = join(__dirname, 'services', 'navigation');
+                const metadata = await ODataMetadata.parse(
+                    readFileSync(join(baseDir, 'metadata.xml'), 'utf8'),
+                    '/TestService/$metadata'
+                );
+                const lookupAccess = new DataAccess(
+                    { mockdataPath: baseDir } as ServiceConfig,
+                    metadata,
+                    fileLoader,
+                    undefined,
+                    { getService: jest.fn(), registerService: jest.fn(), getServicesWithAliases: jest.fn() } as any
+                );
+                await lookupAccess.createData(new ODataRequest({ method: 'POST', url: '/DraftRoot' }, lookupAccess), {
+                    ID: id,
+                    IsActiveEntity: true,
+                    _toOther_ID: 'OtherEntity1'
+                });
+                const prefix = `/DraftRoot(ID='${encodeURIComponent(id)}',IsActiveEntity=true)/_toOther`;
+                const url = `${prefix}/_up_ID?$select=ID`;
+                const request = new ODataRequest({ method: 'PATCH', url }, lookupAccess);
+                const originalPath = request.queryPath;
+                const getDataSpy = jest.spyOn(lookupAccess, 'getData');
+                try {
+                    await lookupAccess.updateData(request, 'UpdatedParent');
+
+                    expect(getDataSpy).toHaveBeenCalledWith(
+                        expect.objectContaining({
+                            url: prefix,
+                            tenantId: request.tenantId
+                        }),
+                        true
+                    );
+                    expect(request.url).toEqual(url);
+                    expect(request.queryPath).toBe(originalPath);
+                    expect(request.queryPath[1].keys).toEqual({});
+                    const stored = await lookupAccess.getData(
+                        new ODataRequest({ method: 'GET', url: "/OtherEntity('OtherEntity1')" }, lookupAccess)
+                    );
+                    expect(stored._up_ID).toEqual('UpdatedParent');
+                    const parent = await lookupAccess.getData(
+                        new ODataRequest(
+                            { method: 'GET', url: `/DraftRoot(ID='${encodeURIComponent(id)}',IsActiveEntity=true)` },
+                            lookupAccess
+                        )
+                    );
+                    expect(parent.ID).toEqual(id);
+                    expect(parent._toOther_ID).toEqual('OtherEntity1');
+                } finally {
+                    getDataSpy.mockRestore();
+                }
+            }
+        );
     });
 
     describe('allowInlineNull configuration', () => {
@@ -2057,6 +2113,319 @@ describe('Data Access', () => {
                 )
             );
             expect(activeEntity.DraftAdministrativeData).toBeNull();
+        });
+    });
+
+    describe('navigation-path routing for deleteData and updateData (CAP v4 DraftMessages paths)', () => {
+        // CAP v4 adds DraftMessages to all draft entity types, which causes the SAPUI5 OData v4
+        // model to retain the full navigation path for child operations:
+        //   DELETE FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=X,IsActiveEntity=false)
+        //   PATCH  FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=X,IsActiveEntity=false)
+        // Both methods must route to the child entity set, not the draft root.
+
+        let freshDataAccess: DataAccess;
+
+        beforeEach(async () => {
+            const baseDir = join(__dirname, 'services', 'formSample');
+            const edmx = await metadataProvider.loadMetadata(join(baseDir, 'FormTemplate.cds'));
+            const draftMetadata = await ODataMetadata.parse(edmx, baseUrl + '/$metadata');
+            const serviceRegistry = {
+                getService: jest.fn(),
+                registerService: jest.fn(),
+                getServicesWithAliases: jest.fn()
+            } as any;
+            freshDataAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                draftMetadata,
+                fileLoader,
+                undefined,
+                serviceRegistry
+            );
+            // Create a draft of FormRoot(ID=0)
+            await freshDataAccess.performAction(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=true)/sap.fe.core.Form.draftEdit' },
+                    freshDataAccess
+                )
+            );
+        });
+
+        test('deleteData via navigation path deletes only the targeted child, not the draft root', async () => {
+            // Create two child elements under the draft
+            const child1 = await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { Name: 'Child1' }
+            );
+            const child2 = await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { Name: 'Child2' }
+            );
+
+            // DELETE via navigation path (the CAP v4 pattern)
+            await freshDataAccess.deleteData(
+                new ODataRequest(
+                    {
+                        method: 'DELETE',
+                        url: `/FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=${child1.ID},IsActiveEntity=false)`
+                    },
+                    freshDataAccess
+                )
+            );
+
+            // Draft root must still exist
+            const draftRoot = await freshDataAccess.getData(
+                new ODataRequest({ method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' }, freshDataAccess)
+            );
+            expect(draftRoot).toBeDefined();
+            expect(draftRoot.IsActiveEntity).toEqual(false);
+
+            // Only child2 should remain
+            const remaining = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                )
+            );
+            expect(remaining).toHaveLength(1);
+            expect(remaining[0].ID).toEqual(child2.ID);
+            expect(remaining[0].Name).toEqual('Child2');
+        });
+
+        test('updateData via navigation path patches the targeted child, not the draft root', async () => {
+            const child = await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { Name: 'OriginalName' }
+            );
+
+            // PATCH via navigation path (the CAP v4 pattern)
+            const updated = await freshDataAccess.updateData(
+                new ODataRequest(
+                    {
+                        method: 'PATCH',
+                        url: `/FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=${child.ID},IsActiveEntity=false)`
+                    },
+                    freshDataAccess
+                ),
+                { Name: 'UpdatedName' }
+            );
+
+            expect(updated.ID).toEqual(child.ID);
+            expect(updated.Name).toEqual('UpdatedName');
+
+            // Root FirstName must be untouched
+            const draftRoot = await freshDataAccess.getData(
+                new ODataRequest({ method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' }, freshDataAccess)
+            );
+            expect(draftRoot.FirstName).toEqual('Robert');
+            const storedChild = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: `/SubElements(ID=${child.ID},IsActiveEntity=false)` },
+                    freshDataAccess
+                )
+            );
+            expect(storedChild.Name).toEqual('UpdatedName');
+        });
+
+        test.each(['PATCH', 'DELETE'])(
+            '%s rejects unresolved navigation without changing the draft',
+            async (method) => {
+                const rootUrl = '/FormRoot(ID=0,IsActiveEntity=false)';
+                const before = await freshDataAccess.getData(
+                    new ODataRequest({ method: 'GET', url: rootUrl }, freshDataAccess)
+                );
+                const request = new ODataRequest(
+                    { method, url: `${rootUrl}/Unknown(ID=1)/_Elements(ID=1,IsActiveEntity=false)` },
+                    freshDataAccess
+                );
+
+                const operation =
+                    method === 'PATCH'
+                        ? freshDataAccess.updateData(request, { Name: 'Unexpected' })
+                        : freshDataAccess.deleteData(request);
+                await expect(operation).rejects.toMatchObject({ statusCode: 404 });
+
+                const after = await freshDataAccess.getData(
+                    new ODataRequest({ method: 'GET', url: rootUrl }, freshDataAccess)
+                );
+                expect(after).toEqual(before);
+            }
+        );
+
+        test.each(['PATCH', 'DELETE'])('%s rejects an unkeyed navigation collection', async (method) => {
+            const request = new ODataRequest(
+                { method, url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                freshDataAccess
+            );
+            const operation =
+                method === 'PATCH'
+                    ? freshDataAccess.updateData(request, { Name: 'Unexpected' })
+                    : freshDataAccess.deleteData(request);
+            await expect(operation).rejects.toMatchObject({ statusCode: 400 });
+        });
+
+        test.each(['PATCH', 'DELETE'])('%s rejects a navigation without an entity-set binding', async (method) => {
+            const request = new ODataRequest(
+                { method, url: '/FormRoot(ID=0,IsActiveEntity=false)/DraftAdministrativeData' },
+                freshDataAccess
+            );
+            const operation =
+                method === 'PATCH'
+                    ? freshDataAccess.updateData(request, { CreatedByUser: 'Unexpected' })
+                    : freshDataAccess.deleteData(request);
+            await expect(operation).rejects.toMatchObject({ statusCode: 404 });
+            const root = await freshDataAccess.getData(
+                new ODataRequest({ method: 'GET', url: '/FormRoot(ID=0,IsActiveEntity=false)' }, freshDataAccess)
+            );
+            expect(root.DraftAdministrativeData.CreatedByUser).toEqual('nobody');
+        });
+
+        test('DELETE of a structural property does not delete its owning entity', async () => {
+            const rootUrl = '/FormRoot(ID=0,IsActiveEntity=false)';
+            await expect(
+                freshDataAccess.deleteData(
+                    new ODataRequest({ method: 'DELETE', url: `${rootUrl}/FirstName` }, freshDataAccess)
+                )
+            ).rejects.toMatchObject({ statusCode: 400 });
+            const root = await freshDataAccess.getData(
+                new ODataRequest({ method: 'GET', url: rootUrl }, freshDataAccess)
+            );
+            expect(root.FirstName).toEqual('Robert');
+        });
+
+        test('patches a property on the child instead of the root', async () => {
+            const child = await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { Name: 'OriginalName' }
+            );
+            await freshDataAccess.updateData(
+                new ODataRequest(
+                    {
+                        method: 'PATCH',
+                        url: `/FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=${child.ID},IsActiveEntity=false)/Name`
+                    },
+                    freshDataAccess
+                ),
+                'UpdatedName'
+            );
+            const storedChild = await freshDataAccess.getData(
+                new ODataRequest(
+                    { method: 'GET', url: `/SubElements(ID=${child.ID},IsActiveEntity=false)` },
+                    freshDataAccess
+                )
+            );
+            expect(storedChild.Name).toEqual('UpdatedName');
+        });
+
+        test.each(['PATCH', 'DELETE'])(
+            '%s resolves a keyless to-one navigation to the related draft',
+            async (method) => {
+                const source = await freshDataAccess.createData(
+                    new ODataRequest(
+                        { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                        freshDataAccess
+                    ),
+                    { ID: 700, Name: 'Source', sibling_ID: 701 }
+                );
+                const target = await freshDataAccess.createData(
+                    new ODataRequest(
+                        { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                        freshDataAccess
+                    ),
+                    { ID: 701, Name: 'Target' }
+                );
+                const request = new ODataRequest(
+                    {
+                        method,
+                        url: `/FormRoot(ID=0,IsActiveEntity=false)/_Elements(ID=${source.ID},IsActiveEntity=false)/sibling`
+                    },
+                    freshDataAccess
+                );
+                if (method === 'PATCH') {
+                    await freshDataAccess.updateData(request, { Name: 'UpdatedTarget' });
+                } else {
+                    await freshDataAccess.deleteData(request);
+                }
+
+                const storedSource = await freshDataAccess.getData(
+                    new ODataRequest(
+                        { method: 'GET', url: `/SubElements(ID=${source.ID},IsActiveEntity=false)` },
+                        freshDataAccess
+                    )
+                );
+                expect(storedSource.Name).toEqual('Source');
+                const storedTarget = await freshDataAccess.getData(
+                    new ODataRequest(
+                        { method: 'GET', url: `/SubElements(ID=${target.ID},IsActiveEntity=false)` },
+                        freshDataAccess
+                    )
+                );
+                if (method === 'PATCH') {
+                    expect(storedTarget.Name).toEqual('UpdatedTarget');
+                } else {
+                    expect(storedTarget).toBeNull();
+                }
+            }
+        );
+
+        test.each(['PATCH', 'DELETE'])('%s rejects a missing to-one target', async (method) => {
+            await freshDataAccess.createData(
+                new ODataRequest(
+                    { method: 'POST', url: '/FormRoot(ID=0,IsActiveEntity=false)/_Elements' },
+                    freshDataAccess
+                ),
+                { ID: 700, Name: 'Source', sibling_ID: 999 }
+            );
+            const request = new ODataRequest(
+                { method, url: '/SubElements(ID=700,IsActiveEntity=false)/sibling' },
+                freshDataAccess
+            );
+            const operation =
+                method === 'PATCH'
+                    ? freshDataAccess.updateData(request, { Name: 'Unexpected' })
+                    : freshDataAccess.deleteData(request);
+            await expect(operation).rejects.toMatchObject({ statusCode: 404 });
+        });
+
+        test.each(['complex', 'complex/value1'])('patches child structural path %s', async (propertyPath) => {
+            const baseDir = join(__dirname, 'services', 'complexType');
+            const complexMetadata = await ODataMetadata.parse(
+                readFileSync(join(baseDir, 'metadata.xml'), 'utf8'),
+                '/TestService/$metadata'
+            );
+            const complexAccess = new DataAccess(
+                { mockdataPath: baseDir } as ServiceConfig,
+                complexMetadata,
+                fileLoader,
+                undefined,
+                { getService: jest.fn(), registerService: jest.fn(), getServicesWithAliases: jest.fn() } as any
+            );
+            const parentBefore = await complexAccess.getData(
+                new ODataRequest({ method: 'GET', url: "/A('A1')" }, complexAccess)
+            );
+            await complexAccess.updateData(
+                new ODataRequest({ method: 'PATCH', url: `/A('A1')/b('B1')/${propertyPath}` }, complexAccess),
+                propertyPath === 'complex' ? { value1: false, value2: true } : false
+            );
+            const child = await complexAccess.getData(
+                new ODataRequest({ method: 'GET', url: "/B('B1')" }, complexAccess)
+            );
+            expect(child.complex.value1).toEqual(false);
+            const parentAfter = await complexAccess.getData(
+                new ODataRequest({ method: 'GET', url: "/A('A1')" }, complexAccess)
+            );
+            expect(parentAfter).toEqual(parentBefore);
         });
     });
 });
