@@ -160,4 +160,24 @@ describe('Parser', function () {
         const schema: RawMetadata = parse(xmlFile);
         expect(schema).toMatchSnapshot();
     });
+
+    it('throws a descriptive error when the root is not edmx:Edmx', () => {
+        const xml = `<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <DataServices>
+    <Schema Namespace="my.service" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+  </DataServices>
+</Edmx>`;
+        expect(() => parse(xml)).toThrow(/is not an 'edmx:Edmx' element in the EDMX namespace/);
+    });
+
+    it('throws a descriptive error when edmx:DataServices is missing', () => {
+        const xml = `<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <DataServices>
+    <Schema Namespace="my.service" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+  </DataServices>
+</edmx:Edmx>`;
+        expect(() => parse(xml)).toThrow(/does not contain an 'edmx:DataServices' element/);
+    });
 });

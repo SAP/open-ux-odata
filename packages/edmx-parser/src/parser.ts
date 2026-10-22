@@ -1629,9 +1629,26 @@ function createAliasMap(references: Reference[], schemas: EDMX.Schema[]) {
 export function parse(xml: string, fileIdentification: string = 'serviceFile'): RawMetadata {
     const jsonObj: EDMX.Edmx = xml2js(xml, { compact: true }) as EDMX.Edmx;
 
-    const version = jsonObj['edmx:Edmx']._attributes.Version;
-    const schemas: EDMX.Schema[] = ensureArray(jsonObj['edmx:Edmx']['edmx:DataServices'].Schema);
-    const references = parseReferences(ensureArray(jsonObj['edmx:Edmx']['edmx:Reference']));
+    const edmx = jsonObj['edmx:Edmx'];
+    if (!edmx?._attributes) {
+        throw new Error(
+            `Unable to parse '${fileIdentification}': the document root is not an 'edmx:Edmx' ` +
+                `element in the EDMX namespace (http://docs.oasis-open.org/odata/ns/edmx). ` +
+                `A plain '<Edmx>' root not bound to the edmx namespace is not valid OData CSDL.`
+        );
+    }
+
+    const dataServices = edmx['edmx:DataServices'];
+    if (!dataServices) {
+        throw new Error(
+            `Unable to parse '${fileIdentification}': the 'edmx:Edmx' root does not contain an ` +
+                `'edmx:DataServices' element in the EDMX namespace.`
+        );
+    }
+
+    const version = edmx._attributes.Version;
+    const schemas: EDMX.Schema[] = ensureArray(dataServices.Schema);
+    const references = parseReferences(ensureArray(edmx['edmx:Reference']));
 
     createAliasMap(references, schemas);
 
