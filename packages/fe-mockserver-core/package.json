@@ -30,7 +30,7 @@
         "@sap-ux/annotation-converter": "workspace:*",
         "@sap-ux/edmx-parser": "workspace:*",
         "balanced-match": "1.0.2",
-        "body-parser": "1.20.4",
+        "body-parser": "1.20.6",
         "chevrotain": "9.1.0",
         "braces": "3.0.3",
         "chokidar": "3.6.0",
